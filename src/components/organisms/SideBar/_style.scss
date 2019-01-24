@@ -1,0 +1,55 @@
+@import "../../../css/general_styling.scss";
+
+.SideMenu {
+  background-color: $white;
+  box-shadow: $shadow;
+  margin-top: 70px;
+  position: fixed;
+  width: 5vw;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  img {
+    height: 50px;
+    margin: 1.5em 0;
+  }
+}
+
+.ant-layout-sider {
+  height: 100vh;
+  background: $theme-color-1;
+
+  ul.ant-menu {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+  li.ant-menu-item {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    display: flex;
+    margin: 0;
+    height: 70px;
+
+    img {
+      width: 25px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.ant-menu-dark, .ant-menu-dark .ant-menu-sub{
+  background: transparent;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ant-layout-sider-zero-width-trigger{
+  z-index: 100;
+}

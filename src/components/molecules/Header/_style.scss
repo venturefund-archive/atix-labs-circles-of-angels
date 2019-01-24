@@ -1,0 +1,23 @@
+@import "../../../css/general_styling.scss";
+
+.HeaderContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 94.5vw;
+  padding: 10px;
+  background-color: $light-grey;
+  position: fixed;
+  z-index: 50;
+
+  .RightSide {
+    display: flex;
+    width: 15%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .HeaderContainer {
+    width: 100vw;
+  }
+}

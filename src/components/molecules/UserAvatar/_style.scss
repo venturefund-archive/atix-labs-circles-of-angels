@@ -1,0 +1,16 @@
+@import "../../../css/general_styling.scss";
+
+.UserAvatar {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+
+  .UserData {
+    display: flex;
+
+    .UserLabel {
+      margin-left: 1em;
+    }
+  }
+}
