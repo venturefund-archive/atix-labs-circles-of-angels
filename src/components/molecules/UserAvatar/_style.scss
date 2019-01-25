@@ -2,15 +2,17 @@
 
 .UserAvatar {
   display: flex;
-  justify-content: space-between;
-  width: 90%;
   align-items: center;
 
   .UserData {
     display: flex;
 
     .UserLabel {
-      margin-left: 1em;
+      margin-left: 1.5em;
     }
+  }
+
+  .SettingsMenu{
+    margin-left: 2em;
   }
 }

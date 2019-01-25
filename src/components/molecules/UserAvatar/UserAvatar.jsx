@@ -11,7 +11,7 @@ const UserAvatar = () => (
       <Avatar style={{ color: "#0083E3", backgroundColor: "#95d2ff" }}>
         JP
       </Avatar>
-      <UserLabel text="Juan Perez" />
+      <UserLabel text="Mariano Maidana" />
     </div>
     <SettingsMenu />
   </div>
