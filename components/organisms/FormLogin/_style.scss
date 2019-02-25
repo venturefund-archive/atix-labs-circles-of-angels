@@ -1,0 +1,29 @@
+@import "../../../css/general_styling.scss";
+
+.FormSide {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+
+  .login-form {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 3em;
+
+    .ButtonPrimary {
+      margin-top: 2em;
+    }
+
+    .FormControls{
+        padding-bottom: 2em;
+    }
+
+    .login-form-forgot {
+      float: right;
+    }
+
+    .ant-checkbox-wrapper{
+        float: left;
+    }
+  }
+}
