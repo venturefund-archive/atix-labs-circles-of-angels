@@ -18,14 +18,14 @@ const SideBar = () => (
       }}
     >
       <div className="logo">
-        <img src="/images/circle-isologo.svg" alt="Circles of Angels" />
+        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
         <Menu.Item key="1">
-          <img src="/images/menu-home.svg" alt="Home" />
+          <img src="./static/images/menu-home.svg" alt="Home" />
         </Menu.Item>
         <Menu.Item key="2">
-          <img src="/images/menu-settings.svg" alt="Settings" />
+          <img src="./static/images/menu-settings.svg" alt="Settings" />
         </Menu.Item>
       </Menu>
     </Sider>

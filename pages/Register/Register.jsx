@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FormRegister from '../../organisms/FormRegister/FormRegister.jsx';
-import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary.jsx";
+import FormRegister from '../../components/organisms/FormRegister/FormRegister.jsx';
+import ButtonPrimary from "../../components/atoms/ButtonPrimary/ButtonPrimary.jsx";
 import './_style.scss';
 
 class Register extends Component {
