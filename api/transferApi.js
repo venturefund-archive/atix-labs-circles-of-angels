@@ -9,8 +9,16 @@ const sendTransferInformation = async ({
   destinationAccount
 }) => {
   try {
-    if (!amount || !currency || !senderId || !projectId || !destinationAccount
-        || amount < 1 || senderId < 0 || projectId < 0)
+    if (
+      !amount ||
+      !currency ||
+      !senderId ||
+      !projectId ||
+      !destinationAccount ||
+      amount < 1 ||
+      senderId < 0 ||
+      projectId < 0
+    )
       return;
     const response = await api.post(
       `/transfer/${transferId}/sendToVerification`,
@@ -38,4 +46,16 @@ const getTransferDestinationInfo = async () => {
   }
 };
 
-export { sendTransferInformation, getTransferDestinationInfo };
+const getTransferStatus = async transferId => {
+  try {
+    const response = await api.get(`/transfer/${transferId}/getState`);
+    console.log(response)
+    return response.data.state;
+  } catch (error) {}
+};
+
+export {
+  sendTransferInformation,
+  getTransferDestinationInfo,
+  getTransferStatus
+};
