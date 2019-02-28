@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import DynamicForm from '../../components/organisms/FormLogin/FormLogin.jsx';
-import './_style.scss';
+import DynamicForm from '../components/organisms/FormLogin/FormLogin.jsx';
+import './_login.scss';
 
 class Login extends Component {
   render() {

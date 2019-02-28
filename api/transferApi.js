@@ -8,6 +8,7 @@ const sendTransferInformation = async ({
   projectId,
   destinationAccount
 }) => {
+  console.log("Sending trasfer info to verificate")
   try {
     if (
       !amount ||
@@ -32,14 +33,14 @@ const sendTransferInformation = async ({
     );
     return response;
   } catch (error) {
-    return error.message;
+    return {error: error};
   }
 };
 
 const getTransferDestinationInfo = async () => {
   try {
     const response = await api.get(`/general/accountDestination`);
-    console.log(response.data.bankAccount);
+    console.log("Geting transfer destination data");
     return response.data.bankAccount;
   } catch (error) {
     return error.menssage;

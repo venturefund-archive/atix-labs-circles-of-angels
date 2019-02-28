@@ -4,12 +4,12 @@
   background: $primary-color;
   border-radius: 3px;
   height: 40px;
-  width: 100%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: space-around;
   border-radius: 50px;
+  padding: 0 5em;
 
   p {
     @include primary-text($button, $white, 400);

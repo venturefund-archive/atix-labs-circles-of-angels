@@ -1,0 +1,20 @@
+@import "../css/general_styling.scss";
+
+.SignatureLabel {
+  background: rgba(114, 128, 153, 0.2);
+  border: 1px solid #728099;
+  border-radius: 20px;
+  height: 30px;
+  margin: 1em 0;
+  padding: 0.35em 0.75em;
+  display: flex;
+  align-items: center;
+  margin-left: 0.5em;
+
+  p {
+    @include primary-text(1em, #728099, 300);
+  }
+  img{
+    margin-right: 0.75em;
+  }
+}
