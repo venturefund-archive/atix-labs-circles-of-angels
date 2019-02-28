@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FormRegister from '../../components/organisms/FormRegister/FormRegister.jsx';
-import ButtonPrimary from "../../components/atoms/ButtonPrimary/ButtonPrimary.jsx";
-import './_style.scss';
+import FormRegister from '../components/organisms/FormRegister/FormRegister.jsx';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary.jsx';
+import './_register.scss';
 
 class Register extends Component {
   render() {
