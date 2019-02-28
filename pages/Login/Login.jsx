@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DynamicForm from '../../organisms/FormLogin/FormLogin.jsx';
+import DynamicForm from '../../components/organisms/FormLogin/FormLogin.jsx';
 import './_style.scss';
 
 class Login extends Component {
@@ -7,7 +7,7 @@ class Login extends Component {
     return (
       <div className="Login">
         <div className="LogoSide">
-        <img src="/images/logo-angels.svg" alt="Circles of Angels" />
+        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
         </div>
         <div className="FormSide">
           <h1>CIRCLES OF ANGELS</h1>
