@@ -6,7 +6,7 @@ const Step = Steps.Step;
 
 const StepsIf = () => (
   <div className="StepsContainer">
-    <Steps current={0}>
+    <Steps current={2}>
       <Step title="Concensus" />
       <Step title="Signatories" />
       <Step title="Transfer Funds" />
