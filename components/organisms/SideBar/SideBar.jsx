@@ -39,6 +39,11 @@ const SideBar = () => (
             <ButtonPrimary text="Status"></ButtonPrimary>
           </Link>          
         </Menu.Item>
+        <Menu.Item key="5">
+          <Link href="/backofficeAdmin">
+            <ButtonPrimary text="backofficeAdmin"></ButtonPrimary>
+          </Link>          
+        </Menu.Item>
       </Menu>
     </Sider>
 );
