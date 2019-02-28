@@ -1,0 +1,47 @@
+@import "../../../css/general_styling.scss";
+
+.HeaderContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 95vw;
+  padding: 10px 25px;
+  background-color: $light-grey;
+  position: fixed;
+  z-index: 50;
+
+  .RightSide {
+    display: flex;
+    justify-content: flex-end;
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .HeaderContainer {
+    width: 93vw;
+
+    .RightSide {
+      width: 45%;
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .HeaderContainer {
+    width: 100vw;
+
+    .RightSide {
+      width: 30%;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .HeaderContainer {
+
+    .RightSide {
+      width: 50%;
+    }
+  }
+}

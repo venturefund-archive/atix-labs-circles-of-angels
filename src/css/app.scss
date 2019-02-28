@@ -1,0 +1,23 @@
+@import './general_styling.scss';
+
+body {
+  margin: auto;
+  padding: 0;
+  background-color: #fafbfc;
+}
+
+.separator {
+  border-right: 1px solid $medium-grey;
+  margin: 0 0.5em;
+}
+
+// Buttons
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
