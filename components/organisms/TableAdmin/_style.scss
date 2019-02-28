@@ -1,0 +1,16 @@
+@import "../../../css/general_styling.scss";
+
+.TableAdmin {
+  font-family: "Montserrat", sans-serif;
+
+  .ant-tag{
+    border-radius: 20px;
+    padding: 0 20px;
+    text-transform: uppercase;
+  }
+
+  .ButtonPrimary{
+    transform: scale(0.8);
+  }
+  
+}
