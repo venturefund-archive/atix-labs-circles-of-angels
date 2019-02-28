@@ -49,13 +49,34 @@ const getTransferDestinationInfo = async () => {
 const getTransferStatus = async transferId => {
   try {
     const response = await api.get(`/transfer/${transferId}/getState`);
-    console.log(response)
+    console.log(response);
     return response.data.state;
   } catch (error) {}
 };
 
+const getTransferListOfProject = async projectId => {
+  try {
+    const response = await api.get(`/transfer/${projectId}/getTransfers`);
+    return response.data;
+  } catch (error) {}
+};
+
+const updateStateOfTransference = async (transferId, state) => {
+  try {
+    const response = await api.post("/transfer/updateState",
+    {
+      transferId,
+      state
+    });
+  } catch (error) {
+    
+  }
+}
+
 export {
   sendTransferInformation,
   getTransferDestinationInfo,
-  getTransferStatus
+  getTransferStatus,
+  getTransferListOfProject,
+  updateStateOfTransference
 };
