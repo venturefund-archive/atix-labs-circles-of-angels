@@ -1,0 +1,19 @@
+@import "../css/general_styling.scss";
+
+.TransferLabel {
+  background: rgba(114, 128, 153, 0.2);
+  border: 1px solid #728099;
+  border-radius: 20px;
+  height: 30px;
+  margin: 0.5em;
+  padding: 0.35em 1.5em;
+  display: flex;
+  align-items: center;
+
+  p {
+    @include primary-text(1em, #728099, 300);
+  }
+  img{
+    margin-right: 0.75em;
+  }
+}
