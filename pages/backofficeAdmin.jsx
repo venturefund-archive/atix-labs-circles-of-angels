@@ -1,8 +1,11 @@
 import React from "react";
-import { getTransferListOfProject, updateStateOfTransference } from "../api/transferApi";
+import {
+  getTransferListOfProject,
+  updateStateOfTransference
+} from "../api/transferApi";
 import { Table } from "antd";
-import 'antd/dist/antd.css';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
+import "antd/dist/antd.css";
+import SideBar from "../components/organisms/SideBar/SideBar.jsx";
 
 class BackofficeAdmin extends React.Component {
   constructor(props) {
@@ -39,7 +42,7 @@ class BackofficeAdmin extends React.Component {
       key: "action",
       render: (text, record) => (
         <span>
-          <select onChange={(evnt) => this.changeStatus(evnt, record)}>
+          <select onChange={evnt => this.changeStatus(evnt, record)}>
             <option value="-1">Rejected</option>
             <option value="0">Pending</option>
             <option value="1">Needs Consiliation</option>
@@ -61,13 +64,18 @@ class BackofficeAdmin extends React.Component {
     evnt.preventDefault();
     var list = this.state.transferRequests;
     list[record.key].state = evnt.currentTarget.value;
-    list[record.key].stateName = evnt.currentTarget.selectedOptions[0].label
-    this.setState({transferRequests : list});
-  }
+    list[record.key].stateName = evnt.currentTarget.selectedOptions[0].label;
+    this.setState({ transferRequests: list });
+  };
 
-  saveStatus = (record) => {
-    updateStateOfTransference(record.transferId, this.state.transferRequests[record.key].state);
-    alert(`Change status to : ${this.state.transferRequests[record.key].stateName}`)
+  saveStatus = record => {
+    updateStateOfTransference(
+      record.transferId,
+      this.state.transferRequests[record.key].state
+    );
+    alert(
+      `Change status to : ${this.state.transferRequests[record.key].stateName}`
+    );
   };
 
   loadTransfers = async evnt => {
@@ -76,7 +84,7 @@ class BackofficeAdmin extends React.Component {
     const transfers = await getTransferListOfProject(
       this.projectIdRef.current.value
     );
-    console.log(transfers)
+    if (!transfers) return;
     let key = 0;
     transfers.map(t => {
       t.key = key;
@@ -88,9 +96,9 @@ class BackofficeAdmin extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.loadTransfers} >
+        <form onSubmit={this.loadTransfers}>
           <input type="text" placeholder="Project Id" ref={this.projectIdRef} />
-          
+
           <p>Transference requests:</p>
           <Table
             columns={this.columns}

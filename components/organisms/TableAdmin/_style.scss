@@ -12,5 +12,17 @@
   .ButtonPrimary{
     transform: scale(0.8);
   }
+
+  select {
+    background: $primary-color;
+    height: 30px;
+    border: none;
+    align-items: center;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+    @include primary-text($button, $white, 400);
+    text-transform: uppercase;
+  }
   
 }

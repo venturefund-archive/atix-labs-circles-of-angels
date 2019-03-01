@@ -58,7 +58,14 @@ const getTransferStatus = async ({userId, projectId}) => {
 const getTransferListOfProject = async projectId => {
   try {
     const response = await api.get(`/transfer/${projectId}/getTransfers`);
-    return response.data;
+    let transfers = response.data;
+    if (!transfers) return [];
+    let key = 0;
+    transfers.map(t => {
+      t.key = key;
+      key++;
+    });
+    return transfers;
   } catch (error) {}
 };
 
