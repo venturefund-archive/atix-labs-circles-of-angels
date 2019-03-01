@@ -9,3 +9,19 @@
   width: 95vw;
   flex-flow: column;
 }
+
+.ButtonContainer {
+  align-self: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  position: absolute;
+  top: 40vh;
+
+  .ButtonPrimary {
+    margin :1em;
+  }
+  h1 {
+    text-align: center;
+  }
+}
