@@ -1,8 +1,8 @@
 @import "../css/general_styling.scss";
 
 .SignatureLabel {
-  background: rgba(114, 128, 153, 0.2);
-  border: 1px solid #728099;
+  background: $white;
+  border: 1px solid $white;
   border-radius: 20px;
   height: 30px;
   margin: 1em 0;
@@ -11,10 +11,24 @@
   align-items: center;
   margin-left: 0.5em;
 
+  img {
+    margin-right: 0.75em;
+  }
+}
+
+.theme-pending {
+  background: rgba(114, 128, 153, 0.2);
+  border: 1px solid #728099;
+
   p {
     @include primary-text(1em, #728099, 300);
   }
-  img{
-    margin-right: 0.75em;
+}
+
+.theme-success {
+  background: rgba(21, 211, 128, 0.2);
+  border: 1px solid #15d380;
+  p {
+    @include primary-text(1em, #15d380, 300);
   }
 }

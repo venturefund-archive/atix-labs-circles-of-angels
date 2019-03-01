@@ -15,8 +15,8 @@ const SignatoryItem = () => (
         <UserLabel text="Mariano Maidana" />
       </div>
       <div className="SignatoryStatus">
-        <SignatureLabel text="Signature Pending" />
-        <SignatureLabel text="Funds Pending" />
+        <SignatureLabel text="Funds Pending" iconStatus="./static/images/icon-clock.svg" theme="theme-pending" />
+        <SignatureLabel text="Funds Received" iconStatus="./static/images/icon-check.svg" theme="theme-success" />
       </div>
     </div>
   </div>
