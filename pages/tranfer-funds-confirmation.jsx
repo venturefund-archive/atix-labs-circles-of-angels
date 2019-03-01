@@ -19,7 +19,9 @@ const TransferFunds = () => (
         <h1>Transfer Funds</h1>
         <div className="TransferConfirmationContent">
           <img src="./static/images/funds-pending.svg" alt="Clock" />
-          <TransferLabel text="Funds Pending" />
+          <TransferLabel text="Pending Verification" theme="theme-pending" />
+          <TransferLabel text="Verified" theme="theme-success" />
+          <TransferLabel text="Cancelled" theme="theme-cancel" />
           <h2>Circles will be checking your funds transfer</h2>
           <div className="MoreInfo">
             <Icon type="exclamation-circle" />
