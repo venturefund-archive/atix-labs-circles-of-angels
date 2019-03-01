@@ -8,7 +8,7 @@ const sendTransferInformation = async ({
   projectId,
   destinationAccount
 }) => {
-  console.log("Sending trasfer info to verificate")
+  console.log("Sending trasfer info to verificate");
   try {
     if (
       !amount ||
@@ -33,7 +33,7 @@ const sendTransferInformation = async ({
     );
     return response;
   } catch (error) {
-    return {error: error};
+    return { error: error };
   }
 };
 
@@ -47,9 +47,9 @@ const getTransferDestinationInfo = async () => {
   }
 };
 
-const getTransferStatus = async transferId => {
+const getTransferStatus = async ({userId, projectId}) => {
   try {
-    const response = await api.get(`/transfer/${transferId}/getState`);
+    const response = await api.get(`/transfer/${userId}/${projectId}/getState`);
     console.log(response);
     return response.data.state;
   } catch (error) {}
@@ -64,15 +64,12 @@ const getTransferListOfProject = async projectId => {
 
 const updateStateOfTransference = async (transferId, state) => {
   try {
-    const response = await api.post("/transfer/updateState",
-    {
+    const response = await api.post("/transfer/updateState", {
       transferId,
       state
     });
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export {
   sendTransferInformation,
