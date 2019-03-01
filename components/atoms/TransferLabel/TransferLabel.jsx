@@ -1,10 +1,14 @@
-import React from 'react';
-import './_style.scss';
+import React from "react";
+import "./_style.scss";
 
-const TransferLabel = ( {text}) => (
-  <div className="TransferLabel">
-    <p>{text}</p>
-  </div>
-);
+const TransferLabel = ({ theme, text }) => {
+  const classname = "TransferLabel " + theme;
+
+  return (
+    <div className={classname}>
+      <p>{text}</p>
+    </div>
+  );
+};
 
 export default TransferLabel;
