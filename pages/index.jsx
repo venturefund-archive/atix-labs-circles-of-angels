@@ -15,7 +15,9 @@ const Index = () => (
         <Link href="/tranfer-funds">
           <ButtonPrimary text="As Funder" />
         </Link>
-
+        <Link href="/concensus">
+          <ButtonPrimary text="As Funder - Concensus" />
+        </Link>
         <Link href="/tranfer-funds-confirmation">
           <ButtonPrimary text="As Social Entrepreneur" />
         </Link>
