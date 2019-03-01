@@ -18,7 +18,6 @@ const statusMap = {
 };
 
 //Temporal for sprint 2
-const userId = 1;
 const projectId = 1;
 
 class TransferFundsConfirmation extends React.Component {
@@ -27,10 +26,12 @@ class TransferFundsConfirmation extends React.Component {
     this.state = {
       status: null
     };
+
+    this.userId = this.props.url.query.userId ;
   }
 
   componentDidMount = async () => {
-    const status = await getTransferStatus({ userId, projectId });
+    const status = await getTransferStatus({ userId: this.userId, projectId });
     this.setState({ status: status });
   };
 

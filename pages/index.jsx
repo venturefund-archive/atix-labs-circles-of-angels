@@ -12,14 +12,27 @@ const Index = () => (
       <Header />
       <div className="ButtonContainer">
         <h1>Login as:</h1>
-        <Link href="/tranfer-funds">
-          <ButtonPrimary text="As Funder" />
-        </Link>
+
+        <div className="FunderButtonContainer">
+          <Link href={`/tranfer-funds?userId=1`}>
+            <ButtonPrimary text="As Funder 1"/>
+          </Link>
+          <Link href={`/tranfer-funds?userId=2`}>
+            <ButtonPrimary text="As Funder 2" />
+          </Link>
+        </div>
+
+        <div className="FunderButtonContainer">
+          <Link  href={`/tranfer-funds-confirmation?userId=1`}>
+            <ButtonPrimary text="Funder 1 - Status" />
+          </Link>
+          <Link href={`/tranfer-funds-confirmation?userId=2`}>
+            <ButtonPrimary text="Funder 2- Status" />
+          </Link>
+        </div>
+
         <Link href="/concensus">
           <ButtonPrimary text="As Social Entrepreneur" />
-        </Link>
-        <Link href="/tranfer-funds-confirmation">
-          <ButtonPrimary text="Funder - Status" />
         </Link>
         <Link href="/fund-administration">
           <ButtonPrimary text="As Backoffice Administrator" />
