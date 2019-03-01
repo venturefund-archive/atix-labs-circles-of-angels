@@ -20,7 +20,9 @@ const SideBar = () => (
     }}
   >
     <div className="logo">
-      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+      <Link href="/">
+        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+      </Link>
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
       <Menu.Item key="1">
