@@ -4,19 +4,18 @@ import UserLabel from "../../atoms/UserLabel/UserLabel.jsx";
 import SignatureLabel from "../../atoms/SignatureLabel/SignatureLabel.jsx";
 import "./_style.scss";
 
-const SignatoryItem = () => (
+const SignatoryItem = ({tfStatusName, tfStatusIcon, tfStatusShow , username, nameInitials }) => (
   <div className="SignatoryItem">
     <p className="SignatoryLabel">signer</p>
     <div className="Signatory">
       <div className="SignatoryData">
         <Avatar style={{ color: "#0083E3", backgroundColor: "#95d2ff" }}>
-          JP
+          {nameInitials}
         </Avatar>
-        <UserLabel text="Mariano Maidana" />
+        <UserLabel text={username} />
       </div>
       <div className="SignatoryStatus">
-        <SignatureLabel text="Funds Pending" iconStatus="./static/images/icon-clock.svg" theme="theme-pending" />
-        <SignatureLabel text="Funds Received" iconStatus="./static/images/icon-check.svg" theme="theme-success" />
+        <SignatureLabel text={tfStatusShow} iconStatus={tfStatusIcon} theme={`theme-${tfStatusName}`} />
       </div>
     </div>
   </div>

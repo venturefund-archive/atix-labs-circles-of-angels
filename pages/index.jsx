@@ -10,16 +10,16 @@ const Index = () => (
     <SideBar />
     <div className="MainContent">
       <Header />
-      <div class="ButtonContainer">
+      <div className="ButtonContainer">
         <h1>Login as:</h1>
         <Link href="/tranfer-funds">
           <ButtonPrimary text="As Funder" />
         </Link>
         <Link href="/concensus">
-          <ButtonPrimary text="As Funder - Concensus" />
+          <ButtonPrimary text="As Social Entrepreneur" />
         </Link>
         <Link href="/tranfer-funds-confirmation">
-          <ButtonPrimary text="As Social Entrepreneur" />
+          <ButtonPrimary text="Funder - Status" />
         </Link>
         <Link href="/fund-administration">
           <ButtonPrimary text="As Backoffice Administrator" />
