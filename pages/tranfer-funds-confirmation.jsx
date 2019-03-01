@@ -57,7 +57,15 @@ class TransferFundsConfirmation extends React.Component {
               <h2>Circles will be checking your funds transfer</h2>
               <div className="MoreInfo">
                 <Icon type="exclamation-circle" />
-                <Skeleton />
+
+                <div>
+                <h3> Singapore Bank</h3>
+                <div></div>
+                <h4>  Account #: 0012345678</h4>
+                <h4>  Account owner: CirclesOfAngels</h4>
+                </div>
+                
+               
               </div>
             </div>
           </div>

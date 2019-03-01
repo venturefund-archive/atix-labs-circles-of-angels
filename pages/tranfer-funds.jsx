@@ -53,7 +53,12 @@ class TransferFunds extends React.Component {
             <h1>Transfer Funds</h1>
             <div className="TransferContent">
               <h2>Circles of Angels Bank Account Information</h2>
-              <Skeleton />
+              <div>
+                <h3> Singapore Bank</h3>
+                <div></div>
+                <h4>  Account #: 0012345678</h4>
+                <h4>  Account owner: CirclesOfAngels</h4>
+                </div>
               <FormTransfer
                 onTransferChange={evnt =>
                   this.updateState(evnt, "transferNumber", evnt.target.value)
