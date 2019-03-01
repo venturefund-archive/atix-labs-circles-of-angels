@@ -1,11 +1,11 @@
 import React from "react";
-import { Skeleton } from "antd";
 
 import Header from "../components/molecules/Header/Header.jsx";
 import SideBar from "../components/organisms/SideBar/SideBar.jsx";
 import StepsIf from "../components/molecules/StepsIf/StepsIf.jsx";
 import FormTransfer from "../components/molecules/FormTransfer/FormTransfer.jsx";
 import { sendTransferInformation } from "../api/transferApi";
+import Router from "next/router";
 
 import "./_style.scss";
 import "./_transfer-funds.scss";
@@ -17,7 +17,7 @@ class TransferFunds extends React.Component {
       transferNumber: "",
       amount: ""
     };
-    
+
     this.userId = this.props.url.query.userId;
   }
 
@@ -37,9 +37,13 @@ class TransferFunds extends React.Component {
       destinationAccount: "asdf1234qwer5678"
     };
     const result = await sendTransferInformation(toSubmit);
-    console.log(result)
+    console.log(result);
     if (result.error) alert(`Error: ${result.error}`);
-    else alert(`Success: Transfer submited correctly!`)
+    else {
+      Router.push(`/tranfer-funds-confirmation?userId=${this.userId}`);
+      alert(`Success: Transfer submited correctly!`);
+      
+    }
   };
 
   render() {
@@ -55,10 +59,10 @@ class TransferFunds extends React.Component {
               <h2>Circles of Angels Bank Account Information</h2>
               <div>
                 <h3> Singapore Bank</h3>
-                <div></div>
-                <h4>  Account #: 0012345678</h4>
-                <h4>  Account owner: CirclesOfAngels</h4>
-                </div>
+                <div />
+                <h4> Account #: 0012345678</h4>
+                <h4> Account owner: CirclesOfAngels</h4>
+              </div>
               <FormTransfer
                 onTransferChange={evnt =>
                   this.updateState(evnt, "transferNumber", evnt.target.value)

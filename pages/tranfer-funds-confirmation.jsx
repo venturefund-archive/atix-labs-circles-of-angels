@@ -55,7 +55,7 @@ class TransferFundsConfirmation extends React.Component {
                 ""
               )}
               <h2>Circles will be checking your funds transfer</h2>
-              <div className="MoreInfo">
+              {/* <div className="MoreInfo">
                 <Icon type="exclamation-circle" />
 
                 <div>
@@ -66,7 +66,7 @@ class TransferFundsConfirmation extends React.Component {
                 </div>
                 
                
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
