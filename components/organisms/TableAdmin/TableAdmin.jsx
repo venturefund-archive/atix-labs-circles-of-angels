@@ -40,7 +40,7 @@ const TableAdmin = ({ data, saveStatus }) => {
       dataIndex: "tags",
       render: (text, record) => (
         <span>
-          <select onChange={evnt => (record.state = evnt.currentTarget.value)} value={record.state}>
+          <select onChange={evnt => (record.state = evnt.currentTarget.value)} defaultValue={record.state}>
             <option value="-1">Rejected</option>
             <option value="0">Pending</option>
             <option value="1">Needs Consiliation</option>

@@ -9,9 +9,9 @@ import { getTransferListOfProject } from "../api/transferApi";
 import transferStatusMap from "../model/transferStatus";
 
 const names = {
-  "1": {name:"John Brown", initials:'JB'},
-  "2": {name:"Jim Green",initials:'JG'},
-  "3": {name:"Joe Black",initials:'JB'}
+  "1": { name: "John Brown", initials: "JB" },
+  "2": { name: "Jim Green", initials: "JG" },
+  "3": { name: "Joe Black", initials: "JB" }
 };
 
 class Concensus extends React.Component {
@@ -39,10 +39,11 @@ class Concensus extends React.Component {
             <h1>Signatories</h1>
             <div className="SignatoryList">
               {this.state.transfers
-                ? this.state.transfers.map(transfer => {
+                ? this.state.transfers.map((transfer, i) => {
                     const status = transferStatusMap[transfer.state];
                     return (
                       <SignatoryItem
+                        key={i}
                         username={names[transfer.senderId].name}
                         tfStatusShow={status.show}
                         tfStatusIcon={status.icon}
