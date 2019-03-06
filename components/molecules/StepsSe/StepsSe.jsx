@@ -7,7 +7,7 @@ const Step = Steps.Step;
 const StepsSe = () => (
   <div className="StepsContainer">
     <Steps current={1}>
-      <Step title="Concensus" />
+      <Step title="Consensus" />
       <Step title="Signatories" />
     </Steps>
   </div>

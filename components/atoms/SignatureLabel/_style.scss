@@ -32,3 +32,11 @@
     @include primary-text(1em, #15d380, 300);
   }
 }
+
+.theme-cancelled {
+  background: rgba(255, 0, 80, 0.2);
+  border: 1px solid #FF0050;
+  p {
+    @include primary-text(1em, #FF0050, 300);
+  }
+}

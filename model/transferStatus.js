@@ -3,7 +3,7 @@ const transferStatusMap = {
   "-1": {
     name: 'cancelled',
     show: 'Funds Cancelled',
-    icon: ""
+    icon: './static/images/icon-cancel.svg'
   },
   "0": {
     name: 'pending',
