@@ -1,0 +1,26 @@
+@import "../../../css/general_styling.scss";
+
+.InfoItem{
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1em;
+
+    img{
+        width: 25px;
+        height: 25px;
+    }
+
+    .InfoItemData{
+        margin-left: 1em;
+        p{
+            @include primary-text($tabs, $black, 300);
+        }
+        h2{
+            @include primary-text($body, $black, 400);
+        }
+    }
+}
+
+.InfoItem:last-child{
+    margin-bottom: 0;
+}
