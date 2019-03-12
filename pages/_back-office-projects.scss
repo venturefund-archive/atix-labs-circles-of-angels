@@ -1,0 +1,11 @@
+@import "../css/general_styling.scss";
+
+.TableContainer{
+    margin-top: 60px;
+    padding: 0 1.5em;
+
+    h1{
+      @include primary-text($h1, $secondary-color, 400);
+      margin: 1.5em 0;
+    }
+}
