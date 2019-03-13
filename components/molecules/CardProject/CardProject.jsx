@@ -3,7 +3,7 @@ import InfoItem from "../../atoms/InfoItem/InfoItem.jsx";
 
 import "./_style.scss";
 
-const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage }) => (
+const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, enterpriceLocation, timeframe, amount }) => (
   <div className="CardProject">
     <div className="ProjectDescription">
         <img src={projectCardImage} alt="projectCardImage" />
@@ -17,17 +17,17 @@ const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage }) =>
     <div className="ProjectSummery">
       <InfoItem
         subtitle="Enterprice Location"
-        title="Cambodia"
+        title={enterpriceLocation}
         iconInfoItem="./static/images/icon-place.svg"
       />
       <InfoItem
         subtitle="Timeframe"
-        title="12 Months"
+        title={timeframe}
         iconInfoItem="./static/images/icon-timeframe.svg"
       />
       <InfoItem
         subtitle="Amount"
-        title="$100.000 USD"
+        title={amount}
         iconInfoItem="./static/images/icon-amount.svg"
       />
     </div>
