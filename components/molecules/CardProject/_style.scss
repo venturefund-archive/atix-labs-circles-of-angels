@@ -1,0 +1,68 @@
+@import "../css/general_styling.scss";
+
+.CardProject {
+  background: $white;
+  width: 23%;
+  border-radius: 5px;
+  box-shadow: $shadow;
+  margin-bottom: 2em;
+  margin-right: 1.75em;
+
+  .ProjectDescription {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    position: relative;
+
+    img {
+      height: 175px;
+      width: 100%;
+      -webkit-border-top-left-radius: 5px;
+      -webkit-border-top-right-radius: 5px;
+      -moz-border-radius-topleft: 5px;
+      -moz-border-radius-topright: 5px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .GradientEfect {
+      background: rgb(0, 0, 0);
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      width: 100%;
+      position: absolute;
+      padding-top: 1.25em;
+      .DescriptionData {
+        margin-left: 1em;
+        padding-bottom: 1.5em;
+
+        h1 {
+          @include primary-text($h1, $white, 400);
+        }
+        p {
+          @include primary-text($h2, $white, 300);
+        }
+      }
+    }
+  }
+
+  .ProjectSummery {
+    padding: 1.25em 1em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+    .CardProject {
+        width: 48%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .CardProject {
+        width: 100%;
+    }
+}
