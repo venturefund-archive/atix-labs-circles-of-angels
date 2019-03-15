@@ -5,6 +5,8 @@ $surface: #fff;
 $primary-color: #0083E3;
 $secondary-color: #454B61;
 
+$success-color: #15D380;
+
 $black: #000;
 $white: #fff;
 $grey: #b3bec5;
@@ -14,7 +16,7 @@ $light-grey: #EEEFEF;
 $theme-color-1: linear-gradient(to bottom, #2A3890, #0083E2);
 
 // Typographic Scale
-$title: 20px;
+$title: 32px;
 $subtitle: 18px;
 $h1: 20px;
 $h2: 15px;
@@ -52,4 +54,12 @@ $shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: $border-color;
+}
+
+// Separator 
+
+.Separator{
+  border: 1px solid transparent;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

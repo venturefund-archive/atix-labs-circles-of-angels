@@ -2,12 +2,14 @@
 
 .AppContainer {
   display: flex;
+  width: 100vw;
 }
 
 .MainContent {
   display: flex;
   width: 95vw;
   flex-flow: column;
+  overflow: hidden;
 }
 
 .ButtonContainer {
