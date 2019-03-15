@@ -1,0 +1,35 @@
+@import "../../../css/general_styling.scss";
+
+.UploadExcelFiles {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .DraggerFile {
+    width: 48%;
+    margin-right: 1.5em;
+    padding-right: 1.5em;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .FileVerification {
+    width: 48%;
+    border: 1px solid $medium-grey;
+    border-radius: 6px;
+    margin-right: 1.5em;
+    text-align: center;
+    padding: 1.5em 0;
+
+    .IconVerify {
+      font-size: 30px;
+      margin-bottom: 0.75em;
+    }
+    h2 {
+      @include primary-text($h2, $sucess-color, 400);
+    }
+
+    p {
+      @include primary-text($body-2, $grey, 300);
+    }
+  }
+}
