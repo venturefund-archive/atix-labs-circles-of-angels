@@ -20,10 +20,11 @@ class ProjectDetail extends React.Component {
     this.state = {
       projectDetail : null
     }
+    this.projectId = this.props.url.query.projectId;
   }
 
   async componentDidMount() {
-    const projectDetail = await getProject(projectId);
+    const projectDetail = await getProject(this.projectId);
     if (projectDetail) this.setState({projectDetail : projectDetail});
   }
 
