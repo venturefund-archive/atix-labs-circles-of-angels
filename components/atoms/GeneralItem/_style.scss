@@ -1,0 +1,31 @@
+@import "../../../css/general_styling.scss";
+
+.GeneralItem{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+
+    h2{
+        @include primary-text($body, $black, 400);
+    }
+
+    .HeaderData{
+        display: flex;
+        align-items: center;
+        
+        img{
+            width: 25px;
+            height: 25px;
+            margin-right: 1em;
+        }
+    
+        p{
+            @include primary-text($tabs, $black, 300);
+        }
+       
+    }
+}
+
+.GeneralItem:last-child{
+    margin-bottom: 0;
+}
