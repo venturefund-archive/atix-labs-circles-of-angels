@@ -8,10 +8,10 @@ const menu = (
     <Menu.Item key="0">
       <a href="/#">My Account</a>
     </Menu.Item>
-    <Menu.Item key="0">
-      <a href="/#">Create Project</a>
-    </Menu.Item>
     <Menu.Item key="1">
+      <a href="/create-project-step1">Create Project</a>
+    </Menu.Item>
+    <Menu.Item key="2">
       <a href="/#">Log out</a>
     </Menu.Item>
   </Menu>
