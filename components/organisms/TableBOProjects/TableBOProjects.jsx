@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Tag } from "antd";
+import Router from "next/router";
 
 import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
@@ -10,15 +11,27 @@ const dataSource = [
     key: "1",
     user: "Juan Perez",
     project: "Project 1",
-    status: ["pending"]
+    status: ["pending"],
+    projectId: 5
   },
   {
     key: "2",
     user: "Mariana Moreno",
     project: "Project 2",
-    status: ["confirmed"]
+    status: ["confirmed"],
+    projectId: 6
   }
 ];
+
+const projectDetailPage = projectId => {
+  Router.push(
+    {
+      pathname: "/back-office-project-detail",
+      query: { projectId }
+    },
+    "/back-office-project-detail"
+  );
+};
 
 const columns = [
   {
@@ -36,6 +49,19 @@ const columns = [
     dataIndex: "milestones",
     key: "milestones",
     render: () => <ButtonDownload text="Download Excel" />
+  },
+  {
+    title: "Details",
+    dataIndex: "projectId",
+    key: "details",
+    render: projectId => {
+      return (
+        <img
+          src="./static/images/icon-info.svg"
+          onClick={() => projectDetailPage(projectId)}
+        />
+      );
+    }
   },
   {
     title: "Status",

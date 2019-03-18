@@ -20,4 +20,5 @@ const getProject = async projectId => {
     return null;
   }
 };
+
 export { getProjects, getProject };

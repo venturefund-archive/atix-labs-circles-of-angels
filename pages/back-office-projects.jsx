@@ -7,17 +7,26 @@ import TableBOProjects from "../components/organisms/TableBOProjects/TableBOProj
 import "./_style.scss";
 import "./_back-office-projects.scss";
 
-const BackOfficeProjects = () => (
-  <div className="AppContainer">
-    <SideBar />
-    <div className="MainContent">
-      <Header />
-      <div className="TableContainer">
-      <h1>Projects Administration</h1>
-      <TableBOProjects />
+class BackOfficeProjects extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+
+  render() {
+    return (
+      <div className="AppContainer">
+        <SideBar />
+        <div className="MainContent">
+          <Header />
+          <div className="TableContainer">
+            <h1>Projects Administration</h1>
+            <TableBOProjects />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 export default BackOfficeProjects;
