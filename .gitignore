@@ -1,3 +1,5 @@
 node_modules
 /.next/*
 .next/*
+.DS_STORE
+**/.DS_STORE

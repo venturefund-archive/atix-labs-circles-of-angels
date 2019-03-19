@@ -2,12 +2,15 @@
 
 .AppContainer {
   display: flex;
+  width: 100vw;
 }
 
 .MainContent {
   display: flex;
-  width: 95vw;
   flex-flow: column;
+  width: 95vw;
+  margin-left: 80px;
+  height: 100vh;
 }
 
 .ButtonContainer {
@@ -30,4 +33,10 @@
   display: flex;
   flex-flow: row;
   justify-content: inherit;;
+}
+
+@media screen and (max-width: 770px) {
+  .MainContent {
+    margin-left: 0px;
+  }
 }

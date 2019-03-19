@@ -1,0 +1,57 @@
+@import "../css/general_styling.scss";
+
+.ProjectContainer {
+  margin-top: 60px;
+
+  .ProjectHeader {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    position: relative;
+    height: 275px;
+    width: 100%;
+    img {
+      height: auto;
+    }
+  }
+  .ProjectEnterprice {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    width: 100%;
+    position: absolute;
+    padding: 2em;
+    h1 {
+      @include primary-text($title, $white, 400);
+    }
+    p {
+      @include primary-text($h2, $white, 300);
+    }
+  }
+
+  .ProjectContent {
+    display: flex;
+    justify-content: space-between;
+    .ProjectGeneralData {
+      width: 35%;
+      padding: 2em;
+      h1 {
+        @include primary-text($h1, $black, 400);
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+}
+
+.SubmitProject {
+  margin: 0 2em;
+  border-top: 1px solid $medium-grey;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 2em;
+
+}
