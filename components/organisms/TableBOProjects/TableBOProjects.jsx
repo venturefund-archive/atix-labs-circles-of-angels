@@ -5,31 +5,22 @@ import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
 
-const dataSource = [
-  {
-    key: "1",
-    user: "Juan Perez",
-    project: "Project 1",
-    status: ["pending"]
-  },
-  {
-    key: "2",
-    user: "Mariana Moreno",
-    project: "Project 2",
-    status: ["confirmed"]
-  }
-];
+const statusMap = {
+  "-1": { name: "Cancelled", color: "red" },
+  "0": { name: "Pending", color: "" },
+  "1": { name: "Confirmed", color: "green" }
+};
 
 const columns = [
   {
     title: "User",
-    dataIndex: "user",
-    key: "user"
+    dataIndex: "ownerName",
+    key: "ownerName"
   },
   {
     title: "Project",
-    dataIndex: "project",
-    key: "project"
+    dataIndex: "projectName",
+    key: "projectName"
   },
   {
     title: "Milestones",
@@ -41,19 +32,11 @@ const columns = [
     title: "Status",
     key: "status",
     dataIndex: "status",
-    render: tags => (
+    render: status => (
       <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? "green" : "green";
-          if (tag === "pending") {
-            color = "";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        <Tag color={statusMap[status].color} key={status}>
+          {statusMap[status].name}
+        </Tag>
       </span>
     )
   },
@@ -65,7 +48,7 @@ const columns = [
   }
 ];
 
-const TableBOProjects = () => (
+const TableBOProjects = ({ dataSource }) => (
   <Table
     dataSource={dataSource}
     columns={columns}
