@@ -14,7 +14,7 @@ const getProjects = async () => {
 const getProject = async projectId => {
   try {
     const response = await api.get(`/project/${projectId}/getProject`);
-    let project = response.data;
+    let project = response ? response.data : {};
     return project;
   } catch (error) {
     return null;

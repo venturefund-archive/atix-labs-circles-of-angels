@@ -20,14 +20,17 @@ class ProjectDetail extends React.Component {
     this.state = {
       projectDetail : null
     }
-    this.projectId = this.props.url.query.projectId;
   }
 
   async componentDidMount() {
-    const projectDetail = await getProject(this.projectId);
+    const projectDetail = await getProject(this.props.projectId);
     if (projectDetail) this.setState({projectDetail : projectDetail});
   }
 
+  static async getInitialProps({ query }) {
+    const { projectId } = query;
+    return { projectId };
+  }
 
   render() {
     const itemsData = this.state.projectDetail ? [
@@ -48,12 +51,12 @@ class ProjectDetail extends React.Component {
       },
       {
         subtitle: "Name of Lead",
-        title: this.state.projectDetail.leadName,
+        title: this.state.projectDetail.ownerName,
         iconItem: "./static/images/icon-lead.svg"
       },
       {
         subtitle: "Mail of Lead",
-        title: this.state.projectDetail.leadMail,
+        title: this.state.projectDetail.ownerEmail,
         iconItem: "./static/images/icon-mail.svg"
       }
     ] : [];
@@ -92,7 +95,7 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <ButtonSuccess text="Apply to project" />
+            <ButtonSuccess text="Go to project" />
           </div>
         </div>
       </div>

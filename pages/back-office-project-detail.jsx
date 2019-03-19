@@ -58,6 +58,7 @@ class BackofficeProjectDetail extends React.Component {
   }
 
   async componentDidMount() {
+    if (!this.props.projectId) return;
     const projectDetail = await getProject(this.props.projectId);
     this.setState({
       projectDetail: [projectDetail],

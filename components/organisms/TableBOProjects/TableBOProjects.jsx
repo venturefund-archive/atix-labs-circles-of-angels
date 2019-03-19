@@ -6,24 +6,14 @@ import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
 
-const dataSource = [
-  {
-    key: "1",
-    user: "Juan Perez",
-    project: "Project 1",
-    status: ["pending"],
-    projectId: 5
-  },
-  {
-    key: "2",
-    user: "Mariana Moreno",
-    project: "Project 2",
-    status: ["confirmed"],
-    projectId: 6
-  }
-];
+const statusMap = {
+  "-1": { name: "Cancelled", color: "red" },
+  "0": { name: "Pending", color: "" },
+  "1": { name: "Confirmed", color: "green" }
+};
 
 const projectDetailPage = projectId => {
+  console.log(projectId)
   Router.push(
     {
       pathname: "/back-office-project-detail",
@@ -36,13 +26,13 @@ const projectDetailPage = projectId => {
 const columns = [
   {
     title: "User",
-    dataIndex: "user",
-    key: "user"
+    dataIndex: "ownerName",
+    key: "ownerName"
   },
   {
     title: "Project",
-    dataIndex: "project",
-    key: "project"
+    dataIndex: "projectName",
+    key: "projectName"
   },
   {
     title: "Milestones",
@@ -52,7 +42,7 @@ const columns = [
   },
   {
     title: "Details",
-    dataIndex: "projectId",
+    dataIndex: "id",
     key: "details",
     render: projectId => {
       return (
@@ -67,19 +57,11 @@ const columns = [
     title: "Status",
     key: "status",
     dataIndex: "status",
-    render: tags => (
+    render: status => (
       <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? "green" : "green";
-          if (tag === "pending") {
-            color = "";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        <Tag color={statusMap[status].color} key={status}>
+          {statusMap[status].name}
+        </Tag>
       </span>
     )
   },
@@ -91,7 +73,7 @@ const columns = [
   }
 ];
 
-const TableBOProjects = () => (
+const TableBOProjects = ({ dataSource }) => (
   <Table
     dataSource={dataSource}
     columns={columns}
