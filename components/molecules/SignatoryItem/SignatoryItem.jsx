@@ -3,6 +3,7 @@ import { Avatar } from "antd";
 import UserLabel from "../../atoms/UserLabel/UserLabel.jsx";
 import SignatureLabel from "../../atoms/SignatureLabel/SignatureLabel.jsx";
 import "./_style.scss";
+import ConfirmPopUp from "../../molecules/ConfirmPopUp/ConfirmPopUp.jsx";
 
 const SignatoryItem = ({tfStatusName, tfStatusIcon, tfStatusShow , username, nameInitials }) => (
   <div className="SignatoryItem">
@@ -16,6 +17,7 @@ const SignatoryItem = ({tfStatusName, tfStatusIcon, tfStatusShow , username, nam
       </div>
       <div className="SignatoryStatus">
         <SignatureLabel text={tfStatusShow} iconStatus={tfStatusIcon} theme={`theme-${tfStatusName}`} />
+        <ConfirmPopUp />
       </div>
     </div>
   </div>

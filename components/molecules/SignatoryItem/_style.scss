@@ -33,6 +33,14 @@
     .SignatoryStatus {
       display: flex;
       align-self: flex-end;
+      align-items: center;
+
+      .ButtonPrimary{
+        margin-left: 0.5em;
+        p{
+          color: $white;
+        }
+      }
     }
   }
 }
