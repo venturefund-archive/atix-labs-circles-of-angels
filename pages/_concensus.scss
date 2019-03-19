@@ -8,8 +8,13 @@
       margin: 1.5em 0 0.25em;
     }
 
-    p{
-      @include primary-text($body, $grey, 400);
+    .StepDescription{
+      @include primary-text($h3, $grey, 400);
+    }
+
+    h2{
+      @include primary-text($h2, $secondary-color, 400);
+      margin: 0.5em 0 1em;
     }
 
     .SignatoryList{
@@ -20,4 +25,9 @@
       flex-wrap: wrap;
       justify-content: space-between;
     }
+}
+
+.ant-tabs-bar{
+  margin-bottom: 2.5em;
+  font-family: "Montserrat", sans-serif;
 }
