@@ -1,9 +1,10 @@
 import React from 'react';
-import { Input, Icon, InputNumber } from 'antd';
+import { Input, Icon } from 'antd';
 
 import './_style.scss';
 
 const project = {};
+const { TextArea } = Input;
 
 const WebFormProject = ({ change }) => {
   return (
@@ -16,7 +17,7 @@ const WebFormProject = ({ change }) => {
           change(project);
         }}
       />
-      <Input
+      <TextArea
         placeholder="Project Mission"
         prefix={<Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />}
         onChange={e => {
@@ -24,7 +25,7 @@ const WebFormProject = ({ change }) => {
           change(project);
         }}
       />
-      <Input
+      <TextArea
         placeholder="Problem Addressed"
         prefix={<Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />}
         onChange={e => {
