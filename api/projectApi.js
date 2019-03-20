@@ -13,11 +13,10 @@ const getProjects = async () => {
 
 const getProject = async projectId => {
   try {
-    const response = await api.get(`/project/${projectId}/getProject`);
-    let project = response.data;
-    return project;
+    const response = await api.get(`${baseURL}/${projectId}/getProject`);
+    return response;
   } catch (error) {
-    return null;
+    return { error };
   }
 };
 export { getProjects, getProject };
