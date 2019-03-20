@@ -5,7 +5,6 @@ import {
 } from "../api/transferApi";
 import { Table } from "antd";
 import "antd/dist/antd.css";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
 
 class BackofficeAdmin extends React.Component {
   constructor(props) {

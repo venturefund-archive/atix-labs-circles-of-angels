@@ -37,6 +37,7 @@ class Concensus extends React.Component {
           <StepsSe />
           <div className="SignatoriesContainer">
             <h1>Signatories</h1>
+            <p>Sign your agreement and pledge to help this project come to true</p>
             <div className="SignatoryList">
               {this.state.transfers
                 ? this.state.transfers.map((transfer, i) => {

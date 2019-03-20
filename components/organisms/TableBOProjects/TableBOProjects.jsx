@@ -1,35 +1,34 @@
 import React from "react";
 import { Table, Tag } from "antd";
+import Router from "next/router";
 
 import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
+import projectStatusMap from "../../../model/projectStatus";
+import { confirmProject } from "../../../api/projectApi";
 
-const dataSource = [
-  {
-    key: "1",
-    user: "Juan Perez",
-    project: "Project 1",
-    status: ["pending"]
-  },
-  {
-    key: "2",
-    user: "Mariana Moreno",
-    project: "Project 2",
-    status: ["confirmed"]
-  }
-];
+const projectDetailPage = projectId => {
+  console.log(projectId)
+  Router.push(
+    {
+      pathname: "/back-office-project-detail",
+      query: { projectId }
+    },
+    "/back-office-project-detail"
+  );
+};
 
 const columns = [
   {
     title: "User",
-    dataIndex: "user",
-    key: "user"
+    dataIndex: "ownerName",
+    key: "ownerName"
   },
   {
     title: "Project",
-    dataIndex: "project",
-    key: "project"
+    dataIndex: "projectName",
+    key: "projectName"
   },
   {
     title: "Milestones",
@@ -38,34 +37,44 @@ const columns = [
     render: () => <ButtonDownload text="Download Excel" />
   },
   {
+    title: "Details",
+    dataIndex: "id",
+    key: "details",
+    render: projectId => {
+      return (
+        <img
+          src="./static/images/icon-info.svg"
+          onClick={() => projectDetailPage(projectId)}
+        />
+      );
+    }
+  },
+  {
     title: "Status",
     key: "status",
     dataIndex: "status",
-    render: tags => (
+    render: status => (
       <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? "green" : "green";
-          if (tag === "pending") {
-            color = "";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        <Tag color={projectStatusMap[status].color} key={status}>
+          {projectStatusMap[status].name}
+        </Tag>
       </span>
     )
   },
   {
     title: "Actions",
-    dataIndex: "action",
+    dataIndex: "id",
     key: "action",
-    render: () => <ButtonPrimary text="confirm" />
+    render: (projectId, collection) => (
+      <ButtonPrimary
+        text="confirm"
+        onClick={async () => handleConfirm(projectId, collection)}
+      />
+    )
   }
 ];
 
-const TableBOProjects = () => (
+const TableBOProjects = ({ dataSource }) => (
   <Table
     dataSource={dataSource}
     columns={columns}
@@ -73,5 +82,10 @@ const TableBOProjects = () => (
     className="TableBOProjects"
   />
 );
+
+const handleConfirm = async (projectId, collection) => {
+  const confirmation = await confirmProject(projectId);
+  collection.status = confirmation.data.status;
+};
 
 export default TableBOProjects;
