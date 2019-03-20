@@ -3,32 +3,6 @@ import { Table } from "antd";
 
 import "./_style.scss";
 
-// const dataSource = [{
-//   key: '1',
-//   timeline: 'Quarter 1',
-//   milestone: 'Milestone 1',
-//   tasks: 'Operations: Expand marketing capacity in Cambodia (or Thailand)',
-//   targets: 'Increased capacity of outreach to students and process contracts',
-//   ReviewOne: 'Contract signed and person start working with us',
-//   success: 'New team member joins the team',
-//   ReviewTwo: 'Contract signed with new team member',
-//   Expediture:'Salary',
-//   Responsible: 'COO, CEO, Investment in Education (IE) Manager',
-//   Budget: ''
-// }, {
-//   key: '2',
-//   timeline: 'Quarter 1',
-//   milestone: 'Milestone 1',
-//   tasks: 'Operations: Expand marketing capacity in Cambodia (or Thailand)',
-//   targets: 'Increased capacity of outreach to students and process contracts',
-//   ReviewOne: 'Contract signed and person start working with us',
-//   success: 'New team member joins the team',
-//   ReviewTwo: 'Contract signed with new team member',
-//   Expediture:'Salary',
-//   Responsible: 'COO, CEO, Investment in Education (IE) Manager',
-//   Budget: ''
-// }];
-
 const TableMilestones = ({ dataSource }) => {
   console.log(dataSource)
   const columns = [
