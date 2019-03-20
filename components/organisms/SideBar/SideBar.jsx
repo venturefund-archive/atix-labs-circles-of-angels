@@ -1,11 +1,16 @@
-import React from "react";
-import { Layout, Menu, Icon } from "antd";
-import "antd/dist/antd.css";
-import "./_style.scss";
-import Link from "next/link";
-import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
+import React from 'react';
+import { Layout, Menu, Icon } from 'antd';
+import 'antd/dist/antd.css';
+import './_style.scss';
+import Link from 'next/link';
+import Router from 'next/router';
+import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 
 const { Sider } = Layout;
+
+const goToExploreProjects = () => {
+  Router.push('/explore-projects');
+};
 
 const SideBar = () => (
   <Sider
@@ -24,8 +29,8 @@ const SideBar = () => (
         <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
       </Link>
     </div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
-      <Menu.Item key="1">
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+      <Menu.Item key="1" onClick={goToExploreProjects}>
         <img src="./static/images/menu-home.svg" alt="Home" />
       </Menu.Item>
       <Menu.Item key="2">
