@@ -19,4 +19,15 @@ const getProject = async projectId => {
     return { error };
   }
 };
-export { getProjects, getProject };
+
+const confirmProject = async projectId => {
+  try {
+    const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
+      status: 1
+    });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+export { getProjects, getProject, confirmProject };

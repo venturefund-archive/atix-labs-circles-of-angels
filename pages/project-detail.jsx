@@ -11,11 +11,11 @@ import ButtonSuccess from "../components/atoms/ButtonSuccess/ButtonSuccess.jsx";
 
 import { getProject } from "../api/projectApi";
 
-const projectId = 5; //delete when integrate with explore-projects page
 const imageBaseUrl = "./static/images";
 
 class ProjectDetail extends React.Component {
-  static async getInitialProps(req) {
+  static async getInitialProps(query) {
+    const { projectId } = query.query;
     const response = await getProject(projectId);
     return { projectDetail: response.data };
   }
@@ -99,7 +99,7 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <ButtonSuccess text="Apply to project" />
+            <ButtonSuccess text="Go to project" />
           </div>
         </div>
       </div>
