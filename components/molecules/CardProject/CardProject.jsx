@@ -27,7 +27,7 @@ const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, ente
       />
       <InfoItem
         subtitle="Amount"
-        title={amount}
+        title={`$ ${amount}`}
         iconInfoItem="./static/images/icon-amount.svg"
       />
     </div>
