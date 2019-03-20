@@ -1,16 +1,22 @@
 import React from "react";
 import { Table, Tag } from "antd";
+import Router from "next/router";
 
 import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
-
+import projectStatusMap from "../../../model/projectStatus";
 import { confirmProject } from "../../../api/projectApi";
 
-const statusMap = {
-  "-1": { name: "Cancelled", color: "red" },
-  "0": { name: "Pending", color: "" },
-  "1": { name: "Confirmed", color: "green" }
+const projectDetailPage = projectId => {
+  console.log(projectId)
+  Router.push(
+    {
+      pathname: "/back-office-project-detail",
+      query: { projectId }
+    },
+    "/back-office-project-detail"
+  );
 };
 
 const columns = [
@@ -31,13 +37,26 @@ const columns = [
     render: () => <ButtonDownload text="Download Excel" />
   },
   {
+    title: "Details",
+    dataIndex: "id",
+    key: "details",
+    render: projectId => {
+      return (
+        <img
+          src="./static/images/icon-info.svg"
+          onClick={() => projectDetailPage(projectId)}
+        />
+      );
+    }
+  },
+  {
     title: "Status",
     key: "status",
     dataIndex: "status",
-    render: (status) => (
+    render: status => (
       <span>
-        <Tag color={statusMap[status].color} key={status}>
-          {statusMap[status].name}
+        <Tag color={projectStatusMap[status].color} key={status}>
+          {projectStatusMap[status].name}
         </Tag>
       </span>
     )
