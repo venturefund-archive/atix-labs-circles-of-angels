@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Input, Icon, message } from 'antd';
 import Router from 'next/router';
-import { values, isEmpty } from 'lodash';
+import Link from 'next/link';
+import { some, values, isEmpty } from 'lodash';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -101,6 +102,11 @@ class CreateProject extends Component {
     }
   };
 
+  previuosStep = () => {
+    const { currentStep } = this.state;
+    this.setState({ currentStep: currentStep - 1 });
+  };
+
   nextStep = () => {
     const {
       currentStep,
@@ -112,16 +118,18 @@ class CreateProject extends Component {
     } = this.state;
     let allowContinue = true;
 
+    console.log(values(project));
+
     if (currentStep === 0) {
       if (
         !projectProposal ||
         !projectCoverPhoto ||
         !projectCardPhoto ||
-        projectProposal === {} ||
-        projectCoverPhoto === {} ||
-        projectCardPhoto === {} ||
+        isEmpty(projectProposal) ||
+        isEmpty(projectCoverPhoto) ||
+        isEmpty(projectCardPhoto) ||
         !project ||
-        project === {}
+        this.customIsEmpty(project)
       ) {
         allowContinue = false;
       }
@@ -213,7 +221,7 @@ class CreateProject extends Component {
           <DragUploadFile change={this.changeMilestones} />
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" />
+          <ButtonCancel text="Cancel" onClick={this.previuosStep} />
           <ButtonPrimary
             text="Create Milestones"
             onClick={this.submitProject}
@@ -235,7 +243,10 @@ class CreateProject extends Component {
           />
           <h1>Your Project has been created successfully!</h1>
           <h2>You can access to it from "My Projects"</h2>
-          <ButtonPrimary text="Got it" />
+
+          <Link href="/explore-projects">
+            <ButtonPrimary text="Got it" />
+          </Link>
         </div>
       </span>
     );
@@ -251,6 +262,23 @@ class CreateProject extends Component {
         return step1;
     }
   };
+
+  customIsEmpty(obj) {
+    let empty = false;
+
+    Object.values(obj).forEach(v => {
+      if (v === 0) {
+        empty = true;
+        return empty;
+      }
+      if (isEmpty(String(v))) {
+        empty = true;
+        return empty;
+      }
+    });
+
+    return empty;
+  }
 
   render() {
     return (

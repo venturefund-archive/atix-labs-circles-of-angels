@@ -3,7 +3,15 @@ import { Input, Icon } from 'antd';
 
 import './_style.scss';
 
-const project = {};
+const project = {
+  faqLink: '',
+  goalAmount: '',
+  location: '',
+  mission: '',
+  problemAddressed: '',
+  projectName: '',
+  timeframe: ''
+};
 const { TextArea } = Input;
 
 const WebFormProject = ({ change }) => {
@@ -12,6 +20,7 @@ const WebFormProject = ({ change }) => {
       <Input
         placeholder="Project Name"
         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.projectName}
         onChange={e => {
           project.projectName = e.target.value;
           change(project);
@@ -20,6 +29,7 @@ const WebFormProject = ({ change }) => {
       <TextArea
         placeholder="Project Mission"
         prefix={<Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.mission}
         onChange={e => {
           project.mission = e.target.value;
           change(project);
@@ -28,6 +38,7 @@ const WebFormProject = ({ change }) => {
       <TextArea
         placeholder="Problem Addressed"
         prefix={<Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.problemAddressed}
         onChange={e => {
           project.problemAddressed = e.target.value;
           change(project);
@@ -36,6 +47,7 @@ const WebFormProject = ({ change }) => {
       <Input
         placeholder="Enterprise Location"
         prefix={<Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.location}
         onChange={e => {
           project.location = e.target.value;
           change(project);
@@ -44,6 +56,7 @@ const WebFormProject = ({ change }) => {
       <Input
         placeholder="Timeframe"
         prefix={<Icon type="calendar" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.timeframe}
         onChange={e => {
           const { value } = e.target;
           project.timeframe = value;
@@ -54,6 +67,7 @@ const WebFormProject = ({ change }) => {
         placeholder="Goal Amount"
         type="number"
         prefix={<Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.goalAmount}
         onChange={e => {
           const { value } = e.target;
           project.goalAmount = Number(value);
@@ -63,6 +77,7 @@ const WebFormProject = ({ change }) => {
       <Input
         placeholder="FAQ Google Doc Link"
         prefix={<Icon type="google" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.faqLink}
         onChange={e => {
           project.faqLink = e.target.value;
           change(project);
