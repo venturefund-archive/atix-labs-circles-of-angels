@@ -10,18 +10,10 @@ import "./_style.scss";
 import "./_back-office-projects.scss";
 
 class BackOfficeProjects extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
-  }
-
-  async componentDidMount() {
-    const projects = await getProjects();
-    console.log(projects);
-    
-    this.setState({ projects: projects });
+  static async getInitialProps() {
+    const response = await getProjects();
+    console.log(response)
+    return { projects: response.data };
   }
 
   render() {
@@ -32,7 +24,7 @@ class BackOfficeProjects extends React.Component {
           <Header />
           <div className="TableContainer">
             <h1>Projects Administration</h1>
-            <TableBOProjects dataSource={this.state.projects} />
+            <TableBOProjects dataSource={this.props.projects} />
           </div>
         </div>
       </div>

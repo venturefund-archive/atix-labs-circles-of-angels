@@ -5,12 +5,7 @@ import Router from "next/router";
 import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
-
-const statusMap = {
-  "-1": { name: "Cancelled", color: "red" },
-  "0": { name: "Pending", color: "" },
-  "1": { name: "Confirmed", color: "green" }
-};
+import projectStatusMap from "../../../model/projectStatus";
 
 const projectDetailPage = projectId => {
   console.log(projectId)
@@ -59,8 +54,8 @@ const columns = [
     dataIndex: "status",
     render: status => (
       <span>
-        <Tag color={statusMap[status].color} key={status}>
-          {statusMap[status].name}
+        <Tag color={projectStatusMap[status].color} key={status}>
+          {projectStatusMap[status].name}
         </Tag>
       </span>
     )

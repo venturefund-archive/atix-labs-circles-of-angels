@@ -8,18 +8,12 @@ import "./_style.scss";
 import "./_explore-projects.scss";
 
 class ExploreProjects extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
+  static async getInitialProps(req) {
+    const response = await getProjects();
+    console.log(response)
+    return { projects: response.data };
   }
 
-  async componentDidMount() {
-    const projects = await getProjects();
-    console.log(projects);
-    this.setState({ projects: projects });
-  }
   render() {
     return (
       <div className="AppContainer">
@@ -29,7 +23,7 @@ class ExploreProjects extends React.Component {
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
-              {this.state.projects.map((project, i) => (
+              {this.props.projects.map((project, i) => (
                 <CardProject
                   enterpriceName={project.name}
                   enterpriceMission={project.mission}

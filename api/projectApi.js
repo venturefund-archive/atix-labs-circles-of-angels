@@ -1,23 +1,22 @@
 import api from "./api";
 
+const baseURL = "/project";
+
 const getProjects = async () => {
   try {
-    const response = await api.get(`/project/getProjects`);
-    let projects = response.data;
-    if (!projects) return [];
-    return projects;
+    const response = await api.get(`${baseURL}/getProjects`);
+    return response;
   } catch (error) {
-    return [];
+    return { error };
   }
 };
 
 const getProject = async projectId => {
   try {
-    const response = await api.get(`/project/${projectId}/getProject`);
-    let project = response ? response.data : {};
-    return project;
+    const response = await api.get(`${baseURL}/${projectId}/getProject`);
+    return response;
   } catch (error) {
-    return null;
+    return { error };
   }
 };
 
