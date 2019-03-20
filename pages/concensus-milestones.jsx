@@ -14,11 +14,9 @@ function callback(key) {
   console.log(key);
 }
 
-const project = { id: 5, projectName: "Eaters of Angels" }; //eliminar en la integracion de todas las pantallas
-
 class ConcensusMilestones extends React.Component {
   static async getInitialProps(query) {
-    //const { project } = query.query; descomentar en la integracion de todas las pantallas
+    const { project } = query.query;
     const response = await getProjectMilestones(project.id);
     console.log(response);
     return { milestones: response.data, project: project };
