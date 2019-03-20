@@ -13,15 +13,13 @@ class BackOfficeProjects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: []
+      projects: props.projects
     };
   }
 
-  async componentDidMount() {
-    const projects = await getProjects();
-    console.log(projects);
-    
-    this.setState({ projects: projects });
+  static async getInitialProps(query) {
+    const response = await getProjects();
+    return { projects: response.data };
   }
 
   render() {

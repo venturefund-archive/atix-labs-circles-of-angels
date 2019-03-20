@@ -5,6 +5,8 @@ import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
 
+import { confirmProject } from "../../../api/projectApi";
+
 const statusMap = {
   "-1": { name: "Cancelled", color: "red" },
   "0": { name: "Pending", color: "" },
@@ -32,7 +34,7 @@ const columns = [
     title: "Status",
     key: "status",
     dataIndex: "status",
-    render: status => (
+    render: (status) => (
       <span>
         <Tag color={statusMap[status].color} key={status}>
           {statusMap[status].name}
@@ -42,9 +44,14 @@ const columns = [
   },
   {
     title: "Actions",
-    dataIndex: "action",
+    dataIndex: "id",
     key: "action",
-    render: () => <ButtonPrimary text="confirm" />
+    render: (projectId, collection) => (
+      <ButtonPrimary
+        text="confirm"
+        onClick={async () => handleConfirm(projectId, collection)}
+      />
+    )
   }
 ];
 
@@ -56,5 +63,10 @@ const TableBOProjects = ({ dataSource }) => (
     className="TableBOProjects"
   />
 );
+
+const handleConfirm = async (projectId, collection) => {
+  const confirmation = await confirmProject(projectId);
+  collection.status = confirmation.data.status;
+};
 
 export default TableBOProjects;
