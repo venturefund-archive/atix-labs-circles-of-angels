@@ -1,8 +1,10 @@
-import React from "react";
-import { Modal } from "antd";
-import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
+import React from 'react';
+import Router from 'next/router';
+import { Modal } from 'antd';
+import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
+import { signAgreement } from '../../../api/userProjectApi';
 
-import "./_style.scss";
+import './_style.scss';
 
 class ConfirmPopUp extends React.Component {
   state = { visible: false };
@@ -13,11 +15,26 @@ class ConfirmPopUp extends React.Component {
     });
   };
 
-  handleOk = e => {
-    console.log(e);
+  handleOk = async e => {
+    const { userId, projectId } = this.props;
+    const response = await signAgreement(userId, projectId);
+
     this.setState({
       visible: false
     });
+
+    // reload page
+    if (!response.error) {
+      Router.push(
+        {
+          pathname: '/signatories',
+          query: { projectId }
+        },
+        '/signatories'
+      );
+    } else {
+      console.log(response.error);
+    }
   };
 
   handleCancel = e => {

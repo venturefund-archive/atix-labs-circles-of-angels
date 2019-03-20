@@ -7,7 +7,7 @@ const ProjectMission = ({ mission, terms }) => (
     <h1>Our Mission</h1>
     <p>{mission}</p>
     <hr className="Separator" />
-    <h1>Fund Terms</h1>
+    <h1>Problem Addressed</h1>
     <p>{terms}</p>
   </div>
 );

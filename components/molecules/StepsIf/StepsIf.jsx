@@ -2,17 +2,16 @@ import React from 'react';
 import { Steps } from 'antd';
 import './_style.scss';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
 const StepsIf = () => (
   <div className="StepsContainer">
     <Steps size="small" current={0}>
-      <Step />
-      <Step />
-      <Step />
+      <Step title="Consensus" />
+      <Step title="Signatories" />
+      <Step title="Transfer Funds" />
     </Steps>
   </div>
-
 );
 
 export default StepsIf;
