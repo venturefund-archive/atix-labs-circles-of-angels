@@ -6,6 +6,7 @@ import "./_style.scss";
 import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
 import ButtonDownload from "../../atoms/ButtonDownload/ButtonDownload";
 import projectStatusMap from "../../../model/projectStatus";
+import { confirmProject } from "../../../api/projectApi";
 
 const projectDetailPage = projectId => {
   console.log(projectId)
@@ -62,9 +63,14 @@ const columns = [
   },
   {
     title: "Actions",
-    dataIndex: "action",
+    dataIndex: "id",
     key: "action",
-    render: () => <ButtonPrimary text="confirm" />
+    render: (projectId, collection) => (
+      <ButtonPrimary
+        text="confirm"
+        onClick={async () => handleConfirm(projectId, collection)}
+      />
+    )
   }
 ];
 
@@ -76,5 +82,10 @@ const TableBOProjects = ({ dataSource }) => (
     className="TableBOProjects"
   />
 );
+
+const handleConfirm = async (projectId, collection) => {
+  const confirmation = await confirmProject(projectId);
+  collection.status = confirmation.data.status;
+};
 
 export default TableBOProjects;

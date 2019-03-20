@@ -10,8 +10,17 @@ import "./_explore-projects.scss";
 class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
     const response = await getProjects();
-    console.log(response)
     return { projects: response.data };
+  }
+
+  goToProjectDetail(projectId) {
+    Router.push(
+      {
+        pathname: "/project-detail",
+        query: { projectId }
+      },
+      "/project-detail"
+    );
   }
 
   render() {
@@ -32,15 +41,7 @@ class ExploreProjects extends React.Component {
                   timeframe={project.timeframe}
                   amount={project.goalAmount}
                   key={i}
-                  onClick={() => {
-                    Router.push(
-                      {
-                        pathname: "/project-detail",
-                        query: { projectId: project.id }
-                      },
-                      "/project-detail"
-                    );
-                  }}
+                  onClick={() => this.goToProjectDetail(project.id)}
                 />
               ))}
             </div>
