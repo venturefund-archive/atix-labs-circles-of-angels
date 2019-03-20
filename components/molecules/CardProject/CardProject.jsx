@@ -3,8 +3,8 @@ import InfoItem from "../../atoms/InfoItem/InfoItem.jsx";
 
 import "./_style.scss";
 
-const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, enterpriceLocation, timeframe, amount }) => (
-  <div className="CardProject">
+const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, enterpriceLocation, timeframe, amount, onClick }) => (
+  <div className="CardProject" onClick={onClick}>
     <div className="ProjectDescription">
         <img src={projectCardImage} alt="projectCardImage" />
         <div className="GradientEfect">

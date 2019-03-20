@@ -3,6 +3,7 @@ import Header from "../components/molecules/Header/Header.jsx";
 import SideBar from "../components/organisms/SideBar/SideBar.jsx";
 import CardProject from "../components/molecules/CardProject/CardProject.jsx";
 import { getProjects } from "../api/projectApi";
+import Router from "next/router";
 import "./_style.scss";
 import "./_explore-projects.scss";
 
@@ -10,6 +11,16 @@ class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
     const response = await getProjects();
     return { projects: response.data };
+  }
+
+  goToProjectDetail(projectId) {
+    Router.push(
+      {
+        pathname: "/project-detail",
+        query: { projectId }
+      },
+      "/project-detail"
+    );
   }
 
   render() {
@@ -30,6 +41,7 @@ class ExploreProjects extends React.Component {
                   timeframe={project.timeframe}
                   amount={project.goalAmount}
                   key={i}
+                  onClick={() => this.goToProjectDetail(project.id)}
                 />
               ))}
             </div>
