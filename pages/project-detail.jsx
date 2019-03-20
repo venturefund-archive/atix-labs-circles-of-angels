@@ -12,6 +12,7 @@ import ButtonSuccess from "../components/atoms/ButtonSuccess/ButtonSuccess.jsx";
 import { getProject } from "../api/projectApi";
 
 const projectId = 5; //delete when integrate with explore-projects page
+const imageBaseUrl = "./static/images";
 
 class ProjectDetail extends React.Component {
   static async getInitialProps(req) {
@@ -25,27 +26,27 @@ class ProjectDetail extends React.Component {
           {
             subtitle: "Enterprice Location",
             title: this.props.projectDetail.location,
-            iconItem: "./static/images/icon-place.svg"
+            iconItem: `${imageBaseUrl}/icon-place.svg`
           },
           {
             subtitle: "Timeframe",
             title: this.props.projectDetail.timeframe,
-            iconItem: "./static/images/icon-timeframe.svg"
+            iconItem: `.${imageBaseUrl}/icon-timeframe.svg`
           },
           {
             subtitle: "Amount",
             title: this.props.projectDetail.goalAmount,
-            iconItem: "./static/images/icon-amount.svg"
+            iconItem: `${imageBaseUrl}/icon-amount.svg`
           },
           {
             subtitle: "Name of Lead",
             title: this.props.projectDetail.leadName,
-            iconItem: "./static/images/icon-lead.svg"
+            iconItem: `${imageBaseUrl}/icon-lead.svg`
           },
           {
             subtitle: "Mail of Lead",
             title: this.props.projectDetail.leadMail,
-            iconItem: "./static/images/icon-mail.svg"
+            iconItem: `${imageBaseUrl}/icon-mail.svg`
           }
         ]
       : [];
