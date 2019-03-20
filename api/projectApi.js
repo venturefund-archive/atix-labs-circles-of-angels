@@ -11,4 +11,12 @@ const getProjects = async () => {
   }
 };
 
-export { getProjects };
+const getProject = async projectId => {
+  try {
+    const response = await api.get(`${baseURL}/${projectId}/getProject`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+export { getProjects, getProject };
