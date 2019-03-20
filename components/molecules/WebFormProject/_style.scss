@@ -1,0 +1,14 @@
+@import "../css/general_styling.scss";
+
+.WebFormProject {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .ant-input-affix-wrapper {
+    width: 30%;
+    margin-right: 1.5em;
+    margin-bottom: 1.5em;
+
+  }
+}
