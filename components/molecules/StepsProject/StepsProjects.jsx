@@ -2,7 +2,7 @@ import React from 'react';
 import { Steps } from 'antd';
 import './_style.scss';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
 const StepsProject = () => (
   <div className="StepsContainerProjects">
@@ -12,8 +12,6 @@ const StepsProject = () => (
       <Step title="Almost Ready" />
     </Steps>
   </div>
-
 );
 
 export default StepsProject;
-
