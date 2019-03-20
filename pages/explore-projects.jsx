@@ -20,6 +20,16 @@ class ExploreProjects extends React.Component {
     console.log(projects);
     this.setState({ projects: projects });
   }
+
+  goToProjectDetail(projectId) {
+    Router.push(
+      {
+        pathname: "/project-detail",
+        query: { projectId }
+      },
+      "/project-detail"
+    );
+  }
   render() {
     return (
       <div className="AppContainer">
@@ -38,15 +48,7 @@ class ExploreProjects extends React.Component {
                   timeframe={project.timeframe}
                   amount={project.goalAmount}
                   key={i}
-                  onClick={() => {
-                    Router.push(
-                      {
-                        pathname: "/project-detail",
-                        query: { projectId: project.id }
-                      },
-                      "/project-detail"
-                    );
-                  }}
+                  onClick={() => this.goToProjectDetail(project.id)}
                 />
               ))}
             </div>

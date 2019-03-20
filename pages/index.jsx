@@ -5,7 +5,7 @@ import "./_style.scss";
 
 const Index = () => (
   <div className="AppContainer">
-    <ExploreProjects></ExploreProjects>
+    <ExploreProjects />
   </div>
 );
 
