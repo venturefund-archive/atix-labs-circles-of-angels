@@ -3,43 +3,13 @@ import { Table } from "antd";
 
 import "./_style.scss";
 
-const dataSource = [{
-  key: '1',
-  timeline: 'Quarter 1',
-  milestone: 'Milestone 1',
-  tasks: 'Operations: Expand marketing capacity in Cambodia (or Thailand)',
-  targets: 'Increased capacity of outreach to students and process contracts',
-  ReviewOne: 'Contract signed and person start working with us',
-  success: 'New team member joins the team',
-  ReviewTwo: 'Contract signed with new team member',
-  Expediture:'Salary',
-  Responsible: 'COO, CEO, Investment in Education (IE) Manager',
-  Budget: ''
-}, {
-  key: '2',
-  timeline: 'Quarter 1',
-  milestone: 'Milestone 1',
-  tasks: 'Operations: Expand marketing capacity in Cambodia (or Thailand)',
-  targets: 'Increased capacity of outreach to students and process contracts',
-  ReviewOne: 'Contract signed and person start working with us',
-  success: 'New team member joins the team',
-  ReviewTwo: 'Contract signed with new team member',
-  Expediture:'Salary',
-  Responsible: 'COO, CEO, Investment in Education (IE) Manager',
-  Budget: ''
-}];
-
-const TableMilestones = () => {
+const TableMilestones = ({ dataSource }) => {
+  console.log(dataSource)
   const columns = [
     {
       title: "Timeline",
-      dataIndex: "timeline",
+      dataIndex: "quarter",
       key: "timeline"
-    },
-    {
-      title: "Milestone",
-      dataIndex: "milestone",
-      key: "milestone"
     },
     {
       title: "Tasks",
@@ -48,38 +18,38 @@ const TableMilestones = () => {
     },
     {
       title: "Expected Changes/ Social Impact Targets",
-      dataIndex: "targets",
+      dataIndex: "impact",
       key: "targets"
     },
     {
       title: "Review Criterion",
-      dataIndex: "ReviewOne",
+      dataIndex: "impactCriterion",
       key: "ReviewOne"
     },
     {
       title: "Signs of Success",
       key: "success",
-      dataIndex: "success"
+      dataIndex: "signsOfSuccess"
     },
     {
       title: "Review Criterion ",
       key: "ReviewTwo",
-      dataIndex: "ReviewTwo"
+      dataIndex: "signsOfSuccessCriterion"
     },
     {
       title: "Expenditure Category",
-      key: "action",
-      dataIndex: "Expediture"
+      key: "expenditureCategory",
+      dataIndex: "category"
     },
     {
       title: "Key Personnel Responsible",
-      key: "action",
-      dataIndex: "Responsible"
+      key: "keyPersonnel",
+      dataIndex: "keyPersonnel"
     },
     {
       title: "Budget needed",
-      key: "action",
-      dataIndex: "Budget"
+      key: "budget",
+      dataIndex: "budget"
     }
   ];
 
