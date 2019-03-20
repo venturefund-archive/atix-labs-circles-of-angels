@@ -30,4 +30,13 @@ const confirmProject = async projectId => {
     return { error };
   }
 };
-export { getProjects, getProject, confirmProject };
+
+const getProjectMilestones = async projectId => {
+  try {
+    const response = await api.get(`${baseURL}/${projectId}/getMilestones`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+export { getProjects, getProject, confirmProject, getProjectMilestones };

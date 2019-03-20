@@ -1,10 +1,10 @@
 import React from 'react';
 import './_style.scss';
 
-const UserLabel = ({ text }) => (
+const UserLabel = ({ userName, userRole }) => (
   <div className="UserLabel">
-    <h4>{text}</h4>
-    <p>{text}</p>
+    <h4>{userName}</h4>
+    <p>{userRole}</p>
   </div>
 );
 
