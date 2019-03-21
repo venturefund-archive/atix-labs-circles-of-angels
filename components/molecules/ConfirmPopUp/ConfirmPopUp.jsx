@@ -15,7 +15,7 @@ class ConfirmPopUp extends React.Component {
     });
   };
 
-  handleOk = async e => {
+  handleOk = async () => {
     const { userId, projectId } = this.props;
     const response = await signAgreement(userId, projectId);
 
@@ -37,20 +37,20 @@ class ConfirmPopUp extends React.Component {
     }
   };
 
-  handleCancel = e => {
-    console.log(e);
+  handleCancel = () => {
     this.setState({
       visible: false
     });
   };
 
   render() {
+    const { visible } = this.state;
     return (
       <div>
         <ButtonPrimary text="Sign" onClick={this.showModal} />
         <Modal
           title="Confirmation"
-          visible={this.state.visible}
+          visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           okText="accept"
