@@ -1,5 +1,7 @@
 import api from './api';
 
+const baseURL = '/project';
+
 const createProject = async (project, files) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
@@ -13,15 +15,13 @@ const createProject = async (project, files) => {
 
     console.log('Sending information', fd);
 
-    const response = await api.post('/project/create', fd, config);
+    const response = await api.post(`${baseURL}/create`, fd, config);
 
     return response;
   } catch (error) {
     return { error };
   }
 };
-
-const baseURL = "/project";
 
 const getProjects = async () => {
   try {
@@ -52,7 +52,6 @@ const uploadProject = async files => {
     return { error };
   }
 };
-
 
 const getProject = async projectId => {
   try {

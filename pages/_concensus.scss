@@ -25,6 +25,14 @@
       flex-wrap: wrap;
       justify-content: space-between;
     }
+
+    .ControlSteps {
+      margin-top: 1.5em;
+      border-top: 1px solid $light-grey;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.5em 0;
+    }
 }
 
 .ant-tabs-bar{

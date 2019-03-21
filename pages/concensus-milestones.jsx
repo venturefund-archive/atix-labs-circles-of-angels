@@ -22,9 +22,9 @@ function callback(key) {
 
 class ConcensusMilestones extends React.Component {
   static async getInitialProps(query) {
-    const { project } = query.query;
+    const { projectJSON } = query.query;
+    const project = JSON.parse(projectJSON);
     const response = await getProjectMilestones(project.id);
-    console.log(response);
     return { milestones: response.data, project };
   }
 
@@ -66,7 +66,7 @@ class ConcensusMilestones extends React.Component {
           <Header />
           <StepsIf />
           <div className="SignatoriesContainer">
-            <h1>Concensus</h1>
+            <h1>Consensus</h1>
             <h3 className="StepDescription">
               Collaborate with the definition of milestones, share your
               experiences, talk to project owner and other funders, download the
@@ -100,6 +100,16 @@ class ConcensusMilestones extends React.Component {
                   Content of Tab Pane 3
                 </TabPane>
               </Tabs>
+            </div>
+            <div className="ControlSteps">
+              <Link
+                href={{
+                  pathname: '/signatories',
+                  query: { projectId: project.id }
+                }}
+              >
+                <ButtonPrimary text="Continue" />
+              </Link>
             </div>
           </div>
         </div>
