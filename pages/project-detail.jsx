@@ -23,8 +23,6 @@ class ProjectDetail extends React.Component {
 
   render() {
     const { projectDetail } = this.props;
-
-    console.log(projectDetail);
     const itemsData = projectDetail
       ? [
           {
