@@ -6,7 +6,7 @@ import './_style.scss';
 import './_concensus.scss';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers } from '../api/userProjectApi';
-import signStatusMap from '../model/signStatus';
+import signStatusMap from '../model/signStatusMap';
 
 class SignatoriesIf extends Component {
   static async getInitialProps(query) {
