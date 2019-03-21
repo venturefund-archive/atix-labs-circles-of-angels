@@ -3,12 +3,15 @@ import { Upload, message, Button, Icon } from 'antd';
 import './_style.scss';
 
 const ButtonUploadFile = ({ change, name, text }) => {
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
+
   const props = {
     name,
-    action: '//jsonplaceholder.typicode.com/posts/',
-    headers: {
-      authorization: 'authorization-text'
-    },
+    customRequest: dummyRequest,
     onChange: change
   };
 

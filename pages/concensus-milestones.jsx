@@ -1,5 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import { Tabs, message } from 'antd';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary'
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
@@ -43,14 +45,13 @@ class ConcensusMilestones extends React.Component {
       console.log(info.file, info.fileList);
     }
     if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-
       const response = await uploadAgreement(
         project.id,
         projectAgreement.originFileObj
       );
 
       console.log(response);
+      message.success(`${info.file.name} file uploaded successfully`);
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
@@ -80,16 +81,9 @@ class ConcensusMilestones extends React.Component {
                 </TabPane>
                 <TabPane tab="Collaboration" key="2">
                   <div>
-                    <DownloadAgreement
-                      subtitle="Project's Agreement File"
-                      text="Lorem ipsum text description"
-                      click={this.handleClick}
-                    />
-                  </div>
-                  <div>
+                    <h2>Project's Agreement File</h2>
+                    <DownloadAgreement click={this.handleClick} />
                     <UploadFile
-                      subtitle="Project's Agreement File"
-                      text="Lorem ipsum text description"
                       name="projectAgreement"
                       change={this.changeProjectAgreement}
                       buttonText="Upload Project Agreement File"
