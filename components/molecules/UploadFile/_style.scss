@@ -1,0 +1,21 @@
+@import "../../../css/general_styling.scss";
+
+.UploadFileContainer {
+  width: 30%;
+  display: flex;
+  flex-flow: column;
+  margin-right: 1.5em;
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+    margin-bottom: 0.25em;
+  }
+  p {
+    @include primary-text($body, $secondary-color, 300);
+    margin-bottom: 1em;
+  }
+}
+
+.UploadFileContainer:nth-child(2) {
+  padding-right: 1.5em;
+}

@@ -104,11 +104,31 @@ const downloadAgreement = async projectId => {
   }
 };
 
+const uploadAgreement = async (projectId, agreementFile) => {
+  try {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    const fd = new FormData();
+    fd.append('projectAgreement', agreementFile);
+
+    const response = await api.post(
+      `${baseURL}/${projectId}/uploadAgreement`,
+      fd,
+      config
+    );
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   getProjects,
   getProject,
   confirmProject,
   getProjectMilestones,
   createProject,
-  downloadAgreement
+  downloadAgreement,
+  uploadAgreement
 };

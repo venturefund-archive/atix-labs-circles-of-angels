@@ -1,13 +1,18 @@
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, message } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import DownloadAgreement from '../components/molecules/DownloadAgreement';
+import UploadFile from '../components/molecules/UploadFile/UploadFile';
+import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
 import './_style.scss';
 import './_concensus.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
-import { getProjectMilestones, downloadAgreement } from '../api/projectApi';
+import {
+  getProjectMilestones,
+  downloadAgreement,
+  uploadAgreement
+} from '../api/projectApi';
 
 const { TabPane } = Tabs;
 
@@ -28,6 +33,27 @@ class ConcensusMilestones extends React.Component {
 
     const response = await downloadAgreement(project.id);
     console.log(response);
+  };
+
+  changeProjectAgreement = async info => {
+    const { project } = this.props;
+    const { status } = info.file;
+    const projectAgreement = info.file;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+
+      const response = await uploadAgreement(
+        project.id,
+        projectAgreement.originFileObj
+      );
+
+      console.log(response);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
   };
 
   render() {
@@ -58,6 +84,15 @@ class ConcensusMilestones extends React.Component {
                       subtitle="Project's Agreement File"
                       text="Lorem ipsum text description"
                       click={this.handleClick}
+                    />
+                  </div>
+                  <div>
+                    <UploadFile
+                      subtitle="Project's Agreement File"
+                      text="Lorem ipsum text description"
+                      name="projectAgreement"
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Project Agreement File"
                     />
                   </div>
                 </TabPane>
