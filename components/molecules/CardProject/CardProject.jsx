@@ -1,9 +1,17 @@
-import React from "react";
-import InfoItem from "../../atoms/InfoItem/InfoItem.jsx";
+import React from 'react';
+import InfoItem from '../../atoms/InfoItem/InfoItem';
 
-import "./_style.scss";
+import './_style.scss';
 
-const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, enterpriceLocation, timeframe, amount, onClick }) => (
+const CardProject = ({
+  enterpriceName,
+  enterpriceMission,
+  projectCardImage,
+  enterpriceLocation,
+  timeframe,
+  amount,
+  onClick
+}) => (
   <div className="CardProject" onClick={onClick}>
     <div className="ProjectDescription">
         <img src={projectCardImage} alt="projectCardImage" />
@@ -16,7 +24,7 @@ const CardProject = ({ enterpriceName, enterpriceMission, projectCardImage, ente
     </div>
     <div className="ProjectSummery">
       <InfoItem
-        subtitle="Enterprice Location"
+        subtitle="Enterprise Location"
         title={enterpriceLocation}
         iconInfoItem="./static/images/icon-place.svg"
       />
