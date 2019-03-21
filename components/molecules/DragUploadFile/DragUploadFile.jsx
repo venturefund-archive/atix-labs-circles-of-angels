@@ -6,10 +6,16 @@ import './_style.scss';
 const { Dragger } = Upload;
 
 const DragUploadFile = ({ change }) => {
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
+
   const props = {
     name: 'file',
-    multiple: true,
-    action: '//jsonplaceholder.typicode.com/posts/',
+    multiple: false,
+    customRequest: dummyRequest,
     onChange: change
   };
   return (
