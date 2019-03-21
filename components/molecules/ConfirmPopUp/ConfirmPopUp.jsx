@@ -25,13 +25,10 @@ class ConfirmPopUp extends React.Component {
 
     // reload page
     if (!response.error) {
-      Router.push(
-        {
-          pathname: '/signatories',
-          query: { projectId }
-        },
-        '/signatories'
-      );
+      Router.push({
+        pathname: '/signatories',
+        query: { projectId }
+      });
     } else {
       console.log(response.error);
     }
