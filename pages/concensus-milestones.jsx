@@ -1,14 +1,16 @@
-import React from "react";
-import { Tabs } from "antd";
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import StepsIf from "../components/molecules/StepsIf/StepsIf.jsx";
-import "./_style.scss";
-import "./_concensus.scss";
-import TableMilestones from "../components/organisms/TableMilestones/TableMilestones.jsx";
-import { getProjectMilestones } from "../api/projectApi";
+import React from 'react';
+import Link from 'next/link';
+import { Tabs } from 'antd';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import StepsIf from '../components/molecules/StepsIf/StepsIf';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import './_style.scss';
+import './_concensus.scss';
+import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
+import { getProjectMilestones } from '../api/projectApi';
 
-const TabPane = Tabs.TabPane;
+const { TabPane } = Tabs;
 
 function callback(key) {
   console.log(key);
@@ -16,12 +18,14 @@ function callback(key) {
 
 class ConcensusMilestones extends React.Component {
   static async getInitialProps(query) {
-    const { project } = query.query;
+    const { projectJSON } = query.query;
+    const project = JSON.parse(projectJSON);
     const response = await getProjectMilestones(project.id);
-    console.log(response);
-    return { milestones: response.data, project: project };
+    return { milestones: response.data, project };
   }
+
   render() {
+    const { project, milestones } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -29,18 +33,17 @@ class ConcensusMilestones extends React.Component {
           <Header />
           <StepsIf />
           <div className="SignatoriesContainer">
-            <h1>Concensus</h1>
+            <h1>Consensus</h1>
             <h3 className="StepDescription">
               Collaborate with the definition of milestones, share your
               experiences, talk to project owner and other funders, download the
               latest agreements
             </h3>
-            <h2>{this.props.project.projectName}</h2>
+            <h2>{project.projectName}</h2>
             <div className="SignatoryList">
-              
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Milestones" key="1">
-                  <TableMilestones dataSource={this.props.milestones} />
+                  <TableMilestones dataSource={milestones} />
                 </TabPane>
                 <TabPane tab="Collaboration" key="2">
                   Content of Tab Pane 2
@@ -49,6 +52,16 @@ class ConcensusMilestones extends React.Component {
                   Content of Tab Pane 3
                 </TabPane>
               </Tabs>
+            </div>
+            <div className="ControlSteps">
+              <Link
+                href={{
+                  pathname: '/signatories',
+                  query: { projectId: project.id }
+                }}
+              >
+                <ButtonPrimary text="Continue" />
+              </Link>
             </div>
           </div>
         </div>

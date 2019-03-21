@@ -1,11 +1,11 @@
-import React from "react";
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import CardProject from "../components/molecules/CardProject/CardProject.jsx";
-import { getProjects } from "../api/projectApi";
-import Router from "next/router";
-import "./_style.scss";
-import "./_explore-projects.scss";
+import React from 'react';
+import Router from 'next/router';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import CardProject from '../components/molecules/CardProject/CardProject';
+import { getProjects } from '../api/projectApi';
+import './_style.scss';
+import './_explore-projects.scss';
 
 class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
@@ -16,14 +16,15 @@ class ExploreProjects extends React.Component {
   goToProjectDetail(projectId) {
     Router.push(
       {
-        pathname: "/project-detail",
+        pathname: '/project-detail',
         query: { projectId }
       },
-      "/project-detail"
+      '/project-detail'
     );
   }
 
   render() {
+    const { projects } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -32,7 +33,7 @@ class ExploreProjects extends React.Component {
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
-              {this.props.projects.map((project, i) => (
+              {projects.map(project => (
                 <CardProject
                   enterpriceName={project.name}
                   enterpriceMission={project.mission}
@@ -40,7 +41,7 @@ class ExploreProjects extends React.Component {
                   enterpriceLocation={project.location}
                   timeframe={project.timeframe}
                   amount={project.goalAmount}
-                  key={i}
+                  key={project.id}
                   onClick={() => this.goToProjectDetail(project.id)}
                 />
               ))}

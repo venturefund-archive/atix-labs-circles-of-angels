@@ -1,17 +1,18 @@
-import React from "react";
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
+import React from 'react';
+import Link from 'next/link';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
 
-import "./_style.scss";
-import "./_project-detail.scss";
+import './_style.scss';
+import './_project-detail.scss';
 
-import ProjectMission from "../components/molecules/ProjectMission/ProjectMission.jsx";
-import GeneralItem from "../components/atoms/GeneralItem/GeneralItem.jsx";
-import ButtonSuccess from "../components/atoms/ButtonSuccess/ButtonSuccess.jsx";
+import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
+import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
+import ButtonSuccess from '../components/atoms/ButtonSuccess/ButtonSuccess';
 
-import { getProject } from "../api/projectApi";
+import { getProject } from '../api/projectApi';
 
-const imageBaseUrl = "./static/images";
+const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
   static async getInitialProps(query) {
@@ -21,31 +22,34 @@ class ProjectDetail extends React.Component {
   }
 
   render() {
-    const itemsData = this.props.projectDetail
+    const { projectDetail } = this.props;
+
+    console.log(projectDetail);
+    const itemsData = projectDetail
       ? [
           {
-            subtitle: "Enterprice Location",
-            title: this.props.projectDetail.location,
+            subtitle: 'Enterprise Location',
+            title: projectDetail.location,
             iconItem: `${imageBaseUrl}/icon-place.svg`
           },
           {
-            subtitle: "Timeframe",
-            title: this.props.projectDetail.timeframe,
+            subtitle: 'Timeframe',
+            title: projectDetail.timeframe,
             iconItem: `.${imageBaseUrl}/icon-timeframe.svg`
           },
           {
-            subtitle: "Amount",
-            title: this.props.projectDetail.goalAmount,
+            subtitle: 'Amount',
+            title: projectDetail.goalAmount,
             iconItem: `${imageBaseUrl}/icon-amount.svg`
           },
           {
-            subtitle: "Name of Lead",
-            title: this.props.projectDetail.leadName,
+            subtitle: 'Name of Lead',
+            title: projectDetail.ownerName,
             iconItem: `${imageBaseUrl}/icon-lead.svg`
           },
           {
-            subtitle: "Mail of Lead",
-            title: this.props.projectDetail.leadMail,
+            subtitle: 'Mail of Lead',
+            title: projectDetail.ownerEmail,
             iconItem: `${imageBaseUrl}/icon-mail.svg`
           }
         ]
@@ -58,32 +62,18 @@ class ProjectDetail extends React.Component {
           <div className="ProjectContainer">
             <div className="ProjectHeader">
               <img
-                src={
-                  this.props.projectDetail
-                    ? this.props.projectDetail.coverPhoto
-                    : ""
-                }
+                src={projectDetail ? projectDetail.coverPhoto : ''}
                 alt="projectCoverImage"
               />
               <div className="ProjectEnterprice">
-                <p>Entreprice</p>
-                <h1>
-                  {this.props.projectDetail
-                    ? this.props.projectDetail.entrepriceName
-                    : ""}
-                </h1>
+                <p>Entreprise</p>
+                <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
             </div>
             <div className="ProjectContent">
               <ProjectMission
-                mission={
-                  this.props.projectDetail
-                    ? this.props.projectDetail.mission
-                    : ""
-                }
-                terms={
-                  this.props.projectDetail ? this.props.projectDetail.terms : ""
-                }
+                mission={projectDetail ? projectDetail.mission : ''}
+                terms={projectDetail ? projectDetail.problemAddressed : ''}
               />
               <div className="ProjectGeneralData">
                 <h1>Generals</h1>
@@ -99,7 +89,15 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <ButtonSuccess text="Go to project" />
+            <Link
+              href={{
+                pathname: '/concensus-milestones',
+                query: { projectJSON: JSON.stringify(projectDetail) }
+              }}
+              as="/concensus-milestones"
+            >
+              <ButtonSuccess text="Go to project" />
+            </Link>
           </div>
         </div>
       </div>
