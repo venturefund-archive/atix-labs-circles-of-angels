@@ -81,10 +81,31 @@ const getProjectMilestones = async projectId => {
     return { error };
   }
 };
+
+const downloadProjectMilestonesFile = async projectId => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/${projectId}/getMilestonesFile`,
+      config
+    );
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'projectMilestones.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   getProjects,
   getProject,
   confirmProject,
   getProjectMilestones,
-  createProject
+  createProject,
+  downloadProjectMilestonesFile
 };
