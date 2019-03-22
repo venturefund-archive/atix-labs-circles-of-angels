@@ -4,6 +4,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getProjects } from '../api/projectApi';
+import { UserProvider } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
 
@@ -30,6 +31,7 @@ class ExploreProjects extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
+
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
