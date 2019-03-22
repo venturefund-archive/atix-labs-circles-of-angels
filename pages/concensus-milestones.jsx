@@ -1,12 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { Tabs, message } from 'antd';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary'
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import UploadFile from '../components/molecules/UploadFile/UploadFile';
 import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
+import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
@@ -41,10 +42,10 @@ class ConcensusMilestones extends React.Component {
     const { project } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
-    if (status !== 'uploading') {
+    if (status !== FileUploadStatus.UPLOADING) {
       console.log(info.file, info.fileList);
     }
-    if (status === 'done') {
+    if (status === FileUploadStatus.DONE) {
       const response = await uploadAgreement(
         project.id,
         projectAgreement.originFileObj
@@ -52,7 +53,7 @@ class ConcensusMilestones extends React.Component {
 
       console.log(response);
       message.success(`${info.file.name} file uploaded successfully`);
-    } else if (status === 'error') {
+    } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
