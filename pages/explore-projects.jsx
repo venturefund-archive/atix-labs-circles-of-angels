@@ -33,7 +33,7 @@ class ExploreProjects extends React.Component {
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
-              {projects.map((project, i) => (
+              {projects.map(project => (
                 <CardProject
                   enterpriceName={project.name}
                   enterpriceMission={project.mission}
