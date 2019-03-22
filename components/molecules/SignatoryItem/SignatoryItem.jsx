@@ -23,7 +23,7 @@ const SignatoryItem = ({
         <Avatar style={{ color: '#0083E3', backgroundColor: '#95d2ff' }}>
           {nameInitials}
         </Avatar>
-        <UserLabel text={username} />
+        <UserLabel userName={username} />
       </div>
       <div className="SignatoryStatus">
         {signStatus === SignStatus.UNSIGNED ? (
