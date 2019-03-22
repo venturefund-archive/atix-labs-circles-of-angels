@@ -4,6 +4,7 @@ import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SignatureLabel from '../../atoms/SignatureLabel/SignatureLabel';
 import './_style.scss';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
+import SignStatus from '../../../constants/SignStatus';
 
 const SignatoryItem = ({
   tfStatusName,
@@ -22,10 +23,10 @@ const SignatoryItem = ({
         <Avatar style={{ color: '#0083E3', backgroundColor: '#95d2ff' }}>
           {nameInitials}
         </Avatar>
-        <UserLabel text={username} />
+        <UserLabel userName={username} />
       </div>
       <div className="SignatoryStatus">
-        {signStatus === 0 ? (
+        {signStatus === SignStatus.UNSIGNED ? (
           <ConfirmPopUp userId={userId} projectId={projectId} />
         ) : (
           <SignatureLabel

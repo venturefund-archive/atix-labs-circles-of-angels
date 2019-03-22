@@ -6,23 +6,7 @@ import './_style.scss';
 import './_concensus.scss';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers } from '../api/userProjectApi';
-
-const signatories = [
-  {
-    username: 'Juan Perez',
-    show: 'Signed Agreement',
-    icon: '/static/images/icon-check.svg',
-    name: 'success',
-    namesinitials: 'JP'
-  },
-  {
-    username: 'Antonella Troiano',
-    show: 'Signed Agreement',
-    icon: '/static/images/icon-check.svg',
-    name: 'success',
-    namesinitials: 'AT'
-  }
-];
+import signStatusMap from '../model/signStatusMap';
 
 class SignatoriesIf extends Component {
   static async getInitialProps(query) {
@@ -46,14 +30,14 @@ class SignatoriesIf extends Component {
               Sign your agreement and pledge to help this project come to true
             </p>
             <div className="SignatoryList">
-              {userProjects.map((userProject, i) => (
+              {userProjects.map(userProject => (
                 <SignatoryItem
                   key={userProject.id}
                   userId={userProject.user.id}
                   username={userProject.user.username}
-                  tfStatusShow="Signed Agreement"
-                  tfStatusIcon="/static/images/icon-check.svg"
-                  tfStatusName="success"
+                  tfStatusShow={signStatusMap[userProject.status].show}
+                  tfStatusIcon={signStatusMap[userProject.status].icon}
+                  tfStatusName={signStatusMap[userProject.status].name}
                   nameInitials={userProject.user.username
                     .charAt(0)
                     .toUpperCase()}
