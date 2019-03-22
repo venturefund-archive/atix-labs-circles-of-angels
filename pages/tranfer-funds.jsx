@@ -33,7 +33,7 @@ class TransferFunds extends React.Component {
       amount: this.state.amount,
       currency: "usd",
       senderId: this.userId ? this.userId : 1,
-      projectId: 1,
+      projectId: 6,
       destinationAccount: "asdf1234qwer5678"
     };
     const result = await sendTransferInformation(toSubmit);
