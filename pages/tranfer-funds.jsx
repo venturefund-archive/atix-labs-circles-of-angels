@@ -52,7 +52,7 @@ class TransferFunds extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
+          <StepsIf stepNumber={2} />
           <div className="TransferContainer">
             <h1>Transfer Funds</h1>
             <div className="TransferContent">
