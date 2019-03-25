@@ -11,8 +11,8 @@ const loginUser = async ({ userName, password }) => {
     // return response.data;
     return {
       data: {
-        id: 1,
-        username: 'Mariano Maidana'
+        id: 2,
+        username: 'Pepe Maidana'
       }
     };
   } catch (error) {

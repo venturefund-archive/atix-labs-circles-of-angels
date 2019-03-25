@@ -1,20 +1,21 @@
 import React from 'react';
+import Router from 'next/router';
 
 const UserContext = React.createContext('user');
-const userKey= 'user';
+const userKey = 'user';
 
 export const withUser = ComponentToWrap => {
   return class UserComponent extends React.Component {
     static contextType = UserContext;
 
     render() {
-      const { user, changeUser } = this.context;
+      const { user, changeUser, removeUser } = this.context;
       return (
-        <ComponentToWrap {...this.props} user={user} changeUser={changeUser} />
+        <ComponentToWrap {...this.props} user={user} changeUser={changeUser} removeUser={removeUser} />
       );
     }
   };
-}
+};
 
 export class UserProvider extends React.Component {
   constructor(props) {
@@ -22,15 +23,14 @@ export class UserProvider extends React.Component {
     this.state = {
       user: {}
     };
-    console.log("me construyo!")
+    console.log('me construyo!');
   }
 
   componentDidMount() {
     try {
-      this.user = JSON.parse(localStorage.getItem(userKey));
-    } catch (error) {
-      this.user = {};
-    }
+      const user = JSON.parse(localStorage.getItem(userKey));
+      this.setState({ user });
+    } catch (error) {}
   }
 
   changeUser = user => {
@@ -38,10 +38,15 @@ export class UserProvider extends React.Component {
     localStorage.setItem(userKey, JSON.stringify(user));
   };
 
+  removeUser = () => {
+    this.setState({user: {}});
+    localStorage.setItem(userKey, null);
+  }
+
   render() {
     return (
       <UserContext.Provider
-        value={{ user: this.state.user, changeUser: this.changeUser }}
+        value={{ user: this.state.user, changeUser: this.changeUser, removeUser: this.removeUser }}
       >
         {this.props.children}
       </UserContext.Provider>
