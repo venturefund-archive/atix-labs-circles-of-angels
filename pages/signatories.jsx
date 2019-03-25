@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import './_style.scss';
 import './_concensus.scss';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
@@ -56,6 +59,12 @@ class SignatoriesIf extends Component {
                   />
                 );
               })}
+            </div>
+            <div className="ControlSteps">
+              <ButtonCancel text="Cancel" />
+              <Link href="tranfer-funds">
+                <ButtonPrimary text="Continue" />
+              </Link>
             </div>
           </div>
         </div>
