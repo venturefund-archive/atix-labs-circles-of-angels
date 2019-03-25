@@ -57,7 +57,6 @@ class ConfirmPopUp extends React.Component {
           <img src="/static/images/icon-modal.svg" />
           <h1> Sign Agreement</h1>
           <h2>Are you sure you want to sign this agreement?</h2>
-          {/* <p className="ProjectDetail">Project Name / Date / Time</p> */}
         </Modal>
       </div>
     );
