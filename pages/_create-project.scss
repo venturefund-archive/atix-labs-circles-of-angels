@@ -1,8 +1,8 @@
 @import "../css/general_styling.scss";
 
 .CreateProjectContainer {
-  margin-top: 50px;
   padding: 0 1.5em;
+  height: 100vh;
 
   h1 {
     @include primary-text($h1, $black, 400);
