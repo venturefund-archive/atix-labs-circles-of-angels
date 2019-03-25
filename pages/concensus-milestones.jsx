@@ -1,14 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
-import { Tabs } from 'antd';
+import { Tabs, message } from 'antd';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import UploadFile from '../components/molecules/UploadFile/UploadFile';
+import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
+import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
-import { getProjectMilestones, downloadProposal } from '../api/projectApi';
+import {
+  getProjectMilestones,
+  downloadAgreement,
+  downloadProposal,
+  uploadAgreement
+} from '../api/projectApi';
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 
 const { TabPane } = Tabs;
@@ -25,6 +33,33 @@ class ConcensusMilestones extends React.Component {
     return { milestones: response.data, project };
   }
 
+  handleClick = async () => {
+    const { project } = this.props;
+
+    const response = await downloadAgreement(project.id);
+    console.log(response);
+  };
+
+  changeProjectAgreement = async info => {
+    const { project } = this.props;
+    const { status } = info.file;
+    const projectAgreement = info.file;
+    if (status !== FileUploadStatus.UPLOADING) {
+      console.log(info.file, info.fileList);
+    }
+    if (status === FileUploadStatus.DONE) {
+      const response = await uploadAgreement(
+        project.id,
+        projectAgreement.originFileObj
+      );
+
+      console.log(response);
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (status === FileUploadStatus.ERROR) {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
   clickDownloadProposal = async () => {
     const { project } = this.props;
     const res = await downloadProposal(project.id);
@@ -33,6 +68,7 @@ class ConcensusMilestones extends React.Component {
 
   render() {
     const { project, milestones } = this.props;
+
     return (
       <div className="AppContainer">
         <SideBar />
@@ -53,7 +89,15 @@ class ConcensusMilestones extends React.Component {
                   <TableMilestones dataSource={milestones} />
                 </TabPane>
                 <TabPane tab="Collaboration" key="2">
-                  Content of Tab Pane 2
+                  <div>
+                    <h2>Project's Agreement File</h2>
+                    <DownloadAgreement click={this.handleClick} />
+                    <UploadFile
+                      name="projectAgreement"
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Project Agreement File"
+                    />
+                  </div>
                 </TabPane>
                 <TabPane tab="FAQ & Project Proposal" key="3">
                   <div>
