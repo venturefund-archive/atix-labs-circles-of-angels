@@ -4,9 +4,9 @@ import './_style.scss';
 
 const { Step } = Steps;
 
-const StepsProject = () => (
+const StepsProject = ({ stepNumber }) => (
   <div className="StepsContainerProjects">
-    <Steps current={0}>
+    <Steps current={stepNumber}>
       <Step title="Project Detail" />
       <Step title="Project Milestones" />
       <Step title="Almost Ready" />
