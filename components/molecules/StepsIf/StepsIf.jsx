@@ -4,9 +4,9 @@ import './_style.scss';
 
 const { Step } = Steps;
 
-const StepsIf = () => (
+const StepsIf = ({ stepNumber }) => (
   <div className="StepsContainer">
-    <Steps size="small" current={0}>
+    <Steps size="small" current={stepNumber}>
       <Step title="Consensus" />
       <Step title="Signatories" />
       <Step title="Transfer Funds" />
