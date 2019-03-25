@@ -6,6 +6,7 @@ import SettingsMenu from '../../atoms/SettingsMenu/SettingsMenu.jsx';
 import './_style.scss';
 
 const getInitials = fullName => {
+  if (!fullName) return;
   var initials = fullName.match(/\b\w/g) || [];
   initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
   return initials;

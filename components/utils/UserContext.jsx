@@ -1,22 +1,44 @@
 import React from 'react';
 
-const UserContext = React.createContext('user');
+const UserContext = React.createContext();
+const userKey = 'user';
 
-class UserProvider extends React.Component {
-  state = {
-    user: {
-      id: 1,
-      name: 'Mariano Maidana',
-      
+export const withUser = ComponentToWrap => {
+  return class UserComponent extends React.Component {
+    static contextType = UserContext;
+
+    changeUser = user => {
+      console.log(user)
+      localStorage.setItem(userKey, JSON.stringify(user));
+      this.context.user = user;
+    };
+
+    render() {
+      const { user } = this.context;
+      return (
+        <ComponentToWrap
+          {...this.props}
+          user={user}
+          changeUser={this.changeUser}
+        />
+      );
     }
   };
+};
 
-  loginUser = ({ id, name }) => {};
-
+export class UserProvider extends React.Component {
+  componentDidMount() {
+    try {
+      this.user = JSON.parse(localStorage.getItem(userKey));
+    } catch (error) {
+      this.user = {};
+    }
+    
+  }
   render() {
     return (
       <UserContext.Provider
-        value={{ user: this.state.user, loginUser: this.loginUser }}
+        value={{ user: this.user }}
       >
         {this.props.children}
       </UserContext.Provider>
@@ -24,6 +46,4 @@ class UserProvider extends React.Component {
   }
 }
 
-const UserConsumer = UserContext.Consumer;
-
-export { UserProvider, UserConsumer };
+export default UserContext;
