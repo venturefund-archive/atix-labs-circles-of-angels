@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Input, Icon, message } from 'antd';
-import Router from 'next/router';
+import { Icon, message } from 'antd';
 import Link from 'next/link';
-import { some, values, isEmpty } from 'lodash';
+import { values, isEmpty } from 'lodash';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -13,6 +12,7 @@ import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import DownloadTemplate from '../components/molecules/DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
+import FileUploadStatus from '../constants/FileUploadStatus';
 import { createProject, downloadMilestonesTemplate } from '../api/projectApi';
 
 import './_style.scss';
@@ -49,13 +49,13 @@ class CreateProject extends Component {
   changeProjectCover = info => {
     const { status } = info.file;
     const projectCoverPhoto = info.file;
-    if (status !== 'uploading') {
+    if (status !== FileUploadStatus.UPLOADING) {
       console.log(info.file, info.fileList);
     }
-    if (status === 'done') {
+    if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully`);
       this.setState({ projectCoverPhoto });
-    } else if (status === 'error') {
+    } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
@@ -63,13 +63,13 @@ class CreateProject extends Component {
   changeProjectCard = info => {
     const { status } = info.file;
     const projectCardPhoto = info.file;
-    if (status !== 'uploading') {
+    if (status !== FileUploadStatus.UPLOADING) {
       console.log(info.file, info.fileList);
     }
-    if (status === 'done') {
+    if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully`);
       this.setState({ projectCardPhoto });
-    } else if (status === 'error') {
+    } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
@@ -77,13 +77,13 @@ class CreateProject extends Component {
   changeProjectProposal = info => {
     const { status } = info.file;
     const projectProposal = info.file;
-    if (status !== 'uploading') {
+    if (status !== FileUploadStatus.UPLOADING) {
       console.log(info.file, info.fileList);
     }
-    if (status === 'done') {
+    if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully`);
       this.setState({ projectProposal });
-    } else if (status === 'error') {
+    } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
@@ -91,13 +91,13 @@ class CreateProject extends Component {
   changeMilestones = info => {
     const { status } = info.file;
     const projectMilestones = info.file;
-    if (status !== 'uploading') {
+    if (status !== FileUploadStatus.UPLOADING) {
       console.log(info.file, info.fileList);
     }
-    if (status === 'done') {
+    if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully.`);
       this.setState({ projectMilestones });
-    } else if (status === 'error') {
+    } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
@@ -181,7 +181,7 @@ class CreateProject extends Component {
     const step1 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={0} />
         <div className="ProjectImagesContainer">
           <h1 className="CreateSubtitle">Project's Images</h1>
           <UploadImage
@@ -217,7 +217,7 @@ class CreateProject extends Component {
     const step2 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={1} />
         <div className="ProjectDataContainer">
           <h1 className="CreateSubtitle">Projects Milestone Data</h1>
           <DownloadTemplate
@@ -240,7 +240,7 @@ class CreateProject extends Component {
     const step3 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={2} />
         <div className="ProjectStep3Container">
           <Icon
             type="check-circle"
