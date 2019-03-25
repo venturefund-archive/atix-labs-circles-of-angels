@@ -8,7 +8,8 @@ import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import './_style.scss';
 import './_concensus.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
-import { getProjectMilestones } from '../api/projectApi';
+import { getProjectMilestones, downloadProposal } from '../api/projectApi';
+import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 
 const { TabPane } = Tabs;
 
@@ -24,6 +25,12 @@ class ConcensusMilestones extends React.Component {
     return { milestones: response.data, project };
   }
 
+  clickDownloadProposal = async () => {
+    const { project } = this.props;
+    const res = await downloadProposal(project.id);
+    console.log(res);
+  };
+
   render() {
     const { project, milestones } = this.props;
     return (
@@ -31,7 +38,7 @@ class ConcensusMilestones extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
+          <StepsIf stepNumber={0} />
           <div className="SignatoriesContainer">
             <h1>Consensus</h1>
             <h3 className="StepDescription">
@@ -49,7 +56,17 @@ class ConcensusMilestones extends React.Component {
                   Content of Tab Pane 2
                 </TabPane>
                 <TabPane tab="FAQ & Project Proposal" key="3">
-                  Content of Tab Pane 3
+                  <div>
+                    <h2>FAQ Document</h2>
+                    <a href={project.faqLink}>{project.faqLink}</a>
+                    <br /> <br />
+                    <DownloadFile
+                      subtitle="Project's Pitch Proposal"
+                      text="Lorem ipsum text description"
+                      buttonText="Download Pitch Proposal"
+                      click={this.clickDownloadProposal}
+                    />
+                  </div>
                 </TabPane>
               </Tabs>
             </div>

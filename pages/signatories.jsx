@@ -26,7 +26,7 @@ class SignatoriesIf extends Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
+          <StepsIf stepNumber={1} />
           <div className="SignatoriesContainer">
             <h1>Signatories</h1>
             <p>
