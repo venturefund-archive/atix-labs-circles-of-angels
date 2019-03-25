@@ -175,7 +175,7 @@ class CreateProject extends Component {
     const step1 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={0} />
         <div className="ProjectImagesContainer">
           <h1 className="CreateSubtitle">Project's Images</h1>
           <UploadImage
@@ -211,7 +211,7 @@ class CreateProject extends Component {
     const step2 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={1} />
         <div className="ProjectDataContainer">
           <h1 className="CreateSubtitle">Projects Milestone Data</h1>
           <DownloadTemplate
@@ -233,7 +233,7 @@ class CreateProject extends Component {
     const step3 = (
       <span>
         <h1>Create New Project</h1>
-        <StepsProject />
+        <StepsProject stepNumber={2} />
         <div className="ProjectStep3Container">
           <Icon
             type="check-circle"

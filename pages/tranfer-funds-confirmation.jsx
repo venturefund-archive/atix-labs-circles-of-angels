@@ -41,7 +41,7 @@ class TransferFundsConfirmation extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
+          <StepsIf stepNumber={2} />
           <div className="TransferConfirmationContainer">
             <h1>Transfer Funds</h1>
             <div className="TransferConfirmationContent">

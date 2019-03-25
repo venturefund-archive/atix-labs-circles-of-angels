@@ -103,6 +103,28 @@ const downloadAgreement = async projectId => {
   }
 };
 
+const downloadProposal = async projectId => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/${projectId}/downloadProposal`,
+      config
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+
+    link.setAttribute('download', 'proposal.pdf');
+    document.body.appendChild(link);
+    link.click();
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 const uploadAgreement = async (projectId, agreementFile) => {
   try {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -129,5 +151,6 @@ export {
   getProjectMilestones,
   createProject,
   downloadAgreement,
-  uploadAgreement
+  uploadAgreement,
+  downloadProposal
 };
