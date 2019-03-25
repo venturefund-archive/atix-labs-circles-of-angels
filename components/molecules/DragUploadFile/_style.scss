@@ -24,8 +24,13 @@
       font-size: 30px;
       margin-bottom: 0.75em;
     }
+
+    li {
+      text-align: left
+    }
+
     h2 {
-      @include primary-text($h2, $sucess-color, 400);
+      @include primary-text($h2, $secondary-color, 400);
     }
 
     p {

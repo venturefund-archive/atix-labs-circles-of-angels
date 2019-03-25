@@ -5,7 +5,7 @@ import './_style.scss';
 
 const { Dragger } = Upload;
 
-const DragUploadFile = ({ change }) => {
+const DragUploadFile = ({ change, status, errors }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -18,6 +18,10 @@ const DragUploadFile = ({ change }) => {
     customRequest: dummyRequest,
     onChange: change
   };
+
+  const iconType = status === 1 ? 'exclamation-circle' : 'close-circle';
+  const iconColor = status === 1 ? '#728099' : '#FF0050'; // "#15D380"
+
   return (
     <div className="UploadExcelFiles">
       <div className="DraggerFile">
@@ -33,13 +37,19 @@ const DragUploadFile = ({ change }) => {
       </div>
       <div className="FileVerification">
         <Icon
-          type="check-circle"
+          type={iconType}
           theme="twoTone"
-          twoToneColor="#15D380"
+          twoToneColor={iconColor}
           className="IconVerify"
         />
         <h2>File Verification</h2>
-        <p>Project's Detail created successfully !</p>
+        <ul>
+          {errors.map((item, i) => (
+            <li key={i}>
+              At Row: {item.rowNumber} - {item.msg}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
