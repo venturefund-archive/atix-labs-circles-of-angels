@@ -1,25 +1,32 @@
-import React from "react";
+import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
+import Link from 'next/link';
 
-import "./_style.scss";
+import './_style.scss';
 
 const menu = (
   <Menu>
     <Menu.Item key="0">
-      <a href="/#">My Account</a>
+      <Link href="/#">
+        <a>My Account</a>
+      </Link>
     </Menu.Item>
     <Menu.Item key="1">
-      <a href="/create-project-step1">Create Project</a>
+      <Link href="/create-project-step1">
+        <a>Create Project</a>
+      </Link>
     </Menu.Item>
     <Menu.Item key="2">
-      <a href="/#">Log out</a>
+      <Link href="/#">
+        <a>Log out</a>
+      </Link>
     </Menu.Item>
   </Menu>
 );
 
 const SettingsMenu = ({ text }) => (
   <div className="SettingsMenu">
-    <Dropdown overlay={menu} trigger={["click"]}>
+    <Dropdown overlay={menu} trigger={['click']}>
       <a className="ant-dropdown-link" href="/#">
         <Icon type="down" />
       </a>

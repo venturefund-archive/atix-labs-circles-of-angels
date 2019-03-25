@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 
 const Index = () => (

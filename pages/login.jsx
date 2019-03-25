@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin.jsx';
+import { withUser } from '../components/utils/UserContext';
+import { loginUser } from '../api/userApi';
+import Router from 'next/router';
 import './_login.scss';
 
 class Login extends Component {
+  onLoginSubmit = async (evnt, userName, password) => {
+    const response = await loginUser("userName"," password");
+    if (response.error) {
+      alert(response.error);
+      return;
+    }
+    console.log(this.props)
+    this.props.changeUser(response.data);
+    Router.push({
+      pathname: '/explore-projects'
+    }, '/explore-projects')
+  };
+
   render() {
     return (
       <div className="Login">
@@ -12,11 +28,11 @@ class Login extends Component {
         <div className="FormSide">
           <h1>CIRCLES OF ANGELS</h1>
           <h2>PLEASE SIGN IN</h2>
-          <DynamicForm />
+          <DynamicForm onSubmit={this.onLoginSubmit}/>
         </div>
       </div>
     );
   }
 }
 
-export default Login;
+export default withUser(Login);

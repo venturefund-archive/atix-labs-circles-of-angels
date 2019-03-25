@@ -3,6 +3,7 @@ import { Input, Icon, message } from 'antd';
 import Router from 'next/router';
 import Link from 'next/link';
 import { some, values, isEmpty } from 'lodash';
+import { withUser } from '../components/utils/UserContext';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -19,8 +20,8 @@ import './_style.scss';
 import './_create-project.scss';
 
 class CreateProject extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.projectName = '';
 
@@ -281,6 +282,7 @@ class CreateProject extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className="AppContainer">
         <SideBar />
@@ -292,4 +294,4 @@ class CreateProject extends Component {
     );
   }
 }
-export default CreateProject;
+export default withUser(CreateProject);
