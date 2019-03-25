@@ -38,7 +38,7 @@ class ConcensusMilestones extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
+          <StepsIf stepNumber={0} />
           <div className="SignatoriesContainer">
             <h1>Consensus</h1>
             <h3 className="StepDescription">
