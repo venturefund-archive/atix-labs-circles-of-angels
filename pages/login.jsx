@@ -12,11 +12,13 @@ class Login extends Component {
       alert(response.error);
       return;
     }
-    console.log(this.props)
-    this.props.changeUser(response.data);
+    const user = response.data;
+    const nextRoute = response.data.id == 1 ? '/back-office-projects' : '/explore-projects';
+    user.homeRoute = nextRoute;
+    this.props.changeUser(user);
     Router.push({
-      pathname: '/explore-projects'
-    }, '/explore-projects')
+      pathname: nextRoute
+    }, nextRoute)
   };
 
   render() {
