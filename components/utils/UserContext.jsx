@@ -41,28 +41,6 @@ export class UserProvider extends React.Component {
 
   componentDidMount() {
     try {
-      this.user = JSON.parse(localStorage.getItem(userKey));
-    } catch (error) {
-      this.user = {};
-    }
-  }
-
-  changeUser = user => {
-    this.setState({ user });
-    localStorage.setItem(userKey, JSON.stringify(user));
-  };
-};
-
-export class UserProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {}
-    };
-  }
-
-  componentDidMount() {
-    try {
       const user = JSON.parse(localStorage.getItem(userKey));
       this.setState({ user });
     } catch (error) {}
