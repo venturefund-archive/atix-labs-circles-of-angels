@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon, message } from 'antd';
 import Link from 'next/link';
 import { values, isEmpty } from 'lodash';
+import { withUser } from '../components/utils/UserContext';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -310,4 +311,4 @@ class CreateProject extends Component {
     );
   }
 }
-export default CreateProject;
+export default withUser(CreateProject);
