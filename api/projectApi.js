@@ -193,6 +193,6 @@ export {
   downloadProjectMilestonesFile,
   downloadAgreement,
   uploadAgreement,
-  downloadProposal
+  downloadProposal,
   downloadMilestonesTemplate
 };

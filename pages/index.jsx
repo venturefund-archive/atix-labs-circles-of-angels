@@ -5,7 +5,9 @@ import './_style.scss';
 
 class Index extends React.Component {
   componentDidMount() {
-    const nextRoute = (this.props && this.props.user && this.props.user.homeRoute) ? this.props.user.homeRoute : '/login';
+    const { user } = this.props;
+    const nextRoute =
+      this.props && user && user.homeRoute ? user.homeRoute : '/login';
     Router.push({
       pathname: nextRoute
     });

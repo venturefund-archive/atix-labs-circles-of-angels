@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
-import { withUser } from '../../utils/UserContext';
 import Link from 'next/link';
+import { withUser } from '../../utils/UserContext';
 
 import './_style.scss';
 
