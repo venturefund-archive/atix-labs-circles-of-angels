@@ -2,7 +2,7 @@ import api from './api';
 
 const baseURL = '/project';
 
-const createProject = async (project, files) => {
+const createProject = async (project, files, ownerId) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
   const fd = new FormData();
@@ -12,6 +12,7 @@ const createProject = async (project, files) => {
     fd.append('projectCardPhoto', files[2]);
     fd.append('projectMilestones', files[3]);
     fd.append('project', JSON.stringify(project));
+    fd.append('ownerId', ownerId);
 
     console.log('Sending information', fd);
 
@@ -163,7 +164,6 @@ const uploadAgreement = async (projectId, agreementFile) => {
   }
 };
 
-
 const downloadMilestonesTemplate = async () => {
   try {
     const config = { responseType: 'blob' };
@@ -183,7 +183,8 @@ const downloadMilestonesTemplate = async () => {
   } catch (error) {
     return { error };
   }
-}
+};
+
 export {
   getProjects,
   getProject,
