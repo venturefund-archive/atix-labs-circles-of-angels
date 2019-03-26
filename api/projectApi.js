@@ -95,6 +95,11 @@ const downloadProjectMilestonesFile = async projectId => {
     link.setAttribute('download', 'projectMilestones.xlsx');
     document.body.appendChild(link);
     link.click();
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
 
 const downloadAgreement = async projectId => {
   try {
@@ -164,7 +169,7 @@ export {
   confirmProject,
   getProjectMilestones,
   createProject,
-  downloadProjectMilestonesFile
+  downloadProjectMilestonesFile,
   downloadAgreement,
   uploadAgreement,
   downloadProposal
