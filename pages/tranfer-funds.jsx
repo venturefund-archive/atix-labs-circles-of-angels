@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Header from '../components/molecules/Header/Header.jsx';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
-import StepsIf from '../components/molecules/StepsIf/StepsIf.jsx';
-import FormTransfer from '../components/molecules/FormTransfer/FormTransfer.jsx';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import StepsIf from '../components/molecules/StepsIf/StepsIf';
+import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { sendTransferInformation } from '../api/transferApi';
-import Router from 'next/router';
+import Routing from '../components/utils/Routes';
+import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 import './_transfer-funds.scss';
@@ -14,9 +15,14 @@ class TransferFunds extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transferNumber: '',
+      transferId: '',
       amount: ''
     };
+  }
+
+  static async getInitialProps(query) {
+    const { projectId } = query.query;
+    return { projectId };
   }
 
   updateState = (evnt, field, value) => {
@@ -26,20 +32,22 @@ class TransferFunds extends React.Component {
 
   submitTransfer = async evnt => {
     evnt.preventDefault();
+    const { transferId, amount } = this.state;
+    const { user, projectId } = this.props;
     const toSubmit = {
-      transferId: this.state.transferNumber,
-      amount: this.state.amount,
-      currency: "usd",
-      senderId: this.props.userId,
-      projectId: 1,
-      destinationAccount: 'asdf1234qwer5678'
+      transferId,
+      amount,
+      currency: 'usd',
+      senderId: user.id,
+      projectId,
+      destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
     };
     const result = await sendTransferInformation(toSubmit);
-    console.log(result);
+
     if (result.error) alert(`Error: ${result.error}`);
     else {
-      Router.push(`/tranfer-funds-confirmation?userId=${this.userId}`);
-      alert(`Success: Transfer submited correctly!`);
+      Routing.toTransferFundsConfirmation();
+      alert('Success: Transfer submited correctly!');
     }
   };
 
@@ -61,7 +69,7 @@ class TransferFunds extends React.Component {
               </div>
               <FormTransfer
                 onTransferChange={evnt =>
-                  this.updateState(evnt, 'transferNumber', evnt.target.value)
+                  this.updateState(evnt, 'transferId', evnt.target.value)
                 }
                 onAmountChange={evnt =>
                   this.updateState(evnt, 'amount', evnt.target.value)
@@ -76,4 +84,4 @@ class TransferFunds extends React.Component {
   }
 }
 
-export default TransferFunds;
+export default withUser(TransferFunds);

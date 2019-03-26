@@ -2,19 +2,13 @@ import api from './api';
 
 const baseURL = '/user';
 
-const loginUser = async ({ userName, password }) => {
+const loginUser = async (email, pwd) => {
   try {
-    // const response = api.post(`${baseURL}/login`, {
-    //   userName,
-    //   password
-    // });
-    // return response.data;
-    return {
-      data: {
-        id: 2,
-        username: 'Pepe Maidana'
-      }
-    };
+    const response = await api.post(`${baseURL}/login`, {
+      email,
+      pwd
+    });
+    return response;
   } catch (error) {
     return { error };
   }

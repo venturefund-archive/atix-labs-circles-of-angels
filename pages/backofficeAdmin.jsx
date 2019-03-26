@@ -44,7 +44,7 @@ class BackofficeAdmin extends React.Component {
           <select onChange={evnt => this.changeStatus(evnt, record)}>
             <option value="-1">Rejected</option>
             <option value="0">Pending</option>
-            <option value="1">Needs Consiliation</option>
+            <option value="1">Reconciliation</option>
             <option value="2">Approved</option>
           </select>
           <button

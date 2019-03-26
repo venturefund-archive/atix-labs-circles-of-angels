@@ -7,6 +7,16 @@ export const withUser = ComponentToWrap => {
   return class UserComponent extends React.Component {
     static contextType = UserContext;
 
+    static async getInitialProps(query) {
+      let pageProps = {};
+
+      if (ComponentToWrap.getInitialProps) {
+        pageProps = await ComponentToWrap.getInitialProps(query);
+      }
+
+      return pageProps;
+    }
+
     render() {
       const { user, changeUser, removeUser } = this.context;
       return (
