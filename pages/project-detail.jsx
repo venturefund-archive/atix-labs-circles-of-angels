@@ -1,7 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
+import Router from 'next/router';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
+import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 import './_project-detail.scss';
@@ -11,6 +12,7 @@ import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import ButtonSuccess from '../components/atoms/ButtonSuccess/ButtonSuccess';
 
 import { getProject } from '../api/projectApi';
+import { createUserProject } from '../api/userProjectApi';
 
 const imageBaseUrl = './static/images';
 
@@ -20,6 +22,21 @@ class ProjectDetail extends React.Component {
     const response = await getProject(projectId);
     return { projectDetail: response.data };
   }
+
+  applyToProject = async () => {
+    const { projectDetail, user } = this.props;
+
+    const response = await createUserProject(user.id, projectDetail.id);
+    console.log(response);
+
+    Router.push(
+      {
+        pathname: '/concensus-milestones',
+        query: { projectJSON: JSON.stringify(projectDetail) }
+      },
+      '/concensus-milestones'
+    );
+  };
 
   render() {
     const { projectDetail } = this.props;
@@ -89,15 +106,7 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <Link
-              href={{
-                pathname: '/concensus-milestones',
-                query: { projectJSON: JSON.stringify(projectDetail) }
-              }}
-              as="/concensus-milestones"
-            >
-              <ButtonSuccess text="Go to project" />
-            </Link>
+            <ButtonSuccess text="Go to project" onClick={this.applyToProject} />
           </div>
         </div>
       </div>
@@ -105,4 +114,4 @@ class ProjectDetail extends React.Component {
   }
 }
 
-export default ProjectDetail;
+export default withUser(ProjectDetail);

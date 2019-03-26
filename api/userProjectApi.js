@@ -20,5 +20,16 @@ const signAgreement = async (userId, projectId) => {
   } catch (error) {
     return { error };
   }
-}
-export { getUsers, signAgreement };
+};
+
+const createUserProject = async (userId, projectId) => {
+  try {
+    const response = await api.get(`${baseURL}/${userId}/${projectId}/create`);
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export { getUsers, signAgreement, createUserProject };
