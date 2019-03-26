@@ -19,8 +19,8 @@ import './_style.scss';
 import './_create-project.scss';
 
 class CreateProject extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.projectName = '';
 
@@ -298,6 +298,7 @@ class CreateProject extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className="AppContainer">
         <SideBar />

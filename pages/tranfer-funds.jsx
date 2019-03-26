@@ -17,8 +17,6 @@ class TransferFunds extends React.Component {
       transferNumber: '',
       amount: ''
     };
-
-    this.userId = this.props.url.query.userId;
   }
 
   updateState = (evnt, field, value) => {
@@ -31,8 +29,8 @@ class TransferFunds extends React.Component {
     const toSubmit = {
       transferId: this.state.transferNumber,
       amount: this.state.amount,
-      currency: 'usd',
-      senderId: this.userId ? this.userId : 1,
+      currency: "usd",
+      senderId: this.props.userId,
       projectId: 1,
       destinationAccount: 'asdf1234qwer5678'
     };

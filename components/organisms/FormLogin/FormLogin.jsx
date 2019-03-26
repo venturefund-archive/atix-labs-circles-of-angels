@@ -18,7 +18,7 @@ class FormLogin extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form className="login-form">
         <Form.Item>
           {getFieldDecorator("userName", {
             rules: [{ required: true, message: "Please input your username!" }]
@@ -50,7 +50,7 @@ class FormLogin extends React.Component {
               Forgot password
             </a>
           </div>
-          <ButtonPrimary text="SIGN IN" />
+          <ButtonPrimary text="SIGN IN" onClick={this.props.onSubmit}/>
           Don't have an Account? <a href="#/">Sign Up</a>
         </Form.Item>
       </Form>

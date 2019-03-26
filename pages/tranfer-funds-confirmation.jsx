@@ -1,24 +1,22 @@
-import React from "react";
-import { Icon, Skeleton } from "antd";
+import React from 'react';
+import { Icon, Skeleton } from 'antd';
 
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import StepsIf from "../components/molecules/StepsIf/StepsIf.jsx";
-import TransferLabel from "../components/atoms/TransferLabel/TransferLabel.jsx";
-import { getTransferStatus } from "../api/transferApi";
+import Header from '../components/molecules/Header/Header.jsx';
+import SideBar from '../components/organisms/SideBar/SideBar.jsx';
+import StepsIf from '../components/molecules/StepsIf/StepsIf.jsx';
+import TransferLabel from '../components/atoms/TransferLabel/TransferLabel.jsx';
+import { getTransferStatus } from '../api/transferApi';
+import { withUser } from '../components/utils/UserContext';
 
-import "./_style.scss";
-import "./_transfer-funds-confirmation.scss";
+import './_style.scss';
+import './_transfer-funds-confirmation.scss';
 
 const statusMap = {
-  "-1": "theme-cancel",
-  "0": "theme-pending",
-  "1": "theme-pending",
-  "2": "theme-success"
+  '-1': 'theme-cancel',
+  '0': 'theme-pending',
+  '1': 'theme-pending',
+  '2': 'theme-success'
 };
-
-//Temporal for sprint 2
-const projectId = 1;
 
 class TransferFundsConfirmation extends React.Component {
   constructor(props) {
@@ -26,12 +24,18 @@ class TransferFundsConfirmation extends React.Component {
     this.state = {
       status: null
     };
+  }
 
-    this.userId = this.props.url.query.userId ;
+  static async getInitialProps(query) {
+    const { projectId } = query.query;
+    return { projectId };
   }
 
   componentDidMount = async () => {
-    const status = await getTransferStatus({ userId: this.userId, projectId });
+    const status = await getTransferStatus({
+      userId: this.props.userId,
+      projectId: this.props.projectId
+    });
     this.setState({ status: status });
   };
 
@@ -52,7 +56,7 @@ class TransferFundsConfirmation extends React.Component {
                   theme={statusMap[this.state.status.status]}
                 />
               ) : (
-                ""
+                ''
               )}
               <h2>Circles will be checking your funds transfer</h2>
               {/* <div className="MoreInfo">
@@ -75,4 +79,4 @@ class TransferFundsConfirmation extends React.Component {
   }
 }
 
-export default TransferFundsConfirmation;
+export default withUser(TransferFundsConfirmation);
