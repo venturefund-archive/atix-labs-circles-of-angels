@@ -7,8 +7,8 @@ import { loginUser } from '../api/userApi';
 import './_login.scss';
 
 class Login extends Component {
-  onLoginSubmit = async (evnt, userName, password) => {
-    const response = await loginUser('userName', ' password');
+  onLoginSubmit = async (email, pwd) => {
+    const response = await loginUser(email, pwd);
     const { changeUser } = this.props;
     if (response.error) {
       alert(response.error);
@@ -16,7 +16,7 @@ class Login extends Component {
     }
     const user = response.data;
     const nextRoute =
-      response.data.id === 1 ? '/back-office-projects' : '/explore-projects';
+      user.id === 1 ? '/back-office-projects' : '/explore-projects';
     user.homeRoute = nextRoute;
     changeUser(user);
     Router.push(
