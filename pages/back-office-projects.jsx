@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import TableBOProjects from "../components/organisms/TableBOProjects/TableBOProjects.jsx";
+import Header from '../components/molecules/Header/Header.jsx';
+import SideBar from '../components/organisms/SideBar/SideBar.jsx';
+import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects.jsx';
 
-import { getProjects } from "../api/projectApi";
+import { getProjects } from '../api/projectApi';
 
-import "./_style.scss";
-import "./_back-office-projects.scss";
+import './_style.scss';
+import './_back-office-projects.scss';
 
 class BackOfficeProjects extends React.Component {
   constructor(props) {
@@ -22,6 +22,12 @@ class BackOfficeProjects extends React.Component {
     return { projects: response.data };
   }
 
+  updateProject = (index, project) => {
+    const projects = this.state.projects;
+    projects[index] = project;
+    this.setState({ projects });
+  }
+
   render() {
     return (
       <div className="AppContainer">
@@ -30,7 +36,10 @@ class BackOfficeProjects extends React.Component {
           <Header />
           <div className="TableContainer">
             <h1>Projects Administration</h1>
-            <TableBOProjects dataSource={this.state.projects} />
+            <TableBOProjects
+              dataSource={this.state.projects}
+              onStateChange={this.updateProject}
+            />
           </div>
         </div>
       </div>

@@ -7,10 +7,25 @@ export const withUser = ComponentToWrap => {
   return class UserComponent extends React.Component {
     static contextType = UserContext;
 
+    static async getInitialProps(query) {
+      let pageProps = {};
+
+      if (ComponentToWrap.getInitialProps) {
+        pageProps = await ComponentToWrap.getInitialProps(query);
+      }
+
+      return pageProps;
+    }
+
     render() {
       const { user, changeUser, removeUser } = this.context;
       return (
-        <ComponentToWrap {...this.props} user={user} changeUser={changeUser} removeUser={removeUser} />
+        <ComponentToWrap
+          {...this.props}
+          user={user}
+          changeUser={changeUser}
+          removeUser={removeUser}
+        />
       );
     }
   };
@@ -37,14 +52,18 @@ export class UserProvider extends React.Component {
   };
 
   removeUser = () => {
-    this.setState({user: {}});
+    this.setState({ user: {} });
     localStorage.setItem(userKey, null);
-  }
+  };
 
   render() {
     return (
       <UserContext.Provider
-        value={{ user: this.state.user, changeUser: this.changeUser, removeUser: this.removeUser }}
+        value={{
+          user: this.state.user,
+          changeUser: this.changeUser,
+          removeUser: this.removeUser
+        }}
       >
         {this.props.children}
       </UserContext.Provider>
