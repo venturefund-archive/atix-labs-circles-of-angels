@@ -1,10 +1,10 @@
 import React from 'react';
 import { Icon, Skeleton } from 'antd';
 
-import Header from '../components/molecules/Header/Header.jsx';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
-import StepsIf from '../components/molecules/StepsIf/StepsIf.jsx';
-import TransferLabel from '../components/atoms/TransferLabel/TransferLabel.jsx';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import StepsIf from '../components/molecules/StepsIf/StepsIf';
+import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import { getTransferStatus } from '../api/transferApi';
 import { withUser } from '../components/utils/UserContext';
 
@@ -32,14 +32,16 @@ class TransferFundsConfirmation extends React.Component {
   }
 
   componentDidMount = async () => {
+    const { user, projectId } = this.props;
     const status = await getTransferStatus({
-      userId: this.props.userId,
-      projectId: this.props.projectId
+      userId: user.id,
+      projectId
     });
-    this.setState({ status: status });
+    this.setState({ status });
   };
 
   render() {
+    const { status } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -50,10 +52,10 @@ class TransferFundsConfirmation extends React.Component {
             <h1>Transfer Funds</h1>
             <div className="TransferConfirmationContent">
               <img src="./static/images/funds-pending.svg" alt="Clock" />
-              {this.state.status ? (
+              {status ? (
                 <TransferLabel
-                  text={this.state.status.name}
-                  theme={statusMap[this.state.status.status]}
+                  text={status.name}
+                  theme={statusMap[status.status]}
                 />
               ) : (
                 ''

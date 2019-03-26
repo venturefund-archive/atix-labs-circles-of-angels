@@ -7,6 +7,16 @@ export const withUser = ComponentToWrap => {
   return class UserComponent extends React.Component {
     static contextType = UserContext;
 
+    static async getInitialProps(query) {
+      let pageProps = {};
+
+      if (ComponentToWrap.getInitialProps) {
+        pageProps = await ComponentToWrap.getInitialProps(query);
+      }
+
+      return pageProps;
+    }
+
     render() {
       const { user, changeUser, removeUser } = this.context;
       return (
@@ -35,6 +45,27 @@ export class UserProvider extends React.Component {
     } catch (error) {
       this.user = {};
     }
+  }
+
+  changeUser = user => {
+    this.setState({ user });
+    localStorage.setItem(userKey, JSON.stringify(user));
+  };
+};
+
+export class UserProvider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
+
+  componentDidMount() {
+    try {
+      const user = JSON.parse(localStorage.getItem(userKey));
+      this.setState({ user });
+    } catch (error) {}
   }
 
   changeUser = user => {
