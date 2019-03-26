@@ -14,15 +14,18 @@
   }
 
   select {
-    background: $primary-color;
+    background: $white;
     height: 30px;
     border: none;
     align-items: center;
-    border-radius: 50px;
     outline: none;
+    border: 1px solid $grey;
+    width: 160px;
     cursor: pointer;
-    @include primary-text($button, $white, 400);
+    @include primary-text($button, $secondary-color, 400);
     text-transform: uppercase;
   }
   
 }
+
+

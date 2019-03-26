@@ -4,6 +4,7 @@ import Router from 'next/router';
 
 import './_style.scss';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
+import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
 import ButtonDownload from '../../atoms/ButtonDownload/ButtonDownload';
 import projectStatusMap from '../../../model/projectStatus';
 import {
@@ -60,6 +61,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       render: projectId => {
         return (
           <img
+            className="ProjectAccess"
             src="./static/images/icon-info.svg"
             onClick={() => projectDetailPage(projectId)}
           />
@@ -83,10 +85,13 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       dataIndex: 'id',
       key: 'action',
       render: (projectId, collection, index) => (
-        <ButtonPrimary
-          text="confirm"
-          onClick={async () => handleConfirm(projectId, collection, index)}
-        />
+        <div className="ActionButtons">
+          <ButtonPrimary
+            text="confirm"
+            onClick={async () => handleConfirm(projectId, collection, index)}
+          />
+          <ButtonCancel text="Reject" />
+        </div>
       )
     }
   ];
