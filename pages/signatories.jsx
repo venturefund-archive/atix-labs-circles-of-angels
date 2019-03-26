@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Link from 'next/link';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
@@ -12,6 +11,7 @@ import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
 import transferStatusMap from '../model/transferStatus';
+import Routing from '../components/utils/Routes';
 
 class SignatoriesIf extends Component {
   static async getInitialProps(query) {
@@ -20,6 +20,11 @@ class SignatoriesIf extends Component {
     const transfers = await getTransferListOfProject(projectId);
     return { userProjects: users.data, projectId, transfers };
   }
+
+  goToTransferFunds = () => {
+    const { projectId } = this.props;
+    Routing.toTransferFunds({ projectId });
+  };
 
   render() {
     const { userProjects, projectId, transfers } = this.props;
@@ -62,9 +67,7 @@ class SignatoriesIf extends Component {
             </div>
             <div className="ControlSteps">
               <ButtonCancel text="Cancel" />
-              <Link href="tranfer-funds">
-                <ButtonPrimary text="Continue" />
-              </Link>
+              <ButtonPrimary text="Continue" onClick={this.goToTransferFunds} />
             </div>
           </div>
         </div>
