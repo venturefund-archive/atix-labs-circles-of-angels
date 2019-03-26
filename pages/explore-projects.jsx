@@ -15,13 +15,10 @@ class ExploreProjects extends React.Component {
   }
 
   goToProjectDetail(projectId) {
-    Router.push(
-      {
-        pathname: '/project-detail',
-        query: { projectId }
-      },
-      '/project-detail'
-    );
+    Router.push({
+      pathname: '/project-detail',
+      query: { projectId }
+    });
   }
 
   render() {
