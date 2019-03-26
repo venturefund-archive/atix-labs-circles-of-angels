@@ -11,12 +11,12 @@ const transferStatusMap = {
   },
   '1': {
     name: 'pending',
-    show: 'Funds Pending',
+    show: 'Reconciliation',
     icon: './static/images/icon-clock.svg'
   },
   '2': {
     name: 'success',
-    show: 'Funds Received',
+    show: 'Funds Verified',
     icon: './static/images/icon-check.svg'
   }
 };
