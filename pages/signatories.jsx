@@ -42,9 +42,14 @@ class SignatoriesIf extends Component {
             </p>
             <div className="SignatoryList">
               {userProjects.map(userProject => {
-                const userTransfer = transfers.filter(
+                let userTransfer = transfers.filter(
                   transfer => transfer.sender === userProject.user.id
                 )[0];
+
+                if (!userTransfer || userTransfer == null) {
+                  userTransfer = { state: 0 };
+                }
+
                 return (
                   <SignatoryItem
                     key={userProject.id}
