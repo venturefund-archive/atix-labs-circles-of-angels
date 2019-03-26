@@ -10,7 +10,12 @@ export const withUser = ComponentToWrap => {
     render() {
       const { user, changeUser, removeUser } = this.context;
       return (
-        <ComponentToWrap {...this.props} user={user} changeUser={changeUser} removeUser={removeUser} />
+        <ComponentToWrap
+          {...this.props}
+          user={user}
+          changeUser={changeUser}
+          removeUser={removeUser}
+        />
       );
     }
   };
@@ -26,9 +31,10 @@ export class UserProvider extends React.Component {
 
   componentDidMount() {
     try {
-      const user = JSON.parse(localStorage.getItem(userKey));
-      this.setState({ user });
-    } catch (error) {}
+      this.user = JSON.parse(localStorage.getItem(userKey));
+    } catch (error) {
+      this.user = {};
+    }
   }
 
   changeUser = user => {
@@ -37,14 +43,18 @@ export class UserProvider extends React.Component {
   };
 
   removeUser = () => {
-    this.setState({user: {}});
+    this.setState({ user: {} });
     localStorage.setItem(userKey, null);
-  }
+  };
 
   render() {
     return (
       <UserContext.Provider
-        value={{ user: this.state.user, changeUser: this.changeUser, removeUser: this.removeUser }}
+        value={{
+          user: this.state.user,
+          changeUser: this.changeUser,
+          removeUser: this.removeUser
+        }}
       >
         {this.props.children}
       </UserContext.Provider>
