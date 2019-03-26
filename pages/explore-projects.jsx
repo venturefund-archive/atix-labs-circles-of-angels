@@ -30,6 +30,7 @@ class ExploreProjects extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
+
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
