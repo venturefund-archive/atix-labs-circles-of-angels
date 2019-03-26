@@ -38,7 +38,9 @@ class CreateProject extends Component {
         timeframe: '',
         goalAmount: '',
         faqLink: ''
-      }
+      },
+      creationStatus: 1, // 1: Pending, 0: Error
+      milestonesErrors: []
     };
   }
 
@@ -166,6 +168,10 @@ class CreateProject extends Component {
     console.log(res);
     if (res.status === 200) {
       this.nextStep();
+    } else {
+      console.log(res.error.response.data.errors);
+      this.setState({ milestonesErrors: res.error.response.data.errors });
+      this.setState({ creationStatus: 0 });
     }
   };
 
@@ -176,7 +182,7 @@ class CreateProject extends Component {
   };
 
   getCurrentStep = () => {
-    const { currentStep } = this.state;
+    const { currentStep, creationStatus, milestonesErrors } = this.state;
 
     const step1 = (
       <span>
@@ -225,7 +231,11 @@ class CreateProject extends Component {
             text="Lorem ipsum text description"
             click={this.clickDownloadMilestonesTemplate}
           />
-          <DragUploadFile change={this.changeMilestones} />
+          <DragUploadFile
+            change={this.changeMilestones}
+            status={creationStatus}
+            errors={milestonesErrors}
+          />
         </div>
         <div className="ControlSteps">
           <ButtonCancel text="Cancel" onClick={this.previuosStep} />

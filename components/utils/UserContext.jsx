@@ -50,6 +50,27 @@ export class UserProvider extends React.Component {
     this.setState({ user });
     localStorage.setItem(userKey, JSON.stringify(user));
   };
+};
+
+export class UserProvider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
+
+  componentDidMount() {
+    try {
+      const user = JSON.parse(localStorage.getItem(userKey));
+      this.setState({ user });
+    } catch (error) {}
+  }
+
+  changeUser = user => {
+    this.setState({ user });
+    localStorage.setItem(userKey, JSON.stringify(user));
+  };
 
   removeUser = () => {
     this.setState({ user: {} });
