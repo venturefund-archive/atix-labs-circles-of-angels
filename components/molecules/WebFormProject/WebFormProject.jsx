@@ -26,24 +26,6 @@ const WebFormProject = ({ change }) => {
           change(project);
         }}
       />
-      <TextArea
-        placeholder="Project Mission"
-        prefix={<Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.mission}
-        onChange={e => {
-          project.mission = e.target.value;
-          change(project);
-        }}
-      />
-      <TextArea
-        placeholder="Problem Addressed"
-        prefix={<Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.problemAddressed}
-        onChange={e => {
-          project.problemAddressed = e.target.value;
-          change(project);
-        }}
-      />
       <Input
         placeholder="Enterprise Location"
         prefix={<Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -71,6 +53,24 @@ const WebFormProject = ({ change }) => {
         onChange={e => {
           const { value } = e.target;
           project.goalAmount = Number(value);
+          change(project);
+        }}
+      />
+      <TextArea
+        placeholder="Project Mission"
+        prefix={<Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.mission}
+        onChange={e => {
+          project.mission = e.target.value;
+          change(project);
+        }}
+      />
+      <TextArea
+        placeholder="Problem Addressed"
+        prefix={<Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        value={project.problemAddressed}
+        onChange={e => {
+          project.problemAddressed = e.target.value;
           change(project);
         }}
       />

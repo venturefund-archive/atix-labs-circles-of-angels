@@ -2,7 +2,7 @@ import React from 'react';
 import { Steps } from 'antd';
 import './_style.scss';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
 const StepsSe = () => (
   <div className="StepsContainer">
