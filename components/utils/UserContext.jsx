@@ -1,5 +1,4 @@
 import React from 'react';
-import Router from 'next/router';
 
 const UserContext = React.createContext('user');
 const userKey = 'user';
@@ -23,7 +22,6 @@ export class UserProvider extends React.Component {
     this.state = {
       user: {}
     };
-    console.log('me construyo!');
   }
 
   componentDidMount() {

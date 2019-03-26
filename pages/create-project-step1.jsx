@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, message } from 'antd';
 import Link from 'next/link';
-import { withUser } from '../components/utils/UserContext';
 import { values, isEmpty } from 'lodash';
 
 import Header from '../components/molecules/Header/Header';
@@ -294,4 +293,4 @@ class CreateProject extends Component {
     );
   }
 }
-export default withUser(CreateProject);
+export default CreateProject;
