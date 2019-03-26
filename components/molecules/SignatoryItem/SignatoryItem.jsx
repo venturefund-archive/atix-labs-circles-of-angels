@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar } from 'antd';
 import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SignatureLabel from '../../atoms/SignatureLabel/SignatureLabel';
+import TransferLabel from '../../atoms/TransferLabel/TransferLabel';
 import './_style.scss';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import SignStatus from '../../../constants/SignStatus';
@@ -10,6 +11,9 @@ const SignatoryItem = ({
   tfStatusName,
   tfStatusIcon,
   tfStatusShow,
+  sgStatusName,
+  sgStatusIcon,
+  sgStatusShow,
   username,
   nameInitials,
   signStatus,
@@ -26,13 +30,18 @@ const SignatoryItem = ({
         <UserLabel userName={username} />
       </div>
       <div className="SignatoryStatus">
+        <TransferLabel
+          text={tfStatusShow}
+          theme={`theme-${tfStatusName}`}
+          iconStatus={tfStatusIcon}
+        />
         {signStatus === SignStatus.UNSIGNED ? (
           <ConfirmPopUp userId={userId} projectId={projectId} />
         ) : (
           <SignatureLabel
-            text={tfStatusShow}
-            iconStatus={tfStatusIcon}
-            theme={`theme-${tfStatusName}`}
+            text={sgStatusShow}
+            iconStatus={sgStatusIcon}
+            theme={`theme-${sgStatusName}`}
           />
         )}
       </div>

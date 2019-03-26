@@ -13,7 +13,7 @@ import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import DownloadTemplate from '../components/molecules/DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../constants/FileUploadStatus';
-import { createProject } from '../api/projectApi';
+import { createProject, downloadMilestonesTemplate } from '../api/projectApi';
 
 import './_style.scss';
 import './_create-project.scss';
@@ -169,6 +169,12 @@ class CreateProject extends Component {
     }
   };
 
+  clickDownloadMilestonesTemplate = async () => {
+    const res = await downloadMilestonesTemplate();
+    console.log(res);
+    return res;
+  };
+
   getCurrentStep = () => {
     const { currentStep } = this.state;
 
@@ -191,7 +197,7 @@ class CreateProject extends Component {
             change={this.changeProjectCover}
           />
           <UploadImage
-            subtitle="Pitch Proposal Template"
+            subtitle="Pitch Proposal Document"
             text="Lorem ipsum text description"
             name="projectProposal"
             change={this.changeProjectProposal}
@@ -215,8 +221,9 @@ class CreateProject extends Component {
         <div className="ProjectDataContainer">
           <h1 className="CreateSubtitle">Projects Milestone Data</h1>
           <DownloadTemplate
-            subtitle="Project's Detail Template"
+            subtitle="Project's Milestones Template"
             text="Lorem ipsum text description"
+            click={this.clickDownloadMilestonesTemplate}
           />
           <DragUploadFile change={this.changeMilestones} />
         </div>
