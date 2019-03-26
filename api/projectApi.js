@@ -81,10 +81,118 @@ const getProjectMilestones = async projectId => {
     return { error };
   }
 };
+
+const downloadProjectMilestonesFile = async projectId => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/${projectId}/getMilestonesFile`,
+      config
+    );
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'projectMilestones.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const downloadAgreement = async projectId => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/${projectId}/downloadAgreement`,
+      config
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'agreement.pdf');
+    document.body.appendChild(link);
+    link.click();
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const downloadProposal = async projectId => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/${projectId}/downloadProposal`,
+      config
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+
+    link.setAttribute('download', 'proposal.pdf');
+    document.body.appendChild(link);
+    link.click();
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const uploadAgreement = async (projectId, agreementFile) => {
+  try {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    const fd = new FormData();
+    fd.append('projectAgreement', agreementFile);
+
+    const response = await api.post(
+      `${baseURL}/${projectId}/uploadAgreement`,
+      fd,
+      config
+    );
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+
+const downloadMilestonesTemplate = async () => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(
+      `${baseURL}/downloadMilestonesTemplate`,
+      config
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'milestones.xlsx');
+    document.body.appendChild(link);
+    link.click();
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
 export {
   getProjects,
   getProject,
   confirmProject,
   getProjectMilestones,
-  createProject
+  createProject,
+  downloadProjectMilestonesFile,
+  downloadAgreement,
+  uploadAgreement,
+  downloadProposal,
+  downloadMilestonesTemplate
 };

@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
 .TransferContainer {
   padding: 0 1.5em;
@@ -11,7 +11,7 @@
   .TransferContent {
     display: flex;
     flex-flow: column;
-    width: 60%;
+    width: 100%;
     border-radius: 6px;
     box-shadow: $shadow;
     padding: 2em;
@@ -19,6 +19,18 @@
     h2 {
       @include primary-text($h2, $secondary-color, 400);
       margin: 0;
+    }
+
+    .TransferBankInfo {
+      margin-bottom: 1em;
+      h3 {
+        @include primary-text($body, $primary-color, 400);
+        margin-top: 1em;
+      }
+      h4 {
+        @include primary-text($body, $secondary-color, 300);
+        margin: 0;
+      }
     }
 
     .ant-skeleton-title {

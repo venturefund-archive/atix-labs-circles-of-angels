@@ -23,7 +23,7 @@ class Concensus extends React.Component {
   }
 
   componentDidMount = async () => {
-    const transfers = await getTransferListOfProject(1);
+    const transfers = await getTransferListOfProject(6);
     console.log(transfers);
     this.setState({ transfers: transfers });
   };
@@ -45,11 +45,11 @@ class Concensus extends React.Component {
                     return (
                       <SignatoryItem
                         key={i}
-                        username={names[transfer.senderId].name}
+                        username={names[transfer.sender].name}
                         tfStatusShow={status.show}
                         tfStatusIcon={status.icon}
                         tfStatusName={status.name}
-                        nameInitials={names[transfer.senderId].initials}
+                        nameInitials={names[transfer.sender].initials}
                       />
                     );
                   })
