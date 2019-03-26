@@ -158,13 +158,15 @@ class CreateProject extends Component {
       project
     } = this.state;
 
+    const ownerId = this.props.user.id;
+
     const files = [];
     files.push(projectProposal.originFileObj);
     files.push(projectCoverPhoto.originFileObj);
     files.push(projectCardPhoto.originFileObj);
     files.push(projectMilestones.originFileObj);
 
-    const res = await createProject(project, files);
+    const res = await createProject(project, files, ownerId);
 
     console.log(res);
     if (res.status === 200) {
