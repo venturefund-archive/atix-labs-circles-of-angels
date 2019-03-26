@@ -4,7 +4,6 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getProjects } from '../api/projectApi';
-import { UserProvider } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
 
