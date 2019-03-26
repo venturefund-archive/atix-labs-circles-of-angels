@@ -1,46 +1,49 @@
-import React from "react";
-import { Table, Tag } from "antd";
+import React from 'react';
+import { Table, Tag } from 'antd';
 
-import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
+import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 
-import "./_style.scss";
+import './_style.scss';
 
 const names = {
-  "1": "John Brown",
-  "2": "Jim Green",
-  "3": "Joe Black"
+  '1': 'John Brown',
+  '2': 'Jim Green',
+  '3': 'Joe Black'
 };
 
 const TableAdmin = ({ data, saveStatus }) => {
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id"
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id'
     },
     {
-      title: "User",
-      dataIndex: "name",
-      key: "name",
+      title: 'User',
+      dataIndex: 'name',
+      key: 'name',
       render: (text, record) => <p>{names[record.senderId]}</p>
     },
     {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount"
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount'
     },
     {
-      title: "Receipt Number",
-      dataIndex: "transferId",
-      key: "transferId"
+      title: 'Receipt Number',
+      dataIndex: 'transferId',
+      key: 'transferId'
     },
     {
-      title: "Status",
-      key: "tags",
-      dataIndex: "tags",
+      title: 'Status',
+      key: 'tags',
+      dataIndex: 'tags',
       render: (text, record) => (
         <span>
-          <select onChange={evnt => (record.state = evnt.currentTarget.value)} defaultValue={record.state}>
+          <select
+            onChange={evnt => (record.state = evnt.currentTarget.value)}
+            defaultValue={record.state}
+          >
             <option value="-1">Cancelled</option>
             <option value="0">Pending</option>
             <option value="1">Reconciliation</option>
@@ -50,8 +53,8 @@ const TableAdmin = ({ data, saveStatus }) => {
       )
     },
     {
-      title: "Action",
-      key: "action",
+      title: 'Action',
+      key: 'action',
       render: (text, record) => (
         <span>
           <ButtonPrimary
