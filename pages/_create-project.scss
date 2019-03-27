@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
 .CreateProjectContainer {
   padding: 0 1.5em;
@@ -22,25 +22,31 @@
     margin-top: 1.5em;
   }
   .CreateSubtitle {
-    @include primary-text($h1, $primary-color, 400);
+    @include primary-text($h1, $primary-color, 300);
     width: 100%;
     margin-bottom: 1em;
   }
 
+  .StepContent {
+    height: 90%;
+    overflow-y: scroll;
+    padding-right: 1em;
+  }
+
   .ControlSteps {
-    margin-top: 1.5em;
     border-top: 1px solid $light-grey;
     display: flex;
     justify-content: space-between;
-    padding: 1.5em 0;
+    align-items: center;
+    height: 10%;
   }
 
-  .ProjectStep3Container{
+  .ProjectStep3Container {
     display: flex;
     flex-flow: column;
     align-items: center;
 
-    .IconSuccess{
+    .IconSuccess {
       font-size: 50px;
       margin: 1em 0 0.25em;
     }
@@ -49,10 +55,21 @@
       @include primary-text($h1, $secondary-color, 400);
       margin-bottom: 0.25em;
     }
-    h2{
+    h2 {
       @include primary-text($h2, $secondary-color, 300);
       margin-bottom: 1.5em;
     }
+  }
 
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #fff;
+    border-radius: 20px;
   }
 }

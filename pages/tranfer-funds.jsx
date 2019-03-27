@@ -10,6 +10,7 @@ import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 import './_transfer-funds.scss';
+import './_steps.scss';
 
 class TransferFunds extends React.Component {
   constructor(props) {
@@ -58,8 +59,13 @@ class TransferFunds extends React.Component {
         <div className="MainContent">
           <Header />
           <StepsIf stepNumber={2} />
-          <div className="TransferContainer">
-            <h1>Transfer Funds</h1>
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Funding Step</p>
+            <h3 className="StepDescription">
+              Transfer your pledged funds, help the world become a better place for everyone
+            </h3>
+            <p className="LabelSteps">Project Name</p>
+            <h1>Lorem Ipsum</h1>
             <div className="TransferContent">
               <h2>Circles of Angels Bank Account Information</h2>
               <div className="TransferBankInfo">

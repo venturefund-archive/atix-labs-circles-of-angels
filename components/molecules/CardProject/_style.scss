@@ -1,12 +1,18 @@
-@import "../css/general_styling.scss";
+@import "../../../css/general_styling.scss";
 
 .CardProject {
   background: $white;
-  width: 23%;
+  width: 22.5%;
   border-radius: 5px;
   box-shadow: $shadow;
   margin-bottom: 2em;
   margin-right: 1.75em;
+  cursor: pointer;
+
+  &:hover{
+    box-shadow: $shadow-big; 
+    transition: ease-in-out 1s;
+  }
 
   .ProjectDescription {
     display: flex;

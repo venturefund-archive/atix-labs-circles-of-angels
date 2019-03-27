@@ -4,6 +4,7 @@ import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import './_style.scss';
 import './_concensus.scss';
+import './_steps.scss';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
@@ -35,11 +36,13 @@ class SignatoriesIf extends Component {
         <div className="MainContent">
           <Header />
           <StepsIf stepNumber={1} />
-          <div className="SignatoriesContainer">
-            <h1>Signatories</h1>
-            <p>
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Signatories Step</p>
+            <h3 className="StepDescription">
               Sign your agreement and pledge to help this project come to true
-            </p>
+            </h3>
+            <p className="LabelSteps">Project Name</p>
+            <h1>Lorem Ipsum</h1>
             <div className="SignatoryList">
               {userProjects.map(userProject => {
                 let userTransfer = transfers.filter(
@@ -70,10 +73,10 @@ class SignatoriesIf extends Component {
                 );
               })}
             </div>
-            <div className="ControlSteps">
-              <ButtonCancel text="Cancel" />
-              <ButtonPrimary text="Continue" onClick={this.goToTransferFunds} />
-            </div>
+          </div>
+          <div className="ControlSteps">
+            <ButtonCancel text="Cancel" />
+            <ButtonPrimary text="Continue" onClick={this.goToTransferFunds} />
           </div>
         </div>
       </div>

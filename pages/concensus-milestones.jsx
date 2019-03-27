@@ -10,6 +10,7 @@ import DownloadAgreement from '../components/molecules/DownloadAgreement/Downloa
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
+import './_steps.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
 import {
   getProjectMilestones,
@@ -75,21 +76,22 @@ class ConcensusMilestones extends React.Component {
         <div className="MainContent">
           <Header />
           <StepsIf stepNumber={0} />
-          <div className="SignatoriesContainer">
-            <h1>Consensus</h1>
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Consensus Step</p>
             <h3 className="StepDescription">
               Collaborate with the definition of milestones, share your
               experiences, talk to project owner and other funders, download the
               latest agreements
             </h3>
-            <h2>{project.projectName}</h2>
+            <p className="LabelSteps">Project Name</p>
+            <h1>{project.projectName}</h1>
             <div className="SignatoryList">
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Milestones" key="1">
                   <TableMilestones dataSource={milestones} />
                 </TabPane>
                 <TabPane tab="Collaboration" key="2">
-                  <div>
+                  <div className="TabCollaboration">
                     <h2>Project's Agreement File</h2>
                     <DownloadAgreement click={this.handleClick} />
                     <UploadFile
@@ -114,16 +116,16 @@ class ConcensusMilestones extends React.Component {
                 </TabPane>
               </Tabs>
             </div>
-            <div className="ControlSteps">
-              <Link
-                href={{
-                  pathname: '/signatories',
-                  query: { projectId: project.id }
-                }}
-              >
-                <ButtonPrimary text="Continue" />
-              </Link>
-            </div>
+          </div>
+          <div className="ControlSteps StepOne">
+            <Link
+              href={{
+                pathname: '/signatories',
+                query: { projectId: project.id }
+              }}
+            >
+              <ButtonPrimary text="Continue" />
+            </Link>
           </div>
         </div>
       </div>
