@@ -1,9 +1,9 @@
 import React from 'react';
-import { getProject } from '../api/projectApi';
 import { Table } from 'antd';
-import Header from '../components/molecules/Header/Header.jsx';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
-import Router from 'next/router';
+import { getProject } from '../api/projectApi';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import Routing from '../components/utils/Routes';
 
 import './_style.scss';
 import './_back-office-projec-detail.scss';
@@ -55,14 +55,7 @@ const BackofficeProjectDetail = ({ projectDetail }) => (
         <div className="HeaderProjectDetail">
           <img
             src="./static/images/button-arrow-back.svg"
-            onClick={() =>
-              Router.push(
-                {
-                  pathname: '/back-office-projects'
-                },
-                '/back-office-projects'
-              )
-            }
+            onClick={Routing.toBackOffice}
           />
           <h1>Project Details</h1>
         </div>
