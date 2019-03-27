@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Header from '../components/molecules/Header/Header.jsx';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
-import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects.jsx';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
 
 import { getProjects } from '../api/projectApi';
 
@@ -23,12 +23,13 @@ class BackOfficeProjects extends React.Component {
   }
 
   updateProject = (index, project) => {
-    const projects = this.state.projects;
+    const { projects } = this.state;
     projects[index] = project;
     this.setState({ projects });
-  }
+  };
 
   render() {
+    const { projects } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -37,7 +38,7 @@ class BackOfficeProjects extends React.Component {
           <div className="TableContainer">
             <h1>Projects Administration</h1>
             <TableBOProjects
-              dataSource={this.state.projects}
+              dataSource={projects}
               onStateChange={this.updateProject}
             />
           </div>
