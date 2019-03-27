@@ -26,24 +26,11 @@
     }
   }
 
-    .TransferBankInfo {
-      margin-bottom: 1em;
-      h3 {
-        @include primary-text($body, $primary-color, 400);
-        margin-top: 1em;
-      }
-      h4 {
-        @include primary-text($body, $secondary-color, 300);
-        margin: 0;
-      }
-    }   
-
-    .ant-skeleton-title {
-      display: none;
-    }
-    .ant-skeleton-paragraph {
-      padding-left: 0;
-    }
+  .ant-skeleton-title {
+    display: none;
+  }
+  .ant-skeleton-paragraph {
+    padding-left: 0;
   }
 
   .ControlSteps {

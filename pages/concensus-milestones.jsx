@@ -173,21 +173,22 @@ class ConcensusMilestones extends Component {
     const step1 = (
       <span>
         <StepsIf stepNumber={0} />
-        <div className="SignatoriesContainer">
-          <h1>Consensus</h1>
+        <div className="ProjectStepsContainer">
+          <p className="LabelSteps">Consensus Step</p>
           <h3 className="StepDescription">
             Collaborate with the definition of milestones, share your
             experiences, talk to project owner and other funders, download the
             latest agreements
           </h3>
-          <h2>{project.projectName}</h2>
+          <p className="LabelSteps">Project Name</p>
+          <h1>{project.projectName}</h1>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
                 <TableMilestones dataSource={milestones} />
               </TabPane>
               <TabPane tab="Collaboration" key="2">
-                <div>
+                <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
                   <UploadFile
@@ -212,9 +213,9 @@ class ConcensusMilestones extends Component {
               </TabPane>
             </Tabs>
           </div>
-          <div className="ControlSteps">
-            <ButtonPrimary text="Continue" onClick={this.nextStep} />
-          </div>
+        </div>
+        <div className="ControlSteps StepOne">
+          <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
     );
@@ -222,11 +223,13 @@ class ConcensusMilestones extends Component {
     const step2 = (
       <span>
         <StepsIf stepNumber={1} />
-        <div className="SignatoriesContainer">
-          <h1>Signatories</h1>
-          <p>
+        <div className="ProjectStepsContainer">
+          <p className="LabelSteps">Signatories Step</p>
+          <h3 className="StepDescription">
             Sign your agreement and pledge to help this project come to true
-          </p>
+          </h3>
+          <p className="LabelSteps">Project Name</p>
+          <h1>Lorem Ipsum</h1>
           <div className="SignatoryList">
             {userProjects.map(userProject => {
               let userTransfer = transfers.filter(
@@ -258,10 +261,10 @@ class ConcensusMilestones extends Component {
               );
             })}
           </div>
-          <div className="ControlSteps">
-            <ButtonCancel text="Cancel" onClick={this.previousStep} />
-            <ButtonPrimary text="Continue" onClick={this.nextStep} />
-          </div>
+        </div>
+        <div className="ControlSteps">
+          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
     );
@@ -269,8 +272,13 @@ class ConcensusMilestones extends Component {
     const step3 = (
       <span>
         <StepsIf stepNumber={2} />
-        <div className="TransferContainer">
-          <h1>Transfer Funds</h1>
+        <div className="ProjectStepsContainer">
+          <p className="LabelSteps">Funding Step</p>
+          <h3 className="StepDescription">
+            Transfer your pledged funds, help the world become a better place for everyone
+          </h3>
+          <p className="LabelSteps">Project Name</p>
+          <h1>Lorem Ipsum</h1>
           <div className="TransferContent">
             <h2>Circles of Angels Bank Account Information</h2>
             <div className="TransferBankInfo">
@@ -288,9 +296,9 @@ class ConcensusMilestones extends Component {
               submitTransfer={this.submitTransfer}
             />
           </div>
-          <div className="ControlSteps">
-            <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          </div>
+        </div>
+        <div className="ControlSteps">
+          <ButtonCancel text="Cancel" onClick={this.previousStep} />
         </div>
       </span>
     );
