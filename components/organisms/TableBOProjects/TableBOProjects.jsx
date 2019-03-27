@@ -89,14 +89,12 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         <div className="ActionButtons">
           <ButtonPrimary
             text="confirm"
-            disabled={collection.status !== 0}
             onClick={async () =>
               handleConfirm(confirmProject, projectId, collection, index)
             }
           />
           <ButtonCancel
             text="Reject"
-            disabled={collection.status !== 0}
             onClick={async () =>
               handleConfirm(rejectProject, projectId, collection, index)
             }
