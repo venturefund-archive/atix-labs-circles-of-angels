@@ -1,8 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
-import { signAgreement } from '../../../api/userProjectApi';
-import Routing from '../../utils/Routes';
 
 import './_style.scss';
 
@@ -16,7 +14,7 @@ class ConfirmPopUp extends React.Component {
   };
 
   handleOk = async () => {
-    const { userId, projectId, handleOk } = this.props;
+    const { handleOk } = this.props;
     await handleOk();
 
     this.setState({
