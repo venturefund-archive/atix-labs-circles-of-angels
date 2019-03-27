@@ -1,15 +1,14 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import './_style.scss';
 import Link from 'next/link';
-import Router from 'next/router';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
+import Routing from '../../utils/Routes';
 
 const { Sider } = Layout;
 
 const goToExploreProjects = () => {
-  Router.push('/explore-projects');
+  Routing.toExploreProjects();
 };
 
 const SideBar = () => (
