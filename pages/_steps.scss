@@ -1,0 +1,40 @@
+@import '../css/general_styling.scss';
+
+.ProjectStepsContainer {
+  padding: 0.5em 1.5em 0;
+  height: 90%;
+  overflow-y: scroll;
+
+  .LabelSteps {
+    @include primary-text($label, $grey, 400);
+    text-transform: uppercase;
+    margin-top: 1.5em;
+  }
+
+  h1 {
+    @include primary-text($h1, $secondary-color, 400);
+  }
+
+  .StepDescription {
+    @include primary-text($h3, $secondary-color, 300);
+    margin-bottom: 1.5em;
+  }
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+    margin: 0.5em 0 1em;
+  }
+}
+
+.ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  padding: 0 1em;
+}
+
+.StepOne{
+  justify-content: flex-end;
+}

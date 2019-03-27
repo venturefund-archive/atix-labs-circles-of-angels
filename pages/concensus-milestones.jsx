@@ -11,6 +11,7 @@ import DownloadAgreement from '../components/molecules/DownloadAgreement/Downloa
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
+import './_steps.scss';
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
 import {
   getProjectMilestones,

@@ -1,0 +1,87 @@
+import React, { Component } from 'react';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import StepsIf from '../components/molecules/StepsIf/StepsIf';
+import './_style.scss';
+import './_concensus.scss';
+import './_steps.scss';
+import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
+import { getUsers } from '../api/userProjectApi';
+import { getTransferListOfProject } from '../api/transferApi';
+import signStatusMap from '../model/signStatusMap';
+import transferStatusMap from '../model/transferStatus';
+import Routing from '../components/utils/Routes';
+
+class SignatoriesIf extends Component {
+  static async getInitialProps(query) {
+    const { projectId } = query.query;
+    const users = await getUsers(projectId);
+    const transfers = await getTransferListOfProject(projectId);
+    return { userProjects: users.data, projectId, transfers };
+  }
+
+  goToTransferFunds = () => {
+    const { projectId } = this.props;
+    Routing.toTransferFunds({ projectId });
+  };
+
+  render() {
+    const { userProjects, projectId, transfers } = this.props;
+
+    return (
+      <div className="AppContainer">
+        <SideBar />
+        <div className="MainContent">
+          <Header />
+          <StepsIf stepNumber={1} />
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Signatories Step</p>
+            <h3 className="StepDescription">
+              Sign your agreement and pledge to help this project come to true
+            </h3>
+            <p className="LabelSteps">Project Name</p>
+            <h1>Lorem Ipsum</h1>
+            <div className="SignatoryList">
+              {userProjects.map(userProject => {
+                let userTransfer = transfers.filter(
+                  transfer => transfer.sender === userProject.user.id
+                )[0];
+
+                if (!userTransfer || userTransfer == null) {
+                  userTransfer = { state: 0 };
+                }
+
+                return (
+                  <SignatoryItem
+                    key={userProject.id}
+                    userId={userProject.user.id}
+                    username={userProject.user.username}
+                    tfStatusShow={transferStatusMap[userTransfer.state].show}
+                    tfStatusIcon={transferStatusMap[userTransfer.state].icon}
+                    tfStatusName={transferStatusMap[userTransfer.state].name}
+                    sgStatusShow={signStatusMap[userProject.status].show}
+                    sgStatusIcon={signStatusMap[userProject.status].icon}
+                    sgStatusName={signStatusMap[userProject.status].name}
+                    nameInitials={userProject.user.username
+                      .charAt(0)
+                      .toUpperCase()}
+                    signStatus={userProject.status}
+                    projectId={projectId}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div className="ControlSteps">
+            <ButtonCancel text="Cancel" />
+            <ButtonPrimary text="Continue" onClick={this.goToTransferFunds} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default SignatoriesIf;

@@ -189,32 +189,34 @@ class CreateProject extends Component {
 
     const step1 = (
       <span>
-        <h1>Create New Project</h1>
-        <StepsProject stepNumber={0} />
-        <div className="ProjectImagesContainer">
-          <h1 className="CreateSubtitle">Project's Images</h1>
-          <UploadImage
-            subtitle="Project's Card Image"
-            text="Lorem ipsum text description"
-            name="projectCard"
-            change={this.changeProjectCard}
-          />
-          <UploadImage
-            subtitle="Project's Cover Image"
-            text="Lorem ipsum text description"
-            name="projectCover"
-            change={this.changeProjectCover}
-          />
-          <UploadImage
-            subtitle="Pitch Proposal Document"
-            text="Lorem ipsum text description"
-            name="projectProposal"
-            change={this.changeProjectProposal}
-          />
-        </div>
-        <div className="ProjectDataContainer">
-          <h1 className="CreateSubtitle">Project's Details</h1>
-          <WebFormProject change={this.handleChange} />
+        <div className="StepContent">
+          <h1>Create New Project</h1>
+          <StepsProject stepNumber={0} />
+          <div className="ProjectImagesContainer">
+            <h1 className="CreateSubtitle">Project's Images</h1>
+            <UploadImage
+              subtitle="Project's Card Image"
+              text="Lorem ipsum text description"
+              name="projectCard"
+              change={this.changeProjectCard}
+            />
+            <UploadImage
+              subtitle="Project's Cover Image"
+              text="Lorem ipsum text description"
+              name="projectCover"
+              change={this.changeProjectCover}
+            />
+            <UploadImage
+              subtitle="Pitch Proposal Document"
+              text="Lorem ipsum text description"
+              name="projectProposal"
+              change={this.changeProjectProposal}
+            />
+          </div>
+          <div className="ProjectDataContainer">
+            <h1 className="CreateSubtitle">Project's Details</h1>
+            <WebFormProject change={this.handleChange} />
+          </div>
         </div>
         <div className="ControlSteps">
           <Link href="/explore-projects">
@@ -227,20 +229,22 @@ class CreateProject extends Component {
 
     const step2 = (
       <span>
-        <h1>Create New Project</h1>
-        <StepsProject stepNumber={1} />
-        <div className="ProjectDataContainer">
-          <h1 className="CreateSubtitle">Projects Milestone Data</h1>
-          <DownloadTemplate
-            subtitle="Project's Milestones Template"
-            text="Lorem ipsum text description"
-            click={this.clickDownloadMilestonesTemplate}
-          />
-          <DragUploadFile
-            change={this.changeMilestones}
-            status={creationStatus}
-            errors={milestonesErrors}
-          />
+        <div className="StepContent">
+          <h1>Create New Project</h1>
+          <StepsProject stepNumber={1} />
+          <div className="ProjectDataContainer">
+            <h1 className="CreateSubtitle">Projects Milestone Data</h1>
+            <DownloadTemplate
+              subtitle="Project's Milestones Template"
+              text="Lorem ipsum text description"
+              click={this.clickDownloadMilestonesTemplate}
+            />
+            <DragUploadFile
+              change={this.changeMilestones}
+              status={creationStatus}
+              errors={milestonesErrors}
+            />
+          </div>
         </div>
         <div className="ControlSteps">
           <ButtonCancel text="Cancel" onClick={this.previousStep} />

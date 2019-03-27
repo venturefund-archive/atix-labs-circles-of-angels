@@ -9,7 +9,7 @@ const StepsIf = ({ stepNumber }) => (
     <Steps size="small" current={stepNumber}>
       <Step title="Consensus" />
       <Step title="Signatories" />
-      <Step title="Transfer Funds" />
+      <Step title="Funding" />
     </Steps>
   </div>
 );
