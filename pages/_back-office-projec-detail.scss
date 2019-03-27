@@ -1,0 +1,22 @@
+@import '../css/general_styling.scss';
+
+.TableContainer {
+  margin-top: 60px;
+  padding: 0 1.5em;
+
+  .HeaderProjectDetail {
+    display: flex;
+    margin: 1.5em 0;
+    align-items: center;
+
+    img {
+      cursor: pointer;
+      width: 20px;
+      margin-right: 1em;
+    }
+
+    h1 {
+      @include primary-text($h1, $secondary-color, 400);
+    }
+  }
+}

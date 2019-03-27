@@ -5,6 +5,9 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Routing from '../components/utils/Routes';
 
+import './_style.scss';
+import './_back-office-projec-detail.scss';
+
 const columns = [
   {
     title: 'Project Name',
@@ -49,12 +52,13 @@ const BackofficeProjectDetail = ({ projectDetail }) => (
     <div className="MainContent">
       <Header />
       <div className="TableContainer">
-        <img
-          src="./static/images/button-arrow-back.svg"
-          alt="goBack"
-          onClick={Routing.toBackOffice}
-        />
-        <h1>Project Details</h1>
+        <div className="HeaderProjectDetail">
+          <img
+            src="./static/images/button-arrow-back.svg"
+            onClick={Routing.toBackOffice}
+          />
+          <h1>Project Details</h1>
+        </div>
         <Table columns={columns} dataSource={projectDetail} />
       </div>
     </div>

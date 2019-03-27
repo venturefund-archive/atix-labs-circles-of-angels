@@ -7,11 +7,25 @@
     border-radius: 20px;
     padding: 0 20px;
     text-transform: uppercase;
+    cursor: auto;
   }
 
-  .ButtonPrimary, .ButtonDownload {
+  .ActionButtons{
+    display: flex;
+  }
+
+  .ButtonPrimary, .ButtonDownload{
     transform: scale(0.8);
     margin-left: -20px;
+  }
+
+  .ButtonCancel{
+    transform: scale(0.8);
+    margin-left: -10px;
+  }
+
+  .ProjectAccess{
+    cursor: pointer;
   }
 
   select {
