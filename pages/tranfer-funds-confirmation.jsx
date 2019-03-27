@@ -7,9 +7,12 @@ import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import { getTransferStatus } from '../api/transferApi';
 import { withUser } from '../components/utils/UserContext';
+import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 
 import './_style.scss';
 import './_transfer-funds-confirmation.scss';
+import './_steps.scss';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -48,8 +51,14 @@ class TransferFundsConfirmation extends React.Component {
         <div className="MainContent">
           <Header />
           <StepsIf stepNumber={2} />
-          <div className="TransferConfirmationContainer">
-            <h1>Transfer Funds</h1>
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Funding Step</p>
+            <h3 className="StepDescription">
+              Transfer your pledged funds, help the world become a better place
+              for everyone
+            </h3>
+            <p className="LabelSteps">Project Name</p>
+            <h1>Lorem Ipsum</h1>
             <div className="TransferConfirmationContent">
               <img src="./static/images/funds-pending.svg" alt="Clock" />
               {status ? (
@@ -74,6 +83,10 @@ class TransferFundsConfirmation extends React.Component {
                
               </div> */}
             </div>
+          </div>
+          <div className="ControlSteps">
+            <ButtonCancel text="Volver" />
+            <ButtonPrimary text="Confirm" />
           </div>
         </div>
       </div>
