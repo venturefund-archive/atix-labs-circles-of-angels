@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
+import Link from 'next/link';
 import { Tabs, message } from 'antd';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
@@ -24,19 +25,28 @@ import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import {
   getTransferListOfProject,
-  sendTransferInformation
+  sendTransferInformation,
+  getTransferStatus
 } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
 import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
+import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 
 const { TabPane } = Tabs;
 
 function callback(key) {
   console.log(key);
 }
+
+const statusMap = {
+  '-1': 'theme-cancel',
+  '0': 'theme-pending',
+  '1': 'theme-pending',
+  '2': 'theme-success'
+};
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -45,7 +55,8 @@ class ConcensusMilestones extends Component {
     this.state = {
       currentStep: props.initialStep ? props.initialStep : 0,
       transferId: '',
-      amount: ''
+      amount: '',
+      confirmationStatus: null
     };
   }
 
@@ -86,7 +97,8 @@ class ConcensusMilestones extends Component {
 
     if (result.error) alert(`Error: ${result.error}`);
     else {
-      Routing.toTransferFundsConfirmation();
+      // Routing.toTransferFundsConfirmation();
+      this.nextStep();
       alert('Success: Transfer submited correctly!');
     }
   };
@@ -168,7 +180,7 @@ class ConcensusMilestones extends Component {
       transfers
     } = this.props;
 
-    const { currentStep } = this.state;
+    const { currentStep, confirmationStatus } = this.state;
 
     const step1 = (
       <span>
@@ -303,6 +315,39 @@ class ConcensusMilestones extends Component {
       </span>
     );
 
+    const confirmationStep = (
+      <span>
+        <StepsIf stepNumber={2} />
+        <div className="ProjectStepsContainer">
+          <p className="LabelSteps">Funding Step</p>
+          <h3 className="StepDescription">
+            Transfer your pledged funds, help the world become a better place
+            for everyone
+          </h3>
+          <p className="LabelSteps">Project Name</p>
+          <h1>Lorem Ipsum</h1>
+          <div className="TransferConfirmationContent">
+            <img src="./static/images/funds-pending.svg" alt="Clock" />
+            {confirmationStatus ? (
+              <TransferLabel
+                text={confirmationStatus.name}
+                theme={statusMap[confirmationStatus.status]}
+              />
+            ) : (
+              ''
+            )}
+            <h2>Circles will be checking your funds transfer</h2>
+          </div>
+        </div>
+        <div className="ControlSteps">
+          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <Link href="/explore-projects">
+            <ButtonPrimary text="Confirm" />
+          </Link>
+        </div>
+      </span>
+    );
+
     switch (currentStep) {
       case 0:
         return step1;
@@ -310,6 +355,8 @@ class ConcensusMilestones extends Component {
         return step2;
       case 2:
         return step3;
+      case 3:
+        return confirmationStep;
       default:
         return step1;
     }
