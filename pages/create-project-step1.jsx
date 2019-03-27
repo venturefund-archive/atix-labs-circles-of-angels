@@ -8,6 +8,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsProject from '../components/molecules/StepsProject/StepsProjects';
 import UploadImage from '../components/molecules/UploadImage/UploadImage';
+import UploadFile from '../components/molecules/UploadFile/UploadFile';
 import WebFormProject from '../components/molecules/WebFormProject/WebFormProject';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
@@ -206,11 +207,12 @@ class CreateProject extends Component {
               name="projectCover"
               change={this.changeProjectCover}
             />
-            <UploadImage
+            <UploadFile
               subtitle="Pitch Proposal Document"
               text="Lorem ipsum text description"
               name="projectProposal"
               change={this.changeProjectProposal}
+              buttonText="Upload File"
             />
           </div>
           <div className="ProjectDataContainer">
