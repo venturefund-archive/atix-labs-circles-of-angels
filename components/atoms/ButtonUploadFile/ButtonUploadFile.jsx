@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload, message, Button, Icon } from 'antd';
 import './_style.scss';
 
-const ButtonUploadFile = ({ change, name, text }) => {
+const ButtonUploadFile = ({ change, name, text, typeAccepts }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -12,7 +12,8 @@ const ButtonUploadFile = ({ change, name, text }) => {
   const props = {
     name,
     customRequest: dummyRequest,
-    onChange: change
+    onChange: change,
+    accept: typeAccepts
   };
 
   return (

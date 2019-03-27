@@ -85,7 +85,7 @@ class TransferFundsConfirmation extends React.Component {
             </div>
           </div>
           <div className="ControlSteps">
-            <ButtonCancel text="Volver" />
+            <ButtonCancel text="Cancel" />
             <ButtonPrimary text="Confirm" />
           </div>
         </div>

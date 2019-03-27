@@ -7,7 +7,12 @@ const UploadFile = ({ subtitle, text, change, name, buttonText }) => (
   <div className="UploadFileContainer">
     <h2>{subtitle}</h2>
     <p>{text}</p>
-    <ButtonUploadFile change={change} name={name} text={buttonText} />
+    <ButtonUploadFile
+      change={change}
+      name={name}
+      text={buttonText}
+      typeAccepts=".pdf"
+    />
   </div>
 );
 
