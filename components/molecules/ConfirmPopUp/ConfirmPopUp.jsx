@@ -16,22 +16,12 @@ class ConfirmPopUp extends React.Component {
   };
 
   handleOk = async () => {
-    const { userId, projectId } = this.props;
-    const response = await signAgreement(userId, projectId);
+    const { userId, projectId, handleOk } = this.props;
+    await handleOk();
 
     this.setState({
       visible: false
     });
-
-    // reload page
-    if (!response.error) {
-      Router.push({
-        pathname: '/signatories',
-        query: { projectId }
-      });
-    } else {
-      console.log(response.error);
-    }
   };
 
   handleCancel = () => {
@@ -42,6 +32,7 @@ class ConfirmPopUp extends React.Component {
 
   render() {
     const { visible } = this.state;
+    const { handleOk } = this.props;
     return (
       <div>
         <ButtonPrimary text="Sign" onClick={this.showModal} />
