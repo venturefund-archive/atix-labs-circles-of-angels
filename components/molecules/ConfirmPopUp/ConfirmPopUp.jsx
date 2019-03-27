@@ -1,8 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
-import { signAgreement } from '../../../api/userProjectApi';
-import Routing from '../../utils/Routes';
 
 import './_style.scss';
 
@@ -16,19 +14,12 @@ class ConfirmPopUp extends React.Component {
   };
 
   handleOk = async () => {
-    const { userId, projectId } = this.props;
-    const response = await signAgreement(userId, projectId);
+    const { handleOk } = this.props;
+    await handleOk();
 
     this.setState({
       visible: false
     });
-
-    // reload page
-    if (!response.error) {
-      Routing.toSignatories();
-    } else {
-      console.log(response.error);
-    }
   };
 
   handleCancel = () => {
@@ -39,6 +30,7 @@ class ConfirmPopUp extends React.Component {
 
   render() {
     const { visible } = this.state;
+    const { handleOk } = this.props;
     return (
       <div>
         <ButtonPrimary text="Sign" onClick={this.showModal} />

@@ -18,7 +18,8 @@ const SignatoryItem = ({
   nameInitials,
   signStatus,
   userId,
-  projectId
+  projectId,
+  handleOk
 }) => (
   <div className="SignatoryItem">
     <p className="SignatoryLabel">signer</p>
@@ -36,7 +37,11 @@ const SignatoryItem = ({
           iconStatus={tfStatusIcon}
         />
         {signStatus === SignStatus.UNSIGNED ? (
-          <ConfirmPopUp userId={userId} projectId={projectId} />
+          <ConfirmPopUp
+            userId={userId}
+            projectId={projectId}
+            handleOk={handleOk}
+          />
         ) : (
           <SignatureLabel
             text={sgStatusShow}

@@ -105,7 +105,7 @@ class CreateProject extends Component {
     }
   };
 
-  previuosStep = () => {
+  previousStep = () => {
     const { currentStep } = this.state;
     this.setState({ currentStep: currentStep - 1 });
   };
@@ -219,7 +219,9 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" />
+          <Link href="/explore-projects">
+            <ButtonCancel text="Cancel" />
+          </Link>
           <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
@@ -245,7 +247,7 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previuosStep} />
+          <ButtonCancel text="Cancel" onClick={this.previousStep} />
           <ButtonPrimary
             text="Create Milestones"
             onClick={this.submitProject}
