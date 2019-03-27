@@ -227,7 +227,13 @@ class ConcensusMilestones extends Component {
               <TabPane tab="FAQ & Project Proposal" key="3">
                 <div>
                   <h2>FAQ Document</h2>
-                  <a href={project.faqLink}>{project.faqLink}</a>
+                  <a
+                    href={project.faqLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.faqLink}
+                  </a>
                   <br /> <br />
                   <DownloadFile
                     subtitle="Project's Pitch Proposal"
