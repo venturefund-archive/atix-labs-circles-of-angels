@@ -1,5 +1,5 @@
 import React from 'react';
-import UserAvatar from '../../molecules/UserAvatar/UserAvatar.jsx';
+import UserAvatar from '../../molecules/UserAvatar/UserAvatar';
 import { withUser } from '../../utils/UserContext';
 
 import './_style.scss';

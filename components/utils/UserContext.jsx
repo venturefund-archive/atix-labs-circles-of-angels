@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 
 const UserContext = React.createContext('user');
@@ -9,7 +10,6 @@ export const withUser = ComponentToWrap => {
 
     static async getInitialProps(query) {
       let pageProps = {};
-
       if (ComponentToWrap.getInitialProps) {
         pageProps = await ComponentToWrap.getInitialProps(query);
       }
@@ -42,6 +42,8 @@ export class UserProvider extends React.Component {
   componentDidMount() {
     try {
       this.user = JSON.parse(localStorage.getItem(userKey));
+      this.setState({ user: this.user });
+      console.log(user);
     } catch (error) {
       this.user = {};
     }
@@ -58,15 +60,17 @@ export class UserProvider extends React.Component {
   };
 
   render() {
+    const { user } = this.state;
+    const { children } = this.props;
     return (
       <UserContext.Provider
         value={{
-          user: this.state.user,
+          user,
           changeUser: this.changeUser,
           removeUser: this.removeUser
         }}
       >
-        {this.props.children}
+        {children}
       </UserContext.Provider>
     );
   }
