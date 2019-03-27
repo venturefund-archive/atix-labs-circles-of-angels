@@ -1,12 +1,15 @@
 import Router from 'next/router';
 
-const backOffice = '/back-office-project';
+const backOffice = '/back-office-projects';
+const backOfficeProjectDetails = '/back-office-project-detail';
 const login = '/login';
 const home = '/';
 const exploreProjects = '/explore-projects';
 const createProject = '/create-project-step1';
 const transferFunds = '/tranfer-funds';
 const transferFundsConfirmation = '/tranfer-funds-confirmation';
+const projectDetail = '/project-detail';
+const signatories = '/signatories';
 
 const Routing = {
   toBackOffice: query => {
@@ -29,6 +32,15 @@ const Routing = {
   },
   toTransferFundsConfirmation: query => {
     goToRoute(transferFundsConfirmation, query);
+  },
+  toProjectDetail: query => {
+    goToRoute(projectDetail, query);
+  },
+  toSignatories: query => {
+    goToRoute(signatories, query);
+  },
+  toBackofficeProjectDetails: query => {
+    goToRoute(backOfficeProjectDetails, query);
   }
 };
 

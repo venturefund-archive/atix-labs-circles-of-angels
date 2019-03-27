@@ -1,9 +1,9 @@
 import React from 'react';
-import { getProject } from '../api/projectApi';
 import { Table } from 'antd';
-import Header from '../components/molecules/Header/Header.jsx';
-import SideBar from '../components/organisms/SideBar/SideBar.jsx';
-import Router from 'next/router';
+import { getProject } from '../api/projectApi';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import Routing from '../components/utils/Routes';
 
 const columns = [
   {
@@ -51,14 +51,8 @@ const BackofficeProjectDetail = ({ projectDetail }) => (
       <div className="TableContainer">
         <img
           src="./static/images/button-arrow-back.svg"
-          onClick={() =>
-            Router.push(
-              {
-                pathname: '/back-office-projects'
-              },
-              '/back-office-projects'
-            )
-          }
+          alt="goBack"
+          onClick={Routing.toBackOffice}
         />
         <h1>Project Details</h1>
         <Table columns={columns} dataSource={projectDetail} />

@@ -1,10 +1,9 @@
 import React from 'react';
-import Router from 'next/router';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getProjects } from '../api/projectApi';
-import { UserProvider } from '../components/utils/UserContext';
+import Routing from '../components/utils/Routes';
 import './_style.scss';
 import './_explore-projects.scss';
 
@@ -15,13 +14,7 @@ class ExploreProjects extends React.Component {
   }
 
   goToProjectDetail(projectId) {
-    Router.push(
-      {
-        pathname: '/project-detail',
-        query: { projectId }
-      },
-      '/project-detail'
-    );
+    Routing.toProjectDetail({ projectId });
   }
 
   render() {

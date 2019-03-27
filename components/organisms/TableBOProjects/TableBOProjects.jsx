@@ -1,31 +1,21 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
-import Router from 'next/router';
-
 import './_style.scss';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 import ButtonDownload from '../../atoms/ButtonDownload/ButtonDownload';
 import projectStatusMap from '../../../model/projectStatus';
+import Routing from '../../utils/Routes';
 import {
   confirmProject,
   downloadProjectMilestonesFile
 } from '../../../api/projectApi';
 
 const projectDetailPage = projectId => {
-  console.log(projectId);
-  Router.push(
-    {
-      pathname: '/back-office-project-detail',
-      query: { projectId }
-    },
-    '/back-office-project-detail'
-  );
+  Routing.toBackofficeProjectDetails({ projectId });
 };
 
 const downloadMilestones = async projectId => {
-  const response = await downloadProjectMilestonesFile(projectId);
-  console.log(response);
-  console.log(projectId);
+  await downloadProjectMilestonesFile(projectId);
 };
 
 const TableBOProjects = ({ dataSource, onStateChange }) => {
