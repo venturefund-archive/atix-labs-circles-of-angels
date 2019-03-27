@@ -47,12 +47,17 @@ const WebFormProject = ({ change }) => {
       />
       <Input
         placeholder="Goal Amount"
-        type="number"
+        min={0}
         prefix={<Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />}
         value={project.goalAmount}
         onChange={e => {
           const { value } = e.target;
-          project.goalAmount = Number(value);
+          const valid = /^[0-9]+(\.[0-9]*)?$/.test(value);
+          if (value === '') {
+            project.goalAmount = '';
+          } else if (valid) {
+            project.goalAmount = value;
+          }
           change(project);
         }}
       />

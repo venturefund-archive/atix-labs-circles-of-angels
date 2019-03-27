@@ -136,6 +136,8 @@ class CreateProject extends Component {
       ) {
         allowContinue = false;
       }
+
+      this.setState({ creationStatus: 1, milestonesErrors: [] });
     }
 
     if (currentStep === 1) {
@@ -158,7 +160,9 @@ class CreateProject extends Component {
       project
     } = this.state;
 
-    const ownerId = this.props.user.id;
+    const { user } = this.props;
+
+    const ownerId = user.id;
 
     const files = [];
     files.push(projectProposal.originFileObj);
@@ -166,13 +170,20 @@ class CreateProject extends Component {
     files.push(projectCardPhoto.originFileObj);
     files.push(projectMilestones.originFileObj);
 
-    const res = await createProject(project, files, ownerId);
+    const newProject = {
+      ...project,
+      goalAmount: parseFloat(project.goalAmount)
+    };
+
+    const res = await createProject(newProject, files, ownerId);
 
     console.log(res);
     if (res.status === 200) {
       this.nextStep();
-    } else {
-      console.log(res.error.response.data.errors);
+    } else if (res.error.response.data.error) {
+      alert(res.error.response.data.error);
+      this.setState({ creationStatus: 0 });
+    } else if (res.error.response.data.errors) {
       this.setState({ milestonesErrors: res.error.response.data.errors });
       this.setState({ creationStatus: 0 });
     }
