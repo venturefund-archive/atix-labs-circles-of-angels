@@ -3,14 +3,13 @@ import Router from 'next/router';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import { getProjects } from '../api/projectApi';
-import { UserProvider } from '../components/utils/UserContext';
+import { getActiveProjects } from '../api/projectApi';
 import './_style.scss';
 import './_explore-projects.scss';
 
 class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
-    const response = await getProjects();
+    const response = await getActiveProjects();
     return { projects: response.data };
   }
 
