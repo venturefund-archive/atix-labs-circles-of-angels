@@ -16,7 +16,7 @@ class Login extends Component {
     }
     const user = response.data;
     const nextRoute =
-      user.id === '1' ? '/back-office-projects' : '/explore-projects';
+      user.id === 1 ? '/back-office-projects' : '/explore-projects';
     user.homeRoute = nextRoute;
     changeUser(user);
     Router.push(
