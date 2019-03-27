@@ -8,6 +8,7 @@ import projectStatusMap from '../../../model/projectStatus';
 import Routing from '../../utils/Routes';
 import {
   confirmProject,
+  rejectProject,
   downloadProjectMilestonesFile
 } from '../../../api/projectApi';
 
@@ -78,16 +79,23 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         <div className="ActionButtons">
           <ButtonPrimary
             text="confirm"
-            onClick={async () => handleConfirm(projectId, collection, index)}
+            onClick={async () =>
+              handleConfirm(confirmProject, projectId, collection, index)
+            }
           />
-          <ButtonCancel text="Reject" />
+          <ButtonCancel
+            text="Reject"
+            onClick={async () =>
+              handleConfirm(rejectProject, projectId, collection, index)
+            }
+          />
         </div>
       )
     }
   ];
 
-  const handleConfirm = async (projectId, collection, index) => {
-    const confirmation = await confirmProject(projectId);
+  const handleConfirm = async (action, projectId, collection, index) => {
+    const confirmation = await action(projectId);
     collection.status = confirmation.data.status;
     onStateChange(collection, index);
   };
