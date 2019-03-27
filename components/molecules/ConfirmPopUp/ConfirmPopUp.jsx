@@ -1,8 +1,8 @@
 import React from 'react';
-import Router from 'next/router';
 import { Modal } from 'antd';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 import { signAgreement } from '../../../api/userProjectApi';
+import Routing from '../../utils/Routes';
 
 import './_style.scss';
 
@@ -25,10 +25,7 @@ class ConfirmPopUp extends React.Component {
 
     // reload page
     if (!response.error) {
-      Router.push({
-        pathname: '/signatories',
-        query: { projectId }
-      });
+      Routing.toSignatories();
     } else {
       console.log(response.error);
     }
