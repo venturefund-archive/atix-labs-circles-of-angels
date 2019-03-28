@@ -67,6 +67,7 @@ class ConcensusMilestones extends Component {
     const response = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
+
     return {
       milestones: response.data,
       project,
@@ -182,6 +183,19 @@ class ConcensusMilestones extends Component {
 
     const { currentStep, confirmationStatus } = this.state;
 
+    const milestonesAndActivities = [];
+
+    milestones.forEach(milestone => {
+      milestonesAndActivities.push(milestone);
+      milestone.activities.forEach((activity, j) => {
+        const activityWithId = {
+          ...activity,
+          type: `Activity ${j + 1}`
+        };
+        milestonesAndActivities.push(activityWithId);
+      });
+    });
+
     const step1 = (
       <span>
         <StepsIf stepNumber={0} />
@@ -197,7 +211,7 @@ class ConcensusMilestones extends Component {
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
-                <TableMilestones dataSource={milestones} />
+                <TableMilestones dataSource={milestonesAndActivities} />
               </TabPane>
               <TabPane tab="Collaboration" key="2">
                 <div className="TabCollaboration">
@@ -213,7 +227,13 @@ class ConcensusMilestones extends Component {
               <TabPane tab="FAQ & Project Proposal" key="3">
                 <div>
                   <h2>FAQ Document</h2>
-                  <a href={project.faqLink}>{project.faqLink}</a>
+                  <a
+                    href={project.faqLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.faqLink}
+                  </a>
                   <br /> <br />
                   <DownloadFile
                     subtitle="Project's Pitch Proposal"

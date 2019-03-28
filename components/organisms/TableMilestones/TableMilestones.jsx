@@ -12,6 +12,11 @@ const TableMilestones = ({ dataSource }) => {
       key: "timeline"
     },
     {
+      title: "Type",
+      dataIndex: "type",
+      key: "type"
+    },
+    {
       title: "Tasks",
       dataIndex: "tasks",
       key: "tasks"

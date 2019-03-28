@@ -8,6 +8,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsProject from '../components/molecules/StepsProject/StepsProjects';
 import UploadImage from '../components/molecules/UploadImage/UploadImage';
+import UploadFile from '../components/molecules/UploadFile/UploadFile';
 import WebFormProject from '../components/molecules/WebFormProject/WebFormProject';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
@@ -136,6 +137,8 @@ class CreateProject extends Component {
       ) {
         allowContinue = false;
       }
+
+      this.setState({ creationStatus: 1, milestonesErrors: [] });
     }
 
     if (currentStep === 1) {
@@ -158,7 +161,9 @@ class CreateProject extends Component {
       project
     } = this.state;
 
-    const ownerId = this.props.user.id;
+    const { user } = this.props;
+
+    const ownerId = user.id;
 
     const files = [];
     files.push(projectProposal.originFileObj);
@@ -166,13 +171,20 @@ class CreateProject extends Component {
     files.push(projectCardPhoto.originFileObj);
     files.push(projectMilestones.originFileObj);
 
-    const res = await createProject(project, files, ownerId);
+    const newProject = {
+      ...project,
+      goalAmount: parseFloat(project.goalAmount)
+    };
+
+    const res = await createProject(newProject, files, ownerId);
 
     console.log(res);
     if (res.status === 200) {
       this.nextStep();
-    } else {
-      console.log(res.error.response.data.errors);
+    } else if (res.error.response.data.error) {
+      alert(res.error.response.data.error);
+      this.setState({ creationStatus: 0 });
+    } else if (res.error.response.data.errors) {
       this.setState({ milestonesErrors: res.error.response.data.errors });
       this.setState({ creationStatus: 0 });
     }
@@ -206,11 +218,12 @@ class CreateProject extends Component {
               name="projectCover"
               change={this.changeProjectCover}
             />
-            <UploadImage
+            <UploadFile
               subtitle="Pitch Proposal Document"
               text="Lorem ipsum text description"
               name="projectProposal"
               change={this.changeProjectProposal}
+              buttonText="Upload File"
             />
           </div>
           <div className="ProjectDataContainer">
