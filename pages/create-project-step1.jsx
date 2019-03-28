@@ -17,6 +17,8 @@ import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFil
 import FileUploadStatus from '../constants/FileUploadStatus';
 import { createProject, downloadMilestonesTemplate } from '../api/projectApi';
 
+import Routing from '../components/utils/Routes';
+
 import './_style.scss';
 import './_create-project.scss';
 
@@ -228,14 +230,14 @@ class CreateProject extends Component {
           </div>
           <div className="ProjectDataContainer">
             <h1 className="CreateSubtitle">Project's Details</h1>
-            <WebFormProject change={this.handleChange} />
+            <WebFormProject
+              onConfirm={async project => {
+                await this.setState({ project });
+                this.nextStep();
+              }}
+              onCancel={Routing.toExploreProjects}
+            />
           </div>
-        </div>
-        <div className="ControlSteps">
-          <Link href="/explore-projects">
-            <ButtonCancel text="Cancel" />
-          </Link>
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
     );
@@ -320,7 +322,6 @@ class CreateProject extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="AppContainer">
         <SideBar />
