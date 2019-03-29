@@ -1,16 +1,13 @@
 import React from 'react';
-import Router from 'next/router';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
+import Routing from '../components/utils/Routes';
 
 class Index extends React.Component {
   componentDidMount() {
-    const { user } = this.props;
-    const nextRoute =
-      this.props && user && user.homeRoute ? user.homeRoute : '/login';
-    Router.push({
-      pathname: nextRoute
-    });
+    const { getLoggedUser } = this.props;
+    const user = getLoggedUser();
+    Routing.toUserHome(user);
   }
   render() {
     return <></>;

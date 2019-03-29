@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Router from 'next/router';
+import Routing from '../components/utils/Routes';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { withUser } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
@@ -15,16 +15,9 @@ class Login extends Component {
       return;
     }
     const user = response.data;
-    const nextRoute =
-      user.id === 1 ? '/back-office-projects' : '/explore-projects';
-    user.homeRoute = nextRoute;
+    user.isAdmin = user.id == 1;
     changeUser(user);
-    Router.push(
-      {
-        pathname: nextRoute
-      },
-      nextRoute
-    );
+    Routing.toUserHome(user);
   };
 
   render() {
