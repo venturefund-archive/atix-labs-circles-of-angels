@@ -22,6 +22,7 @@ import {
 } from '../api/projectApi';
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
+import ErrorPopUp from '../components/molecules/ErrorPopUp/ErrorPopUp';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import {
   getTransferListOfProject,
@@ -33,6 +34,7 @@ import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
+import { withErrorPopUp } from '../components/utils/ErrorPopUpContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 
 const { TabPane } = Tabs;
@@ -56,7 +58,8 @@ class ConcensusMilestones extends Component {
       currentStep: props.initialStep ? props.initialStep : 0,
       transferId: '',
       amount: '',
-      confirmationStatus: null
+      confirmationStatus: null,
+      error: {}
     };
   }
 
@@ -85,7 +88,7 @@ class ConcensusMilestones extends Component {
   submitTransfer = async evnt => {
     evnt.preventDefault();
     const { transferId, amount } = this.state;
-    const { user, projectId } = this.props;
+    const { user, projectId, showErrorPopUp } = this.props;
     const toSubmit = {
       transferId,
       amount,
@@ -94,14 +97,16 @@ class ConcensusMilestones extends Component {
       projectId,
       destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
     };
-    const result = await sendTransferInformation(toSubmit);
+    const response = await sendTransferInformation(toSubmit);
 
-    if (result.error) alert(`Error: ${result.error}`);
-    else {
-      // Routing.toTransferFundsConfirmation();
-      this.nextStep();
-      alert('Success: Transfer submited correctly!');
+    if (response.error) {
+      this.setState({ error: response.error });
+      showErrorPopUp();
+      return response;
     }
+    // Routing.toTransferFundsConfirmation();
+    this.nextStep();
+    alert('Success: Transfer submited correctly!');
   };
 
   goToTransferFunds = () => {
@@ -110,9 +115,17 @@ class ConcensusMilestones extends Component {
   };
 
   downloadAgreementClick = async () => {
-    const { project } = this.props;
+    const { project, showErrorPopUp } = this.props;
 
     const response = await downloadAgreement(project.id);
+    if (response.error) {
+      response.error.response.data =
+        // eslint-disable-next-line prettier/prettier
+        { error: 'This project doesn\'t have an Agreement uploaded' };
+      this.setState({ error: response.error });
+      showErrorPopUp();
+      return response;
+    }
     console.log(response);
   };
 
@@ -137,13 +150,21 @@ class ConcensusMilestones extends Component {
   };
 
   clickDownloadProposal = async () => {
-    const { project } = this.props;
-    const res = await downloadProposal(project.id);
-    console.log(res);
+    const { project, showErrorPopUp } = this.props;
+    const response = await downloadProposal(project.id);
+    if (response.error) {
+      response.error.response.data =
+        // eslint-disable-next-line prettier/prettier
+        { error: 'This project doesn\'t have a Proposal uploaded' };
+      this.setState({ error: response.error });
+      showErrorPopUp();
+      return response;
+    }
+    console.log(response);
   };
 
   signAgreementOk = async () => {
-    const { user, projectId, project } = this.props;
+    const { user, projectId, project, showErrorPopUp } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
@@ -156,7 +177,8 @@ class ConcensusMilestones extends Component {
         '/concensus-milestones'
       );
     } else {
-      console.log(response.error);
+      this.setState({ error: response.error });
+      showErrorPopUp();
     }
 
     return response;
@@ -307,7 +329,8 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place for everyone
+            Transfer your pledged funds, help the world become a better place
+            for everyone
           </h3>
           <p className="LabelSteps">Project Name</p>
           <h1>Lorem Ipsum</h1>
@@ -383,11 +406,28 @@ class ConcensusMilestones extends Component {
   };
 
   render() {
+    const { visibleErrorPopUp, hideErrorPopUp } = this.props;
+
+    const { error } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
           <Header />
+          {error && (
+            <ErrorPopUp
+              visible={visibleErrorPopUp}
+              errorMessage={
+                error.response ? error.response.data.error : error.message
+              }
+              errorTitle={
+                error.response
+                  ? `${error.response.status} - ${error.response.statusText}`
+                  : error.message
+              }
+              handleOk={hideErrorPopUp}
+            />
+          )}
           {this.getCurrentStep()}
         </div>
       </div>
@@ -395,4 +435,4 @@ class ConcensusMilestones extends Component {
   }
 }
 
-export default withUser(ConcensusMilestones);
+export default withUser(withErrorPopUp(ConcensusMilestones));

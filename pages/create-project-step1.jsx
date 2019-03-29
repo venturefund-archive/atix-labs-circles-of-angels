@@ -3,6 +3,7 @@ import { Icon, message } from 'antd';
 import Link from 'next/link';
 import { values, isEmpty } from 'lodash';
 import { withUser } from '../components/utils/UserContext';
+import { withErrorPopUp } from '../components/utils/ErrorPopUpContext';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -14,6 +15,7 @@ import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import DownloadTemplate from '../components/molecules/DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
+import ErrorPopUp from '../components/molecules/ErrorPopUp/ErrorPopUp';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import { createProject, downloadMilestonesTemplate } from '../api/projectApi';
 
@@ -42,7 +44,8 @@ class CreateProject extends Component {
         faqLink: ''
       },
       creationStatus: 1, // 1: Pending, 0: Error
-      milestonesErrors: []
+      milestonesErrors: [],
+      error: {}
     };
   }
 
@@ -161,7 +164,7 @@ class CreateProject extends Component {
       project
     } = this.state;
 
-    const { user } = this.props;
+    const { user, showErrorPopUp } = this.props;
 
     const ownerId = user.id;
 
@@ -182,8 +185,8 @@ class CreateProject extends Component {
     if (res.status === 200) {
       this.nextStep();
     } else if (res.error.response.data.error) {
-      alert(res.error.response.data.error);
-      this.setState({ creationStatus: 0 });
+      this.setState({ error: res.error, creationStatus: 0 });
+      showErrorPopUp();
     } else if (res.error.response.data.errors) {
       this.setState({ milestonesErrors: res.error.response.data.errors });
       this.setState({ creationStatus: 0 });
@@ -191,8 +194,15 @@ class CreateProject extends Component {
   };
 
   clickDownloadMilestonesTemplate = async () => {
+    const { showErrorPopUp } = this.props;
     const res = await downloadMilestonesTemplate();
-    console.log(res);
+    if (res.error) {
+      res.error.response.data =
+        // eslint-disable-next-line prettier/prettier
+        { error: 'The template file is not available at the moment' };
+      this.setState({ error: res.error });
+      showErrorPopUp();
+    }
     return res;
   };
 
@@ -320,16 +330,34 @@ class CreateProject extends Component {
   }
 
   render() {
-    console.log(this.props);
+    const { visibleErrorPopUp, hideErrorPopUp } = this.props;
+
+    const { error } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
           <Header />
-          <div className="CreateProjectContainer">{this.getCurrentStep()}</div>
+          <div className="CreateProjectContainer">
+            {error && (
+              <ErrorPopUp
+                visible={visibleErrorPopUp}
+                errorMessage={
+                  error.response ? error.response.data.error : error.message
+                }
+                errorTitle={
+                  error.response
+                    ? `${error.response.status} - ${error.response.statusText}`
+                    : error.message
+                }
+                handleOk={hideErrorPopUp}
+              />
+            )}
+            {this.getCurrentStep()}
+          </div>
         </div>
       </div>
     );
   }
 }
-export default withUser(CreateProject);
+export default withUser(withErrorPopUp(CreateProject));
