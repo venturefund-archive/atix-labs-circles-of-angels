@@ -20,7 +20,7 @@ import { createProject, downloadMilestonesTemplate } from '../api/projectApi';
 import Routing from '../components/utils/Routes';
 
 import './_style.scss';
-import './_create-project.scss';
+// import './_create-project.scss';
 
 class CreateProject extends Component {
   constructor(props) {
@@ -206,6 +206,16 @@ class CreateProject extends Component {
         <div className="StepContent">
           <h1>Create New Project</h1>
           <StepsProject stepNumber={0} />
+          <div className="ProjectDataContainer">
+            <h1 className="CreateSubtitle">Project's Details</h1>
+            <WebFormProject
+              onConfirm={async project => {
+                await this.setState({ project });
+                this.nextStep();
+              }}
+              onCancel={Routing.toExploreProjects}
+            />
+          </div>
           <div className="ProjectImagesContainer">
             <h1 className="CreateSubtitle">Project's Images</h1>
             <UploadImage
@@ -226,16 +236,6 @@ class CreateProject extends Component {
               name="projectProposal"
               change={this.changeProjectProposal}
               buttonText="Upload File"
-            />
-          </div>
-          <div className="ProjectDataContainer">
-            <h1 className="CreateSubtitle">Project's Details</h1>
-            <WebFormProject
-              onConfirm={async project => {
-                await this.setState({ project });
-                this.nextStep();
-              }}
-              onCancel={Routing.toExploreProjects}
             />
           </div>
         </div>

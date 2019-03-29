@@ -37,137 +37,139 @@ class WebFormProject extends React.Component {
 
     return (
       <Form className="WebFormProject" onSubmit={this.handleSubmit}>
-        <div className="form-section">
-          <Form.Item>
-            {getFieldDecorator('projectName', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input the project name!'
-                }
-              ]
-            })(
-              <Input
-                placeholder="Project Name"
-                prefix={
-                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-              />
-            )}
-          </Form.Item>
+        <div className="WebFormProjectContainer">
+          <div className="form-section">
+            <Form.Item>
+              {getFieldDecorator('projectName', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the project name!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Project Name"
+                  prefix={
+                    <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
 
+            <Form.Item>
+              {getFieldDecorator('location', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the enterprise location!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Enterprise Location"
+                  prefix={
+                    <Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('timeframe', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the timeframe!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Timeframe"
+                  prefix={
+                    <Icon type="calendar" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('goalAmount', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the goal amount!'
+                  },
+                  { validator: this.checkAmount }
+                ]
+              })(
+                <Input
+                  placeholder="Goal Amount"
+                  min={0}
+                  prefix={
+                    <Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+          </div>
+
+          <div className="form-section">
+            <Form.Item className="TextArea">
+              {getFieldDecorator('mission', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the project mission!'
+                  }
+                ]
+              })(
+                <TextArea
+                  placeholder="Project Mission"
+                  prefix={
+                    <Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item className="TextArea">
+              {getFieldDecorator('problemAddressed', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the problem addressed!'
+                  }
+                ]
+              })(
+                <TextArea
+                  placeholder="Problem Addressed"
+                  prefix={
+                    <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+          </div>
           <Form.Item>
-            {getFieldDecorator('location', {
+            {getFieldDecorator('faqLink', {
               rules: [
                 {
                   required: true,
-                  message: 'Please input the enterprise location!'
+                  message: 'Please input the FAQ link!'
                 }
               ]
             })(
               <Input
-                placeholder="Enterprise Location"
+                placeholder="FAQ Google Doc Link"
                 prefix={
-                  <Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-              />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('timeframe', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input the timeframe!'
-                }
-              ]
-            })(
-              <Input
-                placeholder="Timeframe"
-                prefix={
-                  <Icon type="calendar" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-              />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('goalAmount', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input the goal amount!'
-                },
-                { validator: this.checkAmount }
-              ]
-            })(
-              <Input
-                placeholder="Goal Amount"
-                min={0}
-                prefix={
-                  <Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  <Icon type="google" style={{ color: 'rgba(0,0,0,.25)' }} />
                 }
               />
             )}
           </Form.Item>
         </div>
-
-        <div className="form-section">
-          <Form.Item>
-            {getFieldDecorator('mission', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input the project mission!'
-                }
-              ]
-            })(
-              <TextArea
-                placeholder="Project Mission"
-                prefix={
-                  <Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-              />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('problemAddressed', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input the problem addressed!'
-                }
-              ]
-            })(
-              <TextArea
-                placeholder="Problem Addressed"
-                prefix={
-                  <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-              />
-            )}
-          </Form.Item>
-        </div>
-        <Form.Item>
-          {getFieldDecorator('faqLink', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input the FAQ link!'
-              }
-            ]
-          })(
-            <Input
-              placeholder="FAQ Google Doc Link"
-              prefix={
-                <Icon type="google" style={{ color: 'rgba(0,0,0,.25)' }} />
-              }
-            />
-          )}
-        </Form.Item>
-        <div className="ControlSteps">
+        {/* <div className="ControlSteps">
           <ButtonCancel text="Cancel" onClick={onCancel} />
           <ButtonPrimary text="Continue" onClick={this.handleSubmit} />
-        </div>
+        </div> */}
       </Form>
     );
   }

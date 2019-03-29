@@ -5,21 +5,55 @@
   flex-flow: column;
   flex-wrap: wrap;
 
-  .ant-input-affix-wrapper {
-    margin-right: 0.8em;
-    margin-bottom: 1.5em;
-  }
   .ant-form-item {
-    width: 25%;
-    margin: 0 0.5em;
+    width: 24%;
+    margin-right: 2%;
+    margin-bottom: 1em;
   }
-  textarea.ant-input {
-    margin-bottom: 1.5em;
-    resize: none;
+
+  .ant-form-item:last-child {
+    margin-right: 0;
+  }
+
+  .TextArea {
+    width: 49%;
+    margin-right: 2%;
+    textarea {
+      min-height: 80px;
+      resize: none;
+    }
+  }
+  .TextArea:last-child {
+    margin-right: 0;
   }
 
   .form-section {
     display: flex;
     flex-flow: row;
   }
+}
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  @include primary-text($label, $danger-color, 400);
+  margin-bottom: 0.5em;
+}
+
+.ant-input{
+  font-size: $body;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.has-error .ant-input-affix-wrapper .ant-input,
+.has-error .ant-input-affix-wrapper .ant-input:hover {
+  border-color: $danger-color;
+}
+.has-error .ant-input-affix-wrapper .ant-input:focus {
+  border-color: $danger-color;
+  -webkit-box-shadow: 0 0 0 2px rgba(255, 0, 80, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 0, 80, 0.2);
+}
+
+.WebFormProject .ant-input-affix-wrapper {
+  margin-bottom: 0.5em;
 }

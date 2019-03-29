@@ -6,8 +6,8 @@
   flex-flow: column;
   margin-right: 1.5em;
 
-  h2 {
-    @include primary-text($h2, $secondary-color, 400);
+  .Title {
+    @include primary-text($body, $secondary-color, 400);
     margin-bottom: 0.25em;
   }
   p {

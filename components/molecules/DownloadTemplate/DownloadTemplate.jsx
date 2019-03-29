@@ -1,11 +1,11 @@
-import React from "react";
-import { Button, Icon } from "antd";
-import "./_style.scss";
+import React from 'react';
+import { Button, Icon } from 'antd';
+import './_style.scss';
 
 const DownloadTemplate = ({ subtitle, text, click }) => (
   <div className="DownloadTemplateContainer">
     <div className="TemplateText">
-      <h2>{subtitle}</h2>
+      <p className="Title">{subtitle}</p>
       <p>{text}</p>
     </div>
     <Button onClick={click}>

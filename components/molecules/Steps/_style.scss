@@ -1,0 +1,70 @@
+@import '../../../css/general_styling.scss';
+
+.StepContent {
+  .LabelSteps {
+    @include primary-text($label, $grey, 400);
+    text-transform: uppercase;
+    margin-top: 1.5em;
+  }
+
+  h1 {
+    @include primary-text($h1, $secondary-color, 400);
+  }
+
+  .ProjectDataContainer {
+    width: 100%;
+    margin-top: 1em;
+  }
+
+  .ProjectImagesContainer {
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+    flex-wrap: wrap;
+    border-top: 1px solid $light-grey;
+    padding-top: 1em;
+  }
+
+  .CreateSubtitle {
+    @include primary-text($h3, $primary-color, 300);
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  .ProjectStep3Container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    .IconSuccess {
+      font-size: 50px;
+      margin: 1em 0 0.25em;
+    }
+
+    h1 {
+      @include primary-text($h1, $secondary-color, 400);
+      margin-bottom: 0.25em;
+    }
+    h2 {
+      @include primary-text($h2, $secondary-color, 300);
+      margin-bottom: 1.5em;
+    }
+  }
+}
+
+.ant-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: $button;
+}
+.ant-btn-primary {
+  color: #fff;
+  background-color: $primary-color;
+  border-color: $primary-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
+  color: $secondary-color;
+}

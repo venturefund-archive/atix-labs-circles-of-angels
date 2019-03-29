@@ -34,7 +34,7 @@
     }
 
     p {
-      @include primary-text($body-2, $grey, 300);
+      @include primary-text($body, $grey, 300);
     }
   }
 }
