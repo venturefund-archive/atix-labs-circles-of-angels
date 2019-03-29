@@ -84,11 +84,11 @@ pipeline {
       steps {
         script {
 
-          MSG = "New Backend deployed!"
+          MSG = "New Frontend deployed!"
           TO_POST = """
             {
               "text": "${MSG}",
-              "icon_emoji": ":gentlemanparrot:",
+              "icon_emoji": ":comandante:",
               "channel": "CFN40LX55"
             }
           """
