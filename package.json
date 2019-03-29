@@ -4,7 +4,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "prod": "NODE_ENV=production  next start"
+    "prod": "NODE_ENV=production next start"
   },
   "dependencies": {
     "@zeit/next-sass": "1.0.1",
