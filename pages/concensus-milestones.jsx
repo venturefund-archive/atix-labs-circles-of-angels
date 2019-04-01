@@ -295,7 +295,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonCancel text="Back" onClick={this.previousStep} />
           <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
@@ -330,7 +330,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonCancel text="Back" onClick={this.previousStep} />
         </div>
       </span>
     );
@@ -360,7 +360,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonCancel text="Back" onClick={this.previousStep} />
           <Link href="/explore-projects">
             <ButtonPrimary text="Confirm" />
           </Link>
