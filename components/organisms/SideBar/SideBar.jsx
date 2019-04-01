@@ -22,7 +22,7 @@ const SideBar = () => (
       console.log(collapsed, type);
     }}
   >
-    <div className="logo" onClick={Routing.toHome}>
+    <div className="logo">
       <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
