@@ -233,7 +233,7 @@ class CreateProject extends Component {
         </div>
         <div className="ControlSteps">
           <Link href="/explore-projects">
-            <ButtonCancel text="Cancel" />
+            <ButtonCancel text="Back" />
           </Link>
           <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
@@ -260,7 +260,7 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonCancel text="Back" onClick={this.previousStep} />
           <ButtonPrimary
             text="Create Milestones"
             onClick={this.submitProject}
