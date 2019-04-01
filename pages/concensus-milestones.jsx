@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
-import { Tabs, message, Modal } from 'antd';
+import { Tabs, message } from 'antd';
+import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import Header from '../components/molecules/Header/Header';
@@ -98,20 +99,18 @@ class ConcensusMilestones extends Component {
 
     if (response.error) {
       const { error } = response;
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       return response;
     }
 
     this.nextStep();
-    Modal.success({
-      title: 'Success',
-      content: 'Transfer submited correctly!'
-    });
+    showModalSuccess('Success', 'Transfer submited correctly!');
   };
 
   goToTransferFunds = () => {
@@ -129,12 +128,13 @@ class ConcensusMilestones extends Component {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error = 'This project doesn\'t have an Agreement uploaded';
       }
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       return response;
     }
   };
@@ -168,12 +168,13 @@ class ConcensusMilestones extends Component {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error = 'This project doesn\'t have a Proposal uploaded';
       }
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       return response;
     }
   };
@@ -193,12 +194,13 @@ class ConcensusMilestones extends Component {
       );
     } else {
       const { error } = response;
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       return response;
     }
 

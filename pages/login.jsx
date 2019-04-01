@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
-
-import { Modal } from 'antd';
+import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { withUser } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
@@ -16,12 +15,13 @@ class Login extends Component {
 
       if (response.error) {
         const { error } = response;
-        Modal.error({
-          title: error.response
-            ? `${error.response.status} - ${error.response.statusText}`
-            : error.message,
-          content: error.response ? error.response.data.error : error.message
-        });
+        const title = error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError(title, content);
         return response;
       }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Icon, message, Modal } from 'antd';
+import { Icon, message } from 'antd';
 import Link from 'next/link';
 import { values, isEmpty } from 'lodash';
+import { showModalError } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
 
 import Header from '../components/molecules/Header/Header';
@@ -187,12 +188,13 @@ class CreateProject extends Component {
       }
     } else {
       const { error } = res;
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       this.setState({ creationStatus: 0 });
     }
   };
@@ -206,12 +208,13 @@ class CreateProject extends Component {
         error.response.data.error =
           'The template file is not available at the moment';
       }
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
     }
     return res;
   };

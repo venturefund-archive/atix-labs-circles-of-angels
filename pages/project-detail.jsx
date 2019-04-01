@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
-import { Modal } from 'antd';
+import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import { withUser } from '../components/utils/UserContext';
@@ -31,12 +31,13 @@ class ProjectDetail extends React.Component {
 
     if (response.error) {
       const { error } = response;
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       return response;
     }
 

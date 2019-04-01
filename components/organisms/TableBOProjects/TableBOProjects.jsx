@@ -1,11 +1,12 @@
 import React from 'react';
-import { Table, Tag, Modal } from 'antd';
+import { Table, Tag } from 'antd';
 import './_style.scss';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
 import ButtonDownload from '../../atoms/ButtonDownload/ButtonDownload';
 import projectStatusMap from '../../../model/projectStatus';
 import Routing from '../../utils/Routes';
+import { showModalError } from '../../utils/Modals';
 import {
   confirmProject,
   rejectProject,
@@ -100,12 +101,13 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
           // eslint-disable-next-line prettier/prettier
           'This project doesn\'t have a Milestones file uploaded';
       }
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
     }
     return response;
   };
@@ -120,12 +122,13 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
           // eslint-disable-next-line prettier/prettier
           'This project doesn\'t have a Milestones file uploaded';
       }
-      Modal.error({
-        title: error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message,
-        content: error.response ? error.response.data.error : error.message
-      });
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
 
       return confirmation;
     }
