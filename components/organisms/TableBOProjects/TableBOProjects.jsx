@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Modal } from 'antd';
 import './_style.scss';
 import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
@@ -14,10 +14,6 @@ import {
 
 const projectDetailPage = projectId => {
   Routing.toBackofficeProjectDetails({ projectId });
-};
-
-const downloadMilestones = async projectId => {
-  await downloadProjectMilestonesFile(projectId);
 };
 
 const TableBOProjects = ({ dataSource, onStateChange }) => {
@@ -94,19 +90,59 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
     }
   ];
 
+  const downloadMilestones = async projectId => {
+    const response = await downloadProjectMilestonesFile(projectId);
+
+    if (response.error) {
+      const { error } = response;
+      if (error.response) {
+        error.response.data.error =
+          // eslint-disable-next-line prettier/prettier
+          'This project doesn\'t have a Milestones file uploaded';
+      }
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
+    }
+    return response;
+  };
+
   const handleConfirm = async (action, projectId, collection, index) => {
     const confirmation = await action(projectId);
+
+    if (confirmation.error) {
+      const { error } = confirmation;
+      if (error.response) {
+        error.response.data.error =
+          // eslint-disable-next-line prettier/prettier
+          'This project doesn\'t have a Milestones file uploaded';
+      }
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
+
+      return confirmation;
+    }
+
     collection.status = confirmation.data.status;
     onStateChange(collection, index);
   };
 
   return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      size="middle"
-      className="TableBOProjects"
-    />
+    <span>
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        size="middle"
+        className="TableBOProjects"
+      />
+    </span>
   );
 };
 

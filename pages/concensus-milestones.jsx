@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Modal } from 'antd';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import Header from '../components/molecules/Header/Header';
@@ -22,7 +22,6 @@ import {
 } from '../api/projectApi';
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
-import ErrorPopUp from '../components/molecules/ErrorPopUp/ErrorPopUp';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import {
   getTransferListOfProject,
@@ -34,7 +33,6 @@ import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
-import { withErrorPopUp } from '../components/utils/ErrorPopUpContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 
 const { TabPane } = Tabs;
@@ -58,8 +56,7 @@ class ConcensusMilestones extends Component {
       currentStep: props.initialStep ? props.initialStep : 0,
       transferId: '',
       amount: '',
-      confirmationStatus: null,
-      error: {}
+      confirmationStatus: null
     };
   }
 
@@ -88,7 +85,7 @@ class ConcensusMilestones extends Component {
   submitTransfer = async evnt => {
     evnt.preventDefault();
     const { transferId, amount } = this.state;
-    const { user, projectId, showErrorPopUp } = this.props;
+    const { user, projectId } = this.props;
     const toSubmit = {
       transferId,
       amount,
@@ -100,13 +97,21 @@ class ConcensusMilestones extends Component {
     const response = await sendTransferInformation(toSubmit);
 
     if (response.error) {
-      this.setState({ error: response.error });
-      showErrorPopUp();
+      const { error } = response;
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
       return response;
     }
-    // Routing.toTransferFundsConfirmation();
+
     this.nextStep();
-    alert('Success: Transfer submited correctly!');
+    Modal.success({
+      title: 'Success',
+      content: 'Transfer submited correctly!'
+    });
   };
 
   goToTransferFunds = () => {
@@ -115,18 +120,23 @@ class ConcensusMilestones extends Component {
   };
 
   downloadAgreementClick = async () => {
-    const { project, showErrorPopUp } = this.props;
+    const { project } = this.props;
 
     const response = await downloadAgreement(project.id);
     if (response.error) {
-      response.error.response.data =
+      const { error } = response;
+      if (error.response) {
         // eslint-disable-next-line prettier/prettier
-        { error: 'This project doesn\'t have an Agreement uploaded' };
-      this.setState({ error: response.error });
-      showErrorPopUp();
+        error.response.data.error = 'This project doesn\'t have an Agreement uploaded';
+      }
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
       return response;
     }
-    console.log(response);
   };
 
   changeProjectAgreement = async info => {
@@ -150,21 +160,26 @@ class ConcensusMilestones extends Component {
   };
 
   clickDownloadProposal = async () => {
-    const { project, showErrorPopUp } = this.props;
+    const { project } = this.props;
     const response = await downloadProposal(project.id);
     if (response.error) {
-      response.error.response.data =
+      const { error } = response;
+      if (error.response) {
         // eslint-disable-next-line prettier/prettier
-        { error: 'This project doesn\'t have a Proposal uploaded' };
-      this.setState({ error: response.error });
-      showErrorPopUp();
+        error.response.data.error = 'This project doesn\'t have a Proposal uploaded';
+      }
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
       return response;
     }
-    console.log(response);
   };
 
   signAgreementOk = async () => {
-    const { user, projectId, project, showErrorPopUp } = this.props;
+    const { user, projectId, project } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
@@ -177,8 +192,14 @@ class ConcensusMilestones extends Component {
         '/concensus-milestones'
       );
     } else {
-      this.setState({ error: response.error });
-      showErrorPopUp();
+      const { error } = response;
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
+      return response;
     }
 
     return response;
@@ -406,28 +427,11 @@ class ConcensusMilestones extends Component {
   };
 
   render() {
-    const { visibleErrorPopUp, hideErrorPopUp } = this.props;
-
-    const { error } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
           <Header />
-          {error && (
-            <ErrorPopUp
-              visible={visibleErrorPopUp}
-              errorMessage={
-                error.response ? error.response.data.error : error.message
-              }
-              errorTitle={
-                error.response
-                  ? `${error.response.status} - ${error.response.statusText}`
-                  : error.message
-              }
-              handleOk={hideErrorPopUp}
-            />
-          )}
           {this.getCurrentStep()}
         </div>
       </div>
@@ -435,4 +439,4 @@ class ConcensusMilestones extends Component {
   }
 }
 
-export default withUser(withErrorPopUp(ConcensusMilestones));
+export default withUser(ConcensusMilestones);

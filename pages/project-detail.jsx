@@ -1,14 +1,13 @@
 import React from 'react';
 import Router from 'next/router';
+import { Modal } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import { withUser } from '../components/utils/UserContext';
-import { withErrorPopUp } from '../components/utils/ErrorPopUpContext';
 
 import './_style.scss';
 import './_project-detail.scss';
 
-import ErrorPopUp from '../components/molecules/ErrorPopUp/ErrorPopUp';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import ButtonSuccess from '../components/atoms/ButtonSuccess/ButtonSuccess';
@@ -19,14 +18,6 @@ import { createUserProject } from '../api/userProjectApi';
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      error: {}
-    };
-  }
-
   static async getInitialProps(query) {
     const { projectId } = query.query;
     const response = await getProject(projectId);
@@ -34,14 +25,18 @@ class ProjectDetail extends React.Component {
   }
 
   applyToProject = async () => {
-    const { projectDetail, user, showErrorPopUp } = this.props;
+    const { projectDetail, user } = this.props;
 
     const response = await createUserProject(user.id, projectDetail.id);
-    console.log('RESPONSE', response);
 
     if (response.error) {
-      this.setState({ error: response.error });
-      showErrorPopUp();
+      const { error } = response;
+      Modal.error({
+        title: error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message,
+        content: error.response ? error.response.data.error : error.message
+      });
       return response;
     }
 
@@ -55,8 +50,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { error } = this.state;
-    const { visibleErrorPopUp, hideErrorPopUp, projectDetail } = this.props;
+    const { projectDetail } = this.props;
 
     console.log(projectDetail);
     const itemsData = projectDetail
@@ -94,20 +88,6 @@ class ProjectDetail extends React.Component {
         <div className="MainContent">
           <Header />
           <div className="ProjectContainer">
-            {error && (
-              <ErrorPopUp
-                visible={visibleErrorPopUp}
-                errorMessage={
-                  error.response ? error.response.data.error : error.message
-                }
-                errorTitle={
-                  error.response
-                    ? `${error.response.status} - ${error.response.statusText}`
-                    : error.message
-                }
-                handleOk={hideErrorPopUp}
-              />
-            )}
             <div className="ProjectHeader">
               <img
                 src={projectDetail ? projectDetail.coverPhoto : ''}
@@ -145,4 +125,4 @@ class ProjectDetail extends React.Component {
   }
 }
 
-export default withUser(withErrorPopUp(ProjectDetail));
+export default withUser(ProjectDetail);
