@@ -1,0 +1,14 @@
+@import "../../../css/general_styling.scss";
+
+.CustomButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  padding: 0.5em 1em;
+  text-align: center;
+  height: 36px;
+  box-shadow: transparent;
+  box-shadow: inherit;
+  cursor: pointer;
+}

@@ -1,10 +1,9 @@
 import React from 'react';
-
-import UploadImage from '../UploadImage/UploadImage';
-import UploadFile from '../UploadFile/UploadFile';
+import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 
 import './_style.scss';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const Step1 = () => (
   <div className="StepContent">
@@ -16,20 +15,25 @@ const Step1 = () => (
     </div>
     <div className="ProjectImagesContainer">
       <h3 className="CreateSubtitle">Project's Images</h3>
-      <UploadImage
+      <BlockUpload
         subtitle="Project's Card Image"
         text="Lorem ipsum text description"
         name="projectCard"
+        typeAccepts="image/*"
+        buttonText="Upload Image"
       />
-      <UploadImage
+      <BlockUpload
         subtitle="Project's Cover Image"
         text="Lorem ipsum text description"
         name="projectCover"
+        typeAccepts="image/*"
+        buttonText="Upload Image"
       />
-      <UploadFile
-        subtitle="Pitch Proposal Document"
+      <BlockUpload
+        subtitle="Project's Cover Image"
         text="Lorem ipsum text description"
-        name="projectProposal"
+        name="projectCover"
+        typeAccepts=".pdf"
         buttonText="Upload File"
       />
     </div>
