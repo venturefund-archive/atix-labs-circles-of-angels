@@ -4,7 +4,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import { sendTransferInformation } from '../api/transferApi';
 import Routing from '../components/utils/Routes';

@@ -7,7 +7,7 @@ import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import { getTransferStatus } from '../api/transferApi';
 import { withUser } from '../components/utils/UserContext';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 
 import './_style.scss';
@@ -86,7 +86,7 @@ class TransferFundsConfirmation extends React.Component {
           </div>
           <div className="ControlSteps">
             <ButtonCancel text="Cancel" />
-            <ButtonPrimary text="Confirm" />
+            <CustomButton theme="Primary" buttonText="Confirm" />
           </div>
         </div>
       </div>

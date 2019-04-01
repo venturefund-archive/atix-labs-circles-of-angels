@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import { Tabs, message } from 'antd';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -246,7 +246,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+        <CustomButton theme="Primary" buttonText="Continue" onClick={this.nextStep}/>
         </div>
       </span>
     );
@@ -295,7 +295,7 @@ class ConcensusMilestones extends Component {
         </div>
         <div className="ControlSteps">
           <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+          <CustomButton theme="Primary" buttonText="Continue" onClick={this.nextStep} />
         </div>
       </span>
     );
@@ -363,7 +363,7 @@ class ConcensusMilestones extends Component {
         <div className="ControlSteps">
           <ButtonCancel text="Cancel" onClick={this.previousStep} />
           <Link href="/explore-projects">
-            <ButtonPrimary text="Confirm" />
+          <CustomButton theme="Primary" buttonText="Confirm" />
           </Link>
         </div>
       </span>

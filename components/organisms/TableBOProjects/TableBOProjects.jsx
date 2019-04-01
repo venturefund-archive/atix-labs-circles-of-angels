@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
 import './_style.scss';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
 import ButtonDownload from '../../atoms/ButtonDownload/ButtonDownload';
 import projectStatusMap from '../../../model/projectStatus';
@@ -77,12 +77,9 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       key: 'action',
       render: (projectId, collection, index) => (
         <div className="ActionButtons">
-          <ButtonPrimary
-            text="confirm"
-            onClick={async () =>
+          <CustomButton theme="Primary" buttonText="confirm" onClick={async () =>
               handleConfirm(confirmProject, projectId, collection, index)
-            }
-          />
+            } />
           <ButtonCancel
             text="Reject"
             onClick={async () =>

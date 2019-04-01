@@ -1,6 +1,5 @@
 import React from 'react';
 import { Input, Icon, Form } from 'antd';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
 
 import './_style.scss';
@@ -166,10 +165,6 @@ class WebFormProject extends React.Component {
             )}
           </Form.Item>
         </div>
-        {/* <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={onCancel} />
-          <ButtonPrimary text="Continue" onClick={this.handleSubmit} />
-        </div> */}
       </Form>
     );
   }
