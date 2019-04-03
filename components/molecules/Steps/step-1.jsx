@@ -32,46 +32,6 @@ class Step1 extends React.Component {
     const { project, changeProjectFile } = this.props;
 
     return (
-      // <div className="StepContent">
-      //   <p className="LabelSteps">Step 1</p>
-      //   <h1>Complete Project Detail</h1>
-      //   <div className="ProjectDataContainer">
-      //     <h3 className="CreateSubtitle">Project'hs Details</h3>
-      //     <WebFormProject project={project} webform={webform} />
-      //   </div>
-      //   <div className="ProjectImagesContainer">
-      //     <h3 className="CreateSubtitle">Project's Images</h3>
-      //     <UploadImage
-      //       subtitle="Project's Card Image"
-      //       text="Lorem ipsum text description"
-      //       name="projectCard"
-      //       change={info =>
-      //         changeProjectFile(project, 'projectCardPhoto', info)
-      //       }
-      //     />
-      //     <UploadImage
-      //       subtitle="Project's Cover Image"
-      //       text="Lorem ipsum text description"
-      //       name="projectCover"
-      //       change={info =>
-      //         changeProjectFile(project, 'projectCoverPhoto', info)
-      //       }
-      //     />
-      //     <UploadFile
-      //       subtitle="Pitch Proposal Document"
-      //       text="Lorem ipsum text description"
-      //       name="projectProposal"
-      //       buttonText="Upload File"
-      //       change={info => changeProjectFile(project, 'projectProposal', info)}
-      //     />
-      //   </div>
-      //   <div className="ControlSteps">
-      //     <Button type="primary" onClick={this.validProject}>
-      //       Continue
-      //     </Button>
-      //   </div>
-      // </div>
-
       <div className="StepContent">
         <p className="LabelSteps">Step 1</p>
         <h1>Complete Project Detail</h1>

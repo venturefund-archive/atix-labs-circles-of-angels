@@ -2,7 +2,6 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import './_style.scss';
-import Link from 'next/link';
 import Routing from '../../utils/Routes';
 
 const { Sider } = Layout;
@@ -24,9 +23,7 @@ const SideBar = () => (
     }}
   >
     <div className="logo">
-      <Link href="/">
-        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
-      </Link>
+      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
       <Menu.Item key="1" onClick={goToExploreProjects}>

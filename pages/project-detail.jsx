@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import { withUser } from '../components/utils/UserContext';
@@ -24,7 +25,18 @@ class ProjectDetail extends React.Component {
     const { projectDetail, user } = this.props;
 
     const response = await createUserProject(user.id, projectDetail.id);
-    console.log(response);
+
+    if (response.error) {
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
 
     Router.push(
       {

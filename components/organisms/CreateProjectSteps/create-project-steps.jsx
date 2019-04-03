@@ -79,26 +79,6 @@ class CreateProjectSteps extends React.Component {
           ))}
         </Steps>
         <div className="ContentSteps">{this.steps[current].content}</div>
-        {/* <div className="ControlSteps">
-          {current > 0 && (
-            <Button style={{ marginRight: 8 }} onClick={() => this.prev()}>
-              Previous
-            </Button>
-          )}
-          {current < this.steps.length - 1 && (
-            <Button type="primary" onClick={() => this.next()}>
-              Continue
-            </Button>
-          )}
-          {current === this.steps.length - 1 && (
-            <Button
-              type="primary"
-              onClick={() => message.success('Processing complete!')}
-            >
-              Got it!
-            </Button>
-          )}
-        </div> */}
       </div>
     );
   }

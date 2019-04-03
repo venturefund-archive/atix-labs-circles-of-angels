@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import { userInfo } from 'os';
 
 const backOffice = '/back-office-projects';
 const backOfficeProjectDetails = '/back-office-project-detail';
@@ -10,6 +11,7 @@ const transferFunds = '/tranfer-funds';
 const transferFundsConfirmation = '/tranfer-funds-confirmation';
 const projectDetail = '/project-detail';
 const signatories = '/signatories';
+const consensusMilestones = '/concensus-milestones';
 
 const Routing = {
   toBackOffice: query => {
@@ -41,6 +43,16 @@ const Routing = {
   },
   toBackofficeProjectDetails: query => {
     goToRoute(backOfficeProjectDetails, query);
+  },
+  toConsensusMilestones: query => {
+    goToRoute(consensusMilestones, query);
+  },
+  toUserHome: user => {
+    if (!user) {
+      Routing.toLogin();
+    } else if (user.isAdmin) {
+      Routing.toBackOffice();
+    } else Routing.toExploreProjects();
   }
 };
 
