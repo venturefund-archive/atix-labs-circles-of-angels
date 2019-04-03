@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
+import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { withUser } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
@@ -8,23 +9,35 @@ import './_login.scss';
 
 class Login extends Component {
   onLoginSubmit = async (email, pwd) => {
-    const response = await loginUser(email, pwd);
-    const { changeUser } = this.props;
-    if (response.error) {
-      alert(response.error);
-      return;
+    if (email && pwd && email !== '' && pwd !== '') {
+      const response = await loginUser(email, pwd);
+      const { changeUser } = this.props;
+
+      if (response.error) {
+        const { error } = response;
+        const title = error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError(title, content);
+        return response;
+      }
+
+      const user = response.data;
+      const nextRoute =
+        user.id === 1 ? '/back-office-projects' : '/explore-projects';
+      user.homeRoute = nextRoute;
+
+      changeUser(user);
+      Router.push(
+        {
+          pathname: nextRoute
+        },
+        nextRoute
+      );
     }
-    const user = response.data;
-    const nextRoute =
-      user.id === 1 ? '/back-office-projects' : '/explore-projects';
-    user.homeRoute = nextRoute;
-    changeUser(user);
-    Router.push(
-      {
-        pathname: nextRoute
-      },
-      nextRoute
-    );
   };
 
   render() {
