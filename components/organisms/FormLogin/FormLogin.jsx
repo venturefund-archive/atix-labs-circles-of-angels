@@ -7,6 +7,7 @@ import './_style.scss';
 const FormLogin = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
   const submit = () => {
+    form.validateFields();
     onSubmit(getFieldProps('userName').value, getFieldProps('password').value);
   };
   return (
