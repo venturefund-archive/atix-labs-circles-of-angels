@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FormRegister from '../components/organisms/FormRegister/FormRegister.jsx';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary.jsx';
+import CustomButton from '../components/atoms/CustomButton/CustomButton.jsx';
 import './_register.scss';
 
 class Register extends Component {
@@ -12,7 +12,7 @@ class Register extends Component {
           <p>CREATEA ACCOUNT</p>
         </div>
         <FormRegister />
-        <ButtonPrimary text="REGISTER" />
+        <CustomButton theme="Primary" buttonText="REGISTER" />
       </div>
     );
   }

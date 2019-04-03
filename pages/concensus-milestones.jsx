@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Tabs, message } from 'antd';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import UploadFile from '../components/molecules/UploadFile/UploadFile';
 import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
@@ -123,7 +120,8 @@ class ConcensusMilestones extends Component {
       const { error } = response;
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
-        error.response.data.error = 'This project doesn\'t have an Agreement uploaded';
+        error.response.data.error =
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -163,7 +161,8 @@ class ConcensusMilestones extends Component {
       const { error } = response;
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
-        error.response.data.error = 'This project doesn\'t have a Proposal uploaded';
+        error.response.data.error =
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -256,7 +255,7 @@ class ConcensusMilestones extends Component {
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
-                  <UploadFile
+                  <BlockUpload
                     name="projectAgreement"
                     change={this.changeProjectAgreement}
                     buttonText="Upload Project Agreement File"
@@ -286,7 +285,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -334,8 +337,17 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Back" onClick={this.previousStep} />
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -370,7 +382,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Back" onClick={this.previousStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
         </div>
       </span>
     );
@@ -400,8 +416,14 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <ButtonPrimary text="Confirm" onClick={Routing.toExploreProjects} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+          <Link href="/explore-projects">
+            <CustomButton theme="Primary" buttonText="Confirm" />
+          </Link>
         </div>
       </span>
     );
