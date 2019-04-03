@@ -138,14 +138,12 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
   };
 
   return (
-    <span>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        size="middle"
-        className="TableBOProjects"
-      />
-    </span>
+    <Table
+      dataSource={dataSource}
+      columns={columns}
+      size="middle"
+      className="TableBOProjects"
+    />
   );
 };
 
