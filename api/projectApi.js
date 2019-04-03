@@ -111,12 +111,15 @@ const downloadProjectMilestonesFile = async projectId => {
       `${baseURL}/${projectId}/getMilestonesFile`,
       config
     );
+
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'projectMilestones.xlsx');
+    const filename = response.headers.file;
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
+
     return response;
   } catch (error) {
     return { error };
@@ -134,7 +137,8 @@ const downloadAgreement = async projectId => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'agreement.pdf');
+    const filename = response.headers.file;
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
 
@@ -146,7 +150,9 @@ const downloadAgreement = async projectId => {
 
 const downloadProposal = async projectId => {
   try {
-    const config = { responseType: 'blob' };
+    const config = {
+      responseType: 'blob'
+    };
     const response = await api.get(
       `${baseURL}/${projectId}/downloadProposal`,
       config
@@ -156,7 +162,8 @@ const downloadProposal = async projectId => {
     const link = document.createElement('a');
     link.href = url;
 
-    link.setAttribute('download', 'proposal.pdf');
+    const filename = response.headers.file;
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
 
@@ -196,7 +203,8 @@ const downloadMilestonesTemplate = async () => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'milestones.xlsx');
+    const filename = response.headers.file;
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
 
