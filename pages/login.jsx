@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Routing from '../components/utils/Routes';
 import Router from 'next/router';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
@@ -38,6 +39,11 @@ class Login extends Component {
         nextRoute
       );
     }
+    const user = response.data;
+    user.isAdmin = user.id == 1;
+    changeUser(user);
+    Routing.toUserHome(user);
+
   };
 
   render() {
