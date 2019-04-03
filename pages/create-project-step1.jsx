@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Icon, message } from 'antd';
-import Link from 'next/link';
 import { values, isEmpty } from 'lodash';
 import { showModalError } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
+import Routing from '../components/utils/Routes';
 
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -255,9 +255,7 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <Link href="/explore-projects">
-            <ButtonCancel text="Back" />
-          </Link>
+          <ButtonCancel text="Cancel" onClick={Routing.toExploreProjects} />
           <ButtonPrimary text="Continue" onClick={this.nextStep} />
         </div>
       </span>
@@ -305,10 +303,7 @@ class CreateProject extends Component {
           />
           <h1>Your Project has been created successfully!</h1>
           <h2>You can access to it from "My Projects"</h2>
-
-          <Link href="/explore-projects">
-            <ButtonPrimary text="Got it" />
-          </Link>
+          <ButtonPrimary text="Got it" onClick={Routing.toExploreProjects} />
         </div>
       </span>
     );

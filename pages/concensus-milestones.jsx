@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Router from 'next/router';
-import Link from 'next/link';
 import { Tabs, message } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
@@ -26,8 +24,7 @@ import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import {
   getTransferListOfProject,
-  sendTransferInformation,
-  getTransferStatus
+  sendTransferInformation
 } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
 import transferStatusMap from '../model/transferStatus';
@@ -185,13 +182,10 @@ class ConcensusMilestones extends Component {
 
     // reload page
     if (!response.error) {
-      Router.push(
-        {
-          pathname: '/concensus-milestones',
-          query: { projectJSON: JSON.stringify(project), initialStep: 1 }
-        },
-        '/concensus-milestones'
-      );
+      Routing.toConsensusMilestones({
+        projectJSON: JSON.stringify(project),
+        initialStep: 1
+      });
     } else {
       const { error } = response;
       const title = error.response
@@ -406,10 +400,8 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Back" onClick={this.previousStep} />
-          <Link href="/explore-projects">
-            <ButtonPrimary text="Confirm" />
-          </Link>
+          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonPrimary text="Confirm" onClick={Routing.toExploreProjects} />
         </div>
       </span>
     );
