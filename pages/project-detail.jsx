@@ -115,7 +115,11 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <CustomButton buttonText="Go to project" theme="Success" onClick={this.applyToProject} />
+            <CustomButton
+              buttonText="Go to project"
+              theme="Success"
+              onClick={this.applyToProject}
+            />
           </div>
         </div>
       </div>
