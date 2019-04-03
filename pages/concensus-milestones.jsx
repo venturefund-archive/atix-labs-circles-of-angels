@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import { Tabs, message } from 'antd';
+import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
 import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import Header from '../components/molecules/Header/Header';
@@ -94,14 +95,22 @@ class ConcensusMilestones extends Component {
       projectId,
       destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
     };
-    const result = await sendTransferInformation(toSubmit);
+    const response = await sendTransferInformation(toSubmit);
 
-    if (result.error) alert(`Error: ${result.error}`);
-    else {
-      // Routing.toTransferFundsConfirmation();
-      this.nextStep();
-      alert('Success: Transfer submited correctly!');
+    if (response.error) {
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
     }
+
+    this.nextStep();
+    showModalSuccess('Success', 'Transfer submited correctly!');
   };
 
   goToTransferFunds = () => {
@@ -113,7 +122,21 @@ class ConcensusMilestones extends Component {
     const { project } = this.props;
 
     const response = await downloadAgreement(project.id);
-    console.log(response);
+    if (response.error) {
+      const { error } = response;
+      if (error.response) {
+        // eslint-disable-next-line prettier/prettier
+        error.response.data.error = 'This project doesn\'t have an Agreement uploaded';
+      }
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
   };
 
   changeProjectAgreement = async info => {
@@ -138,8 +161,22 @@ class ConcensusMilestones extends Component {
 
   clickDownloadProposal = async () => {
     const { project } = this.props;
-    const res = await downloadProposal(project.id);
-    console.log(res);
+    const response = await downloadProposal(project.id);
+    if (response.error) {
+      const { error } = response;
+      if (error.response) {
+        // eslint-disable-next-line prettier/prettier
+        error.response.data.error = 'This project doesn\'t have a Proposal uploaded';
+      }
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
   };
 
   signAgreementOk = async () => {
@@ -156,7 +193,15 @@ class ConcensusMilestones extends Component {
         '/concensus-milestones'
       );
     } else {
-      console.log(response.error);
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
     }
 
     return response;
@@ -307,7 +352,8 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place for everyone
+            Transfer your pledged funds, help the world become a better place
+            for everyone
           </h3>
           <p className="LabelSteps">Project Name</p>
           <h1>Lorem Ipsum</h1>
