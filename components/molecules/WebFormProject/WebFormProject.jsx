@@ -1,94 +1,174 @@
 import React from 'react';
-import { Input, Icon } from 'antd';
+import { Input, Icon, Form } from 'antd';
 
 import './_style.scss';
 
-const project = {
-  faqLink: '',
-  goalAmount: '',
-  location: '',
-  mission: '',
-  problemAddressed: '',
-  projectName: '',
-  timeframe: ''
-};
 const { TextArea } = Input;
 
-const WebFormProject = ({ change }) => {
-  return (
-    <div className="WebFormProject">
-      <Input
-        placeholder="Project Name"
-        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.projectName}
-        onChange={e => {
-          project.projectName = e.target.value;
-          change(project);
-        }}
-      />
-      <Input
-        placeholder="Enterprise Location"
-        prefix={<Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.location}
-        onChange={e => {
-          project.location = e.target.value;
-          change(project);
-        }}
-      />
-      <Input
-        placeholder="Timeframe"
-        prefix={<Icon type="calendar" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.timeframe}
-        onChange={e => {
-          const { value } = e.target;
-          project.timeframe = value;
-          change(project);
-        }}
-      />
-      <Input
-        placeholder="Goal Amount"
-        min={0}
-        prefix={<Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.goalAmount}
-        onChange={e => {
-          const { value } = e.target;
-          const valid = /^[0-9]+(\.[0-9]*)?$/.test(value);
-          if (value === '') {
-            project.goalAmount = '';
-          } else if (valid) {
-            project.goalAmount = value;
-          }
-          change(project);
-        }}
-      />
-      <TextArea
-        placeholder="Project Mission"
-        prefix={<Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.mission}
-        onChange={e => {
-          project.mission = e.target.value;
-          change(project);
-        }}
-      />
-      <TextArea
-        placeholder="Problem Addressed"
-        prefix={<Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.problemAddressed}
-        onChange={e => {
-          project.problemAddressed = e.target.value;
-          change(project);
-        }}
-      />
-      <Input
-        placeholder="FAQ Google Doc Link"
-        prefix={<Icon type="google" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={project.faqLink}
-        onChange={e => {
-          project.faqLink = e.target.value;
-          change(project);
-        }}
-      />
-    </div>
-  );
-};
-export default WebFormProject;
+class WebFormProject extends React.Component {
+  checkAmount = (rule, value, callback) => {
+    const valid = /^[0-9]+(\.[0-9]*)?$/.test(value);
+    if (!(value === '') && valid) {
+      callback();
+      return;
+    }
+    callback('Must be a numeric value');
+  };
+
+  handleSubmit = () => {
+    const { form, onConfirm } = this.props;
+    const project = {
+      faqLink: form.getFieldValue('faqLink'),
+      goalAmount: form.getFieldValue('goalAmount'),
+      location: form.getFieldValue('location'),
+      mission: form.getFieldValue('mission'),
+      problemAddressed: form.getFieldValue('problemAddressed'),
+      projectName: form.getFieldValue('projectName'),
+      timeframe: form.getFieldValue('timeframe')
+    };
+    onConfirm(project);
+  };
+
+  render() {
+    const { form, onConfirm, onCancel } = this.props;
+    const { getFieldDecorator } = form;
+
+    return (
+      <Form className="WebFormProject" onSubmit={this.handleSubmit}>
+        <div className="WebFormProjectContainer">
+          <div className="form-section">
+            <Form.Item>
+              {getFieldDecorator('projectName', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the project name!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Project Name"
+                  prefix={
+                    <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+
+            <Form.Item>
+              {getFieldDecorator('location', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the enterprise location!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Enterprise Location"
+                  prefix={
+                    <Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('timeframe', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the timeframe!'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="Timeframe"
+                  prefix={
+                    <Icon
+                      type="calendar"
+                      style={{ color: 'rgba(0,0,0,.25)' }}
+                    />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('goalAmount', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the goal amount!'
+                  },
+                  { validator: this.checkAmount }
+                ]
+              })(
+                <Input
+                  placeholder="Goal Amount"
+                  min={0}
+                  prefix={
+                    <Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+          </div>
+
+          <div className="form-section">
+            <Form.Item className="TextArea">
+              {getFieldDecorator('mission', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the project mission!'
+                  }
+                ]
+              })(
+                <TextArea
+                  placeholder="Project Mission"
+                  prefix={
+                    <Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item className="TextArea">
+              {getFieldDecorator('problemAddressed', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input the problem addressed!'
+                  }
+                ]
+              })(
+                <TextArea
+                  placeholder="Problem Addressed"
+                  prefix={
+                    <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                />
+              )}
+            </Form.Item>
+          </div>
+          <Form.Item>
+            {getFieldDecorator('faqLink', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input the FAQ link!'
+                }
+              ]
+            })(
+              <Input
+                placeholder="FAQ Google Doc Link"
+                prefix={
+                  <Icon type="google" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+              />
+            )}
+          </Form.Item>
+        </div>
+      </Form>
+    );
+  }
+}
+export default Form.create({ name: 'CreateProjectForm' })(WebFormProject);

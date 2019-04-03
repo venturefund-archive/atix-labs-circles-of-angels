@@ -1,8 +1,9 @@
 import React from 'react';
 import { Upload, message, Button, Icon } from 'antd';
 import './_style.scss';
+import CustomButton from '../CustomButton/CustomButton';
 
-const ButtonUploadFile = ({ change, name, text, typeAccepts }) => {
+const ButtonUpload = ({ change, name, typeAccepts, buttonText }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -18,11 +19,9 @@ const ButtonUploadFile = ({ change, name, text, typeAccepts }) => {
 
   return (
     <Upload {...props}>
-      <Button>
-        {text} <Icon type="upload" />
-      </Button>
+      <CustomButton icon="upload" buttonText={buttonText} />
     </Upload>
   );
 };
 
-export default ButtonUploadFile;
+export default ButtonUpload;

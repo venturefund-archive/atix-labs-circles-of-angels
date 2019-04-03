@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input, Icon } from 'antd';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary.jsx';
-
+import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
 import './_style.scss';
 
 const FormTransfer = ({ onTransferChange, onAmountChange, submitTransfer }) => (
@@ -24,7 +23,7 @@ const FormTransfer = ({ onTransferChange, onAmountChange, submitTransfer }) => (
         />
       </Form.Item>
       <Form.Item>
-        <ButtonPrimary text="CONFIRM" onClick={submitTransfer} />
+      <CustomButton theme="Primary" buttonText="Confirm" onClick={submitTransfer} />
       </Form.Item>
     </Form>
   </div>

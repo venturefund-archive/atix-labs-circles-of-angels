@@ -19,7 +19,7 @@
     margin-bottom: 1em;
   }
   .ProjectDetail {
-    @include primary-text($body-2, $primary-color, 400);
+    @include primary-text($body, $primary-color, 400);
   }
   .ant-modal-header{
       padding: 16px 30px;

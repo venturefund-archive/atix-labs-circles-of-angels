@@ -1,34 +1,12 @@
-@import '../css/general_styling.scss';
+@import '../../../css/general_styling.scss';
 
 .CreateProjectContainer {
   padding: 0 1.5em;
   height: 100vh;
+  padding-top: 75px;
 
-  h1 {
-    @include primary-text($h1, $black, 400);
-    margin: 1.5em 0 0.5em;
-  }
-
-  .ProjectImagesContainer {
-    display: flex;
-    width: 100%;
-    flex-flow: row;
-    flex-wrap: wrap;
-    padding-bottom: 1.5em;
-    border-bottom: 1px solid $light-grey;
-  }
-  .ProjectDataContainer {
-    width: 100%;
-    margin-top: 1.5em;
-  }
-  .CreateSubtitle {
-    @include primary-text($h1, $primary-color, 300);
-    width: 100%;
-    margin-bottom: 1em;
-  }
-
-  .StepContent {
-    height: 90%;
+  .ContentSteps {
+    height: 85%;
     overflow-y: scroll;
     padding-right: 1em;
   }
@@ -36,7 +14,7 @@
   .ControlSteps {
     border-top: 1px solid $light-grey;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     height: 10%;
   }
@@ -59,6 +37,13 @@
       @include primary-text($h2, $secondary-color, 300);
       margin-bottom: 1.5em;
     }
+  }
+
+  .ant-steps {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .ant-steps-small .ant-steps-item-title {
+    font-size: $h3;
   }
 
   ::-webkit-scrollbar {
