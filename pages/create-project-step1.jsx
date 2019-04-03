@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Icon, message } from 'antd';
 import { values, isEmpty } from 'lodash';
+import { showModalError } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
 
@@ -178,21 +179,43 @@ class CreateProject extends Component {
 
     const res = await createProject(newProject, files, ownerId);
 
-    console.log(res);
     if (res.status === 200) {
       this.nextStep();
-    } else if (res.error.response.data.error) {
-      alert(res.error.response.data.error);
-      this.setState({ creationStatus: 0 });
-    } else if (res.error.response.data.errors) {
-      this.setState({ milestonesErrors: res.error.response.data.errors });
+    } else if (res.error.response) {
+      if (res.error.response.data.errors) {
+        this.setState({ milestonesErrors: res.error.response.data.errors });
+        this.setState({ creationStatus: 0 });
+      }
+    } else {
+      const { error } = res;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
       this.setState({ creationStatus: 0 });
     }
   };
 
   clickDownloadMilestonesTemplate = async () => {
     const res = await downloadMilestonesTemplate();
-    console.log(res);
+    if (res.error) {
+      const { error } = res;
+
+      if (error.response) {
+        error.response.data.error =
+          'The template file is not available at the moment';
+      }
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+    }
     return res;
   };
 
@@ -258,7 +281,7 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <ButtonCancel text="Back" onClick={this.previousStep} />
           <ButtonPrimary
             text="Create Milestones"
             onClick={this.submitProject}
@@ -315,7 +338,6 @@ class CreateProject extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="AppContainer">
         <SideBar />
