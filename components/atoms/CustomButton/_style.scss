@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
 
 .ant-btn.CustomButton {
   display: flex;
@@ -11,33 +11,61 @@
   box-shadow: transparent;
   box-shadow: inherit;
   cursor: pointer;
-  border:none;
   justify-content: space-around;
 }
-.CustomButton:hover{
+.CustomButton:hover {
   opacity: 0.7;
 }
+/* SUCCESS */
 .ant-btn.Success,
-.ant-btn.Success:active
-.ant-btn.Success:focus {
+.ant-btn.Success:active .ant-btn.Success:focus {
   background: $success-color;
   span {
     @include primary-text($button, $white, 400);
   }
-  .anticon{
-    display:none
+  .anticon {
+    display: none;
   }
 }
+/* PRIMARY */
 .ant-btn.Primary,
 .ant-btn.Primary:active,
 .ant-btn.Primary:focus,
-.ant-btn.Primary:hover, {
+.ant-btn.Primary:hover {
   background: $primary-color;
   span {
     @include primary-text($button, $white, 400);
-    text-transform: uppercase;
+  }
+  .anticon {
+    display: none;
+  }
+}
+/* CANCEL */
+.ant-btn.Cancel,
+.ant-btn.Cancel:active,
+.ant-btn.Cancel:focus,
+.ant-btn.Cancel:hover {
+  background: $grey;
+  span {
+    @include primary-text($button, $white, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+
+/* DOWNLOAD */
+.ant-btn.Download,
+.ant-btn.Download:active,
+.ant-btn.Download:focus,
+.ant-btn.Download:hover {
+  background: $white;
+  border: 1px solid $primary-color;
+  span {
+    @include primary-text($button, $primary-color, 400);
   }
   .anticon{
-    display:none
+    color: $primary-color;
+    margin-left: 0.5em;
   }
 }

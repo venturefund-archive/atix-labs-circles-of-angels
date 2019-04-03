@@ -5,7 +5,6 @@ import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import { sendTransferInformation } from '../api/transferApi';
 import Routing from '../components/utils/Routes';
 import { withUser } from '../components/utils/UserContext';
@@ -64,7 +63,8 @@ class TransferFunds extends React.Component {
           <div className="ProjectStepsContainer">
             <p className="LabelSteps">Funding Step</p>
             <h3 className="StepDescription">
-              Transfer your pledged funds, help the world become a better place for everyone
+              Transfer your pledged funds, help the world become a better place
+              for everyone
             </h3>
             <p className="LabelSteps">Project Name</p>
             <h1>Lorem Ipsum</h1>
@@ -86,7 +86,7 @@ class TransferFunds extends React.Component {
               />
             </div>
             <div className="ControlSteps">
-              <ButtonCancel text="Cancel" />
+              <CustomButton theme="Cancel" buttonText="Cancel" />
             </div>
           </div>
         </div>

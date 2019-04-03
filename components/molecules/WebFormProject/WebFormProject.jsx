@@ -1,6 +1,5 @@
 import React from 'react';
 import { Input, Icon, Form } from 'antd';
-import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
 
 import './_style.scss';
 
@@ -85,7 +84,10 @@ class WebFormProject extends React.Component {
                 <Input
                   placeholder="Timeframe"
                   prefix={
-                    <Icon type="calendar" style={{ color: 'rgba(0,0,0,.25)' }} />
+                    <Icon
+                      type="calendar"
+                      style={{ color: 'rgba(0,0,0,.25)' }}
+                    />
                   }
                 />
               )}

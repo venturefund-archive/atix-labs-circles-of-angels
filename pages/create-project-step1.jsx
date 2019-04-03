@@ -9,7 +9,6 @@ import StepsProject from '../components/molecules/StepsProject/StepsProjects';
 import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import WebFormProject from '../components/molecules/WebFormProject/WebFormProject';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import DownloadTemplate from '../components/molecules/DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../constants/FileUploadStatus';
@@ -260,9 +259,16 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <CustomButton theme="Primary" buttonText="Create Milestones" 
-          onClick={this.submitProject}/>
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+          <CustomButton
+            theme="Primary"
+            buttonText="Create Milestones"
+            onClick={this.submitProject}
+          />
         </div>
       </span>
     );
@@ -282,7 +288,7 @@ class CreateProject extends Component {
           <h2>You can access to it from "My Projects"</h2>
 
           <Link href="/explore-projects">
-          <CustomButton theme="Primary" buttonText="Got it" />
+            <CustomButton theme="Primary" buttonText="Got it" />
           </Link>
         </div>
       </span>

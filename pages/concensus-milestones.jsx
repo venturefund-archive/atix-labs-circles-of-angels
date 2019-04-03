@@ -3,7 +3,6 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { Tabs, message } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
@@ -246,7 +245,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
-        <CustomButton theme="Primary" buttonText="Continue" onClick={this.nextStep}/>
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -294,8 +297,17 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <CustomButton theme="Primary" buttonText="Continue" onClick={this.nextStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -307,7 +319,6 @@ class ConcensusMilestones extends Component {
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">
             Transfer your pledged funds, help the world become a better place
-           
             for everyone
           </h3>
           <p className="LabelSteps">Project Name</p>
@@ -331,7 +342,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
         </div>
       </span>
     );
@@ -361,9 +376,13 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
           <Link href="/explore-projects">
-          <CustomButton theme="Primary" buttonText="Confirm" />
+            <CustomButton theme="Primary" buttonText="Confirm" />
           </Link>
         </div>
       </span>
