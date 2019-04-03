@@ -2,26 +2,25 @@ import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import Link from 'next/link';
 import { withUser } from '../../utils/UserContext';
+import Routing from '../../utils/Routes';
 
 import './_style.scss';
 
 const SettingsMenu = ({ text, removeUser }) => {
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <Link href="/#">
-          <a>My Account</a>
-        </Link>
+      <Menu.Item key="0">My Account</Menu.Item>
+      <Menu.Item key="1" onClick={() => Routing.toCreateProject()}>
+        Create Project
       </Menu.Item>
-      <Menu.Item key="1">
-        <Link href="/create-project-step1">
-          <a>Create Project</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Link href="/login">
-          <a onClickCapture={removeUser}>Log out</a>
-        </Link>
+      <Menu.Item
+        key="2"
+        onClick={() => {
+          removeUser();
+          Routing.toLogin();
+        }}
+      >
+        Log out
       </Menu.Item>
     </Menu>
   );
