@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import { Tabs, message } from 'antd';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import UploadFile from '../components/molecules/UploadFile/UploadFile';
 import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
@@ -217,7 +215,7 @@ class ConcensusMilestones extends Component {
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
-                  <UploadFile
+                  <BlockUpload
                     name="projectAgreement"
                     change={this.changeProjectAgreement}
                     buttonText="Upload Project Agreement File"
@@ -247,7 +245,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -295,8 +297,17 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <ButtonPrimary text="Continue" onClick={this.nextStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+
+          <CustomButton
+            theme="Primary"
+            buttonText="Continue"
+            onClick={this.nextStep}
+          />
         </div>
       </span>
     );
@@ -307,7 +318,8 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place for everyone
+            Transfer your pledged funds, help the world become a better place
+            for everyone
           </h3>
           <p className="LabelSteps">Project Name</p>
           <h1>Lorem Ipsum</h1>
@@ -330,7 +342,11 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
         </div>
       </span>
     );
@@ -360,9 +376,13 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
           <Link href="/explore-projects">
-            <ButtonPrimary text="Confirm" />
+            <CustomButton theme="Primary" buttonText="Confirm" />
           </Link>
         </div>
       </span>

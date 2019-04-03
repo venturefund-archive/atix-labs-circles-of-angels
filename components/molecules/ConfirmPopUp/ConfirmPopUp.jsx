@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 import './_style.scss';
 
@@ -33,7 +33,7 @@ class ConfirmPopUp extends React.Component {
     const { handleOk } = this.props;
     return (
       <div>
-        <ButtonPrimary text="Sign" onClick={this.showModal} />
+        <CustomButton theme="Primary" buttonText="Sign" onClick={this.showModal} />
         <Modal
           title="Confirmation"
           visible={visible}

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
 import './_style.scss';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
-import ButtonCancel from '../../atoms/ButtonCancel/ButtonCancel';
-import ButtonDownload from '../../atoms/ButtonDownload/ButtonDownload';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import Routing from '../../utils/Routes';
 import {
@@ -36,28 +34,27 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       title: 'Milestones',
       dataIndex: 'id',
       key: 'milestones',
-      render: projectId => {
-        return (
-          <ButtonDownload
-            text="Download Excel"
-            onClick={() => downloadMilestones(projectId)}
-          />
-        );
-      }
+      render: projectId => (
+        <CustomButton
+          theme="Download"
+          buttonText="Download Excel File"
+          onClick={() => downloadMilestones(projectId)}
+          icon="download"
+        />
+      )
     },
     {
       title: 'Details',
       dataIndex: 'id',
       key: 'details',
-      render: projectId => {
-        return (
-          <img
-            className="ProjectAccess"
-            src="./static/images/icon-info.svg"
-            onClick={() => projectDetailPage(projectId)}
-          />
-        );
-      }
+      render: projectId => (
+        <img
+          alt="img"
+          className="ProjectAccess"
+          src="./static/images/icon-info.svg"
+          onClick={() => projectDetailPage(projectId)}
+        />
+      )
     },
     {
       title: 'Status',
@@ -77,14 +74,16 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       key: 'action',
       render: (projectId, collection, index) => (
         <div className="ActionButtons">
-          <ButtonPrimary
-            text="confirm"
+          <CustomButton
+            theme="Primary"
+            buttonText="confirm"
             onClick={async () =>
               handleConfirm(confirmProject, projectId, collection, index)
             }
           />
-          <ButtonCancel
-            text="Reject"
+          <CustomButton
+            theme="Cancel"
+            buttonText="Reject"
             onClick={async () =>
               handleConfirm(rejectProject, projectId, collection, index)
             }

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
-
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary';
-
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
 const names = {
@@ -57,13 +55,11 @@ const TableAdmin = ({ data, saveStatus }) => {
       key: 'action',
       render: (text, record) => (
         <span>
-          <ButtonPrimary
-            text="confirm"
-            onClick={() => {
+           <CustomButton theme="Primary" buttonText="Confirm" onClick={() => {
               console.log(record);
               saveStatus(record.transferId, record.state);
-            }}
-          />
+            }}/>
+
         </span>
       )
     }

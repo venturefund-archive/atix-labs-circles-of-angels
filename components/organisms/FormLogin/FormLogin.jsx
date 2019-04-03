@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Checkbox } from 'antd';
-import ButtonPrimary from '../../atoms/ButtonPrimary/ButtonPrimary.jsx';
-
+import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
 import 'antd/dist/antd.css';
 import './_style.scss';
 
@@ -43,7 +42,7 @@ const FormLogin = ({ form, onSubmit }) => {
             Forgot password
           </a>
         </div>
-        <ButtonPrimary text="SIGN IN" onClick={submit} />
+        <CustomButton theme="Primary" buttonText="Sign In" onClick={submit} />
         Don't have an Account? <a href="#/">Sign Up</a>
       </Form.Item>
     </Form>

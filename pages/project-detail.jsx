@@ -3,14 +3,11 @@ import Router from 'next/router';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import { withUser } from '../components/utils/UserContext';
-
 import './_style.scss';
 import './_project-detail.scss';
-
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
-import ButtonSuccess from '../components/atoms/ButtonSuccess/ButtonSuccess';
-
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 
@@ -106,7 +103,7 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <div className="SubmitProject">
-            <ButtonSuccess text="Go to project" onClick={this.applyToProject} />
+            <CustomButton buttonText="Go to project" theme="Success" onClick={this.applyToProject} />
           </div>
         </div>
       </div>

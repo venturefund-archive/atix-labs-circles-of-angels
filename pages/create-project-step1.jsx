@@ -3,15 +3,12 @@ import { Icon, message } from 'antd';
 import Link from 'next/link';
 import { values, isEmpty } from 'lodash';
 import { withUser } from '../components/utils/UserContext';
-
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsProject from '../components/molecules/StepsProject/StepsProjects';
-import UploadImage from '../components/molecules/UploadImage/UploadImage';
-import UploadFile from '../components/molecules/UploadFile/UploadFile';
+import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import WebFormProject from '../components/molecules/WebFormProject/WebFormProject';
-import ButtonPrimary from '../components/atoms/ButtonPrimary/ButtonPrimary';
-import ButtonCancel from '../components/atoms/ButtonCancel/ButtonCancel';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import DownloadTemplate from '../components/molecules/DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../constants/FileUploadStatus';
@@ -218,19 +215,19 @@ class CreateProject extends Component {
           </div>
           <div className="ProjectImagesContainer">
             <h1 className="CreateSubtitle">Project's Images</h1>
-            <UploadImage
+            <BlockUpload
               subtitle="Project's Card Image"
               text="Lorem ipsum text description"
               name="projectCard"
               change={this.changeProjectCard}
             />
-            <UploadImage
+            <BlockUpload
               subtitle="Project's Cover Image"
               text="Lorem ipsum text description"
               name="projectCover"
               change={this.changeProjectCover}
             />
-            <UploadFile
+            <BlockUpload
               subtitle="Pitch Proposal Document"
               text="Lorem ipsum text description"
               name="projectProposal"
@@ -262,9 +259,14 @@ class CreateProject extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <ButtonCancel text="Cancel" onClick={this.previousStep} />
-          <ButtonPrimary
-            text="Create Milestones"
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={this.previousStep}
+          />
+          <CustomButton
+            theme="Primary"
+            buttonText="Create Milestones"
             onClick={this.submitProject}
           />
         </div>
@@ -286,7 +288,7 @@ class CreateProject extends Component {
           <h2>You can access to it from "My Projects"</h2>
 
           <Link href="/explore-projects">
-            <ButtonPrimary text="Got it" />
+            <CustomButton theme="Primary" buttonText="Got it" />
           </Link>
         </div>
       </span>

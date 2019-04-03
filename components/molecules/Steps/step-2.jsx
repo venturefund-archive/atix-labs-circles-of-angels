@@ -4,7 +4,10 @@ import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../../../constants/FileUploadStatus';
 import { withUser } from '../../utils/UserContext';
-import { createProject } from '../../../api/projectApi';
+import {
+  createProject,
+  downloadMilestonesTemplate
+} from '../../../api/projectApi';
 
 import './_style.scss';
 
@@ -17,6 +20,11 @@ class Step2 extends React.Component {
     };
   }
 
+  clickDownloadMilestonesTemplate = async () => {
+    const res = await downloadMilestonesTemplate();
+    console.log(res);
+    return res;
+  };
 
   submitProject = async () => {
     const { project, next } = this.props;
@@ -40,7 +48,7 @@ class Step2 extends React.Component {
       ...project.data,
       goalAmount: parseFloat(project.data.goalAmount)
     };
-    console.log(newProject,files)
+    console.log(newProject, files);
     const res = await createProject(newProject, files, ownerId);
 
     console.log(res);
@@ -71,7 +79,7 @@ class Step2 extends React.Component {
   };
 
   render() {
-    const { project, next, prev, changeProjectFile } = this.props;
+    const { prev } = this.props;
     const { creationStatus, milestonesErrors } = this.state;
     return (
       <div className="StepContent">
@@ -80,6 +88,7 @@ class Step2 extends React.Component {
         <div className="ProjectDataContainer">
           <h3 className="CreateSubtitle">Projects Milestone Data</h3>
           <DownloadTemplate
+            click={this.clickDownloadMilestonesTemplate}
             subtitle="Project's Milestones Template"
             text="Lorem ipsum text description"
           />
