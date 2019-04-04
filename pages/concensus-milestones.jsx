@@ -29,6 +29,7 @@ import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
+import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 
 const { TabPane } = Tabs;
 
