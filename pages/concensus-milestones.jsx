@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
 import { Tabs, message } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
@@ -17,18 +18,21 @@ import {
   uploadAgreement
 } from '../api/projectApi';
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
+import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import {
   getTransferListOfProject,
   sendTransferInformation
 } from '../api/transferApi';
+import { deleteMilestone, deleteActivity } from '../api/milestoneApi';
 import signStatusMap from '../model/signStatusMap';
 import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
+import { showModalError, showModalSuccess } from '../components/utils/Modals';
 
 const { TabPane } = Tabs;
 
@@ -200,6 +204,35 @@ class ConcensusMilestones extends Component {
     return response;
   };
 
+  deleteTask = async task => {
+    const { project } = this.props;
+    let response;
+    if (task.type.includes('Milestone')) {
+      response = await deleteMilestone(task.id);
+    } else if (task.type.includes('Activity')) {
+      response = await deleteActivity(task.id);
+    }
+
+    if (!response.error) {
+      Routing.toConsensusMilestones({
+        projectJSON: JSON.stringify(project),
+        initialStep: 0
+      });
+    } else {
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
+
+    return response;
+  };
+
   previousStep = () => {
     const { currentStep } = this.state;
     this.setState({ currentStep: currentStep - 1 });
@@ -249,7 +282,10 @@ class ConcensusMilestones extends Component {
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
-                <TableMilestones dataSource={milestonesAndActivities} />
+                <TableMilestones
+                  dataSource={milestonesAndActivities}
+                  onDelete={this.deleteTask}
+                />
               </TabPane>
               <TabPane tab="Collaboration" key="2">
                 <div className="TabCollaboration">
