@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 import './_style.scss';
 
@@ -60,13 +59,7 @@ const TableMilestones = ({ dataSource, onDelete }) => {
     {
       title: 'Action',
       key: 'action',
-      render: record => (
-        <CustomButton
-          theme="Primary"
-          buttonText="Delete"
-          onClick={() => onDelete(record)}
-        />
-      )
+      render: record => <a onClick={() => onDelete(record)}>Delete</a>
     }
   ];
 
