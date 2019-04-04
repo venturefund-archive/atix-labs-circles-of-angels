@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { userInfo } from 'os';
+import Roles from '../../constants/RolesMap';
 
 const backOffice = '/back-office-projects';
 const backOfficeProjectDetails = '/back-office-project-detail';
@@ -50,7 +50,7 @@ const Routing = {
   toUserHome: user => {
     if (!user) {
       Routing.toLogin();
-    } else if (user.isAdmin) {
+    } else if (user.role.id === Roles.BackofficeAdmin) {
       Routing.toBackOffice();
     } else Routing.toExploreProjects();
   }

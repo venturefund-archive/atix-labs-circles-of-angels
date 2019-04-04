@@ -30,6 +30,7 @@ import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
+import { showModalSuccess, showModalError } from '../components/utils/Modals';
 
 const { TabPane } = Tabs;
 
@@ -58,6 +59,7 @@ class ConcensusMilestones extends Component {
 
   static async getInitialProps(query) {
     const { projectJSON } = query.query;
+    if (!projectJSON) return { error: true };
     const project = JSON.parse(projectJSON);
     const projectId = project.id;
     const response = await getProjectMilestones(projectId);
@@ -307,6 +309,7 @@ class ConcensusMilestones extends Component {
           <h1>Lorem Ipsum</h1>
           <div className="SignatoryList">
             {userProjects.map(userProject => {
+              if (!userProject.user) return;
               let userTransfer = transfers.filter(
                 transfer => transfer.sender === userProject.user.id
               )[0];
@@ -422,9 +425,11 @@ class ConcensusMilestones extends Component {
             buttonText="Cancel"
             onClick={this.previousStep}
           />
-          <Link href="/explore-projects">
-            <CustomButton theme="Primary" buttonText="Confirm" />
-          </Link>
+          <CustomButton
+            theme="Primary"
+            buttonText="Confirm"
+            onClick={() => Routing.toExploreProjects()}
+          />
         </div>
       </span>
     );
