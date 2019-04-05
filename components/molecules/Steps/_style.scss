@@ -52,6 +52,15 @@
   }
 }
 
+.ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  padding: 0 1em;
+}
+
 .ant-btn {
   font-family: 'Montserrat', sans-serif;
   font-size: $button;
