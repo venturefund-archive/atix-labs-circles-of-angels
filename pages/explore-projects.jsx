@@ -3,6 +3,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getActiveProjects } from '../api/projectApi';
+import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 import './_style.scss';
 import './_explore-projects.scss';
@@ -10,7 +11,15 @@ import './_explore-projects.scss';
 class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
     const response = await getActiveProjects();
-    return { projects: response.data };
+    const projects = response.data;
+    const cardPhotos = [];
+    await Promise.all(
+      projects.map(async project => {
+        const projectCardPhoto = await getPhoto(project.cardPhoto);
+        cardPhotos[project.id] = projectCardPhoto.data;
+      })
+    );
+    return { projects, cardPhotos };
   }
 
   goToProjectDetail(projectId) {
@@ -18,7 +27,7 @@ class ExploreProjects extends React.Component {
   }
 
   render() {
-    const { projects } = this.props;
+    const { projects, cardPhotos } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -28,18 +37,21 @@ class ExploreProjects extends React.Component {
           <div className="ProjectsContainer">
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
-              {projects.map(project => (
-                <CardProject
-                  enterpriceName={project.name}
-                  enterpriceMission={project.mission}
-                  projectCardImage={project.cardPhoto}
-                  enterpriceLocation={project.location}
-                  timeframe={project.timeframe}
-                  amount={project.goalAmount}
-                  key={project.id}
-                  onClick={() => this.goToProjectDetail(project.id)}
-                />
-              ))}
+              {projects.map(project => {
+                const projectCardPhoto = cardPhotos[project.id];
+                return (
+                  <CardProject
+                    enterpriceName={project.name}
+                    enterpriceMission={project.mission}
+                    projectCardImage={projectCardPhoto}
+                    enterpriceLocation={project.location}
+                    timeframe={project.timeframe}
+                    amount={project.goalAmount}
+                    key={project.id}
+                    onClick={() => this.goToProjectDetail(project.id)}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

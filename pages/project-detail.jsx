@@ -10,6 +10,7 @@ import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
+import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 
 const imageBaseUrl = './static/images';
@@ -18,7 +19,9 @@ class ProjectDetail extends React.Component {
   static async getInitialProps(query) {
     const { projectId } = query.query;
     const response = await getProject(projectId);
-    return { projectDetail: response.data };
+    const projectDetail = response.data;
+    const coverPhoto = await getPhoto(projectDetail.coverPhoto);
+    return { projectDetail, coverPhoto: coverPhoto.data };
   }
 
   applyToProject = async () => {
@@ -45,7 +48,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail } = this.props;
+    const { projectDetail, coverPhoto } = this.props;
 
     console.log(projectDetail);
     const itemsData = projectDetail
@@ -85,10 +88,7 @@ class ProjectDetail extends React.Component {
 
           <div className="ProjectContainer">
             <div className="ProjectHeader">
-              <img
-                src={projectDetail ? projectDetail.coverPhoto : ''}
-                alt="projectCoverImage"
-              />
+              <img src={coverPhoto || ''} alt="projectCoverImage" />
               <div className="ProjectEnterprice">
                 <p>Entreprise</p>
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
