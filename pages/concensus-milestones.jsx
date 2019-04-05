@@ -31,6 +31,12 @@ import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import { showModalSuccess, showModalError } from '../components/utils/Modals';
+import {
+  deleteMilestone,
+  deleteActivity,
+  updateMilestone
+} from '../api/milestonesApi';
+import { updateActivity } from '../api/activityApi';
 
 const { TabPane } = Tabs;
 
@@ -78,6 +84,53 @@ class ConcensusMilestones extends Component {
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
+  };
+
+  save = async (record, actualField) => {
+    const isActivity = Boolean(actualField.data.milestone);
+    const response = isActivity
+      ? await updateMilestone(actualField.data)
+      : await updateActivity(actualField.data);
+    if (!response || response.error) {
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+    }
+    record = actualField.data;
+  };
+
+  deleteTask = async task => {
+    const { project } = this.props;
+    let response;
+    if (task.type.includes('Milestone')) {
+      response = await deleteMilestone(task.id);
+    } else if (task.type.includes('Activity')) {
+      response = await deleteActivity(task.id);
+    }
+
+    if (!response.error) {
+      Routing.toConsensusMilestones({
+        projectJSON: JSON.stringify(project),
+        initialStep: 0
+      });
+    } else {
+      const { error } = response;
+      const title = error.response
+        ? `${error.response.status} - ${error.response.statusText}`
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
+
+    return response;
   };
 
   submitTransfer = async evnt => {
@@ -252,7 +305,11 @@ class ConcensusMilestones extends Component {
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
-                <TableMilestones dataSource={milestonesAndActivities} />
+                <TableMilestones
+                  dataSource={milestonesAndActivities}
+                  onDelete={this.deleteTask}
+                  onEdit={this.save}
+                />
               </TabPane>
               <TabPane tab="Collaboration" key="2">
                 <div className="TabCollaboration">
