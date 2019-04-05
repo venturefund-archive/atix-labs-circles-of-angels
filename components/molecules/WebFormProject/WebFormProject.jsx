@@ -5,7 +5,22 @@ import './_style.scss';
 
 const { TextArea } = Input;
 
+const fieldsName = {
+  projectName: 'projectName',
+  location: 'location',
+  timeframe: 'timeframe',
+  goalAmount: 'goalAmount',
+  mission: 'mission',
+  problemAddressed: 'problemAddressed',
+  faqLink: 'faqLink'
+};
+
 class WebFormProject extends React.Component {
+  componentDidMount() {
+    const { form, webform } = this.props;
+    webform.form = form;
+  }
+
   checkAmount = (rule, value, callback) => {
     const valid = /^[0-9]+(\.[0-9]*)?$/.test(value);
     if (!(value === '') && valid) {
@@ -15,30 +30,39 @@ class WebFormProject extends React.Component {
     callback('Must be a numeric value');
   };
 
+  getField = field => {
+    const { form } = this.props;
+    return form.isFieldTouched(field) && !form.getFieldError(field)
+      ? form.getFieldValue(field)
+      : '';
+  };
+
   handleSubmit = () => {
-    const { form, onConfirm } = this.props;
-    const project = {
-      faqLink: form.getFieldValue('faqLink'),
-      goalAmount: form.getFieldValue('goalAmount'),
-      location: form.getFieldValue('location'),
-      mission: form.getFieldValue('mission'),
-      problemAddressed: form.getFieldValue('problemAddressed'),
-      projectName: form.getFieldValue('projectName'),
-      timeframe: form.getFieldValue('timeframe')
-    };
-    onConfirm(project);
+    const { project } = this.props;
+    project.data.faqLink = this.getField(fieldsName.faqLink);
+    project.data.goalAmount = this.getField(fieldsName.goalAmount);
+    project.data.problemAddressed = this.getField(fieldsName.problemAddressed);
+    project.data.mission = this.getField(fieldsName.mission);
+    project.data.location = this.getField(fieldsName.location);
+    project.data.projectName = this.getField(fieldsName.projectName);
+    project.data.timeframe = this.getField(fieldsName.timeframe);
+  };
+
+  updateField = field => {
+    const { form, project } = this.props;
+    project[field] = form.getFieldValue(fieldsName[field]);
   };
 
   render() {
-    const { form, onConfirm, onCancel } = this.props;
+    const { form } = this.props;
     const { getFieldDecorator } = form;
 
     return (
-      <Form className="WebFormProject" onSubmit={this.handleSubmit}>
+      <Form className="WebFormProject" onChange={this.handleSubmit}>
         <div className="WebFormProjectContainer">
           <div className="form-section">
             <Form.Item>
-              {getFieldDecorator('projectName', {
+              {getFieldDecorator(fieldsName.projectName, {
                 rules: [
                   {
                     required: true,
@@ -56,7 +80,7 @@ class WebFormProject extends React.Component {
             </Form.Item>
 
             <Form.Item>
-              {getFieldDecorator('location', {
+              {getFieldDecorator(fieldsName.location, {
                 rules: [
                   {
                     required: true,
@@ -73,7 +97,7 @@ class WebFormProject extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('timeframe', {
+              {getFieldDecorator(fieldsName.timeframe, {
                 rules: [
                   {
                     required: true,
@@ -93,7 +117,7 @@ class WebFormProject extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('goalAmount', {
+              {getFieldDecorator(fieldsName.goalAmount, {
                 rules: [
                   {
                     required: true,
@@ -115,7 +139,7 @@ class WebFormProject extends React.Component {
 
           <div className="form-section">
             <Form.Item className="TextArea">
-              {getFieldDecorator('mission', {
+              {getFieldDecorator(fieldsName.mission, {
                 rules: [
                   {
                     required: true,
@@ -132,7 +156,7 @@ class WebFormProject extends React.Component {
               )}
             </Form.Item>
             <Form.Item className="TextArea">
-              {getFieldDecorator('problemAddressed', {
+              {getFieldDecorator(fieldsName.problemAddressed, {
                 rules: [
                   {
                     required: true,
@@ -150,7 +174,7 @@ class WebFormProject extends React.Component {
             </Form.Item>
           </div>
           <Form.Item>
-            {getFieldDecorator('faqLink', {
+            {getFieldDecorator(fieldsName.faqLink, {
               rules: [
                 {
                   required: true,
