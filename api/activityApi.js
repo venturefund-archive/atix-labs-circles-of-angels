@@ -1,6 +1,6 @@
 import api from './api';
 
-const baseURL = 'activity';
+const baseURL = 'activities';
 
 const updateActivity = async ({
   budget,
