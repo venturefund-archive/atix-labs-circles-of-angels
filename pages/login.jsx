@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Routing from '../components/utils/Routes';
-import Router from 'next/router';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { withUser } from '../components/utils/UserContext';
@@ -9,6 +8,11 @@ import { loginUser } from '../api/userApi';
 import './_login.scss';
 
 class Login extends Component {
+  componentDidMount() {
+    const { removeUser } = this.props;
+    removeUser();
+  }
+
   onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
@@ -27,23 +31,9 @@ class Login extends Component {
       }
 
       const user = response.data;
-      const nextRoute =
-        user.id === 1 ? '/back-office-projects' : '/explore-projects';
-      user.homeRoute = nextRoute;
-
       changeUser(user);
-      Router.push(
-        {
-          pathname: nextRoute
-        },
-        nextRoute
-      );
+      Routing.toUserHome(user);
     }
-    const user = response.data;
-    user.isAdmin = user.id == 1;
-    changeUser(user);
-    Routing.toUserHome(user);
-
   };
 
   render() {
