@@ -3,8 +3,8 @@ import { Input } from 'antd';
 
 class EditableCell extends React.Component {
   handleChange = evnt => {
-    const { fieldToEdit, colKey } = this.props;
-    fieldToEdit.data[colKey] = evnt.currentTarget.value;
+    const { fieldtoedit, colkey } = this.props;
+    fieldtoedit.data[colkey] = evnt.currentTarget.value;
   };
 
   render() {
