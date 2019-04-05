@@ -6,12 +6,31 @@ import CreateProjectSteps from '../components/organisms/CreateProjectSteps/creat
 
 import './_style.scss';
 
+const project = {
+  data: {
+    faqLink: '',
+    goalAmount: '',
+    location: '',
+    mission: '',
+    problemAddressed: '',
+    projectName: '',
+    timeframe: ''
+  },
+  files: {
+    projectProposal: {},
+    projectCoverPhoto: {},
+    projectCardPhoto: {},
+    projectMilestones: {},
+    milestonesErrors: []
+  }
+};
+
 const CreateProject = () => (
   <div className="AppContainer">
     <SideBar />
     <div className="MainContent">
       <Header />
-      <CreateProjectSteps />
+      <CreateProjectSteps project={project} />
     </div>
   </div>
 );
