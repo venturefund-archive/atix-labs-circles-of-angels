@@ -2,23 +2,22 @@ import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
+import Roles from '../../../constants/RolesMap';
 
 import './_style.scss';
 
-const SettingsMenu = ({ text, removeUser }) => {
+const SettingsMenu = ({ text, user }) => {
   const menu = (
     <Menu>
       <Menu.Item key="0">My Account</Menu.Item>
-      <Menu.Item key="1" onClick={Routing.toCreateProject}>
-        Create Project
-      </Menu.Item>
-      <Menu.Item
-        key="2"
-        onClick={() => {
-          removeUser();
-          Routing.toLogin();
-        }}
-      >
+      {user.role.id === Roles.SocialEntrepreneur ? (
+        <Menu.Item key="1" onClick={() => Routing.toCreateProject()}>
+          Create Project
+        </Menu.Item>
+      ) : (
+        ''
+      )}
+      <Menu.Item key="2" onClick={() => Routing.toLogin()}>
         Log out
       </Menu.Item>
     </Menu>
