@@ -118,7 +118,7 @@ class ProjectDetail extends React.Component {
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data"> 
-                    <p className="TextBlue">http://Document.Link</p>
+                    <a href="" className="TextBlue">http://Document.Link</a>
                     <span className="Overline">FAQ Document</span>
                   </div>
                   <Divider type="vertical" />
