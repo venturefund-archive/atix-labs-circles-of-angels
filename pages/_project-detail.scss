@@ -1,5 +1,32 @@
 @import "../css/general_styling.scss";
 
+.ProjectInfoHeader{
+  padding: 1.5em 2em;
+  border-bottom:1px solid $medium-grey;
+  h1 {
+    @include primary-text($h1, $secondary-color, 600);
+  }
+  .LabelSteps {
+    @include primary-text($label, $grey, 500);
+    text-transform: uppercase;
+  }
+  .Data{
+  
+  .TextGray{
+    @include primary-text($body-2, $secondary-color, 500);
+  }
+  .TextBlue{
+    @include primary-text($body-2, $primary-color, 500);
+  }
+  }
+  .Overline{
+    @include primary-text($body, $grey, 500);
+  }
+  .ant-divider, .ant-divider-vertical{
+    height: 2.5em;
+    margin: 0 0.8em;
+  }
+}
 .ProjectContainer {
   margin-top: 50px;
   height: 90%;

@@ -6,9 +6,16 @@
   padding-top: 75px;
 
   .ContentSteps {
-    height: 85%;
+    height: 96.5%;
     overflow-y: scroll;
     padding-right: 1em;
+    .StepContent{
+      height: inherit;
+      .Content{
+        height: 90%;
+        overflow-y: scroll;
+      }
+    }
   }
 
   .ControlSteps {
@@ -40,10 +47,11 @@
   }
 
   .ant-steps {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
   }
   .ant-steps-small .ant-steps-item-title {
     font-size: $h3;
+    font-weight: 600;
   }
 
   ::-webkit-scrollbar {

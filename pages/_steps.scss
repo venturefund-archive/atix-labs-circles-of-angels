@@ -6,7 +6,7 @@
   overflow-y: scroll;
 
   .LabelSteps {
-    @include primary-text($label, $grey, 400);
+    @include primary-text($label, $grey, 500);
     text-transform: uppercase;
     margin-top: 1.5em;
   }
