@@ -14,4 +14,13 @@ const loginUser = async (email, pwd) => {
   }
 };
 
-export { loginUser };
+const getOracles = async () => {
+  try {
+    const response = await api.get(`${baseURL}/oracle`);
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export { loginUser, getOracles };
