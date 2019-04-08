@@ -18,6 +18,12 @@
   .TextBlue{
     @include primary-text($body-2, $primary-color, 500);
   }
+  a.TextBlue{
+    width: 135px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   }
   .Overline{
     @include primary-text($body, $grey, 500);
