@@ -10,8 +10,8 @@ import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
-import { Divider,Button, Icon } from 'antd';
 import Routing from '../components/utils/Routes';
+
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
@@ -84,7 +84,6 @@ class ProjectDetail extends React.Component {
           <Header />
 
           <div className="ProjectContainer">
-
             <div className="ProjectHeader">
               <img
                 src={projectDetail ? projectDetail.coverPhoto : ''}
@@ -95,48 +94,8 @@ class ProjectDetail extends React.Component {
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
             </div>
-            <div className="ProjectInfoHeader">
-              <div className="space-between">
-              <div className="">
-                <div>
-                  <p class="LabelSteps">Project Name</p>
-                  <h1>Proyecto Eugenia</h1>
-                </div>
-                <div className="flex">
-                  <div className="vertical  Data"> 
-                    <p className="TextBlue">2,587</p>
-                    <span className="Overline">Goal Amount</span>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data"> 
-                    <p className="TextGray">1,238</p>
-                    <span className="Overline">Already</span>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data"> 
-                    <a href="" className="TextBlue">http://Document.Link</a>
-                    <span className="Overline">FAQ Document</span>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical Data"> 
-                  <Button>
-      Proyect Proposal <Icon type="download" />
-    </Button>
-                  </div>
-                </div>
-              </div>
-              <CustomButton
-              buttonText="Start Project"
-              theme="Primary" />
-              </div>
-
-
-
-            </div>
-
 
             <div className="ProjectContent">
-
               <ProjectMission
                 mission={projectDetail ? projectDetail.mission : ''}
                 terms={projectDetail ? projectDetail.problemAddressed : ''}

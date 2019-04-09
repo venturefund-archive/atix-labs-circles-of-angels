@@ -35,6 +35,39 @@
   padding: 0 1em;
 }
 
-.StepOne{
+.StepOne {
   justify-content: flex-end;
+}
+.ProjectInfoHeader {
+  padding: 0 0 1em 0;
+  border-bottom: 1px solid $medium-grey;
+  h1 {
+    @include primary-text($h1, $secondary-color, 600);
+  }
+  .LabelSteps {
+    @include primary-text($label, $grey, 500);
+    text-transform: uppercase;
+  }
+  .Data {
+    .TextGray {
+      @include primary-text($body-2, $secondary-color, 500);
+    }
+    .TextBlue {
+      @include primary-text($body-2, $primary-color, 500);
+    }
+    a.TextBlue {
+      width: 135px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .Overline {
+    @include primary-text($body, $grey, 500);
+  }
+  .ant-divider,
+  .ant-divider-vertical {
+    height: 2.5em;
+    margin: 0 0.8em;
+  }
 }

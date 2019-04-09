@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Divider, Button, Icon } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -316,8 +316,39 @@ class ConcensusMilestones extends Component {
             experiences, talk to project owner and other funders, download the
             latest agreements
           </h3>
-          <p className="LabelSteps">Project Name</p>
-          <h1>{projectName}</h1>
+          <div className="ProjectInfoHeader">
+            <div className="space-between">
+              <div className="">
+                <div>
+                  <p className="LabelSteps">Project Name</p>
+                  <h1>{projectName}</h1>
+                </div>
+                <div className="flex">
+                  <div className="vertical  Data">
+                    <p className="TextBlue">2,587</p>
+                    <span className="Overline">Goal Amount</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <p className="TextGray">1,238</p>
+                    <span className="Overline">Already</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <a href="www.google.com">http://Document.Link</a>
+                    <span className="Overline">FAQ Document</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Proyect Proposal <Icon type="download" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <CustomButton buttonText="Start Project" theme="Primary" />
+            </div>
+          </div>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
