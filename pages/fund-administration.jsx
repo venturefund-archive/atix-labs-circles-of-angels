@@ -1,20 +1,19 @@
-import React from "react";
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import TableAdmin from "../components/organisms/TableAdmin/TableAdmin.jsx";
-import "./_style.scss";
-import "./_fund-administration.scss";
+import React from 'react';
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import TableAdminProjects from '../components/organisms/TableAdmin/TableAdminProjects';
+import './_style.scss';
+import './_fund-administration.scss';
 import {
   getTransferListOfProject,
   updateStateOfTransference
-} from "../api/transferApi";
+} from '../api/transferApi';
+import { getProjects } from '../api/projectApi';
 
 class FundAdministration extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      transfers: []
-    };
+  static async getInitialProps(query) {
+    const response = await getProjects();
+    return { projects: response.data || [] };
   }
 
   saveStatus = (transferId, state) => {
@@ -22,13 +21,14 @@ class FundAdministration extends React.Component {
     alert(`Status changed successfuly!`);
   };
 
-  componentDidMount = async () => {
-    const transfers = await getTransferListOfProject(1);
+  getTransfersOfProjects = async projectId => {
+    const transfers = await getTransferListOfProject(parseInt(projectId, 10));
     console.log(transfers);
-    this.setState({ transfers: transfers });
+    return transfers || [];
   };
 
   render() {
+    const { projects } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -36,9 +36,10 @@ class FundAdministration extends React.Component {
           <Header />
           <div className="FundAdminContainer">
             <h1>Funds Administration</h1>
-            <TableAdmin
-              data={this.state.transfers}
+            <TableAdminProjects
+              data={projects}
               saveStatus={this.saveStatus}
+              getTransfersOfProjects={this.getTransfersOfProjects}
             />
           </div>
         </div>

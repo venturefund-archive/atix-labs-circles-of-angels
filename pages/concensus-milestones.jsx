@@ -61,7 +61,7 @@ class ConcensusMilestones extends Component {
     super(props);
 
     this.state = {
-      currentStep: props.initialStep ? props.initialStep : 0,
+      currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
       amount: '',
       confirmationStatus: null
@@ -82,7 +82,8 @@ class ConcensusMilestones extends Component {
       projectId,
       transfers,
       faqLink,
-      oracles
+      oracles,
+      initialStep
     };
   }
 
@@ -124,12 +125,7 @@ class ConcensusMilestones extends Component {
     }
 
     if (!response.error) {
-      Routing.toConsensusMilestones({
-        projectId,
-        projectName,
-        faqLink,
-        initialStep: 0
-      });
+      this.goToStep(0);
     } else {
       const { error } = response;
       const title = error.response
@@ -249,12 +245,7 @@ class ConcensusMilestones extends Component {
 
     // reload page
     if (!response.error) {
-      Routing.toConsensusMilestones({
-        projectId,
-        projectName,
-        faqLink,
-        initialStep: 1
-      });
+      this.goToStep(1);
     } else {
       const { error } = response;
       const title = error.response
@@ -270,14 +261,25 @@ class ConcensusMilestones extends Component {
     return response;
   };
 
+  goToStep = step => {
+    const { projectId, projectName, faqLink } = this.props;
+    this.setState({ currentStep: step });
+    Routing.toConsensusMilestones({
+      projectId,
+      projectName,
+      faqLink,
+      initialStep: step
+    });
+  };
+
   previousStep = () => {
     const { currentStep } = this.state;
-    this.setState({ currentStep: currentStep - 1 });
+    this.goToStep(currentStep - 1);
   };
 
   nextStep = () => {
     const { currentStep } = this.state;
-    this.setState({ currentStep: currentStep + 1 });
+    this.goToStep(currentStep + 1);
   };
 
   getCurrentStep = () => {
