@@ -34,4 +34,24 @@ const updateActivity = async ({
   }
 };
 
-export { updateActivity };
+const assignOracleToActivity = async (userId, activityId) => {
+  try {
+    const response = await api.post(
+      `${baseURL}/${activityId}/assignOracle/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const unassignOracleToActivity = async activityId => {
+  try {
+    const response = await api.post(`${baseURL}/${activityId}/unassignOracle`);
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export { updateActivity, assignOracleToActivity, unassignOracleToActivity };

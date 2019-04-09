@@ -19,6 +19,7 @@ import {
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
+import { getOracles } from '../api/userApi';
 import {
   getTransferListOfProject,
   sendTransferInformation
@@ -36,7 +37,11 @@ import {
   deleteActivity,
   updateMilestone
 } from '../api/milestonesApi';
-import { updateActivity } from '../api/activityApi';
+import {
+  updateActivity,
+  assignOracleToActivity,
+  unassignOracleToActivity
+} from '../api/activityApi';
 
 const { TabPane } = Tabs;
 
@@ -64,26 +69,31 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const { projectJSON } = query.query;
-    if (!projectJSON) return { error: true };
-    const project = JSON.parse(projectJSON);
-    const projectId = project.id;
+    const { projectName, projectId, faqLink, initialStep } = query.query;
     const response = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
+    const oracles = await getOracles();
 
     return {
       milestones: response.data,
-      project,
+      projectName,
       userProjects: users.data,
       projectId,
-      transfers
+      transfers,
+      faqLink,
+      oracles
     };
   }
 
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
+  };
+
+  onAssignOracle = (userId, activityId) => {
+    if (!userId) unassignOracleToActivity(activityId);
+    else assignOracleToActivity(userId, activityId);
   };
 
   save = async (record, actualField) => {
@@ -105,7 +115,7 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
-    const { project } = this.props;
+    const { projectId, projectName, faqLink } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -115,7 +125,9 @@ class ConcensusMilestones extends Component {
 
     if (!response.error) {
       Routing.toConsensusMilestones({
-        projectJSON: JSON.stringify(project),
+        projectId,
+        projectName,
+        faqLink,
         initialStep: 0
       });
     } else {
@@ -169,9 +181,9 @@ class ConcensusMilestones extends Component {
   };
 
   downloadAgreementClick = async () => {
-    const { project } = this.props;
+    const { projectId } = this.props;
 
-    const response = await downloadAgreement(project.id);
+    const response = await downloadAgreement(projectId);
     if (response.error) {
       const { error } = response;
       if (error.response) {
@@ -191,7 +203,7 @@ class ConcensusMilestones extends Component {
   };
 
   changeProjectAgreement = async info => {
-    const { project } = this.props;
+    const { projectId } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
     if (status !== FileUploadStatus.UPLOADING) {
@@ -199,7 +211,7 @@ class ConcensusMilestones extends Component {
     }
     if (status === FileUploadStatus.DONE) {
       const response = await uploadAgreement(
-        project.id,
+        projectId,
         projectAgreement.originFileObj
       );
 
@@ -211,8 +223,8 @@ class ConcensusMilestones extends Component {
   };
 
   clickDownloadProposal = async () => {
-    const { project } = this.props;
-    const response = await downloadProposal(project.id);
+    const { projectId } = this.props;
+    const response = await downloadProposal(projectId);
     if (response.error) {
       const { error } = response;
       if (error.response) {
@@ -232,13 +244,15 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async () => {
-    const { user, projectId, project } = this.props;
+    const { user, faqLink, projectId, projectName } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
     if (!response.error) {
       Routing.toConsensusMilestones({
-        projectJSON: JSON.stringify(project),
+        projectId,
+        projectName,
+        faqLink,
         initialStep: 1
       });
     } else {
@@ -268,11 +282,13 @@ class ConcensusMilestones extends Component {
 
   getCurrentStep = () => {
     const {
-      project,
+      projectName,
       milestones,
       userProjects,
       projectId,
-      transfers
+      transfers,
+      faqLink,
+      oracles
     } = this.props;
 
     const { currentStep, confirmationStatus } = this.state;
@@ -301,7 +317,7 @@ class ConcensusMilestones extends Component {
             latest agreements
           </h3>
           <p className="LabelSteps">Project Name</p>
-          <h1>{project.projectName}</h1>
+          <h1>{projectName}</h1>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
@@ -309,6 +325,8 @@ class ConcensusMilestones extends Component {
                   dataSource={milestonesAndActivities}
                   onDelete={this.deleteTask}
                   onEdit={this.save}
+                  oracles={oracles}
+                  onAssignOracle={this.onAssignOracle}
                 />
               </TabPane>
               <TabPane tab="Collaboration" key="2">
@@ -325,12 +343,8 @@ class ConcensusMilestones extends Component {
               <TabPane tab="FAQ & Project Proposal" key="3">
                 <div>
                   <h2>FAQ Document</h2>
-                  <a
-                    href={project.faqLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.faqLink}
+                  <a href={faqLink} target="_blank" rel="noopener noreferrer">
+                    {faqLink}
                   </a>
                   <br /> <br />
                   <DownloadFile

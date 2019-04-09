@@ -1,5 +1,4 @@
 import React from 'react';
-import Router from 'next/router';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -12,7 +11,7 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { Divider,Button, Icon } from 'antd';
-
+import Routing from '../components/utils/Routes';
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
@@ -38,14 +37,11 @@ class ProjectDetail extends React.Component {
       showModalError(title, content);
       return response;
     }
-
-    Router.push(
-      {
-        pathname: '/concensus-milestones',
-        query: { projectJSON: JSON.stringify(projectDetail) }
-      },
-      '/concensus-milestones'
-    );
+    Routing.toConsensusMilestones({
+      projectId: projectDetail.id,
+      projectName: projectDetail.projectName,
+      faqLink: projectDetail.faqLink
+    });
   };
 
   render() {
