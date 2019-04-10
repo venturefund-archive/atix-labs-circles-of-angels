@@ -32,7 +32,8 @@ class Step2 extends React.Component {
       projectProposal,
       projectCoverPhoto,
       projectCardPhoto,
-      projectMilestones
+      projectMilestones,
+      projectAgreement
     } = project.files;
 
     const { user } = this.props;
@@ -43,6 +44,7 @@ class Step2 extends React.Component {
     files.push(projectCoverPhoto.originFileObj);
     files.push(projectCardPhoto.originFileObj);
     files.push(projectMilestones.originFileObj);
+    files.push(projectAgreement.originFileObj);
 
     const newProject = {
       ...project.data,

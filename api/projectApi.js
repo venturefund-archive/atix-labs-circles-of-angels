@@ -11,6 +11,7 @@ const createProject = async (project, files, ownerId) => {
     fd.append('projectCoverPhoto', files[1]);
     fd.append('projectCardPhoto', files[2]);
     fd.append('projectMilestones', files[3]);
+    fd.append('projectAgreement', files[4]);
     fd.append('project', JSON.stringify(project));
     fd.append('ownerId', ownerId);
 
@@ -41,7 +42,6 @@ const getActiveProjects = async () => {
     return { error };
   }
 };
-
 
 // ** NOT USED **
 const uploadProject = async files => {

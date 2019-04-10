@@ -23,7 +23,8 @@ class Step1 extends React.Component {
         project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok' &&
+        project.files.projectAgreement.response === 'ok'
     );
     if (valid) next();
   };
@@ -69,6 +70,16 @@ class Step1 extends React.Component {
             typeAccepts=".pdf"
             buttonText="Upload File"
             change={info => changeProjectFile(project, 'projectProposal', info)}
+          />
+          <BlockUpload
+            subtitle="Project Agreement"
+            text="Lorem ipsum text description"
+            name="projectAgreement"
+            typeAccepts="*"
+            buttonText="Upload File"
+            change={info =>
+              changeProjectFile(project, 'projectAgreement', info)
+            }
           />
         </div>
         </div>
