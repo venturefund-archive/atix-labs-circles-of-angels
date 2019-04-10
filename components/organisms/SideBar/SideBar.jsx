@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import './_style.scss';
 import Routing from '../../utils/Routes';
@@ -12,7 +12,7 @@ const goToExploreProjects = () => {
 
 const SideBar = () => (
   <Sider
-    width="70"
+    width="80"
     breakpoint="md"
     collapsedWidth="0"
     onBreakpoint={broken => {
@@ -27,11 +27,10 @@ const SideBar = () => (
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
       <Menu.Item key="1" onClick={goToExploreProjects}>
-      <Icon type="appstore" />
-        {/* <img src="./static/images/menu-home.svg" alt="Home" /> */}
+        <img src="./static/images/menu-home.svg" alt="Home" />
       </Menu.Item>
       <Menu.Item key="2">
-      <Icon type="sliders" />
+        <img src="./static/images/menu-settings.svg" alt="Settings" />
       </Menu.Item>
     </Menu>
   </Sider>

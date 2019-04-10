@@ -9,12 +9,12 @@
 .StepContent {
   height: 90%;
   .LabelSteps {
-    @include primary-text($label, $grey, 500);
+    @include primary-text($label, $grey, 400);
     text-transform: uppercase;
   }
 
   h1 {
-    @include primary-text($h1, $secondary-color, 600);
+    @include primary-text($h1, $secondary-color, 400);
   }
 
   .ProjectDataContainer {
@@ -32,9 +32,9 @@
   }
 
   .CreateSubtitle {
-    @include primary-text($h3, $primary-color, 600);
+    @include primary-text($h3, $primary-color, 300);
     width: 100%;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
   }
 
   .ProjectStep3Container {
@@ -62,7 +62,7 @@
   overflow-y: scroll;
 }
 .ant-btn {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: $button;
 }
 .ant-btn-primary {

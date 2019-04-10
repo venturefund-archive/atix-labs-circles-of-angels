@@ -3,7 +3,7 @@
 .CreateProjectContainer {
 @include Content;
   .ContentSteps {
-    height: 96.5%;
+    height: 85%;
     overflow-y: scroll;
     padding-right: 1em;
   }
@@ -26,6 +26,14 @@
       margin-bottom: 1.5em;
     }
   }
+
+  .ant-steps {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .ant-steps-small .ant-steps-item-title {
+    font-size: $h3;
+  }
+
   ::-webkit-scrollbar {
     width: 3px;
   }
@@ -38,10 +46,3 @@
     border-radius: 20px;
   }
 }
-  .ant-steps {
-    font-family: 'Source Sans Pro', sans-serif;
-  }
-  .ant-steps-small .ant-steps-item-title {
-    font-size: $h3;
-    font-weight: 600;
-  }

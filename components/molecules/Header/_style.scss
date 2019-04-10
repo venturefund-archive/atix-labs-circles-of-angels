@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import "../../../css/general_styling.scss";
 
 .HeaderContainer {
   display: flex;
@@ -39,6 +39,7 @@
 
 @media screen and (max-width: 450px) {
   .HeaderContainer {
+
     .RightSide {
       width: 50%;
     }

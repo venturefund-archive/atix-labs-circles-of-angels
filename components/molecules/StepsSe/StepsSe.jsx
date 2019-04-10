@@ -6,7 +6,7 @@ const { Step } = Steps;
 
 const StepsSe = () => (
   <div className="StepsContainer">
-    <Steps current={0}>
+    <Steps size="small" current={0}>
       <Step />
       <Step />
     </Steps>
