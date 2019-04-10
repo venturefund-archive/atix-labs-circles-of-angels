@@ -82,6 +82,7 @@ class ProjectDetail extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
+
           <div className="ProjectContainer">
             <div className="ProjectHeader">
               <img
@@ -93,6 +94,7 @@ class ProjectDetail extends React.Component {
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
             </div>
+
             <div className="ProjectContent">
               <ProjectMission
                 mission={projectDetail ? projectDetail.mission : ''}
