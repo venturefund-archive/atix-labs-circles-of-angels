@@ -24,12 +24,13 @@ class TableMilestones extends React.Component {
         title: 'Timeline',
         dataIndex: 'quarter',
         key: 'quarter',
-        editable: true
+        editable: true,
+        fixed: 'left'
       },
       {
         title: 'Type',
         dataIndex: 'type',
-        key: 'type'
+        key: 'type',
       },
       {
         title: 'Tasks',
