@@ -187,7 +187,6 @@ class TableMilestones extends React.Component {
         }
       }
     ];
-    console.log(isSocialEntrepreneur);
     if (isSocialEntrepreneur)
       this.columns = this.columns.concat(forSocialEntrepreneur);
   }
