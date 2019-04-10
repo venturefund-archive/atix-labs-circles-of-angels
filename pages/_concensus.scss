@@ -1,7 +1,7 @@
 @import '../css/general_styling.scss';
 
 .SignatoryList {
-  margin-top: 0;
+  margin-top: 2em;
   display: flex;
   width: 100%;
   flex-flow: row;
@@ -25,3 +25,7 @@
   }
 }
 
+.ant-tabs-bar {
+  margin-bottom: 2.5em;
+  font-family: 'Montserrat', sans-serif;
+}

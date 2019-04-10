@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag, Button, Icon } from 'antd';
+import { Table, Tag } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
@@ -32,9 +32,12 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       dataIndex: 'id',
       key: 'milestones',
       render: projectId => (
-        <Button onClick={() => downloadMilestones(projectId)}>
-          Download Excel File" <Icon type="download" />
-        </Button>
+        <CustomButton
+          theme="Download"
+          buttonText="Download Excel File"
+          onClick={() => downloadMilestones(projectId)}
+          icon="download"
+        />
       )
     },
     {
@@ -95,7 +98,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       if (error.response) {
         error.response.data.error =
           // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Milestones file uploaded";
+          'This project doesn\'t have a Milestones file uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -116,7 +119,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       if (error.response) {
         error.response.data.error =
           // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Milestones file uploaded";
+          'This project doesn\'t have a Milestones file uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
