@@ -1,14 +1,12 @@
-@import '../../../css/general_styling.scss';
+@import "../../../css/general_styling.scss";
 
 .HeaderContainer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: inherit;
-  padding: 0.5em 2em;
-  box-shadow: 0px 2px 2px 0px #dedede2b;
-  border-bottom: 1px solid #d9d9d95c;
-  background-color: #f9f9f9;
+  padding: 10px 25px;
+  background-color: $light-grey;
   position: fixed;
   z-index: 50;
 
@@ -41,6 +39,7 @@
 
 @media screen and (max-width: 450px) {
   .HeaderContainer {
+
     .RightSide {
       width: 50%;
     }

@@ -33,7 +33,6 @@ class Step1 extends React.Component {
 
     return (
       <div className="StepContent">
-      <div className="Content">
         <p className="LabelSteps">Step 1</p>
         <h1>Complete Project Detail</h1>
         <div className="ProjectDataContainer">
@@ -70,7 +69,6 @@ class Step1 extends React.Component {
             buttonText="Upload File"
             change={info => changeProjectFile(project, 'projectProposal', info)}
           />
-        </div>
         </div>
         <div className="ControlSteps">
           <Button type="primary" onClick={this.validProject}>

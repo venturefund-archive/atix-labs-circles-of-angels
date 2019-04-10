@@ -1,7 +1,7 @@
 @import "../css/general_styling.scss";
 
 .ant-modal-content {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Montserrat", sans-serif;
   .ant-modal-title {
     font-weight: 300;
     color: $grey;
@@ -53,7 +53,7 @@
 }
 
 .SignatoryList {
-  margin-top: 0;
+  margin-top: 2em;
   display: flex;
   width: 100%;
   flex-flow: row;
