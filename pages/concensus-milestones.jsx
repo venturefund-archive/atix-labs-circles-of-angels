@@ -189,7 +189,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -222,6 +222,12 @@ class ConcensusMilestones extends Component {
     }
   };
 
+  actualUserNeedsTransfer = () => {
+    const { user, transfers } = this.props;
+    const response = transfers.find(transfer => transfer.sender == user.id);
+    return !response || response.state == -1;
+  };
+
   clickDownloadProposal = async () => {
     const { projectId } = this.props;
     const response = await downloadProposal(projectId);
@@ -230,7 +236,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -419,7 +425,8 @@ class ConcensusMilestones extends Component {
             {userProjects.map(userProject => {
               if (!userProject.user) return;
               let userTransfer = transfers.filter(
-                transfer => transfer.sender === userProject.user.id
+                transfer =>
+                  parseInt(transfer.sender, 10) === userProject.user.id
               )[0];
 
               if (!userTransfer || userTransfer == null) {
@@ -548,7 +555,7 @@ class ConcensusMilestones extends Component {
       case 1:
         return step2;
       case 2:
-        return step3;
+        return this.actualUserNeedsTransfer() ? step3 : confirmationStep;
       case 3:
         return confirmationStep;
       default:
