@@ -34,54 +34,59 @@ class Step1 extends React.Component {
 
     return (
       <div className="StepContent">
-      <div className="Content">
-        <p className="LabelSteps">Step 1</p>
-        <h1>Complete Project Detail</h1>
-        <div className="ProjectDataContainer">
-          <h3 className="CreateSubtitle">Project's Details</h3>
-          <WebFormProject project={project} webform={webform} />
-        </div>
-        <div className="ProjectImagesContainer">
-          <h3 className="CreateSubtitle">Project's Images</h3>
-          <BlockUpload
-            subtitle="Project's Card Image"
-            text="Lorem ipsum text description"
-            name="projectCard"
-            typeAccepts="image/*"
-            buttonText="Upload Image"
-            change={info =>
-              changeProjectFile(project, 'projectCardPhoto', info)
-            }
-          />
-          <BlockUpload
-            subtitle="Project's Cover Image"
-            text="Lorem ipsum text description"
-            name="projectCover"
-            typeAccepts="image/*"
-            buttonText="Upload Image"
-            change={info =>
-              changeProjectFile(project, 'projectCoverPhoto', info)
-            }
-          />
-          <BlockUpload
-            subtitle="Pitch Proposal Document"
-            text="Lorem ipsum text description"
-            name="projectProposal"
-            typeAccepts=".pdf"
-            buttonText="Upload File"
-            change={info => changeProjectFile(project, 'projectProposal', info)}
-          />
-          <BlockUpload
-            subtitle="Project Agreement"
-            text="Lorem ipsum text description"
-            name="projectAgreement"
-            typeAccepts="*"
-            buttonText="Upload File"
-            change={info =>
-              changeProjectFile(project, 'projectAgreement', info)
-            }
-          />
-        </div>
+        <div className="Content">
+          <p className="LabelSteps">Step 1</p>
+          <h1>Complete Project Detail</h1>
+          <div className="ProjectDataContainer">
+            <h3 className="CreateSubtitle">Project's Details</h3>
+            <WebFormProject project={project} webform={webform} />
+          </div>
+          <div className="ProjectImagesContainer">
+            <h3 className="CreateSubtitle">Project's Images</h3>
+            <BlockUpload
+              subtitle="Project's Card Image"
+              text="Lorem ipsum text description"
+              name="projectCard"
+              typeAccepts="image/*"
+              buttonText="Upload Image"
+              change={info =>
+                changeProjectFile(project, 'projectCardPhoto', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project's Cover Image"
+              text="Lorem ipsum text description"
+              name="projectCover"
+              typeAccepts="image/*"
+              buttonText="Upload Image"
+              change={info =>
+                changeProjectFile(project, 'projectCoverPhoto', info)
+              }
+            />
+          </div>
+          <div className="ProjectImagesContainer">
+            <h3 className="CreateSubtitle">Project's Files</h3>
+            <BlockUpload
+              subtitle="Pitch Proposal"
+              text="Lorem ipsum text description"
+              name="projectProposal"
+              typeAccepts=".pdf"
+              buttonText="Upload File"
+              change={info =>
+                changeProjectFile(project, 'projectProposal', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project Agreement"
+              text="Lorem ipsum text description"
+              name="projectAgreement"
+              typeAccepts="*"
+              buttonText="Upload File"
+              change={info =>
+                changeProjectFile(project, 'projectAgreement', info)
+              }
+            />
+          </div>
         </div>
         <div className="ControlSteps">
           <Button type="primary" onClick={this.validProject}>

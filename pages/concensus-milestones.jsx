@@ -42,6 +42,7 @@ import {
   assignOracleToActivity,
   unassignOracleToActivity
 } from '../api/activityApi';
+import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 
 const { TabPane } = Tabs;
 
@@ -189,7 +190,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -230,7 +231,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -343,10 +344,20 @@ class ConcensusMilestones extends Component {
                     <span className="Overline">FAQ Document</span>
                   </div>
                   <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <Button>
-                      Proyect Proposal <Icon type="download" />
-                    </Button>
+                  <div className="DownloadFilesContainer Data">
+                    <DownloadFile
+                      buttonText="Pitch Proposal"
+                      click={this.clickDownloadProposal}
+                    />
+                    <DownloadFile
+                      buttonText="Download Agreement"
+                      click={this.downloadAgreementClick}
+                    />
+                    <ButtonUpload
+                      name="projectAgreement"
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Agreement"
+                    />
                   </div>
                 </div>
               </div>
