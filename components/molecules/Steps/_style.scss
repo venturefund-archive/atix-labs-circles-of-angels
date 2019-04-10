@@ -1,5 +1,11 @@
 @import '../../../css/general_styling.scss';
-
+.StepsContainer {
+  height: 10%;
+  font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .StepContent {
   height: 90%;
   .LabelSteps {
@@ -70,4 +76,11 @@
 
 .ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
   color: $secondary-color;
+}
+.ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
 }

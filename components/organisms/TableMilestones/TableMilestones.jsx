@@ -4,8 +4,6 @@ import { withUser } from '../../utils/UserContext';
 import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
 
-import './_style.scss';
-
 class TableMilestones extends React.Component {
   constructor(props) {
     super(props);
