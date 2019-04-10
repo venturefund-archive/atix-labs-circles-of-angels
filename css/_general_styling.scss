@@ -3,30 +3,32 @@ $background: #f1f3f8;
 $surface: #fff;
 
 $primary-color: #0083E3;
-$secondary-color: #454B61;
+$secondary-color: rgba(0, 0, 0, 0.76);
 $sucess-color: #15D380;
-
+$on-surface-medium:rgba(0, 0, 0, 0.61);
 $success-color: #15D380;
 $danger-color: #FF0050;
 
 $black: #000;
 $white: #fff;
-$grey: #b3bec5;
+$grey: #9fa1a6;
+$light-grey:#9fa1a6;
 $medium-grey: #c5d0de;
 $light-grey: #EEEFEF;
-
 $theme-color-1: linear-gradient(to bottom, #2A3890, #0083E2);
 
 // Typographic Scale
-$title: 32px;
-$subtitle: 18px;
-$h1: 18px;
-$h2: 16px;
-$h3: 14px;
-$button: 12px;
-$body: 12px;
-$tabs: 11px;
-$label: 10px;
+$title: 24px;
+$subtitle: 18.5px;
+$h1: 18.5px;
+$h2: 16.5px;
+$h3: 15.5px;
+$button: 14px;
+$body: 14px;
+$body-2: 15px;
+$tabs: 12px;
+$label: 12px;
+
 
 // Shadow
 $shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
@@ -36,7 +38,7 @@ $shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4), 0 2px 6px rgba(114, 134, 223, 0
 
 @mixin primary-text($font-size, $font-color, $font-weight) {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: $font-size;
   font-weight: $font-weight;
   @if $font-color { color: $font-color; }

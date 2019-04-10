@@ -73,7 +73,7 @@ class CreateProjectSteps extends React.Component {
 
     return (
       <div className="CreateProjectContainer">
-        <Steps size="small" current={current}>
+        <Steps current={current}>
           {this.steps.map(item => (
             <Step key={item.title} title={item.title} />
           ))}
