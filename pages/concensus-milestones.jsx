@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Divider, Button, Icon } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -189,7 +189,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+          'This project doesn\'t have an Agreement uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -230,7 +230,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -307,17 +307,52 @@ class ConcensusMilestones extends Component {
     });
 
     const step1 = (
-      <span>
+      <span className="ContentStep">
         <StepsIf stepNumber={0} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Consensus Step</p>
-          <h3 className="StepDescription">
-            Collaborate with the definition of milestones, share your
-            experiences, talk to project owner and other funders, download the
-            latest agreements
-          </h3>
-          <p className="LabelSteps">Project Name</p>
-          <h1>{projectName}</h1>
+          <div className="StepDescription">
+            <p className="LabelSteps">Consensus Step</p>
+            <h3>
+              Collaborate with the definition of milestones, share your
+              experiences, talk to project owner and other funders, download the
+              latest agreements
+            </h3>
+          </div>
+          <div className="ProjectInfoHeader">
+            <div className="space-between">
+              <div className="">
+                <div>
+                  <p className="LabelSteps">Project Name</p>
+                  <h1>{projectName}</h1>
+                </div>
+                <div className="flex">
+                  <div className="vertical  Data">
+                    <p className="TextBlue">2,587</p>
+                    <span className="Overline">Goal Amount</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <p className="TextGray">1,238</p>
+                    <span className="Overline">Already</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <a className="TextBlue" href="www.google.com">
+                      http://Document.Link
+                    </a>
+                    <span className="Overline">FAQ Document</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Proyect Proposal <Icon type="download" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <CustomButton buttonText="Start Project" theme="Primary" />
+            </div>
+          </div>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
@@ -329,7 +364,7 @@ class ConcensusMilestones extends Component {
                   onAssignOracle={this.onAssignOracle}
                 />
               </TabPane>
-              <TabPane tab="Collaboration" key="2">
+              <TabPane disabled tab="." key="2">
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
@@ -340,7 +375,7 @@ class ConcensusMilestones extends Component {
                   />
                 </div>
               </TabPane>
-              <TabPane tab="FAQ & Project Proposal" key="3">
+              <TabPane disabled tab="." key="3">
                 <div>
                   <h2>FAQ Document</h2>
                   <a href={faqLink} target="_blank" rel="noopener noreferrer">
@@ -372,10 +407,12 @@ class ConcensusMilestones extends Component {
       <span>
         <StepsIf stepNumber={1} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Signatories Step</p>
-          <h3 className="StepDescription">
-            Sign your agreement and pledge to help this project come to true
-          </h3>
+          <div className="StepDescription">
+            <p className="LabelSteps">Signatories Step</p>
+            <h3>
+              Sign your agreement and pledge to help this project come to true
+            </h3>
+          </div>
           <p className="LabelSteps">Project Name</p>
           <h1>Lorem Ipsum</h1>
           <div className="SignatoryList">

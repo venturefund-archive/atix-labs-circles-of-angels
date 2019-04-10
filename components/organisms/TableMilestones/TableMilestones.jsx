@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Select } from 'antd';
+import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
 import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
@@ -38,10 +38,11 @@ class TableMilestones extends React.Component {
         editable: true
       },
       {
-        title: 'Expected Changes/ Social Impact Targets',
+        title: '/ Scial Impact Targets',
         dataIndex: 'impact',
         key: 'targets',
-        editable: true
+        editable: true,
+        width: 200
       },
       {
         title: 'Review Criterion',
@@ -80,7 +81,7 @@ class TableMilestones extends React.Component {
         editable: true
       },
       {
-        title: 'Oracle',
+        title: 'Assign Oracle',
         key: 'oracle',
         fixed: 'right',
         render: (text, record, index) => {
@@ -95,9 +96,9 @@ class TableMilestones extends React.Component {
           return (
             <Select
               key={index}
-              style={{ width: 200 }}
+              style={{ width: 100 }}
               showSearch
-              placeholder="Assign a Oracle"
+              placeholder="Select Oracle"
               optionFilterProp="children"
               onChange={userId => onAssignOracle(userId, record.id)}
               defaultValue={record.oracle ? record.oracle.id : undefined}
@@ -125,18 +126,20 @@ class TableMilestones extends React.Component {
           return (
             <div>
               {editable ? (
-                <span>
+                <span  className="flex">
                   <a onClick={() => onEdit(record, this.actualField)}>Save</a>
+                  <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                <span>
+                <span className="flex">
                   <a
                     disabled={editingKey !== ''}
                     onClick={() => this.edit(index, record)}
                   >
                     Edit
                   </a>
+                  <Divider type="vertical" />
                   <a
                     disabled={editingKey !== ''}
                     onClick={() => onDelete(record)}
@@ -196,7 +199,7 @@ class TableMilestones extends React.Component {
         components={components}
         columns={columns}
         dataSource={dataSource}
-        scroll={{ y: true }}
+        scroll={{ x: 1300 }}
         className="TableMilestones"
       />
     );
