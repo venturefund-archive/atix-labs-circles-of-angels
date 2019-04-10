@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
 
 .UserAvatar {
   display: flex;
@@ -6,13 +6,15 @@
 
   .UserData {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     .UserLabel {
-      margin-left: 1.5em;
+      margin-left: 1em;
     }
   }
 
-  .SettingsMenu{
-    margin-left: 2em;
+  .SettingsMenu {
+    margin-left: 1em;
   }
 }

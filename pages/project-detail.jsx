@@ -1,5 +1,4 @@
 import React from 'react';
-import Router from 'next/router';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -11,6 +10,7 @@ import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
+import Routing from '../components/utils/Routes';
 
 const imageBaseUrl = './static/images';
 
@@ -37,14 +37,11 @@ class ProjectDetail extends React.Component {
       showModalError(title, content);
       return response;
     }
-
-    Router.push(
-      {
-        pathname: '/concensus-milestones',
-        query: { projectJSON: JSON.stringify(projectDetail) }
-      },
-      '/concensus-milestones'
-    );
+    Routing.toConsensusMilestones({
+      projectId: projectDetail.id,
+      projectName: projectDetail.projectName,
+      faqLink: projectDetail.faqLink
+    });
   };
 
   render() {
@@ -85,6 +82,7 @@ class ProjectDetail extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
+
           <div className="ProjectContainer">
             <div className="ProjectHeader">
               <img
@@ -96,6 +94,7 @@ class ProjectDetail extends React.Component {
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
             </div>
+
             <div className="ProjectContent">
               <ProjectMission
                 mission={projectDetail ? projectDetail.mission : ''}

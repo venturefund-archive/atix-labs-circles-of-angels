@@ -9,12 +9,9 @@ const DownloadTemplate = ({ subtitle, text, click }) => (
       <p className="Title">{subtitle}</p>
       <p>{text}</p>
     </div>
-    <CustomButton
-      theme="Download"
-      buttonText="Download Excel File"
-      onClick={click}
-      icon="download"
-    />
+    <Button onClick={click}>
+      Download Excel File" <Icon type="download" />
+    </Button>
   </div>
 );
 
