@@ -6,7 +6,7 @@ const { Step } = Steps;
 
 const StepsIf = ({ stepNumber }) => (
   <div className="StepsContainer">
-    <Steps size="small" current={stepNumber}>
+    <Steps current={stepNumber}>
       <Step title="Consensus" />
       <Step title="Signatories" />
       <Step title="Funding" />
@@ -15,4 +15,3 @@ const StepsIf = ({ stepNumber }) => (
 );
 
 export default StepsIf;
-
