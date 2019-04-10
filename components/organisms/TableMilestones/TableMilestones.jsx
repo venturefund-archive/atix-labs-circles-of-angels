@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
-import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
+import Roles from '../../../constants/RolesMap';
 
 import './_style.scss';
 
@@ -17,6 +17,15 @@ class TableMilestones extends React.Component {
     this.actualField = { data: {} };
     this.columns = [];
   }
+
+  componentDidMount() {
+    const {
+      onAssignOracle,
+      oracles,
+      onDelete,
+      onEdit,
+      isSocialEntrepreneur
+    } = this.props;
 
   componentDidMount() {
     this.columns = [
@@ -79,6 +88,34 @@ class TableMilestones extends React.Component {
         key: 'budget',
         dataIndex: 'budget',
         editable: true
+      }
+    ];
+    const forSocialEntrepreneur = [
+      {
+        title: 'Assign Oracle',
+        key: 'oracle',
+        fixed: 'right',
+        render: (text, record, index) => {
+          if (!record.type.includes('Activity')) return '';
+          return (
+            <Select
+              key={index}
+              style={{ width: 100 }}
+              showSearch
+              placeholder="Select Oracle"
+              optionFilterProp="children"
+              onChange={userId => onAssignOracle(userId, record.id)}
+              defaultValue={record.oracle ? record.oracle.id : undefined}
+            >
+              <Select.Option value={null}>None</Select.Option>
+              {oracles.map(oracle => (
+                <Select.Option key={oracle.id} value={oracle.id}>
+                  {oracle.username}
+                </Select.Option>
+              ))}
+            </Select>
+          );
+        }
       },
       {
         title: 'Assign Oracle',
@@ -118,15 +155,12 @@ class TableMilestones extends React.Component {
         dataIndex: 'operation',
         fixed: 'right',
         render: (text, record, index) => {
-          const { user, onEdit, onDelete } = this.props;
-          if (!user || !user.role || user.role.id !== Roles.SocialEntrepreneur)
-            return '';
           const { editingKey } = this.state;
           const editable = this.isEditing(index);
           return (
             <div>
               {editable ? (
-                <span  className="flex">
+                <span className="flex">
                   <a onClick={() => onEdit(record, this.actualField)}>Save</a>
                   <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
@@ -153,6 +187,8 @@ class TableMilestones extends React.Component {
         }
       }
     ];
+    if (isSocialEntrepreneur)
+      this.columns = this.columns.concat(forSocialEntrepreneur);
   }
 
   isEditing = index => {
