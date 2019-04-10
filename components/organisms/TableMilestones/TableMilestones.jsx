@@ -27,7 +27,6 @@ class TableMilestones extends React.Component {
       isSocialEntrepreneur
     } = this.props;
 
-  componentDidMount() {
     this.columns = [
       {
         title: 'Timeline',
@@ -47,7 +46,7 @@ class TableMilestones extends React.Component {
         editable: true
       },
       {
-        title: '/ Scial Impact Targets',
+        title: '/ Social Impact Targets',
         dataIndex: 'impact',
         key: 'targets',
         editable: true,
@@ -97,39 +96,6 @@ class TableMilestones extends React.Component {
         fixed: 'right',
         render: (text, record, index) => {
           if (!record.type.includes('Activity')) return '';
-          return (
-            <Select
-              key={index}
-              style={{ width: 100 }}
-              showSearch
-              placeholder="Select Oracle"
-              optionFilterProp="children"
-              onChange={userId => onAssignOracle(userId, record.id)}
-              defaultValue={record.oracle ? record.oracle.id : undefined}
-            >
-              <Select.Option value={null}>None</Select.Option>
-              {oracles.map(oracle => (
-                <Select.Option key={oracle.id} value={oracle.id}>
-                  {oracle.username}
-                </Select.Option>
-              ))}
-            </Select>
-          );
-        }
-      },
-      {
-        title: 'Assign Oracle',
-        key: 'oracle',
-        fixed: 'right',
-        render: (text, record, index) => {
-          const { user, onAssignOracle, oracles } = this.props;
-          if (
-            !user ||
-            !user.role ||
-            user.role.id !== Roles.SocialEntrepreneur ||
-            !record.type.includes('Activity')
-          )
-            return '';
           return (
             <Select
               key={index}
