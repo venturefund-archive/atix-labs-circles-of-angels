@@ -1,10 +1,10 @@
 @import '../../../css/general_styling.scss';
 
 .StepContent {
+  height: 90%;
   .LabelSteps {
     @include primary-text($label, $grey, 500);
     text-transform: uppercase;
-    margin-top: 1.5em;
   }
 
   h1 {
@@ -51,16 +51,10 @@
     }
   }
 }
-
-.ControlSteps {
-  border-top: 1px solid $light-grey;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
-  padding: 0 1em;
+.DataSteps {
+  height: 90%;
+  overflow-y: scroll;
 }
-
 .ant-btn {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: $button;

@@ -1,8 +1,7 @@
 @import '../css/general_styling.scss';
 
 .ProjectStepsContainer {
-  padding: 0.5em 1.5em 0;
-  height: 74vh;
+  height: 80%;
   overflow-y: scroll;
 
   .LabelSteps {
@@ -43,15 +42,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
-  padding: 0 1em;
+  height: 10%;
 }
 
 .StepOne {
   justify-content: flex-end;
 }
 .ProjectInfoHeader {
-  padding: 0 0 1em 0;
+  padding: 1em 0;
   border-bottom: 1px solid $medium-grey;
   h1 {
     @include primary-text($h1, $secondary-color, 600);
@@ -85,6 +83,5 @@
   }
 }
 .ContentStep {
-  height: 100vh;
-  margin-top: 59px;
+  @include Content;
 }
