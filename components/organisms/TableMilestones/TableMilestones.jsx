@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
-import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
+import Roles from '../../../constants/RolesMap';
 
 import './_style.scss';
 
@@ -19,6 +19,14 @@ class TableMilestones extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      onAssignOracle,
+      oracles,
+      onDelete,
+      onEdit,
+      isSocialEntrepreneur
+    } = this.props;
+
     this.columns = [
       {
         title: 'Timeline',
@@ -79,20 +87,15 @@ class TableMilestones extends React.Component {
         key: 'budget',
         dataIndex: 'budget',
         editable: true
-      },
+      }
+    ];
+    const forSocialEntrepreneur = [
       {
         title: 'Assign Oracle',
         key: 'oracle',
         fixed: 'right',
         render: (text, record, index) => {
-          const { user, onAssignOracle, oracles } = this.props;
-          if (
-            !user ||
-            !user.role ||
-            user.role.id !== Roles.SocialEntrepreneur ||
-            !record.type.includes('Activity')
-          )
-            return '';
+          if (!record.type.includes('Activity')) return '';
           return (
             <Select
               key={index}
@@ -118,15 +121,12 @@ class TableMilestones extends React.Component {
         dataIndex: 'operation',
         fixed: 'right',
         render: (text, record, index) => {
-          const { user, onEdit, onDelete } = this.props;
-          if (!user || !user.role || user.role.id !== Roles.SocialEntrepreneur)
-            return '';
           const { editingKey } = this.state;
           const editable = this.isEditing(index);
           return (
             <div>
               {editable ? (
-                <span  className="flex">
+                <span className="flex">
                   <a onClick={() => onEdit(record, this.actualField)}>Save</a>
                   <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
@@ -153,6 +153,9 @@ class TableMilestones extends React.Component {
         }
       }
     ];
+    console.log(isSocialEntrepreneur);
+    if (isSocialEntrepreneur)
+      this.columns = this.columns.concat(forSocialEntrepreneur);
   }
 
   isEditing = index => {
