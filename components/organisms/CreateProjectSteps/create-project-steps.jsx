@@ -1,5 +1,6 @@
 import React from 'react';
 import { Steps, message } from 'antd';
+
 import Step1 from '../../molecules/Steps/step-1';
 import Step2 from '../../molecules/Steps/step-2';
 import Step3 from '../../molecules/Steps/step-3';
@@ -72,14 +73,12 @@ class CreateProjectSteps extends React.Component {
 
     return (
       <div className="CreateProjectContainer">
-        <div className="StepsContainer">
-            <Steps current={current}>
-            {this.steps.map(item => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        </div>
-        {this.steps[current].content}
+        <Steps size="small" current={current}>
+          {this.steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="ContentSteps">{this.steps[current].content}</div>
       </div>
     );
   }

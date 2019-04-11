@@ -363,18 +363,6 @@ class ConcensusMilestones extends Component {
                       Proyect Proposal <Icon type="download" />
                     </Button>
                   </div>
-                  <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <Button>
-                      Legal Agreement <Icon type="download" />
-                    </Button>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <Button>
-                      Legal Agreement <Icon type="upload" />
-                    </Button>
-                  </div>
                 </div>
               </div>
               {isSocialEntrepreneur ? (
@@ -396,7 +384,7 @@ class ConcensusMilestones extends Component {
                   isSocialEntrepreneur={isSocialEntrepreneur}
                 />
               </TabPane>
-              <TabPane tab="." key="2">
+              <TabPane disabled tab="." key="2">
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
@@ -407,7 +395,7 @@ class ConcensusMilestones extends Component {
                   />
                 </div>
               </TabPane>
-              <TabPane tab="." key="3">
+              <TabPane disabled tab="." key="3">
                 <div>
                   <h2>FAQ Document</h2>
                   <a href={faqLink} target="_blank" rel="noopener noreferrer">

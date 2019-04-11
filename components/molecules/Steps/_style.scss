@@ -1,16 +1,10 @@
 @import '../../../css/general_styling.scss';
-.StepsContainer {
-  height: 10%;
-  font-family: 'Source Sans Pro', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 .StepContent {
-  height: 90%;
   .LabelSteps {
     @include primary-text($label, $grey, 400);
     text-transform: uppercase;
+    margin-top: 1.5em;
   }
 
   h1 {
@@ -57,10 +51,16 @@
     }
   }
 }
-.DataSteps {
-  height: 90%;
-  overflow-y: scroll;
+
+.ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  padding: 0 1em;
 }
+
 .ant-btn {
   font-family: 'Montserrat', sans-serif;
   font-size: $button;
@@ -76,11 +76,4 @@
 
 .ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
   color: $secondary-color;
-}
-.ControlSteps {
-  border-top: 1px solid $light-grey;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
 }
