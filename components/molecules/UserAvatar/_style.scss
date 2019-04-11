@@ -3,16 +3,18 @@
 .UserAvatar {
   display: flex;
   align-items: center;
-
+ 
   .UserData {
     display: flex;
-
+    justify-content: center;
+    align-items: center;
+ 
     .UserLabel {
-      margin-left: 1.5em;
+      margin-left: 1em;
     }
   }
-
-  .SettingsMenu{
-    margin-left: 2em;
+ 
+  .SettingsMenu {
+    margin-left: 1em;
   }
-}
+ }

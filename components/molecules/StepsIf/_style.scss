@@ -1,7 +1,9 @@
 @import "../../../css/general_styling.scss";
 
-.StepsContainer{
-    margin-top: 70px;
-    padding: 0 1.5em;
-    font-family: "Montserrat", sans-serif;
+.StepsContainer {
+  height: 10%;
+  font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

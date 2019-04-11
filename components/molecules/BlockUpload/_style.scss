@@ -5,17 +5,17 @@
   display: flex;
   flex-flow: column;
   margin-right: 1.5em;
-
+ 
   .Title {
-    @include primary-text($body, $secondary-color, 400);
-    margin-bottom: 0.25em;
+    @include primary-text($body, $secondary-color, 600);
+    margin-bottom: 0;
   }
   p {
-    @include primary-text($body, $secondary-color, 300);
+    @include primary-text($body, $on-surface-medium, 400);
     margin-bottom: 1em;
   }
-}
-
-.UploadImageContainer:nth-child(2) {
+ }
+ 
+ .UploadImageContainer:nth-child(2) {
   padding-right: 1.5em;
-}
+ }

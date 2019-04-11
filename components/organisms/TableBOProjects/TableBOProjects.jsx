@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Button } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
@@ -32,12 +32,9 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       dataIndex: 'id',
       key: 'milestones',
       render: projectId => (
-        <CustomButton
-          theme="Download"
-          buttonText="Download Excel File"
-          onClick={() => downloadMilestones(projectId)}
-          icon="download"
-        />
+        <Button onClick={() => downloadMilestones(projectId)}>
+          Download Excel File" <Icon type="download" />
+       </Button>
       )
     },
     {
