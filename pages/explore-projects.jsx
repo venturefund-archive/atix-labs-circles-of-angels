@@ -11,15 +11,14 @@ import './_explore-projects.scss';
 class ExploreProjects extends React.Component {
   static async getInitialProps(req) {
     const response = await getActiveProjects();
-    const projects = response.data;
-    const cardPhotos = [];
-    await Promise.all(
-      projects.map(async project => {
+    const projectsWithoutPhoto = response.data;
+    const projects = await Promise.all(
+      projectsWithoutPhoto.map(async project => {
         const projectCardPhoto = await getPhoto(project.cardPhoto);
-        cardPhotos[project.id] = projectCardPhoto.data;
+        return { ...project, cardPhoto: projectCardPhoto.data };
       })
     );
-    return { projects, cardPhotos };
+    return { projects };
   }
 
   goToProjectDetail(projectId) {
@@ -27,7 +26,7 @@ class ExploreProjects extends React.Component {
   }
 
   render() {
-    const { projects, cardPhotos } = this.props;
+    const { projects } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -38,12 +37,11 @@ class ExploreProjects extends React.Component {
             <h1>Explore Projects</h1>
             <div className="ProjectsCardsContainer">
               {projects.map(project => {
-                const projectCardPhoto = cardPhotos[project.id];
                 return (
                   <CardProject
                     enterpriceName={project.name}
                     enterpriceMission={project.mission}
-                    projectCardImage={projectCardPhoto}
+                    projectCardImage={project.cardPhoto}
                     enterpriceLocation={project.location}
                     timeframe={project.timeframe}
                     amount={project.goalAmount}
