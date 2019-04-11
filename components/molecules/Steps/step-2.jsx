@@ -22,7 +22,6 @@ class Step2 extends React.Component {
 
   clickDownloadMilestonesTemplate = async () => {
     const res = await downloadMilestonesTemplate();
-    console.log(res);
     return res;
   };
 
