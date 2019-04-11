@@ -322,7 +322,7 @@ class ConcensusMilestones extends Component {
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
 
     const step1 = (
-      <span className="ContentStep">
+      <div className="ContentStep">
         <StepsIf stepNumber={0} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
@@ -363,6 +363,18 @@ class ConcensusMilestones extends Component {
                       Proyect Proposal <Icon type="download" />
                     </Button>
                   </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Legal Agreement <Icon type="download" />
+                    </Button>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Legal Agreement <Icon type="upload" />
+                    </Button>
+                  </div>
                 </div>
               </div>
               {isSocialEntrepreneur ? (
@@ -384,7 +396,7 @@ class ConcensusMilestones extends Component {
                   isSocialEntrepreneur={isSocialEntrepreneur}
                 />
               </TabPane>
-              <TabPane disabled tab="." key="2">
+              <TabPane tab="." key="2">
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
@@ -395,7 +407,7 @@ class ConcensusMilestones extends Component {
                   />
                 </div>
               </TabPane>
-              <TabPane disabled tab="." key="3">
+              <TabPane tab="." key="3">
                 <div>
                   <h2>FAQ Document</h2>
                   <a href={faqLink} target="_blank" rel="noopener noreferrer">
@@ -420,7 +432,7 @@ class ConcensusMilestones extends Component {
             onClick={this.nextStep}
           />
         </div>
-      </span>
+      </div>
     );
 
     const step2 = (

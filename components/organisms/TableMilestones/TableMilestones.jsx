@@ -4,8 +4,6 @@ import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
 import Roles from '../../../constants/RolesMap';
 
-import './_style.scss';
-
 class TableMilestones extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +30,8 @@ class TableMilestones extends React.Component {
         title: 'Timeline',
         dataIndex: 'quarter',
         key: 'quarter',
-        editable: true
+        editable: true,
+        fixed: 'left'
       },
       {
         title: 'Type',
@@ -132,22 +131,22 @@ class TableMilestones extends React.Component {
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                <span className="flex">
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => this.edit(index, record)}
-                  >
-                    Edit
-                  </a>
-                  <Divider type="vertical" />
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => onDelete(record)}
-                  >
-                    Delete
-                  </a>
-                </span>
-              )}
+                  <span className="flex">
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => this.edit(index, record)}
+                    >
+                      Edit
+                 </a>
+                    <Divider type="vertical" />
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => onDelete(record)}
+                    >
+                      Delete
+                 </a>
+                  </span>
+                )}
             </div>
           );
         }

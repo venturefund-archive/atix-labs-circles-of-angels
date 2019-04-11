@@ -19,7 +19,9 @@ const ButtonUpload = ({ change, name, typeAccepts, buttonText }) => {
 
   return (
     <Upload {...props}>
-      <CustomButton icon="upload" buttonText={buttonText} />
+      <Button>
+        Project Proposal <Icon type="upload" />
+      </Button>
     </Upload>
   );
 };
