@@ -1,24 +1,12 @@
 @import '../../../css/general_styling.scss';
 
 .CreateProjectContainer {
-  padding: 0 1.5em;
-  height: 100vh;
-  padding-top: 75px;
-
+@include Content;
   .ContentSteps {
     height: 85%;
     overflow-y: scroll;
     padding-right: 1em;
   }
-
-  .ControlSteps {
-    border-top: 1px solid $light-grey;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 10%;
-  }
-
   .ProjectStep3Container {
     display: flex;
     flex-flow: column;
