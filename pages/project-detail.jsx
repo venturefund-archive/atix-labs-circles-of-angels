@@ -19,9 +19,13 @@ class ProjectDetail extends React.Component {
   static async getInitialProps(query) {
     const { projectId } = query.query;
     const response = await getProject(projectId);
-    const projectDetail = response.data;
-    const coverPhoto = await getPhoto(projectDetail.coverPhoto);
-    return { projectDetail, coverPhoto: coverPhoto.data };
+    const projectWithoutPhoto = response.data;
+    const coverPhoto = await getPhoto(projectWithoutPhoto.coverPhoto);
+    const projectDetail = {
+      ...projectWithoutPhoto,
+      coverPhoto: coverPhoto.data
+    };
+    return { projectDetail };
   }
 
   applyToProject = async () => {
@@ -48,7 +52,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail, coverPhoto } = this.props;
+    const { projectDetail } = this.props;
 
     console.log(projectDetail);
     const itemsData = projectDetail
@@ -88,7 +92,10 @@ class ProjectDetail extends React.Component {
 
           <div className="ProjectContainer">
             <div className="ProjectHeader">
-              <img src={coverPhoto || ''} alt="projectCoverImage" />
+              <img
+                src={projectDetail.coverPhoto || ''}
+                alt="projectCoverImage"
+              />
               <div className="ProjectEnterprice">
                 <p>Entreprise</p>
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
