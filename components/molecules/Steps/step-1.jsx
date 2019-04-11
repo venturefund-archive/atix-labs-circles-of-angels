@@ -23,7 +23,8 @@ class Step1 extends React.Component {
         project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok' &&
+        project.files.projectAgreement.response === 'ok'
     );
     if (valid) next();
   };
@@ -41,7 +42,7 @@ class Step1 extends React.Component {
             <WebFormProject project={project} webform={webform} />
           </div>
           <div className="ProjectImagesContainer">
-            <h3 className="CreateSubtitle">Project's Images</h3>
+            <h3 className="CreateSubtitle">Project's Files</h3>
             <BlockUpload
               subtitle="Project's Card Image"
               text="Lorem ipsum text description"
@@ -63,13 +64,23 @@ class Step1 extends React.Component {
               }
             />
             <BlockUpload
-              subtitle="Pitch Proposal Document"
+              subtitle="Project Proposal"
               text="Lorem ipsum text description"
               name="projectProposal"
-              typeAccepts=".pdf"
+              typeAccepts="*"
               buttonText="Upload File"
               change={info =>
                 changeProjectFile(project, 'projectProposal', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project Agreement"
+              text="Lorem ipsum text description"
+              name="projectAgreement"
+              typeAccepts="*"
+              buttonText="Upload File"
+              change={info =>
+                changeProjectFile(project, 'projectAgreement', info)
               }
             />
           </div>

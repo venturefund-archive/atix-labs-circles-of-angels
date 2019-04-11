@@ -43,6 +43,7 @@ import {
   unassignOracleToActivity
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
+import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 
 const { TabPane } = Tabs;
 
@@ -365,15 +366,17 @@ class ConcensusMilestones extends Component {
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical Data">
-                    <Button>
-                      Legal Agreement <Icon type="download" />
+                    <Button onClick={this.downloadAgreementClick}>
+                      Download Agreement <Icon type="download" />
                     </Button>
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical Data">
-                    <Button>
-                      Legal Agreement <Icon type="upload" />
-                    </Button>
+                    <ButtonUpload
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Agreement"
+                      showUploadList={false}
+                    />
                   </div>
                 </div>
               </div>
