@@ -3,6 +3,7 @@ import { Layout, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import './_style.scss';
 import Routing from '../../utils/Routes';
+import { withUser } from '../../utils/UserContext';
 
 const { Sider } = Layout;
 
@@ -10,7 +11,11 @@ const goToExploreProjects = () => {
   Routing.toExploreProjects();
 };
 
-const SideBar = () => (
+const goToFundsAdministration = () => {
+  Routing.toFundAdministration();
+};
+
+const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
     width="70"
     breakpoint="md"
@@ -32,8 +37,15 @@ const SideBar = () => (
       <Menu.Item key="2">
         <Icon type="sliders" />
       </Menu.Item>
+      {isBackofficeAdmin() ? (
+        <Menu.Item key="3" onClick={goToFundsAdministration}>
+          <Icon type="fund" />
+        </Menu.Item>
+      ) : (
+        ''
+      )}
     </Menu>
   </Sider>
 );
 
-export default SideBar;
+export default withUser(SideBar);
