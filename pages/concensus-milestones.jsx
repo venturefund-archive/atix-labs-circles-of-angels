@@ -373,8 +373,9 @@ class ConcensusMilestones extends Component {
                   <Divider type="vertical" />
                   <div className="vertical Data">
                     <ButtonUpload
-                      onChange={this.changeProjectAgreement}
+                      change={this.changeProjectAgreement}
                       buttonText="Upload Agreement"
+                      showUploadList={false}
                     />
                   </div>
                 </div>
