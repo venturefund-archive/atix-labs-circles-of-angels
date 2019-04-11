@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import "../../../css/general_styling.scss";
 
 .HeaderContainer {
   display: flex;
@@ -9,9 +9,7 @@
   box-shadow: 0px 2px 2px 0px #dedede2b;
   border-bottom: 1px solid #d9d9d95c;
   background-color: #f9f9f9;
-  position: fixed;
-  z-index: 50;
-
+  height: 7vh;
   .RightSide {
     display: flex;
     justify-content: flex-end;
@@ -41,6 +39,7 @@
 
 @media screen and (max-width: 450px) {
   .HeaderContainer {
+
     .RightSide {
       width: 50%;
     }

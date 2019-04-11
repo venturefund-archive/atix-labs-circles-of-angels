@@ -23,7 +23,7 @@ const FormTransfer = ({ onTransferChange, onAmountChange, submitTransfer }) => (
         />
       </Form.Item>
       <Form.Item>
-      <CustomButton theme="Primary" buttonText="Confirm" onClick={submitTransfer} />
+        <CustomButton theme="Primary" buttonText="Confirm" onClick={submitTransfer} />
       </Form.Item>
     </Form>
   </div>

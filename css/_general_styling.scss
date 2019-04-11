@@ -2,20 +2,19 @@
 $background: #f1f3f8;
 $surface: #fff;
 
-$primary-color: #0083E3;
+$primary-color: #0083e3;
 $secondary-color: rgba(0, 0, 0, 0.76);
-$sucess-color: #15D380;
-$on-surface-medium:rgba(0, 0, 0, 0.61);
-$success-color: #15D380;
-$danger-color: #FF0050;
+$sucess-color: #15d380;
+$on-surface-medium: rgba(0, 0, 0, 0.61);
+$success-color: #15d380;
+$danger-color: #ff0050;
 
 $black: #000;
 $white: #fff;
 $grey: #9fa1a6;
-$light-grey:#9fa1a6;
 $medium-grey: #c5d0de;
-$light-grey: #EEEFEF;
-$theme-color-1: linear-gradient(to bottom, #2A3890, #0083E2);
+$light-grey: #eeefef;
+$theme-color-1: linear-gradient(to bottom, #2a3890, #0083e2);
 
 // Typographic Scale
 $title: 24px;
@@ -29,19 +28,21 @@ $body-2: 15px;
 $tabs: 12px;
 $label: 12px;
 
-
 // Shadow
 $shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
-$shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4), 0 2px 6px rgba(114, 134, 223, 0.4);
+$shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4),
+  0 2px 6px rgba(114, 134, 223, 0.4);
 
 // Fonts
 
 @mixin primary-text($font-size, $font-color, $font-weight) {
   margin: 0;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: $font-size;
   font-weight: $font-weight;
-  @if $font-color { color: $font-color; }
+  @if $font-color {
+    color: $font-color;
+  }
 }
 
 // Container
@@ -53,7 +54,11 @@ $shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4), 0 2px 6px rgba(114, 134, 223, 0
   border-radius: 6px;
   padding: 1em;
 }
-
+@mixin Content {
+  height: 93vh;
+  padding: 0 1.4em;
+  overflow-y: scroll;
+}
 @mixin input-style($border-color) {
   outline: 0;
   -webkit-box-shadow: none;
@@ -61,14 +66,13 @@ $shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4), 0 2px 6px rgba(114, 134, 223, 0
   border-color: $border-color;
 }
 
-// Separator 
+//Separator
 
-.Separator{
+.Separator {
   border: 1px solid transparent;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
 .buttonDisabled {
   opacity: 0.5;
   cursor: auto;

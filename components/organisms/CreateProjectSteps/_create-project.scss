@@ -1,31 +1,7 @@
 @import '../../../css/general_styling.scss';
 
 .CreateProjectContainer {
-  padding: 0 1.5em;
-  height: 100vh;
-  padding-top: 75px;
-
-  .ContentSteps {
-    height: 96.5%;
-    overflow-y: scroll;
-    padding-right: 1em;
-    .StepContent{
-      height: inherit;
-      .Content{
-        height: 90%;
-        overflow-y: scroll;
-      }
-    }
-  }
-
-  .ControlSteps {
-    border-top: 1px solid $light-grey;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 10%;
-  }
-
+@include Content;
   .ProjectStep3Container {
     display: flex;
     flex-flow: column;

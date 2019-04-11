@@ -15,41 +15,37 @@ const goToFundsAdministration = () => {
   Routing.toFundAdministration();
 };
 
-const SideBar = ({ user, isBackofficeAdmin }) =>
-  user ? (
-    <Sider
-      width="70"
-      breakpoint="md"
-      collapsedWidth="0"
-      onBreakpoint={broken => {
-        // console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        // console.log(collapsed, type);
-      }}
-    >
-      <div className="logo">
-        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
-      </div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" onClick={goToExploreProjects}>
-          <Icon type="appstore" />
-          {/* <img src="./static/images/menu-home.svg" alt="Home" /> */}
+const SideBar = ({ isBackofficeAdmin }) => (
+  <Sider
+    width="70"
+    breakpoint="md"
+    collapsedWidth="0"
+    onBreakpoint={broken => {
+      console.log(broken);
+    }}
+    onCollapse={(collapsed, type) => {
+      console.log(collapsed, type);
+    }}
+  >
+    <div className="logo">
+      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+    </div>
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+      <Menu.Item key="1" onClick={goToExploreProjects}>
+        <Icon type="appstore" />
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Icon type="sliders" />
+      </Menu.Item>
+      {isBackofficeAdmin() ? (
+        <Menu.Item key="3" onClick={goToFundsAdministration}>
+          <Icon type="fund" />
         </Menu.Item>
-        <Menu.Item key="2">
-          <Icon type="sliders" />
-        </Menu.Item>
-        {isBackofficeAdmin() ? (
-          <Menu.Item key="3" onClick={goToFundsAdministration}>
-            <Icon type="fund" />
-          </Menu.Item>
-        ) : (
-          ''
-        )}
-      </Menu>
-    </Sider>
-  ) : (
-    ''
-  );
+      ) : (
+        ''
+      )}
+    </Menu>
+  </Sider>
+);
 
 export default withUser(SideBar);

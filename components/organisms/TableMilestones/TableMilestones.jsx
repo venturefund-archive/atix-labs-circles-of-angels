@@ -1,10 +1,8 @@
 import React from 'react';
 import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
-import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
-
-import './_style.scss';
+import Roles from '../../../constants/RolesMap';
 
 class TableMilestones extends React.Component {
   constructor(props) {
@@ -19,12 +17,21 @@ class TableMilestones extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      onAssignOracle,
+      oracles,
+      onDelete,
+      onEdit,
+      isSocialEntrepreneur
+    } = this.props;
+
     this.columns = [
       {
         title: 'Timeline',
         dataIndex: 'quarter',
         key: 'quarter',
-        editable: true
+        editable: true,
+        fixed: 'left'
       },
       {
         title: 'Type',
@@ -38,7 +45,7 @@ class TableMilestones extends React.Component {
         editable: true
       },
       {
-        title: '/ Scial Impact Targets',
+        title: '/ Social Impact Targets',
         dataIndex: 'impact',
         key: 'targets',
         editable: true,
@@ -79,20 +86,15 @@ class TableMilestones extends React.Component {
         key: 'budget',
         dataIndex: 'budget',
         editable: true
-      },
+      }
+    ];
+    const forSocialEntrepreneur = [
       {
         title: 'Assign Oracle',
         key: 'oracle',
         fixed: 'right',
         render: (text, record, index) => {
-          const { user, onAssignOracle, oracles } = this.props;
-          if (
-            !user ||
-            !user.role ||
-            user.role.id !== Roles.SocialEntrepreneur ||
-            !record.type.includes('Activity')
-          )
-            return '';
+          if (!record.type.includes('Activity')) return '';
           return (
             <Select
               key={index}
@@ -118,41 +120,40 @@ class TableMilestones extends React.Component {
         dataIndex: 'operation',
         fixed: 'right',
         render: (text, record, index) => {
-          const { user, onEdit, onDelete } = this.props;
-          if (!user || !user.role || user.role.id !== Roles.SocialEntrepreneur)
-            return '';
           const { editingKey } = this.state;
           const editable = this.isEditing(index);
           return (
             <div>
               {editable ? (
-                <span  className="flex">
+                <span className="flex">
                   <a onClick={() => onEdit(record, this.actualField)}>Save</a>
                   <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                <span className="flex">
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => this.edit(index, record)}
-                  >
-                    Edit
-                  </a>
-                  <Divider type="vertical" />
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => onDelete(record)}
-                  >
-                    Delete
-                  </a>
-                </span>
-              )}
+                  <span className="flex">
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => this.edit(index, record)}
+                    >
+                      Edit
+                 </a>
+                    <Divider type="vertical" />
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => onDelete(record)}
+                    >
+                      Delete
+                 </a>
+                  </span>
+                )}
             </div>
           );
         }
       }
     ];
+    if (isSocialEntrepreneur)
+      this.columns = this.columns.concat(forSocialEntrepreneur);
   }
 
   isEditing = index => {

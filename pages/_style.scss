@@ -4,66 +4,69 @@
   display: flex;
   width: 100vw;
   font-family: 'Source Sans Pro', sans-serif;
-}
-
-.MainContent {
+ }
+ 
+ .MainContent {
   display: flex;
   flex-flow: column;
   width: 96vw;
   margin-left: 70px;
   height: 100vh;
   overflow-x: hidden;
-}
-
-.ButtonContainer {
+ }
+ .Content{
+  @include Content;
+ }
+ 
+ .ButtonContainer {
   align-self: center;
   display: flex;
   flex-flow: column;
   justify-content: space-around;
   position: absolute;
   top: 20vh;
-
+ 
   .Primary {
     margin: 1em;
   }
   h1 {
     text-align: center;
   }
-}
-
-.FunderButtonContainer {
+ }
+ 
+ .FunderButtonContainer {
   display: flex;
   flex-flow: row;
   justify-content: inherit;
-}
-
-::-webkit-scrollbar {
+ }
+ 
+ ::-webkit-scrollbar {
   width: 3px;
-}
-::-webkit-scrollbar-thumb {
+ }
+ ::-webkit-scrollbar-thumb {
   background: $primary-color;
   border-radius: 10px;
-}
-::-webkit-scrollbar-track {
+ }
+ ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px #fff;
   border-radius: 20px;
-}
-.flex{
+ }
+ .flex{
   display:flex;
   align-items:center;
-}
-.space-between{
+ }
+ .space-between{
   display:flex;
   justify-content: space-between;
   align-items:center;
-}
-.vertical{
+ }
+ .vertical{
   display:flex;
   justify-content: center;
   flex-direction:column;
-}
-@media screen and (max-width: 770px) {
+ }
+ @media screen and (max-width: 770px) {
   .MainContent {
     margin-left: 0px;
   }
-}
+ }

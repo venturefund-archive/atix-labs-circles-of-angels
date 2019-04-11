@@ -42,6 +42,7 @@ import {
   assignOracleToActivity,
   unassignOracleToActivity
 } from '../api/activityApi';
+import Roles from '../constants/RolesMap';
 
 const { TabPane } = Tabs;
 
@@ -69,22 +70,46 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const { projectName, projectId, faqLink, initialStep } = query.query;
+    const {
+      projectName,
+      projectId,
+      faqLink,
+      initialStep,
+      goalAmount
+    } = query.query;
     const response = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
 
+    let milestonesAndActivities = [];
+    response.data.forEach(milestone => {
+      milestonesAndActivities.push(milestone);
+      milestone.activities.forEach((activity, j) => {
+        const activityWithId = {
+          ...activity,
+          type: `Activity ${j + 1}`
+        };
+        milestonesAndActivities.push(activityWithId);
+      });
+    });
+
     return {
-      milestones: response.data,
+      milestones: milestonesAndActivities,
       projectName,
       userProjects: users.data,
       projectId,
       transfers,
       faqLink,
-      oracles
+      oracles,
+      goalAmount
     };
   }
+
+  componentDidMount = () => {
+    const { milestones } = this.props;
+    this.setState({ milestones });
+  };
 
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
@@ -189,7 +214,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -230,7 +255,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -283,31 +308,21 @@ class ConcensusMilestones extends Component {
   getCurrentStep = () => {
     const {
       projectName,
-      milestones,
       userProjects,
       projectId,
       transfers,
       faqLink,
-      oracles
+      oracles,
+      goalAmount,
+      user
     } = this.props;
 
-    const { currentStep, confirmationStatus } = this.state;
-
-    const milestonesAndActivities = [];
-
-    milestones.forEach(milestone => {
-      milestonesAndActivities.push(milestone);
-      milestone.activities.forEach((activity, j) => {
-        const activityWithId = {
-          ...activity,
-          type: `Activity ${j + 1}`
-        };
-        milestonesAndActivities.push(activityWithId);
-      });
-    });
+    const { currentStep, confirmationStatus, milestones } = this.state;
+    const isSocialEntrepreneur =
+      user && user.role && user.role.id === Roles.SocialEntrepreneur;
 
     const step1 = (
-      <span className="ContentStep">
+      <div className="ContentStep">
         <StepsIf stepNumber={0} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
@@ -327,7 +342,7 @@ class ConcensusMilestones extends Component {
                 </div>
                 <div className="flex">
                   <div className="vertical  Data">
-                    <p className="TextBlue">2,587</p>
+                    <p className="TextBlue">{goalAmount}</p>
                     <span className="Overline">Goal Amount</span>
                   </div>
                   <Divider type="vertical" />
@@ -338,7 +353,7 @@ class ConcensusMilestones extends Component {
                   <Divider type="vertical" />
                   <div className="vertical  Data">
                     <a className="TextBlue" href="www.google.com">
-                      http://Document.Link
+                      {faqLink}
                     </a>
                     <span className="Overline">FAQ Document</span>
                   </div>
@@ -348,23 +363,40 @@ class ConcensusMilestones extends Component {
                       Proyect Proposal <Icon type="download" />
                     </Button>
                   </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Legal Agreement <Icon type="download" />
+                    </Button>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Legal Agreement <Icon type="upload" />
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <CustomButton buttonText="Start Project" theme="Primary" />
+              {isSocialEntrepreneur ? (
+                <CustomButton buttonText="Start Project" theme="Primary" />
+              ) : (
+                ''
+              )}
             </div>
           </div>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
                 <TableMilestones
-                  dataSource={milestonesAndActivities}
+                  dataSource={milestones}
                   onDelete={this.deleteTask}
                   onEdit={this.save}
                   oracles={oracles}
                   onAssignOracle={this.onAssignOracle}
+                  isSocialEntrepreneur={isSocialEntrepreneur}
                 />
               </TabPane>
-              <TabPane disabled tab="." key="2">
+              <TabPane tab="." key="2">
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
@@ -375,7 +407,7 @@ class ConcensusMilestones extends Component {
                   />
                 </div>
               </TabPane>
-              <TabPane disabled tab="." key="3">
+              <TabPane tab="." key="3">
                 <div>
                   <h2>FAQ Document</h2>
                   <a href={faqLink} target="_blank" rel="noopener noreferrer">
@@ -400,7 +432,7 @@ class ConcensusMilestones extends Component {
             onClick={this.nextStep}
           />
         </div>
-      </span>
+      </div>
     );
 
     const step2 = (

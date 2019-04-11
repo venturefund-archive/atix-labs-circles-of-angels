@@ -19,9 +19,9 @@ const ButtonUpload = ({ change, name, typeAccepts, buttonText }) => {
 
   return (
     <Upload {...props}>
-                        <Button>
-                      Proyect Proposal <Icon type="upload" />
-                    </Button>
+      <Button>
+        Project Proposal <Icon type="upload" />
+      </Button>
     </Upload>
   );
 };
