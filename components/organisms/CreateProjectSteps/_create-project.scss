@@ -2,11 +2,6 @@
 
 .CreateProjectContainer {
 @include Content;
-  .ContentSteps {
-    height: 96.5%;
-    overflow-y: scroll;
-    padding-right: 1em;
-  }
   .ProjectStep3Container {
     display: flex;
     flex-flow: column;

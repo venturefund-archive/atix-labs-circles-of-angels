@@ -7,11 +7,11 @@
   flex-flow: row;
   flex-wrap: wrap;
   justify-content: space-between;
-
+ 
   .TabCollaboration {
     display: flex;
     flex-flow: column;
-
+ 
     .DownloadAgreementContainer {
       width: 25%;
       justify-content: flex-start;
@@ -23,5 +23,4 @@
       }
     }
   }
-}
-
+ }

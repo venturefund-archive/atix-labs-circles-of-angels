@@ -27,11 +27,10 @@ const SideBar = () => (
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
       <Menu.Item key="1" onClick={goToExploreProjects}>
-      <Icon type="appstore" />
-        {/* <img src="./static/images/menu-home.svg" alt="Home" /> */}
+        <Icon type="appstore" />
       </Menu.Item>
       <Menu.Item key="2">
-      <Icon type="sliders" />
+        <Icon type="sliders" />
       </Menu.Item>
     </Menu>
   </Sider>

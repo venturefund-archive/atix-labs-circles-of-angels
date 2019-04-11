@@ -11,8 +11,6 @@ const StepsSe = () => (
       <Step />
     </Steps>
   </div>
-
 );
 
 export default StepsSe;
-

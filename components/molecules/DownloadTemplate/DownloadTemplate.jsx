@@ -10,7 +10,7 @@ const DownloadTemplate = ({ subtitle, text, click }) => (
       <p>{text}</p>
     </div>
     <Button onClick={click}>
-      Download Excel File" <Icon type="download" />
+      Download Excel File <Icon type="download" />
     </Button>
   </div>
 );

@@ -4,17 +4,17 @@
   display: flex;
   flex-flow: column;
   flex-wrap: wrap;
-
+ 
   .ant-form-item {
     width: 24%;
     margin-right: 2%;
     margin-bottom: 1em;
   }
-
+ 
   .ant-form-item:last-child {
     margin-right: 0;
   }
-
+ 
   .TextArea {
     width: 49%;
     margin-right: 2%;
@@ -26,34 +26,34 @@
   .TextArea:last-child {
     margin-right: 0;
   }
-
+ 
   .form-section {
     display: flex;
     flex-flow: row;
   }
-}
-
-.has-error .ant-form-explain,
-.has-error .ant-form-split {
+ }
+ 
+ .has-error .ant-form-explain,
+ .has-error .ant-form-split {
   @include primary-text($label, $danger-color, 400);
   margin-bottom: 0.5em;
-}
-
-.ant-input{
+ }
+ 
+ .ant-input{
   font-size: $body;
   font-family: 'Source Sans Pro', sans-serif;
-}
-
-.has-error .ant-input-affix-wrapper .ant-input,
-.has-error .ant-input-affix-wrapper .ant-input:hover {
+ }
+ 
+ .has-error .ant-input-affix-wrapper .ant-input,
+ .has-error .ant-input-affix-wrapper .ant-input:hover {
   border-color: $danger-color;
-}
-.has-error .ant-input-affix-wrapper .ant-input:focus {
+ }
+ .has-error .ant-input-affix-wrapper .ant-input:focus {
   border-color: $danger-color;
   -webkit-box-shadow: 0 0 0 2px rgba(255, 0, 80, 0.2);
   box-shadow: 0 0 0 2px rgba(255, 0, 80, 0.2);
-}
-
-.WebFormProject .ant-input-affix-wrapper {
+ }
+ 
+ .WebFormProject .ant-input-affix-wrapper {
   margin-bottom: 0.5em;
-}
+ }
