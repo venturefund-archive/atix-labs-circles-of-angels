@@ -21,6 +21,7 @@ const project = {
     projectCoverPhoto: {},
     projectCardPhoto: {},
     projectMilestones: {},
+    projectAgreement: {},
     milestonesErrors: []
   }
 };

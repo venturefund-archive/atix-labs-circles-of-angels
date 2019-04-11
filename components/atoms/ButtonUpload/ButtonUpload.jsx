@@ -3,7 +3,13 @@ import { Upload, message, Button, Icon } from 'antd';
 import './_style.scss';
 import CustomButton from '../CustomButton/CustomButton';
 
-const ButtonUpload = ({ change, name, typeAccepts, buttonText }) => {
+const ButtonUpload = ({
+  change,
+  name,
+  typeAccepts,
+  buttonText,
+  showUploadList
+}) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -14,13 +20,14 @@ const ButtonUpload = ({ change, name, typeAccepts, buttonText }) => {
     name,
     customRequest: dummyRequest,
     onChange: change,
-    accept: typeAccepts
+    accept: typeAccepts,
+    showUploadList
   };
 
   return (
     <Upload {...props}>
       <Button>
-        Project Proposal <Icon type="upload" />
+        {buttonText} <Icon type="upload" />
       </Button>
     </Upload>
   );
