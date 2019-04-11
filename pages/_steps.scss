@@ -1,8 +1,7 @@
 @import '../css/general_styling.scss';
 
 .ProjectStepsContainer {
-  padding: 0.5em 1.5em 0;
-  height: 90%;
+  height: 80%;
   overflow-y: scroll;
 
   .LabelSteps {
@@ -37,4 +36,41 @@
 
 .StepOne{
   justify-content: flex-end;
+}
+.ProjectInfoHeader {
+  padding: 1em 0;
+  border-bottom: 1px solid $medium-grey;
+  h1 {
+    @include primary-text($h1, $secondary-color, 600);
+    margin-bottom: 0.4em;
+  }
+  .LabelSteps {
+    @include primary-text($label, $grey, 500);
+    text-transform: uppercase;
+  }
+  .Data {
+    .TextGray {
+      @include primary-text($body-2, $secondary-color, 500);
+    }
+    .TextBlue {
+      @include primary-text($body-2, $primary-color, 500);
+    }
+    a.TextBlue {
+      width: 135px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .Overline {
+    @include primary-text($body, $grey, 500);
+  }
+  .ant-divider,
+  .ant-divider-vertical {
+    height: 2.5em;
+    margin: 0 1.2em;
+  }
+}
+.ContentStep {
+  @include Content;
 }
