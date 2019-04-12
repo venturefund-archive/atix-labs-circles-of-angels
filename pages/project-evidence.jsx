@@ -79,7 +79,8 @@ const ProjectEvidence = () => (
           <TableEvidence />
         </div>
         <div className="ControlSteps StepOne">
-          <Button type="primary">Continue</Button>
+          <CustomButton theme="Primary" buttonText="Save and Continue Later" />
+          <CustomButton theme="Success" buttonText="Continue" />
         </div>
       </div>
     </div>
