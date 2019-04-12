@@ -1,12 +1,12 @@
 const transferStatusMap = {
   '-1': {
     name: 'cancel',
-    show: 'Funds Cancelled',
+    show: 'Cancelled',
     icon: './static/images/icon-cancel.svg'
   },
   '0': {
     name: 'pending',
-    show: 'Funds Pending',
+    show: 'Pending Verification',
     icon: './static/images/icon-clock.svg'
   },
   '1': {
@@ -16,7 +16,7 @@ const transferStatusMap = {
   },
   '2': {
     name: 'success',
-    show: 'Funds Verified',
+    show: 'Verified',
     icon: './static/images/icon-check.svg'
   }
 };
