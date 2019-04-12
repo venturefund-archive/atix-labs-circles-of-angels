@@ -10,6 +10,7 @@ import {
 } from '../../../api/projectApi';
 
 import './_style.scss';
+import FileVerificationList from '../FileVerificationList/FileVerificationList';
 
 class Step2 extends React.Component {
   constructor(props) {
@@ -93,11 +94,13 @@ class Step2 extends React.Component {
             subtitle="Project's Milestones Template"
             text="Lorem ipsum text description"
           />
-          <DragUploadFile
-            change={this.changeMilestones}
-            status={creationStatus}
-            errors={milestonesErrors}
-          />
+          <div className="UploadExcelFiles">
+            <DragUploadFile change={this.changeMilestones} />
+            <FileVerificationList
+              status={creationStatus}
+              errors={milestonesErrors}
+            />
+          </div>
         </div>
 
         <Button style={{ marginRight: 8 }} onClick={prev}>

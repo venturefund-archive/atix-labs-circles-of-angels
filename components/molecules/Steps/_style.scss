@@ -14,7 +14,7 @@
   }
 
   h1 {
-    @include primary-text($h1, $secondary-color, 400);
+    @include primary-text($h1, $secondary-color, 600);
   }
 
   .ProjectDataContainer {
@@ -32,7 +32,7 @@
   }
 
   .CreateSubtitle {
-    @include primary-text($h3, $primary-color, 300);
+    @include primary-text($h3, $primary-color, 500);
     width: 100%;
     margin-bottom: 1em;
   }
@@ -83,4 +83,9 @@
   justify-content: space-between;
   align-items: center;
   height: 10%;
+}
+.UploadExcelFiles {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;  
 }
