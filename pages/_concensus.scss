@@ -1,17 +1,17 @@
 @import '../css/general_styling.scss';
 
 .SignatoryList {
-  margin-top: 2em;
+  margin-top: 0;
   display: flex;
   width: 100%;
   flex-flow: row;
   flex-wrap: wrap;
   justify-content: space-between;
-
+ 
   .TabCollaboration {
     display: flex;
     flex-flow: column;
-
+ 
     .DownloadAgreementContainer {
       width: 25%;
       justify-content: flex-start;
@@ -23,9 +23,4 @@
       }
     }
   }
-}
-
-.ant-tabs-bar {
-  margin-bottom: 2.5em;
-  font-family: 'Montserrat', sans-serif;
-}
+ }

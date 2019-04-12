@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import Roles from '../../constants/RolesMap';
 
 const UserContext = React.createContext('user');
 const userKey = 'user';
@@ -18,7 +19,13 @@ export const withUser = ComponentToWrap => {
     }
 
     render() {
-      const { user, changeUser, removeUser, getLoggedUser } = this.context;
+      const {
+        user,
+        changeUser,
+        removeUser,
+        getLoggedUser,
+        isBackofficeAdmin
+      } = this.context;
       return (
         <ComponentToWrap
           {...this.props}
@@ -26,6 +33,7 @@ export const withUser = ComponentToWrap => {
           changeUser={changeUser}
           removeUser={removeUser}
           getLoggedUser={getLoggedUser}
+          isBackofficeAdmin={isBackofficeAdmin}
         />
       );
     }
@@ -36,7 +44,7 @@ export class UserProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: this.getLoggedUser()
     };
   }
 
@@ -65,6 +73,11 @@ export class UserProvider extends React.Component {
     return user;
   };
 
+  isBackofficeAdmin = () => {
+    const { user } = this.state;
+    return user && user.role && user.role.id === Roles.BackofficeAdmin;
+  };
+
   render() {
     const { user } = this.state;
     const { children } = this.props;
@@ -74,7 +87,8 @@ export class UserProvider extends React.Component {
           user,
           changeUser: this.changeUser,
           removeUser: this.removeUser,
-          getLoggedUser: this.getLoggedUser
+          getLoggedUser: this.getLoggedUser,
+          isBackofficeAdmin: this.isBackofficeAdmin
         }}
       >
         {children}

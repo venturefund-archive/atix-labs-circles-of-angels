@@ -1,10 +1,8 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
-import Roles from '../../../constants/RolesMap';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
-
-import './_style.scss';
+import Roles from '../../../constants/RolesMap';
 
 class TableMilestones extends React.Component {
   constructor(props) {
@@ -12,15 +10,28 @@ class TableMilestones extends React.Component {
     this.state = {
       editingKey: ''
     };
+    if (!props.user) return;
 
     this.actualField = { data: {} };
+    this.columns = [];
+  }
+
+  componentDidMount() {
+    const {
+      onAssignOracle,
+      oracles,
+      onDelete,
+      onEdit,
+      isSocialEntrepreneur
+    } = this.props;
 
     this.columns = [
       {
         title: 'Timeline',
         dataIndex: 'quarter',
         key: 'quarter',
-        editable: true
+        editable: true,
+        fixed: 'left'
       },
       {
         title: 'Type',
@@ -34,10 +45,11 @@ class TableMilestones extends React.Component {
         editable: true
       },
       {
-        title: 'Expected Changes/ Social Impact Targets',
+        title: '/ Social Impact Targets',
         dataIndex: 'impact',
         key: 'targets',
-        editable: true
+        editable: true,
+        width: 200
       },
       {
         title: 'Review Criterion',
@@ -74,43 +86,74 @@ class TableMilestones extends React.Component {
         key: 'budget',
         dataIndex: 'budget',
         editable: true
+      }
+    ];
+    const forSocialEntrepreneur = [
+      {
+        title: 'Assign Oracle',
+        key: 'oracle',
+        fixed: 'right',
+        render: (text, record, index) => {
+          if (!record.type.includes('Activity')) return '';
+          return (
+            <Select
+              key={index}
+              style={{ width: 100 }}
+              showSearch
+              placeholder="Select Oracle"
+              optionFilterProp="children"
+              onChange={userId => onAssignOracle(userId, record.id)}
+              defaultValue={record.oracle ? record.oracle.id : undefined}
+            >
+              <Select.Option value={null}>None</Select.Option>
+              {oracles.map(oracle => (
+                <Select.Option key={oracle.id} value={oracle.id}>
+                  {oracle.username}
+                </Select.Option>
+              ))}
+            </Select>
+          );
+        }
       },
       {
         title: 'Action',
         dataIndex: 'operation',
+        fixed: 'right',
         render: (text, record, index) => {
-          const { user, onEdit, onDelete } = props;
-          if (user.role.id !== Roles.SocialEntrepreneur) return '';
           const { editingKey } = this.state;
           const editable = this.isEditing(index);
           return (
             <div>
               {editable ? (
-                <span>
+                <span className="flex">
                   <a onClick={() => onEdit(record, this.actualField)}>Save</a>
+                  <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                <span>
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => this.edit(index, record)}
-                  >
-                    Edit
-                  </a>
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => onDelete(record)}
-                  >
-                    Delete
-                  </a>
-                </span>
-              )}
+                  <span className="flex">
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => this.edit(index, record)}
+                    >
+                      Edit
+                 </a>
+                    <Divider type="vertical" />
+                    <a
+                      disabled={editingKey !== ''}
+                      onClick={() => onDelete(record)}
+                    >
+                      Delete
+                 </a>
+                  </span>
+                )}
             </div>
           );
         }
       }
     ];
+    if (isSocialEntrepreneur)
+      this.columns = this.columns.concat(forSocialEntrepreneur);
   }
 
   isEditing = index => {
@@ -157,7 +200,7 @@ class TableMilestones extends React.Component {
         components={components}
         columns={columns}
         dataSource={dataSource}
-        size="middle"
+        scroll={{ x: 1300 }}
         className="TableMilestones"
       />
     );

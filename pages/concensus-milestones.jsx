@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Divider, Button, Icon } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -19,6 +19,7 @@ import {
 import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
+import { getOracles } from '../api/userApi';
 import {
   getTransferListOfProject,
   sendTransferInformation
@@ -36,7 +37,13 @@ import {
   deleteActivity,
   updateMilestone
 } from '../api/milestonesApi';
-import { updateActivity } from '../api/activityApi';
+import {
+  updateActivity,
+  assignOracleToActivity,
+  unassignOracleToActivity
+} from '../api/activityApi';
+import Roles from '../constants/RolesMap';
+import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 
 const { TabPane } = Tabs;
 
@@ -64,26 +71,55 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const { projectJSON } = query.query;
-    if (!projectJSON) return { error: true };
-    const project = JSON.parse(projectJSON);
-    const projectId = project.id;
+    const {
+      projectName,
+      projectId,
+      faqLink,
+      initialStep,
+      goalAmount
+    } = query.query;
     const response = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
+    const oracles = await getOracles();
+
+    let milestonesAndActivities = [];
+    response.data.forEach(milestone => {
+      milestonesAndActivities.push(milestone);
+      milestone.activities.forEach((activity, j) => {
+        const activityWithId = {
+          ...activity,
+          type: `Activity ${j + 1}`
+        };
+        milestonesAndActivities.push(activityWithId);
+      });
+    });
 
     return {
-      milestones: response.data,
-      project,
+      milestones: milestonesAndActivities,
+      projectName,
       userProjects: users.data,
       projectId,
-      transfers
+      transfers,
+      faqLink,
+      oracles,
+      goalAmount
     };
   }
+
+  componentDidMount = () => {
+    const { milestones } = this.props;
+    this.setState({ milestones });
+  };
 
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
+  };
+
+  onAssignOracle = (userId, activityId) => {
+    if (!userId) unassignOracleToActivity(activityId);
+    else assignOracleToActivity(userId, activityId);
   };
 
   save = async (record, actualField) => {
@@ -105,7 +141,7 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
-    const { project } = this.props;
+    const { projectId, projectName, faqLink } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -115,7 +151,9 @@ class ConcensusMilestones extends Component {
 
     if (!response.error) {
       Routing.toConsensusMilestones({
-        projectJSON: JSON.stringify(project),
+        projectId,
+        projectName,
+        faqLink,
         initialStep: 0
       });
     } else {
@@ -169,9 +207,9 @@ class ConcensusMilestones extends Component {
   };
 
   downloadAgreementClick = async () => {
-    const { project } = this.props;
+    const { projectId } = this.props;
 
-    const response = await downloadAgreement(project.id);
+    const response = await downloadAgreement(projectId);
     if (response.error) {
       const { error } = response;
       if (error.response) {
@@ -191,7 +229,7 @@ class ConcensusMilestones extends Component {
   };
 
   changeProjectAgreement = async info => {
-    const { project } = this.props;
+    const { projectId } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
     if (status !== FileUploadStatus.UPLOADING) {
@@ -199,7 +237,7 @@ class ConcensusMilestones extends Component {
     }
     if (status === FileUploadStatus.DONE) {
       const response = await uploadAgreement(
-        project.id,
+        projectId,
         projectAgreement.originFileObj
       );
 
@@ -211,8 +249,8 @@ class ConcensusMilestones extends Component {
   };
 
   clickDownloadProposal = async () => {
-    const { project } = this.props;
-    const response = await downloadProposal(project.id);
+    const { projectId } = this.props;
+    const response = await downloadProposal(projectId);
     if (response.error) {
       const { error } = response;
       if (error.response) {
@@ -232,13 +270,15 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async () => {
-    const { user, projectId, project } = this.props;
+    const { user, faqLink, projectId, projectName } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
     if (!response.error) {
       Routing.toConsensusMilestones({
-        projectJSON: JSON.stringify(project),
+        projectId,
+        projectName,
+        faqLink,
         initialStep: 1
       });
     } else {
@@ -268,50 +308,98 @@ class ConcensusMilestones extends Component {
 
   getCurrentStep = () => {
     const {
-      project,
-      milestones,
+      projectName,
       userProjects,
       projectId,
-      transfers
+      transfers,
+      faqLink,
+      oracles,
+      goalAmount,
+      user
     } = this.props;
 
-    const { currentStep, confirmationStatus } = this.state;
-
-    const milestonesAndActivities = [];
-
-    milestones.forEach(milestone => {
-      milestonesAndActivities.push(milestone);
-      milestone.activities.forEach((activity, j) => {
-        const activityWithId = {
-          ...activity,
-          type: `Activity ${j + 1}`
-        };
-        milestonesAndActivities.push(activityWithId);
-      });
-    });
+    const { currentStep, confirmationStatus, milestones } = this.state;
+    const isSocialEntrepreneur =
+      user && user.role && user.role.id === Roles.SocialEntrepreneur;
 
     const step1 = (
-      <span>
+      <div className="ContentStep">
         <StepsIf stepNumber={0} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Consensus Step</p>
-          <h3 className="StepDescription">
-            Collaborate with the definition of milestones, share your
-            experiences, talk to project owner and other funders, download the
-            latest agreements
-          </h3>
-          <p className="LabelSteps">Project Name</p>
-          <h1>{project.projectName}</h1>
+          <div className="StepDescription">
+            <p className="LabelSteps">Consensus Step</p>
+            <h3>
+              Collaborate with the definition of milestones, share your
+              experiences, talk to project owner and other funders, download the
+              latest agreements
+            </h3>
+          </div>
+          <div className="ProjectInfoHeader">
+            <div className="space-between">
+              <div className="">
+                <div>
+                  <p className="LabelSteps">Project Name</p>
+                  <h1>{projectName}</h1>
+                </div>
+                <div className="flex">
+                  <div className="vertical  Data">
+                    <p className="TextBlue">{goalAmount}</p>
+                    <span className="Overline">Goal Amount</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <p className="TextGray">1,238</p>
+                    <span className="Overline">Already</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical  Data">
+                    <a className="TextBlue" href="www.google.com">
+                      {faqLink}
+                    </a>
+                    <span className="Overline">FAQ Document</span>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button>
+                      Proyect Proposal <Icon type="download" />
+                    </Button>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <Button onClick={this.downloadAgreementClick}>
+                      Download Agreement <Icon type="download" />
+                    </Button>
+                  </div>
+                  <Divider type="vertical" />
+                  <div className="vertical Data">
+                    <ButtonUpload
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Agreement"
+                      showUploadList={false}
+                    />
+                  </div>
+                </div>
+              </div>
+              {isSocialEntrepreneur ? (
+                <CustomButton buttonText="Start Project" theme="Primary" />
+              ) : (
+                ''
+              )}
+            </div>
+          </div>
           <div className="SignatoryList">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Milestones" key="1">
                 <TableMilestones
-                  dataSource={milestonesAndActivities}
+                  dataSource={milestones}
                   onDelete={this.deleteTask}
                   onEdit={this.save}
+                  oracles={oracles}
+                  onAssignOracle={this.onAssignOracle}
+                  isSocialEntrepreneur={isSocialEntrepreneur}
                 />
               </TabPane>
-              <TabPane tab="Collaboration" key="2">
+              <TabPane tab="." key="2">
                 <div className="TabCollaboration">
                   <h2>Project's Agreement File</h2>
                   <DownloadAgreement click={this.downloadAgreementClick} />
@@ -322,15 +410,11 @@ class ConcensusMilestones extends Component {
                   />
                 </div>
               </TabPane>
-              <TabPane tab="FAQ & Project Proposal" key="3">
+              <TabPane tab="." key="3">
                 <div>
                   <h2>FAQ Document</h2>
-                  <a
-                    href={project.faqLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.faqLink}
+                  <a href={faqLink} target="_blank" rel="noopener noreferrer">
+                    {faqLink}
                   </a>
                   <br /> <br />
                   <DownloadFile
@@ -351,17 +435,19 @@ class ConcensusMilestones extends Component {
             onClick={this.nextStep}
           />
         </div>
-      </span>
+      </div>
     );
 
     const step2 = (
       <span>
         <StepsIf stepNumber={1} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Signatories Step</p>
-          <h3 className="StepDescription">
-            Sign your agreement and pledge to help this project come to true
-          </h3>
+          <div className="StepDescription">
+            <p className="LabelSteps">Signatories Step</p>
+            <h3>
+              Sign your agreement and pledge to help this project come to true
+            </h3>
+          </div>
           <p className="LabelSteps">Project Name</p>
           <h1>Lorem Ipsum</h1>
           <div className="SignatoryList">
