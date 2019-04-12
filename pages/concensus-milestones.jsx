@@ -287,12 +287,20 @@ class ConcensusMilestones extends Component {
   };
 
   goToStep = step => {
-    const { projectId, projectName, faqLink } = this.props;
+    const {
+      projectId,
+      projectName,
+      faqLink,
+      goalAmount,
+      actualAmount
+    } = this.props;
     this.setState({ currentStep: step });
     Routing.toConsensusMilestones({
       projectId,
       projectName,
       faqLink,
+      goalAmount,
+      actualAmount,
       initialStep: step
     });
   };
@@ -383,7 +391,11 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur ? (
-                <CustomButton buttonText="Start Project" theme="Primary" />
+                <CustomButton
+                  disabled={actualAmount < goalAmount}
+                  buttonText="Start Project"
+                  theme="Primary"
+                />
               ) : (
                 ''
               )}
