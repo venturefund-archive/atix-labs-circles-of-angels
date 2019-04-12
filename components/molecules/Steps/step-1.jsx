@@ -23,7 +23,8 @@ class Step1 extends React.Component {
         project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok' &&
+        project.files.projectAgreement.response === 'ok'
     );
     if (valid) next();
   };
@@ -33,44 +34,58 @@ class Step1 extends React.Component {
 
     return (
       <div className="StepContent">
-        <p className="LabelSteps">Step 1</p>
-        <h1>Complete Project Detail</h1>
-        <div className="ProjectDataContainer">
-          <h3 className="CreateSubtitle">Project's Details</h3>
-          <WebFormProject project={project} webform={webform} />
+        <div className="DataSteps">
+          <p className="LabelSteps">Step 1</p>
+          <h1>Complete Project Detail</h1>
+          <div className="ProjectDataContainer">
+            <h3 className="CreateSubtitle">Project's Details</h3>
+            <WebFormProject project={project} webform={webform} />
+          </div>
+          <div className="ProjectImagesContainer">
+            <h3 className="CreateSubtitle">Project's Files</h3>
+            <BlockUpload
+              subtitle="Project's Card Image"
+              text="Lorem ipsum text description"
+              name="projectCard"
+              typeAccepts="image/*"
+              buttonText="Upload Image"
+              change={info =>
+                changeProjectFile(project, 'projectCardPhoto', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project's Cover Image"
+              text="Lorem ipsum text description"
+              name="projectCover"
+              typeAccepts="image/*"
+              buttonText="Upload Image"
+              change={info =>
+                changeProjectFile(project, 'projectCoverPhoto', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project Proposal"
+              text="Lorem ipsum text description"
+              name="projectProposal"
+              typeAccepts=".pdf, .ppt, .docx, .doc"
+              buttonText="Upload File"
+              change={info =>
+                changeProjectFile(project, 'projectProposal', info)
+              }
+            />
+            <BlockUpload
+              subtitle="Project Agreement"
+              text="Lorem ipsum text description"
+              name="projectAgreement"
+              typeAccepts="*"
+              buttonText="Upload File"
+              change={info =>
+                changeProjectFile(project, 'projectAgreement', info)
+              }
+            />
+          </div>
         </div>
-        <div className="ProjectImagesContainer">
-          <h3 className="CreateSubtitle">Project's Images</h3>
-          <BlockUpload
-            subtitle="Project's Card Image"
-            text="Lorem ipsum text description"
-            name="projectCard"
-            typeAccepts="image/*"
-            buttonText="Upload Image"
-            change={info =>
-              changeProjectFile(project, 'projectCardPhoto', info)
-            }
-          />
-          <BlockUpload
-            subtitle="Project's Cover Image"
-            text="Lorem ipsum text description"
-            name="projectCover"
-            typeAccepts="image/*"
-            buttonText="Upload Image"
-            change={info =>
-              changeProjectFile(project, 'projectCoverPhoto', info)
-            }
-          />
-          <BlockUpload
-            subtitle="Pitch Proposal Document"
-            text="Lorem ipsum text description"
-            name="projectProposal"
-            typeAccepts=".pdf, .ppt, .docx, .doc"
-            buttonText="Upload File"
-            change={info => changeProjectFile(project, 'projectProposal', info)}
-          />
-        </div>
-        <div className="ControlSteps">
+        <div className="ControlSteps StepOne">
           <Button type="primary" onClick={this.validProject}>
             Continue
           </Button>
