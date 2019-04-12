@@ -95,24 +95,29 @@ class TableMilestones extends React.Component {
         fixed: 'right',
         render: (text, record, index) => {
           if (!record.type.includes('Activity')) return '';
-          return (
+          const { oracle } = record;
+          const toRender = (
             <Select
-              key={index}
+              key={record.id}
               style={{ width: 100 }}
               showSearch
               placeholder="Select Oracle"
               optionFilterProp="children"
-              onChange={userId => onAssignOracle(userId, record.id)}
-              defaultValue={record.oracle ? record.oracle.id : undefined}
+              onChange={user => {
+                onAssignOracle(user ? user.id : undefined, record.id);
+                record.oracle = user;
+              }}
+              defaultValue={oracle ? oracle.username : undefined}
             >
               <Select.Option value={null}>None</Select.Option>
-              {oracles.map(oracle => (
-                <Select.Option key={oracle.id} value={oracle.id}>
-                  {oracle.username}
+              {oracles.map(aOracle => (
+                <Select.Option key={aOracle.id} value={aOracle}>
+                  {aOracle.username}
                 </Select.Option>
               ))}
             </Select>
           );
+          return toRender;
         }
       },
       {
@@ -131,22 +136,22 @@ class TableMilestones extends React.Component {
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                  <span className="flex">
-                    <a
-                      disabled={editingKey !== ''}
-                      onClick={() => this.edit(index, record)}
-                    >
-                      Edit
-                 </a>
-                    <Divider type="vertical" />
-                    <a
-                      disabled={editingKey !== ''}
-                      onClick={() => onDelete(record)}
-                    >
-                      Delete
-                 </a>
-                  </span>
-                )}
+                <span className="flex">
+                  <a
+                    disabled={editingKey !== ''}
+                    onClick={() => this.edit(index, record)}
+                  >
+                    Edit
+                  </a>
+                  <Divider type="vertical" />
+                  <a
+                    disabled={editingKey !== ''}
+                    onClick={() => onDelete(record)}
+                  >
+                    Delete
+                  </a>
+                </span>
+              )}
             </div>
           );
         }
