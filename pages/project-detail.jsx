@@ -47,7 +47,8 @@ class ProjectDetail extends React.Component {
     Routing.toConsensusMilestones({
       projectId: projectDetail.id,
       projectName: projectDetail.projectName,
-      faqLink: projectDetail.faqLink
+      faqLink: projectDetail.faqLink,
+      initialStep: 0
     });
   };
 
