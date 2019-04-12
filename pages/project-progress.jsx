@@ -11,7 +11,7 @@ import TableProjectProgress from '../components/organisms/TableProjectProgress/T
 const BreadCrumb = () => (
   <Breadcrumb>
     <Breadcrumb.Item>
-      <a href="@">Back</a>
+      <a href="@"><Icon type="arrow-left" /></a>
     </Breadcrumb.Item>
     <Breadcrumb.Item>Project Progress</Breadcrumb.Item>
   </Breadcrumb>
