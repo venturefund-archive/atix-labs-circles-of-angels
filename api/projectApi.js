@@ -193,6 +193,16 @@ const downloadMilestonesTemplate = async () => {
   }
 };
 
+const getActualProjectAmount = async projectId => {
+  try {
+    console.log("sdf")
+    const response = await api.get(`${baseURL}/${projectId}/alreadyFunded`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   getProjects,
   getActiveProjects,
@@ -205,5 +215,6 @@ export {
   downloadAgreement,
   uploadAgreement,
   downloadProposal,
-  downloadMilestonesTemplate
+  downloadMilestonesTemplate,
+  getActualProjectAmount
 };

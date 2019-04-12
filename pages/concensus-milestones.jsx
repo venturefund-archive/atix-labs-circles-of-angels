@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, message, Divider, Button, Icon } from 'antd';
+import { message, Divider, Button, Icon } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
@@ -14,9 +13,9 @@ import {
   getProjectMilestones,
   downloadAgreement,
   downloadProposal,
-  uploadAgreement
+  uploadAgreement,
+  getActualProjectAmount
 } from '../api/projectApi';
-import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import { getOracles } from '../api/userApi';
@@ -30,7 +29,6 @@ import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
-import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import { showModalSuccess, showModalError } from '../components/utils/Modals';
 import {
   deleteMilestone,
@@ -44,12 +42,6 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
-
-const { TabPane } = Tabs;
-
-function callback(key) {
-  console.log(key);
-}
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -82,6 +74,7 @@ class ConcensusMilestones extends Component {
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
+    const actualAmount = (await getActualProjectAmount(projectId)).data;
 
     const milestonesAndActivities = [];
     response.data.forEach(milestone => {
@@ -104,7 +97,8 @@ class ConcensusMilestones extends Component {
       faqLink,
       oracles,
       initialStep,
-      goalAmount
+      goalAmount,
+      actualAmount
     };
   }
 
@@ -142,7 +136,6 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
-    const { projectId, projectName, faqLink } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -294,12 +287,20 @@ class ConcensusMilestones extends Component {
   };
 
   goToStep = step => {
-    const { projectId, projectName, faqLink } = this.props;
+    const {
+      projectId,
+      projectName,
+      faqLink,
+      goalAmount,
+      actualAmount
+    } = this.props;
     this.setState({ currentStep: step });
     Routing.toConsensusMilestones({
       projectId,
       projectName,
       faqLink,
+      goalAmount,
+      actualAmount,
       initialStep: step
     });
   };
@@ -323,7 +324,8 @@ class ConcensusMilestones extends Component {
       faqLink,
       oracles,
       goalAmount,
-      user
+      user,
+      actualAmount
     } = this.props;
 
     const { currentStep, confirmationStatus, milestones } = this.state;
@@ -347,16 +349,16 @@ class ConcensusMilestones extends Component {
               <div>
                 <div>
                   <p className="LabelSteps">Project Name</p>
-                  <h1>Women Professional Development</h1>
+                  <h1>{projectName}</h1>
                 </div>
                 <div className="flex">
                   <div className="vertical  Data">
-                    <p className="TextBlue">2,764</p>
+                    <p className="TextBlue">{goalAmount}</p>
                     <span className="Overline">Goal Amount</span>
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data">
-                    <p className="TextGray">1,238</p>
+                    <p className="TextGray">{actualAmount || 0}</p>
                     <span className="Overline">Already</span>
                   </div>
                   <Divider type="vertical" />
@@ -389,7 +391,11 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur ? (
-                <CustomButton buttonText="Start Project" theme="Primary" />
+                <CustomButton
+                  disabled={actualAmount < goalAmount}
+                  buttonText="Start Project"
+                  theme="Primary"
+                />
               ) : (
                 ''
               )}
