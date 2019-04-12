@@ -44,11 +44,13 @@ class ProjectDetail extends React.Component {
       showModalError(title, content);
       return response;
     }
+
     Routing.toConsensusMilestones({
       projectId: projectDetail.id,
       projectName: projectDetail.projectName,
       faqLink: projectDetail.faqLink,
-      initialStep: 0
+      initialStep: 0,
+      goalAmount: projectDetail.goalAmount
     });
   };
 
