@@ -16,7 +16,6 @@ const Step3 = () => (
       />
       <h1>Your Project has been created successfully!</h1>
       <h2>You can access to it from "My Projects"</h2>
-
     </div>
   </div>
 );

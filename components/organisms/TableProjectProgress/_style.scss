@@ -2,7 +2,8 @@
 
 .ant-table {
   font-size: $body;
-
+  border: 1px solid #eceff4;
+  border-radius: 4px;
   .ant-table-tbody {
     tr {
       vertical-align: baseline;
@@ -14,6 +15,11 @@
     }
   }
 }
+.ant-table-title {    
+  @include primary-text($h2, $secondary-color, 600);
+  margin-bottom: 0.4em;
+  padding: 16px;
+}
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td {
   padding: 16px 16px;
@@ -24,10 +30,12 @@
   text-transform: uppercase;
   color: $grey;
   font-weight: 500;
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #eceff4;
+  border-bottom: 1px solid #eceff4;
 }
 .ant-table-tbody > tr > td {
   color: rgba(62, 57, 57, 0.76);
+  border-bottom: 1px solid #eceff4;
 }
 
 .ant-table-tbody > tr > td:first-child {

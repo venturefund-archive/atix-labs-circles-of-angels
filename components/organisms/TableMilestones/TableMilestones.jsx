@@ -131,22 +131,22 @@ class TableMilestones extends React.Component {
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
               ) : (
-                  <span className="flex">
-                    <a
-                      disabled={editingKey !== ''}
-                      onClick={() => this.edit(index, record)}
-                    >
-                      Edit
-                 </a>
-                    <Divider type="vertical" />
-                    <a
-                      disabled={editingKey !== ''}
-                      onClick={() => onDelete(record)}
-                    >
-                      Delete
-                 </a>
-                  </span>
-                )}
+                <span className="flex">
+                  <a
+                    disabled={editingKey !== ''}
+                    onClick={() => this.edit(index, record)}
+                  >
+                    Edit
+                  </a>
+                  <Divider type="vertical" />
+                  <a
+                    disabled={editingKey !== ''}
+                    onClick={() => onDelete(record)}
+                  >
+                    Delete
+                  </a>
+                </span>
+              )}
             </div>
           );
         }
@@ -197,6 +197,7 @@ class TableMilestones extends React.Component {
 
     return (
       <Table
+        title={() => 'Milestones'}
         components={components}
         columns={columns}
         dataSource={dataSource}

@@ -1,0 +1,27 @@
+@import "../../../css/general_styling.scss";
+
+.FileVerification {
+  width: 48%;
+  border: 1px solid $medium-grey;
+  border-radius: 6px;
+  margin-right: 1.5em;
+  text-align: center;
+  padding: 1.5em 0;
+
+  .IconVerify {
+    font-size: 30px;
+    margin-bottom: 0.75em;
+  }
+
+  li {
+    text-align: left
+  }
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+  }
+
+  p {
+    @include primary-text($body, $grey, 300);
+  }
+}

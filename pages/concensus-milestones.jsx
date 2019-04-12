@@ -83,7 +83,7 @@ class ConcensusMilestones extends Component {
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
 
-    let milestonesAndActivities = [];
+    const milestonesAndActivities = [];
     response.data.forEach(milestone => {
       milestonesAndActivities.push(milestone);
       milestone.activities.forEach((activity, j) => {
@@ -336,14 +336,14 @@ class ConcensusMilestones extends Component {
           </div>
           <div className="ProjectInfoHeader">
             <div className="space-between">
-              <div className="">
+              <div>
                 <div>
                   <p className="LabelSteps">Project Name</p>
-                  <h1>{projectName}</h1>
+                  <h1>Women Professional Development</h1>
                 </div>
                 <div className="flex">
                   <div className="vertical  Data">
-                    <p className="TextBlue">{goalAmount}</p>
+                    <p className="TextBlue">2,764</p>
                     <span className="Overline">Goal Amount</span>
                   </div>
                   <Divider type="vertical" />
@@ -387,45 +387,16 @@ class ConcensusMilestones extends Component {
               )}
             </div>
           </div>
-          <div className="SignatoryList">
-            <Tabs defaultActiveKey="1" onChange={callback}>
-              <TabPane tab="Milestones" key="1">
-                <TableMilestones
-                  dataSource={milestones}
-                  onDelete={this.deleteTask}
-                  onEdit={this.save}
-                  oracles={oracles}
-                  onAssignOracle={this.onAssignOracle}
-                  isSocialEntrepreneur={isSocialEntrepreneur}
-                />
-              </TabPane>
-              <TabPane tab="." key="2">
-                <div className="TabCollaboration">
-                  <h2>Project's Agreement File</h2>
-                  <DownloadAgreement click={this.downloadAgreementClick} />
-                  <BlockUpload
-                    name="projectAgreement"
-                    change={this.changeProjectAgreement}
-                    buttonText="Upload Project Agreement File"
-                  />
-                </div>
-              </TabPane>
-              <TabPane tab="." key="3">
-                <div>
-                  <h2>FAQ Document</h2>
-                  <a href={faqLink} target="_blank" rel="noopener noreferrer">
-                    {faqLink}
-                  </a>
-                  <br /> <br />
-                  <DownloadFile
-                    subtitle="Project's Pitch Proposal"
-                    text="Lorem ipsum text description"
-                    buttonText="Download Pitch Proposal"
-                    click={this.clickDownloadProposal}
-                  />
-                </div>
-              </TabPane>
-            </Tabs>
+          <Divider />
+          <div>
+            <TableMilestones
+              dataSource={milestones}
+              onDelete={this.deleteTask}
+              onEdit={this.save}
+              oracles={oracles}
+              onAssignOracle={this.onAssignOracle}
+              isSocialEntrepreneur={isSocialEntrepreneur}
+            />
           </div>
         </div>
         <div className="ControlSteps StepOne">

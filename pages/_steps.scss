@@ -41,11 +41,9 @@
   justify-content: flex-end;
 }
 .ProjectInfoHeader {
-  padding: 1em 0;
-  border-bottom: 1px solid $medium-grey;
+  padding: 0.5em 0;
   h1 {
     @include primary-text($h1, $secondary-color, 600);
-    margin-bottom: 0.4em;
   }
   .LabelSteps {
     @include primary-text($label, $grey, 500);
@@ -73,7 +71,11 @@
     height: 2.5em;
     margin: 0 1.2em;
   }
+
 }
 .ContentStep {
   @include Content;
+}
+.ant-divider-horizontal{
+  margin: 1em 0;
 }
