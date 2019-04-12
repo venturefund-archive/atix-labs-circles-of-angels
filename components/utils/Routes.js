@@ -12,6 +12,7 @@ const transferFundsConfirmation = '/tranfer-funds-confirmation';
 const projectDetail = '/project-detail';
 const signatories = '/signatories';
 const consensusMilestones = '/concensus-milestones';
+const fundAdministration = '/fund-administration';
 
 const Routing = {
   toBackOffice: query => {
@@ -53,6 +54,9 @@ const Routing = {
     } else if (user.role.id === Roles.BackofficeAdmin) {
       Routing.toBackOffice();
     } else Routing.toExploreProjects();
+  },
+  toFundAdministration: query => {
+    goToRoute(fundAdministration, query);
   }
 };
 

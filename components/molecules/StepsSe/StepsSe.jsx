@@ -6,13 +6,11 @@ const { Step } = Steps;
 
 const StepsSe = () => (
   <div className="StepsContainer">
-    <Steps size="small" current={0}>
+    <Steps current={0}>
       <Step />
       <Step />
     </Steps>
   </div>
-
 );
 
 export default StepsSe;
-

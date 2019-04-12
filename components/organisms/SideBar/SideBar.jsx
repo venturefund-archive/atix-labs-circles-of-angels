@@ -1,8 +1,9 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import './_style.scss';
 import Routing from '../../utils/Routes';
+import { withUser } from '../../utils/UserContext';
 
 const { Sider } = Layout;
 
@@ -10,9 +11,13 @@ const goToExploreProjects = () => {
   Routing.toExploreProjects();
 };
 
-const SideBar = () => (
+const goToFundsAdministration = () => {
+  Routing.toFundAdministration();
+};
+
+const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
-    width="80"
+    width="70"
     breakpoint="md"
     collapsedWidth="0"
     onBreakpoint={broken => {
@@ -27,13 +32,20 @@ const SideBar = () => (
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
       <Menu.Item key="1" onClick={goToExploreProjects}>
-        <img src="./static/images/menu-home.svg" alt="Home" />
+        <Icon type="appstore" />
       </Menu.Item>
       <Menu.Item key="2">
-        <img src="./static/images/menu-settings.svg" alt="Settings" />
+        <Icon type="sliders" />
       </Menu.Item>
+      {isBackofficeAdmin() ? (
+        <Menu.Item key="3" onClick={goToFundsAdministration}>
+          <Icon type="fund" />
+        </Menu.Item>
+      ) : (
+        ''
+      )}
     </Menu>
   </Sider>
 );
 
-export default SideBar;
+export default withUser(SideBar);
