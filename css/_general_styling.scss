@@ -59,6 +59,18 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
   padding: 0 1.4em;
   overflow-y: scroll;
 }
+@mixin ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+}
+@mixin ContentComplete {
+  height: 93vh;
+  padding: 0;
+  overflow-y: scroll;
+}
 @mixin input-style($border-color) {
   outline: 0;
   -webkit-box-shadow: none;

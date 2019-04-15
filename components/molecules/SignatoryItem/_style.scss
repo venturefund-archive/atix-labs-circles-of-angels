@@ -1,9 +1,9 @@
 @import "../css/general_styling.scss";
 
 .SignatoryItem {
-    width: 48%;
+    width: 100%;
     border-bottom: 1px solid $light-grey;
-    padding-bottom: 1.5em;
+    padding-bottom: 0.5em;
     margin-bottom: 1.5em;
 
   .SignatoryLabel {
@@ -19,14 +19,10 @@
 
     .SignatoryData {
       display: flex;
-
-      .ant-avatar {
-        transform: scale(1.5);
-      }
-
+      align-items:center;
       .UserLabel {
         transform: scale(1.25);
-        margin-left: 2.5em;
+        margin-left: 1.5em;
       }
     }
 

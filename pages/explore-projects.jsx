@@ -35,9 +35,8 @@ class ExploreProjects extends React.Component {
           <Header />
 
           <div className="Content">
-            <div className="ProjectInfoHeader titlepage">
+            <div className="titlepage">
               <h1>Explore Projects</h1>
-              <Divider />
             </div>
             <div className="ProjectsCardsContainer">
               {projects.map(project => (

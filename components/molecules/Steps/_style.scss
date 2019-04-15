@@ -79,11 +79,7 @@
   color: $secondary-color;
 }
 .ControlSteps {
-  border-top: 1px solid $light-grey;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
+  @include ControlSteps;
 }
 .UploadExcelFiles {
   width: 100%;

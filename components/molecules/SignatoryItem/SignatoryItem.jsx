@@ -6,6 +6,7 @@ import TransferLabel from '../../atoms/TransferLabel/TransferLabel';
 import './_style.scss';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import SignStatus from '../../../constants/SignStatus';
+import Label from '../../atoms/Label/Label';
 
 const SignatoryItem = ({
   tfStatusName,
@@ -22,7 +23,7 @@ const SignatoryItem = ({
   handleOk
 }) => (
   <div className="SignatoryItem">
-    <p className="SignatoryLabel">signer</p>
+    <Label labelText="Signer" />
     <div className="Signatory">
       <div className="SignatoryData">
         <Avatar style={{ color: '#0083E3', backgroundColor: '#95d2ff' }}>

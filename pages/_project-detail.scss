@@ -1,7 +1,6 @@
 @import "../css/general_styling.scss";
 
 .ProjectContainer {
-  margin-top: 50px;
   height: 90%;
   overflow-y: scroll;
 
@@ -26,12 +25,12 @@
     );
     width: 100%;
     position: absolute;
-    padding: 2em;
+    padding: 1em 1.5em;
     h1 {
-      @include primary-text($title, $white, 400);
+      @include primary-text($title, $white, 600);
     }
     p {
-      @include primary-text($h2, $white, 300);
+      @include primary-text($h2, $white, 400);
     }
   }
 
@@ -39,22 +38,15 @@
     display: flex;
     justify-content: space-between;
     .ProjectGeneralData {
-      width: 35%;
-      padding: 2em;
-      h1 {
-        @include primary-text($h1, $black, 400);
-        margin-bottom: 0.5em;
-      }
+      width: 30%;
+      padding: 0 1.5em;
     }
   }
 }
-
+.block{
+  margin:1em 0;
+}
 .SubmitProject {
-  height: 10%;
-  margin: 0 2em;
-  border-top: 1px solid $medium-grey;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
+  @include ControlSteps;
+  margin: 0 1.5em;
 }

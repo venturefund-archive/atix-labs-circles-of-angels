@@ -10,4 +10,11 @@
   border-left: 3px solid $medium-grey;
   padding: 0 0.5em;
   margin: 1.5em 0;
+  h1 {
+    @include primary-text($h1, $secondary-color, 600);
+  }
 }
+.title{
+    @include primary-text($h1, $secondary-color, 600);
+}
+

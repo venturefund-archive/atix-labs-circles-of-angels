@@ -17,6 +17,9 @@
  .Content{
   @include Content;
  }
+ .ContentComplete{
+  @include ContentComplete;
+ }
  
  .ButtonContainer {
   align-self: center;

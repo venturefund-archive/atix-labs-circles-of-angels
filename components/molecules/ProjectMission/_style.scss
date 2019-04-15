@@ -1,16 +1,10 @@
 @import "../css/general_styling.scss";
 
 .ProjectMission {
-  width: 60%;
-  padding: 2em;
-  margin-bottom: 2em;
-
-  h1 {
-    @include primary-text($h1, $black, 400);
-    margin-bottom: 0.5em;
-  }
+  width: 70%;
+  padding: 0 1.5em;
   p {
-    @include primary-text($body, $secondary-color, 300);
+    @include primary-text($body, $on-surface, 400);
   }
 
 }
