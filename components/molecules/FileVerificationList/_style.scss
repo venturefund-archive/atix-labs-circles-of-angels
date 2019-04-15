@@ -1,12 +1,13 @@
 @import "../../../css/general_styling.scss";
 
 .FileVerification {
-  width: 48%;
+  width: 50%;
   border: 1px solid $medium-grey;
   border-radius: 6px;
-  margin-right: 1.5em;
   text-align: center;
-  padding: 1.5em 0;
+  padding: 1em 0;
+  height: 150px;
+  overflow-y: scroll;
 
   .IconVerify {
     font-size: 30px;
