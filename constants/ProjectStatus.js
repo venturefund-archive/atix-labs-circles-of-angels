@@ -1,8 +1,8 @@
 const projectStatus = {
-  REJECTED: -1,
+  REJECTED: 1,
   PENDING_APPROVAL: 0,
-  PUBLISHED: 1,
-  IN_PROGRESS: 2
+  PUBLISHED: 2,
+  IN_PROGRESS: 3
 };
 
 export default projectStatus;
