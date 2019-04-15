@@ -12,6 +12,7 @@ import { getProject } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
+import ProjectStatus from '../constants/ProjectStatus';
 
 const imageBaseUrl = './static/images';
 
@@ -45,13 +46,17 @@ class ProjectDetail extends React.Component {
       return response;
     }
 
-    Routing.toConsensusMilestones({
-      projectId: projectDetail.id,
-      projectName: projectDetail.projectName,
-      faqLink: projectDetail.faqLink,
-      initialStep: 0,
-      goalAmount: projectDetail.goalAmount
-    });
+    if (projectDetail.status == ProjectStatus.IN_PROGRESS) {
+      Routing.toProjectProgress();
+    } else {
+      Routing.toConsensusMilestones({
+        projectId: projectDetail.id,
+        projectName: projectDetail.projectName,
+        faqLink: projectDetail.faqLink,
+        initialStep: 0,
+        goalAmount: projectDetail.goalAmount
+      });
+    }
   };
 
   render() {

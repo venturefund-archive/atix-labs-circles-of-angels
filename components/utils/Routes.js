@@ -13,6 +13,7 @@ const projectDetail = '/project-detail';
 const signatories = '/signatories';
 const consensusMilestones = '/concensus-milestones';
 const fundAdministration = '/fund-administration';
+const projectProgress = '/project-progress';
 
 const Routing = {
   toBackOffice: query => {
@@ -57,6 +58,9 @@ const Routing = {
   },
   toFundAdministration: query => {
     goToRoute(fundAdministration, query);
+  },
+  toProjectProgress: query => {
+    goToRoute(projectProgress, query);
   }
 };
 
