@@ -474,6 +474,7 @@ class ConcensusMilestones extends Component {
                 <SignatoryItem
                   key={userProject.id}
                   userId={userProject.user.id}
+                  loggedUserId={user.id}
                   username={userProject.user.username}
                   tfStatusShow={transferStatusMap[userTransfer.state].show}
                   tfStatusIcon={transferStatusMap[userTransfer.state].icon}
