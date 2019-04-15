@@ -20,6 +20,12 @@ const Routing = {
   toBackOffice: query => {
     goToRoute(backOffice, query);
   },
+  toProjectProgress: query => {
+    goToRoute(projectProgress, query);
+  },
+  toProjectEvidence: query => {
+    goToRoute(projectEvidence, query);
+  },
   toLogin: query => {
     goToRoute(login, query);
   },

@@ -95,7 +95,11 @@ class Step2 extends React.Component {
             text="Lorem ipsum text description"
           />
           <div className="UploadExcelFiles">
-            <DragUploadFile change={this.changeMilestones} />
+            <DragUploadFile
+              change={this.changeMilestones}
+              text="Complete Excel and upload to create Milestones"
+              description="Click or drag your Excel file here"
+            />
             <FileVerificationList
               status={creationStatus}
               errors={milestonesErrors}

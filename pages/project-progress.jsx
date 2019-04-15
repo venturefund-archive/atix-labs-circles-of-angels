@@ -63,7 +63,7 @@ class ProjectProgress extends React.Component {
   }
 
   render() {
-    const { projectName, milestones } = this.props;
+    const { projectName, milestones, projectId } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -79,7 +79,11 @@ class ProjectProgress extends React.Component {
                 </div>
               </div>
             </div>
-            <TableProjectProgress dataSource={milestones} />
+            <TableProjectProgress
+              dataSource={milestones}
+              projectName={projectName}
+              projectId={projectId}
+            />
           </div>
         </div>
       </div>
