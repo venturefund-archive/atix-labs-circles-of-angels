@@ -363,7 +363,7 @@ class ConcensusMilestones extends Component {
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data">
-                    <a className="TextBlue" href="www.google.com">
+                    <a className="TextBlue" href={faqLink}>
                       {faqLink}
                     </a>
                     <span className="Overline">FAQ Document</span>

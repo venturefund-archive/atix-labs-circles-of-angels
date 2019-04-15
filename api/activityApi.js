@@ -36,6 +36,7 @@ const updateActivity = async ({
 
 const assignOracleToActivity = async (userId, activityId) => {
   try {
+    console.log(`assigning oracle ${userId} to activity ${activityId}`);
     const response = await api.post(
       `${baseURL}/${activityId}/assignOracle/${userId}`
     );

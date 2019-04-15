@@ -39,6 +39,38 @@ class TableMilestones extends React.Component {
         key: 'type'
       },
       {
+        title: 'Assigned Oracle',
+        key: 'oracle',
+        render: (text, record, index) => {
+          if (!record.type.includes('Activity')) return '';
+          const { oracle } = record;
+          const oracleToShow = oracle ? oracle.username : undefined;
+          const editable = (
+            <Select
+              key={record.id}
+              style={{ width: 100 }}
+              showSearch
+              placeholder="Select Oracle"
+              optionFilterProp="children"
+              onChange={user => {
+                onAssignOracle(user ? user.id : undefined, record.id);
+                record.oracle = user;
+              }}
+              defaultValue={oracleToShow}
+            >
+              <Select.Option value={null}>None</Select.Option>
+              {oracles.map(aOracle => (
+                <Select.Option key={aOracle.id} value={aOracle}>
+                  {aOracle.username}
+                </Select.Option>
+              ))}
+            </Select>
+          );
+          if (isSocialEntrepreneur) return editable;
+          return oracleToShow;
+        }
+      },
+      {
         title: 'Tasks',
         dataIndex: 'tasks',
         key: 'tasks',
@@ -89,32 +121,6 @@ class TableMilestones extends React.Component {
       }
     ];
     const forSocialEntrepreneur = [
-      {
-        title: 'Assign Oracle',
-        key: 'oracle',
-        fixed: 'right',
-        render: (text, record, index) => {
-          if (!record.type.includes('Activity')) return '';
-          return (
-            <Select
-              key={index}
-              style={{ width: 100 }}
-              showSearch
-              placeholder="Select Oracle"
-              optionFilterProp="children"
-              onChange={userId => onAssignOracle(userId, record.id)}
-              defaultValue={record.oracle ? record.oracle.id : undefined}
-            >
-              <Select.Option value={null}>None</Select.Option>
-              {oracles.map(oracle => (
-                <Select.Option key={oracle.id} value={oracle.id}>
-                  {oracle.username}
-                </Select.Option>
-              ))}
-            </Select>
-          );
-        }
-      },
       {
         title: 'Action',
         dataIndex: 'operation',
