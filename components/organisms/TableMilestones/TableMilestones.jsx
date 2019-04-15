@@ -203,6 +203,7 @@ class TableMilestones extends React.Component {
 
     return (
       <Table
+        title={() => 'Milestones'}
         components={components}
         columns={columns}
         dataSource={dataSource}

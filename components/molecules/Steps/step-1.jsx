@@ -67,7 +67,7 @@ class Step1 extends React.Component {
               subtitle="Project Proposal"
               text="Lorem ipsum text description"
               name="projectProposal"
-              typeAccepts="*"
+              typeAccepts=".pdf, .ppt, .docx, .doc"
               buttonText="Upload File"
               change={info =>
                 changeProjectFile(project, 'projectProposal', info)

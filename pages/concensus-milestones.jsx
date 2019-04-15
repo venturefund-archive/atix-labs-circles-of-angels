@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, message, Divider, Button, Icon } from 'antd';
+import { message, Divider, Button, Icon } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
-import DownloadAgreement from '../components/molecules/DownloadAgreement/DownloadAgreement';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
@@ -14,9 +13,9 @@ import {
   getProjectMilestones,
   downloadAgreement,
   downloadProposal,
-  uploadAgreement
+  uploadAgreement,
+  getActualProjectAmount
 } from '../api/projectApi';
-import DownloadFile from '../components/molecules/DownloadFile/DownloadFile';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import { getOracles } from '../api/userApi';
@@ -30,7 +29,6 @@ import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
-import BlockUpload from '../components/molecules/BlockUpload/BlockUpload';
 import { showModalSuccess, showModalError } from '../components/utils/Modals';
 import {
   deleteMilestone,
@@ -45,12 +43,6 @@ import {
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 
-const { TabPane } = Tabs;
-
-function callback(key) {
-  console.log(key);
-}
-
 const statusMap = {
   '-1': 'theme-cancel',
   '0': 'theme-pending',
@@ -63,7 +55,7 @@ class ConcensusMilestones extends Component {
     super(props);
 
     this.state = {
-      currentStep: props.initialStep ? props.initialStep : 0,
+      currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
       amount: '',
       confirmationStatus: null
@@ -82,8 +74,9 @@ class ConcensusMilestones extends Component {
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
+    const actualAmount = (await getActualProjectAmount(projectId)).data;
 
-    let milestonesAndActivities = [];
+    const milestonesAndActivities = [];
     response.data.forEach(milestone => {
       milestonesAndActivities.push(milestone);
       milestone.activities.forEach((activity, j) => {
@@ -103,7 +96,9 @@ class ConcensusMilestones extends Component {
       transfers,
       faqLink,
       oracles,
-      goalAmount
+      initialStep,
+      goalAmount,
+      actualAmount
     };
   }
 
@@ -141,7 +136,6 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
-    const { projectId, projectName, faqLink } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -150,12 +144,7 @@ class ConcensusMilestones extends Component {
     }
 
     if (!response.error) {
-      Routing.toConsensusMilestones({
-        projectId,
-        projectName,
-        faqLink,
-        initialStep: 0
-      });
+      this.goToStep(0);
     } else {
       const { error } = response;
       const title = error.response
@@ -248,6 +237,12 @@ class ConcensusMilestones extends Component {
     }
   };
 
+  actualUserNeedsTransfer = () => {
+    const { user, transfers } = this.props;
+    const response = transfers.find(transfer => transfer.sender == user.id);
+    return !response || response.state == -1;
+  };
+
   clickDownloadProposal = async () => {
     const { projectId } = this.props;
     const response = await downloadProposal(projectId);
@@ -275,12 +270,7 @@ class ConcensusMilestones extends Component {
 
     // reload page
     if (!response.error) {
-      Routing.toConsensusMilestones({
-        projectId,
-        projectName,
-        faqLink,
-        initialStep: 1
-      });
+      this.goToStep(1);
     } else {
       const { error } = response;
       const title = error.response
@@ -296,14 +286,33 @@ class ConcensusMilestones extends Component {
     return response;
   };
 
+  goToStep = step => {
+    const {
+      projectId,
+      projectName,
+      faqLink,
+      goalAmount,
+      actualAmount
+    } = this.props;
+    this.setState({ currentStep: step });
+    Routing.toConsensusMilestones({
+      projectId,
+      projectName,
+      faqLink,
+      goalAmount,
+      actualAmount,
+      initialStep: step
+    });
+  };
+
   previousStep = () => {
     const { currentStep } = this.state;
-    this.setState({ currentStep: currentStep - 1 });
+    this.goToStep(currentStep - 1);
   };
 
   nextStep = () => {
     const { currentStep } = this.state;
-    this.setState({ currentStep: currentStep + 1 });
+    this.goToStep(currentStep + 1);
   };
 
   getCurrentStep = () => {
@@ -315,7 +324,8 @@ class ConcensusMilestones extends Component {
       faqLink,
       oracles,
       goalAmount,
-      user
+      user,
+      actualAmount
     } = this.props;
 
     const { currentStep, confirmationStatus, milestones } = this.state;
@@ -336,7 +346,7 @@ class ConcensusMilestones extends Component {
           </div>
           <div className="ProjectInfoHeader">
             <div className="space-between">
-              <div className="">
+              <div>
                 <div>
                   <p className="LabelSteps">Project Name</p>
                   <h1>{projectName}</h1>
@@ -348,7 +358,7 @@ class ConcensusMilestones extends Component {
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data">
-                    <p className="TextGray">1,238</p>
+                    <p className="TextGray">{actualAmount || 0}</p>
                     <span className="Overline">Already</span>
                   </div>
                   <Divider type="vertical" />
@@ -381,51 +391,26 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur ? (
-                <CustomButton buttonText="Start Project" theme="Primary" />
+                <CustomButton
+                  disabled={actualAmount < goalAmount}
+                  buttonText="Start Project"
+                  theme="Primary"
+                />
               ) : (
                 ''
               )}
             </div>
           </div>
-          <div className="SignatoryList">
-            <Tabs defaultActiveKey="1" onChange={callback}>
-              <TabPane tab="Milestones" key="1">
-                <TableMilestones
-                  dataSource={milestones}
-                  onDelete={this.deleteTask}
-                  onEdit={this.save}
-                  oracles={oracles}
-                  onAssignOracle={this.onAssignOracle}
-                  isSocialEntrepreneur={isSocialEntrepreneur}
-                />
-              </TabPane>
-              <TabPane tab="." key="2">
-                <div className="TabCollaboration">
-                  <h2>Project's Agreement File</h2>
-                  <DownloadAgreement click={this.downloadAgreementClick} />
-                  <BlockUpload
-                    name="projectAgreement"
-                    change={this.changeProjectAgreement}
-                    buttonText="Upload Project Agreement File"
-                  />
-                </div>
-              </TabPane>
-              <TabPane tab="." key="3">
-                <div>
-                  <h2>FAQ Document</h2>
-                  <a href={faqLink} target="_blank" rel="noopener noreferrer">
-                    {faqLink}
-                  </a>
-                  <br /> <br />
-                  <DownloadFile
-                    subtitle="Project's Pitch Proposal"
-                    text="Lorem ipsum text description"
-                    buttonText="Download Pitch Proposal"
-                    click={this.clickDownloadProposal}
-                  />
-                </div>
-              </TabPane>
-            </Tabs>
+          <Divider />
+          <div>
+            <TableMilestones
+              dataSource={milestones}
+              onDelete={this.deleteTask}
+              onEdit={this.save}
+              oracles={oracles}
+              onAssignOracle={this.onAssignOracle}
+              isSocialEntrepreneur={isSocialEntrepreneur}
+            />
           </div>
         </div>
         <div className="ControlSteps StepOne">
@@ -454,7 +439,8 @@ class ConcensusMilestones extends Component {
             {userProjects.map(userProject => {
               if (!userProject.user) return;
               let userTransfer = transfers.filter(
-                transfer => transfer.sender === userProject.user.id
+                transfer =>
+                  parseInt(transfer.sender, 10) === userProject.user.id
               )[0];
 
               if (!userTransfer || userTransfer == null) {
@@ -583,7 +569,7 @@ class ConcensusMilestones extends Component {
       case 1:
         return step2;
       case 2:
-        return step3;
+        return this.actualUserNeedsTransfer() ? step3 : confirmationStep;
       case 3:
         return confirmationStep;
       default:
