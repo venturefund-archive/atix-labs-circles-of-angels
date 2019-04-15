@@ -47,7 +47,10 @@ class ProjectDetail extends React.Component {
     }
 
     if (projectDetail.status == ProjectStatus.IN_PROGRESS) {
-      Routing.toProjectProgress();
+      Routing.toProjectProgress({
+        projectId: projectDetail.id,
+        projectName: projectDetail.projectName
+      });
     } else {
       Routing.toConsensusMilestones({
         projectId: projectDetail.id,
