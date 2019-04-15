@@ -78,6 +78,7 @@ const rejectProject = async projectId => {
 const getProjectMilestones = async projectId => {
   try {
     const response = await api.get(`${baseURL}/${projectId}/getMilestones`);
+    console.log(response);
     return response;
   } catch (error) {
     return { error };
