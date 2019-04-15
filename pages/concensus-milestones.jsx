@@ -14,7 +14,8 @@ import {
   downloadAgreement,
   downloadProposal,
   uploadAgreement,
-  getActualProjectAmount
+  getActualProjectAmount,
+  startProject
 } from '../api/projectApi';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
@@ -29,7 +30,11 @@ import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
-import { showModalSuccess, showModalError } from '../components/utils/Modals';
+import {
+  showModalSuccess,
+  showModalError,
+  showModalConfirm
+} from '../components/utils/Modals';
 import {
   deleteMilestone,
   deleteActivity,
@@ -110,6 +115,23 @@ class ConcensusMilestones extends Component {
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
+  };
+
+  startProjectHandle = () => {
+    const { projectId } = this.props;
+    showModalConfirm(
+      'Start project',
+      'Do you want start this project?',
+      async () => {
+        const response = await startProject(projectId);
+        if (response.error)
+          showModalError('Error starting project', response.error);
+        else {
+          showModalSuccess('Success!', 'Project started correctly');
+          Routing.toProjectProgress();
+        }
+      }
+    );
   };
 
   onAssignOracle = (userId, activityId) => {
@@ -395,6 +417,7 @@ class ConcensusMilestones extends Component {
                   disabled={actualAmount < goalAmount}
                   buttonText="Start Project"
                   theme="Primary"
+                  onClick={this.startProjectHandle}
                 />
               ) : (
                 ''

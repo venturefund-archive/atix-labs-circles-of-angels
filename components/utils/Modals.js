@@ -14,3 +14,13 @@ export const showModalSuccess = (title, content) => {
   });
 };
 
+export const showModalConfirm = (title, content, onOk, onCancel) => {
+  Modal.confirm({
+    title,
+    content,
+    onOk,
+    onCancel,
+    okText: 'Ok',
+    cancelText: 'Cancel'
+  });
+};
