@@ -118,7 +118,7 @@ class ConcensusMilestones extends Component {
   };
 
   startProjectHandle = () => {
-    const { projectId } = this.props;
+    const { projectId, projectName } = this.props;
     showModalConfirm(
       'Start project',
       'Do you want start this project?',
@@ -128,7 +128,10 @@ class ConcensusMilestones extends Component {
           showModalError('Error starting project', response.error);
         else {
           showModalSuccess('Success!', 'Project started correctly');
-          Routing.toProjectProgress();
+          Routing.toProjectProgress({
+            projectId,
+            projectName
+          });
         }
       }
     );
