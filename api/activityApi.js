@@ -112,6 +112,15 @@ const uploadEvidence = async (activityId, files) => {
   }
 };
 
+const completeActivity = async activityId => {
+  try {
+    const response = api.post(`${baseURL}/${activityId}/complete`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   updateActivity,
   assignOracleToActivity,
@@ -119,5 +128,6 @@ export {
   getActivity,
   deleteEvidence,
   downloadEvidence,
-  uploadEvidence
+  uploadEvidence,
+  completeActivity
 };
