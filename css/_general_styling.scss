@@ -6,13 +6,14 @@ $primary-color: #0083e3;
 $secondary-color: rgba(0, 0, 0, 0.76);
 $sucess-color: #15d380;
 $on-surface-medium: rgba(0, 0, 0, 0.61);
+$on-surface: rgba(0, 0, 0, 0.76);
 $success-color: #15d380;
 $danger-color: #ff0050;
 
 $black: #000;
 $white: #fff;
-$grey: #9fa1a6;
-$medium-grey: #c5d0de;
+$grey: #8b91a4;
+$medium-grey: #b1b4cc;
 $light-grey: #eeefef;
 $theme-color-1: linear-gradient(to bottom, #2a3890, #0083e2);
 
@@ -29,9 +30,8 @@ $tabs: 12px;
 $label: 12px;
 
 // Shadow
-$shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
-$shadow-big: 0 2px 8px rgba(114, 134, 223, 0.4),
-  0 2px 6px rgba(114, 134, 223, 0.4);
+$shadow: 0 3px 7px rgba(30, 30, 31, 0.05), 0 1px 3px rgba(27, 28, 29, 0.07);
+$shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136, 0.15);
 
 // Fonts
 

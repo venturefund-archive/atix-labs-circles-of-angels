@@ -14,7 +14,7 @@ const CardProject = ({
 }) => (
   <div className="CardProject" onClick={onClick}>
     <div className="ProjectDescription">
-      <img src={projectCardImage} alt="projectCardImage" />
+      <img src="./static/images/pimage.jpeg" alt="projectCardImage" />
       <div className="GradientEfect">
         <div className="DescriptionData">
           <h1>{enterpriceName}</h1>
@@ -26,17 +26,17 @@ const CardProject = ({
       <InfoItem
         subtitle="Enterprise Location"
         title={enterpriceLocation}
-        iconInfoItem="./static/images/icon-place.svg"
+        iconInfoItem="environment"
       />
       <InfoItem
         subtitle="Timeframe"
         title={timeframe}
-        iconInfoItem="./static/images/icon-timeframe.svg"
+        iconInfoItem="clock-circle"
       />
       <InfoItem
         subtitle="Amount"
         title={`$ ${amount}`}
-        iconInfoItem="./static/images/icon-amount.svg"
+        iconInfoItem="dollar"
       />
     </div>
   </div>
