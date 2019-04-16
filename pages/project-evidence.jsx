@@ -11,6 +11,7 @@ import './_steps.scss';
 import Label from '../components/atoms/Label/Label';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
 import TableEvidence from '../components/organisms/TableEvidence/TableEvidence';
+import { getProject } from '../api/projectApi';
 import {
   getActivity,
   deleteEvidence,
@@ -32,8 +33,7 @@ const BreadCrumb = query => (
       <a
         onClick={() =>
           Routing.toProjectProgress({
-            projectId: query.projectId,
-            projectName: query.projectName
+            projectId: query.projectId
           })
         }
       >
@@ -54,14 +54,25 @@ class ProjectEvidence extends Component {
   }
 
   static async getInitialProps(query) {
-    const { activityId, projectId, projectName } = query.query;
+    const { activityId, projectId } = query.query;
     const response = await getActivity(activityId);
+    const project = (await getProject(projectId)).data;
     return {
       activity: response || {},
       projectId,
-      projectName: projectName || ''
+      projectName: project.projectName || ''
     };
   }
+
+  goToProjectEvidence = () => {
+    const { activity } = this.props;
+    Routing.toProjectEvidence({ activityId: activity.id });
+  };
+
+  goToProjectProgress = () => {
+    const { projectId } = this.props;
+    Routing.toProjectProgress({ projectId });
+  };
 
   handleDelete = async record => {
     const { activity } = this.props;
@@ -74,7 +85,7 @@ class ProjectEvidence extends Component {
 
     if (response.success) {
       showModalSuccess('Success', response.success);
-      Routing.toProjectEvidence({ activityId: activity.id });
+      this.goToProjectEvidence();
     } else if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -128,7 +139,7 @@ class ProjectEvidence extends Component {
 
     if (response.success) {
       showModalSuccess('Success', response.success);
-      Routing.toProjectEvidence({ activityId: activity.id });
+      this.goToProjectEvidence();
     } else if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -142,7 +153,7 @@ class ProjectEvidence extends Component {
   };
 
   handleComplete = async () => {
-    const { activity, projectName, projectId } = this.props;
+    const { activity, projectId } = this.props;
     showModalConfirm(
       'Complete Task',
       'Do you want complete this task?',
@@ -152,7 +163,7 @@ class ProjectEvidence extends Component {
           showModalError('Error completing task', response.error);
         else {
           showModalSuccess('Success!', 'Task complete');
-          Routing.toProjectProgress({ projectId, projectName });
+          this.goToProjectProgress();
         }
       }
     );
@@ -228,12 +239,7 @@ class ProjectEvidence extends Component {
               <CustomButton
                 theme="Primary"
                 buttonText="Back"
-                onClick={() =>
-                  Routing.toProjectProgress({
-                    projectId,
-                    projectName
-                  })
-                }
+                onClick={this.goToProjectProgress}
               />
               <CustomButton
                 theme="Success"

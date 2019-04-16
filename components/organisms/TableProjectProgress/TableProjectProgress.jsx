@@ -61,8 +61,7 @@ const TableProjectProgress = ({ dataSource, projectId, projectName }) => {
                 onClick={() => {
                   Routing.toProjectEvidence({
                     activityId: record.id,
-                    projectId,
-                    projectName
+                    projectId
                   });
                 }}
               >
