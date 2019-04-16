@@ -155,9 +155,10 @@ class ConcensusMilestones extends Component {
 
   save = async (record, actualField) => {
     const isActivity = Boolean(actualField.data.milestone);
+    console.log(record, actualField.data);
     const response = isActivity
-      ? await updateMilestone(actualField.data)
-      : await updateActivity(actualField.data);
+      ? await updateActivity(actualField.data)
+      : await updateMilestone(actualField.data);
     if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -596,8 +597,8 @@ class ConcensusMilestones extends Component {
                 theme={statusMap[confirmationStatus.status]}
               />
             ) : (
-              ''
-            )}
+                ''
+              )}
             <h2>Circles will be checking your funds transfer</h2>
           </div>
         </div>
