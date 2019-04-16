@@ -14,17 +14,28 @@ const columns = [
   {
     title: 'Project Name',
     dataIndex: 'projectName',
-    key: 'projectName'
+    key: 'projectName',
+    fixed: 'left'
   },
   {
     title: 'Mission',
     dataIndex: 'mission',
-    key: 'mission'
+    key: 'mission',
+    render: mission => (
+      <div style={{ whiteSpace: 'normal', wordWrap: 'break-all' }}>
+        {mission}
+      </div>
+    )
   },
   {
     title: 'Problem Addressed',
     dataIndex: 'problemAddressed',
-    key: 'problemAddressed'
+    key: 'problemAddressed',
+    render: problemAddressed => (
+      <div style={{ whiteSpace: 'normal', wordWrap: 'break-all' }}>
+        {problemAddressed}
+      </div>
+    )
   },
   {
     title: 'Location',
@@ -44,7 +55,9 @@ const columns = [
   {
     title: 'FAQ Link',
     dataIndex: 'faqLink',
-    key: 'faqLink'
+    key: 'faqLink',
+    fixed: 'right',
+    render: faqLink => <a href={faqLink}>{faqLink}</a>
   }
 ];
 
@@ -71,7 +84,12 @@ class BackofficeProjectDetail extends React.Component {
               />
               <h1>Project Details</h1>
             </div>
-            <Table columns={columns} dataSource={[project]} />
+            <Table
+              columns={columns}
+              dataSource={[project]}
+              scroll={{ x: 1500 }}
+            />
+
             {ProjectStatus.IN_PROGRESS === project.status ? (
               <CustomButton
                 theme="Primary"
