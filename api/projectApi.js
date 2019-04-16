@@ -215,6 +215,15 @@ const startProject = async projectId => {
   }
 };
 
+const getProjectsAsOracle = async oracleId => {
+  try {
+    const response = await api.get(`${baseURL}/oracle/${oracleId}`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   getProjects,
   getActiveProjects,
@@ -229,5 +238,6 @@ export {
   downloadProposal,
   downloadMilestonesTemplate,
   getActualProjectAmount,
-  startProject
+  startProject,
+  getProjectsAsOracle
 };
