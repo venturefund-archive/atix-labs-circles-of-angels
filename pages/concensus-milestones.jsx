@@ -223,7 +223,7 @@ class ConcensusMilestones extends Component {
     }
 
     this.nextStep();
-    showModalSuccess('Success', 'Transfer submited correctly!');
+    showModalSuccess('Success', 'Transfer submitted correctly!');
   };
 
   goToTransferFunds = () => {
