@@ -107,14 +107,14 @@ class Step2 extends React.Component {
               />
             </div>
           </div>
-          <div className="ControlSteps">
-            <Button style={{ marginRight: 8 }} onClick={prev}>
-              Previous
-            </Button>
-            <Button type="primary" onClick={this.submitProject}>
-              Continue
-            </Button>
-          </div>
+        </div>
+        <div className="ControlSteps">
+          <Button style={{ marginRight: 8 }} onClick={prev}>
+            Previous
+          </Button>
+          <Button type="primary" onClick={this.submitProject}>
+            Continue
+          </Button>
         </div>
       </div>
     );
