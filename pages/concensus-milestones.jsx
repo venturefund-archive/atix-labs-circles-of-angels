@@ -47,6 +47,7 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
+import StepsSe from '../components/molecules/StepsSe/StepsSe';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -290,7 +291,7 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async () => {
-    const { user, faqLink, projectId, projectName } = this.props;
+    const { user, projectId } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
@@ -357,9 +358,12 @@ class ConcensusMilestones extends Component {
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
 
+    const Steps = props =>
+      isSocialEntrepreneur ? <StepsSe {...props} /> : <StepsIf {...props} />;
+
     const step1 = (
       <div className="ContentStep">
-        <StepsIf stepNumber={0} />
+        <Steps stepNumber={0} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Consensus Step</p>
@@ -451,7 +455,7 @@ class ConcensusMilestones extends Component {
 
     const step2 = (
       <span>
-        <StepsIf stepNumber={1} />
+        <Steps stepNumber={1} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Signatories Step</p>
@@ -503,18 +507,22 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
 
-          <CustomButton
-            theme="Primary"
-            buttonText="Continue"
-            onClick={this.nextStep}
-          />
+          {!isSocialEntrepreneur ? (
+            <CustomButton
+              theme="Primary"
+              buttonText="Continue"
+              onClick={this.nextStep}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </span>
     );
 
     const step3 = (
       <span>
-        <StepsIf stepNumber={2} />
+        <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">
@@ -553,7 +561,7 @@ class ConcensusMilestones extends Component {
 
     const confirmationStep = (
       <span>
-        <StepsIf stepNumber={2} />
+        <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <p className="LabelSteps">Funding Step</p>
           <h3 className="StepDescription">

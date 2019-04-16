@@ -15,4 +15,3 @@ const StepsIf = ({ stepNumber }) => (
 );
 
 export default StepsIf;
-
