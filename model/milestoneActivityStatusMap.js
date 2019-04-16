@@ -1,7 +1,7 @@
 const MilestoneActivityStatusMap = {
-  '1': { name: 'Idle', color: 'orange' },
-  '2': { name: 'Started', color: 'yellow' },
-  '3': { name: 'Verified', color: 'yellow' },
+  '1': { name: 'Pending', color: 'orange' },
+  '2': { name: 'Pending', color: 'orange' },
+  '3': { name: 'Pending', color: 'orange' },
   '4': { name: 'Completed', color: 'green' }
 };
 
