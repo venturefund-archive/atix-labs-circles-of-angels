@@ -1,11 +1,9 @@
 @import "../../../css/general_styling.scss";
 
 .UploadImageContainer {
-  width: 30%;
+  width: 25%;
   display: flex;
   flex-flow: column;
-  margin-right: 1.5em;
- 
   .Title {
     @include primary-text($body, $secondary-color, 600);
     margin-bottom: 0;

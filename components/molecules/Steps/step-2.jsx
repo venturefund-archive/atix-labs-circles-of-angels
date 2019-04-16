@@ -85,34 +85,37 @@ class Step2 extends React.Component {
     const { creationStatus, milestonesErrors } = this.state;
     return (
       <div className="StepContent">
-        <p className="LabelSteps">Step 2</p>
-        <h1>Complete Project Milestones</h1>
-        <div className="ProjectDataContainer">
-          <h3 className="CreateSubtitle">Projects Milestone Data</h3>
-          <DownloadTemplate
-            click={this.clickDownloadMilestonesTemplate}
-            subtitle="Project's Milestones Template"
-            text="Lorem ipsum text description"
-          />
-          <div className="UploadExcelFiles">
-            <DragUploadFile
-              change={this.changeMilestones}
-              text="Complete Excel and upload to create Milestones"
-              description="Click or drag your Excel file here"
+        <div className="DataSteps">
+          <p className="LabelSteps">Step 2</p>
+          <h1>Complete Project Milestones</h1>
+          <div className="ProjectDataContainer">
+            <h3 className="CreateSubtitle">Projects Milestone Data</h3>
+            <DownloadTemplate
+              click={this.clickDownloadMilestonesTemplate}
+              subtitle="Project's Milestones Template"
+              text="Lorem ipsum text description"
             />
-            <FileVerificationList
-              status={creationStatus}
-              errors={milestonesErrors}
-            />
+            <div className="UploadExcelFiles">
+              <DragUploadFile
+                change={this.changeMilestones}
+                text="Complete Excel and upload to create Milestones"
+                description="Click or drag your Excel file here"
+              />
+              <FileVerificationList
+                status={creationStatus}
+                errors={milestonesErrors}
+              />
+            </div>
+          </div>
+          <div className="ControlSteps">
+            <Button style={{ marginRight: 8 }} onClick={prev}>
+              Previous
+            </Button>
+            <Button type="primary" onClick={this.submitProject}>
+              Continue
+            </Button>
           </div>
         </div>
-
-        <Button style={{ marginRight: 8 }} onClick={prev}>
-          Previous
-        </Button>
-        <Button type="primary" onClick={this.submitProject}>
-          Continue
-        </Button>
       </div>
     );
   }

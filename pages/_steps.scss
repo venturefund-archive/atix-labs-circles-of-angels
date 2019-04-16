@@ -11,7 +11,7 @@
   }
 
   h1 {
-    @include primary-text($h1, $secondary-color, 400);
+    @include primary-text($h1, $secondary-color, 600);
   }
 
   .StepDescription {

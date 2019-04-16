@@ -67,27 +67,27 @@ class ProjectDetail extends React.Component {
           {
             subtitle: 'Enterprise Location',
             title: projectDetail.location,
-            iconItem: `${imageBaseUrl}/icon-place.svg`
+            iconItem: 'environment'
           },
           {
             subtitle: 'Timeframe',
             title: projectDetail.timeframe,
-            iconItem: `.${imageBaseUrl}/icon-timeframe.svg`
+            iconItem: 'calendar'
           },
           {
             subtitle: 'Amount',
             title: projectDetail.goalAmount,
-            iconItem: `${imageBaseUrl}/icon-amount.svg`
+            iconItem: 'dollar'
           },
           {
             subtitle: 'Name of Lead',
             title: projectDetail.ownerName,
-            iconItem: `${imageBaseUrl}/icon-lead.svg`
+            iconItem: 'user'
           },
           {
             subtitle: 'Mail of Lead',
             title: projectDetail.ownerEmail,
-            iconItem: `${imageBaseUrl}/icon-mail.svg`
+            iconItem: 'mail'
           }
         ]
       : [];
@@ -96,43 +96,47 @@ class ProjectDetail extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
+          <div className="ContentComplete">
+            <div className="ProjectContainer DataSteps">
+              <div className="ProjectHeader">
+                <img
+                  src={projectDetail.coverPhoto || ''}
+                  alt="projectCoverImage"
+                />
+                <div className="ProjectEnterprice">
+                  <p>Entreprise</p>
+                  <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
+                </div>
+              </div>
 
-          <div className="ProjectContainer">
-            <div className="ProjectHeader">
-              <img
-                src={projectDetail.coverPhoto || ''}
-                alt="projectCoverImage"
-              />
-              <div className="ProjectEnterprice">
-                <p>Entreprise</p>
-                <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
+              <div className="ProjectContent">
+                <ProjectMission
+                  mission={projectDetail ? projectDetail.mission : ''}
+                  terms={projectDetail ? projectDetail.problemAddressed : ''}
+                />
+                <div className="ProjectGeneralData">
+                  <div className="block">
+                    <h1 className="title">Generals</h1>
+                  </div>
+
+                  {itemsData.map((item, i) => (
+                    <GeneralItem
+                      subtitle={item.subtitle}
+                      title={item.title}
+                      iconItem={item.iconItem}
+                      key={i}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-
-            <div className="ProjectContent">
-              <ProjectMission
-                mission={projectDetail ? projectDetail.mission : ''}
-                terms={projectDetail ? projectDetail.problemAddressed : ''}
+            <div className="SubmitProject">
+              <CustomButton
+                buttonText="Go to project"
+                theme="Success"
+                onClick={this.applyToProject}
               />
-              <div className="ProjectGeneralData">
-                <h1>Generals</h1>
-                {itemsData.map((item, i) => (
-                  <GeneralItem
-                    subtitle={item.subtitle}
-                    title={item.title}
-                    iconItem={item.iconItem}
-                    key={i}
-                  />
-                ))}
-              </div>
             </div>
-          </div>
-          <div className="SubmitProject">
-            <CustomButton
-              buttonText="Go to project"
-              theme="Success"
-              onClick={this.applyToProject}
-            />
           </div>
         </div>
       </div>
