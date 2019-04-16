@@ -1,5 +1,5 @@
 const transferStatusMap = {
-  '-1': {
+  '3': {
     name: 'cancel',
     show: 'Cancelled',
     icon: './static/images/icon-cancel.svg'
