@@ -9,30 +9,42 @@ const CardProject = ({
   enterpriseLocation,
   timeframe,
   amount,
-  onClick
+  showTag,
+  onClick,
+  tagClick
 }) => (
-  <div className="CardProject" onClick={onClick}>
-    <div className="ProjectDescription">
-      <Tag color="orange">View my activities to verify</Tag>
-      <img src={projectCardImage} alt="projectCardImage" />
-      <div className="GradientEfect">
-        <div className="DescriptionData">
-          <h1>{enterpriseName}</h1>
+  <div className="CardProject">
+    {showTag && (
+      <Tag color="orange" onClick={tagClick}>
+        View my activities to verify
+      </Tag>
+    )}
+    <div onClick={onClick}>
+      <div className="ProjectDescription">
+        <img src={projectCardImage} alt="projectCardImage" />
+        <div className="GradientEfect">
+          <div className="DescriptionData">
+            <h1>{enterpriseName}</h1>
+          </div>
         </div>
       </div>
-    </div>
-    <div className="ProjectSummery">
-      <InfoItem
-        subtitle="Enterprise Location"
-        title={enterpriseLocation}
-        iconInfoItem="environment"
-      />
-      <InfoItem
-        subtitle="Timeframe"
-        title={timeframe}
-        iconInfoItem="clock-circle"
-      />
-      <InfoItem subtitle="Amount" title={`$ ${amount}`} iconInfoItem="dollar" />
+      <div className="ProjectSummery">
+        <InfoItem
+          subtitle="Enterprise Location"
+          title={enterpriseLocation}
+          iconInfoItem="environment"
+        />
+        <InfoItem
+          subtitle="Timeframe"
+          title={timeframe}
+          iconInfoItem="clock-circle"
+        />
+        <InfoItem
+          subtitle="Amount"
+          title={`$ ${amount}`}
+          iconInfoItem="dollar"
+        />
+      </div>
     </div>
   </div>
 );

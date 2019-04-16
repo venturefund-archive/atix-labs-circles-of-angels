@@ -3,13 +3,23 @@ import { Divider } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import { getActiveProjects } from '../api/projectApi';
+import { getActiveProjects, getProjectsAsOracle } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
+import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
 import './_style.scss';
 import './_explore-projects.scss';
+import Roles from '../constants/RolesMap';
 
 class ExploreProjects extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeOracleProjects: []
+    }
+  }
+
   static async getInitialProps(req) {
     const response = await getActiveProjects();
     const projectsWithoutPhoto = response.data;
@@ -22,12 +32,35 @@ class ExploreProjects extends React.Component {
     return { projects };
   }
 
+  async componentDidMount() {
+    const { user, projects } = this.props;
+    const { activeOracleProjects } = this.state;
+    if (user.role.id === Roles.Oracle) {
+      const response = await getProjectsAsOracle(user.id);
+      const oracleProjects = response.data.projects;
+      const activeProjects = await projects.map(project => project.id);
+
+      const oracleProjectsActive = oracleProjects.filter(
+        project => activeProjects.indexOf(project) !== -1
+      );
+
+      this.setState({ activeOracleProjects: oracleProjectsActive });
+    }
+  }
+
   goToProjectDetail(projectId) {
+    console.log('HOLA 2');
     Routing.toProjectDetail({ projectId });
+  }
+
+  goToProjectProgress(projectId) {
+    console.log('HOLA');
+    Routing.toProjectProgress({ projectId });
   }
 
   render() {
     const { projects } = this.props;
+    const { activeOracleProjects } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -39,17 +72,22 @@ class ExploreProjects extends React.Component {
               <h1>Explore Projects</h1>
             </div>
             <div className="ProjectsCardsContainer">
-              {projects.map(project => (
-                <CardProject
-                  enterpriseName={project.projectName}
-                  projectCardImage={project.cardPhoto}
-                  enterpriseLocation={project.location}
-                  timeframe={project.timeframe}
-                  amount={project.goalAmount}
-                  key={project.id}
-                  onClick={() => this.goToProjectDetail(project.id)}
-                />
-              ))}
+              {projects.map(project => {
+                const showTag = activeOracleProjects.indexOf(project.id) !== -1;
+                return (
+                  <CardProject
+                    enterpriseName={project.projectName}
+                    projectCardImage={project.cardPhoto}
+                    enterpriseLocation={project.location}
+                    timeframe={project.timeframe}
+                    amount={project.goalAmount}
+                    showTag={showTag}
+                    tagClick={() => this.goToProjectProgress(project.id)}
+                    key={project.id}
+                    onClick={() => this.goToProjectDetail(project.id)}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -58,4 +96,4 @@ class ExploreProjects extends React.Component {
   }
 }
 
-export default ExploreProjects;
+export default withUser(ExploreProjects);
