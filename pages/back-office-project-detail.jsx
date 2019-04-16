@@ -55,7 +55,7 @@ const BackofficeProjectDetail = ({ projectDetail }) => (
         <div className="HeaderProjectDetail">
           <img
             src="./static/images/button-arrow-back.svg"
-            onClick={Routing.toBackOffice}
+            onClick={() => Routing.toBackOffice()}
           />
           <h1>Project Details</h1>
         </div>
@@ -66,8 +66,8 @@ const BackofficeProjectDetail = ({ projectDetail }) => (
 );
 BackofficeProjectDetail.getInitialProps = async ({ query }) => {
   const { projectId } = query;
-  const response = await getProject(projectId);
-  return { projectId, projectDetail: [response.data] };
+  const project = (await getProject(projectId)).data;
+  return { projectId, projectDetail: [project] };
 };
 
 export default BackofficeProjectDetail;

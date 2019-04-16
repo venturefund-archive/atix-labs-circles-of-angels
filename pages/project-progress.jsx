@@ -9,7 +9,8 @@ import TableProjectProgress from '../components/organisms/TableProjectProgress/T
 import Routing from '../components/utils/Routes';
 import {
   getProjectMilestones,
-  getActualProjectAmount
+  getActualProjectAmount,
+  getProject
 } from '../api/projectApi';
 import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
@@ -32,7 +33,8 @@ const BreadCrumb = () => (
 
 class ProjectProgress extends React.Component {
   static async getInitialProps(query) {
-    const { projectName, projectId } = query.query;
+    const { projectId } = query.query;
+    const project = (await getProject(projectId)).data;
     const milestonesResponse = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
@@ -53,7 +55,7 @@ class ProjectProgress extends React.Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName,
+      projectName: project.projectName,
       userProjects: users.data,
       projectId,
       transfers,

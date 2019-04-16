@@ -15,7 +15,8 @@ import {
   downloadProposal,
   uploadAgreement,
   getActualProjectAmount,
-  startProject
+  startProject,
+  getProject
 } from '../api/projectApi';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
@@ -47,6 +48,7 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
+import ProjectStatus from '../constants/ProjectStatus';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -68,14 +70,9 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const {
-      projectName,
-      projectId,
-      faqLink,
-      initialStep,
-      goalAmount
-    } = query.query;
+    const { projectId, initialStep } = query.query;
     const response = await getProjectMilestones(projectId);
+    const project = (await getProject(projectId)).data;
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
@@ -95,15 +92,16 @@ class ConcensusMilestones extends Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName,
+      projectName: project.projectName,
       userProjects: users.data,
       projectId,
       transfers,
-      faqLink,
+      faqLink: project.faqLink,
       oracles,
       initialStep,
-      goalAmount,
-      actualAmount
+      goalAmount: project.goalAmount,
+      actualAmount,
+      projectStatus: project.status
     };
   }
 
@@ -129,8 +127,7 @@ class ConcensusMilestones extends Component {
         else {
           showModalSuccess('Success!', 'Project started correctly');
           Routing.toProjectProgress({
-            projectId,
-            projectName
+            projectId
           });
         }
       }
@@ -312,20 +309,10 @@ class ConcensusMilestones extends Component {
   };
 
   goToStep = step => {
-    const {
-      projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount
-    } = this.props;
+    const { projectId } = this.props;
     this.setState({ currentStep: step });
     Routing.toConsensusMilestones({
       projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount,
       initialStep: step
     });
   };
@@ -350,7 +337,8 @@ class ConcensusMilestones extends Component {
       oracles,
       goalAmount,
       user,
-      actualAmount
+      actualAmount,
+      projectStatus
     } = this.props;
 
     const { currentStep, confirmationStatus, milestones } = this.state;
@@ -415,7 +403,8 @@ class ConcensusMilestones extends Component {
                   </div>
                 </div>
               </div>
-              {isSocialEntrepreneur ? (
+              {isSocialEntrepreneur &&
+              projectStatus !== ProjectStatus.IN_PROGRESS ? (
                 <CustomButton
                   disabled={actualAmount < goalAmount}
                   buttonText="Start Project"
