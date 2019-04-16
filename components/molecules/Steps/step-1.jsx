@@ -26,7 +26,7 @@ class Step1 extends React.Component {
         project.files.projectCardPhoto.response === 'ok' &&
         project.files.projectAgreement.response === 'ok'
     );
-    if (true) next();
+    if (valid) next();
   };
 
   render() {

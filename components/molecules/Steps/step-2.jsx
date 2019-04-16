@@ -81,7 +81,7 @@ class Step2 extends React.Component {
   };
 
   render() {
-    const { prev, next } = this.props;
+    const { prev } = this.props;
     const { creationStatus, milestonesErrors } = this.state;
     return (
       <div className="StepContent">
@@ -111,7 +111,7 @@ class Step2 extends React.Component {
             <Button style={{ marginRight: 8 }} onClick={prev}>
               Previous
             </Button>
-            <Button type="primary" onClick={next()}>
+            <Button type="primary" onClick={this.submitProject}>
               Continue
             </Button>
           </div>
