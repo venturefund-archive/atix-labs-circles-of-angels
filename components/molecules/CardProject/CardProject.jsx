@@ -14,11 +14,12 @@ const CardProject = ({
   tagClick
 }) => (
   <div className="CardProject">
-  {/*   {showTag && (
-    )} */}
+    {showTag && (
       <Tag color="orange" onClick={tagClick}>
         View my activities to verify
       </Tag>
+    )}
+
     <div onClick={onClick}>
       <div className="ProjectDescription">
         <img src={projectCardImage} alt="projectCardImage" />
