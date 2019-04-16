@@ -156,7 +156,7 @@ class ProjectEvidence extends Component {
     const { activity, projectId } = this.props;
     showModalConfirm(
       'Complete Task',
-      'Do you want complete this task?',
+      'Do you want to complete this task?',
       async () => {
         const response = await completeActivity(activity.id);
         if (response.error)
