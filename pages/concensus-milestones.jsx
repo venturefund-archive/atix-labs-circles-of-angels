@@ -140,7 +140,7 @@ class ConcensusMilestones extends Component {
     else
       showModalConfirm(
         'Start project',
-        'Do you want start this project?',
+        'Do you want to start this project?',
         async () => {
           const response = await startProject(projectId);
           onConfirm(response);
