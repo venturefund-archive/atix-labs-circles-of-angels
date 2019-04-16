@@ -241,7 +241,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -288,7 +288,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -411,35 +411,39 @@ class ConcensusMilestones extends Component {
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data">
-                   <p className="TextGray">{actualAmount || 0}</p>
-                    <p className="TextGreen">{actualAmount || 10000}</p>
+                    {actualAmount < goalAmount ? (
+                      <p className="TextGray">{actualAmount || 0}</p>
+                    ) : (
+                      <p className="TextGreen">{actualAmount || 10000}</p>
+                    )}
                     <span className="Overline">Amounts Pledged</span>
                   </div>
-                  <Alert
-                message="You can start the project with the current funded amount"
-                type="info"
-                showIcon
-              />
-              {/* Hay que agregar lógica para mostrar un mensaje correcto o uno de información, igual que en actual amount */}
-              <Alert
-                message="You have reached your goal!"
-                type="success"
-                showIcon
-              />
+                  {actualAmount >= goalAmount ? (
+                    <Alert
+                      message="You have reached your goal!"
+                      type="success"
+                      showIcon
+                    />
+                  ) : (
+                    <Alert
+                      message="You can start the project with the current funded amount"
+                      type="info"
+                      showIcon
+                    />
+                  )}
                 </div>
-
               </div>
               {isSocialEntrepreneur &&
-                projectStatus !== ProjectStatus.IN_PROGRESS &&
-                actualAmount > 0 ? (
-                  <CustomButton
-                    buttonText="Start Project"
-                    theme="Primary"
-                    onClick={this.startProjectHandle}
-                  />
-                ) : (
-                  ''
-                )}
+              projectStatus !== ProjectStatus.IN_PROGRESS &&
+              actualAmount > 0 ? (
+                <CustomButton
+                  buttonText="Start Project"
+                  theme="Primary"
+                  onClick={this.startProjectHandle}
+                />
+              ) : (
+                ''
+              )}
             </div>
           </div>
           <Divider />
