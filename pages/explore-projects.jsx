@@ -39,10 +39,9 @@ class ExploreProjects extends React.Component {
               {projects.map(project => {
                 return (
                   <CardProject
-                    enterpriceName={project.name}
-                    enterpriceMission={project.mission}
+                    enterpriseName={project.projectName}
                     projectCardImage={project.cardPhoto}
-                    enterpriceLocation={project.location}
+                    enterpriseLocation={project.location}
                     timeframe={project.timeframe}
                     amount={project.goalAmount}
                     key={project.id}
