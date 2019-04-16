@@ -48,6 +48,7 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
+import Label from '../components/atoms/Label/Label';
 import ProjectStatus from '../constants/ProjectStatus';
 
 const statusMap = {
@@ -239,7 +240,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+          'This project doesn\'t have an Agreement uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -286,7 +287,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -452,7 +453,7 @@ class ConcensusMilestones extends Component {
     );
 
     const step2 = (
-      <span>
+      <div className="ContentStep">
         <StepsIf stepNumber={1} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
@@ -511,19 +512,21 @@ class ConcensusMilestones extends Component {
             onClick={this.nextStep}
           />
         </div>
-      </span>
+      </div>
     );
 
     const step3 = (
-      <span>
+      <div className="ContentStep">
         <StepsIf stepNumber={2} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Funding Step</p>
-          <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place
-            for everyone
-          </h3>
-          <p className="LabelSteps">Project Name</p>
+          <div className="StepDescription">
+            <p className="LabelSteps">Funding Step</p>
+            <h3>
+              Transfer your pledged funds, help the world become a better place
+              for everyone
+            </h3>
+          </div>
+          <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferContent">
             <h2>Circles of Angels Bank Account Information</h2>
@@ -550,22 +553,28 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
         </div>
-      </span>
+      </div>
     );
 
     const confirmationStep = (
-      <span>
+      <div className="ContentStep">
         <StepsIf stepNumber={2} />
         <div className="ProjectStepsContainer">
-          <p className="LabelSteps">Funding Step</p>
-          <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place
-            for everyone
-          </h3>
-          <p className="LabelSteps">Project Name</p>
+          <div className="StepDescription">
+            <p className="LabelSteps">Funding Step</p>
+            <h3>
+              Transfer your pledged funds, help the world become a better place
+              for everyone
+            </h3>
+          </div>
+          <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferConfirmationContent">
-            <img src="./static/images/funds-pending.svg" alt="Clock" />
+            <img
+              src="./static/images/funds-pending.svg"
+              alt="Clock"
+              width="40"
+            />
             {confirmationStatus ? (
               <TransferLabel
                 text={confirmationStatus.name}
@@ -589,7 +598,7 @@ class ConcensusMilestones extends Component {
             onClick={() => Routing.toExploreProjects()}
           />
         </div>
-      </span>
+      </div>
     );
 
     switch (currentStep) {

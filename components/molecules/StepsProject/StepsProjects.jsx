@@ -6,7 +6,7 @@ const { Step } = Steps;
 
 const StepsProject = ({ stepNumber }) => (
   <div className="StepsContainerProjects">
-    <Steps size="small" current={stepNumber}>
+    <Steps progressDot size="small" current={stepNumber}>
       <Step title="Project Detail" />
       <Step title="Project Milestones" />
       <Step title="Almost Ready" />

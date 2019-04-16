@@ -1,4 +1,5 @@
 import React from 'react';
+import { Divider } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
@@ -33,22 +34,22 @@ class ExploreProjects extends React.Component {
         <div className="MainContent">
           <Header />
 
-          <div className="ProjectsContainer">
-            <h1>Explore Projects</h1>
+          <div className="Content">
+            <div className="titlepage">
+              <h1>Explore Projects</h1>
+            </div>
             <div className="ProjectsCardsContainer">
-              {projects.map(project => {
-                return (
-                  <CardProject
-                    enterpriseName={project.projectName}
-                    projectCardImage={project.cardPhoto}
-                    enterpriseLocation={project.location}
-                    timeframe={project.timeframe}
-                    amount={project.goalAmount}
-                    key={project.id}
-                    onClick={() => this.goToProjectDetail(project.id)}
-                  />
-                );
-              })}
+              {projects.map(project => (
+                <CardProject
+                  enterpriseName={project.projectName}
+                  projectCardImage={project.cardPhoto}
+                  enterpriseLocation={project.location}
+                  timeframe={project.timeframe}
+                  amount={project.goalAmount}
+                  key={project.id}
+                  onClick={() => this.goToProjectDetail(project.id)}
+                />
+              ))}
             </div>
           </div>
         </div>

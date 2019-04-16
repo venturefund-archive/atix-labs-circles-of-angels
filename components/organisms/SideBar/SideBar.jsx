@@ -17,7 +17,7 @@ const goToFundsAdministration = () => {
 
 const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
-    width="70"
+    width="50"
     breakpoint="md"
     collapsedWidth="0"
     onBreakpoint={broken => {

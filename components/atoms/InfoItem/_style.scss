@@ -4,19 +4,21 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 1em;
-
     img{
         width: 25px;
         height: 25px;
     }
+    .anticon {
+    margin-top: 5px;}
 
     .InfoItemData{
-        margin-left: 1em;
+        margin-left: 0.5em;
         p{
-            @include primary-text($tabs, $black, 300);
+            @include primary-text($body, $grey, 400);
         }
         h2{
-            @include primary-text($body, $black, 400);
+            line-height: 16px;
+            @include primary-text($body, $on-surface, 400);
         }
     }
 }

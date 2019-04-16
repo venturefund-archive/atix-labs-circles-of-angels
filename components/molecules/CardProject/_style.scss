@@ -8,10 +8,10 @@
   margin-bottom: 2em;
   margin-right: 1.75em;
   cursor: pointer;
-
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   &:hover{
+    transform: scale(1.03);
     box-shadow: $shadow-big; 
-    transition: ease-in-out 1s;
   }
 
   .ProjectDescription {
@@ -19,7 +19,11 @@
     flex-flow: column;
     justify-content: flex-end;
     position: relative;
-
+    .ant-tag{
+      position: absolute;
+    top: 1em;
+    left: 1em;
+    }
     img {
       height: 175px;
       width: 100%;
@@ -33,31 +37,25 @@
 
     .GradientEfect {
       background: rgb(0, 0, 0);
-      background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 0) 100%
-      );
+      background: linear-gradient(0deg, #000000bd 10%, #000000d4 5%, rgba(0, 0, 0, 0) 100%);
       width: 100%;
       position: absolute;
       padding-top: 1.25em;
       .DescriptionData {
-        margin-left: 1em;
-        padding-bottom: 1.5em;
-
+        padding: 1em;
         h1 {
-          @include primary-text($h1, $white, 400);
+          @include primary-text($h1, $white, 600);
         }
         p {
-          @include primary-text($h2, $white, 300);
+          line-height: 20px;
+          @include primary-text($h2, $white, 600);
         }
       }
     }
   }
 
   .ProjectSummery {
-    padding: 1.25em 1em;
+    padding: 1em;
   }
 }
 
