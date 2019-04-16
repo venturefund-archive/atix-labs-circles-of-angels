@@ -41,15 +41,13 @@ class ExploreProjects extends React.Component {
             <div className="ProjectsCardsContainer">
               {projects.map(project => (
                 <CardProject
-                enterpriceName={project.name}
-                enterpriceMission={project.mission}
-                projectCardImage={project.cardPhoto}
-                enterpriceLocation={project.location}
-                timeframe={project.timeframe}
-                amount={project.goalAmount}
-                key={project.id}
-                onClick={() => this.goToProjectDetail(project.id)}
-                
+                  enterpriseName={project.projectName}
+                  projectCardImage={project.cardPhoto}
+                  enterpriseLocation={project.location}
+                  timeframe={project.timeframe}
+                  amount={project.goalAmount}
+                  key={project.id}
+                  onClick={() => this.goToProjectDetail(project.id)}
                 />
               ))}
             </div>

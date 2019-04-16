@@ -20,7 +20,8 @@ const SignatoryItem = ({
   signStatus,
   userId,
   projectId,
-  handleOk
+  handleOk,
+  loggedUserId
 }) => (
   <div className="SignatoryItem">
     <Label labelText="Signer" />
@@ -37,7 +38,7 @@ const SignatoryItem = ({
           theme={`theme-${tfStatusName}`}
           iconStatus={tfStatusIcon}
         />
-        {signStatus === SignStatus.UNSIGNED ? (
+        {signStatus === SignStatus.UNSIGNED && userId === loggedUserId ? (
           <ConfirmPopUp
             userId={userId}
             projectId={projectId}

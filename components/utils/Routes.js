@@ -13,10 +13,18 @@ const projectDetail = '/project-detail';
 const signatories = '/signatories';
 const consensusMilestones = '/concensus-milestones';
 const fundAdministration = '/fund-administration';
+const projectProgress = '/project-progress';
+const projectEvidence = '/project-evidence';
 
 const Routing = {
   toBackOffice: query => {
     goToRoute(backOffice, query);
+  },
+  toProjectProgress: query => {
+    goToRoute(projectProgress, query);
+  },
+  toProjectEvidence: query => {
+    goToRoute(projectEvidence, query);
   },
   toLogin: query => {
     goToRoute(login, query);
@@ -57,6 +65,9 @@ const Routing = {
   },
   toFundAdministration: query => {
     goToRoute(fundAdministration, query);
+  },
+  goBack: () => {
+    Router.back();
   }
 };
 

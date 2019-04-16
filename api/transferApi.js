@@ -1,6 +1,6 @@
-import api from "./api";
+import api from './api';
 
-const baseURL = "/transfer";
+const baseURL = '/transfer';
 
 const sendTransferInformation = async ({
   transferId,
@@ -10,19 +10,8 @@ const sendTransferInformation = async ({
   projectId,
   destinationAccount
 }) => {
-  console.log("Sending trasfer info to verificate");
+  console.log('Sending trasfer info to verificate');
   try {
-    if (
-      !amount ||
-      !currency ||
-      !senderId ||
-      !projectId ||
-      !destinationAccount ||
-      amount < 1 ||
-      senderId < 0 ||
-      projectId < 0
-    )
-      return;
     const response = await api.post(
       `${baseURL}/${transferId}/sendToVerification`,
       {
@@ -35,23 +24,25 @@ const sendTransferInformation = async ({
     );
     return response;
   } catch (error) {
-    return { error: error };
+    return { error };
   }
 };
 
 const getTransferDestinationInfo = async () => {
   try {
     const response = await api.get(`/general/accountDestination`);
-    console.log("Geting transfer destination data");
+    console.log('Geting transfer destination data');
     return response.data.bankAccount;
   } catch (error) {
     return error.menssage;
   }
 };
 
-const getTransferStatus = async ({userId, projectId}) => {
+const getTransferStatus = async ({ userId, projectId }) => {
   try {
-    const response = await api.get(`${baseURL}/${userId}/${projectId}/getState`);
+    const response = await api.get(
+      `${baseURL}/${userId}/${projectId}/getState`
+    );
     console.log(response);
     return response.data.state;
   } catch (error) {}

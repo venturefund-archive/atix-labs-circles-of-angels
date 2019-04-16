@@ -1,25 +1,23 @@
 import React from 'react';
-import InfoItem from '../../atoms/InfoItem/InfoItem';
 import { Tag } from 'antd';
+import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 
 const CardProject = ({
-  enterpriceName,
-  enterpriceMission,
+  enterpriseName,
   projectCardImage,
-  enterpriceLocation,
+  enterpriseLocation,
   timeframe,
   amount,
   onClick
 }) => (
   <div className="CardProject" onClick={onClick}>
     <div className="ProjectDescription">
-    <Tag color="orange">View my activities to verify</Tag>
+      <Tag color="orange">View my activities to verify</Tag>
       <img src={projectCardImage} alt="projectCardImage" />
       <div className="GradientEfect">
         <div className="DescriptionData">
-        
-          <h1>{enterpriceName}</h1>
+          <h1>{enterpriseName}</h1>
           <p>{enterpriceMission}</p>
         </div>
       </div>
@@ -27,7 +25,7 @@ const CardProject = ({
     <div className="ProjectSummery">
       <InfoItem
         subtitle="Enterprise Location"
-        title={enterpriceLocation}
+        title={enterpriseLocation}
         iconInfoItem="environment"
       />
       <InfoItem
@@ -35,11 +33,7 @@ const CardProject = ({
         title={timeframe}
         iconInfoItem="clock-circle"
       />
-      <InfoItem
-        subtitle="Amount"
-        title={`$ ${amount}`}
-        iconInfoItem="dollar"
-      />
+      <InfoItem subtitle="Amount" title={`$ ${amount}`} iconInfoItem="dollar" />
     </div>
   </div>
 );

@@ -1,51 +1,41 @@
 import React from 'react';
 import { Table, Divider, Tag } from 'antd';
 
-const columns = [
-  {
-    title: 'Documents',
-    dataIndex: 'documents',
-    key: 'documents'
-  },
-  {
-    title: 'date',
-    dataIndex: 'date',
-    key: 'date'
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <span className="flex">
-      <a
+const TableEvidence = ({ data, onDelete, onDownload }) => {
+  const columns = [
+    {
+      title: 'Documents',
+      dataIndex: 'fileName',
+      key: 'documents'
+    },
+    {
+      title: 'Date',
+      dataIndex: 'createdAt',
+      key: 'date',
+      render: date => (
+        <span>{new Intl.DateTimeFormat('en-GB').format(Date.parse(date))}</span>
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <span className="flex">
+          <a onClick={() => onDelete(record)}>Delete</a>
+          <Divider type="vertical" />
+          <a onClick={() => onDownload(record)}>Download</a>
+        </span>
+      )
+    }
+  ];
 
-      >
-        Delete
-      </a>
-      <Divider type="vertical" />
-      <a
-      >
-        Download
-      </a>
-    </span>
-    )
-  }
-];
-
-const data = [
-  {
-    key: '1',
-    documents: 'Invoice 1',
-    date: '20/07/2019'
-  }
-];
-
-const TableEvidence = () => (
-  <Table
-    title={() => 'Evidence'}
-    columns={columns}
-    dataSource={data}
-    scroll={{ x: 1300 }}
-  />
-);
+  return (
+    <Table
+      title={() => 'Evidence'}
+      columns={columns}
+      dataSource={data}
+      scroll={{ x: 1300 }}
+    />
+  );
+};
 export default TableEvidence;

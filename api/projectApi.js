@@ -1,4 +1,5 @@
 import api from './api';
+import ProjectStatus from '../constants/ProjectStatus';
 
 const baseURL = '/project';
 
@@ -55,7 +56,7 @@ const getProject = async projectId => {
 const confirmProject = async projectId => {
   try {
     const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
-      status: 1
+      status: ProjectStatus.PUBLISHED
     });
     return response;
   } catch (error) {
@@ -66,7 +67,7 @@ const confirmProject = async projectId => {
 const rejectProject = async projectId => {
   try {
     const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
-      status: -1
+      status: ProjectStatus.REJECTED
     });
     return response;
   } catch (error) {
@@ -77,6 +78,7 @@ const rejectProject = async projectId => {
 const getProjectMilestones = async projectId => {
   try {
     const response = await api.get(`${baseURL}/${projectId}/getMilestones`);
+    console.log(response);
     return response;
   } catch (error) {
     return { error };
@@ -195,8 +197,18 @@ const downloadMilestonesTemplate = async () => {
 
 const getActualProjectAmount = async projectId => {
   try {
-    console.log("sdf")
     const response = await api.get(`${baseURL}/${projectId}/alreadyFunded`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const startProject = async projectId => {
+  try {
+    const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
+      status: ProjectStatus.IN_PROGRESS
+    });
     return response;
   } catch (error) {
     return { error };
@@ -216,5 +228,6 @@ export {
   uploadAgreement,
   downloadProposal,
   downloadMilestonesTemplate,
-  getActualProjectAmount
+  getActualProjectAmount,
+  startProject
 };

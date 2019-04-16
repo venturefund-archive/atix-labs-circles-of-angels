@@ -14,7 +14,9 @@ import {
   downloadAgreement,
   downloadProposal,
   uploadAgreement,
-  getActualProjectAmount
+  getActualProjectAmount,
+  startProject,
+  getProject
 } from '../api/projectApi';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
@@ -29,7 +31,11 @@ import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
-import { showModalSuccess, showModalError } from '../components/utils/Modals';
+import {
+  showModalSuccess,
+  showModalError,
+  showModalConfirm
+} from '../components/utils/Modals';
 import {
   deleteMilestone,
   deleteActivity,
@@ -43,6 +49,7 @@ import {
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import Label from '../components/atoms/Label/Label';
+import ProjectStatus from '../constants/ProjectStatus';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -64,14 +71,9 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const {
-      projectName,
-      projectId,
-      faqLink,
-      initialStep,
-      goalAmount
-    } = query.query;
+    const { projectId, initialStep } = query.query;
     const response = await getProjectMilestones(projectId);
+    const project = (await getProject(projectId)).data;
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
@@ -91,15 +93,16 @@ class ConcensusMilestones extends Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName,
+      projectName: project.projectName,
       userProjects: users.data,
       projectId,
       transfers,
-      faqLink,
+      faqLink: project.faqLink,
       oracles,
       initialStep,
-      goalAmount,
-      actualAmount
+      goalAmount: project.goalAmount,
+      actualAmount,
+      projectStatus: project.status
     };
   }
 
@@ -111,6 +114,38 @@ class ConcensusMilestones extends Component {
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
+  };
+
+  startProjectHandle = () => {
+    const { projectId, goalAmount, actualAmount } = this.props;
+    const onConfirm = response => {
+      if (response.error)
+        showModalError('Error starting project', response.error);
+      else {
+        showModalSuccess('Success!', 'Project started correctly');
+        Routing.toProjectProgress({
+          projectId
+        });
+      }
+    };
+    if (actualAmount < goalAmount)
+      showModalConfirm(
+        'Start project',
+        'Remember to adjust your plan according the current funded amount before you start your project',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
+    else
+      showModalConfirm(
+        'Start project',
+        'Do you want start this project?',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
   };
 
   onAssignOracle = (userId, activityId) => {
@@ -205,7 +240,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+          'This project doesn\'t have an Agreement uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -252,7 +287,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -288,20 +323,10 @@ class ConcensusMilestones extends Component {
   };
 
   goToStep = step => {
-    const {
-      projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount
-    } = this.props;
+    const { projectId } = this.props;
     this.setState({ currentStep: step });
     Routing.toConsensusMilestones({
       projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount,
       initialStep: step
     });
   };
@@ -326,7 +351,8 @@ class ConcensusMilestones extends Component {
       oracles,
       goalAmount,
       user,
-      actualAmount
+      actualAmount,
+      projectStatus
     } = this.props;
 
     const { currentStep, confirmationStatus, milestones } = this.state;
@@ -391,11 +417,13 @@ class ConcensusMilestones extends Component {
                   </div>
                 </div>
               </div>
-              {isSocialEntrepreneur ? (
+              {isSocialEntrepreneur &&
+              projectStatus !== ProjectStatus.IN_PROGRESS &&
+              actualAmount > 0 ? (
                 <CustomButton
-                  disabled={actualAmount < goalAmount}
                   buttonText="Start Project"
                   theme="Primary"
+                  onClick={this.startProjectHandle}
                 />
               ) : (
                 ''
@@ -452,6 +480,7 @@ class ConcensusMilestones extends Component {
                 <SignatoryItem
                   key={userProject.id}
                   userId={userProject.user.id}
+                  loggedUserId={user.id}
                   username={userProject.user.username}
                   tfStatusShow={transferStatusMap[userTransfer.state].show}
                   tfStatusIcon={transferStatusMap[userTransfer.state].icon}
@@ -497,7 +526,7 @@ class ConcensusMilestones extends Component {
               for everyone
             </h3>
           </div>
-          <Label labelText="Project Name"/>
+          <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferContent">
             <h2>Circles of Angels Bank Account Information</h2>
@@ -531,17 +560,21 @@ class ConcensusMilestones extends Component {
       <div className="ContentStep">
         <StepsIf stepNumber={2} />
         <div className="ProjectStepsContainer">
-        <div className="StepDescription">
+          <div className="StepDescription">
             <p className="LabelSteps">Funding Step</p>
             <h3>
               Transfer your pledged funds, help the world become a better place
               for everyone
             </h3>
           </div>
-          <Label labelText="Project Name"/>
+          <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferConfirmationContent">
-            <img src="./static/images/funds-pending.svg" alt="Clock" width="40" />
+            <img
+              src="./static/images/funds-pending.svg"
+              alt="Clock"
+              width="40"
+            />
             {confirmationStatus ? (
               <TransferLabel
                 text={confirmationStatus.name}

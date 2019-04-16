@@ -5,7 +5,7 @@ import './_style.scss';
 
 const { Dragger } = Upload;
 
-const DragUploadFile = ({ change }) => {
+const DragUploadFile = ({ change, text, description }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -25,10 +25,8 @@ const DragUploadFile = ({ change }) => {
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">
-          Complete Excel and upload to create Milestones
-        </p>
-        <p className="ant-upload-hint">Click or drag your Excel file here</p>
+        <p className="ant-upload-text">{text}</p>
+        <p className="ant-upload-hint">{description}</p>
       </Dragger>
     </div>
   );

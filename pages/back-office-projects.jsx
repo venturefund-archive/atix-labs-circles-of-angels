@@ -18,8 +18,8 @@ class BackOfficeProjects extends React.Component {
   }
 
   static async getInitialProps(query) {
-    const response = await getProjects();
-    return { projects: response.data };
+    const projects = (await getProjects()).data;
+    return { projects };
   }
 
   updateProject = (index, project) => {
