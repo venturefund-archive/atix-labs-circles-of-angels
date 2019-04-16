@@ -66,11 +66,8 @@ const Routing = {
   toFundAdministration: query => {
     goToRoute(fundAdministration, query);
   },
-  toProjectProgress: query => {
-    goToRoute(projectProgress, query);
-  },
-  toProjectEvidence: query => {
-    goToRoute(projectEvidence, query);
+  goBack: () => {
+    Router.back();
   }
 };
 
