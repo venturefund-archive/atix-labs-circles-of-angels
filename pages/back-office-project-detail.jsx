@@ -9,7 +9,6 @@ import ProjectStatus from '../constants/ProjectStatus';
 
 import './_style.scss';
 import './_back-office-projec-detail.scss';
-import projectStatus from '../constants/ProjectStatus';
 
 const columns = [
   {
@@ -73,7 +72,7 @@ class BackofficeProjectDetail extends React.Component {
               <h1>Project Details</h1>
             </div>
             <Table columns={columns} dataSource={[project]} />
-            {projectStatus.IN_PROGRESS === project.status ? (
+            {ProjectStatus.IN_PROGRESS === project.status ? (
               <CustomButton
                 theme="Primary"
                 buttonText="View Progress"

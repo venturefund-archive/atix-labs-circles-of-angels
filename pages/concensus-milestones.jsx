@@ -116,22 +116,35 @@ class ConcensusMilestones extends Component {
   };
 
   startProjectHandle = () => {
-    const { projectId, projectName } = this.props;
-    showModalConfirm(
-      'Start project',
-      'Do you want start this project?',
-      async () => {
-        const response = await startProject(projectId);
-        if (response.error)
-          showModalError('Error starting project', response.error);
-        else {
-          showModalSuccess('Success!', 'Project started correctly');
-          Routing.toProjectProgress({
-            projectId
-          });
-        }
+    const { projectId, goalAmount, actualAmount } = this.props;
+    const onConfirm = response => {
+      if (response.error)
+        showModalError('Error starting project', response.error);
+      else {
+        showModalSuccess('Success!', 'Project started correctly');
+        Routing.toProjectProgress({
+          projectId
+        });
       }
-    );
+    };
+    if (actualAmount < goalAmount)
+      showModalConfirm(
+        'Start project',
+        'Remember to adjust your plan according the current funded amount before you start your project',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
+    else
+      showModalConfirm(
+        'Start project',
+        'Do you want start this project?',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
   };
 
   onAssignOracle = (userId, activityId) => {
@@ -404,9 +417,9 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur &&
-              projectStatus !== ProjectStatus.IN_PROGRESS ? (
+              ProjectStatus !== ProjectStatus.IN_PROGRESS &&
+              actualAmount > 0 ? (
                 <CustomButton
-                  disabled={actualAmount < goalAmount}
                   buttonText="Start Project"
                   theme="Primary"
                   onClick={this.startProjectHandle}
