@@ -155,9 +155,10 @@ class ConcensusMilestones extends Component {
 
   save = async (record, actualField) => {
     const isActivity = Boolean(actualField.data.milestone);
+    console.log(record, actualField.data);
     const response = isActivity
-      ? await updateMilestone(actualField.data)
-      : await updateActivity(actualField.data);
+      ? await updateActivity(actualField.data)
+      : await updateMilestone(actualField.data);
     if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -418,16 +419,16 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur &&
-              ProjectStatus !== ProjectStatus.IN_PROGRESS &&
-              actualAmount > 0 ? (
-                <CustomButton
-                  buttonText="Start Project"
-                  theme="Primary"
-                  onClick={this.startProjectHandle}
-                />
-              ) : (
-                ''
-              )}
+                ProjectStatus !== ProjectStatus.IN_PROGRESS &&
+                actualAmount > 0 ? (
+                  <CustomButton
+                    buttonText="Start Project"
+                    theme="Primary"
+                    onClick={this.startProjectHandle}
+                  />
+                ) : (
+                  ''
+                )}
             </div>
           </div>
           <Divider />
@@ -581,8 +582,8 @@ class ConcensusMilestones extends Component {
                 theme={statusMap[confirmationStatus.status]}
               />
             ) : (
-              ''
-            )}
+                ''
+              )}
             <h2>Circles will be checking your funds transfer</h2>
           </div>
         </div>

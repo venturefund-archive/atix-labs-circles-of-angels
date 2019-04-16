@@ -18,7 +18,8 @@ const updateMilestone = async ({
 }) => {
   try {
     console.log('Updating milestone', id);
-    const response = await api.put(`${baseURL}/${id}`, {
+
+    const milestone = {
       budget,
       category,
       id,
@@ -31,6 +32,10 @@ const updateMilestone = async ({
       signsOfSuccessCriterion,
       tasks,
       type
+    };
+
+    const response = await api.put(`${baseURL}/${id}`, {
+      milestone
     });
     return response;
   } catch (error) {
