@@ -79,31 +79,31 @@ class TableMilestones extends React.Component {
       {
         title: '/ Social Impact Targets',
         dataIndex: 'impact',
-        key: 'targets',
+        key: 'impact',
         editable: true,
         width: 200
       },
       {
         title: 'Review Criterion',
         dataIndex: 'impactCriterion',
-        key: 'ReviewOne',
+        key: 'impactCriterion',
         editable: true
       },
       {
         title: 'Signs of Success',
-        key: 'success',
+        key: 'signsOfSuccess',
         dataIndex: 'signsOfSuccess',
         editable: true
       },
       {
         title: 'Review Criterion ',
-        key: 'ReviewTwo',
+        key: 'signsOfSuccessCriterion',
         dataIndex: 'signsOfSuccessCriterion',
         editable: true
       },
       {
         title: 'Expenditure Category',
-        key: 'expenditureCategory',
+        key: 'category',
         dataIndex: 'category',
         editable: true
       },
@@ -132,7 +132,14 @@ class TableMilestones extends React.Component {
             <div>
               {editable ? (
                 <span className="flex">
-                  <a onClick={() => onEdit(record, this.actualField)}>Save</a>
+                  <a
+                    onClick={() => {
+                      this.setState({ editingKey: '' });
+                      onEdit(record, this.actualField);
+                    }}
+                  >
+                    Save
+                  </a>
                   <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
