@@ -65,8 +65,8 @@ class ProjectEvidence extends Component {
   }
 
   goToProjectEvidence = () => {
-    const { activity } = this.props;
-    Routing.toProjectEvidence({ activityId: activity.id });
+    const { activity, projectId } = this.props;
+    Routing.toProjectEvidence({ activityId: activity.id, projectId });
   };
 
   goToProjectProgress = () => {
