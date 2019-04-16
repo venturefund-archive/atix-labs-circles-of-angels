@@ -20,10 +20,10 @@ class ProjectDetail extends React.Component {
   static async getInitialProps(query) {
     const { projectId } = query.query;
     const response = await getProject(projectId);
-    const projectWithoutPhoto = response.data;
-    const coverPhoto = await getPhoto(projectWithoutPhoto.coverPhoto);
+    const project = response.data;
+    const coverPhoto = await getPhoto(project.coverPhoto);
     const projectDetail = {
-      ...projectWithoutPhoto,
+      ...project,
       coverPhoto: coverPhoto.data
     };
     return { projectDetail };
@@ -48,16 +48,12 @@ class ProjectDetail extends React.Component {
 
     if (projectDetail.status == ProjectStatus.IN_PROGRESS) {
       Routing.toProjectProgress({
-        projectId: projectDetail.id,
-        projectName: projectDetail.projectName
+        projectId: projectDetail.id
       });
     } else {
       Routing.toConsensusMilestones({
         projectId: projectDetail.id,
-        projectName: projectDetail.projectName,
-        faqLink: projectDetail.faqLink,
-        initialStep: 0,
-        goalAmount: projectDetail.goalAmount
+        initialStep: 0
       });
     }
   };

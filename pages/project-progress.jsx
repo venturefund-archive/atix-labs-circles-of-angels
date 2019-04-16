@@ -9,30 +9,17 @@ import TableProjectProgress from '../components/organisms/TableProjectProgress/T
 import Routing from '../components/utils/Routes';
 import {
   getProjectMilestones,
-  getActualProjectAmount
+  getActualProjectAmount,
+  getProject
 } from '../api/projectApi';
 import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import { getOracles } from '../api/userApi';
-
-const BreadCrumb = () => (
-  <Breadcrumb>
-    <Breadcrumb.Item>
-      <a
-        onClick={() => {
-          Routing.toExploreProjects();
-        }}
-      >
-        <Icon type="arrow-left" />
-      </a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>Project Progress</Breadcrumb.Item>
-  </Breadcrumb>
-);
-
+import { withUser } from '../components/utils/UserContext';
 class ProjectProgress extends React.Component {
   static async getInitialProps(query) {
-    const { projectName, projectId } = query.query;
+    const { projectId } = query.query;
+    const project = (await getProject(projectId)).data;
     const milestonesResponse = await getProjectMilestones(projectId);
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
@@ -53,7 +40,7 @@ class ProjectProgress extends React.Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName,
+      projectName: project.projectName,
       userProjects: users.data,
       projectId,
       transfers,
@@ -63,14 +50,31 @@ class ProjectProgress extends React.Component {
   }
 
   render() {
-    const { projectName, milestones, projectId } = this.props;
+    const {
+      projectName,
+      milestones,
+      projectId,
+      isBackofficeAdmin
+    } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
           <Header />
           <div className="Content">
-            <BreadCrumb />
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                <a
+                  onClick={() => {
+                    if (isBackofficeAdmin()) Routing.goBack();
+                    else Routing.toProjectDetail({ projectId });
+                  }}
+                >
+                  <Icon type="arrow-left" />
+                </a>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>Project Progress</Breadcrumb.Item>
+            </Breadcrumb>
             <div className="ProjectInfoHeader">
               <div className="space-between">
                 <div>
@@ -91,4 +95,4 @@ class ProjectProgress extends React.Component {
   }
 }
 
-export default ProjectProgress;
+export default withUser(ProjectProgress);

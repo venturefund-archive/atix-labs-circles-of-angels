@@ -15,7 +15,8 @@ import {
   downloadProposal,
   uploadAgreement,
   getActualProjectAmount,
-  startProject
+  startProject,
+  getProject
 } from '../api/projectApi';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
@@ -47,6 +48,7 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
+import ProjectStatus from '../constants/ProjectStatus';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -68,14 +70,9 @@ class ConcensusMilestones extends Component {
   }
 
   static async getInitialProps(query) {
-    const {
-      projectName,
-      projectId,
-      faqLink,
-      initialStep,
-      goalAmount
-    } = query.query;
+    const { projectId, initialStep } = query.query;
     const response = await getProjectMilestones(projectId);
+    const project = (await getProject(projectId)).data;
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
@@ -95,15 +92,16 @@ class ConcensusMilestones extends Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName,
+      projectName: project.projectName,
       userProjects: users.data,
       projectId,
       transfers,
-      faqLink,
+      faqLink: project.faqLink,
       oracles,
       initialStep,
-      goalAmount,
-      actualAmount
+      goalAmount: project.goalAmount,
+      actualAmount,
+      projectStatus: project.status
     };
   }
 
@@ -118,23 +116,35 @@ class ConcensusMilestones extends Component {
   };
 
   startProjectHandle = () => {
-    const { projectId, projectName } = this.props;
-    showModalConfirm(
-      'Start project',
-      'Do you want start this project?',
-      async () => {
-        const response = await startProject(projectId);
-        if (response.error)
-          showModalError('Error starting project', response.error);
-        else {
-          showModalSuccess('Success!', 'Project started correctly');
-          Routing.toProjectProgress({
-            projectId,
-            projectName
-          });
-        }
+    const { projectId, goalAmount, actualAmount } = this.props;
+    const onConfirm = response => {
+      if (response.error)
+        showModalError('Error starting project', response.error);
+      else {
+        showModalSuccess('Success!', 'Project started correctly');
+        Routing.toProjectProgress({
+          projectId
+        });
       }
-    );
+    };
+    if (actualAmount < goalAmount)
+      showModalConfirm(
+        'Start project',
+        'Remember to adjust your plan according the current funded amount before you start your project',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
+    else
+      showModalConfirm(
+        'Start project',
+        'Do you want start this project?',
+        async () => {
+          const response = await startProject(projectId);
+          onConfirm(response);
+        }
+      );
   };
 
   onAssignOracle = (userId, activityId) => {
@@ -312,20 +322,10 @@ class ConcensusMilestones extends Component {
   };
 
   goToStep = step => {
-    const {
-      projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount
-    } = this.props;
+    const { projectId } = this.props;
     this.setState({ currentStep: step });
     Routing.toConsensusMilestones({
       projectId,
-      projectName,
-      faqLink,
-      goalAmount,
-      actualAmount,
       initialStep: step
     });
   };
@@ -350,7 +350,8 @@ class ConcensusMilestones extends Component {
       oracles,
       goalAmount,
       user,
-      actualAmount
+      actualAmount,
+      projectStatus
     } = this.props;
 
     const { currentStep, confirmationStatus, milestones } = this.state;
@@ -415,9 +416,10 @@ class ConcensusMilestones extends Component {
                   </div>
                 </div>
               </div>
-              {isSocialEntrepreneur ? (
+              {isSocialEntrepreneur &&
+              projectStatus !== ProjectStatus.IN_PROGRESS &&
+              actualAmount > 0 ? (
                 <CustomButton
-                  disabled={actualAmount < goalAmount}
                   buttonText="Start Project"
                   theme="Primary"
                   onClick={this.startProjectHandle}
