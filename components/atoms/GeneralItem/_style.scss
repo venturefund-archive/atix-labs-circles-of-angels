@@ -11,18 +11,14 @@
 
     .HeaderData{
         display: flex;
-        align-items: center;
-        
-        img{
-            width: 25px;
-            height: 25px;
-            margin-right: 1em;
+        align-items: center;   
+
+        .anticon{
+            margin-right: 0.5em;
         }
-    
         p{
-            @include primary-text($tabs, $black, 300);
-        }
-       
+            @include primary-text($body, $grey, 400);
+        } 
     }
 }
 

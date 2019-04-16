@@ -10,12 +10,15 @@
   display: flex;
   flex-flow: column;
   width: 96vw;
-  margin-left: 70px;
+  margin-left: 50px;
   height: 100vh;
   overflow-x: hidden;
  }
  .Content{
   @include Content;
+ }
+ .ContentComplete{
+  @include ContentComplete;
  }
  
  .ButtonContainer {
