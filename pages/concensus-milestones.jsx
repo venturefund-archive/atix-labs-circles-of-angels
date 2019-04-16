@@ -418,18 +418,22 @@ class ConcensusMilestones extends Component {
                     )}
                     <span className="Overline">Amounts Pledged</span>
                   </div>
-                  {actualAmount >= goalAmount ? (
-                    <Alert
-                      message="You have reached your goal!"
-                      type="success"
-                      showIcon
-                    />
+                  {isSocialEntrepreneur ? (
+                    actualAmount >= goalAmount ? (
+                      <Alert
+                        message="You have reached your goal!"
+                        type="success"
+                        showIcon
+                      />
+                    ) : (
+                      <Alert
+                        message="You can start the project with the current funded amount"
+                        type="info"
+                        showIcon
+                      />
+                    )
                   ) : (
-                    <Alert
-                      message="You can start the project with the current funded amount"
-                      type="info"
-                      showIcon
-                    />
+                    ''
                   )}
                 </div>
               </div>
@@ -597,8 +601,8 @@ class ConcensusMilestones extends Component {
                 theme={statusMap[confirmationStatus.status]}
               />
             ) : (
-                ''
-              )}
+              ''
+            )}
             <h2>Circles will be checking your funds transfer</h2>
           </div>
         </div>
