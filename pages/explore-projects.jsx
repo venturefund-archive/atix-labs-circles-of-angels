@@ -49,12 +49,10 @@ class ExploreProjects extends React.Component {
   }
 
   goToProjectDetail(projectId) {
-    console.log('HOLA 2');
     Routing.toProjectDetail({ projectId });
   }
 
   goToProjectProgress(projectId) {
-    console.log('HOLA');
     Routing.toProjectProgress({ projectId });
   }
 
