@@ -417,7 +417,7 @@ class ConcensusMilestones extends Component {
                 </div>
               </div>
               {isSocialEntrepreneur &&
-              projectStatus !== ProjectStatus.IN_PROGRESS &&
+              ProjectStatus !== ProjectStatus.IN_PROGRESS &&
               actualAmount > 0 ? (
                 <CustomButton
                   buttonText="Start Project"
