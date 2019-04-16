@@ -33,7 +33,7 @@ const BreadCrumb = query => (
       <a
         onClick={() =>
           Routing.toProjectProgress({
-            projectId: query.projectId
+            projectId: query.query
           })
         }
       >
@@ -179,7 +179,7 @@ class ProjectEvidence extends Component {
           <Header />
           <div className="Content">
             <div className="DataSteps">
-              <BreadCrumb query={(projectName, projectId)} />
+              <BreadCrumb query={projectId} />
               <div className="ProjectInfoHeader">
                 <div className="space-between">
                   <div>
