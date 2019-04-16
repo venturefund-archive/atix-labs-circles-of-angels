@@ -1,6 +1,6 @@
 import React from 'react';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
-
+import { Tag } from 'antd';
 import './_style.scss';
 
 const CardProject = ({
@@ -14,9 +14,11 @@ const CardProject = ({
 }) => (
   <div className="CardProject" onClick={onClick}>
     <div className="ProjectDescription">
-      <img src="./static/images/pimage.jpeg" alt="projectCardImage" />
+    <Tag color="orange">View my activities to verify</Tag>
+      <img src={projectCardImage} alt="projectCardImage" />
       <div className="GradientEfect">
         <div className="DescriptionData">
+        
           <h1>{enterpriceName}</h1>
           <p>{enterpriceMission}</p>
         </div>

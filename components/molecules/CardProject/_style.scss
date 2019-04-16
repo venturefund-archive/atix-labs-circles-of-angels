@@ -19,7 +19,11 @@
     flex-flow: column;
     justify-content: flex-end;
     position: relative;
-
+    .ant-tag{
+      position: absolute;
+    top: 1em;
+    left: 1em;
+    }
     img {
       height: 175px;
       width: 100%;
