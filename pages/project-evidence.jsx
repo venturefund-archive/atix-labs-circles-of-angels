@@ -15,9 +15,14 @@ import {
   getActivity,
   deleteEvidence,
   downloadEvidence,
-  uploadEvidence
+  uploadEvidence,
+  completeActivity
 } from '../api/activityApi';
-import { showModalSuccess, showModalError } from '../components/utils/Modals';
+import {
+  showModalSuccess,
+  showModalError,
+  showModalConfirm
+} from '../components/utils/Modals';
 import FileUploadStatus from '../constants/FileUploadStatus';
 
 const BreadCrumb = query => (
@@ -136,6 +141,23 @@ class ProjectEvidence extends Component {
     }
   };
 
+  handleComplete = async () => {
+    const { activity, projectName, projectId } = this.props;
+    showModalConfirm(
+      'Complete Task',
+      'Do you want complete this task?',
+      async () => {
+        const response = await completeActivity(activity.id);
+        if (response.error)
+          showModalError('Error completing task', response.error);
+        else {
+          showModalSuccess('Success!', 'Task complete');
+          Routing.toProjectProgress({ projectId, projectName });
+        }
+      }
+    );
+  };
+
   render() {
     const { activity, projectName, projectId } = this.props;
 
@@ -213,7 +235,11 @@ class ProjectEvidence extends Component {
                   })
                 }
               />
-              <CustomButton theme="Success" buttonText="Complete Task" />
+              <CustomButton
+                theme="Success"
+                buttonText="Complete Task"
+                onClick={this.handleComplete}
+              />
             </div>
           </div>
         </div>
