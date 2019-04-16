@@ -4,6 +4,8 @@ import { getProject } from '../api/projectApi';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Routing from '../components/utils/Routes';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import ProjectStatus from '../constants/ProjectStatus';
 
 import './_style.scss';
 import './_back-office-projec-detail.scss';
@@ -46,28 +48,48 @@ const columns = [
   }
 ];
 
-const BackofficeProjectDetail = ({ projectDetail }) => (
-  <div className="AppContainer">
-    <SideBar />
-    <div className="MainContent">
-      <Header />
-      <div className="TableContainer">
-        <div className="HeaderProjectDetail">
-          <img
-            src="./static/images/button-arrow-back.svg"
-            onClick={() => Routing.toBackOffice()}
-          />
-          <h1>Project Details</h1>
+class BackofficeProjectDetail extends React.Component {
+  static async getInitialProps({ query }) {
+    const { projectId } = query;
+    const project = (await getProject(projectId)).data;
+    return { projectId, project };
+  }
+
+  render() {
+    const { project } = this.props;
+    console.log(project);
+    return (
+      <div className="AppContainer">
+        <SideBar />
+        <div className="MainContent">
+          <Header />
+          <div className="TableContainer">
+            <div className="HeaderProjectDetail">
+              <img
+                src="./static/images/button-arrow-back.svg"
+                onClick={Routing.goBack}
+              />
+              <h1>Project Details</h1>
+            </div>
+            <Table columns={columns} dataSource={[project]} />
+            {ProjectStatus.IN_PROGRESS === project.status ? (
+              <CustomButton
+                theme="Primary"
+                buttonText="View Progress"
+                onClick={() =>
+                  Routing.toProjectProgress({
+                    projectId: project.id
+                  })
+                }
+              />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
-        <Table columns={columns} dataSource={projectDetail} />
       </div>
-    </div>
-  </div>
-);
-BackofficeProjectDetail.getInitialProps = async ({ query }) => {
-  const { projectId } = query;
-  const project = (await getProject(projectId)).data;
-  return { projectId, projectDetail: [project] };
-};
+    );
+  }
+}
 
 export default BackofficeProjectDetail;
