@@ -16,7 +16,7 @@ const updateActivity = async ({
   tasks
 }) => {
   try {
-    const response = await api.put(`${baseURL}/${id}`, {
+    const activity = {
       budget,
       category,
       impact,
@@ -27,7 +27,8 @@ const updateActivity = async ({
       signsOfSuccess,
       signsOfSuccessCriterion,
       tasks
-    });
+    };
+    const response = await api.put(`${baseURL}/${id}`, { activity });
     return response;
   } catch (error) {
     return { error };
