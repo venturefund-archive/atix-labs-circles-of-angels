@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { message, Divider, Button, Icon } from 'antd';
+import { message, Divider, Button, Icon, Alert } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -380,14 +380,22 @@ class ConcensusMilestones extends Component {
                   <h1>{projectName}</h1>
                 </div>
                 <div className="flex">
-                  <div className="vertical  Data">
-                    <p className="TextBlue">{goalAmount}</p>
-                    <span className="Overline">Goal Amount</span>
+                  <div className="vertical Data">
+                    <Button>
+                      Project Proposal <Icon type="download" />
+                    </Button>
                   </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data">
-                    <p className="TextGray">{actualAmount || 0}</p>
-                    <span className="Overline">Already</span>
+                  <div className="vertical Data">
+                    <Button onClick={this.downloadAgreementClick}>
+                      Download Agreement <Icon type="download" />
+                    </Button>
+                  </div>
+                  <div className="vertical Data">
+                    <ButtonUpload
+                      change={this.changeProjectAgreement}
+                      buttonText="Upload Agreement"
+                      showUploadList={false}
+                    />
                   </div>
                   <Divider type="vertical" />
                   <div className="vertical  Data">
@@ -397,26 +405,29 @@ class ConcensusMilestones extends Component {
                     <span className="Overline">FAQ Document</span>
                   </div>
                   <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <Button>
-                      Proyect Proposal <Icon type="download" />
-                    </Button>
+                  <div className="vertical  Data">
+                    <p className="TextBlue">{goalAmount}</p>
+                    <span className="Overline">Goal Amount</span>
                   </div>
                   <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <Button onClick={this.downloadAgreementClick}>
-                      Download Agreement <Icon type="download" />
-                    </Button>
+                  <div className="vertical  Data">
+                   <p className="TextGray">{actualAmount || 0}</p>
+                    <p className="TextGreen">{actualAmount || 10000}</p>
+                    <span className="Overline">Amounts Pledged</span>
                   </div>
-                  <Divider type="vertical" />
-                  <div className="vertical Data">
-                    <ButtonUpload
-                      change={this.changeProjectAgreement}
-                      buttonText="Upload Agreement"
-                      showUploadList={false}
-                    />
-                  </div>
+                  <Alert
+                message="You can start the project with the current funded amount"
+                type="info"
+                showIcon
+              />
+              {/* Hay que agregar lógica para mostrar un mensaje correcto o uno de información, igual que en actual amount */}
+              <Alert
+                message="You have reached your goal!"
+                type="success"
+                showIcon
+              />
                 </div>
+
               </div>
               {isSocialEntrepreneur &&
                 projectStatus !== ProjectStatus.IN_PROGRESS &&
