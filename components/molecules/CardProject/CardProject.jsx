@@ -18,7 +18,6 @@ const CardProject = ({
       <div className="GradientEfect">
         <div className="DescriptionData">
           <h1>{enterpriseName}</h1>
-          <p>{enterpriceMission}</p>
         </div>
       </div>
     </div>
