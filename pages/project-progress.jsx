@@ -16,6 +16,7 @@ import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import { getOracles } from '../api/userApi';
 import { withUser } from '../components/utils/UserContext';
+
 class ProjectProgress extends React.Component {
   static async getInitialProps(query) {
     const { projectId } = query.query;
