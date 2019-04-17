@@ -10,6 +10,7 @@ import './_create-project.scss';
 const { Step } = Steps;
 
 const changeProjectFile = (project, key, info) => {
+  console.log(info);
   const { status } = info.file;
   const { file } = info;
   if (status === FileUploadStatus.DONE) {
@@ -17,6 +18,8 @@ const changeProjectFile = (project, key, info) => {
     project.files[key] = file;
   } else if (status === FileUploadStatus.ERROR) {
     message.error(`${info.file.name} file upload failed.`);
+  } else if (status === FileUploadStatus.REMOVED) {
+    project.files[key] = {};
   }
 };
 
@@ -24,10 +27,41 @@ class CreateProjectSteps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: 0
+      current: 0,
+      hiddenButtons: {
+        hideButtonCard: false,
+        hideButtonCover: false,
+        hideButtonProposal: false,
+        hideButtonAgreement: false
+      }
     };
-    const { project } = this.props;
+  }
 
+  hideButton = button => {
+    const { hiddenButtons } = this.state;
+    hiddenButtons[button] = true;
+    this.setState({ hiddenButtons });
+  };
+
+  showButton = button => {
+    const { hiddenButtons } = this.state;
+    hiddenButtons[button] = false;
+    this.setState({ hiddenButtons });
+  };
+
+  next = () => {
+    const { current } = this.state;
+    this.setState({ current: current + 1 });
+  };
+
+  prev = () => {
+    const { current } = this.state;
+    this.setState({ current: current - 1 });
+  };
+
+  render() {
+    const { project } = this.props;
+    const { current, hiddenButtons } = this.state;
     this.steps = [
       {
         title: 'Project Details',
@@ -36,6 +70,9 @@ class CreateProjectSteps extends React.Component {
             project={project}
             next={this.next}
             changeProjectFile={changeProjectFile}
+            hiddenButtons={hiddenButtons}
+            showButton={this.showButton}
+            hideButton={this.hideButton}
           />
         )
       },
@@ -55,20 +92,6 @@ class CreateProjectSteps extends React.Component {
         content: <Step3 />
       }
     ];
-  }
-
-  next = () => {
-    const { current } = this.state;
-    this.setState({ current: current + 1 });
-  };
-
-  prev = () => {
-    const { current } = this.state;
-    this.setState({ current: current - 1 });
-  };
-
-  render() {
-    const { current } = this.state;
 
     return (
       <div className="CreateProjectContainer">
