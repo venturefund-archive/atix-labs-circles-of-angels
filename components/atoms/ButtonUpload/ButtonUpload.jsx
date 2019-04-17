@@ -33,7 +33,6 @@ const ButtonUpload = ({
 
   return (
     <Upload {...props}>
-      {console.log('HIDE', hideButton)}
       {!hideButton && (
         <Button>
           {buttonText} <Icon type="upload" />
