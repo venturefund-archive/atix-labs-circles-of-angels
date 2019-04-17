@@ -38,7 +38,7 @@ const SideBar = ({ isBackofficeAdmin }) => (
       <Menu.Item
         key="1"
         onClick={
-          isBackofficeAdmin() ? goToBackOfficeProjects : goToExploreProjects
+          isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
         }
       >
         <Icon type="appstore" />
@@ -46,7 +46,7 @@ const SideBar = ({ isBackofficeAdmin }) => (
       <Menu.Item key="2">
         <Icon type="sliders" />
       </Menu.Item>
-      {isBackofficeAdmin() ? (
+      {isBackofficeAdmin ? (
         <Menu.Item key="3" onClick={goToFundsAdministration}>
           <Icon type="fund" />
         </Menu.Item>
