@@ -26,6 +26,7 @@ import {
   sendTransferInformation
 } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
+import SignStatus from '../constants/SignStatus';
 import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
@@ -366,9 +367,16 @@ class ConcensusMilestones extends Component {
     const { currentStep, confirmationStatus, milestones } = this.state;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
+    const isFunder = user && user.role && user.role.id === Roles.Funder;
+    const signedAgreement = Object.values(userProjects).some(
+      userProject =>
+        userProject.user.id === user.id &&
+        isFunder &&
+        userProject.status === SignStatus.SIGNED
+    );
 
     const Steps = props =>
-      isSocialEntrepreneur ? <StepsSe {...props} /> : <StepsIf {...props} />;
+      !isFunder ? <StepsSe {...props} /> : <StepsIf {...props} />;
 
     const step1 = (
       <div className="ContentStep">
@@ -546,6 +554,7 @@ class ConcensusMilestones extends Component {
               theme="Primary"
               buttonText="Continue"
               onClick={this.nextStep}
+              disabled={!signedAgreement}
             />
           ) : (
             ''
