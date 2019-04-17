@@ -70,7 +70,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         <div className="ActionButtons">
           <CustomButton
             theme="Primary"
-            buttonText="confirm"
+            buttonText="Confirm"
             onClick={async () =>
               handleConfirm(confirmProject, projectId, collection, index)
             }
