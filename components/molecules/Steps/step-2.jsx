@@ -55,7 +55,6 @@ class Step2 extends React.Component {
     this.verifyingFile();
     const res = await createProject(newProject, files, ownerId);
 
-    console.log(res);
     if (res.status === 200) {
       next();
     } else if (res.error.response.data.error) {
@@ -116,13 +115,15 @@ class Step2 extends React.Component {
     return (
       <div className="StepContent">
         <div className="DataSteps">
-        <div className="StepDescription">
+          <div className="StepDescription">
             <p className="LabelSteps">Project Milestones</p>
             <h3>
-            Upload an Excel document with your project plan with your milestones and activities and their details.
-You can also download a Project Milestone Template to fill in the project plan information
-        </h3>
-        </div>
+              Upload an Excel document with your project plan with your
+              milestones and activities and their details. You can also download
+              a Project Milestone Template to fill in the project plan
+              information
+            </h3>
+          </div>
           <div className="ProjectDataContainer">
             <DownloadTemplate
               click={this.clickDownloadMilestonesTemplate}
@@ -144,18 +145,18 @@ You can also download a Project Milestone Template to fill in the project plan i
               />
             </div>
           </div>
-          </div>
-          <div className="ControlSteps">
-            <Button style={{ marginRight: 8 }} onClick={prev}>
-              Previous
-            </Button>
-            <Button
-              type="primary"
-              onClick={this.submitProject}
-              disabled={!creationStatus}
-            >
-              Continue
-            </Button>
+        </div>
+        <div className="ControlSteps">
+          <Button style={{ marginRight: 8 }} onClick={prev}>
+            Previous
+          </Button>
+          <Button
+            type="primary"
+            onClick={this.submitProject}
+            disabled={!creationStatus}
+          >
+            Continue
+          </Button>
         </div>
       </div>
     );

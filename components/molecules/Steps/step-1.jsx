@@ -46,9 +46,9 @@ class Step1 extends React.Component {
     return (
       <div className="StepContent">
         <div className="DataSteps">
-        <div className="StepDescription">
-          <p className="LabelSteps">Step 1</p>
-          <h3>Complete Project Details</h3>
+          <div className="StepDescription">
+            <p className="LabelSteps">Step 1</p>
+            <h3>Complete Project Details</h3>
           </div>
           <div className="ProjectDataContainer">
             <h3 className="CreateSubtitle">Project's Details</h3>

@@ -10,7 +10,6 @@ import './_create-project.scss';
 const { Step } = Steps;
 
 const changeProjectFile = (project, key, info) => {
-  console.log(info);
   const { status } = info.file;
   const { file } = info;
   if (status === FileUploadStatus.DONE) {
