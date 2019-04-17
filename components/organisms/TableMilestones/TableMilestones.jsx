@@ -2,7 +2,6 @@ import React from 'react';
 import { Table, Select, Divider } from 'antd';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
-import Roles from '../../../constants/RolesMap';
 
 class TableMilestones extends React.Component {
   constructor(props) {
@@ -26,6 +25,13 @@ class TableMilestones extends React.Component {
     } = this.props;
 
     this.columns = [
+      {
+        dataIndex: 'id',
+        key: 'id',
+        editable: false,
+        render: null,
+        defaultSortOrder: 'ascend'
+      },
       {
         title: 'Timeline',
         dataIndex: 'quarter',
@@ -79,25 +85,25 @@ class TableMilestones extends React.Component {
       {
         title: '/ Social Impact Targets',
         dataIndex: 'impact',
-        key: 'targets',
+        key: 'impact',
         editable: true,
         width: 200
       },
       {
         title: 'Review Criterion',
         dataIndex: 'impactCriterion',
-        key: 'ReviewOne',
+        key: 'impactCriterion',
         editable: true
       },
       {
         title: 'Signs of Success',
-        key: 'success',
+        key: 'signsOfSuccess',
         dataIndex: 'signsOfSuccess',
         editable: true
       },
       {
         title: 'Review Criterion ',
-        key: 'ReviewTwo',
+        key: 'signsOfSuccessCriterion',
         dataIndex: 'signsOfSuccessCriterion',
         editable: true
       },
@@ -132,7 +138,14 @@ class TableMilestones extends React.Component {
             <div>
               {editable ? (
                 <span className="flex">
-                  <a onClick={() => onEdit(record, this.actualField)}>Save</a>
+                  <a
+                    onClick={() => {
+                      onEdit(index, this.actualField);
+                      this.setState({ editingKey: '' });
+                    }}
+                  >
+                    Save
+                  </a>
                   <Divider type="vertical" />
                   <a onClick={() => this.cancelEdit(index)}>Cancel</a>
                 </span>
@@ -209,6 +222,7 @@ class TableMilestones extends React.Component {
         dataSource={dataSource}
         scroll={{ x: 1300 }}
         className="TableMilestones"
+        defaultSortOrder="ascend"
       />
     );
   }

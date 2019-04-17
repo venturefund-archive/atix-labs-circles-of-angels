@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import { isEmpty } from 'lodash';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 
@@ -7,6 +8,10 @@ import './_style.scss';
 
 const webform = {
   form: {}
+};
+
+const getValidFile = file => {
+  return !isEmpty(file) ? [file] : false;
 };
 
 class Step1 extends React.Component {
@@ -31,7 +36,6 @@ class Step1 extends React.Component {
 
   render() {
     const { project, changeProjectFile } = this.props;
-
     return (
       <div className="StepContent">
         <div className="DataSteps">
@@ -52,6 +56,7 @@ class Step1 extends React.Component {
               change={info =>
                 changeProjectFile(project, 'projectCardPhoto', info)
               }
+              defaultFileList={getValidFile(project.files.projectCardPhoto)}
             />
             <BlockUpload
               subtitle="Project's Cover Image"
@@ -62,6 +67,7 @@ class Step1 extends React.Component {
               change={info =>
                 changeProjectFile(project, 'projectCoverPhoto', info)
               }
+              defaultFileList={getValidFile(project.files.projectCoverPhoto)}
             />
             <BlockUpload
               subtitle="Project Proposal"
@@ -72,6 +78,7 @@ class Step1 extends React.Component {
               change={info =>
                 changeProjectFile(project, 'projectProposal', info)
               }
+              defaultFileList={getValidFile(project.files.projectProposal)}
             />
             <BlockUpload
               subtitle="Project Agreement"
@@ -82,6 +89,7 @@ class Step1 extends React.Component {
               change={info =>
                 changeProjectFile(project, 'projectAgreement', info)
               }
+              defaultFileList={getValidFile(project.files.projectAgreement)}
             />
           </div>
         </div>

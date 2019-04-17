@@ -17,16 +17,18 @@ const updateActivity = async ({
 }) => {
   try {
     const response = await api.put(`${baseURL}/${id}`, {
-      budget,
-      category,
-      impact,
-      impactCriterion,
-      keyPersonnel,
-      project,
-      quarter,
-      signsOfSuccess,
-      signsOfSuccessCriterion,
-      tasks
+      activity: {
+        budget,
+        category,
+        impact,
+        impactCriterion,
+        keyPersonnel,
+        project,
+        quarter,
+        signsOfSuccess,
+        signsOfSuccessCriterion,
+        tasks
+      }
     });
     return response;
   } catch (error) {

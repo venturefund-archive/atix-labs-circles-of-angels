@@ -8,7 +8,8 @@ const ButtonUpload = ({
   name,
   typeAccepts,
   buttonText,
-  showUploadList
+  showUploadList,
+  defaultFileList
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -21,7 +22,8 @@ const ButtonUpload = ({
     customRequest: dummyRequest,
     onChange: change,
     accept: typeAccepts,
-    showUploadList
+    showUploadList,
+    defaultFileList
   };
 
   return (
