@@ -5,7 +5,7 @@ import './_style.scss';
 
 const { Dragger } = Upload;
 
-const DragUploadFile = ({ change, text, description }) => {
+const DragUploadFile = ({ change, text, description, accept }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -16,7 +16,8 @@ const DragUploadFile = ({ change, text, description }) => {
     name: 'file',
     multiple: false,
     customRequest: dummyRequest,
-    onChange: change
+    onChange: change,
+    accept
   };
 
   return (
