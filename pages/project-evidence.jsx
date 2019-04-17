@@ -224,6 +224,7 @@ class ProjectEvidence extends Component {
                 text="Upload Evidence for this task"
                 description="Click or drag your file here"
                 change={this.handleUpload}
+                accept=".pdf, .ppt, .docx, .doc, image/*"
               />
               <CustomButton
                 theme="Primary"
