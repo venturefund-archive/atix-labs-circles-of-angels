@@ -33,7 +33,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       key: 'milestones',
       render: projectId => (
         <Button onClick={() => downloadMilestones(projectId)}>
-          Download Excel File" <Icon type="download" />
+          Download Excel File <Icon type="download" />
         </Button>
       )
     },
