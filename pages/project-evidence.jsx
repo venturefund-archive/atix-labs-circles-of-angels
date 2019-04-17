@@ -184,10 +184,10 @@ class ProjectEvidence extends Component {
       user
     } = this.props;
 
-    const isActivityOracle = isOracle && user.id === activity.oracle.id;
+    const isActivityOracle = isOracle && user.id === activity.oracle.user.id;
+
     const completedActivity =
       activity.status === MilestoneActivityStatus.COMPLETED;
-    console.log(activity);
     return (
       <div className="AppContainer">
         <SideBar />
