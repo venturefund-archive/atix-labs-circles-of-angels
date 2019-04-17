@@ -6,7 +6,6 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 const DownloadTemplate = ({ subtitle, text, click }) => (
   <div className="DownloadTemplateContainer">
       <p className="Title">{subtitle}</p>
-      <p>{text}</p>
     <Button onClick={click}>
       Download Excel File <Icon type="download" />
     </Button>

@@ -82,7 +82,7 @@ class BackofficeProjectDetail extends React.Component {
                 src="./static/images/button-arrow-back.svg"
                 onClick={Routing.goBack}
               />
-              <h1>Project Details</h1>
+              <h1>Project Detailss</h1>
             </div>
             <Table
               columns={columns}

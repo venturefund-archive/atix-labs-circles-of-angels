@@ -65,7 +65,7 @@ class ProjectDetail extends React.Component {
     const itemsData = projectDetail
       ? [
           {
-            subtitle: 'Enterprise Location',
+            subtitle: 'Country of Impact',
             title: projectDetail.location,
             iconItem: 'environment'
           },
@@ -130,7 +130,7 @@ class ProjectDetail extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="SubmitProject">
+            <div className="SubmitProject StepOne">
               <CustomButton
                 buttonText="Go to project"
                 theme="Success"

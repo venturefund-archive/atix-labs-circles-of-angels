@@ -8,7 +8,7 @@
   box-shadow: $shadow;
   padding: 2em;
   margin-top: 1.5em;
-
+  text-align: center;
   h2 {
     @include primary-text($h2, $secondary-color, 400);
     margin: 0;

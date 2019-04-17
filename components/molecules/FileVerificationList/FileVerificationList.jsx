@@ -9,13 +9,15 @@ const FileVerificationList = ({ status, errors }) => {
 
   return (
     <div className="FileVerification">
-      <Icon
+    <div className="center">
+    <Icon
         type={iconType}
         theme="twoTone"
         twoToneColor={iconColor}
         className="IconVerify"
       />
       <h2>File Verification</h2>
+    </div>
       <ul>
         {errors.map((item, i) => (
           <li key={i}>
