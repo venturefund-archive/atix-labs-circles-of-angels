@@ -15,6 +15,10 @@ const goToFundsAdministration = () => {
   Routing.toFundAdministration();
 };
 
+const goToBackOfficeProjects = () => {
+  Routing.toBackOffice();
+};
+
 const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
     width="50"
@@ -31,7 +35,12 @@ const SideBar = ({ isBackofficeAdmin }) => (
       <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
     </div>
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-      <Menu.Item key="1" onClick={goToExploreProjects}>
+      <Menu.Item
+        key="1"
+        onClick={
+          isBackofficeAdmin() ? goToBackOfficeProjects : goToExploreProjects
+        }
+      >
         <Icon type="appstore" />
       </Menu.Item>
       <Menu.Item key="2">
