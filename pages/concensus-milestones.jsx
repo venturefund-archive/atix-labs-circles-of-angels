@@ -381,7 +381,7 @@ class ConcensusMilestones extends Component {
                 </div>
                 <div className="flex">
                   <div className="vertical Data">
-                    <Button>
+                    <Button onClick={this.clickDownloadProposal}>
                       Project Proposal <Icon type="download" />
                     </Button>
                   </div>
