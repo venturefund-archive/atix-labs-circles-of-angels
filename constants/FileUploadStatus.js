@@ -1,7 +1,8 @@
 const FileUploadStatus = {
   UPLOADING: 'uploading',
   DONE: 'done',
-  ERROR: 'error'
+  ERROR: 'error',
+  REMOVED: 'removed'
 };
 
 export default FileUploadStatus;

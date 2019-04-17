@@ -15,10 +15,15 @@ const fieldsName = {
   faqLink: 'faqLink'
 };
 
+const requiredField = {
+  required: true,
+  message: 'This field is required'
+};
+
 class WebFormProject extends React.Component {
   componentDidMount() {
     const { form, webform, project } = this.props;
-    console.log(this.props)
+    console.log(this.props);
     form.setFieldsValue({ ...project.data });
     webform.form = form;
   }
@@ -66,10 +71,7 @@ class WebFormProject extends React.Component {
             <Form.Item>
               {getFieldDecorator(fieldsName.projectName, {
                 rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  },
+                  requiredField,
                   {
                     max: 50,
                     message: 'Project name is too long! (max. 50)'
@@ -87,12 +89,7 @@ class WebFormProject extends React.Component {
 
             <Form.Item>
               {getFieldDecorator(fieldsName.location, {
-                rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  }
-                ]
+                rules: [requiredField]
               })(
                 <Input
                   placeholder="Country of Impact"
@@ -104,33 +101,22 @@ class WebFormProject extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator(fieldsName.timeframe, {
-                rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  }
-                ]
+                rules: [requiredField]
               })(
                 <Input
                   placeholder="Project Duration"
                   prefix={
-                                        <Icon
-  type="calendar"
-  style={{ color: 'rgba(0,0,0,.25)' }}
-/>
+                    <Icon
+                      type="calendar"
+                      style={{ color: 'rgba(0,0,0,.25)' }}
+                    />
                   }
                 />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator(fieldsName.goalAmount, {
-                rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  },
-                  { validator: this.checkAmount }
-                ]
+                rules: [requiredField, { validator: this.checkAmount }]
               })(
                 <Input
                   placeholder="Goal Amount"
@@ -146,12 +132,7 @@ class WebFormProject extends React.Component {
           <div className="form-section">
             <Form.Item className="TextArea">
               {getFieldDecorator(fieldsName.mission, {
-                rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  }
-                ]
+                rules: [requiredField]
               })(
                 <TextArea
                   placeholder="Share your Project mission, the impact you have made so far and what your project is about"
@@ -163,12 +144,7 @@ class WebFormProject extends React.Component {
             </Form.Item>
             <Form.Item className="TextArea">
               {getFieldDecorator(fieldsName.problemAddressed, {
-                rules: [
-                  {
-                    required: true,
-                    message: 'This fill is required'
-                  }
-                ]
+                rules: [requiredField]
               })(
                 <TextArea
                   placeholder="Share with us the problem that you are tackling, what you are trying to solve and how the funds will help support your goal"
@@ -181,12 +157,7 @@ class WebFormProject extends React.Component {
           </div>
           <Form.Item>
             {getFieldDecorator(fieldsName.faqLink, {
-              rules: [
-                {
-                  required: true,
-                  message: 'This fill is required'
-                }
-              ]
+              rules: [requiredField]
             })(
               <Input
                 placeholder="FAQ Google Doc Link"

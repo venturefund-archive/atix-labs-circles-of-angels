@@ -16,8 +16,10 @@ class Step2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      creationStatus: 1, // 1: Pending, 0: Error
-      milestonesErrors: []
+      creationStatus: false,
+      milestonesErrors: [],
+      uploadDisable: false,
+      verifying: false
     };
   }
 
@@ -50,18 +52,21 @@ class Step2 extends React.Component {
       ...project.data,
       goalAmount: parseFloat(project.data.goalAmount)
     };
-    console.log(newProject, files);
+    this.verifyingFile();
     const res = await createProject(newProject, files, ownerId);
 
-    console.log(res);
     if (res.status === 200) {
       next();
     } else if (res.error.response.data.error) {
       alert(res.error.response.data.error);
-      this.setState({ creationStatus: 0 });
+      this.setState({ creationStatus: false });
     } else if (res.error.response.data.errors) {
-      this.setState({ milestonesErrors: res.error.response.data.errors });
-      this.setState({ creationStatus: 0 });
+      this.setState({
+        milestonesErrors: res.error.response.data.errors,
+        creationStatus: false,
+        uploadDisable: true,
+        verifying: false
+      });
     }
   };
 
@@ -75,24 +80,50 @@ class Step2 extends React.Component {
     if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully.`);
       project.files.projectMilestones = projectMilestones;
+      this.setState({ uploadDisable: true, creationStatus: true });
     } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
 
+  verifyingFile = () => {
+    this.setState({
+      uploadDisable: true,
+      verifying: true,
+      creationStatus: false
+    });
+  };
+
+  enabledUpload = () => {
+    const { project } = this.props;
+    project.files.projectMilestones = [];
+    this.setState({
+      milestonesErrors: [],
+      creationStatus: false,
+      uploadDisable: false
+    });
+  };
+
   render() {
     const { prev } = this.props;
-    const { creationStatus, milestonesErrors } = this.state;
+    const {
+      creationStatus,
+      milestonesErrors,
+      uploadDisable,
+      verifying
+    } = this.state;
     return (
       <div className="StepContent">
         <div className="DataSteps">
-        <div className="StepDescription">
+          <div className="StepDescription">
             <p className="LabelSteps">Project Milestones</p>
             <h3>
-            Upload an Excel document with your project plan with your milestones and activities and their details.
-You can also download a Project Milestone Template to fill in the project plan information
-        </h3>
-        </div>
+              Upload an Excel document with your project plan with your
+              milestones and activities and their details. You can also download
+              a Project Milestone Template to fill in the project plan
+              information
+            </h3>
+          </div>
           <div className="ProjectDataContainer">
             <DownloadTemplate
               click={this.clickDownloadMilestonesTemplate}
@@ -104,21 +135,28 @@ You can also download a Project Milestone Template to fill in the project plan i
                 change={this.changeMilestones}
                 text="Complete Excel and upload to create Milestones"
                 description="Click or drag your Excel file here"
+                remove={this.enabledUpload}
+                disabled={uploadDisable}
+                showUploadList={{ showRemoveIcon: !verifying }}
               />
               <FileVerificationList
-                status={creationStatus}
                 errors={milestonesErrors}
+                loading={verifying}
               />
             </div>
           </div>
-          </div>
-          <div className="ControlSteps">
-            <Button style={{ marginRight: 8 }} onClick={prev}>
-              Previous
-            </Button>
-            <Button type="primary" onClick={this.submitProject}>
-              Continue
-            </Button>
+        </div>
+        <div className="ControlSteps">
+          <Button style={{ marginRight: 8 }} onClick={prev}>
+            Previous
+          </Button>
+          <Button
+            type="primary"
+            onClick={this.submitProject}
+            disabled={!creationStatus}
+          >
+            Continue
+          </Button>
         </div>
       </div>
     );

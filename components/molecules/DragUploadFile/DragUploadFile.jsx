@@ -1,11 +1,19 @@
 import React from 'react';
-import { Upload, Icon, message } from 'antd';
+import { Upload, Icon } from 'antd';
 
 import './_style.scss';
 
 const { Dragger } = Upload;
 
-const DragUploadFile = ({ change, text, description, accept }) => {
+const DragUploadFile = ({
+  change,
+  text,
+  description,
+  accept,
+  remove,
+  disabled,
+  showUploadList
+}) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
@@ -17,7 +25,10 @@ const DragUploadFile = ({ change, text, description, accept }) => {
     multiple: false,
     customRequest: dummyRequest,
     onChange: change,
-    accept
+    accept,
+    onRemove: remove,
+    disabled,
+    showUploadList
   };
 
   return (

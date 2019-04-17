@@ -9,7 +9,10 @@ const BlockUpload = ({
   name,
   buttonText,
   typeAccepts,
-  defaultFileList
+  defaultFileList,
+  hideButton,
+  remove,
+  beforeUpload
 }) => (
   <div className="UploadImageContainer">
     <div>
@@ -22,6 +25,9 @@ const BlockUpload = ({
       buttonText={buttonText}
       typeAccepts={typeAccepts}
       defaultFileList={defaultFileList}
+      hideButton={hideButton}
+      onRemove={remove}
+      beforeUpload={beforeUpload}
     />
   </div>
 );
