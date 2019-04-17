@@ -24,7 +24,10 @@ export const withUser = ComponentToWrap => {
         changeUser,
         removeUser,
         getLoggedUser,
-        isBackofficeAdmin
+        isBackofficeAdmin,
+        isSocialEntrepreneur,
+        isFunder,
+        isOracle
       } = this.context;
       return (
         <ComponentToWrap
@@ -34,6 +37,9 @@ export const withUser = ComponentToWrap => {
           removeUser={removeUser}
           getLoggedUser={getLoggedUser}
           isBackofficeAdmin={isBackofficeAdmin}
+          isSocialEntrepreneur={isSocialEntrepreneur}
+          isFunder={isFunder}
+          isOracle={isOracle}
         />
       );
     }
@@ -73,11 +79,6 @@ export class UserProvider extends React.Component {
     return user;
   };
 
-  isBackofficeAdmin = () => {
-    const { user } = this.state;
-    return user && user.role && user.role.id === Roles.BackofficeAdmin;
-  };
-
   render() {
     const { user } = this.state;
     const { children } = this.props;
@@ -88,7 +89,12 @@ export class UserProvider extends React.Component {
           changeUser: this.changeUser,
           removeUser: this.removeUser,
           getLoggedUser: this.getLoggedUser,
-          isBackofficeAdmin: this.isBackofficeAdmin
+          isBackofficeAdmin:
+            user && user.role && user.role.id === Roles.BackofficeAdmin,
+          isSocialEntrepreneur:
+            user && user.role && user.role.id === Roles.SocialEntrepreneur,
+          isFunder: user && user.role && user.role.id === Roles.Funder,
+          isOracle: user && user.role && user.role.id === Roles.Oracle
         }}
       >
         {children}

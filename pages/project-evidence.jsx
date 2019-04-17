@@ -26,6 +26,9 @@ import {
 } from '../components/utils/Modals';
 import FileUploadStatus from '../constants/FileUploadStatus';
 import FileType from '../constants/FileTypes';
+import { withUser } from '../components/utils/UserContext';
+import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import { isEmpty } from 'lodash';
 
 const BreadCrumb = query => (
   <Breadcrumb>
@@ -154,7 +157,7 @@ class ProjectEvidence extends Component {
   };
 
   handleComplete = async () => {
-    const { activity, projectId } = this.props;
+    const { activity } = this.props;
     showModalConfirm(
       'Complete Task',
       'Do you want to complete this task?',
@@ -171,8 +174,20 @@ class ProjectEvidence extends Component {
   };
 
   render() {
-    const { activity, projectName, projectId } = this.props;
+    const {
+      activity,
+      projectName,
+      projectId,
+      isSocialEntrepreneur,
+      isBackofficeAdmin,
+      isOracle,
+      user
+    } = this.props;
 
+    const isActivityOracle = isOracle && user.id === activity.oracle.id;
+    const completedActivity =
+      activity.status === MilestoneActivityStatus.COMPLETED;
+    console.log(activity);
     return (
       <div className="AppContainer">
         <SideBar />
@@ -219,18 +234,28 @@ class ProjectEvidence extends Component {
                 </div>
               </div>
               <Divider />
-              <Label labelText="Upload Evidence" theme="LabelBlue" />
-              <DragUploadFile
-                text="Upload Evidence for this task"
-                description="Click or drag your file here"
-                change={this.handleUpload}
-                accept=".pdf, .ppt, .docx, .doc, image/*"
-              />
-              <CustomButton
-                theme="Primary"
-                buttonText="Upload"
-                onClick={this.uploadFiles}
-              />
+
+              {(isBackofficeAdmin ||
+                isSocialEntrepreneur ||
+                isActivityOracle) &&
+              !completedActivity ? (
+                <div>
+                  <Label labelText="Upload Evidence" theme="LabelBlue" />
+                  <DragUploadFile
+                    text="Upload Evidence for this task"
+                    description="Click or drag your file here"
+                    change={this.handleUpload}
+                    accept=".pdf, .ppt, .docx, .doc, image/*"
+                  />
+                  <CustomButton
+                    theme="Primary"
+                    buttonText="Upload"
+                    onClick={this.uploadFiles}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
               <TableEvidence
                 data={activity.evidence}
                 onDelete={this.handleDelete}
@@ -243,11 +268,17 @@ class ProjectEvidence extends Component {
                 buttonText="Back"
                 onClick={this.goToProjectProgress}
               />
-              <CustomButton
-                theme="Success"
-                buttonText="Complete Task"
-                onClick={this.handleComplete}
-              />
+              {isActivityOracle &&
+              !completedActivity &&
+              !isEmpty(activity.evidence) ? (
+                <CustomButton
+                  theme="Success"
+                  buttonText="Complete Task"
+                  onClick={this.handleComplete}
+                />
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </div>
@@ -256,4 +287,4 @@ class ProjectEvidence extends Component {
   }
 }
 
-export default ProjectEvidence;
+export default withUser(ProjectEvidence);

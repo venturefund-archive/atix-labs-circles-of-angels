@@ -66,7 +66,7 @@ class ProjectProgress extends React.Component {
               <Breadcrumb.Item>
                 <a
                   onClick={() => {
-                    if (isBackofficeAdmin()) Routing.goBack();
+                    if (isBackofficeAdmin) Routing.goBack();
                     else Routing.toProjectDetail({ projectId });
                   }}
                 >
