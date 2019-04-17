@@ -35,13 +35,20 @@ class Step1 extends React.Component {
   };
 
   render() {
-    const { project, changeProjectFile } = this.props;
+    const {
+      project,
+      changeProjectFile,
+      hiddenButtons,
+      hideButton,
+      showButton
+    } = this.props;
+
     return (
       <div className="StepContent">
         <div className="DataSteps">
-        <div className="StepDescription">
-          <p className="LabelSteps">Step 1</p>
-          <h3>Complete Project Details</h3>
+          <div className="StepDescription">
+            <p className="LabelSteps">Step 1</p>
+            <h3>Complete Project Details</h3>
           </div>
           <div className="ProjectDataContainer">
             <h3 className="CreateSubtitle">Project's Details</h3>
@@ -59,6 +66,9 @@ class Step1 extends React.Component {
                 changeProjectFile(project, 'projectCardPhoto', info)
               }
               defaultFileList={getValidFile(project.files.projectCardPhoto)}
+              hideButton={hiddenButtons.hideButtonCard}
+              beforeUpload={() => hideButton('hideButtonCard')}
+              remove={() => showButton('hideButtonCard')}
             />
             <BlockUpload
               subtitle="Project's Cover Image"
@@ -70,6 +80,9 @@ class Step1 extends React.Component {
                 changeProjectFile(project, 'projectCoverPhoto', info)
               }
               defaultFileList={getValidFile(project.files.projectCoverPhoto)}
+              hideButton={hiddenButtons.hideButtonCover}
+              beforeUpload={() => hideButton('hideButtonCover')}
+              remove={() => showButton('hideButtonCover')}
             />
             <BlockUpload
               subtitle="Project Proposal"
@@ -81,6 +94,9 @@ class Step1 extends React.Component {
                 changeProjectFile(project, 'projectProposal', info)
               }
               defaultFileList={getValidFile(project.files.projectProposal)}
+              hideButton={hiddenButtons.hideButtonProposal}
+              beforeUpload={() => hideButton('hideButtonProposal')}
+              remove={() => showButton('hideButtonProposal')}
             />
             <BlockUpload
               subtitle="Project Agreement"
@@ -92,6 +108,9 @@ class Step1 extends React.Component {
                 changeProjectFile(project, 'projectAgreement', info)
               }
               defaultFileList={getValidFile(project.files.projectAgreement)}
+              hideButton={hiddenButtons.hideButtonAgreement}
+              beforeUpload={() => hideButton('hideButtonAgreement')}
+              remove={() => showButton('hideButtonAgreement')}
             />
           </div>
         </div>

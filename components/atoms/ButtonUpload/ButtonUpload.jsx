@@ -9,7 +9,10 @@ const ButtonUpload = ({
   typeAccepts,
   buttonText,
   showUploadList,
-  defaultFileList
+  defaultFileList,
+  hideButton,
+  onRemove,
+  beforeUpload
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -23,14 +26,18 @@ const ButtonUpload = ({
     onChange: change,
     accept: typeAccepts,
     showUploadList,
-    defaultFileList
+    defaultFileList,
+    onRemove,
+    beforeUpload
   };
 
   return (
     <Upload {...props}>
-      <Button>
-        {buttonText} <Icon type="upload" />
-      </Button>
+      {!hideButton && (
+        <Button>
+          {buttonText} <Icon type="upload" />
+        </Button>
+      )}
     </Upload>
   );
 };
