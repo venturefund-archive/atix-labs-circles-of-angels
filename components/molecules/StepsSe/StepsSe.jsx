@@ -4,11 +4,11 @@ import './_style.scss';
 
 const { Step } = Steps;
 
-const StepsSe = () => (
+const StepsSe = ({ stepNumber }) => (
   <div className="StepsContainer">
-    <Steps progressDot current={0}>
-      <Step />
-      <Step />
+    <Steps progressDot size="small" current={stepNumber}>
+      <Step title="Consensus" />
+      <Step title="Signatories" />
     </Steps>
   </div>
 );

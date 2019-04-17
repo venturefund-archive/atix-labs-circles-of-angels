@@ -33,7 +33,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       key: 'milestones',
       render: projectId => (
         <Button onClick={() => downloadMilestones(projectId)}>
-          Download Excel File" <Icon type="download" />
+          Download Excel File <Icon type="download" />
         </Button>
       )
     },
@@ -70,7 +70,7 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         <div className="ActionButtons">
           <CustomButton
             theme="Primary"
-            buttonText="confirm"
+            buttonText="Confirm"
             onClick={async () =>
               handleConfirm(confirmProject, projectId, collection, index)
             }

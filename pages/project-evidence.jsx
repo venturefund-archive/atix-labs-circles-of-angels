@@ -25,6 +25,7 @@ import {
   showModalConfirm
 } from '../components/utils/Modals';
 import FileUploadStatus from '../constants/FileUploadStatus';
+import FileType from '../constants/FileTypes';
 
 const BreadCrumb = query => (
   <Breadcrumb>
@@ -79,7 +80,7 @@ class ProjectEvidence extends Component {
 
     const response = await deleteEvidence(
       activity.id,
-      record.file,
+      record.fileType === FileType.PHOTO ? record.photo : record.file,
       record.fileType
     );
 
@@ -102,7 +103,7 @@ class ProjectEvidence extends Component {
     const { activity } = this.props;
     const response = await downloadEvidence(
       activity.id,
-      record.file,
+      record.fileType === FileType.PHOTO ? record.photo : record.file,
       record.fileType
     );
 
@@ -223,6 +224,7 @@ class ProjectEvidence extends Component {
                 text="Upload Evidence for this task"
                 description="Click or drag your file here"
                 change={this.handleUpload}
+                accept=".pdf, .ppt, .docx, .doc, image/*"
               />
               <CustomButton
                 theme="Primary"

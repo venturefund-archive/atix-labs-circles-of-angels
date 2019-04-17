@@ -27,6 +27,7 @@ import {
   sendTransferInformation
 } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
+import SignStatus from '../constants/SignStatus';
 import transferStatusMap from '../model/transferStatus';
 import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
@@ -49,6 +50,7 @@ import {
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
+import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import ProjectStatus from '../constants/ProjectStatus';
 import LottieFiles from '../components/molecules/LottieFiles';
@@ -63,7 +65,7 @@ const statusMap = {
 class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
-
+    const { milestones } = props;
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
@@ -155,9 +157,13 @@ class ConcensusMilestones extends Component {
     else assignOracleToActivity(userId, activityId);
   };
 
-  save = async (record, actualField) => {
+  goToConcensusMilestones = () => {
+    const { projectId, initialStep } = this.props;
+    Routing.toConsensusMilestones({ projectId, initialStep });
+  };
+
+  save = async (index, actualField) => {
     const isActivity = Boolean(actualField.data.milestone);
-    console.log(record, actualField.data);
     const response = isActivity
       ? await updateActivity(actualField.data)
       : await updateMilestone(actualField.data);
@@ -171,7 +177,9 @@ class ConcensusMilestones extends Component {
         : error.message;
       showModalError(title, content);
     }
-    record = actualField.data;
+    const { milestones } = this.state;
+    milestones[index] = actualField.data;
+    this.setState({ milestones });
   };
 
   deleteTask = async task => {
@@ -243,7 +251,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -290,7 +298,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -304,7 +312,7 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async () => {
-    const { user, faqLink, projectId, projectName } = this.props;
+    const { user, projectId } = this.props;
     const response = await signAgreement(user.id, projectId);
 
     // reload page
@@ -361,10 +369,20 @@ class ConcensusMilestones extends Component {
     const { currentStep, confirmationStatus, milestones } = this.state;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
+    const isFunder = user && user.role && user.role.id === Roles.Funder;
+    const signedAgreement = Object.values(userProjects).some(
+      userProject =>
+        userProject.user.id === user.id &&
+        isFunder &&
+        userProject.status === SignStatus.SIGNED
+    );
+
+    const Steps = props =>
+      !isFunder ? <StepsSe {...props} /> : <StepsIf {...props} />;
 
     const step1 = (
       <div className="ContentStep">
-        <StepsIf stepNumber={0} />
+        <Steps stepNumber={0} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Consensus Step</p>
@@ -380,7 +398,6 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-
               <CustomButton
                 buttonText="Start Project"
                 theme="Primary"
@@ -469,8 +486,8 @@ class ConcensusMilestones extends Component {
     );
 
     const step2 = (
-      <div className="ContentStep">
-        <StepsIf stepNumber={1} />
+      <div>
+        <Steps stepNumber={1} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Signatories Step</p>
@@ -496,7 +513,7 @@ class ConcensusMilestones extends Component {
                 <SignatoryItem
                   key={userProject.id}
                   userId={userProject.user.id}
-                  loggedUserId={user.id}
+                  loggedUser={user}
                   username={userProject.user.username}
                   tfStatusShow={transferStatusMap[userTransfer.state].show}
                   tfStatusIcon={transferStatusMap[userTransfer.state].icon}
@@ -522,18 +539,23 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
 
-          <CustomButton
-            theme="Primary"
-            buttonText="Continue"
-            onClick={this.nextStep}
-          />
+          {!isSocialEntrepreneur ? (
+            <CustomButton
+              theme="Primary"
+              buttonText="Continue"
+              onClick={this.nextStep}
+              disabled={!signedAgreement}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     );
 
     const step3 = (
-      <div className="ContentStep">
-        <StepsIf stepNumber={2} />
+      <div>
+        <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Funding Step</p>
@@ -573,8 +595,8 @@ class ConcensusMilestones extends Component {
     );
 
     const confirmationStep = (
-      <div className="ContentStep">
-        <StepsIf stepNumber={2} />
+      <div>
+        <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Funding Step</p>

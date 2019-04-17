@@ -8,7 +8,8 @@ const BlockUpload = ({
   change,
   name,
   buttonText,
-  typeAccepts
+  typeAccepts,
+  defaultFileList
 }) => (
   <div className="UploadImageContainer">
     <div>
@@ -20,6 +21,7 @@ const BlockUpload = ({
       name={name}
       buttonText={buttonText}
       typeAccepts={typeAccepts}
+      defaultFileList={defaultFileList}
     />
   </div>
 );
