@@ -26,13 +26,6 @@ class TableMilestones extends React.Component {
 
     this.columns = [
       {
-        dataIndex: 'id',
-        key: 'id',
-        editable: false,
-        render: null,
-        defaultSortOrder: 'ascend'
-      },
-      {
         title: 'Timeline',
         dataIndex: 'quarter',
         key: 'quarter',
@@ -123,7 +116,8 @@ class TableMilestones extends React.Component {
         title: 'Budget needed',
         key: 'budget',
         dataIndex: 'budget',
-        editable: true
+        editable: true,
+        sorter: (a, b) => a.id - b.id
       }
     ];
     const forSocialEntrepreneur = [
