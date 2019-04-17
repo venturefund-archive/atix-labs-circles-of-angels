@@ -25,6 +25,7 @@ import {
   showModalConfirm
 } from '../components/utils/Modals';
 import FileUploadStatus from '../constants/FileUploadStatus';
+import FileType from '../constants/FileTypes';
 
 const BreadCrumb = query => (
   <Breadcrumb>
@@ -33,7 +34,7 @@ const BreadCrumb = query => (
       <a
         onClick={() =>
           Routing.toProjectProgress({
-            projectId: query.projectId
+            projectId: query.query
           })
         }
       >
@@ -65,8 +66,8 @@ class ProjectEvidence extends Component {
   }
 
   goToProjectEvidence = () => {
-    const { activity } = this.props;
-    Routing.toProjectEvidence({ activityId: activity.id });
+    const { activity, projectId } = this.props;
+    Routing.toProjectEvidence({ activityId: activity.id, projectId });
   };
 
   goToProjectProgress = () => {
@@ -79,7 +80,7 @@ class ProjectEvidence extends Component {
 
     const response = await deleteEvidence(
       activity.id,
-      record.file,
+      record.fileType === FileType.PHOTO ? record.photo : record.file,
       record.fileType
     );
 
@@ -102,7 +103,7 @@ class ProjectEvidence extends Component {
     const { activity } = this.props;
     const response = await downloadEvidence(
       activity.id,
-      record.file,
+      record.fileType === FileType.PHOTO ? record.photo : record.file,
       record.fileType
     );
 
@@ -156,7 +157,7 @@ class ProjectEvidence extends Component {
     const { activity, projectId } = this.props;
     showModalConfirm(
       'Complete Task',
-      'Do you want complete this task?',
+      'Do you want to complete this task?',
       async () => {
         const response = await completeActivity(activity.id);
         if (response.error)
@@ -179,7 +180,7 @@ class ProjectEvidence extends Component {
           <Header />
           <div className="Content">
             <div className="DataSteps">
-              <BreadCrumb query={(projectName, projectId)} />
+              <BreadCrumb query={projectId} />
               <div className="ProjectInfoHeader">
                 <div className="space-between">
                   <div>

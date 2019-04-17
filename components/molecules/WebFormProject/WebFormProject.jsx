@@ -17,7 +17,9 @@ const fieldsName = {
 
 class WebFormProject extends React.Component {
   componentDidMount() {
-    const { form, webform } = this.props;
+    const { form, webform, project } = this.props;
+    console.log(this.props)
+    form.setFieldsValue({ ...project.data });
     webform.form = form;
   }
 
@@ -67,6 +69,10 @@ class WebFormProject extends React.Component {
                   {
                     required: true,
                     message: 'Please input the project name!'
+                  },
+                  {
+                    max: 50,
+                    message: 'Project name is too long! (max. 50)'
                   }
                 ]
               })(

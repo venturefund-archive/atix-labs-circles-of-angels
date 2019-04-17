@@ -49,12 +49,35 @@
     @include primary-text($label, $grey, 500);
     text-transform: uppercase;
   }
+  .ant-alert{
+    margin-left: 1em;
+    padding: 4px 24px 4px 24px;
+    .ant-alert-icon {
+      position: absolute;
+      top: 7.5px;
+      left: 5px;
+    }
+        span{
+          @include primary-text($body, $primary-color, 500);
+          color: #436a86;
+        }
+        .ant-alert-close-icon{
+          top: 3px;
+    right: 9px;
+        }
+  }
   .Data {
+    button{
+      margin-right: 0.5em;
+    }
     .TextGray {
       @include primary-text($body-2, $secondary-color, 500);
     }
     .TextBlue {
       @include primary-text($body-2, $primary-color, 500);
+    }
+    .TextGreen {
+      @include primary-text($body-2, $sucess-color, 500);
     }
     a.TextBlue {
       width: 135px;
@@ -62,6 +85,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
   }
   .Overline {
     @include primary-text($body, $grey, 500);
