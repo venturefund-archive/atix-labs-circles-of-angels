@@ -12,8 +12,10 @@ const BlockUpload = ({
   defaultFileList
 }) => (
   <div className="UploadImageContainer">
-    <p className="Title">{subtitle}</p>
-    <p>{text}</p>
+    <div>
+      <p className="Title">{subtitle}</p>
+      <p>{text}</p>
+    </div>
     <ButtonUpload
       change={change}
       name={name}

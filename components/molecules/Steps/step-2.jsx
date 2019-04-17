@@ -86,10 +86,14 @@ class Step2 extends React.Component {
     return (
       <div className="StepContent">
         <div className="DataSteps">
-          <p className="LabelSteps">Step 2</p>
-          <h1>Complete Project Milestones</h1>
+        <div className="StepDescription">
+            <p className="LabelSteps">Project Milestones</p>
+            <h3>
+            Upload an Excel document with your project plan with your milestones and activities and their details.
+You can also download a Project Milestone Template to fill in the project plan information
+        </h3>
+        </div>
           <div className="ProjectDataContainer">
-            <h3 className="CreateSubtitle">Projects Milestone Data</h3>
             <DownloadTemplate
               click={this.clickDownloadMilestonesTemplate}
               subtitle="Project's Milestones Template"
@@ -107,6 +111,7 @@ class Step2 extends React.Component {
               />
             </div>
           </div>
+          </div>
           <div className="ControlSteps">
             <Button style={{ marginRight: 8 }} onClick={prev}>
               Previous
@@ -114,7 +119,6 @@ class Step2 extends React.Component {
             <Button type="primary" onClick={this.submitProject}>
               Continue
             </Button>
-          </div>
         </div>
       </div>
     );
