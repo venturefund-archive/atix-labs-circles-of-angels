@@ -496,7 +496,7 @@ class ConcensusMilestones extends Component {
             </h3>
           </div>
           <p className="LabelSteps">Project Name</p>
-          <h1>Lorem Ipsum</h1>
+          <h1>{projectName}</h1>
           <div className="SignatoryList">
             {userProjects.map(userProject => {
               if (!userProject.user) return;
@@ -565,7 +565,7 @@ class ConcensusMilestones extends Component {
             </h3>
           </div>
           <Label labelText="Project Name" />
-          <h1>Lorem Ipsum</h1>
+          <h1>{projectName}</h1>
           <div className="TransferContent">
             <h2>Circles of Angels Bank Account Information</h2>
             <div className="TransferBankInfo">
@@ -606,7 +606,7 @@ class ConcensusMilestones extends Component {
             </h3>
           </div>
           <Label labelText="Project Name" />
-          <h1>Lorem Ipsum</h1>
+          <h1>{projectName}</h1>
           <div className="TransferConfirmationContent">
             {/*             <img
               src="./static/images/funds-pending.svg"
