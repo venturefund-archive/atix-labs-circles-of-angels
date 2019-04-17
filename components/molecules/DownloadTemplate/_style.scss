@@ -1,9 +1,11 @@
 @import "../../../css/general_styling.scss";
 
-.DownloadTemplateContainer {
-  width: 48%;
+.DownloadTemplateContainer {    
+  width: 26%;
   margin-bottom: 1em;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   .Title {
     @include primary-text($body, $secondary-color, 600);
     margin-bottom: 0;

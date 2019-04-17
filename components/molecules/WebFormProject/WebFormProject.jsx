@@ -66,7 +66,7 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the project name!'
+                    message: 'This fill is required'
                   },
                   {
                     max: 50,
@@ -88,12 +88,12 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the enterprise location!'
+                    message: 'This fill is required'
                   }
                 ]
               })(
                 <Input
-                  placeholder="Enterprise Location"
+                  placeholder="Country of Impact"
                   prefix={
                     <Icon type="global" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
@@ -105,17 +105,17 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the timeframe!'
+                    message: 'This fill is required'
                   }
                 ]
               })(
                 <Input
-                  placeholder="Timeframe"
+                  placeholder="Project Duration"
                   prefix={
-                    <Icon
-                      type="calendar"
-                      style={{ color: 'rgba(0,0,0,.25)' }}
-                    />
+                                        <Icon
+  type="calendar"
+  style={{ color: 'rgba(0,0,0,.25)' }}
+/>
                   }
                 />
               )}
@@ -125,7 +125,7 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the goal amount!'
+                    message: 'This fill is required'
                   },
                   { validator: this.checkAmount }
                 ]
@@ -147,12 +147,12 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the project mission!'
+                    message: 'This fill is required'
                   }
                 ]
               })(
                 <TextArea
-                  placeholder="Project Mission"
+                  placeholder="Share your Project mission, the impact you have made so far and what your project is about"
                   prefix={
                     <Icon type="star" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
@@ -164,12 +164,12 @@ class WebFormProject extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the problem addressed!'
+                    message: 'This fill is required'
                   }
                 ]
               })(
                 <TextArea
-                  placeholder="Problem Addressed"
+                  placeholder="Share with us the problem that you are tackling, what you are trying to solve and how the funds will help support your goal"
                   prefix={
                     <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
@@ -182,7 +182,7 @@ class WebFormProject extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: 'Please input the FAQ link!'
+                  message: 'This fill is required'
                 }
               ]
             })(

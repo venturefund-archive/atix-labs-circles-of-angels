@@ -14,22 +14,7 @@
     @include primary-text($h1, $secondary-color, 600);
   }
 
-  .StepDescription {
-    border-left: 3px solid #1479e261;
-    margin: 1em 0 1.5em;
-    padding: 0.5em 1em;
-    .LabelSteps {
-      margin-top: 0;
-      color: #1479e261;
-      font-weight: 600;
-    }
-    h3 {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1479e2c2;
-    }
-  }
+
 
   h2 {
     @include primary-text($h2, $secondary-color, 400);
@@ -37,7 +22,9 @@
   }
 }
 
-.StepOne {
+
+.ControlSteps.StepOne,
+.SubmitProject.StepOne {
   justify-content: flex-end;
 }
 .ProjectInfoHeader {
@@ -80,7 +67,7 @@
       @include primary-text($body-2, $sucess-color, 500);
     }
     a.TextBlue {
-      width: 135px;
+      width: 85px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -102,4 +89,20 @@
 }
 .ant-divider-horizontal{
   margin: 1em 0;
+}
+.StepDescription {
+  border-left: 3px solid #1479e261;
+  margin: 0 0 1em;
+  padding: 0.5em 0.5em;
+  .LabelSteps {
+    margin-top: 0;
+    color: #1479e261;
+    font-weight: 600;
+  }
+  h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1479e2c2;
+  }
 }

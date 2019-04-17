@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { message, Divider, Button, Icon, Alert } from 'antd';
+import animationData from '../components/molecules/Steps/success.json';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -50,6 +51,7 @@ import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import Label from '../components/atoms/Label/Label';
 import ProjectStatus from '../constants/ProjectStatus';
+import LottieFiles from '../components/molecules/LottieFiles';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -241,7 +243,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+          'This project doesn\'t have an Agreement uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -288,7 +290,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -375,76 +377,70 @@ class ConcensusMilestones extends Component {
           <div className="ProjectInfoHeader">
             <div className="space-between">
               <div>
-                <div>
-                  <p className="LabelSteps">Project Name</p>
-                  <h1>{projectName}</h1>
-                </div>
-                <div className="flex">
-                  <div className="vertical Data">
-                    <Button>
-                      Project Proposal <Icon type="download" />
-                    </Button>
-                  </div>
-                  <div className="vertical Data">
-                    <Button onClick={this.downloadAgreementClick}>
-                      Download Agreement <Icon type="download" />
-                    </Button>
-                  </div>
-                  <div className="vertical Data">
-                    <ButtonUpload
-                      change={this.changeProjectAgreement}
-                      buttonText="Upload Agreement"
-                      showUploadList={false}
-                    />
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data">
-                    <a className="TextBlue" href={faqLink}>
-                      {faqLink}
-                    </a>
-                    <span className="Overline">FAQ Document</span>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data">
-                    <p className="TextBlue">{goalAmount}</p>
-                    <span className="Overline">Goal Amount</span>
-                  </div>
-                  <Divider type="vertical" />
-                  <div className="vertical  Data">
-                    {actualAmount < goalAmount ? (
-                      <p className="TextGray">{actualAmount || 0}</p>
-                    ) : (
-                      <p className="TextGreen">{actualAmount || 10000}</p>
-                    )}
-                    <span className="Overline">Amounts Pledged</span>
-                  </div>
-                  {isSocialEntrepreneur ? (
-                    actualAmount >= goalAmount ? (
-                      <Alert
-                        message="You have reached your goal!"
-                        type="success"
-                        showIcon
-                      />
-                    ) : (
-                      <Alert
-                        message="You can start the project with the current funded amount"
-                        type="info"
-                        showIcon
-                      />
-                    )
-                  ) : (
-                    ''
-                  )}
-                </div>
+                <p className="LabelSteps">Project Name</p>
+                <h1>{projectName}</h1>
               </div>
-              {isSocialEntrepreneur &&
-              projectStatus !== ProjectStatus.IN_PROGRESS &&
-              actualAmount > 0 ? (
-                <CustomButton
-                  buttonText="Start Project"
-                  theme="Primary"
-                  onClick={this.startProjectHandle}
+
+              <CustomButton
+                buttonText="Start Project"
+                theme="Primary"
+                onClick={this.startProjectHandle}
+              />
+            </div>
+            <div className="space-between">
+              <div className="vertical  Data">
+                <a className="TextBlue" href={faqLink}>
+                  {faqLink}
+                </a>
+                <span className="Overline">FAQ Document</span>
+              </div>
+              <Divider type="vertical" />
+              <div className="vertical  Data">
+                <p className="TextBlue">{goalAmount}</p>
+                <span className="Overline">Goal Amount</span>
+              </div>
+              <Divider type="vertical" />
+              <div className="vertical  Data">
+                {actualAmount < goalAmount ? (
+                  <p className="TextGray">{actualAmount || 0}</p>
+                ) : (
+                  <p className="TextGreen">{actualAmount || 10000}</p>
+                )}
+                <span className="Overline">Amounts Pledged</span>
+              </div>
+              <Divider type="vertical" />
+              <div className="vertical Data">
+                <Button>
+                  Project Proposal <Icon type="download" />
+                </Button>
+              </div>
+              <div className="vertical Data">
+                <Button onClick={this.downloadAgreementClick}>
+                  Download Agreement <Icon type="download" />
+                </Button>
+              </div>
+              <div className="vertical Data">
+                <ButtonUpload
+                  change={this.changeProjectAgreement}
+                  buttonText="Upload Agreement"
+                  showUploadList={false}
                 />
+              </div>
+              <Divider type="vertical" />
+              {isSocialEntrepreneur ? (
+                actualAmount >= goalAmount ? (
+                  <Alert
+                    message="You have reached your goal!"
+                    type="success"
+                    showIcon
+                  />
+                ) : (
+                  <Alert
+                    message="You can start the project with the current funded amount"
+                    type="info"
+                    showIcon
+                  />
+                )
               ) : (
                 ''
               )}
@@ -521,8 +517,8 @@ class ConcensusMilestones extends Component {
         </div>
         <div className="ControlSteps">
           <CustomButton
-            theme="Cancel"
-            buttonText="Cancel"
+            theme="Download"
+            buttonText="Previous"
             onClick={this.previousStep}
           />
 
@@ -568,8 +564,8 @@ class ConcensusMilestones extends Component {
         </div>
         <div className="ControlSteps">
           <CustomButton
-            theme="Cancel"
-            buttonText="Cancel"
+            theme="Download"
+            buttonText="Previous"
             onClick={this.previousStep}
           />
         </div>
@@ -590,10 +586,15 @@ class ConcensusMilestones extends Component {
           <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferConfirmationContent">
-            <img
+{/*             <img
               src="./static/images/funds-pending.svg"
               alt="Clock"
               width="40"
+            /> */}
+            <LottieFiles
+              animationData={animationData}
+              height={140}
+              width={140}
             />
             {confirmationStatus ? (
               <TransferLabel
@@ -603,16 +604,18 @@ class ConcensusMilestones extends Component {
             ) : (
               ''
             )}
+            <h1>Funding!</h1>
             <h2>Circles will be checking your funds transfer</h2>
           </div>
         </div>
         <div className="ControlSteps">
           <CustomButton
-            theme="Cancel"
-            buttonText="Cancel"
+            theme="Download"
+            buttonText="Previous"
             onClick={this.previousStep}
           />
           <CustomButton
+            disabled
             theme="Primary"
             buttonText="Confirm"
             onClick={() => Routing.toExploreProjects()}

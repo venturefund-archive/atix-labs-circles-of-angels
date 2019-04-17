@@ -35,8 +35,10 @@ class Step1 extends React.Component {
     return (
       <div className="StepContent">
         <div className="DataSteps">
+        <div className="StepDescription">
           <p className="LabelSteps">Step 1</p>
-          <h1>Complete Project Detail</h1>
+          <h3>Complete Project Details</h3>
+          </div>
           <div className="ProjectDataContainer">
             <h3 className="CreateSubtitle">Project's Details</h3>
             <WebFormProject project={project} webform={webform} />
@@ -44,8 +46,8 @@ class Step1 extends React.Component {
           <div className="ProjectImagesContainer">
             <h3 className="CreateSubtitle">Project's Files</h3>
             <BlockUpload
-              subtitle="Project's Card Image"
-              text="Lorem ipsum text description"
+              subtitle="Project Thumbnail Image"
+              text="This will allow funders to identify your project in the discovery phase"
               name="projectCard"
               typeAccepts="image/*"
               buttonText="Upload Image"
@@ -55,7 +57,7 @@ class Step1 extends React.Component {
             />
             <BlockUpload
               subtitle="Project's Cover Image"
-              text="Lorem ipsum text description"
+              text="This will be a cover image for your project summary"
               name="projectCover"
               typeAccepts="image/*"
               buttonText="Upload Image"
@@ -65,7 +67,7 @@ class Step1 extends React.Component {
             />
             <BlockUpload
               subtitle="Project Proposal"
-              text="Lorem ipsum text description"
+              text="Please download the pitch proposal document and update in-depth description of the project. This form will take between 20mins to 60mins for you to fill in"
               name="projectProposal"
               typeAccepts=".pdf, .ppt, .docx, .doc"
               buttonText="Upload File"

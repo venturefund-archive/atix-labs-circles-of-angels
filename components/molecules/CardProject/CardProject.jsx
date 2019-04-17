@@ -31,7 +31,7 @@ const CardProject = ({
       </div>
       <div className="ProjectSummery">
         <InfoItem
-          subtitle="Enterprise Location"
+          subtitle="Country of Impact"
           title={enterpriseLocation}
           iconInfoItem="environment"
         />

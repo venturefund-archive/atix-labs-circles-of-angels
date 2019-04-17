@@ -30,7 +30,7 @@ class CreateProjectSteps extends React.Component {
 
     this.steps = [
       {
-        title: 'Project Detail',
+        title: 'Project Details',
         content: (
           <Step1
             project={project}
