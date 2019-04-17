@@ -61,7 +61,7 @@ const statusMap = {
 class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
-
+    const { milestones } = props;
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
@@ -153,9 +153,13 @@ class ConcensusMilestones extends Component {
     else assignOracleToActivity(userId, activityId);
   };
 
-  save = async (record, actualField) => {
+  goToConcensusMilestones = () => {
+    const { projectId, initialStep } = this.props;
+    Routing.toConsensusMilestones({ projectId, initialStep });
+  };
+
+  save = async (index, actualField) => {
     const isActivity = Boolean(actualField.data.milestone);
-    console.log(record, actualField.data);
     const response = isActivity
       ? await updateActivity(actualField.data)
       : await updateMilestone(actualField.data);
@@ -169,7 +173,9 @@ class ConcensusMilestones extends Component {
         : error.message;
       showModalError(title, content);
     }
-    record = actualField.data;
+    const { milestones } = this.state;
+    milestones[index] = actualField.data;
+    this.setState({ milestones });
   };
 
   deleteTask = async task => {
@@ -418,20 +424,25 @@ class ConcensusMilestones extends Component {
                     )}
                     <span className="Overline">Amounts Pledged</span>
                   </div>
-                  {isSocialEntrepreneur ? (
-                    actualAmount >= goalAmount ? (
-                      <Alert
-                        message="You have reached your goal!"
-                        type="success"
-                        showIcon
-                      />
-                    ) : (
-                      <Alert
-                        message="You can start the project with the current funded amount"
-                        type="info"
-                        showIcon
-                      />
-                    )
+                  {isSocialEntrepreneur &&
+                  actualAmount >= goalAmount &&
+                  actualAmount > 0 ? (
+                    <Alert
+                      message="You have reached your goal!"
+                      type="success"
+                      showIcon
+                    />
+                  ) : (
+                    ''
+                  )}
+                  {isSocialEntrepreneur &&
+                  actualAmount < goalAmount &&
+                  actualAmount > 0 ? (
+                    <Alert
+                      message="You can start the project with the current funded amount"
+                      type="info"
+                      showIcon
+                    />
                   ) : (
                     ''
                   )}
