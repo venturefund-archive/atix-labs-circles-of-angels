@@ -586,7 +586,7 @@ class ConcensusMilestones extends Component {
           <Label labelText="Project Name" />
           <h1>Lorem Ipsum</h1>
           <div className="TransferConfirmationContent">
-{/*             <img
+            {/*             <img
               src="./static/images/funds-pending.svg"
               alt="Clock"
               width="40"
@@ -596,6 +596,8 @@ class ConcensusMilestones extends Component {
               height={140}
               width={140}
             />
+            <h1>Funding!</h1>
+            <h2>Circles will be checking your funds transfer</h2>
             {confirmationStatus ? (
               <TransferLabel
                 text={confirmationStatus.name}
@@ -604,8 +606,6 @@ class ConcensusMilestones extends Component {
             ) : (
               ''
             )}
-            <h1>Funding!</h1>
-            <h2>Circles will be checking your funds transfer</h2>
           </div>
         </div>
         <div className="ControlSteps">
