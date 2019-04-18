@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Breadcrumb } from 'antd';
-import { uniqWith, isEqual } from 'lodash';
+import { uniqWith, isEqual, isEmpty } from 'lodash';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import './_style.scss';
@@ -37,7 +37,7 @@ class ProjectProgress extends React.Component {
           ...activity,
           type: `Activity ${j + 1}`
         };
-        if (activity.oracle) {
+        if (activity.oracle && !isEmpty(activity.oracle)) {
           oraclesFilter.push({
             text: activity.oracle.username,
             value: activity.oracle.username
