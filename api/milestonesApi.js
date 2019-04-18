@@ -1,6 +1,7 @@
 import api from './api';
 
 const baseURL = 'milestones';
+const restActivityBasePath = 'activity';
 
 const updateMilestone = async ({
   budget,
@@ -55,7 +56,7 @@ const deleteActivity = async activityId => {
   try {
     console.log('Deleting activity', activityId);
 
-    const response = await api.delete(`activities/${activityId}`);
+    const response = await api.delete(`${restActivityBasePath}/${activityId}`);
     return response;
   } catch (error) {
     return { error };
