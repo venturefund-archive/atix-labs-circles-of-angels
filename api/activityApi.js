@@ -125,6 +125,19 @@ const completeActivity = async activityId => {
   }
 };
 
+const createActivity = async (activity, milestoneId) => {
+  try {
+    const response = api.post(`${baseURL}`, {
+      activity,
+      milestoneId
+    });
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   updateActivity,
   assignOracleToActivity,
@@ -133,5 +146,6 @@ export {
   deleteEvidence,
   downloadEvidence,
   uploadEvidence,
-  completeActivity
+  completeActivity,
+  createActivity
 };
