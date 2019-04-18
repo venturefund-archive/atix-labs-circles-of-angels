@@ -487,7 +487,7 @@ class ConcensusMilestones extends Component {
                     type="success"
                     showIcon
                   />
-                ) : (
+                ) : actualAmount > 0 && (
                   <Alert
                     message="You can start the project with the current funded amount"
                     type="info"
