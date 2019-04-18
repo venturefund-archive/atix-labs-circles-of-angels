@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { message, Divider, Button, Icon, Alert } from 'antd';
+import { values, isEmpty } from 'lodash';
 import animationData from '../components/molecules/Steps/success.json';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
@@ -46,13 +47,13 @@ import {
 import {
   updateActivity,
   assignOracleToActivity,
-  unassignOracleToActivity
+  unassignOracleToActivity,
+  createActivity
 } from '../api/activityApi';
 import Roles from '../constants/RolesMap';
 import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
-import ProjectStatus from '../constants/ProjectStatus';
 import LottieFiles from '../components/molecules/LottieFiles';
 
 const statusMap = {
@@ -191,6 +192,7 @@ class ConcensusMilestones extends Component {
     }
 
     if (!response.error) {
+      showModalSuccess('Success!', 'Task deleted successfully!');
       this.goToStep(0);
     } else {
       const { error } = response;
@@ -331,6 +333,34 @@ class ConcensusMilestones extends Component {
     }
 
     return response;
+  };
+
+  validateActivity = activity => {
+    const valid = !values(activity).some(isEmpty);
+    return valid;
+  };
+
+  createNewActivity = async (activity, milestoneId, hideModal) => {
+    const { projectId } = this.props;
+    if (milestoneId > 0 && this.validateActivity(activity)) {
+      const response = await createActivity(activity, milestoneId);
+      if (response.error) {
+        const { error } = response;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError('Error creating Activiy', content);
+      } else {
+        showModalSuccess('Success!', 'Activity created successfully!');
+        hideModal();
+        this.goToStep(0);
+      }
+    } else {
+      showModalError(
+        'Error creating Activiy',
+        'Activity is not valid. Please complete all fields and try again.'
+      );
+    }
   };
 
   goToStep = step => {
@@ -474,6 +504,7 @@ class ConcensusMilestones extends Component {
               oracles={oracles}
               onAssignOracle={this.onAssignOracle}
               isSocialEntrepreneur={isSocialEntrepreneur}
+              onCreateActivity={this.createNewActivity}
             />
           </div>
         </div>

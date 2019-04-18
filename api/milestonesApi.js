@@ -55,7 +55,7 @@ const deleteActivity = async activityId => {
   try {
     console.log('Deleting activity', activityId);
 
-    const response = await api.delete(`${baseURL}/activity/${activityId}`);
+    const response = await api.delete(`activities/${activityId}`);
     return response;
   } catch (error) {
     return { error };

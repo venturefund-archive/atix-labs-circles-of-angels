@@ -1,0 +1,43 @@
+@import '../css/general_styling.scss';
+
+.WebFormProject {
+  display: flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+ 
+  .ant-form-item {
+    width: 24%;
+    margin-right: 2%;
+    margin-bottom: 1em;
+  }
+ 
+  .ant-form-item:last-child {
+    margin-right: 0;
+  }
+ 
+  .TextArea {
+    width: 49%;
+    margin-right: 2%;
+    textarea {
+      min-height: 80px;
+      resize: none;
+    }
+  }
+  .TextArea:last-child {
+    margin-right: 0;
+  }
+
+  .TextAreaFullWidth {
+    width: 100%;
+    margin-right: 2%;
+    textarea {
+      min-height: 80px;
+      resize: none;
+    }
+  }
+ 
+  .form-section {
+    display: flex;
+    flex-flow: row;
+  }
+ }
