@@ -4,7 +4,12 @@ import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMa
 import Routing from '../../utils/Routes';
 import './_style.scss';
 
-const TableProjectProgress = ({ dataSource, projectId, projectName }) => {
+const TableProjectProgress = ({
+  dataSource,
+  projectId,
+  projectName,
+  filters
+}) => {
   const columns = [
     {
       title: 'Quarter',
@@ -30,6 +35,11 @@ const TableProjectProgress = ({ dataSource, projectId, projectName }) => {
       dataIndex: 'oracle',
       key: 'oracle',
       fixed: 'right',
+      filters: filters.oracles,
+      onFilter: (value, record) =>
+        record.oracle &&
+        record.oracle.username &&
+        record.oracle.username.indexOf(value) === 0,
       render: oracle =>
         oracle ? <span key={oracle.id}>{oracle.username}</span> : ''
     },
@@ -80,6 +90,7 @@ const TableProjectProgress = ({ dataSource, projectId, projectName }) => {
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1300 }}
+      filters={filters}
     />
   );
 };
