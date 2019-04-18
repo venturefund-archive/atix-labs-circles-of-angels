@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon, Breadcrumb } from 'antd';
+import { uniqWith, isEqual } from 'lodash';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import './_style.scss';
@@ -27,6 +28,7 @@ class ProjectProgress extends React.Component {
     const oracles = await getOracles();
     const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestonesAndActivities = [];
+    const oraclesFilter = [];
 
     milestonesResponse.data.forEach(milestone => {
       milestonesAndActivities.push(milestone);
@@ -35,9 +37,17 @@ class ProjectProgress extends React.Component {
           ...activity,
           type: `Activity ${j + 1}`
         };
+        if (activity.oracle) {
+          oraclesFilter.push({
+            text: activity.oracle.username,
+            value: activity.oracle.username
+          });
+        }
         milestonesAndActivities.push(activityWithId);
       });
     });
+
+    const filters = { oracles: uniqWith(oraclesFilter, isEqual) };
 
     return {
       milestones: milestonesAndActivities,
@@ -46,7 +56,8 @@ class ProjectProgress extends React.Component {
       projectId,
       transfers,
       oracles,
-      actualAmount
+      actualAmount,
+      filters
     };
   }
 
@@ -55,8 +66,10 @@ class ProjectProgress extends React.Component {
       projectName,
       milestones,
       projectId,
-      isBackofficeAdmin
+      isBackofficeAdmin,
+      filters
     } = this.props;
+
     return (
       <div className="AppContainer">
         <SideBar />
@@ -88,6 +101,7 @@ class ProjectProgress extends React.Component {
               dataSource={milestones}
               projectName={projectName}
               projectId={projectId}
+              filters={filters}
             />
           </div>
         </div>
