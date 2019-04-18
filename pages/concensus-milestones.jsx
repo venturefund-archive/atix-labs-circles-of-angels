@@ -398,11 +398,13 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-              <CustomButton
-                buttonText="Start Project"
-                theme="Primary"
-                onClick={this.startProjectHandle}
-              />
+              {isSocialEntrepreneur && (
+                <CustomButton
+                  buttonText="Start Project"
+                  theme="Primary"
+                  onClick={this.startProjectHandle}
+                />
+              )}
             </div>
             <div className="space-between">
               <div className="vertical  Data">
