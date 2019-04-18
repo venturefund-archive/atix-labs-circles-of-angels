@@ -13,6 +13,7 @@ import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
+import Roles from '../constants/RolesMap';
 
 const imageBaseUrl = './static/images';
 
@@ -31,22 +32,24 @@ class ProjectDetail extends React.Component {
 
   applyToProject = async () => {
     const { projectDetail, user } = this.props;
+    const isFunder = user && user.role && user.role.id === Roles.Funder;
+    if (isFunder) {
+      const response = await createUserProject(user.id, projectDetail.id);
 
-    const response = await createUserProject(user.id, projectDetail.id);
-
-    if (response.error) {
-      const { error } = response;
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-      return response;
+      if (response.error) {
+        const { error } = response;
+        const title = error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError(title, content);
+        return response;
+      }
     }
 
-    if (projectDetail.status == ProjectStatus.IN_PROGRESS) {
+    if (projectDetail.status === ProjectStatus.IN_PROGRESS) {
       Routing.toProjectProgress({
         projectId: projectDetail.id
       });
