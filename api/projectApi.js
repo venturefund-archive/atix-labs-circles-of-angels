@@ -206,9 +206,7 @@ const getActualProjectAmount = async projectId => {
 
 const startProject = async projectId => {
   try {
-    const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
-      status: ProjectStatus.IN_PROGRESS
-    });
+    const response = await api.put(`${baseURL}/${projectId}/start`);
     return response;
   } catch (error) {
     return { error };

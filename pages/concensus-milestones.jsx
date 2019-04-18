@@ -124,9 +124,13 @@ class ConcensusMilestones extends Component {
   startProjectHandle = () => {
     const { projectId, goalAmount, actualAmount } = this.props;
     const onConfirm = response => {
-      if (response.error)
-        showModalError('Error starting project', response.error);
-      else {
+      if (response.error) {
+        const { error } = response;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError('Error starting project', content);
+      } else {
         showModalSuccess('Success!', 'Project started correctly');
         Routing.toProjectProgress({
           projectId
@@ -428,7 +432,7 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-              {isSocialEntrepreneur && (
+              {isSocialEntrepreneur && actualAmount > 0 && (
                 <CustomButton
                   buttonText="Start Project"
                   theme="Primary"
@@ -483,7 +487,7 @@ class ConcensusMilestones extends Component {
                     type="success"
                     showIcon
                   />
-                ) : (
+                ) : actualAmount > 0 && (
                   <Alert
                     message="You can start the project with the current funded amount"
                     type="info"
