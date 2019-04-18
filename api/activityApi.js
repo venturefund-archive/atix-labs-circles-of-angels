@@ -79,8 +79,10 @@ const deleteEvidence = async (activityId, evidenceId, fileType) => {
 
 const downloadEvidence = async (activityId, evidenceId, fileType) => {
   try {
+    const config = { responseType: 'blob' };
     const response = await api.get(
-      `${baseURL}/${activityId}/evidences/${evidenceId}/download/${fileType}`
+      `${baseURL}/${activityId}/evidences/${evidenceId}/download/${fileType}`,
+      config
     );
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
