@@ -37,7 +37,7 @@ const TableProjectProgress = ({
       fixed: 'right',
       filters: filters.oracles,
       onFilter: (value, record) =>
-        record.oracle && record.oracle.username.indexOf(value) === 0,
+        record.oracle.username && record.oracle.username.indexOf(value) === 0,
       render: oracle =>
         oracle ? <span key={oracle.id}>{oracle.username}</span> : ''
     },
