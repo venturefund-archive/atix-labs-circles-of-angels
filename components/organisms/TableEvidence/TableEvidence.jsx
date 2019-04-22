@@ -1,7 +1,13 @@
 import React from 'react';
 import { Table, Divider, Tag } from 'antd';
 
-const TableEvidence = ({ data, onDelete, onDownload }) => {
+const TableEvidence = ({
+  data,
+  onDelete,
+  onDownload,
+  isActivityOracle,
+  isOwner
+}) => {
   const columns = [
     {
       title: 'Documents',
@@ -21,8 +27,12 @@ const TableEvidence = ({ data, onDelete, onDownload }) => {
       key: 'action',
       render: (text, record) => (
         <span className="flex">
-          <a onClick={() => onDelete(record)}>Delete</a>
-          <Divider type="vertical" />
+          {(isActivityOracle || isOwner) && (
+            <span>
+              <a onClick={() => onDelete(record)}>Delete</a>
+              <Divider type="vertical" />
+            </span>
+          )}
           <a onClick={() => onDownload(record)}>Download</a>
         </span>
       )
