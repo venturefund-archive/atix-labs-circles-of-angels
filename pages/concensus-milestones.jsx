@@ -55,6 +55,7 @@ import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
+import TransferStatus from '../constants/TransferStatus';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -64,11 +65,15 @@ class ConcensusMilestones extends Component {
     const actualUserTransfer = transfers.find(
       transfer => transfer.sender === user.id
     );
+
+    this.actualTransferState = actualUserTransfer
+      ? actualUserTransfer.state
+      : null;
+
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
-      amount: '',
-      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null
+      amount: ''
     };
   }
 
@@ -235,7 +240,7 @@ class ConcensusMilestones extends Component {
       showModalError(title, content);
       return response;
     }
-
+    this.actualTransferState = TransferStatus.PENDING_VERIFICATION;
     this.nextStep();
     showModalSuccess('Success', 'Transfer submitted correctly!');
   };
@@ -288,9 +293,10 @@ class ConcensusMilestones extends Component {
   };
 
   actualUserNeedsTransfer = () => {
-    const { user, transfers } = this.props;
-    const response = transfers.find(transfer => transfer.sender == user.id);
-    return !response || response.state == -1;
+    return (
+      this.actualTransferState === null ||
+      this.actualTransferState === TransferStatus.CANCELLED
+    );
   };
 
   clickDownloadProposal = async () => {
@@ -396,8 +402,7 @@ class ConcensusMilestones extends Component {
       actualAmount
     } = this.props;
 
-    const { currentStep, milestones, actualTransferState } = this.state;
-
+    const { currentStep, milestones } = this.state;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
@@ -659,10 +664,10 @@ class ConcensusMilestones extends Component {
               We are checking the information, your current funds transfer
               status is:
             </h2>
-            {actualTransferState !== null ? (
+            {this.actualTransferState !== null ? (
               <TransferLabel
-                text={transferStatusMap[actualTransferState].show}
-                theme={transferStatusMap[actualTransferState].theme}
+                text={transferStatusMap[this.actualTransferState].show}
+                theme={transferStatusMap[this.actualTransferState].theme}
               />
             ) : (
               ''
