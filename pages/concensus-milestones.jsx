@@ -463,7 +463,7 @@ class ConcensusMilestones extends Component {
               </div>
               <Divider type="vertical" />
               <div className="vertical Data">
-                <Button>
+                <Button onClick={this.clickDownloadProposal}>
                   Project Proposal <Icon type="download" />
                 </Button>
               </div>
