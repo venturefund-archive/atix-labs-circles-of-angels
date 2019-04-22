@@ -56,22 +56,19 @@ import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
 
-const statusMap = {
-  '-1': 'theme-cancel',
-  '0': 'theme-pending',
-  '1': 'theme-pending',
-  '2': 'theme-success'
-};
-
 class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
-    const { milestones } = props;
+    const { transfers, user } = props;
+
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
       amount: '',
-      confirmationStatus: null
+      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null
     };
   }
 
@@ -396,11 +393,11 @@ class ConcensusMilestones extends Component {
       oracles,
       goalAmount,
       user,
-      actualAmount,
-      projectStatus
+      actualAmount
     } = this.props;
 
-    const { currentStep, confirmationStatus, milestones } = this.state;
+    const { currentStep, milestones, actualTransferState } = this.state;
+
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
@@ -487,12 +484,14 @@ class ConcensusMilestones extends Component {
                     type="success"
                     showIcon
                   />
-                ) : actualAmount > 0 && (
-                  <Alert
-                    message="You can start the project with the current funded amount"
-                    type="info"
-                    showIcon
-                  />
+                ) : (
+                  actualAmount > 0 && (
+                    <Alert
+                      message="You can start the project with the current funded amount"
+                      type="info"
+                      showIcon
+                    />
+                  )
                 )
               ) : (
                 ''
@@ -655,12 +654,15 @@ class ConcensusMilestones extends Component {
               height={140}
               width={140}
             />
-            <h1>Funding!</h1>
-            <h2>Circles will be checking your funds transfer</h2>
-            {confirmationStatus ? (
+            <h1>Funds information received!</h1>
+            <h2>
+              We are checking the information, your current funds transfer
+              status is:
+            </h2>
+            {actualTransferState !== null ? (
               <TransferLabel
-                text={confirmationStatus.name}
-                theme={statusMap[confirmationStatus.status]}
+                text={transferStatusMap[actualTransferState].show}
+                theme={transferStatusMap[actualTransferState].theme}
               />
             ) : (
               ''
