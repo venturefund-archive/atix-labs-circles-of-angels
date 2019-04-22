@@ -20,9 +20,7 @@ class Login extends Component {
 
       if (response.error) {
         const { error } = response;
-        const title = error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message;
+        const title = error.response ? 'Unauthorized Access' : error.message;
         const content = error.response
           ? error.response.data.error
           : error.message;
