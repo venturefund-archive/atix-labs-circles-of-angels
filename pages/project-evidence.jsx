@@ -187,6 +187,7 @@ class ProjectEvidence extends Component {
     } = this.props;
 
     const isActivityOracle =
+      activity.oracle &&
       activity.oracle.user.id &&
       isOracle &&
       user.id === activity.oracle.user.id;
