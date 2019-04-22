@@ -78,6 +78,7 @@ class Step2 extends React.Component {
         this.setState({
           creationStatus: false,
           verifying: false,
+          uploadDisable: false,
           filelist: []
         });
       }
