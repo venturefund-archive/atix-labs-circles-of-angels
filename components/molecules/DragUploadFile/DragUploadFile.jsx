@@ -12,7 +12,8 @@ const DragUploadFile = ({
   accept,
   remove,
   disabled,
-  showUploadList
+  showUploadList,
+  filelist
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -28,7 +29,8 @@ const DragUploadFile = ({
     accept,
     onRemove: remove,
     disabled,
-    showUploadList
+    showUploadList,
+    fileList: filelist
   };
 
   return (

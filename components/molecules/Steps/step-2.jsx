@@ -8,6 +8,7 @@ import {
   createProject,
   downloadMilestonesTemplate
 } from '../../../api/projectApi';
+import { showModalError } from '../../utils/Modals';
 
 import './_style.scss';
 import FileVerificationList from '../FileVerificationList/FileVerificationList';
@@ -19,7 +20,8 @@ class Step2 extends React.Component {
       creationStatus: false,
       milestonesErrors: [],
       uploadDisable: false,
-      verifying: false
+      verifying: false,
+      filelist: []
     };
   }
 
@@ -57,16 +59,28 @@ class Step2 extends React.Component {
 
     if (res.status === 200) {
       next();
-    } else if (res.error.response.data.error) {
-      alert(res.error.response.data.error);
-      this.setState({ creationStatus: false });
-    } else if (res.error.response.data.errors) {
-      this.setState({
-        milestonesErrors: res.error.response.data.errors,
-        creationStatus: false,
-        uploadDisable: true,
-        verifying: false
-      });
+    } else if (res.error) {
+      if (res.error.response && res.error.response.data.errors) {
+        this.setState({
+          milestonesErrors: res.error.response.data.errors,
+          creationStatus: false,
+          uploadDisable: false,
+          verifying: false,
+          filelist: []
+        });
+      } else {
+        const { error } = res;
+        const title = 'Project creation failed';
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError(title, content);
+        this.setState({
+          creationStatus: false,
+          verifying: false,
+          filelist: []
+        });
+      }
     }
   };
 
@@ -74,15 +88,28 @@ class Step2 extends React.Component {
     const { project } = this.props;
     const { status } = info.file;
     const projectMilestones = info.file;
-    if (status !== FileUploadStatus.UPLOADING) {
-      console.log(info.file, info.fileList);
+    if (status === FileUploadStatus.UPLOADING) {
+      // this needs to be here, otherwise the status will stay as 'uploading'
+      this.setState({
+        filelist: [projectMilestones]
+      });
     }
     if (status === FileUploadStatus.DONE) {
       message.success(`${info.file.name} file uploaded successfully.`);
       project.files.projectMilestones = projectMilestones;
-      this.setState({ uploadDisable: true, creationStatus: true });
+      this.setState({
+        milestonesErrors: [],
+        uploadDisable: true,
+        creationStatus: true,
+        filelist: [projectMilestones]
+      });
     } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
+      this.setState({
+        uploadDisable: true,
+        creationStatus: false,
+        filelist: []
+      });
     }
   };
 
@@ -100,7 +127,8 @@ class Step2 extends React.Component {
     this.setState({
       milestonesErrors: [],
       creationStatus: false,
-      uploadDisable: false
+      uploadDisable: false,
+      filelist: []
     });
   };
 
@@ -110,7 +138,8 @@ class Step2 extends React.Component {
       creationStatus,
       milestonesErrors,
       uploadDisable,
-      verifying
+      verifying,
+      filelist
     } = this.state;
     return (
       <div className="StepContent">
@@ -138,6 +167,7 @@ class Step2 extends React.Component {
                 remove={this.enabledUpload}
                 disabled={uploadDisable}
                 showUploadList={{ showRemoveIcon: !verifying }}
+                filelist={filelist}
               />
               <FileVerificationList
                 errors={milestonesErrors}
