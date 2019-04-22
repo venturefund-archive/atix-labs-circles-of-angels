@@ -64,7 +64,8 @@ class ProjectEvidence extends Component {
     return {
       activity: response || {},
       projectId,
-      projectName: project.projectName || ''
+      projectName: project.projectName || '',
+      projectOwner: project.ownerId
     };
   }
 
@@ -181,10 +182,15 @@ class ProjectEvidence extends Component {
       isSocialEntrepreneur,
       isBackofficeAdmin,
       isOracle,
-      user
+      user,
+      projectOwner
     } = this.props;
 
-    const isActivityOracle = isOracle && user.id === activity.oracle.user.id;
+    const isActivityOracle =
+      activity.oracle.user.id &&
+      isOracle &&
+      user.id === activity.oracle.user.id;
+    const isOwner = isSocialEntrepreneur && user.id === projectOwner;
 
     const completedActivity =
       activity.status === MilestoneActivityStatus.COMPLETED;
@@ -260,6 +266,8 @@ class ProjectEvidence extends Component {
                 data={activity.evidence}
                 onDelete={this.handleDelete}
                 onDownload={this.handleDownload}
+                isActivityOracle={isActivityOracle}
+                isOwner={isOwner}
               />
             </div>
             <div className="ControlSteps StepOne">
