@@ -55,23 +55,25 @@ import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
-
-const statusMap = {
-  '-1': 'theme-cancel',
-  '0': 'theme-pending',
-  '1': 'theme-pending',
-  '2': 'theme-success'
-};
+import TransferStatus from '../constants/TransferStatus';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
-    const { milestones } = props;
+    const { transfers, user } = props;
+
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
+
+    this.actualTransferState = actualUserTransfer
+      ? actualUserTransfer.state
+      : null;
+
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
-      amount: '',
-      confirmationStatus: null
+      amount: ''
     };
   }
 
@@ -238,7 +240,7 @@ class ConcensusMilestones extends Component {
       showModalError(title, content);
       return response;
     }
-
+    this.actualTransferState = TransferStatus.PENDING_VERIFICATION;
     this.nextStep();
     showModalSuccess('Success', 'Transfer submitted correctly!');
   };
@@ -291,9 +293,10 @@ class ConcensusMilestones extends Component {
   };
 
   actualUserNeedsTransfer = () => {
-    const { user, transfers } = this.props;
-    const response = transfers.find(transfer => transfer.sender == user.id);
-    return !response || response.state == -1;
+    return (
+      this.actualTransferState === null ||
+      this.actualTransferState === TransferStatus.CANCELLED
+    );
   };
 
   clickDownloadProposal = async () => {
@@ -396,11 +399,10 @@ class ConcensusMilestones extends Component {
       oracles,
       goalAmount,
       user,
-      actualAmount,
-      projectStatus
+      actualAmount
     } = this.props;
 
-    const { currentStep, confirmationStatus, milestones } = this.state;
+    const { currentStep, milestones } = this.state;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
@@ -487,12 +489,14 @@ class ConcensusMilestones extends Component {
                     type="success"
                     showIcon
                   />
-                ) : actualAmount > 0 && (
-                  <Alert
-                    message="You can start the project with the current funded amount"
-                    type="info"
-                    showIcon
-                  />
+                ) : (
+                  actualAmount > 0 && (
+                    <Alert
+                      message="You can start the project with the current funded amount"
+                      type="info"
+                      showIcon
+                    />
+                  )
                 )
               ) : (
                 ''
@@ -655,12 +659,15 @@ class ConcensusMilestones extends Component {
               height={140}
               width={140}
             />
-            <h1>Funding!</h1>
-            <h2>Circles will be checking your funds transfer</h2>
-            {confirmationStatus ? (
+            <h1>Funds information received!</h1>
+            <h2>
+              We are checking the information, your current funds transfer
+              status is:
+            </h2>
+            {this.actualTransferState !== null ? (
               <TransferLabel
-                text={confirmationStatus.name}
-                theme={statusMap[confirmationStatus.status]}
+                text={transferStatusMap[this.actualTransferState].show}
+                theme={transferStatusMap[this.actualTransferState].theme}
               />
             ) : (
               ''
@@ -674,7 +681,6 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
           <CustomButton
-            disabled
             theme="Primary"
             buttonText="Confirm"
             onClick={() => Routing.toExploreProjects()}
