@@ -4,6 +4,10 @@
   height: 80%;
   overflow-y: scroll;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   .LabelSteps {
     @include primary-text($label, $grey, 500);
     text-transform: uppercase;

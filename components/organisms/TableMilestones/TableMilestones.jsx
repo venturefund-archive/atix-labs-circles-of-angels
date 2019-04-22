@@ -392,7 +392,7 @@ class TableMilestones extends React.Component {
           components={components}
           columns={columns}
           dataSource={dataSource}
-          scroll={{ x: 1300 }}
+          scroll={{ x: 1300, y: '45vh' }}
           className="TableMilestones"
           defaultSortOrder="ascend"
         />
