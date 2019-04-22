@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Divider, Icon, Breadcrumb, Tooltip, message } from 'antd';
+import { isEmpty } from 'lodash';
 import Routing from '../components/utils/Routes';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -28,7 +29,6 @@ import FileUploadStatus from '../constants/FileUploadStatus';
 import FileType from '../constants/FileTypes';
 import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
-import { isEmpty } from 'lodash';
 
 const BreadCrumb = query => (
   <Breadcrumb>
@@ -186,12 +186,16 @@ class ProjectEvidence extends Component {
       projectOwner
     } = this.props;
 
+    const { uploadEvidenceList } = this.state;
+
     const isActivityOracle =
+      isOracle &&
       activity.oracle &&
       activity.oracle.user.id &&
-      isOracle &&
       user.id === activity.oracle.user.id;
     const isOwner = isSocialEntrepreneur && user.id === projectOwner;
+
+    const disableUpload = isEmpty(uploadEvidenceList);
 
     const completedActivity =
       activity.status === MilestoneActivityStatus.COMPLETED;
@@ -256,6 +260,7 @@ class ProjectEvidence extends Component {
                   />
                   <CustomButton
                     theme="Primary"
+                    disabled={disableUpload}
                     buttonText="Upload"
                     onClick={this.uploadFiles}
                   />
