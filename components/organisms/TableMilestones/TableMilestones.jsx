@@ -67,7 +67,8 @@ class TableMilestones extends React.Component {
               showSearch
               placeholder="Select Oracle"
               optionFilterProp="children"
-              onChange={user => {
+              onChange={selected => {
+                const user = JSON.parse(selected);
                 onAssignOracle(user ? user.id : undefined, record.id);
                 record.oracle = user;
               }}
@@ -75,7 +76,7 @@ class TableMilestones extends React.Component {
             >
               <Select.Option value={null}>None</Select.Option>
               {oracles.map(aOracle => (
-                <Select.Option key={aOracle.id} value={aOracle}>
+                <Select.Option key={aOracle.id} value={JSON.stringify(aOracle)}>
                   {aOracle.username}
                 </Select.Option>
               ))}
@@ -395,6 +396,7 @@ class TableMilestones extends React.Component {
           scroll={{ x: 1300 }}
           className="TableMilestones"
           defaultSortOrder="ascend"
+          rowKey={record => record.id}
         />
         {visible && createActivityModal}
       </div>
