@@ -29,9 +29,10 @@ const DragUploadFile = ({
     accept,
     onRemove: remove,
     disabled,
-    showUploadList,
-    fileList: filelist
+    showUploadList
   };
+
+  if (filelist) props.fileList = filelist;
 
   return (
     <div className="DraggerFile">
