@@ -98,7 +98,6 @@ class Step2 extends React.Component {
       message.success(`${info.file.name} file uploaded successfully.`);
       project.files.projectMilestones = projectMilestones;
       this.setState({
-        milestonesErrors: [],
         uploadDisable: true,
         creationStatus: true,
         filelist: [projectMilestones]
@@ -117,7 +116,8 @@ class Step2 extends React.Component {
     this.setState({
       uploadDisable: true,
       verifying: true,
-      creationStatus: false
+      creationStatus: false,
+      milestonesErrors: []
     });
   };
 
