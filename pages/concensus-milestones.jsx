@@ -676,7 +676,6 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
           <CustomButton
-            disabled
             theme="Primary"
             buttonText="Confirm"
             onClick={() => Routing.toExploreProjects()}
