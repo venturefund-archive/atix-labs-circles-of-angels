@@ -3,8 +3,11 @@ import { Button } from 'antd';
 import { isEmpty } from 'lodash';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
+import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
+import { downloadProposalTemplate } from '../../../api/projectApi';
 
 import './_style.scss';
+import { showModalError } from '../../utils/Modals';
 
 const webform = {
   form: {}
@@ -15,6 +18,20 @@ const getValidFile = file => {
 };
 
 class Step1 extends React.Component {
+  clickDownloadProposalTemplate = async () => {
+    const res = await downloadProposalTemplate();
+    if (res.error) {
+      console.log(res);
+      const { error } = res;
+      const title = 'Proposal template download failed';
+      const content = error.response
+        ? 'Could not download project proposal template. Please try again later.'
+        : error.message;
+      showModalError(title, content);
+    }
+    return res;
+  };
+
   validProject = () => {
     const { project, next } = this.props;
     webform.form.validateFields();
@@ -97,6 +114,10 @@ class Step1 extends React.Component {
               hideButton={hiddenButtons.hideButtonProposal}
               beforeUpload={() => hideButton('hideButtonProposal')}
               remove={() => showButton('hideButtonProposal')}
+            />
+            <DownloadTemplate
+              click={this.clickDownloadProposalTemplate}
+              text="Download Project Proposal Template"
             />
             <BlockUpload
               subtitle="Project Agreement"
