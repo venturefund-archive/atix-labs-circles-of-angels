@@ -38,8 +38,7 @@ const updateActivity = async ({
 
 const assignOracleToActivity = async (userId, activityId) => {
   try {
-    console.log(`assigning oracle ${userId} to activity ${activityId}`);
-    const response = await api.post(
+    const response = await api.put(
       `${baseURL}/${activityId}/assignOracle/${userId}`
     );
     return response.data;
@@ -50,7 +49,9 @@ const assignOracleToActivity = async (userId, activityId) => {
 
 const unassignOracleToActivity = async activityId => {
   try {
-    const response = await api.post(`${baseURL}/${activityId}/unassignOracle`);
+    const response = await api.delete(
+      `${baseURL}/${activityId}/unassignOracle`
+    );
     return response.data;
   } catch (error) {
     return { error };
