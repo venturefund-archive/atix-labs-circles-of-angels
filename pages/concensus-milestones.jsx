@@ -194,6 +194,7 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
+    const { projectId } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -203,7 +204,8 @@ class ConcensusMilestones extends Component {
 
     if (!response.error) {
       showModalSuccess('Success!', 'Task deleted successfully!');
-      this.goToStep(0);
+      const milestones = await ConcensusMilestones.getMilestones(projectId);
+      this.setState({ milestones });
     } else {
       const { error } = response;
       const title = error.response
