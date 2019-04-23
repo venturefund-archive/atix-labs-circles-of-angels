@@ -79,27 +79,15 @@ class ConcensusMilestones extends Component {
 
   static async getInitialProps(query) {
     const { projectId, initialStep } = query.query;
-    const response = await getProjectMilestones(projectId);
     const project = (await getProject(projectId)).data;
     const users = await getUsers(projectId);
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
     const actualAmount = (await getActualProjectAmount(projectId)).data;
-
-    const milestonesAndActivities = [];
-    response.data.forEach(milestone => {
-      milestonesAndActivities.push(milestone);
-      milestone.activities.forEach((activity, j) => {
-        const activityWithId = {
-          ...activity,
-          type: `Activity ${j + 1}`
-        };
-        milestonesAndActivities.push(activityWithId);
-      });
-    });
+    const milestones = await this.getMilestones(projectId);
 
     return {
-      milestones: milestonesAndActivities,
+      milestones,
       projectName: project.projectName,
       userProjects: users.data,
       projectId,
@@ -111,6 +99,22 @@ class ConcensusMilestones extends Component {
       actualAmount,
       projectStatus: project.status
     };
+  }
+
+  static async getMilestones(projectId) {
+    const response = await getProjectMilestones(projectId);
+    const milestonesAndActivities = [];
+    response.data.forEach(milestone => {
+      milestonesAndActivities.push(milestone);
+      milestone.activities.forEach((activity, j) => {
+        const activityWithId = {
+          ...activity,
+          type: `Activity ${j + 1}`
+        };
+        milestonesAndActivities.push(activityWithId);
+      });
+    });
+    return milestonesAndActivities;
   }
 
   componentDidMount = () => {
@@ -190,6 +194,7 @@ class ConcensusMilestones extends Component {
   };
 
   deleteTask = async task => {
+    const { projectId } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
@@ -199,7 +204,8 @@ class ConcensusMilestones extends Component {
 
     if (!response.error) {
       showModalSuccess('Success!', 'Task deleted successfully!');
-      this.goToStep(0);
+      const milestones = await ConcensusMilestones.getMilestones(projectId);
+      this.setState({ milestones });
     } else {
       const { error } = response;
       const title = error.response
@@ -360,7 +366,8 @@ class ConcensusMilestones extends Component {
       } else {
         showModalSuccess('Success!', 'Activity created successfully!');
         hideModal();
-        this.goToStep(0);
+        const milestones = await ConcensusMilestones.getMilestones(projectId);
+        this.setState({ milestones });
       }
     } else {
       showModalError(
