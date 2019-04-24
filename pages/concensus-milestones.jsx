@@ -449,7 +449,7 @@ class ConcensusMilestones extends Component {
                 />
               )}
             </div>
-            <div className="space-between">
+            <div className="flex">
               <div className="vertical  Data">
                 <a className="TextBlue" target="_blank" href={faqLink}>
                   {faqLink}
