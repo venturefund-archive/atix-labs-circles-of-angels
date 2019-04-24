@@ -9,10 +9,10 @@
     flex-flow: column;
     justify-content: flex-end;
     position: relative;
-    height: 40%;
+    height: 50%;
     overflow: hidden;
     img {
-      height: 100%;
+      width: 100%;
     }
   }
   .ProjectEnterprice {
@@ -38,7 +38,7 @@
   .ProjectContent {
     display: flex;
     justify-content: space-between;
-    height: 60%;
+    height: 50%;
     .ProjectGeneralData {
       width: 30%;
       padding: 0 1.5em;

@@ -73,7 +73,7 @@ class ProjectDetail extends React.Component {
             iconItem: 'environment'
           },
           {
-            subtitle: 'Timeframe',
+            subtitle: 'Project duration',
             title: projectDetail.timeframe,
             iconItem: 'calendar'
           },

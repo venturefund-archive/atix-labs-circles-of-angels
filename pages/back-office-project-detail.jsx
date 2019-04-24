@@ -57,7 +57,7 @@ const columns = [
     dataIndex: 'faqLink',
     key: 'faqLink',
     fixed: 'right',
-    render: faqLink => <a href={faqLink}>{faqLink}</a>
+    render: faqLink => <a target="_blank" href={faqLink}>{faqLink}</a>
   }
 ];
 

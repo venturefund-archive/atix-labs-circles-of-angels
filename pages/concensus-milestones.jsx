@@ -451,7 +451,7 @@ class ConcensusMilestones extends Component {
             </div>
             <div className="space-between">
               <div className="vertical  Data">
-                <a className="TextBlue" href={faqLink}>
+                <a className="TextBlue" target="_blank" href={faqLink}>
                   {faqLink}
                 </a>
                 <span className="Overline">FAQ Document</span>
@@ -459,7 +459,7 @@ class ConcensusMilestones extends Component {
               <Divider type="vertical" />
               <div className="vertical  Data">
                 <p className="TextBlue">{goalAmount}</p>
-                <span className="Overline">Goal Amount</span>
+                <span className="Overline">$Goal Amount</span>
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
@@ -534,7 +534,7 @@ class ConcensusMilestones extends Component {
     );
 
     const step2 = (
-      <div>
+      <div className="ContentStep">
         <Steps stepNumber={1} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">

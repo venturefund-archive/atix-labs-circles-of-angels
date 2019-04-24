@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Divider, Icon, Breadcrumb, Tooltip, message } from 'antd';
+import { Divider, Icon, Breadcrumb, Tooltip, message, Button } from 'antd';
 import { isEmpty } from 'lodash';
 import Routing from '../components/utils/Routes';
 import Header from '../components/molecules/Header/Header';
@@ -277,11 +277,6 @@ class ProjectEvidence extends Component {
               />
             </div>
             <div className="ControlSteps StepOne">
-              <CustomButton
-                theme="Primary"
-                buttonText="Back"
-                onClick={this.goToProjectProgress}
-              />
               {isActivityOracle &&
               !completedActivity &&
               !isEmpty(activity.evidence) ? (
