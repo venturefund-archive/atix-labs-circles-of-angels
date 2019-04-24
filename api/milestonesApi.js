@@ -63,4 +63,40 @@ const deleteActivity = async activityId => {
   }
 };
 
-export { updateMilestone, deleteMilestone, deleteActivity };
+const getAllMilestones = async () => {
+  try {
+    const response = await api.get(`${baseURL}`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const getAllBudgetStatus = async () => {
+  try {
+    const response = await api.get(`${baseURL}/budgetStatus`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const changeBudgetStatus = async (milestoneId, budgetStatusId) => {
+  try {
+    const response = await api.put(`${baseURL}/${milestoneId}/budgetStatus`, {
+      budgetStatusId
+    });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export {
+  updateMilestone,
+  deleteMilestone,
+  deleteActivity,
+  getAllMilestones,
+  getAllBudgetStatus,
+  changeBudgetStatus
+};
