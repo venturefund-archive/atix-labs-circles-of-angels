@@ -195,6 +195,25 @@ const downloadMilestonesTemplate = async () => {
   }
 };
 
+const downloadProposalTemplate = async () => {
+  try {
+    const config = { responseType: 'blob' };
+    const response = await api.get(`${baseURL}/proposalTemplate`, config);
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    const filename = response.headers.file;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 const getActualProjectAmount = async projectId => {
   try {
     const response = await api.get(`${baseURL}/${projectId}/alreadyFunded`);
@@ -237,5 +256,6 @@ export {
   downloadMilestonesTemplate,
   getActualProjectAmount,
   startProject,
-  getProjectsAsOracle
+  getProjectsAsOracle,
+  downloadProposalTemplate
 };
