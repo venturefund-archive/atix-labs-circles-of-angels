@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import Routing from '../../utils/Routes';
 import './_style.scss';
@@ -63,30 +63,34 @@ const TableProjectProgress = ({
       title: 'Action',
       key: 'action',
       fixed: 'right',
-      render: (text, record) => {
-        return (
-          record.type !== 'Milestone' && (
-            <span key={record.id}>
-              <a
-                onClick={() => {
-                  Routing.toProjectEvidence({
-                    activityId: record.id,
-                    projectId
-                  });
-                }}
-              >
-                Evidence
-              </a>
-            </span>
-          )
-        );
-      }
+      render: (text, record) =>
+        record.type !== 'Milestone' && (
+          <span key={record.id}>
+            <a
+              onClick={() => {
+                Routing.toProjectEvidence({
+                  activityId: record.id,
+                  projectId
+                });
+              }}
+            >
+              Evidence
+            </a>
+          </span>
+        )
     }
   ];
 
   return (
     <Table
-      title={() => 'Milestones'}
+      title={() => (
+        <div className="space-between">
+          Milestones
+          <div className="milestoneStatus">
+            <Progress percent={100} size="small" /> Milestone Complete!
+          </div>
+        </div>
+      )}
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1300 }}

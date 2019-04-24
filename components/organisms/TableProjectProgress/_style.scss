@@ -14,11 +14,26 @@
       vertical-align: baseline;
     }
   }
+
+  
 }
 .ant-table-title {    
   @include primary-text($h2, $secondary-color, 600);
-  margin-bottom: 0.4em;
-  padding: 16px;
+  margin-bottom: 0;
+  padding: 1em 1em;
+  .milestoneStatus{
+    display: flex;
+      width: 20%;
+      color: $sucess-color;
+      background: $success-color-light;
+      padding: 0.5em;
+      border-radius: 4px;
+      justify-content: center;
+      font-weight: 500;
+      .ant-progress-line{
+        width: 42%;
+      }
+  }
 }
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td {
