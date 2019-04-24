@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Divider, Icon, Breadcrumb, Tooltip, message } from 'antd';
+import { Divider, Icon, Breadcrumb, Tooltip, message, Tag } from 'antd';
 import { isEmpty } from 'lodash';
 import Routing from '../components/utils/Routes';
 import Header from '../components/molecules/Header/Header';
@@ -29,6 +29,10 @@ import FileUploadStatus from '../constants/FileUploadStatus';
 import FileType from '../constants/FileTypes';
 import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
+
+const HashIcon = () => (
+  <img src="/static/images/hashIcon.svg" alt="hash" width="15" />
+);
 
 const BreadCrumb = query => (
   <Breadcrumb>
@@ -217,7 +221,10 @@ class ProjectEvidence extends Component {
               </div>
               <div className="b-right">
                 <div>
-                  <Label labelText="Task name" />
+                  <div className="flex">
+                    <Label labelText="Task name" />
+                    <Tag color="green">This task was completed!</Tag>
+                  </div>
                   <h3>{activity.tasks}</h3>
                 </div>
                 <div className="flex list">
@@ -241,6 +248,15 @@ class ProjectEvidence extends Component {
                       />
                     </Tooltip>
                     {activity.budget}
+                  </span>
+                  <Divider type="vertical" />
+                  <span className="listItem flex">
+                    <Tooltip title="Hash">
+                      <Icon
+                        component={HashIcon}
+                      />
+                    </Tooltip>
+                    760e7dab2836853c63805033e51466760e7dab2836853
                   </span>
                 </div>
               </div>
