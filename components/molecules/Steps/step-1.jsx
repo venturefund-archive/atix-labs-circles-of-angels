@@ -108,7 +108,7 @@ class Step1 extends React.Component {
               text="Please download the pitch proposal document and update in-depth description of the project. This form will take between 20mins to 60mins for you to fill in"
               name="projectProposal"
               typeAccepts=".pdf, .ppt, .docx, .doc"
-              buttonText="Upload File"
+              buttonText="Upload Project Proposal"
               change={info =>
                 changeProjectFile(project, 'projectProposal', info)
               }
@@ -119,7 +119,7 @@ class Step1 extends React.Component {
             />
             <DownloadTemplate
               click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal Template"
+              text="Download Project Proposal"
             />
             <BlockUpload
               subtitle="Project Agreement"
