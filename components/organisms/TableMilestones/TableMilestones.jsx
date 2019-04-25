@@ -42,16 +42,16 @@ class TableMilestones extends React.Component {
 
     this.columns = [
       {
-        title: 'Timeline',
-        dataIndex: 'quarter',
-        key: 'quarter',
-        editable: true,
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
         fixed: 'left'
       },
       {
-        title: 'Type',
-        dataIndex: 'type',
-        key: 'type'
+        title: 'Timeline',
+        dataIndex: 'quarter',
+        key: 'quarter',
+        editable: true
       },
       {
         title: 'Assigned Oracle',

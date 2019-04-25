@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import Routing from '../../utils/Routes';
 import './_style.scss';
@@ -12,16 +12,16 @@ const TableProjectProgress = ({
 }) => {
   const columns = [
     {
-      title: 'Quarter',
-      width: 100,
-      dataIndex: 'quarter',
-      key: 'quarter',
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
       fixed: 'left'
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type'
+      title: 'Quarter',
+      width: 100,
+      dataIndex: 'quarter',
+      key: 'quarter'
     },
     { title: 'Tasks', dataIndex: 'tasks', key: '1' },
     { title: 'Social Impact Targets', dataIndex: 'targets', key: '2' },
@@ -48,14 +48,18 @@ const TableProjectProgress = ({
       key: 'status',
       dataIndex: 'status',
       fixed: 'right',
-      render: rawStatus => {
-        const status = MilestoneActivityStatusMap[rawStatus];
-        return status ? (
-          <span key={status.name}>
-            <Tag color={status.color}>{status.name.toUpperCase()}</Tag>
+      render: (rawStatus, record) => {
+        const activityStatus = MilestoneActivityStatusMap[rawStatus];
+        return record.type !== 'Milestone' ? (
+          <span key={activityStatus.name}>
+            <Tag color={activityStatus.color}>
+              {activityStatus.name.toUpperCase()}
+            </Tag>
           </span>
         ) : (
-          ''
+          <div className="milestoneStatus">
+            <Progress percent={100} size="small" />
+          </div>
         );
       }
     },
@@ -63,30 +67,27 @@ const TableProjectProgress = ({
       title: 'Action',
       key: 'action',
       fixed: 'right',
-      render: (text, record) => {
-        return (
-          record.type !== 'Milestone' && (
-            <span key={record.id}>
-              <a
-                onClick={() => {
-                  Routing.toProjectEvidence({
-                    activityId: record.id,
-                    projectId
-                  });
-                }}
-              >
-                Evidence
-              </a>
-            </span>
-          )
-        );
-      }
+      render: (text, record) =>
+        record.type !== 'Milestone' && (
+          <span key={record.id}>
+            <a
+              onClick={() => {
+                Routing.toProjectEvidence({
+                  activityId: record.id,
+                  projectId
+                });
+              }}
+            >
+              Evidence
+            </a>
+          </span>
+        )
     }
   ];
 
   return (
     <Table
-      title={() => 'Milestones'}
+      title={() => <div className="space-between">Milestones</div>}
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1300 }}
