@@ -223,13 +223,20 @@ class ProjectEvidence extends Component {
                 </div>
               </div>
               <div className="StepDescription">
-                <h3>Upload evidence and help verify this task, mark it as complete once all evidence has been uploaded</h3>
+                <h3>
+                  Upload evidence and help verify this task, mark it as complete
+                  once all evidence has been uploaded
+                </h3>
               </div>
               <div className="b-right">
                 <div>
                   <div className="flex">
                     <Label labelText="Task name" />
-                    <Tag color="green">This task was completed!</Tag>
+                    {completedActivity ? (
+                      <Tag color="green">This task was completed!</Tag>
+                    ) : (
+                      ''
+                    )}
                   </div>
                   <h3>{activity.tasks}</h3>
                 </div>

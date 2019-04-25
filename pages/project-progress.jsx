@@ -36,8 +36,10 @@ class ProjectProgress extends React.Component {
     const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestonesAndActivities = [];
     const oraclesFilter = [];
-
-    milestonesResponse.data.forEach(milestone => {
+    const sortedMilestones = milestonesResponse.data.sort(
+      (a, b) => a.id - b.id
+    );
+    sortedMilestones.forEach(milestone => {
       const completedActivities = 0;
       const milestoneCompletion = {
         ...milestone,
@@ -83,7 +85,7 @@ class ProjectProgress extends React.Component {
       if (error.response) {
         error.response.data.error =
           // eslint-disable-next-line prettier/prettier
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? 'Error Downloading Project Proposal'
@@ -125,10 +127,16 @@ class ProjectProgress extends React.Component {
               </div>
               <div className="flex">
                 <div className="vertical  Data">
-                  <a className="TextBlue" href={project.faqLink}>
+                  <a
+                    className="TextBlue"
+                    href={project.faqLink}
+                    target="_blank"
+                  >
                     {project.faqLink}
                   </a>
-                  <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
+                  <span className="Overline">
+                    FAQ-Funders and SE's Questions & Answers Link
+                  </span>
                 </div>
                 <Divider type="vertical" />
                 <div className="vertical Data">
