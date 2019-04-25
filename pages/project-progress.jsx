@@ -19,6 +19,7 @@ import { getTransferListOfProject } from '../api/transferApi';
 import { getOracles } from '../api/userApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError } from '../components/utils/Modals';
+import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const HashIcon = () => (
   <img src="/static/images/hashIcon.svg" alt="hash" width="15" />
@@ -37,8 +38,13 @@ class ProjectProgress extends React.Component {
     const oraclesFilter = [];
 
     milestonesResponse.data.forEach(milestone => {
-      milestonesAndActivities.push(milestone);
-      milestone.activities.forEach((activity, j) => {
+      const completedActivities = 0;
+      const milestoneCompletion = {
+        ...milestone,
+        completedActivities
+      };
+      milestonesAndActivities.push(milestoneCompletion);
+      milestoneCompletion.activities.forEach((activity, j) => {
         const activityWithId = {
           ...activity,
           type: `Activity ${j + 1}`
@@ -48,6 +54,9 @@ class ProjectProgress extends React.Component {
             text: activity.oracle.username,
             value: activity.oracle.username
           });
+        }
+        if (activity.status === MilestoneActivityStatus.COMPLETED) {
+          milestoneCompletion.completedActivities++;
         }
         milestonesAndActivities.push(activityWithId);
       });
@@ -119,7 +128,7 @@ class ProjectProgress extends React.Component {
                   <a className="TextBlue" href={project.faqLink}>
                     {project.faqLink}
                   </a>
-                  <span className="Overline">FAQ Document</span>
+                  <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
                 </div>
                 <Divider type="vertical" />
                 <div className="vertical Data">

@@ -454,7 +454,7 @@ class ConcensusMilestones extends Component {
                 <a className="TextBlue" target="_blank" href={faqLink}>
                   {faqLink}
                 </a>
-                <span className="Overline">FAQ Document</span>
+                <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
@@ -686,11 +686,6 @@ class ConcensusMilestones extends Component {
             theme="Download"
             buttonText="Previous"
             onClick={this.previousStep}
-          />
-          <CustomButton
-            theme="Primary"
-            buttonText="Confirm"
-            onClick={() => Routing.toExploreProjects()}
           />
         </div>
       </div>

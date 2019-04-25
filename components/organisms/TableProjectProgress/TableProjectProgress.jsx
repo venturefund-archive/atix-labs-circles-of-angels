@@ -50,6 +50,7 @@ const TableProjectProgress = ({
       fixed: 'right',
       render: (rawStatus, record) => {
         const activityStatus = MilestoneActivityStatusMap[rawStatus];
+        console.log(record);
         return record.type !== 'Milestone' ? (
           <span key={activityStatus.name}>
             <Tag color={activityStatus.color}>
@@ -58,7 +59,12 @@ const TableProjectProgress = ({
           </span>
         ) : (
           <div className="milestoneStatus">
-            <Progress percent={100} size="small" />
+            <Progress
+              percent={
+                (record.completedActivities * 100) / record.activities.length
+              }
+              size="small"
+            />
           </div>
         );
       }
