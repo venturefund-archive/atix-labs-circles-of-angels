@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'antd';
 import { getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import Header from '../components/molecules/Header/Header';
@@ -61,59 +62,58 @@ class BackofficeProjectDetail extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <div className="TableContainer">
-            <div>
-              <img
-                src={projectDetail.coverPhoto || ''}
-                alt="projectCoverImage"
-              />
-              <div>
-                <p>Entreprise</p>
-                <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
-              </div>
-            </div>
-            <div className="HeaderProjectDetail">
-              <img
-                src="./static/images/button-arrow-back.svg"
-                onClick={Routing.goBack}
-                alt="Go Back"
-              />
-              <h1>Project Details</h1>
-            </div>
-            <div>
-              <ProjectMission
-                mission={projectDetail ? projectDetail.mission : ''}
-                terms={projectDetail ? projectDetail.problemAddressed : ''}
-              />
-              <div className="ProjectGeneralData">
-                <div className="block">
-                  <h1 className="title">Generals</h1>
+          <div className="ContentComplete">
+            <div className="ProjectContainer DataSteps">
+              <div className="ProjectHeader">
+                <img
+                  src={projectDetail.coverPhoto || ''}
+                  alt="projectCoverImage"
+                />
+                <div className="ProjectEnterprice">
+                  <p>Entreprise</p>
+                  <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
                 </div>
-
-                {itemsData.map((item, i) => (
-                  <GeneralItem
-                    subtitle={item.subtitle}
-                    title={item.title}
-                    iconItem={item.iconItem}
-                    key={i}
-                  />
-                ))}
               </div>
-            </div>
+              <div className="ProjectContent">
 
-            {ProjectStatus.IN_PROGRESS === projectDetail.status ? (
-              <CustomButton
-                theme="Primary"
-                buttonText="View Progress"
-                onClick={() =>
-                  Routing.toProjectProgress({
-                    projectId: projectDetail.id
-                  })
-                }
-              />
-            ) : (
-              ''
-            )}
+                <ProjectMission
+                  mission={projectDetail ? projectDetail.mission : ''}
+                  terms={projectDetail ? projectDetail.problemAddressed : ''}
+                />
+                <div className="ProjectGeneralData">
+                  <div className="block">
+                    <h1 className="title">Generals</h1>
+                  </div>
+
+                  {itemsData.map((item, i) => (
+                    <GeneralItem
+                      subtitle={item.subtitle}
+                      title={item.title}
+                      iconItem={item.iconItem}
+                      key={i}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div />
+            </div>
+            <div className="SubmitProject">
+
+               <Button onClick={Routing.goBack}>Back</Button> 
+              {ProjectStatus.IN_PROGRESS === projectDetail.status ? (
+                <CustomButton
+                  theme="Primary"
+                  buttonText="View Progress"
+                  onClick={() =>
+                    Routing.toProjectProgress({
+                      projectId: projectDetail.id
+                    })
+                  }
+                />
+              ) : (
+                ''
+              )}
+            </div>
           </div>
         </div>
       </div>
