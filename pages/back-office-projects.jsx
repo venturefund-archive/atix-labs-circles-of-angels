@@ -28,7 +28,7 @@ class BackOfficeProjects extends React.Component {
     const projects = (await getProjects()).data;
     const { milestones } = (await getAllMilestones()).data;
     const sortedMilestones = milestones.sort((a, b) => {
-      // Order by status:Completed>Verified>Started>Idle first
+      // Order by status:Completed>Verified>Started>Pending first
       if (b.status.status > a.status.status) {
         return 1;
       }
