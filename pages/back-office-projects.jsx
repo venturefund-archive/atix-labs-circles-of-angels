@@ -12,6 +12,7 @@ import {
   getAllBudgetStatus,
   changeBudgetStatus
 } from '../api/milestonesApi';
+import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 import './_style.scss';
 import './_back-office-projects.scss';
@@ -27,16 +28,12 @@ class BackOfficeProjects extends React.Component {
   static async getInitialProps(query) {
     const projects = (await getProjects()).data;
     const { milestones } = (await getAllMilestones()).data;
-    const sortedMilestones = milestones.sort((a, b) => {
-      // Order by status:Completed>Verified>Started>Pending first
-      if (b.status.status > a.status.status) {
-        return 1;
-      }
-      if (b.status.status < a.status.status) {
-        return -1;
-      }
+    const filterMilestones = milestones.filter(
+      milestone => milestone.status.status === MilestoneActivityStatus.COMPLETED
+    );
 
-      // Order by budgetStatus:Pending>Completed second
+    const sortedMilestones = filterMilestones.sort((a, b) => {
+      // Order by budgetStatus:Pending>Completed first
       if (b.budgetStatus.id < a.budgetStatus.id) {
         return 1;
       }
@@ -44,7 +41,7 @@ class BackOfficeProjects extends React.Component {
         return -1;
       }
 
-      // Order by higher id (newer) third
+      // Order by higher id (newer) second
       if (b.id > a.id) {
         return 1;
       }
