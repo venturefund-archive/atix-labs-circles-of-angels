@@ -211,6 +211,7 @@ class ProjectEvidence extends Component {
           <div className="Content">
             <div className="DataSteps">
               <BreadCrumb query={projectId} />
+
               <div className="ProjectInfoHeader">
                 <div className="space-between">
                   <div>
@@ -218,6 +219,9 @@ class ProjectEvidence extends Component {
                     <h1>{projectName}</h1>
                   </div>
                 </div>
+              </div>
+              <div className="StepDescription">
+                <h3>Upload evidence and help verify this task, mark it as complete once all evidence has been uploaded</h3>
               </div>
               <div className="b-right">
                 <div>
@@ -258,6 +262,7 @@ class ProjectEvidence extends Component {
                   </span>
                 </div>
               </div>
+
               <Divider />
 
               {(isBackofficeAdmin ||
