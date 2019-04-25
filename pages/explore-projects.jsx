@@ -10,6 +10,7 @@ import Routing from '../components/utils/Routes';
 import './_style.scss';
 import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';
+import projectStatus from '../constants/ProjectStatus';
 
 class ExploreProjects extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class ExploreProjects extends React.Component {
 
     this.state = {
       activeOracleProjects: []
-    }
+    };
   }
 
   static async getInitialProps(req) {
@@ -71,7 +72,9 @@ class ExploreProjects extends React.Component {
             </div>
             <div className="ProjectsCardsContainer">
               {projects.map(project => {
-                const showTag = activeOracleProjects.indexOf(project.id) !== -1;
+                const showTag =
+                  project.status === projectStatus.IN_PROGRESS &&
+                  activeOracleProjects.indexOf(project.id) !== -1;
                 return (
                   <CardProject
                     enterpriseName={project.projectName}
