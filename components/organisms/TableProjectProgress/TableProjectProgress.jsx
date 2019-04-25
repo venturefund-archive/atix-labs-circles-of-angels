@@ -12,16 +12,16 @@ const TableProjectProgress = ({
 }) => {
   const columns = [
     {
-      title: 'Quarter',
-      width: 100,
-      dataIndex: 'quarter',
-      key: 'quarter',
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
       fixed: 'left'
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type'
+      title: 'Quarter',
+      width: 100,
+      dataIndex: 'quarter',
+      key: 'quarter'
     },
     { title: 'Tasks', dataIndex: 'tasks', key: '1' },
     { title: 'Social Impact Targets', dataIndex: 'targets', key: '2' },
@@ -48,14 +48,18 @@ const TableProjectProgress = ({
       key: 'status',
       dataIndex: 'status',
       fixed: 'right',
-      render: rawStatus => {
-        const status = MilestoneActivityStatusMap[rawStatus];
-        return status ? (
-          <span key={status.name}>
-            <Tag color={status.color}>{status.name.toUpperCase()}</Tag>
+      render: (rawStatus, record) => {
+        const activityStatus = MilestoneActivityStatusMap[rawStatus];
+        return record.type !== 'Milestone' ? (
+          <span key={activityStatus.name}>
+            <Tag color={activityStatus.color}>
+              {activityStatus.name.toUpperCase()}
+            </Tag>
           </span>
         ) : (
-          ''
+          <div className="milestoneStatus">
+            <Progress percent={100} size="small" />
+          </div>
         );
       }
     },
@@ -83,14 +87,7 @@ const TableProjectProgress = ({
 
   return (
     <Table
-      title={() => (
-        <div className="space-between">
-          Milestones
-          <div className="milestoneStatus">
-            <Progress percent={100} size="small" /> Milestone Complete!
-          </div>
-        </div>
-      )}
+      title={() => <div className="space-between">Milestones</div>}
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1300 }}
