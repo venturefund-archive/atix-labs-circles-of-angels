@@ -192,6 +192,8 @@ class ProjectEvidence extends Component {
 
     const { uploadEvidenceList } = this.state;
 
+    console.log('ACTIVITY', activity);
+
     const isActivityOracle =
       isOracle &&
       activity.oracle &&
@@ -254,7 +256,7 @@ class ProjectEvidence extends Component {
                     <Tooltip title="Hash">
                       <Icon component={HashIcon} />
                     </Tooltip>
-                    760e7dab2836853c63805033e51466760e7dab2836853
+                    {activity.transactionHash}
                   </span>
                 </div>
               </div>
