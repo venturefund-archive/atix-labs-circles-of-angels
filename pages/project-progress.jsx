@@ -17,6 +17,7 @@ import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import { getOracles } from '../api/userApi';
 import { withUser } from '../components/utils/UserContext';
+import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const HashIcon = () => (
   <img src="/static/images/hashIcon.svg" alt="hash" width="15" />
@@ -35,8 +36,13 @@ class ProjectProgress extends React.Component {
     const oraclesFilter = [];
 
     milestonesResponse.data.forEach(milestone => {
-      milestonesAndActivities.push(milestone);
-      milestone.activities.forEach((activity, j) => {
+      const completedActivities = 0;
+      const milestoneCompletion = {
+        ...milestone,
+        completedActivities
+      };
+      milestonesAndActivities.push(milestoneCompletion);
+      milestoneCompletion.activities.forEach((activity, j) => {
         const activityWithId = {
           ...activity,
           type: `Activity ${j + 1}`
@@ -46,6 +52,9 @@ class ProjectProgress extends React.Component {
             text: activity.oracle.username,
             value: activity.oracle.username
           });
+        }
+        if (activity.status === MilestoneActivityStatus.COMPLETED) {
+          milestoneCompletion.completedActivities++;
         }
         milestonesAndActivities.push(activityWithId);
       });
