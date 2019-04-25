@@ -458,15 +458,15 @@ class ConcensusMilestones extends Component {
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
-                <p className="TextBlue">{goalAmount}</p>
-                <span className="Overline">$Goal Amount</span>
+                <p className="TextBlue">$ {goalAmount}</p>
+                <span className="Overline">Goal Amount</span>
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
                 {actualAmount < goalAmount ? (
-                  <p className="TextGray">{actualAmount || 0}</p>
+                  <p className="TextGray">$ {actualAmount || 0}</p>
                 ) : (
-                  <p className="TextGreen">{actualAmount || 10000}</p>
+                  <p className="TextGreen">$ {actualAmount || 10000}</p>
                 )}
                 <span className="Overline">Amounts Pledged</span>
               </div>
