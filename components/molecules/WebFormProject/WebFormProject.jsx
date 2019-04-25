@@ -119,7 +119,7 @@ class WebFormProject extends React.Component {
                 rules: [requiredField, { validator: this.checkAmount }]
               })(
                 <Input
-                  placeholder="Goal Amount"
+                  placeholder="$Goal Amount"
                   min={0}
                   prefix={
                     <Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />

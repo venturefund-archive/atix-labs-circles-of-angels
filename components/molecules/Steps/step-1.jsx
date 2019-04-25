@@ -75,7 +75,8 @@ class Step1 extends React.Component {
             <h3 className="CreateSubtitle">Project's Files</h3>
             <BlockUpload
               subtitle="Project Thumbnail Image"
-              text="This will allow funders to identify your project in the discovery phase"
+              text="This will allow funders to identify your project in the discovery phase
+              Image Size: 700x400"
               name="projectCard"
               typeAccepts="image/*"
               buttonText="Upload Image"
@@ -89,7 +90,8 @@ class Step1 extends React.Component {
             />
             <BlockUpload
               subtitle="Project's Cover Image"
-              text="This will be a cover image for your project summary"
+              text="This will be a cover image for your project summary.
+              Image Size: 1400x400 "
               name="projectCover"
               typeAccepts="image/*"
               buttonText="Upload Image"
@@ -106,7 +108,7 @@ class Step1 extends React.Component {
               text="Please download the pitch proposal document and update in-depth description of the project. This form will take between 20mins to 60mins for you to fill in"
               name="projectProposal"
               typeAccepts=".pdf, .ppt, .docx, .doc"
-              buttonText="Upload File"
+              buttonText="Upload Project Proposal"
               change={info =>
                 changeProjectFile(project, 'projectProposal', info)
               }
@@ -117,7 +119,7 @@ class Step1 extends React.Component {
             />
             <DownloadTemplate
               click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal Template"
+              text="Download Project Proposal"
             />
             <BlockUpload
               subtitle="Project Agreement"

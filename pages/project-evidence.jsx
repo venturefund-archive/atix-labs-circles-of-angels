@@ -252,9 +252,7 @@ class ProjectEvidence extends Component {
                   <Divider type="vertical" />
                   <span className="listItem flex">
                     <Tooltip title="Hash">
-                      <Icon
-                        component={HashIcon}
-                      />
+                      <Icon component={HashIcon} />
                     </Tooltip>
                     760e7dab2836853c63805033e51466760e7dab2836853
                   </span>
@@ -293,11 +291,6 @@ class ProjectEvidence extends Component {
               />
             </div>
             <div className="ControlSteps StepOne">
-              <CustomButton
-                theme="Primary"
-                buttonText="Back"
-                onClick={this.goToProjectProgress}
-              />
               {isActivityOracle &&
               !completedActivity &&
               !isEmpty(activity.evidence) ? (
