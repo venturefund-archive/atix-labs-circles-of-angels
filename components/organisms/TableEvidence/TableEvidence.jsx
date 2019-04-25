@@ -26,11 +26,9 @@ const TableEvidence = ({
     },
     {
       title: 'Hash',
-      dataIndex: 'hash',
-      key: 'hash',
-      render: date => (
-        <span>760e7dab2836853c63805033e51466760e7dab2836853c63805033e514668301fa9c478301fa9c47</span>
-      )
+      dataIndex: 'transactionHash',
+      key: 'transactionHash',
+      render: transactionHash => <span>{transactionHash}</span>
     },
     {
       title: 'Action',

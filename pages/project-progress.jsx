@@ -141,7 +141,7 @@ class ProjectProgress extends React.Component {
                   <Tooltip title="Hash">
                     <Icon component={HashIcon} />
                   </Tooltip>
-                  760e7dab2836853c63805033e51466760e7dab2836853
+                  {project.transactionHash}
                 </span>
               </div>
             </div>
