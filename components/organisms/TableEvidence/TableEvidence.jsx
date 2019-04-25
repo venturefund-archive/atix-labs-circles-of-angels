@@ -26,9 +26,9 @@ const TableEvidence = ({
     },
     {
       title: 'Hash',
-      dataIndex: 'transactionHash',
-      key: 'transactionHash',
-      render: transactionHash => <span>{transactionHash}</span>
+      dataIndex: 'fileHash',
+      key: 'fileHash',
+      render: fileHash => <span>{fileHash}</span>
     },
     {
       title: 'Action',
