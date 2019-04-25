@@ -103,7 +103,7 @@ class ProjectProgress extends React.Component {
                   <a className="TextBlue" href=".">
                     FAQLink
                   </a>
-                  <span className="Overline">FAQ Document</span>
+                  <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
                 </div>
                 <Divider type="vertical" />
                 <div className="vertical Data">
