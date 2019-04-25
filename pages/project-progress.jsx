@@ -11,12 +11,14 @@ import Routing from '../components/utils/Routes';
 import {
   getProjectMilestones,
   getActualProjectAmount,
-  getProject
+  getProject,
+  downloadProposal
 } from '../api/projectApi';
 import { getUsers } from '../api/userProjectApi';
 import { getTransferListOfProject } from '../api/transferApi';
 import { getOracles } from '../api/userApi';
 import { withUser } from '../components/utils/UserContext';
+import { showModalError } from '../components/utils/Modals';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const HashIcon = () => (
@@ -64,9 +66,8 @@ class ProjectProgress extends React.Component {
 
     return {
       milestones: milestonesAndActivities,
-      projectName: project.projectName,
       userProjects: users.data,
-      projectId,
+      project,
       transfers,
       oracles,
       actualAmount,
@@ -74,14 +75,29 @@ class ProjectProgress extends React.Component {
     };
   }
 
+  clickDownloadProposal = async () => {
+    const { project } = this.props;
+    const response = await downloadProposal(project.id);
+    if (response.error) {
+      const { error } = response;
+      if (error.response) {
+        error.response.data.error =
+          // eslint-disable-next-line prettier/prettier
+          'This project doesn\'t have a Proposal uploaded';
+      }
+      const title = error.response
+        ? 'Error Downloading Project Proposal'
+        : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
+  };
+
   render() {
-    const {
-      projectName,
-      milestones,
-      projectId,
-      isBackofficeAdmin,
-      filters
-    } = this.props;
+    const { milestones, isBackofficeAdmin, filters, project } = this.props;
 
     return (
       <div className="AppContainer">
@@ -94,7 +110,7 @@ class ProjectProgress extends React.Component {
                 <a
                   onClick={() => {
                     if (isBackofficeAdmin) Routing.goBack();
-                    else Routing.toProjectDetail({ projectId });
+                    else Routing.toProjectDetail({ projectId: project.id });
                   }}
                 >
                   <Icon type="arrow-left" />
@@ -105,12 +121,12 @@ class ProjectProgress extends React.Component {
             <div className="ProjectInfoHeader">
               <div>
                 <p className="LabelSteps">Project Name</p>
-                <h1>{projectName}</h1>
+                <h1>{project.projectName}</h1>
               </div>
               <div className="flex">
                 <div className="vertical  Data">
-                  <a className="TextBlue" href=".">
-                    FAQLink
+                  <a className="TextBlue" href={project.faqLink}>
+                    {project.faqLink}
                   </a>
                   <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
                 </div>
@@ -131,8 +147,8 @@ class ProjectProgress extends React.Component {
             </div>
             <TableProjectProgress
               dataSource={milestones}
-              projectName={projectName}
-              projectId={projectId}
+              projectName={project.projectName}
+              projectId={project.id}
               filters={filters}
             />
           </div>
