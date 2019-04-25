@@ -687,11 +687,6 @@ class ConcensusMilestones extends Component {
             buttonText="Previous"
             onClick={this.previousStep}
           />
-          <CustomButton
-            theme="Primary"
-            buttonText="Confirm"
-            onClick={() => Routing.toExploreProjects()}
-          />
         </div>
       </div>
     );
