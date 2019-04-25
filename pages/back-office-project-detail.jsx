@@ -27,7 +27,6 @@ class BackofficeProjectDetail extends React.Component {
 
   render() {
     const { projectDetail } = this.props;
-    console.log(projectDetail);
     const itemsData = projectDetail
       ? [
           {
@@ -75,7 +74,6 @@ class BackofficeProjectDetail extends React.Component {
                 </div>
               </div>
               <div className="ProjectContent">
-
                 <ProjectMission
                   mission={projectDetail ? projectDetail.mission : ''}
                   terms={projectDetail ? projectDetail.problemAddressed : ''}
@@ -98,8 +96,7 @@ class BackofficeProjectDetail extends React.Component {
               <div />
             </div>
             <div className="SubmitProject">
-
-               <Button onClick={Routing.goBack}>Back</Button> 
+              <Button onClick={Routing.goBack}>Back</Button>
               {ProjectStatus.IN_PROGRESS === projectDetail.status ? (
                 <CustomButton
                   theme="Primary"
