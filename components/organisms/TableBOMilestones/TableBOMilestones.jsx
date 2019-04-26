@@ -21,7 +21,7 @@ const TableBOMilestones = ({
       key: 'quarter'
     },
     {
-      title: 'Activities',
+      title: 'Tasks',
       dataIndex: 'tasks',
       key: 'tasks'
     },

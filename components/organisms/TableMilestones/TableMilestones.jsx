@@ -87,7 +87,7 @@ class TableMilestones extends React.Component {
         }
       },
       {
-        title: 'Activities',
+        title: 'Tasks',
         dataIndex: 'tasks',
         key: 'tasks',
         editable: true
@@ -263,7 +263,7 @@ class TableMilestones extends React.Component {
             <div className="form-section">
               <Form.Item className="TextAreaFullWidth">
                 <TextArea
-                  placeholder="Activities"
+                  placeholder="Tasks"
                   value={activity.tasks}
                   onChange={e => {
                     const tasks = e.target.value;

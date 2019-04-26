@@ -86,6 +86,12 @@ class Step1 extends React.Component {
               beforeUpload={() => hideButton('hideButtonCard')}
               remove={() => showButton('hideButtonCard')}
             />
+            <DownloadTemplate
+              subtitle=" "
+              click={this.clickDownloadProposalTemplate}
+              text="Download Project Proposal Template"
+            />
+
             <BlockUpload
               subtitle="Project's Cover Image"
               text="This will be a cover image for your project summary.
@@ -115,10 +121,7 @@ class Step1 extends React.Component {
               beforeUpload={() => hideButton('hideButtonProposal')}
               remove={() => showButton('hideButtonProposal')}
             />
-            <DownloadTemplate
-              click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal"
-            />
+
             <BlockUpload
               subtitle="Project Agreement"
               text="Lorem ipsum text description"
