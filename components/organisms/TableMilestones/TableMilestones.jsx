@@ -256,6 +256,7 @@ class TableMilestones extends React.Component {
         okText="Create"
         cancelText="Cancel"
         width="75%"
+        maskClosable={false}
       >
         <Form onChange={this.handleSubmit}>
           <div className="WebFormProject">
