@@ -193,7 +193,7 @@ class ConcensusMilestones extends Component {
     this.setState({ milestones });
   };
 
-  deleteTask = async task => {
+  deleteActivity = async task => {
     const { projectId } = this.props;
     let response;
     if (task.type.includes('Milestone')) {
@@ -203,7 +203,7 @@ class ConcensusMilestones extends Component {
     }
 
     if (!response.error) {
-      showModalSuccess('Success!', 'Task deleted successfully!');
+      showModalSuccess('Success!', 'Activity deleted successfully!');
       const milestones = await ConcensusMilestones.getMilestones(projectId);
       this.setState({ milestones });
     } else {
@@ -514,7 +514,7 @@ class ConcensusMilestones extends Component {
           <div>
             <TableMilestones
               dataSource={milestones}
-              onDelete={this.deleteTask}
+              onDelete={this.deleteActivity}
               onEdit={this.save}
               oracles={oracles}
               onAssignOracle={this.onAssignOracle}
