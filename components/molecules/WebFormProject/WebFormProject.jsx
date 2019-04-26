@@ -156,9 +156,7 @@ class WebFormProject extends React.Component {
             </Form.Item>
           </div>
           <Form.Item>
-            {getFieldDecorator(fieldsName.faqLink, {
-              rules: [requiredField]
-            })(
+            {getFieldDecorator(fieldsName.faqLink)(
               <Input
                 placeholder="FAQ Google Doc Link"
                 prefix={

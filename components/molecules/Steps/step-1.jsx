@@ -42,11 +42,9 @@ class Step1 extends React.Component {
         project.data.problemAddressed &&
         project.data.location &&
         project.data.timeframe &&
-        project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok' &&
-        project.files.projectAgreement.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok'
     );
     if (valid) next();
   };
