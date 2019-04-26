@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Divider, Icon, Breadcrumb, Tooltip, message, Tag } from 'antd';
 import { isEmpty } from 'lodash';
+import mime from 'mime-types';
 import Routing from '../components/utils/Routes';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -128,16 +129,21 @@ class ProjectEvidence extends Component {
   };
 
   handleUpload = info => {
+    const { uploadEvidenceList } = this.state;
     const { status } = info.file;
-    if (status !== FileUploadStatus.UPLOADING) {
-      const files = info.fileList.map(file => file.originFileObj);
-      this.setState({ uploadEvidenceList: files });
-    }
-    if (status === FileUploadStatus.DONE) {
-      message.success(`${info.file.name} file uploaded successfully.`);
+
+    const filelist = [...uploadEvidenceList];
+    if (status === FileUploadStatus.UPLOADING) {
+      if (this.checkFileType(info.file)) {
+        filelist.push(info.file.originFileObj);
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else {
+        message.error(`${info.file.name} file type is invalid.`);
+      }
     } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
     }
+    this.setState({ uploadEvidenceList: filelist });
   };
 
   uploadFiles = async () => {
@@ -148,6 +154,7 @@ class ProjectEvidence extends Component {
 
     if (response.success) {
       showModalSuccess('Success', response.success);
+      this.setState({ uploadEvidenceList: [] });
       this.goToProjectEvidence();
     } else if (!response || response.error) {
       const { error } = response;
@@ -178,6 +185,23 @@ class ProjectEvidence extends Component {
     );
   };
 
+  checkFileType = file => {
+    const fileType = mime.lookup(file.name);
+    if (
+      fileType.includes('image/') ||
+      fileType === 'application/pdf' ||
+      fileType === 'application/msword' ||
+      fileType ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      fileType === 'application/vnd.ms-powerpoint' ||
+      fileType ===
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const {
       activity,
@@ -191,8 +215,6 @@ class ProjectEvidence extends Component {
     } = this.props;
 
     const { uploadEvidenceList } = this.state;
-
-    console.log('ACTIVITY', activity);
 
     const isActivityOracle =
       isOracle &&
@@ -284,7 +306,8 @@ class ProjectEvidence extends Component {
                     text="Upload Evidence for this task"
                     description="Click or drag your file here"
                     change={this.handleUpload}
-                    accept=".pdf, .ppt, .docx, .doc, image/*"
+                    accept=".pdf, .ppt, .pptx, .docx, .doc, image/*"
+                    filelist={uploadEvidenceList}
                   />
                   <CustomButton
                     theme="Primary"
