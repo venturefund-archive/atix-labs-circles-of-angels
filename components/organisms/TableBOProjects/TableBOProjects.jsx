@@ -4,7 +4,7 @@ import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import Routing from '../../utils/Routes';
-import { showModalError } from '../../utils/Modals';
+import { showModalError, showModalSuccess } from '../../utils/Modals';
 import {
   confirmProject,
   rejectProject,
@@ -109,27 +109,22 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
   };
 
   const handleConfirm = async (action, projectId, collection, index) => {
-    const confirmation = await action(projectId);
-
-    if (confirmation.error) {
-      const { error } = confirmation;
-      if (error.response) {
-        error.response.data.error =
-          // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Milestones file uploaded";
-      }
+    const response = await action(projectId);
+    if (!response || response.error) {
+      const { error } = response;
       const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
+        ? 'Error Changing Project Status'
         : error.message;
       const content = error.response
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
-
-      return confirmation;
+      return response;
     }
 
-    collection.status = confirmation.data.status;
+    showModalSuccess('Success!', 'Status changed correctly');
+
+    collection.status = response.data.status;
     onStateChange(collection, index);
   };
 
