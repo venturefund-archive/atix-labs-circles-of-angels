@@ -71,6 +71,7 @@ class Step2 extends React.Component {
       } else {
         const { error } = res;
         const title = 'Project creation failed';
+        console.log(res);
         const content = error.response
           ? error.response.data.error
           : error.message;

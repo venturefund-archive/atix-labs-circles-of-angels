@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { isEmpty } from 'lodash';
+import mime from 'mime-types';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
@@ -18,6 +19,96 @@ const getValidFile = file => {
 };
 
 class Step1 extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      projectProposal: [],
+      projectAgreement: [],
+      projectCardPhoto: [],
+      projectCoverPhoto: []
+    };
+  }
+
+  verifyFileType = async (project, projectFile, info) => {
+    const { changeProjectFile, hideButton } = this.props;
+    if (info && info.file) {
+      const fileType = mime.lookup(info.file.name);
+
+      if (projectFile === 'projectCardPhoto') {
+        if (fileType.includes('image/')) {
+          this.setState({ projectCardPhoto: [info.file] });
+          hideButton('hideButtonCard');
+          return changeProjectFile(project, projectFile, info.file);
+        }
+      }
+
+      if (projectFile === 'projectCoverPhoto') {
+        if (fileType.includes('image/')) {
+          this.setState({ projectCoverPhoto: [info.file] });
+          hideButton('hideButtonCover');
+          return changeProjectFile(project, projectFile, info.file);
+        }
+      }
+
+      if (projectFile === 'projectAgreement') {
+        if (
+          fileType === 'application/msword' ||
+          fileType ===
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          fileType === 'application/pdf'
+        ) {
+          this.setState({ projectAgreement: [info.file] });
+          hideButton('hideButtonAgreement');
+          return changeProjectFile(project, projectFile, info.file);
+        }
+      }
+
+      if (projectFile === 'projectProposal') {
+        if (
+          fileType === 'application/msword' ||
+          fileType ===
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          fileType === 'application/pdf' ||
+          fileType === 'application/vnd.ms-powerpoint' ||
+          fileType ===
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        ) {
+          this.setState({ projectProposal: [info.file] });
+          hideButton('hideButtonProposal');
+          return changeProjectFile(project, projectFile, info.file);
+        }
+      }
+
+      message.error(`${info.file.name} file type is invalid`);
+    }
+  };
+
+  removeFromFilelist = (projectFile, info) => {
+    const { showButton, changeProjectFile, project } = this.props;
+    if (projectFile === 'projectCardPhoto') {
+      this.setState({ projectCardPhoto: [] });
+      showButton('hideButtonCard');
+    }
+
+    if (projectFile === 'projectCoverPhoto') {
+      this.setState({ projectCoverPhoto: [] });
+      showButton('hideButtonCover');
+    }
+
+    if (projectFile === 'projectAgreement') {
+      this.setState({ projectAgreement: [] });
+      showButton('hideButtonAgreement');
+    }
+
+    if (projectFile === 'projectProposal') {
+      this.setState({ projectProposal: [] });
+      showButton('hideButtonProposal');
+    }
+
+    return changeProjectFile(project, projectFile, info);
+  };
+
   clickDownloadProposalTemplate = async () => {
     const res = await downloadProposalTemplate();
     if (res.error) {
@@ -60,6 +151,13 @@ class Step1 extends React.Component {
       showButton
     } = this.props;
 
+    const {
+      projectProposal,
+      projectAgreement,
+      projectCardPhoto,
+      projectCoverPhoto
+    } = this.state;
+
     return (
       <div className="StepContent">
         <div className="DataSteps">
@@ -81,12 +179,12 @@ class Step1 extends React.Component {
               typeAccepts="image/*"
               buttonText="Upload Image"
               change={info =>
-                changeProjectFile(project, 'projectCardPhoto', info)
+                this.verifyFileType(project, 'projectCardPhoto', info)
               }
-              defaultFileList={getValidFile(project.files.projectCardPhoto)}
+              fileList={projectCardPhoto}
+              defaultFileList={getValidFile(projectCardPhoto[0])}
               hideButton={hiddenButtons.hideButtonCard}
-              beforeUpload={() => hideButton('hideButtonCard')}
-              remove={() => showButton('hideButtonCard')}
+              remove={info => this.removeFromFilelist('projectCardPhoto', info)}
             />
             <BlockUpload
               subtitle="Project's Cover Image"
@@ -96,12 +194,14 @@ class Step1 extends React.Component {
               typeAccepts="image/*"
               buttonText="Upload Image"
               change={info =>
-                changeProjectFile(project, 'projectCoverPhoto', info)
+                this.verifyFileType(project, 'projectCoverPhoto', info)
               }
-              defaultFileList={getValidFile(project.files.projectCoverPhoto)}
+              fileList={projectCoverPhoto}
+              defaultFileList={getValidFile(projectCoverPhoto[0])}
               hideButton={hiddenButtons.hideButtonCover}
-              beforeUpload={() => hideButton('hideButtonCover')}
-              remove={() => showButton('hideButtonCover')}
+              remove={info =>
+                this.removeFromFilelist('projectCoverPhoto', info)
+              }
             />
             <BlockUpload
               subtitle="Project Proposal"
@@ -110,12 +210,12 @@ class Step1 extends React.Component {
               typeAccepts=".pdf, .ppt, .docx, .doc"
               buttonText="Upload Project Proposal"
               change={info =>
-                changeProjectFile(project, 'projectProposal', info)
+                this.verifyFileType(project, 'projectProposal', info)
               }
-              defaultFileList={getValidFile(project.files.projectProposal)}
+              fileList={projectProposal}
+              defaultFileList={getValidFile(projectProposal[0])}
               hideButton={hiddenButtons.hideButtonProposal}
-              beforeUpload={() => hideButton('hideButtonProposal')}
-              remove={() => showButton('hideButtonProposal')}
+              remove={info => this.removeFromFilelist('projectProposal', info)}
             />
             <DownloadTemplate
               click={this.clickDownloadProposalTemplate}
@@ -125,15 +225,15 @@ class Step1 extends React.Component {
               subtitle="Project Agreement"
               text="Lorem ipsum text description"
               name="projectAgreement"
-              typeAccepts="*"
+              typeAccepts=".pdf, .docx, .doc"
               buttonText="Upload File"
               change={info =>
-                changeProjectFile(project, 'projectAgreement', info)
+                this.verifyFileType(project, 'projectAgreement', info)
               }
-              defaultFileList={getValidFile(project.files.projectAgreement)}
+              fileList={projectAgreement}
+              defaultFileList={getValidFile(projectAgreement[0])}
               hideButton={hiddenButtons.hideButtonAgreement}
-              beforeUpload={() => hideButton('hideButtonAgreement')}
-              remove={() => showButton('hideButtonAgreement')}
+              remove={info => this.removeFromFilelist('projectAgreement', info)}
             />
           </div>
         </div>
