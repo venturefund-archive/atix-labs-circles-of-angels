@@ -196,26 +196,31 @@ class ConcensusMilestones extends Component {
   deleteActivity = async task => {
     const { projectId } = this.props;
     let response;
+
+    const handleError = async type => {
+      if (!response.error) {
+        showModalSuccess('Success!', `${type} deleted successfully!`);
+        const milestones = await ConcensusMilestones.getMilestones(projectId);
+        this.setState({ milestones });
+      } else {
+        const { error } = response;
+        const title = error.response
+          ? `${error.response.status} - ${error.response.statusText}`
+          : error.message;
+        const content = error.response
+          ? error.response.data.error
+          : error.message;
+        showModalError(title, content);
+        return response;
+      }
+    };
+
     if (task.type.includes('Milestone')) {
       response = await deleteMilestone(task.id);
+      await handleError('Milestone');
     } else if (task.type.includes('Activity')) {
       response = await deleteActivity(task.id);
-    }
-
-    if (!response.error) {
-      showModalSuccess('Success!', 'Activity deleted successfully!');
-      const milestones = await ConcensusMilestones.getMilestones(projectId);
-      this.setState({ milestones });
-    } else {
-      const { error } = response;
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-      return response;
+      await handleError('Activity');
     }
 
     return response;
@@ -454,7 +459,9 @@ class ConcensusMilestones extends Component {
                 <a className="TextBlue" target="_blank" href={faqLink}>
                   {faqLink}
                 </a>
-                <span className="Overline">FAQ-Funders and SE's Questions & Answers Link</span>
+                <span className="Overline">
+                  FAQ-Funders and SE's Questions & Answers Link
+                </span>
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
