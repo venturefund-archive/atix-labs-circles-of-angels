@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, message } from 'antd';
+import mime from 'mime-types';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../../../constants/FileUploadStatus';
@@ -89,15 +90,22 @@ class Step2 extends React.Component {
     const { project } = this.props;
     const { status } = info.file;
     const projectMilestones = info.file;
+
     if (status === FileUploadStatus.UPLOADING) {
-      // this needs to be here, otherwise the status will stay as 'uploading'
-      this.setState({
-        filelist: [projectMilestones]
-      });
-    }
-    if (status === FileUploadStatus.DONE) {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      project.files.projectMilestones = projectMilestones;
+      if (this.checkFileType(projectMilestones)) {
+        // this needs to be here, otherwise the status will stay as 'uploading'
+        project.files.projectMilestones = projectMilestones;
+        this.setState({
+          uploadDisable: true,
+          creationStatus: true,
+          filelist: [projectMilestones]
+        });
+
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else {
+        message.error(`${info.file.name} file type is invalid.`);
+      }
+    } else if (status === FileUploadStatus.DONE) {
       this.setState({
         uploadDisable: true,
         creationStatus: true,
@@ -111,6 +119,17 @@ class Step2 extends React.Component {
         filelist: []
       });
     }
+  };
+
+  checkFileType = file => {
+    if (
+      mime.lookup(file.name) === 'application/vnd.ms-excel' ||
+      mime.lookup(file.name) ===
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      return true;
+    }
+    return false;
   };
 
   verifyingFile = () => {
@@ -169,6 +188,7 @@ class Step2 extends React.Component {
                 disabled={uploadDisable}
                 showUploadList={{ showRemoveIcon: !verifying }}
                 filelist={filelist}
+                accept=".xls, .xlsx"
               />
               <FileVerificationList
                 errors={milestonesErrors}
