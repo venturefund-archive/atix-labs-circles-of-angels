@@ -227,6 +227,9 @@ class ProjectEvidence extends Component {
 
     const completedActivity =
       activity.status === MilestoneActivityStatus.COMPLETED;
+    const canUploadEvidences =
+      (isBackofficeAdmin || isSocialEntrepreneur || isActivityOracle) &&
+      !completedActivity;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -244,12 +247,18 @@ class ProjectEvidence extends Component {
                   </div>
                 </div>
               </div>
+
               <div className="StepDescription">
-                <h3>
-                  Upload evidence and help verify this task, mark it as complete
-                  once all evidence has been uploaded
-                </h3>
+                {canUploadEvidences ? (
+                  <h3>
+                    Upload evidence and help verify this task, mark it as
+                    complete once all evidence has been uploaded
+                  </h3>
+                ) : (
+                  <h3>View actual uploaded evidences</h3>
+                )}
               </div>
+
               <div className="b-right">
                 <div>
                   <div className="flex">
@@ -296,10 +305,7 @@ class ProjectEvidence extends Component {
 
               <Divider />
 
-              {(isBackofficeAdmin ||
-                isSocialEntrepreneur ||
-                isActivityOracle) &&
-              !completedActivity ? (
+              {canUploadEvidences ? (
                 <div>
                   <Label labelText="Upload Evidence" theme="LabelBlue" />
                   <DragUploadFile
