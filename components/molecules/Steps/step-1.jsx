@@ -182,7 +182,7 @@ class Step1 extends React.Component {
                 this.verifyFileType(project, 'projectCardPhoto', info)
               }
               fileList={projectCardPhoto}
-              defaultFileList={getValidFile(projectCardPhoto[0])}
+              defaultFileList={getValidFile(project.files.projectCardPhoto)}
               hideButton={hiddenButtons.hideButtonCard}
               remove={info => this.removeFromFilelist('projectCardPhoto', info)}
             />
@@ -197,7 +197,7 @@ class Step1 extends React.Component {
                 this.verifyFileType(project, 'projectCoverPhoto', info)
               }
               fileList={projectCoverPhoto}
-              defaultFileList={getValidFile(projectCoverPhoto[0])}
+              defaultFileList={getValidFile(project.files.projectCoverPhoto)}
               hideButton={hiddenButtons.hideButtonCover}
               remove={info =>
                 this.removeFromFilelist('projectCoverPhoto', info)
@@ -213,7 +213,7 @@ class Step1 extends React.Component {
                 this.verifyFileType(project, 'projectProposal', info)
               }
               fileList={projectProposal}
-              defaultFileList={getValidFile(projectProposal[0])}
+              defaultFileList={getValidFile(project.files.projectProposal)}
               hideButton={hiddenButtons.hideButtonProposal}
               remove={info => this.removeFromFilelist('projectProposal', info)}
             />
@@ -231,7 +231,7 @@ class Step1 extends React.Component {
                 this.verifyFileType(project, 'projectAgreement', info)
               }
               fileList={projectAgreement}
-              defaultFileList={getValidFile(projectAgreement[0])}
+              defaultFileList={getValidFile(project.files.projectAgreement)}
               hideButton={hiddenButtons.hideButtonAgreement}
               remove={info => this.removeFromFilelist('projectAgreement', info)}
             />

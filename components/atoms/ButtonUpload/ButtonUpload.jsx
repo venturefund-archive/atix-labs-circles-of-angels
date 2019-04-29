@@ -31,7 +31,11 @@ const ButtonUpload = ({
     beforeUpload
   };
 
-  if (fileList) props.fileList = fileList;
+  if (fileList && fileList.length > 0) {
+    props.fileList = fileList;
+  } else {
+    props.fileList = defaultFileList;
+  }
 
   return (
     <Upload {...props}>
