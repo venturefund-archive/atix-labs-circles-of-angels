@@ -13,7 +13,8 @@ const DragUploadFile = ({
   remove,
   disabled,
   showUploadList,
-  filelist
+  filelist,
+  beforeUpload
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -29,7 +30,8 @@ const DragUploadFile = ({
     accept,
     onRemove: remove,
     disabled,
-    showUploadList
+    showUploadList,
+    beforeUpload
   };
 
   if (filelist) props.fileList = filelist;
