@@ -42,11 +42,9 @@ class Step1 extends React.Component {
         project.data.problemAddressed &&
         project.data.location &&
         project.data.timeframe &&
-        project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok' &&
-        project.files.projectAgreement.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok'
     );
     if (valid) next();
   };
@@ -88,6 +86,12 @@ class Step1 extends React.Component {
               beforeUpload={() => hideButton('hideButtonCard')}
               remove={() => showButton('hideButtonCard')}
             />
+            <DownloadTemplate
+              subtitle=" "
+              click={this.clickDownloadProposalTemplate}
+              text="Download Project Proposal Template"
+            />
+
             <BlockUpload
               subtitle="Project's Cover Image"
               text="This will be a cover image for your project summary.
@@ -117,10 +121,7 @@ class Step1 extends React.Component {
               beforeUpload={() => hideButton('hideButtonProposal')}
               remove={() => showButton('hideButtonProposal')}
             />
-            <DownloadTemplate
-              click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal"
-            />
+
             <BlockUpload
               subtitle="Project Agreement"
               text="Lorem ipsum text description"
