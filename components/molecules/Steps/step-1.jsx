@@ -5,7 +5,7 @@ import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import { downloadProposalTemplate } from '../../../api/projectApi';
-
+import '../../../pages/_steps.scss';
 import './_style.scss';
 import { showModalError } from '../../utils/Modals';
 
@@ -13,9 +13,7 @@ const webform = {
   form: {}
 };
 
-const getValidFile = file => {
-  return !isEmpty(file) ? [file] : false;
-};
+const getValidFile = file => (!isEmpty(file) ? [file] : false);
 
 class Step1 extends React.Component {
   clickDownloadProposalTemplate = async () => {

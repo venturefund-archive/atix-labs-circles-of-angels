@@ -22,11 +22,10 @@
   }
 }
 
-
-.ControlSteps.StepOne,
-.SubmitProject.StepOne {
-  justify-content: flex-end;
+.ControlSteps {
+  @include ControlSteps;
 }
+
 .ProjectInfoHeader {
   padding: 0.5em 0;
   h1 {

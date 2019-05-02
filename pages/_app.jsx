@@ -1,5 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
+import 'antd/dist/antd.css'; 
+import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
 
 class MyApp extends App {

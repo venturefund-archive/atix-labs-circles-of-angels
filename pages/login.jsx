@@ -6,6 +6,7 @@ import { withUser } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
 
 import './_login.scss';
+import FormRegister from '../components/organisms/FormRegister/FormRegister';
 
 class Login extends Component {
   componentDidMount() {
@@ -44,6 +45,7 @@ class Login extends Component {
           <h1>CIRCLES OF ANGELS</h1>
           <h2>PLEASE SIGN IN</h2>
           <DynamicForm onSubmit={this.onLoginSubmit} />
+
         </div>
       </div>
     );
