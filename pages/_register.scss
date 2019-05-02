@@ -36,7 +36,11 @@
     font-family: 'Source Sans Pro', sans-serif;
    }
 }
+.ant-select-selection__placeholder,
+.ant-select-dropdown-menu-item,
 .ant-select-selection-selected-value,
 .ant-select-selection--multiple > ul > li, .ant-select-selection--multiple .ant-select-selection__rendered > ul > li{
   font-size: $body;
 }
+
+
