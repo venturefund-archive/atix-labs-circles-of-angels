@@ -23,14 +23,15 @@
     text-align: center;
     padding-top: 5em;
 
-    h1 {
-      @include primary-text($h1, $primary-color, 500);
-      text-transform: uppercase;
-    }
-    h2 {
-      @include primary-text($h2, $grey, 400);
-      text-transform: uppercase;
-    }
+
+  }
+  h1 {
+    @include primary-text($h1, $primary-color, 500);
+    text-transform: uppercase;
+  }
+  h2 {
+    @include primary-text($h2, $grey, 400);
+    text-transform: uppercase;
   }
 }
 
