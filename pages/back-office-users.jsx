@@ -18,7 +18,7 @@ import './_back-office-users.scss';
 class BackOfficeUsers extends React.Component {
   static async getInitialProps(query) {
     const roleFilters = [];
-    const users = (await getUsers()).data;
+    const { users } = (await getUsers()).data;
     const sortedUsers = users.sort((a, b) => b.id - a.id);
     const { roles } = (await getAllRoles()).data;
     roles.forEach(role => {

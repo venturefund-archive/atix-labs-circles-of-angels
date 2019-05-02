@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Tag, Select } from 'antd';
 import './_style.scss';
 import userRegistrationStatusMap from '../../../model/userRegistrationStatusMap';
+import TableBOUsersDetail from './TableBOUsersDetail';
+import Roles from '../../../constants/RolesMap';
 
 const TableBOUsers = ({
   dataSource,
@@ -83,6 +85,13 @@ const TableBOUsers = ({
       columns={columns}
       size="middle"
       className="TableBOProjects"
+      expandedRowRender={record =>
+        record.role.id !== Roles.Oracle && record.detail ? (
+          TableBOUsersDetail(record)
+        ) : (
+          <div>This user has no additional information.</div>
+        )
+      }
     />
   );
 };
