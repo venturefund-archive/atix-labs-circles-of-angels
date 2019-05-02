@@ -88,3 +88,11 @@
     margin-left: 0px;
   }
  }
+ .has-error .ant-form-explain,
+ .has-error .ant-form-split {
+  @include primary-text($label, $danger-color, 400);
+  margin-bottom: 0;
+  margin-top: 0.7em;
+  font-style: italic;
+  min-height: 15px;
+ }

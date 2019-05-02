@@ -22,7 +22,9 @@
   }
 }
 
-
+.ControlSteps {
+  @include ControlSteps;
+}
 .ControlSteps.StepOne,
 .SubmitProject.StepOne {
   justify-content: flex-end;
