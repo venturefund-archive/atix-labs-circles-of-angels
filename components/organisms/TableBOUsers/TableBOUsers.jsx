@@ -29,19 +29,6 @@ const TableBOUsers = ({
         record.role && record.role.name && record.role.name.indexOf(value) === 0
     },
     {
-      title: 'Details',
-      dataIndex: 'id',
-      key: 'details',
-      render: id => (
-        <img
-          alt="img"
-          className="ProjectAccess"
-          src="./static/images/icon-info.svg"
-          onClick={() => console.log(id)}
-        />
-      )
-    },
-    {
       title: 'Registration Status',
       dataIndex: 'registrationStatus',
       key: 'registrationStatus',
