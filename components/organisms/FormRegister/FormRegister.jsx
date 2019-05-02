@@ -1,4 +1,5 @@
 import React from 'react';
+import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
 import {
   Form,
   Input,
@@ -349,13 +350,7 @@ class AngelsForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Create your angels account
-            <Icon
-              type="arrow-right"
-              style={{ fontSize: '12px', color: '#fff' }}
-            />
-          </Button>
+        <CustomButton theme="Primary" buttonText="Create your angels account" />
         </Form.Item>
       </Form>
     );

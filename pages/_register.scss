@@ -5,9 +5,9 @@
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content: center;
   background: white;
-  overflow-y: scroll;
+  overflow-y: overlay;
+  padding-top: 3em;
   .ant-form{
     margin: 2em 0 0;
     width:60%;

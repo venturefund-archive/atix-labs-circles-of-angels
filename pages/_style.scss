@@ -92,7 +92,7 @@
  .has-error .ant-form-split {
   @include primary-text($label, $danger-color, 400);
   margin-bottom: 0;
-  margin-top: 0.7em;
+  margin-top: 0.2em;
   font-style: italic;
   min-height: 15px;
  }
