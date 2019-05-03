@@ -1,23 +1,9 @@
 import React from 'react';
-import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-  Upload
-} from 'antd';
+import { Form, Input, Icon, Select } from 'antd';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 
 const { TextArea } = Input;
 
@@ -25,100 +11,49 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men'
-          }
-        ]
-      }
-    ]
-  }
-];
 class AngelsForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: []
-  };
-
   handleSubmit = e => {
+    const { form } = this.props;
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const user = {
+          username: values.name,
+          email: values.email,
+          pwd: values.password
+        };
+
+        if (values.role === '2') {
+          if (values.phone) {
+            user.detail = {
+              phone: values.phone
+            };
+          }
+
+          if (values.company) {
+            user.detail = {
+              ...user.detail,
+              company: values.company
+            };
+          }
+        } else if (values.role === '3') {
+          if (values.phone) {
+            user.detail = {
+              phone: values.phone
+            };
+          }
+        }
+
+        console.log('USER:', user);
       }
     });
   };
 
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  };
-
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
-  };
-
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
-    const { formLayout } = this.state;
-    const formItemLayout =
-      formLayout === 'horizontal'
-        ? {
-            labelCol: { span: 4 },
-            wrapperCol: { span: 14 }
-          }
-        : null;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -132,12 +67,63 @@ class AngelsForm extends React.Component {
       }
     };
 
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
+    const funderInformation = (
+      <span>
+        <Form.Item>
+          {getFieldDecorator('phone', {
+            rules: [
+              { required: false, message: 'Please input your phone number!' }
+            ]
+          })(
+            <Input
+              placeholder="Phone Number"
+              prefix={
+                <Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />
+              }
+              style={{ width: '100%' }}
+            />
+          )}
+        </Form.Item>
+      </span>
+    );
+
+    const seInformation = (
+      <span>
+        <Form.Item>
+          {getFieldDecorator('phone', {
+            rules: [
+              { required: false, message: 'Please input your phone number!' }
+            ]
+          })(
+            <Input
+              placeholder="Phone Number"
+              prefix={
+                <Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />
+              }
+              style={{ width: '100%' }}
+            />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('company', {
+            rules: [
+              {
+                required: false,
+                whitespace: true
+              }
+            ]
+          })(
+            <Input
+              placeholder="Company Name"
+              prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+          )}
+        </Form.Item>
+      </span>
+    );
 
     return (
-      <Form layout="vertical" onSubmit={this.handleSubmit}>
+      <Form layout="vertical">
         <Form.Item>
           {getFieldDecorator('name', {
             rules: [
@@ -149,7 +135,7 @@ class AngelsForm extends React.Component {
             ]
           })(
             <Input
-              placeholder="name"
+              placeholder="Full Name"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
           )}
@@ -168,7 +154,7 @@ class AngelsForm extends React.Component {
             ]
           })(
             <Input
-              placeholder="mail"
+              placeholder="E-mail"
               prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
           )}
@@ -180,14 +166,11 @@ class AngelsForm extends React.Component {
               {
                 required: true,
                 message: 'Please input your password!'
-              },
-              {
-                validator: this.validateToNextPassword
               }
             ]
           })(
             <Input
-              placeholder="password"
+              placeholder="Password"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
             />
@@ -195,80 +178,28 @@ class AngelsForm extends React.Component {
         </Form.Item>
 
         <Form.Item>
-          {getFieldDecorator('rol', {
+          {getFieldDecorator('role', {
             rules: [
               {
-                type: 'array',
-                required: false,
-                message: 'Please select your rol!'
+                required: true,
+                message: 'Please select your role!'
               }
             ]
           })(
             <Select
-              placeholder="Rol"
+              placeholder="Role"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              defaultValue="1"
+              initialValue="2"
             >
-              <Option value="1">Funder</Option>
               <Option value="2">SE</Option>
+              <Option value="3">Funder</Option>
+              <Option value="4">Oracle</Option>
             </Select>
           )}
         </Form.Item>
 
-        <Form.Item>
-          {getFieldDecorator('address', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your address!',
-                whitespace: true
-              }
-            ]
-          })(
-            <Input
-              placeholder="Address"
-              prefix={
-                <Icon type="environment" style={{ color: 'rgba(0,0,0,.25)' }} />
-              }
-            />
-          )}
-        </Form.Item>
-
-        <Form.Item label="ID or Passport:" className="Inline">
-          {getFieldDecorator('upload', {
-            valuePropName: 'fileList',
-            getValueFromEvent: this.normFile
-          })(
-            <Upload
-              prefix={
-                <Icon type="environment" style={{ color: 'rgba(0,0,0,.25)' }} />
-              }
-              name="logo"
-              action="/upload.do"
-              listType="picture"
-            >
-              <Button>
-                <Icon type="upload" /> Click to upload
-              </Button>
-            </Upload>
-          )}
-        </Form.Item>
-
-        <Form.Item>
-          {getFieldDecorator('phone', {
-            rules: [
-              { required: true, message: 'Please input your phone number!' }
-            ]
-          })(
-            <Input
-              placeholder="Phone"
-              prefix={
-                <Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />
-              }
-              style={{ width: '100%' }}
-            />
-          )}
-        </Form.Item>
+        {form.getFieldValue('role') === '3' && funderInformation}
+        {form.getFieldValue('role') === '2' && seInformation}
 
         <Form.Item
           className="BlockQuestions"
@@ -281,7 +212,7 @@ class AngelsForm extends React.Component {
           })(
             <Select
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              defaultValue="1"
+              initialValue="1"
             >
               <Option value="1">Not yet</Option>
               <Option value="2">
@@ -350,7 +281,11 @@ class AngelsForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-        <CustomButton theme="Primary" buttonText="Create your angels account" />
+          <CustomButton
+            theme="Primary"
+            buttonText="Create your angels account"
+            onClick={this.handleSubmit}
+          />
         </Form.Item>
       </Form>
     );
