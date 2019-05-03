@@ -7,10 +7,6 @@ const { Option } = Select;
 
 const { TextArea } = Input;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 class AngelsForm extends React.Component {
   handleSubmit = e => {
     const { form } = this.props;
@@ -51,7 +47,7 @@ class AngelsForm extends React.Component {
   };
 
   render() {
-    const { form } = this.props;
+    const { form, seQuestionnaire, funderQuestionnaire } = this.props;
     const { getFieldDecorator } = form;
 
     const tailFormItemLayout = {
@@ -121,6 +117,57 @@ class AngelsForm extends React.Component {
         </Form.Item>
       </span>
     );
+
+    const questionnaireBuilder = questionnaire =>
+      questionnaire.questions.map(question => (
+        <span>
+          <Form.Item
+            className="BlockQuestions"
+            label={question.question}
+            key={question.id}
+          >
+            {getFieldDecorator(`question${question.id}`, {
+              rules: [
+                {
+                  type: 'array',
+                  required: true,
+                  message: 'Please select at least one answer'
+                },
+                {
+                  validator: (rule, value, callback) => {
+                    if (value) {
+                      if (value.length > question.answerLimit) {
+                        callback(`No more than ${question.answerLimit}`);
+                      } else if (value.length <= question.answerLimit) {
+                        callback();
+                      }
+                    }
+                  }
+                }
+              ]
+            })(
+              <Select
+                prefix={
+                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                mode={question.answerLimit > 1 ? 'multiple' : 'default'}
+                initialValue="1"
+              >
+                {question.answers.map(answer => (
+                  <Option value={answer.id} key={answer.id}>
+                    {answer.answer}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
+          {form.getFieldValue(`question${question.id}`) === 7 && (
+            <Form.Item>
+              <TextArea placeholder="Answer" rows={2} />
+            </Form.Item>
+          )}
+        </span>
+      ));
 
     return (
       <Form layout="vertical">
@@ -198,95 +245,12 @@ class AngelsForm extends React.Component {
           )}
         </Form.Item>
 
-        {form.getFieldValue('role') === '3' && funderInformation}
-        {form.getFieldValue('role') === '2' && seInformation}
-
-        <Form.Item
-          className="BlockQuestions"
-          label="How often do you or your firm make angel impact investments?"
-        >
-          {getFieldDecorator('questionone', {
-            rules: [
-              { type: 'array', required: false, message: 'Please answer!' }
-            ]
-          })(
-            <Select
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              initialValue="1"
-            >
-              <Option value="1">Not yet</Option>
-              <Option value="2">
-                Less than 1 investment in the last 12 months
-              </Option>
-              <Option value="3">
-                1 to 3 investments in the last 12 months
-              </Option>
-              <Option value="4">4-5 investments in the last 12 months</Option>
-              <Option value="5">
-                More than 5 investments in the last 12 months
-              </Option>
-              <Option value="6">
-                I currently only do philanthropy eg: donate to charitable causes
-                online & offline
-              </Option>
-              <Option value="7">Other</Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item>
-          <TextArea placeholder="Answer" rows={2} />
-        </Form.Item>
-        <Form.Item
-          className="BlockQuestions"
-          label="Are you currently an advocate/ volunteer or donor for a social cause? If yes, what are the top 3 impact areas you focus on? Please select up to 3 UN Sustainable Development Goals"
-        >
-          {getFieldDecorator('questiontwo', {
-            rules: [
-              { type: 'array', required: false, message: 'Please answer!' }
-            ]
-          })(
-            <Select
-              prefix={
-                <Icon
-                  type="question-circle"
-                  style={{ color: 'rgba(0,0,0,.25)' }}
-                />
-              }
-              mode="tags"
-              style={{ width: '100%' }}
-              placeholder="Please select"
-              onChange={handleChange}
-            >
-              <Option value="1">No poverty</Option>
-              <Option value="2">Zero Hunger</Option>
-              <Option value="3">Good Health and Well-Being</Option>
-              <Option value="4">Quality Education</Option>
-              <Option value="5">Gender Equality</Option>
-              <Option value="6">Clean Water and Sanitation</Option>
-              <Option value="7">Affordable and Clean Energy</Option>
-              <Option value="8">Decent Work and Economic Growth</Option>
-              <Option value="9">
-                {' '}
-                Industry, Innovation and Infrastructure
-              </Option>
-              <Option value="10">Reduced Inequality</Option>
-              <Option value="11">Sustainable Cities and Communities</Option>
-              <Option value="12">Responsible Consumption and Production</Option>
-              <Option value="13">Climate Action</Option>
-              <Option value="14">Life Below Water</Option>
-              <Option value="15">Life on Land</Option>
-              <Option value="16">Peace and Justice Strong Institutions</Option>
-              <Option value="17">Partnerships to Achieve the Goal</Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <CustomButton
-            theme="Primary"
-            buttonText="Create your angels account"
-            onClick={this.handleSubmit}
-          />
-        </Form.Item>
+        {form.getFieldValue('role') === '3' &&
+          funderInformation &&
+          questionnaireBuilder(funderQuestionnaire)}
+        {form.getFieldValue('role') === '2' &&
+          seInformation &&
+          questionnaireBuilder(seQuestionnaire)}
       </Form>
     );
   }
