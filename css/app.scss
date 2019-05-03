@@ -3,7 +3,7 @@
 body {
   margin: auto;
   padding: 0;
-  background-color: #fafbfc;
+  background-color: white;
  }
  h1{
   font-size: $h1;
@@ -24,3 +24,10 @@ body {
     outline: none;
   }
  }
+  .ControlSteps.StepOne,
+.SubmitProject.StepOne {
+  justify-content: flex-end;
+}
+button.ant-btn {
+  border-radius: 50px;
+}

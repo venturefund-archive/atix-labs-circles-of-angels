@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import Routing from '../../utils/Routes';
-import './_style.scss';
+import './_tablestyle.scss';
 
 const TableProjectProgress = ({
   dataSource,

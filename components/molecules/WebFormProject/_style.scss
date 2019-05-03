@@ -33,11 +33,6 @@
   }
  }
  
- .has-error .ant-form-explain,
- .has-error .ant-form-split {
-  @include primary-text($label, $danger-color, 400);
-  margin-bottom: 0.5em;
- }
  
  .ant-input{
   font-size: $body;

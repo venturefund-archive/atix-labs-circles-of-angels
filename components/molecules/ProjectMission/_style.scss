@@ -6,5 +6,7 @@
   p {
     @include primary-text($body, $on-surface, 400);
   }
-
+.title{
+  color: red;
+}
 }

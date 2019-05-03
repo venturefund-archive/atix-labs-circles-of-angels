@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Select, Divider, Modal, Icon, Form, Input } from 'antd';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
-
+import '../TableProjectProgress/_tablestyle.scss';
 import './_style.scss';
 
 const { TextArea } = Input;
