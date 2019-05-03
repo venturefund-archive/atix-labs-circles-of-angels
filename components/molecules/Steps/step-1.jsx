@@ -6,7 +6,7 @@ import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import { downloadProposalTemplate } from '../../../api/projectApi';
-
+import '../../../pages/_steps.scss';
 import './_style.scss';
 import { showModalError } from '../../utils/Modals';
 
@@ -14,9 +14,7 @@ const webform = {
   form: {}
 };
 
-const getValidFile = file => {
-  return !isEmpty(file) ? [file] : false;
-};
+const getValidFile = file => (!isEmpty(file) ? [file] : false);
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -133,11 +131,9 @@ class Step1 extends React.Component {
         project.data.problemAddressed &&
         project.data.location &&
         project.data.timeframe &&
-        project.data.faqLink &&
         project.files.projectProposal.response === 'ok' &&
         project.files.projectCoverPhoto.response === 'ok' &&
-        project.files.projectCardPhoto.response === 'ok' &&
-        project.files.projectAgreement.response === 'ok'
+        project.files.projectCardPhoto.response === 'ok'
     );
     if (valid) next();
   };
@@ -186,6 +182,12 @@ class Step1 extends React.Component {
               hideButton={hiddenButtons.hideButtonCard}
               remove={info => this.removeFromFilelist('projectCardPhoto', info)}
             />
+            <DownloadTemplate
+              subtitle=" "
+              click={this.clickDownloadProposalTemplate}
+              text="Download Project Proposal Template"
+            />
+
             <BlockUpload
               subtitle="Project's Cover Image"
               text="This will be a cover image for your project summary.
@@ -217,10 +219,7 @@ class Step1 extends React.Component {
               hideButton={hiddenButtons.hideButtonProposal}
               remove={info => this.removeFromFilelist('projectProposal', info)}
             />
-            <DownloadTemplate
-              click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal"
-            />
+
             <BlockUpload
               subtitle="Project Agreement"
               text="Lorem ipsum text description"

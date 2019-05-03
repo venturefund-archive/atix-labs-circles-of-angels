@@ -171,14 +171,14 @@ class ProjectEvidence extends Component {
   handleComplete = async () => {
     const { activity } = this.props;
     showModalConfirm(
-      'Complete Task',
-      'Do you want to complete this task?',
+      'Complete Activity',
+      'Do you want to complete this activity?',
       async () => {
         const response = await completeActivity(activity.id);
         if (response.error)
-          showModalError('Error completing task', response.error);
+          showModalError('Error completing activity', response.error);
         else {
-          showModalSuccess('Success!', 'Task complete');
+          showModalSuccess('Success!', 'Activity complete');
           this.goToProjectProgress();
         }
       }
@@ -246,16 +246,16 @@ class ProjectEvidence extends Component {
               </div>
               <div className="StepDescription">
                 <h3>
-                  Upload evidence and help verify this task, mark it as complete
+                  Upload evidence and help verify this activity, mark it as complete
                   once all evidence has been uploaded
                 </h3>
               </div>
               <div className="b-right">
                 <div>
                   <div className="flex">
-                    <Label labelText="Task name" />
+                    <Label labelText="Activity name" />
                     {completedActivity ? (
-                      <Tag color="green">This task was completed!</Tag>
+                      <Tag color="green">This activity was completed!</Tag>
                     ) : (
                       ''
                     )}
@@ -303,7 +303,7 @@ class ProjectEvidence extends Component {
                 <div>
                   <Label labelText="Upload Evidence" theme="LabelBlue" />
                   <DragUploadFile
-                    text="Upload Evidence for this task"
+                    text="Upload Evidence for this activity"
                     description="Click or drag your file here"
                     change={this.handleUpload}
                     accept=".pdf, .ppt, .pptx, .docx, .doc, image/*"
@@ -333,7 +333,7 @@ class ProjectEvidence extends Component {
               !isEmpty(activity.evidence) ? (
                 <CustomButton
                   theme="Success"
-                  buttonText="Complete Task"
+                  buttonText="Complete Activity"
                   onClick={this.handleComplete}
                 />
               ) : (
