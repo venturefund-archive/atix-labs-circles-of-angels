@@ -12,7 +12,8 @@ const ButtonUpload = ({
   hideButton,
   onRemove,
   beforeUpload,
-  fileList
+  fileList,
+  listType
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -28,7 +29,8 @@ const ButtonUpload = ({
     showUploadList,
     defaultFileList,
     onRemove,
-    beforeUpload
+    beforeUpload,
+    listType
   };
 
   if (fileList && fileList.length > 0) {
