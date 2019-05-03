@@ -19,7 +19,7 @@
 
 @media screen and (max-width: 1024px) {
   .HeaderContainer {
-    width: 93vw;
+    width: 100%;
 
     .RightSide {
       width: 45%;
@@ -29,7 +29,7 @@
 
 @media screen and (max-width: 770px) {
   .HeaderContainer {
-    width: 100vw;
+    width: 100%;
 
     .RightSide {
       width: 30%;
@@ -39,7 +39,7 @@
 
 @media screen and (max-width: 450px) {
   .HeaderContainer {
-
+    width: 100%;
     .RightSide {
       width: 50%;
     }
