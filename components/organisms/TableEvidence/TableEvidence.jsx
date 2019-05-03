@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Divider, Tag } from 'antd';
+import '../TableProjectProgress/_tablestyle.scss';
 
 const TableEvidence = ({
   data,

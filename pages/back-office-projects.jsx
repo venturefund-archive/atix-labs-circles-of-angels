@@ -3,16 +3,10 @@ import React from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
 import Routing from '../components/utils/Routes';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { getProjects } from '../api/projectApi';
-import {
-  getAllMilestones,
-  getAllBudgetStatus,
-  changeBudgetStatus
-} from '../api/milestonesApi';
-import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import { changeBudgetStatus } from '../api/milestonesApi';
 
 import './_style.scss';
 import './_back-office-projects.scss';
@@ -27,28 +21,7 @@ class BackOfficeProjects extends React.Component {
 
   static async getInitialProps(query) {
     const projects = (await getProjects()).data;
-    const { milestones } = (await getAllMilestones()).data;
-    const filterMilestones = milestones.filter(
-      milestone => milestone.status.status === MilestoneActivityStatus.COMPLETED
-    );
-
-    const sortedMilestones = filterMilestones.sort((a, b) => {
-      // Order by budgetStatus:Pending>Completed first
-      if (b.budgetStatus.id < a.budgetStatus.id) {
-        return 1;
-      }
-      if (b.budgetStatus.id > a.budgetStatus.id) {
-        return -1;
-      }
-
-      // Order by higher id (newer) second
-      if (b.id > a.id) {
-        return 1;
-      }
-      return -1;
-    });
-    const { budgetStatus } = (await getAllBudgetStatus()).data;
-    return { projects, milestones: sortedMilestones, budgetStatus };
+    return { projects };
   }
 
   changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
@@ -78,7 +51,6 @@ class BackOfficeProjects extends React.Component {
 
   render() {
     const { projects } = this.state;
-    const { milestones, budgetStatus } = this.props;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -89,14 +61,6 @@ class BackOfficeProjects extends React.Component {
             <TableBOProjects
               dataSource={projects}
               onStateChange={this.updateProject}
-            />
-          </div>
-          <div className="TableContainer">
-            <h1>Milestones Administration</h1>
-            <TableBOMilestones
-              dataSource={milestones}
-              budgetStatusOptions={budgetStatus}
-              onBudgetStatusChange={this.changeBudgetStatus}
             />
           </div>
         </div>

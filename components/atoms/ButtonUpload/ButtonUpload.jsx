@@ -1,7 +1,6 @@
 import React from 'react';
-import { Upload, message, Button, Icon } from 'antd';
+import { Upload, Button, Icon } from 'antd';
 import './_style.scss';
-import CustomButton from '../CustomButton/CustomButton';
 
 const ButtonUpload = ({
   change,
@@ -12,7 +11,8 @@ const ButtonUpload = ({
   defaultFileList,
   hideButton,
   onRemove,
-  beforeUpload
+  beforeUpload,
+  fileList
 }) => {
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -30,6 +30,12 @@ const ButtonUpload = ({
     onRemove,
     beforeUpload
   };
+
+  if (fileList && fileList.length > 0) {
+    props.fileList = fileList;
+  } else {
+    props.fileList = defaultFileList;
+  }
 
   return (
     <Upload {...props}>

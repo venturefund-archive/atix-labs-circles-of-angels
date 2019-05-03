@@ -4,6 +4,7 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
+import './_steps.scss';
 import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
