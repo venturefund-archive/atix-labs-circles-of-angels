@@ -11,14 +11,16 @@ class AngelsForm extends React.Component {
   handleSubmit = e => {
     const { form } = this.props;
     e.preventDefault();
-
-    form.validateFieldsAndScroll((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         const user = {
           username: values.name,
           email: values.email,
-          pwd: values.password
+          pwd: values.password,
+          role: values.role
         };
+
+        // TODO add questionnaire to USER
 
         if (values.role === '2') {
           if (values.phone) {
@@ -40,8 +42,6 @@ class AngelsForm extends React.Component {
             };
           }
         }
-
-        console.log('USER:', user);
       }
     });
   };
@@ -129,18 +129,22 @@ class AngelsForm extends React.Component {
             {getFieldDecorator(`question${question.id}`, {
               rules: [
                 {
-                  type: 'array',
                   required: true,
-                  message: 'Please select at least one answer'
+                  message: 'Please select at least one answer',
+                  type: question.answerLimit > 1 ? 'array' : 'number'
                 },
                 {
                   validator: (rule, value, callback) => {
-                    if (value) {
+                    if (value && question.answerLimit > 1) {
                       if (value.length > question.answerLimit) {
-                        callback(`No more than ${question.answerLimit}`);
-                      } else if (value.length <= question.answerLimit) {
+                        callback(
+                          `No more than ${question.answerLimit} answers`
+                        );
+                      } else {
                         callback();
                       }
+                    } else {
+                      callback();
                     }
                   }
                 }
@@ -161,11 +165,22 @@ class AngelsForm extends React.Component {
               </Select>
             )}
           </Form.Item>
-          {form.getFieldValue(`question${question.id}`) === 7 && (
-            <Form.Item>
-              <TextArea placeholder="Answer" rows={2} />
-            </Form.Item>
-          )}
+          {question.answerLimit === 1 &&
+            form.getFieldValue(`question${question.id}`) === 7 && (
+              <Form.Item>
+                {getFieldDecorator(`customAnswer${question.id}`, {
+                  rules: [
+                    {
+                      required:
+                        question.answerLimit === 1 &&
+                        form.getFieldValue(`question${question.id}`) === 7,
+                      message: 'Please especify',
+                      whitespace: true
+                    }
+                  ]
+                })(<TextArea placeholder="Answer" rows={2} />)}
+              </Form.Item>
+            )}
         </span>
       ));
 
@@ -245,12 +260,20 @@ class AngelsForm extends React.Component {
           )}
         </Form.Item>
 
+        {form.getFieldValue('role') === '3' && funderInformation}
         {form.getFieldValue('role') === '3' &&
-          funderInformation &&
           questionnaireBuilder(funderQuestionnaire)}
+        {form.getFieldValue('role') === '2' && seInformation}
         {form.getFieldValue('role') === '2' &&
-          seInformation &&
           questionnaireBuilder(seQuestionnaire)}
+
+        <Form.Item {...tailFormItemLayout}>
+          <CustomButton
+            theme="Primary"
+            buttonText="Create your angels account"
+            onClick={this.handleSubmit}
+          />
+        </Form.Item>
       </Form>
     );
   }
