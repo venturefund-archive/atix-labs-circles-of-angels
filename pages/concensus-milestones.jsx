@@ -303,12 +303,9 @@ class ConcensusMilestones extends Component {
     }
   };
 
-  actualUserNeedsTransfer = () => {
-    return (
-      this.actualTransferState === null ||
-      this.actualTransferState === TransferStatus.CANCELLED
-    );
-  };
+  actualUserNeedsTransfer = () =>
+    this.actualTransferState === null ||
+    this.actualTransferState === TransferStatus.CANCELLED;
 
   clickDownloadProposal = async () => {
     const { projectId } = this.props;
@@ -489,11 +486,13 @@ class ConcensusMilestones extends Component {
                 </Button>
               </div>
               <div className="vertical Data">
-                <ButtonUpload
-                  change={this.changeProjectAgreement}
-                  buttonText="Upload Agreement"
-                  showUploadList={false}
-                />
+                {isSocialEntrepreneur && (
+                  <ButtonUpload
+                    change={this.changeProjectAgreement}
+                    buttonText="Upload Agreement"
+                    showUploadList={false}
+                  />
+                )}
               </div>
               <Divider type="vertical" />
               {isSocialEntrepreneur ? (
