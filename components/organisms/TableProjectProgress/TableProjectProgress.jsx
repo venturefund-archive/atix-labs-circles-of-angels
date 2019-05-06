@@ -59,12 +59,16 @@ const TableProjectProgress = ({
           </span>
         ) : (
           <div className="milestoneStatus">
-            <Progress
-              percent={
-                (record.completedActivities * 100) / record.activities.length
-              }
-              size="small"
-            />
+            {record.activities.length == record.completedActivities ? (
+              <p>Completed</p>
+            ) : (
+              <Progress
+                percent={
+                  (record.completedActivities * 100) / record.activities.length
+                }
+                size="small"
+              />
+            )}
           </div>
         );
       }
