@@ -5,63 +5,6 @@ import './_login.scss';
 
 class Register extends Component {
   static async getInitialProps() {
-    const seQuestionnaire = {
-      questions: [
-        {
-          id: 1,
-          question:
-            'SE How often do you or your firm make angel impact investments?',
-          answerLimit: 1,
-          answers: [
-            { id: 1, answer: 'SE Not yet' },
-            {
-              id: 2,
-              answer: 'SE Less than 1 investment in the last 12 months'
-            },
-            { id: 3, answer: 'SE 1 to 3 investments in the last 12 months' },
-            { id: 4, answer: 'SE 4-5 investments in the last 12 months' },
-            {
-              id: 5,
-              answer: 'SE More than 5 investments in the last 12 months'
-            },
-            {
-              id: 6,
-              answer:
-                'SE I currently only do philanthropy eg: donate to charitable causes online & offline'
-            },
-            { id: 7, answer: 'Other' }
-          ]
-        },
-        {
-          id: 2,
-          question:
-            'SE Are you currently an advocate/ volunteer or donor for a social cause? ' +
-            'SE If yes, what are the top 3 impact areas you focus on? ' +
-            'SE Please select up to 3 UN Sustainable Development Goals',
-          answerLimit: 3,
-          answers: [
-            { id: 1, answer: 'SE No poverty' },
-            { id: 2, answer: 'SE Zero Hunger' },
-            { id: 3, answer: 'SE Good Health and Well-Being' },
-            { id: 4, answer: 'SE Quality Education' },
-            { id: 5, answer: 'SE Gender Equality' },
-            { id: 6, answer: 'SE Clean Water and Sanitation' },
-            { id: 7, answer: 'SE Affordable and Clean Energy' },
-            { id: 8, answer: 'SE Decent Work and Economic Growth' },
-            { id: 9, answer: 'SE Industry, Innovation and Infrastructure' },
-            { id: 10, answer: 'SE Reduced Inequality' },
-            { id: 11, answer: 'SE Sustainable Cities and Communities' },
-            { id: 12, answer: 'SE Responsible Consumption and Production' },
-            { id: 13, answer: 'SE Climate Action' },
-            { id: 14, answer: 'SE Life Below Water' },
-            { id: 15, answer: 'SE Life on Land' },
-            { id: 16, answer: 'SE Peace and Justice Strong Institutions' },
-            { id: 17, answer: 'SE Partnerships to Achieve the Goal' }
-          ]
-        }
-      ]
-    };
-
     const funderQuestionnaire = {
       questions: [
         {
@@ -91,23 +34,72 @@ class Register extends Component {
             'Please select up to 3 UN Sustainable Development Goals',
           answerLimit: 3,
           answers: [
-            { id: 1, answer: 'No poverty' },
-            { id: 2, answer: 'Zero Hunger' },
-            { id: 3, answer: 'Good Health and Well-Being' },
-            { id: 4, answer: 'Quality Education' },
-            { id: 5, answer: 'Gender Equality' },
-            { id: 6, answer: 'Clean Water and Sanitation' },
-            { id: 7, answer: 'Affordable and Clean Energy' },
-            { id: 8, answer: 'Decent Work and Economic Growth' },
-            { id: 9, answer: 'Industry, Innovation and Infrastructure' },
-            { id: 10, answer: 'Reduced Inequality' },
-            { id: 11, answer: 'Sustainable Cities and Communities' },
-            { id: 12, answer: 'Responsible Consumption and Production' },
-            { id: 13, answer: 'Climate Action' },
-            { id: 14, answer: 'Life Below Water' },
-            { id: 15, answer: 'Life on Land' },
-            { id: 16, answer: 'Peace and Justice Strong Institutions' },
-            { id: 17, answer: 'Partnerships to Achieve the Goal' }
+            { id: 8, answer: 'No poverty' },
+            { id: 9, answer: 'Zero Hunger' },
+            { id: 10, answer: 'Good Health and Well-Being' },
+            { id: 11, answer: 'Quality Education' },
+            { id: 12, answer: 'Gender Equality' },
+            { id: 13, answer: 'Clean Water and Sanitation' },
+            { id: 14, answer: 'Affordable and Clean Energy' },
+            { id: 15, answer: 'Decent Work and Economic Growth' },
+            { id: 16, answer: 'Industry, Innovation and Infrastructure' },
+            { id: 17, answer: 'Reduced Inequality' },
+            { id: 18, answer: 'Sustainable Cities and Communities' },
+            { id: 19, answer: 'Responsible Consumption and Production' },
+            { id: 20, answer: 'Climate Action' },
+            { id: 21, answer: 'Life Below Water' },
+            { id: 22, answer: 'Life on Land' },
+            { id: 23, answer: 'Peace and Justice Strong Institutions' },
+            { id: 24, answer: 'Partnerships to Achieve the Goal' }
+          ]
+        }
+      ]
+    };
+
+    const seQuestionnaire = {
+      questions: [
+        {
+          id: 3,
+          question: 'Type of funding you are seeking:',
+          answerLimit: 1,
+          answers: [
+            { id: 25, answer: 'Grant Funding' },
+            {
+              id: 26,
+              answer: 'Debt Financing'
+            },
+            { id: 27, answer: 'Equity Financing' },
+            { id: 28, answer: 'Combination of blended finance' },
+            {
+              id: 29,
+              answer: 'Not Yet'
+            },
+            { id: 30, answer: 'Other' }
+          ]
+        },
+        {
+          id: 4,
+          question:
+            'Which are the areas of impact that you tackle based on the UN Sustainable Development Goals?',
+          answerLimit: 3,
+          answers: [
+            { id: 31, answer: 'No poverty' },
+            { id: 32, answer: 'Zero Hunger' },
+            { id: 33, answer: 'Good Health and Well-Being' },
+            { id: 34, answer: 'Quality Education' },
+            { id: 35, answer: 'Gender Equality' },
+            { id: 36, answer: 'Clean Water and Sanitation' },
+            { id: 37, answer: 'Affordable and Clean Energy' },
+            { id: 38, answer: 'Decent Work and Economic Growth' },
+            { id: 39, answer: 'Industry, Innovation and Infrastructure' },
+            { id: 40, answer: 'Reduced Inequality' },
+            { id: 41, answer: 'Sustainable Cities and Communities' },
+            { id: 42, answer: 'Responsible Consumption and Production' },
+            { id: 43, answer: 'Climate Action' },
+            { id: 44, answer: 'Life Below Water' },
+            { id: 45, answer: 'Life on Land' },
+            { id: 46, answer: 'Peace and Justice Strong Institutions' },
+            { id: 47, answer: 'Partnerships to Achieve the Goal' }
           ]
         }
       ]

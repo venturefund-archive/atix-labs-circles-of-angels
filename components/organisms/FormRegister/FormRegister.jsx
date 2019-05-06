@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Icon, Select } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
+import { signUpUser } from '../../../api/userApi';
 
 const { Option } = Select;
 
@@ -11,7 +12,7 @@ class AngelsForm extends React.Component {
   handleSubmit = e => {
     const { form, seQuestionnaire, funderQuestionnaire } = this.props;
     e.preventDefault();
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (!err) {
         const user = {
           username: values.name,
@@ -26,7 +27,7 @@ class AngelsForm extends React.Component {
             formQuestionnaire = seQuestionnaire;
             if (values.phone) {
               user.detail = {
-                phone: values.phone
+                phoneNumber: values.phone
               };
             }
 
@@ -40,22 +41,45 @@ class AngelsForm extends React.Component {
             formQuestionnaire = funderQuestionnaire;
             if (values.phone) {
               user.detail = {
-                phone: values.phone
+                phoneNumber: values.phone
               };
             }
           }
 
-          user.questionnaire = { questions: [] };
+          user.questionnaire = [];
           formQuestionnaire.questions.forEach(question => {
-            user.questionnaire.questions.push({
-              id: question.id,
-              answer: values[`question${question.id}`],
-              customAnswer: values[`customAnswer${question.id}`] || ''
+            const answers = [];
+
+            if (values[`question${question.id}`].length > 0) {
+              values[`question${question.id}`].forEach(answer => {
+                const toSaveAnswer = {
+                  answer
+                };
+                if (values[`customAnswer${question.id}`]) {
+                  toSaveAnswer.customAnswer =
+                    values[`customAnswer${question.id}`];
+                }
+                answers.push(toSaveAnswer);
+              });
+            } else {
+              const toSaveAnswer = {
+                answer: values[`question${question.id}`]
+              };
+              if (values[`customAnswer${question.id}`]) {
+                toSaveAnswer.customAnswer =
+                  values[`customAnswer${question.id}`];
+              }
+              answers.push(toSaveAnswer);
+            }
+            user.questionnaire.push({
+              question: question.id,
+              answers
             });
           });
         }
 
-        console.log(user);
+        const response = await signUpUser(user);
+        console.log(response); // TODO replace with modals
       }
     });
   };
@@ -169,7 +193,6 @@ class AngelsForm extends React.Component {
                   <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                 }
                 mode={question.answerLimit > 1 ? 'multiple' : 'default'}
-                initialValue="1"
               >
                 {question.answers.map(answer => (
                   <Option value={answer.id} key={answer.id}>
@@ -180,7 +203,8 @@ class AngelsForm extends React.Component {
             )}
           </Form.Item>
           {question.answerLimit === 1 &&
-            form.getFieldValue(`question${question.id}`) === 7 && (
+            (form.getFieldValue(`question${question.id}`) === 7 ||
+              form.getFieldValue(`question${question.id}`) === 30) && (
               <Form.Item>
                 {getFieldDecorator(`customAnswer${question.id}`, {
                   rules: [
