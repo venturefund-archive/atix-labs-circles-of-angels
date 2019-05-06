@@ -145,11 +145,18 @@ class ProjectProgress extends React.Component {
                   </Button>
                 </div>
                 <Divider type="vertical" />
-                <span className="listItem flex">
+                <span className="listItem flex relative">
                   <Tooltip title="Hash">
                     <Icon component={HashIcon} />
                   </Tooltip>
                   {project.transactionHash}
+                <div className="speech-bubble-ds-top">
+                      <p>
+                      <strong>What´s a HASH? </strong> 
+                      This is the transaction id in the Blockhain that indicates when this project started it's execution phase
+                      </p>
+                      <div className="speech-bubble-ds-arrow-top" />
+                    </div>
                 </span>
               </div>
             </div>

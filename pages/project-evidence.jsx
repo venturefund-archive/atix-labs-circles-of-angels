@@ -246,8 +246,8 @@ class ProjectEvidence extends Component {
               </div>
               <div className="StepDescription">
                 <h3>
-                  Upload evidence and help verify this activity, mark it as complete
-                  once all evidence has been uploaded
+                  Upload evidence and help verify this activity, mark it as
+                  complete once all evidence has been uploaded
                 </h3>
               </div>
               <div className="b-right">
@@ -262,7 +262,7 @@ class ProjectEvidence extends Component {
                   </div>
                   <h3>{activity.tasks}</h3>
                 </div>
-                <div className="flex list">
+                <div className="flex list relative">
                   <span className="listItem flex">
                     <Tooltip title="Date">
                       <Icon
@@ -291,6 +291,12 @@ class ProjectEvidence extends Component {
                     </Tooltip>
                     {activity.transactionHash}
                   </span>
+                    <div className="speech-bubble-ds">
+                      <p>
+                      <strong>What´s a HASH? </strong> This is the transaction id in the Blockhain that indicates when Task was deemed as completed
+                      </p>
+                      <div className="speech-bubble-ds-arrow" />
+                    </div>
                 </div>
               </div>
 
