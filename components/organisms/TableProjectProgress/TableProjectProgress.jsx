@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
+import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
 import Routing from '../../utils/Routes';
 import './_tablestyle.scss';
 
@@ -59,12 +60,25 @@ const TableProjectProgress = ({
           </span>
         ) : (
           <div className="milestoneStatus">
-            <Progress
-              percent={
-                (record.completedActivities * 100) / record.activities.length
-              }
-              size="small"
-            />
+            {record.activities.length == record.completedActivities ? (
+              <Tag
+                color={
+                  MilestoneActivityStatusMap[MilestoneActivityStatus.COMPLETED]
+                    .color
+                }
+              >
+                {MilestoneActivityStatusMap[
+                  MilestoneActivityStatus.COMPLETED
+                ].name.toUpperCase()}
+              </Tag>
+            ) : (
+              <Progress
+                percent={
+                  (record.completedActivities * 100) / record.activities.length
+                }
+                size="small"
+              />
+            )}
           </div>
         );
       }
