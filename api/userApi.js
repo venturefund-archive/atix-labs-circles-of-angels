@@ -26,7 +26,7 @@ const getOracles = async () => {
 const getUsers = async () => {
   try {
     const response = await api.get(`${baseURL}`);
-    return response;
+    return response.data.users;
   } catch (error) {
     return { error };
   }
