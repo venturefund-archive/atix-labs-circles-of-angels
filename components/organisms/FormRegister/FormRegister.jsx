@@ -3,6 +3,8 @@ import { Form, Input, Icon, Select } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 import { signUpUser } from '../../../api/userApi';
+import { showModalSuccess, showModalError } from '../../utils/Modals';
+import Routing from '../../utils/Routes';
 
 const { Option } = Select;
 
@@ -79,7 +81,20 @@ class AngelsForm extends React.Component {
         }
 
         const response = await signUpUser(user);
-        console.log(response); // TODO replace with modals
+
+        if (!response || response.error) {
+          const { error } = response;
+          const title = error.response ? 'Error!' : error.message;
+          const content = error.response
+            ? error.response.data.error
+            : error.message;
+          showModalError(title, content);
+          return response;
+        }
+
+        showModalSuccess('Success!', 'User created successfully!');
+        Routing.toLogin();
+        return response;
       }
     });
   };
