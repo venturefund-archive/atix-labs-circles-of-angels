@@ -23,4 +23,49 @@ const getOracles = async () => {
   }
 };
 
-export { loginUser, getOracles };
+const getUsers = async () => {
+  try {
+    const response = await api.get(`${baseURL}`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const getAllRoles = async () => {
+  try {
+    const response = await api.get(`${baseURL}/role`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const getAllUserRegistrationStatus = async () => {
+  try {
+    const response = await api.get(`${baseURL}/registrationStatus`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+const changeUserRegistrationStatus = async (userId, registrationStatus) => {
+  try {
+    const response = await api.put(`${baseURL}/${userId}`, {
+      registrationStatus
+    });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export {
+  loginUser,
+  getOracles,
+  getUsers,
+  changeUserRegistrationStatus,
+  getAllUserRegistrationStatus,
+  getAllRoles
+};
