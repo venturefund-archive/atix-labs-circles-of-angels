@@ -15,8 +15,16 @@ const goToFundsAdministration = () => {
   Routing.toFundAdministration();
 };
 
+const goToBackofficeMilestones = () => {
+  Routing.toBackofficeMilestones();
+};
+
 const goToBackOfficeProjects = () => {
   Routing.toBackOffice();
+};
+
+const goToBackOfficeUsers = () => {
+  Routing.toBackOfficeUsers();
 };
 
 const SideBar = ({ isBackofficeAdmin }) => (
@@ -34,7 +42,7 @@ const SideBar = ({ isBackofficeAdmin }) => (
     <div className="logo">
       <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
     </div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
       <Menu.Item
         key="1"
         onClick={
@@ -46,9 +54,19 @@ const SideBar = ({ isBackofficeAdmin }) => (
       <Menu.Item key="2">
         <Icon type="sliders" />
       </Menu.Item>
-      {isBackofficeAdmin ? (
+      {isBackofficeAdmin && (
         <Menu.Item key="3" onClick={goToFundsAdministration}>
           <Icon type="fund" />
+        </Menu.Item>
+      )}
+      {isBackofficeAdmin && (
+        <Menu.Item key="4" onClick={goToBackOfficeUsers}>
+          <Icon type="team" />
+        </Menu.Item>
+      )}
+      {isBackofficeAdmin ? (
+        <Menu.Item key="4" onClick={goToBackofficeMilestones}>
+          <Icon type="file-protect" />
         </Menu.Item>
       ) : (
         ''

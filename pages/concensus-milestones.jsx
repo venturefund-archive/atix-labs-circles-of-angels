@@ -487,11 +487,13 @@ class ConcensusMilestones extends Component {
                 </Button>
               </div>
               <div className="vertical Data">
-                <ButtonUpload
-                  change={this.changeProjectAgreement}
-                  buttonText="Upload Agreement"
-                  showUploadList={false}
-                />
+                {isSocialEntrepreneur && (
+                  <ButtonUpload
+                    change={this.changeProjectAgreement}
+                    buttonText="Upload Agreement"
+                    showUploadList={false}
+                  />
+                )}
               </div>
               <Divider type="vertical" />
               {isSocialEntrepreneur ? (

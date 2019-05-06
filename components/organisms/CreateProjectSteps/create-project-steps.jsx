@@ -9,14 +9,13 @@ import './_create-project.scss';
 
 const { Step } = Steps;
 
-const changeProjectFile = (project, key, info) => {
-  const { status } = info.file;
-  const { file } = info;
+const changeProjectFile = (project, key, file) => {
+  const { status } = file;
   if (status === FileUploadStatus.DONE) {
     message.success(`${file.name} file uploaded successfully`);
     project.files[key] = file;
   } else if (status === FileUploadStatus.ERROR) {
-    message.error(`${info.file.name} file upload failed.`);
+    message.error(`${file.name} file upload failed.`);
   } else if (status === FileUploadStatus.REMOVED) {
     project.files[key] = {};
   }

@@ -3,6 +3,7 @@ import { Form, Icon, Input, Checkbox } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
 import 'antd/dist/antd.css';
 import './_style.scss';
+import Routing from '../../utils/Routes.js';
 
 const FormLogin = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
@@ -44,7 +45,7 @@ const FormLogin = ({ form, onSubmit }) => {
           </a>
         </div>
         <CustomButton theme="Primary" buttonText="Sign In" onClick={submit} />
-        Don't have an Account? <a href="#/">Sign Up</a>
+        Don't have an Account? <a onClick={() => Routing.toRegister()}>Sign Up</a>
       </Form.Item>
     </Form>
   );
