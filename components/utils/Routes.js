@@ -15,6 +15,7 @@ const consensusMilestones = '/concensus-milestones';
 const fundAdministration = '/fund-administration';
 const projectProgress = '/project-progress';
 const projectEvidence = '/project-evidence';
+const backOfficeUsers = '/back-office-users';
 const backOfficeMilestones = '/back-office-milestones';
 
 const Routing = {
@@ -66,6 +67,9 @@ const Routing = {
   },
   toFundAdministration: query => {
     goToRoute(fundAdministration, query);
+  },
+  toBackOfficeUsers: query => {
+    goToRoute(backOfficeUsers, query);
   },
   goBack: () => {
     Router.back();

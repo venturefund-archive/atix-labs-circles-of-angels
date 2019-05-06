@@ -23,6 +23,10 @@ const goToBackOfficeProjects = () => {
   Routing.toBackOffice();
 };
 
+const goToBackOfficeUsers = () => {
+  Routing.toBackOfficeUsers();
+};
+
 const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
     width="50"
@@ -50,12 +54,15 @@ const SideBar = ({ isBackofficeAdmin }) => (
       <Menu.Item key="2">
         <Icon type="sliders" />
       </Menu.Item>
-      {isBackofficeAdmin ? (
+      {isBackofficeAdmin && (
         <Menu.Item key="3" onClick={goToFundsAdministration}>
           <Icon type="fund" />
         </Menu.Item>
-      ) : (
-        ''
+      )}
+      {isBackofficeAdmin && (
+        <Menu.Item key="4" onClick={goToBackOfficeUsers}>
+          <Icon type="team" />
+        </Menu.Item>
       )}
       {isBackofficeAdmin ? (
         <Menu.Item key="4" onClick={goToBackofficeMilestones}>
