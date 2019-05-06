@@ -10,6 +10,7 @@ import FileUploadStatus from '../constants/FileUploadStatus';
 import './_style.scss';
 import './_concensus.scss';
 import './_steps.scss';
+/* import './_transfer-funds-confirmation.scss'; */
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
 import {
   getProjectMilestones,
@@ -270,7 +271,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+          'This project doesn\'t have an Agreement uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -315,7 +316,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -428,7 +429,7 @@ class ConcensusMilestones extends Component {
     const step1 = (
       <div className="ContentStep">
         <Steps stepNumber={0} />
-        <div className="ProjectStepsContainer">
+        <div className="ProjectStepsContainerNS">
           <div className="StepDescription">
             <p className="LabelSteps">Consensus Step</p>
             <h3>
@@ -517,7 +518,7 @@ class ConcensusMilestones extends Component {
             </div>
           </div>
           <Divider />
-          <div>
+          <div className="ContainerTableScroll">
             <TableMilestones
               dataSource={milestones}
               onDelete={this.deleteActivity}
@@ -608,7 +609,7 @@ class ConcensusMilestones extends Component {
     );
 
     const step3 = (
-      <div>
+      <div className="ContentStep">
         <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
@@ -649,7 +650,7 @@ class ConcensusMilestones extends Component {
     );
 
     const confirmationStep = (
-      <div>
+      <div className="ContentStep">
         <Steps stepNumber={2} />
         <div className="ProjectStepsContainer">
           <div className="StepDescription">

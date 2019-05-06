@@ -21,7 +21,36 @@
     margin: 0.5em 0 1em;
   }
 }
+.ProjectStepsContainerNS {
+  height: 80%;
 
+  .LabelSteps {
+    @include primary-text($label, $grey, 500);
+    text-transform: uppercase;
+    margin-top: 1.5em;
+  }
+
+  h1 {
+    @include primary-text($h1, $secondary-color, 600);
+  }
+
+
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+    margin: 0.5em 0 1em;
+  }
+  .StepDescription{
+height: 9%;
+  }
+  .ProjectInfoHeader{
+        height: 16%;
+  }
+.ContainerTableScroll{
+  height: 68%;
+  overflow-y: scroll;
+}
+}
 .ControlSteps {
   @include ControlSteps;
 }
@@ -67,7 +96,7 @@
       @include primary-text($body-2, $sucess-color, 500);
     }
     a.TextBlue {
-      width: 85px;
+      width: 130px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
