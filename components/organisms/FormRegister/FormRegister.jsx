@@ -9,7 +9,7 @@ const { TextArea } = Input;
 
 class AngelsForm extends React.Component {
   handleSubmit = e => {
-    const { form } = this.props;
+    const { form, seQuestionnaire, funderQuestionnaire } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -20,28 +20,42 @@ class AngelsForm extends React.Component {
           role: values.role
         };
 
-        // TODO add questionnaire to USER
+        if (values.role !== '4') {
+          let formQuestionnaire = {};
+          if (values.role === '2') {
+            formQuestionnaire = seQuestionnaire;
+            if (values.phone) {
+              user.detail = {
+                phone: values.phone
+              };
+            }
 
-        if (values.role === '2') {
-          if (values.phone) {
-            user.detail = {
-              phone: values.phone
-            };
+            if (values.company) {
+              user.detail = {
+                ...user.detail,
+                company: values.company
+              };
+            }
+          } else if (values.role === '3') {
+            formQuestionnaire = funderQuestionnaire;
+            if (values.phone) {
+              user.detail = {
+                phone: values.phone
+              };
+            }
           }
 
-          if (values.company) {
-            user.detail = {
-              ...user.detail,
-              company: values.company
-            };
-          }
-        } else if (values.role === '3') {
-          if (values.phone) {
-            user.detail = {
-              phone: values.phone
-            };
-          }
+          user.questionnaire = { questions: [] };
+          formQuestionnaire.questions.forEach(question => {
+            user.questionnaire.questions.push({
+              id: question.id,
+              answer: values[`question${question.id}`],
+              customAnswer: values[`customAnswer${question.id}`] || ''
+            });
+          });
         }
+
+        console.log(user);
       }
     });
   };
