@@ -294,20 +294,24 @@ class ProjectEvidence extends Component {
                     {activity.budget}
                   </span>
                   <Divider type="vertical" />
-                  <span className="listItem flex">
-                    <Tooltip title="Hash">
-                      <Icon component={HashIcon} />
-                    </Tooltip>
-                    {activity.transactionHash}
-                  </span>
-                  <div className="speech-bubble-ds">
-                    <p>
-                      <strong>What´s a HASH? </strong> This is the transaction
-                      id in the Blockhain that indicates when Task was deemed as
-                      completed
-                    </p>
-                    <div className="speech-bubble-ds-arrow" />
-                  </div>
+                  {activity.transactionHash && (
+                    <span className="listItem flex">
+                      <Tooltip title="Hash">
+                        <Icon component={HashIcon} />
+                      </Tooltip>
+                      {activity.transactionHash}
+                    </span>
+                  )}
+                  {activity.transactionHash && (
+                    <div className="speech-bubble-ds">
+                      <p>
+                        <strong>What´s a HASH? </strong> This is the transaction
+                        id in the Blockchain that indicates when the Task was
+                        deemed as completed
+                      </p>
+                      <div className="speech-bubble-ds-arrow" />
+                    </div>
+                  )}
                 </div>
               </div>
 
