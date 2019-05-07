@@ -65,7 +65,7 @@ const SideBar = ({ isBackofficeAdmin }) => (
         </Menu.Item>
       )}
       {isBackofficeAdmin ? (
-        <Menu.Item key="4" onClick={goToBackofficeMilestones}>
+        <Menu.Item key="5" onClick={goToBackofficeMilestones}>
           <Icon type="file-protect" />
         </Menu.Item>
       ) : (
