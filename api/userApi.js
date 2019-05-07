@@ -61,11 +61,21 @@ const changeUserRegistrationStatus = async (userId, registrationStatus) => {
   }
 };
 
+const signUpUser = async user => {
+  try {
+    const response = await api.post(`${baseURL}/signup`, user);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   loginUser,
   getOracles,
   getUsers,
   changeUserRegistrationStatus,
   getAllUserRegistrationStatus,
-  getAllRoles
+  getAllRoles,
+  signUpUser
 };
