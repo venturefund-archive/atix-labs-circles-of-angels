@@ -2,6 +2,9 @@ import React from 'react';
 import { Form, Input, Icon, Select } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
+import { signUpUser } from '../../../api/userApi';
+import { showModalSuccess, showModalError } from '../../utils/Modals';
+import Routing from '../../utils/Routes';
 
 const { Option } = Select;
 
@@ -11,7 +14,7 @@ class AngelsForm extends React.Component {
   handleSubmit = e => {
     const { form, seQuestionnaire, funderQuestionnaire } = this.props;
     e.preventDefault();
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (!err) {
         const user = {
           username: values.name,
@@ -26,7 +29,7 @@ class AngelsForm extends React.Component {
             formQuestionnaire = seQuestionnaire;
             if (values.phone) {
               user.detail = {
-                phone: values.phone
+                phoneNumber: values.phone
               };
             }
 
@@ -40,22 +43,58 @@ class AngelsForm extends React.Component {
             formQuestionnaire = funderQuestionnaire;
             if (values.phone) {
               user.detail = {
-                phone: values.phone
+                phoneNumber: values.phone
               };
             }
           }
 
-          user.questionnaire = { questions: [] };
+          user.questionnaire = [];
           formQuestionnaire.questions.forEach(question => {
-            user.questionnaire.questions.push({
-              id: question.id,
-              answer: values[`question${question.id}`],
-              customAnswer: values[`customAnswer${question.id}`] || ''
+            const answers = [];
+
+            if (values[`question${question.id}`].length > 0) {
+              values[`question${question.id}`].forEach(answer => {
+                const toSaveAnswer = {
+                  answer
+                };
+                if (values[`customAnswer${question.id}`]) {
+                  toSaveAnswer.customAnswer =
+                    values[`customAnswer${question.id}`];
+                }
+                answers.push(toSaveAnswer);
+              });
+            } else {
+              const toSaveAnswer = {
+                answer: values[`question${question.id}`]
+              };
+              if (values[`customAnswer${question.id}`]) {
+                toSaveAnswer.customAnswer =
+                  values[`customAnswer${question.id}`];
+              }
+              answers.push(toSaveAnswer);
+            }
+            user.questionnaire.push({
+              question: question.id,
+              answers
             });
           });
         }
 
-        console.log(user);
+        const response = await signUpUser(user);
+
+        if (!response || response.error) {
+          const { error } = response;
+          const title = error.response ? 'Error!' : error.message;
+          const content = error.response
+            ? error.response.data.error
+            : error.message;
+          showModalError(title, content);
+          return response;
+        }
+
+        showModalSuccess('Success!', 'User created successfully!');
+        Routing.toLogin();
+        return response;
       }
     });
   };
@@ -169,7 +208,6 @@ class AngelsForm extends React.Component {
                   <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                 }
                 mode={question.answerLimit > 1 ? 'multiple' : 'default'}
-                initialValue="1"
               >
                 {question.answers.map(answer => (
                   <Option value={answer.id} key={answer.id}>
@@ -180,7 +218,8 @@ class AngelsForm extends React.Component {
             )}
           </Form.Item>
           {question.answerLimit === 1 &&
-            form.getFieldValue(`question${question.id}`) === 7 && (
+            (form.getFieldValue(`question${question.id}`) === 7 ||
+              form.getFieldValue(`question${question.id}`) === 30) && (
               <Form.Item>
                 {getFieldDecorator(`customAnswer${question.id}`, {
                   rules: [
