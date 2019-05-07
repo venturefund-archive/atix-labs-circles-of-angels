@@ -23,7 +23,6 @@ const requiredField = {
 class WebFormProject extends React.Component {
   componentDidMount() {
     const { form, webform, project } = this.props;
-    console.log(this.props);
     form.setFieldsValue({ ...project.data });
     webform.form = form;
   }
