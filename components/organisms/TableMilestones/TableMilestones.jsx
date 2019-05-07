@@ -397,7 +397,6 @@ class TableMilestones extends React.Component {
           scroll={{ x: 1300 }}
           className="TableMilestones"
           defaultSortOrder="ascend"
-          rowKey={record => record.id}
         />
         {visible && createActivityModal}
       </div>
