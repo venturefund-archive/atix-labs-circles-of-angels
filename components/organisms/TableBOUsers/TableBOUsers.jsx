@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Tag, Select } from 'antd';
 import './_style.scss';
 import userRegistrationStatusMap from '../../../model/userRegistrationStatusMap';
+import UserAnswer from './UserAnswer';
 
 const TableBOUsers = ({
   dataSource,
@@ -83,6 +84,7 @@ const TableBOUsers = ({
       columns={columns}
       size="middle"
       className="TableBOProjects"
+      expandedRowRender={render => <UserAnswer user={render} />}
     />
   );
 };
