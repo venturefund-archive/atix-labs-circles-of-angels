@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FormRegister from '../components/organisms/FormRegister/FormRegister';
 import { getQuestionnaire } from '../api/questionnaireApi';
 import Roles from '../constants/RolesMap';
+import Routes from '../components/utils/Routes';
 import './_register.scss';
 import './_login.scss';
 
@@ -10,6 +11,10 @@ class Register extends Component {
     const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
     const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
     return { seQuestionnaire, funderQuestionnaire };
+  }
+
+  goToLogin() {
+    Routes.toLogin();
   }
 
   render() {
@@ -24,6 +29,7 @@ class Register extends Component {
           <FormRegister
             seQuestionnaire={seQuestionnaire}
             funderQuestionnaire={funderQuestionnaire}
+            goBackHandler={this.goToLogin}
           />
         </div>
       </div>
