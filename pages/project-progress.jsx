@@ -85,7 +85,7 @@ class ProjectProgress extends React.Component {
       if (error.response) {
         error.response.data.error =
           // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Proposal uploaded";
+          'This project doesn\'t have a Proposal uploaded';
       }
       const title = error.response
         ? 'Error Downloading Project Proposal'
@@ -145,19 +145,22 @@ class ProjectProgress extends React.Component {
                   </Button>
                 </div>
                 <Divider type="vertical" />
-                <span className="listItem flex relative">
-                  <Tooltip title="Hash">
-                    <Icon component={HashIcon} />
-                  </Tooltip>
-                  {project.transactionHash}
-                <div className="speech-bubble-ds-top">
+                {project.transactionHash && (
+                  <span className="listItem flex relative">
+                    <Tooltip title="Hash">
+                      <Icon component={HashIcon} />
+                    </Tooltip>
+                    {project.transactionHash}
+                    <div className="speech-bubble-ds-top">
                       <p>
-                      <strong>What´s a HASH? </strong> 
-                      This is the transaction id in the Blockhain that indicates when this project started it's execution phase
+                        <strong>What´s a HASH? </strong>
+                        This is the transaction id in the Blockchain that
+                        indicates when this project started it's execution phase
                       </p>
                       <div className="speech-bubble-ds-arrow-top" />
                     </div>
-                </span>
+                  </span>
+                )}
               </div>
             </div>
             <TableProjectProgress
