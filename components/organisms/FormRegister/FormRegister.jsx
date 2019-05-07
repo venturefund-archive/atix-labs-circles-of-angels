@@ -100,7 +100,12 @@ class AngelsForm extends React.Component {
   };
 
   render() {
-    const { form, seQuestionnaire, funderQuestionnaire } = this.props;
+    const {
+      form,
+      seQuestionnaire,
+      funderQuestionnaire,
+      goBackHandler
+    } = this.props;
     const { getFieldDecorator } = form;
 
     const tailFormItemLayout = {
@@ -325,6 +330,13 @@ class AngelsForm extends React.Component {
             theme="Primary"
             buttonText="Create your angels account"
             onClick={this.handleSubmit}
+          />
+        </Form.Item>
+        <Form.Item>
+          <CustomButton
+            theme="Cancel"
+            buttonText="Cancel"
+            onClick={goBackHandler}
           />
         </Form.Item>
       </Form>
