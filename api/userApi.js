@@ -68,7 +68,7 @@ const signUpUser = async user => {
   } catch (error) {
     return { error };
   }
-}
+};
 
 export {
   loginUser,
