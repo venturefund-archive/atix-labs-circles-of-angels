@@ -22,11 +22,15 @@ class Login extends Component {
       if (response.error) {
         const { error } = response;
         const title = error.response ? 'Hello!' : error.message;
-        let content =
-          'There was an error logging in! Please try to log-in again later' +
-          ' or send an email to hello@circlesofangels.com';
-
-        console.log(response);
+        let content = (
+          <div>
+            There was an error logging in! Please try to log-in again later or
+            send an email to{' '}
+            <a href="mailto:hello@circlesofangels.com">
+              hello@circlesofangels.com
+            </a>
+          </div>
+        );
         if (error.response && error.response.data) {
           const { data } = error.response;
           if (data.error.user) {
@@ -34,15 +38,28 @@ class Login extends Component {
               data.error.user.registrationStatus ===
               UserRegistrationStatus.PENDING_APPROVAL
             ) {
-              content =
-                'We are reviewing your account details. Please try to ' +
-                'log-in again later or send an email to hello@circlesofangels.com';
+              content = (
+                <div>
+                  We are reviewing your account details. Please try to log-in
+                  again later or send an email to{' '}
+                  <a href="mailto:hello@circlesofangels.com">
+                    hello@circlesofangels.com
+                  </a>
+                </div>
+              );
             } else if (
               data.error.user.registrationStatus ===
               UserRegistrationStatus.REJECTED
             ) {
-              content =
-                'There has been an issue with your account. Please contact us at hello@circlesofangels.com';
+              content = (
+                <div>
+                  There has been an issue with your account. Please contact us
+                  at{' '}
+                  <a href="mailto:hello@circlesofangels.com">
+                    hello@circlesofangels.com
+                  </a>
+                </div>
+              );
             }
           } else {
             content = error.response
