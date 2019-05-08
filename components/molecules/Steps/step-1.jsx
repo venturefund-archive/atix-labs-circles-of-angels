@@ -110,7 +110,6 @@ class Step1 extends React.Component {
   clickDownloadProposalTemplate = async () => {
     const res = await downloadProposalTemplate();
     if (res.error) {
-      console.log(res);
       const { error } = res;
       const title = 'Proposal template download failed';
       const content = error.response
