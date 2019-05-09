@@ -16,5 +16,11 @@
   p {
     @include primary-text($body, $on-surface-medium, 400);
   }
+  .UploadButton {
+    max-width: 50%;
+  }
+  .ant-upload-list {
+    text-overflow: ellipsis;
+  }
  }
  

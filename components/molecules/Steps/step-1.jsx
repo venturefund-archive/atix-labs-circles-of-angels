@@ -110,7 +110,6 @@ class Step1 extends React.Component {
   clickDownloadProposalTemplate = async () => {
     const res = await downloadProposalTemplate();
     if (res.error) {
-      console.log(res);
       const { error } = res;
       const title = 'Proposal template download failed';
       const content = error.response
@@ -183,9 +182,10 @@ class Step1 extends React.Component {
               remove={info => this.removeFromFilelist('projectCardPhoto', info)}
             />
             <DownloadTemplate
-              subtitle=" "
+              subtitle="Project Proposal - Download"
+              text="Please download the pitch proposal document and update in-depth description of the project. This form will take between 20mins to 60mins for you to fill in"
               click={this.clickDownloadProposalTemplate}
-              text="Download Project Proposal Template"
+              buttontext="Download Project Proposal Template"
             />
 
             <BlockUpload
@@ -206,8 +206,8 @@ class Step1 extends React.Component {
               }
             />
             <BlockUpload
-              subtitle="Project Proposal"
-              text="Please download the pitch proposal document and update in-depth description of the project. This form will take between 20mins to 60mins for you to fill in"
+              subtitle="Project Proposal - Upload"
+              text="Please upload the pitch proposal document"
               name="projectProposal"
               typeAccepts=".pdf, .ppt, .docx, .doc"
               buttonText="Upload Project Proposal"
