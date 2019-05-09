@@ -20,17 +20,19 @@ const BlockUpload = ({
       <p className="Title">{subtitle}</p>
       <p>{text}</p>
     </div>
-    <ButtonUpload
-      change={change}
-      name={name}
-      buttonText={buttonText}
-      typeAccepts={typeAccepts}
-      defaultFileList={defaultFileList}
-      hideButton={hideButton}
-      onRemove={remove}
-      beforeUpload={beforeUpload}
-      fileList={fileList}
-    />
+    <div className="UploadButton">
+      <ButtonUpload
+        change={change}
+        name={name}
+        buttonText={buttonText}
+        typeAccepts={typeAccepts}
+        defaultFileList={defaultFileList}
+        hideButton={hideButton}
+        onRemove={remove}
+        beforeUpload={beforeUpload}
+        fileList={fileList}
+      />
+    </div>
   </div>
 );
 

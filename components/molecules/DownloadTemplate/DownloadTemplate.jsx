@@ -2,11 +2,14 @@ import React from 'react';
 import { Button, Icon } from 'antd';
 import './_style.scss';
 
-const DownloadTemplate = ({ subtitle, text, click }) => (
+const DownloadTemplate = ({ subtitle, text, click , buttontext }) => (
   <div className="DownloadTemplateContainer">
-    {subtitle && <p className="Title">{subtitle}</p>}
+    <div className="vertical">
+        {subtitle && <p className="Title">{subtitle}</p>}
+        <p>{text}</p>
+      </div>
     <Button onClick={click}>
-      {text} <Icon type="download" />
+      {buttontext} <Icon type="download" />
     </Button>
   </div>
 );

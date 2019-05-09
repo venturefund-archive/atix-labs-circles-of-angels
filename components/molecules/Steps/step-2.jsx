@@ -178,7 +178,7 @@ class Step2 extends React.Component {
             <DownloadTemplate
               click={this.clickDownloadMilestonesTemplate}
               subtitle="Project's Milestones Template"
-              text="Download Excel File"
+              buttontext="Download Excel File"
             />
             <div className="UploadExcelFiles">
               <DragUploadFile
