@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import api from './api';
 import ProjectStatus from '../constants/ProjectStatus';
 
@@ -15,8 +16,6 @@ const createProject = async (project, files, ownerId) => {
     fd.append('projectAgreement', files[4]);
     fd.append('project', JSON.stringify(project));
     fd.append('ownerId', ownerId);
-
-    console.log('Sending information', fd);
 
     const response = await api.post(`${baseURL}/create`, fd, config);
 
@@ -238,7 +237,27 @@ const getProjectsAsOracle = async oracleId => {
   } catch (error) {
     return { error };
   }
-}
+};
+
+const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
+  try {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    const fd = new FormData();
+    if (cardPhoto && !isEmpty(cardPhoto)) {
+      fd.append('projectCardPhoto', cardPhoto);
+    }
+    if (coverPhoto && !isEmpty(coverPhoto)) {
+      fd.append('projectCoverPhoto', coverPhoto);
+    }
+    fd.append('project', JSON.stringify(project));
+
+    const response = await api.put(`${baseURL}/${projectId}`, fd, config);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
 
 export {
   getProjects,
@@ -256,5 +275,6 @@ export {
   getActualProjectAmount,
   startProject,
   getProjectsAsOracle,
-  downloadProposalTemplate
+  downloadProposalTemplate,
+  updateProject
 };
