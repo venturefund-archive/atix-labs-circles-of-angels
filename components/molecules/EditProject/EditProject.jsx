@@ -1,13 +1,9 @@
 import React from 'react';
-import { Button, message } from 'antd';
-import { isEmpty } from 'lodash';
-import mime from 'mime-types';
+import { Button } from 'antd';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
-import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import '../../../pages/_steps.scss';
 import './_style.scss';
-import { showModalError } from '../../utils/Modals';
 
 const webform = {
   form: {}
@@ -42,7 +38,7 @@ class EditProject extends React.Component {
   };
 
   render() {
-    const { project } = this.props;
+    const { project, onBack } = this.props;
     const { previewCardPhoto, previewCoverPhoto } = this.state;
 
     return (
@@ -101,6 +97,9 @@ class EditProject extends React.Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
+          <Button style={{ marginRight: 8 }} onClick={onBack}>
+            Back
+          </Button>
           <Button type="primary" onClick={this.validProject}>
             Save
           </Button>

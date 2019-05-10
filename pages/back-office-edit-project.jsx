@@ -7,6 +7,7 @@ import './_back-office-edit-project.scss';
 import { updateProject, getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import Routing from '../components/utils/Routes';
 
 class BackOfficeEditProject extends React.Component {
   static async getInitialProps({ query }) {
@@ -34,6 +35,11 @@ class BackOfficeEditProject extends React.Component {
 
     return { project, projectId };
   }
+
+  projectDetailPage = () => {
+    const { projectId } = this.props;
+    Routing.toBackofficeProjectDetails({ projectId });
+  };
 
   updateProject = async (project, coverPhoto, cardPhoto) => {
     const { projectId } = this.props;
@@ -66,7 +72,11 @@ class BackOfficeEditProject extends React.Component {
         <div className="MainContent">
           <Header />
           <div className="BackOfficeEditProject">
-            <EditProject project={project} onSubmit={this.updateProject} />
+            <EditProject
+              project={project}
+              onSubmit={this.updateProject}
+              onBack={this.projectDetailPage}
+            />
           </div>
         </div>
       </div>
