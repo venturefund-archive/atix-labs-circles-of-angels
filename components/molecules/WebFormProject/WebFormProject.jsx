@@ -38,9 +38,7 @@ class WebFormProject extends React.Component {
 
   getField = field => {
     const { form } = this.props;
-    return form.isFieldTouched(field) && !form.getFieldError(field)
-      ? form.getFieldValue(field)
-      : '';
+    return !form.getFieldError(field) ? form.getFieldValue(field) : '';
   };
 
   handleSubmit = () => {
