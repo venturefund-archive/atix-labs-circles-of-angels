@@ -14,8 +14,6 @@
     @include primary-text($h1, $secondary-color, 600);
   }
 
-
-
   h2 {
     @include primary-text($h2, $secondary-color, 400);
     margin: 0.5em 0 1em;
@@ -34,25 +32,38 @@
     @include primary-text($h1, $secondary-color, 600);
   }
 
-
-
   h2 {
     @include primary-text($h2, $secondary-color, 400);
     margin: 0.5em 0 1em;
   }
-  .StepDescription{
-height: 9%;
+  .StepDescription {
+    height: 9%;
   }
-  .ProjectInfoHeader{
-        height: 16%;
+  .ProjectInfoHeader {
+    height: 16%;
   }
-.ContainerTableScroll{
-  height: 68%;
-  overflow-y: scroll;
-}
+  .ContainerTableScroll {
+    height: 68%;
+    overflow-y: scroll;
+  }
 }
 .ControlSteps {
   @include ControlSteps;
+}
+
+.hashDisplay {
+  display: flex;
+  justify-content: space-between;
+  .speech-bubble-ds {
+    min-width: 20em;
+    max-width: 30em;
+    position: relative;
+    margin-left: 14em;
+
+    .speech-bubble-ds-arrow {
+      top: 70%;
+    }
+  }
 }
 
 .ProjectInfoHeader {
@@ -65,7 +76,7 @@ height: 9%;
     text-transform: uppercase;
   }
 
-  .ant-alert{
+  .ant-alert {
     margin-left: 1em;
     padding: 4px 24px 4px 24px;
     .ant-alert-icon {
@@ -73,17 +84,17 @@ height: 9%;
       top: 7.5px;
       left: 5px;
     }
-        span{
-          @include primary-text($body, $primary-color, 500);
-          color: #436a86;
-        }
-        .ant-alert-close-icon{
-          top: 3px;
-    right: 9px;
-        }
+    span {
+      @include primary-text($body, $primary-color, 500);
+      color: #436a86;
+    }
+    .ant-alert-close-icon {
+      top: 3px;
+      right: 9px;
+    }
   }
   .Data {
-    button{
+    button {
       margin-right: 0.5em;
     }
     .TextGray {
@@ -101,7 +112,6 @@ height: 9%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
   }
   .Overline {
     @include primary-text($body, $grey, 500);
@@ -111,12 +121,11 @@ height: 9%;
     height: 2.5em;
     margin: 0 1.2em;
   }
-
 }
 .ContentStep {
   @include Content;
 }
-.ant-divider-horizontal{
+.ant-divider-horizontal {
   margin: 1em 0;
 }
 .StepDescription {
