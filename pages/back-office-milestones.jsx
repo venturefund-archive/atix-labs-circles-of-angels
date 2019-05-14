@@ -10,6 +10,7 @@ import {
   getAllBudgetStatus,
   changeBudgetStatus
 } from '../api/milestonesApi';
+import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 import './_style.scss';
@@ -81,4 +82,4 @@ class BackOfficeMilestones extends React.Component {
   }
 }
 
-export default BackOfficeMilestones;
+export default withUser(BackOfficeMilestones);

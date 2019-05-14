@@ -1,13 +1,19 @@
-import api from './api';
+import api, { addAuthUser } from './api';
 
 const baseURL = '/user';
 
 const loginUser = async (email, pwd) => {
   try {
-    const response = await api.post(`${baseURL}/login`, {
-      email,
-      pwd
-    });
+    const response = await api.post(
+      `${baseURL}/login`,
+      {
+        email,
+        pwd
+      },
+      {
+        withCredentials: false
+      }
+    );
     return response;
   } catch (error) {
     return { error };

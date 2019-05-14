@@ -7,6 +7,7 @@ import Routing from '../components/utils/Routes';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { getProjects } from '../api/projectApi';
 import { changeBudgetStatus } from '../api/milestonesApi';
+import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 import './_back-office-projects.scss';
@@ -69,4 +70,4 @@ class BackOfficeProjects extends React.Component {
   }
 }
 
-export default BackOfficeProjects;
+export default withUser(BackOfficeProjects);
