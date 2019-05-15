@@ -2,9 +2,8 @@ import React from 'react';
 import { Icon } from 'antd';
 import './_style.scss';
 
-const InfoItem = ({ subtitle, title, iconInfoItem }) => (
+const InfoItem = ({ subtitle, title }) => (
   <div className="InfoItem">
-    <Icon type={iconInfoItem} style={{ color: '#8b91a4' }} />
     <div className="InfoItemData">
       <p>{subtitle}</p>
       <h2>{title}</h2>

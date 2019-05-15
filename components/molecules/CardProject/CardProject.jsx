@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from 'antd';
+import { Tag, Progress } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 
@@ -30,20 +30,29 @@ const CardProject = ({
         </div>
       </div>
       <div className="ProjectSummery">
-        <InfoItem
-          subtitle="Country of Impact"
-          title={enterpriseLocation}
-          iconInfoItem="environment"
-        />
-        <InfoItem
-          subtitle="Timeframe"
-          title={timeframe}
-          iconInfoItem="clock-circle"
-        />
-        <InfoItem
-          subtitle="Amount"
-          title={`$ ${amount}`}
-          iconInfoItem="dollar"
+        <div className="space-between">
+          <InfoItem
+            subtitle="Country of Impact"
+            title={enterpriseLocation}
+            iconInfoItem="environment"
+          />
+          <InfoItem
+            subtitle="Timeframe"
+            title={timeframe}
+            iconInfoItem="clock-circle"
+          />
+          <InfoItem
+            subtitle="Amount"
+            title={`$ ${amount}`}
+            iconInfoItem="dollar"
+          />
+        </div>
+        <Progress
+          size="small"
+          showInfo={false}
+          strokeColor="#22C89B"
+          percent={60}
+          status="active"
         />
       </div>
     </div>
