@@ -68,26 +68,25 @@ class ExploreProjects extends React.Component {
               <h1>Explore Projects</h1>
             </div>
             <div className="ProjectsCardsContainer">
-              {projects
-                ? projects.map(project => {
-                    const showTag =
-                      project.status === projectStatus.IN_PROGRESS &&
-                      activeOracleProjects.indexOf(project.id) !== -1;
-                    return (
-                      <CardProject
-                        enterpriseName={project.projectName}
-                        projectCardImage={project.cardPhoto}
-                        enterpriseLocation={project.location}
-                        timeframe={project.timeframe}
-                        amount={project.goalAmount}
-                        showTag={showTag}
-                        tagClick={() => this.goToProjectProgress(project.id)}
-                        key={project.id}
-                        onClick={() => this.goToProjectDetail(project.id)}
-                      />
-                    );
-                  })
-                : ''}
+              {projects &&
+                projects.map(project => {
+                  const showTag =
+                    project.status === projectStatus.IN_PROGRESS &&
+                    activeOracleProjects.indexOf(project.id) !== -1;
+                  return (
+                    <CardProject
+                      enterpriseName={project.projectName}
+                      projectCardImage={project.cardPhoto}
+                      enterpriseLocation={project.location}
+                      timeframe={project.timeframe}
+                      amount={project.goalAmount}
+                      showTag={showTag}
+                      tagClick={() => this.goToProjectProgress(project.id)}
+                      key={project.id}
+                      onClick={() => this.goToProjectDetail(project.id)}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>
