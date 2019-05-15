@@ -63,46 +63,52 @@ class ConcensusMilestones extends Component {
     super(props);
     const { transfers, user } = props;
 
-    const actualUserTransfer = transfers.find(
-      transfer => transfer.sender === user.id
-    );
-
-    this.actualTransferState = actualUserTransfer
-      ? actualUserTransfer.state
-      : null;
-
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
-      amount: ''
+      amount: '',
+      project: {},
+      userProjects: [],
+      transfers: [],
+      oracles: [],
+      actualAmount: 0,
+      milestones: [],
+      actualTransferState: null
     };
   }
 
   static async getInitialProps(query) {
     const { projectId, initialStep } = query.query;
+    return { projectId, initialStep };
+  }
+
+  componentDidMount = async () => {
+    const { projectId, user } = this.props;
     const project = (await getProject(projectId)).data;
-    const users = await getUsers(projectId);
+    const userProjects = (await getUsers(projectId)).data;
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
     const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestones = await this.getMilestones(projectId);
 
-    return {
-      milestones,
-      projectName: project.projectName,
-      userProjects: users.data,
-      projectId,
-      transfers,
-      faqLink: project.faqLink,
-      oracles,
-      initialStep,
-      goalAmount: project.goalAmount,
-      actualAmount,
-      projectStatus: project.status
-    };
-  }
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
 
-  static async getMilestones(projectId) {
+    this.setState({
+      project,
+      userProjects,
+      transfers,
+      oracles,
+      actualAmount,
+      milestones,
+      actualUserTransferState: actualUserTransfer
+        ? actualUserTransfer.state
+        : null
+    });
+  };
+
+  async getMilestones(projectId) {
     const response = await getProjectMilestones(projectId);
     const milestonesAndActivities = [];
     response.data.forEach(milestone => {
@@ -118,10 +124,10 @@ class ConcensusMilestones extends Component {
     return milestonesAndActivities;
   }
 
-  componentDidMount = () => {
-    const { milestones } = this.props;
-    this.setState({ milestones });
-  };
+  // componentDidMount = () => {
+  //   const { milestones } = this.props;
+  //   this.setState({ milestones });
+  // };
 
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
@@ -129,7 +135,17 @@ class ConcensusMilestones extends Component {
   };
 
   startProjectHandle = () => {
-    const { projectId, goalAmount, actualAmount } = this.props;
+    const { projectId } = this.props;
+    const {
+      project,
+      userProjects,
+      transfers,
+      oracles,
+      actualAmount,
+      milestones
+    } = this.state;
+    const { goalAmount } = project;
+
     const onConfirm = response => {
       if (response.error) {
         const { error } = response;
@@ -201,7 +217,7 @@ class ConcensusMilestones extends Component {
     const handleError = async type => {
       if (!response.error) {
         showModalSuccess('Success!', `${type} deleted successfully!`);
-        const milestones = await ConcensusMilestones.getMilestones(projectId);
+        const milestones = await this.getMilestones(projectId);
         this.setState({ milestones });
       } else {
         const { error } = response;
@@ -252,7 +268,7 @@ class ConcensusMilestones extends Component {
       showModalError(title, content);
       return response;
     }
-    this.actualTransferState = TransferStatus.PENDING_VERIFICATION;
+    this.setState({ actualTransferState: TransferStatus.PENDING_VERIFICATION });
     this.nextStep();
     showModalSuccess('Success', 'Transfer submitted correctly!');
   };
@@ -271,7 +287,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have an Agreement uploaded';
+          "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -304,9 +320,13 @@ class ConcensusMilestones extends Component {
     }
   };
 
-  actualUserNeedsTransfer = () =>
-    this.actualTransferState === null ||
-    this.actualTransferState === TransferStatus.CANCELLED;
+  actualUserNeedsTransfer = () => {
+    const { actualTransferState } = this.state;
+    return (
+      actualTransferState === null ||
+      actualTransferState === TransferStatus.CANCELLED
+    );
+  };
 
   clickDownloadProposal = async () => {
     const { projectId } = this.props;
@@ -316,7 +336,7 @@ class ConcensusMilestones extends Component {
       if (error.response) {
         // eslint-disable-next-line prettier/prettier
         error.response.data.error =
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
@@ -369,7 +389,7 @@ class ConcensusMilestones extends Component {
       } else {
         showModalSuccess('Success!', 'Activity created successfully!');
         hideModal();
-        const milestones = await ConcensusMilestones.getMilestones(projectId);
+        const milestones = await this.getMilestones(projectId);
         this.setState({ milestones });
       }
     } else {
@@ -408,11 +428,26 @@ class ConcensusMilestones extends Component {
       faqLink,
       oracles,
       goalAmount,
-      user,
-      actualAmount
-    } = this.props;
+      actualAmount,
+      currentStep,
+      milestones,
+      actualTransferState
+    } = this.state;
 
-    const { currentStep, milestones } = this.state;
+    console.log({
+      projectName,
+      userProjects,
+      projectId,
+      transfers,
+      faqLink,
+      oracles,
+      goalAmount,
+      actualAmount,
+      currentStep,
+      milestones,
+      actualTransferState
+    });
+    const { user } = this.props;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
@@ -678,10 +713,10 @@ class ConcensusMilestones extends Component {
               We are checking the information, your current funds transfer
               status is:
             </h2>
-            {this.actualTransferState !== null ? (
+            {actualTransferState !== null ? (
               <TransferLabel
-                text={transferStatusMap[this.actualTransferState].show}
-                theme={transferStatusMap[this.actualTransferState].theme}
+                text={transferStatusMap[actualTransferState].show}
+                theme={transferStatusMap[actualTransferState].theme}
               />
             ) : (
               ''

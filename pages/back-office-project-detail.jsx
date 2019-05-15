@@ -15,19 +15,31 @@ import './_style.scss';
 import './_back-office-projec-detail.scss';
 
 class BackofficeProjectDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      projectDetail: {}
+    };
+  }
+
   static async getInitialProps({ query }) {
     const { projectId } = query;
+    return { projectId };
+  }
+
+  componentDidMount = async () => {
+    const { projectId } = this.props;
     const project = (await getProject(projectId)).data;
     const coverPhoto = await getPhoto(project.coverPhoto);
     const projectDetail = {
       ...project,
       coverPhoto: coverPhoto.data
     };
-    return { projectDetail };
-  }
+    this.setState({ projectDetail });
+  };
 
   render() {
-    const { projectDetail } = this.props;
+    const { projectDetail } = this.state;
     const itemsData = projectDetail
       ? [
           {

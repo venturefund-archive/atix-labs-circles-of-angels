@@ -370,22 +370,24 @@ class TableMilestones extends React.Component {
       </Modal>
     );
 
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: (record, index) => ({
-          record,
-          inputType: 'text',
-          dataIndex: col.dataIndex,
-          colkey: col.key,
-          editing: this.isEditing(index),
-          fieldtoedit: this.actualField
+    const columns = this.columns
+      ? this.columns.map(col => {
+          if (!col.editable) {
+            return col;
+          }
+          return {
+            ...col,
+            onCell: (record, index) => ({
+              record,
+              inputType: 'text',
+              dataIndex: col.dataIndex,
+              colkey: col.key,
+              editing: this.isEditing(index),
+              fieldtoedit: this.actualField
+            })
+          };
         })
-      };
-    });
+      : [];
 
     return (
       <div>
