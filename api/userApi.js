@@ -70,6 +70,15 @@ const signUpUser = async user => {
   }
 };
 
+const recoverPassword = async email => {
+  try {
+    const response = await api.post(`${baseURL}/recoverPassword`, { email });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   loginUser,
   getOracles,
@@ -77,5 +86,6 @@ export {
   changeUserRegistrationStatus,
   getAllUserRegistrationStatus,
   getAllRoles,
-  signUpUser
+  signUpUser,
+  recoverPassword
 };
