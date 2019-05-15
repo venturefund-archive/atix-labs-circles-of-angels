@@ -5,11 +5,13 @@
   flex-flow: column;
   justify-content: center;
 
-  .login-form {
+
+  .login-form , .recovery-form{
     width: 300px;
     margin: 0 auto;
     margin-top: 3em;
-
+  }
+  .login-form{
     .Primary {
       margin-top: 2em;
     }
