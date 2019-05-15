@@ -32,111 +32,8 @@ class TableMilestones extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      onAssignOracle,
-      oracles,
-      onDelete,
-      onEdit,
-      isSocialEntrepreneur
-    } = this.props;
+    const { onDelete, onEdit, isSocialEntrepreneur } = this.props;
 
-    this.columns = [
-      {
-        title: 'Type',
-        dataIndex: 'type',
-        key: 'type',
-        fixed: 'left'
-      },
-      {
-        title: 'Timeline',
-        dataIndex: 'quarter',
-        key: 'quarter',
-        editable: true
-      },
-      {
-        title: 'Assigned Oracle',
-        key: 'oracle',
-        render: (text, record, index) => {
-          if (!record.type.includes('Activity')) return '';
-          const { oracle } = record;
-          const oracleToShow = oracle ? oracle.username : undefined;
-          const editable = (
-            <Select
-              key={record.id}
-              style={{ width: 100 }}
-              showSearch
-              placeholder="Select Oracle"
-              optionFilterProp="children"
-              onChange={selected => {
-                const user = JSON.parse(selected);
-                onAssignOracle(user ? user.id : undefined, record.id);
-                record.oracle = user;
-              }}
-              defaultValue={oracleToShow}
-            >
-              <Select.Option value={null}>None</Select.Option>
-              {oracles.map(aOracle => (
-                <Select.Option key={aOracle.id} value={JSON.stringify(aOracle)}>
-                  {aOracle.username}
-                </Select.Option>
-              ))}
-            </Select>
-          );
-          if (isSocialEntrepreneur) return editable;
-          return oracleToShow;
-        }
-      },
-      {
-        title: 'Tasks',
-        dataIndex: 'tasks',
-        key: 'tasks',
-        editable: true
-      },
-      {
-        title: '/ Social Impact Targets',
-        dataIndex: 'impact',
-        key: 'impact',
-        editable: true,
-        width: 200
-      },
-      {
-        title: 'Review Criterion',
-        dataIndex: 'impactCriterion',
-        key: 'impactCriterion',
-        editable: true
-      },
-      {
-        title: 'Signs of Success',
-        key: 'signsOfSuccess',
-        dataIndex: 'signsOfSuccess',
-        editable: true
-      },
-      {
-        title: 'Review Criterion ',
-        key: 'signsOfSuccessCriterion',
-        dataIndex: 'signsOfSuccessCriterion',
-        editable: true
-      },
-      {
-        title: 'Expenditure Category',
-        key: 'expenditureCategory',
-        dataIndex: 'category',
-        editable: true
-      },
-      {
-        title: 'Key Personnel Responsible',
-        key: 'keyPersonnel',
-        dataIndex: 'keyPersonnel',
-        editable: true
-      },
-      {
-        title: 'Budget needed',
-        key: 'budget',
-        dataIndex: 'budget',
-        editable: true,
-        sorter: (a, b) => a.id - b.id
-      }
-    ];
     const forSocialEntrepreneur = [
       {
         title: 'Action',
@@ -239,8 +136,113 @@ class TableMilestones extends React.Component {
   };
 
   render() {
-    const { dataSource } = this.props;
     const { visible, activity } = this.state;
+
+    const {
+      onAssignOracle,
+      oracles,
+      dataSource,
+      isSocialEntrepreneur
+    } = this.props;
+
+    this.columns = [
+      {
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
+        fixed: 'left'
+      },
+      {
+        title: 'Timeline',
+        dataIndex: 'quarter',
+        key: 'quarter',
+        editable: true
+      },
+      {
+        title: 'Assigned Oracle',
+        key: 'oracle',
+        render: (text, record, index) => {
+          if (!record.type.includes('Activity')) return '';
+          const { oracle } = record;
+          const oracleToShow = oracle ? oracle.username : undefined;
+          const editable = (
+            <Select
+              key={record.id}
+              style={{ width: 100 }}
+              showSearch
+              placeholder="Select Oracle"
+              optionFilterProp="children"
+              onChange={selected => {
+                const user = JSON.parse(selected);
+                onAssignOracle(user ? user.id : undefined, record.id);
+                record.oracle = user;
+              }}
+              defaultValue={oracleToShow}
+            >
+              <Select.Option value={null}>None</Select.Option>
+              {oracles.map(aOracle => (
+                <Select.Option key={aOracle.id} value={JSON.stringify(aOracle)}>
+                  {aOracle.username}
+                </Select.Option>
+              ))}
+            </Select>
+          );
+          if (isSocialEntrepreneur) return editable;
+          return oracleToShow;
+        }
+      },
+      {
+        title: 'Tasks',
+        dataIndex: 'tasks',
+        key: 'tasks',
+        editable: true
+      },
+      {
+        title: '/ Social Impact Targets',
+        dataIndex: 'impact',
+        key: 'impact',
+        editable: true,
+        width: 200
+      },
+      {
+        title: 'Review Criterion',
+        dataIndex: 'impactCriterion',
+        key: 'impactCriterion',
+        editable: true
+      },
+      {
+        title: 'Signs of Success',
+        key: 'signsOfSuccess',
+        dataIndex: 'signsOfSuccess',
+        editable: true
+      },
+      {
+        title: 'Review Criterion ',
+        key: 'signsOfSuccessCriterion',
+        dataIndex: 'signsOfSuccessCriterion',
+        editable: true
+      },
+      {
+        title: 'Expenditure Category',
+        key: 'expenditureCategory',
+        dataIndex: 'category',
+        editable: true
+      },
+      {
+        title: 'Key Personnel Responsible',
+        key: 'keyPersonnel',
+        dataIndex: 'keyPersonnel',
+        editable: true
+      },
+      {
+        title: 'Budget needed',
+        key: 'budget',
+        dataIndex: 'budget',
+        editable: true,
+        sorter: (a, b) => a.id - b.id
+      }
+    ];
+
     const components = {
       body: {
         cell: EditableCell
