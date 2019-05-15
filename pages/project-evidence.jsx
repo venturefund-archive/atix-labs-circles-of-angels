@@ -59,7 +59,6 @@ class ProjectEvidence extends Component {
 
     this.state = {
       uploadEvidenceList: [],
-      activity: undefined,
       project: {}
     };
   }

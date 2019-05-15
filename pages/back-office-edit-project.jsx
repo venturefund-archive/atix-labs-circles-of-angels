@@ -83,7 +83,7 @@ class BackOfficeEditProject extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          {project ? (
+          {project && (
             <div className="BackOfficeEditProject">
               <EditProject
                 project={project}
@@ -91,8 +91,6 @@ class BackOfficeEditProject extends React.Component {
                 onBack={this.projectDetailPage}
               />
             </div>
-          ) : (
-            ''
           )}
         </div>
       </div>

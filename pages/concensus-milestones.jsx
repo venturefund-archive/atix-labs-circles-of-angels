@@ -72,8 +72,7 @@ class ConcensusMilestones extends Component {
       transfers: [],
       oracles: [],
       actualAmount: 0,
-      milestones: [],
-      actualTransferState: null
+      milestones: []
     };
   }
 
@@ -90,21 +89,13 @@ class ConcensusMilestones extends Component {
     const oracles = await getOracles();
     const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestones = await this.getMilestones(projectId);
-
-    const actualUserTransfer = transfers.find(
-      transfer => transfer.sender === user.id
-    );
-
     this.setState({
       project,
       userProjects,
       transfers,
       oracles,
       actualAmount,
-      milestones,
-      actualUserTransferState: actualUserTransfer
-        ? actualUserTransfer.state
-        : null
+      milestones
     });
   };
 
@@ -421,33 +412,17 @@ class ConcensusMilestones extends Component {
 
   getCurrentStep = () => {
     const {
-      projectName,
       userProjects,
-      projectId,
       transfers,
-      faqLink,
       oracles,
-      goalAmount,
       actualAmount,
       currentStep,
       milestones,
-      actualTransferState
+      actualTransferState,
+      project
     } = this.state;
-
-    console.log({
-      projectName,
-      userProjects,
-      projectId,
-      transfers,
-      faqLink,
-      oracles,
-      goalAmount,
-      actualAmount,
-      currentStep,
-      milestones,
-      actualTransferState
-    });
-    const { user } = this.props;
+    const { faqLink, goalAmount, projectName } = project;
+    const { user, projectId } = this.props;
     const isSocialEntrepreneur =
       user && user.role && user.role.id === Roles.SocialEntrepreneur;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
@@ -503,10 +478,10 @@ class ConcensusMilestones extends Component {
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
-                {actualAmount < goalAmount ? (
-                  <p className="TextGray">$ {actualAmount || 0}</p>
+                {actualAmount >= goalAmount ? (
+                  <p className="TextGreen">$ {actualAmount || 0}</p>
                 ) : (
-                  <p className="TextGreen">$ {actualAmount || 10000}</p>
+                  <p className="TextGray">$ {actualAmount || 0}</p>
                 )}
                 <span className="Overline">Amounts Pledged</span>
               </div>
@@ -531,8 +506,8 @@ class ConcensusMilestones extends Component {
                 )}
               </div>
               <Divider type="vertical" />
-              {isSocialEntrepreneur ? (
-                actualAmount >= goalAmount ? (
+              {isSocialEntrepreneur &&
+                (actualAmount >= goalAmount ? (
                   <Alert
                     message="You have reached your goal!"
                     type="success"
@@ -546,10 +521,7 @@ class ConcensusMilestones extends Component {
                       showIcon
                     />
                   )
-                )
-              ) : (
-                ''
-              )}
+                ))}
             </div>
           </div>
           <Divider />
@@ -713,13 +685,11 @@ class ConcensusMilestones extends Component {
               We are checking the information, your current funds transfer
               status is:
             </h2>
-            {actualTransferState !== null ? (
+            {actualTransferState && (
               <TransferLabel
                 text={transferStatusMap[actualTransferState].show}
                 theme={transferStatusMap[actualTransferState].theme}
               />
-            ) : (
-              ''
             )}
           </div>
         </div>
