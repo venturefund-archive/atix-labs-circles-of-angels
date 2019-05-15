@@ -1,9 +1,8 @@
 @import "../../../css/general_styling.scss";
 
 .InfoItem{
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1em;
+    width: 22%;
+    text-align: left;
     img{
         width: 25px;
         height: 25px;
@@ -12,17 +11,18 @@
     margin-top: 5px;}
 
     .InfoItemData{
-        margin-left: 0.5em;
+        display: flex;
+    flex-flow: column-reverse;
         p{
             @include primary-text($body, $grey, 400);
         }
         h2{
             line-height: 16px;
-            @include primary-text($body, $on-surface, 400);
+            @include primary-text($body, $on-surface, 600);
         }
     }
 }
 
-.InfoItem:last-child{
-    margin-bottom: 0;
+.InfoItem:first-child{
+    width:33%;
 }

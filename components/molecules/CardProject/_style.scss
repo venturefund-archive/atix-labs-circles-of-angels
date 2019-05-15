@@ -2,11 +2,11 @@
 
 .CardProject {
   background: $white;
-  width: 22.5%;
+  width: 24.2%;
   border-radius: 5px;
   box-shadow: $shadow;
   margin-bottom: 2em;
-  margin-right: 1.75em;
+  margin-right: 1em;
   cursor: pointer;
   position: relative;
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -64,6 +64,9 @@
   .ProjectSummery {
     padding: 1em;
   }
+}
+.CardProject:last-child{
+  margin-right:0; 
 }
 
 @media screen and (max-width: 768px) {
