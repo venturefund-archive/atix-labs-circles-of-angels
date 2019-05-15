@@ -8,6 +8,7 @@ import { loginUser } from '../api/userApi';
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 import DynamicFormRecovery from '../components/organisms/FormLogin/FormRecovery';
+import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 
 class Login extends Component {
   componentDidMount() {
@@ -86,8 +87,11 @@ class Login extends Component {
         </div>
         <div className="FormSide">
           <h1>CIRCLES OF ANGELS</h1>
-          <h2>PLEASE SIGN IN</h2>
-          <DynamicForm onSubmit={this.onLoginSubmit} />
+          <h2>PASS RECOVERY</h2>
+         {/*  paso 1 */}
+          <DynamicFormRecovery onSubmit={this.onLoginSubmit} />
+          {/* paso 2 */}
+          <DynamicFormPassword onSubmit={this.onLoginSubmit} />
         </div>
       </div>
     );
