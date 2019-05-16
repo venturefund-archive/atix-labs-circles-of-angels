@@ -16,14 +16,14 @@ class BackOfficeProjects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: props.projects
+      projects: []
     };
   }
 
-  static async getInitialProps(query) {
+  componentDidMount = async () => {
     const projects = (await getProjects()).data;
-    return { projects };
-  }
+    this.setState({ projects });
+  };
 
   changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
     const response = await changeBudgetStatus(milestoneId, budgetStatusId);

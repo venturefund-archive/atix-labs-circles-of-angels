@@ -19,8 +19,21 @@ import Roles from '../constants/RolesMap';
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      projectDetail: {}
+    };
+  }
+
   static async getInitialProps(query) {
     const { projectId } = query.query;
+    return { projectId };
+  }
+
+  componentDidMount = async () => {
+    const { projectId } = this.props;
     const response = await getProject(projectId);
     const project = response.data;
     const coverPhoto = await getPhoto(project.coverPhoto);
@@ -28,11 +41,12 @@ class ProjectDetail extends React.Component {
       ...project,
       coverPhoto: coverPhoto.data
     };
-    return { projectDetail };
-  }
+    this.setState({ projectDetail });
+  };
 
   applyToProject = async () => {
-    const { projectDetail, user } = this.props;
+    const { projectDetail } = this.state;
+    const { user } = this.props;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
     if (isFunder) {
       const response = await createUserProject(user.id, projectDetail.id);
@@ -63,7 +77,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail } = this.props;
+    const { projectDetail } = this.state;
     const itemsData = projectDetail
       ? [
           {

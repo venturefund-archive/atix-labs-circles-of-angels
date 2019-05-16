@@ -58,24 +58,30 @@ class ProjectEvidence extends Component {
     super(props);
 
     this.state = {
-      uploadEvidenceList: []
+      uploadEvidenceList: [],
+      project: {}
     };
   }
 
   static async getInitialProps(query) {
     const { activityId, projectId } = query.query;
-    const response = await getActivity(activityId);
-    const project = (await getProject(projectId)).data;
-    return {
-      activity: response || {},
-      projectId,
-      projectName: project.projectName || '',
-      projectOwner: project.ownerId
-    };
+    return { activityId, projectId };
   }
 
+  componentDidMount = async () => {
+    const { activityId, projectId } = this.props;
+    const response = await getActivity(activityId);
+    const project = (await getProject(projectId)).data;
+    this.setState({
+      activity: response || {},
+      project
+    });
+  };
+
   goToProjectEvidence = () => {
-    const { activity, projectId } = this.props;
+    const { projectId } = this.props;
+    const { activity } = this.state;
+
     Routing.toProjectEvidence({ activityId: activity.id, projectId });
   };
 
@@ -85,7 +91,7 @@ class ProjectEvidence extends Component {
   };
 
   handleDelete = async record => {
-    const { activity } = this.props;
+    const { activity } = this.state;
 
     const response = await deleteEvidence(
       activity.id,
@@ -109,7 +115,7 @@ class ProjectEvidence extends Component {
   };
 
   handleDownload = async record => {
-    const { activity } = this.props;
+    const { activity } = this.state;
     const response = await downloadEvidence(
       activity.id,
       record.fileType === FileType.PHOTO ? record.photo : record.file,
@@ -147,8 +153,7 @@ class ProjectEvidence extends Component {
   };
 
   uploadFiles = async () => {
-    const { activity } = this.props;
-    const { uploadEvidenceList } = this.state;
+    const { uploadEvidenceList, activity } = this.state;
 
     const response = await uploadEvidence(activity.id, uploadEvidenceList);
 
@@ -169,7 +174,7 @@ class ProjectEvidence extends Component {
   };
 
   handleComplete = async () => {
-    const { activity } = this.props;
+    const { activity } = this.state;
     showModalConfirm(
       'Complete Activity',
       'Do you want to complete this activity?',
@@ -203,18 +208,16 @@ class ProjectEvidence extends Component {
   };
 
   render() {
+    const { activity, project, uploadEvidenceList } = this.state;
+    if (!activity || !project) return '';
     const {
-      activity,
-      projectName,
       projectId,
-      isSocialEntrepreneur,
+      user,
       isBackofficeAdmin,
       isOracle,
-      user,
-      projectOwner
+      isSocialEntrepreneur
     } = this.props;
-
-    const { uploadEvidenceList } = this.state;
+    const { projectName, projectOwner } = project;
 
     const isActivityOracle =
       isOracle &&

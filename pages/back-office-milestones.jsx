@@ -17,7 +17,15 @@ import './_style.scss';
 import './_back-office-projects.scss';
 
 class BackOfficeMilestones extends React.Component {
-  static async getInitialProps(query) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      milestones: [],
+      budgetStatus: []
+    };
+  }
+
+  componentDidMount = async () => {
     const { milestones } = (await getAllMilestones()).data;
     const filterMilestones = milestones.filter(
       milestone => milestone.status.status === MilestoneActivityStatus.COMPLETED
@@ -39,8 +47,8 @@ class BackOfficeMilestones extends React.Component {
       return -1;
     });
     const { budgetStatus } = (await getAllBudgetStatus()).data;
-    return { milestones: sortedMilestones, budgetStatus };
-  }
+    this.setState({ milestones: sortedMilestones, budgetStatus });
+  };
 
   changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
     const response = await changeBudgetStatus(milestoneId, budgetStatusId);
@@ -62,7 +70,7 @@ class BackOfficeMilestones extends React.Component {
   };
 
   render() {
-    const { milestones, budgetStatus } = this.props;
+    const { milestones, budgetStatus } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
