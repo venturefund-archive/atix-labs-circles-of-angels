@@ -17,24 +17,21 @@ class ExploreProjects extends React.Component {
     super(props);
 
     this.state = {
-      activeOracleProjects: []
+      activeOracleProjects: [],
+      projects: []
     };
   }
 
-  static async getInitialProps(req) {
-    const response = await getActiveProjects();
-    const projectsWithoutPhoto = response.data;
+  async componentDidMount() {
+    const res = await getActiveProjects();
+    const projectsWithoutPhoto = res.data;
     const projects = await Promise.all(
       projectsWithoutPhoto.map(async project => {
         const projectCardPhoto = await getPhoto(project.cardPhoto);
         return { ...project, cardPhoto: projectCardPhoto.data };
       })
     );
-    return { projects };
-  }
-
-  async componentDidMount() {
-    const { user, projects } = this.props;
+    const { user } = this.props;
     const { activeOracleProjects } = this.state;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
@@ -47,6 +44,7 @@ class ExploreProjects extends React.Component {
 
       this.setState({ activeOracleProjects: oracleProjectsActive });
     }
+    this.setState({ projects });
   }
 
   goToProjectDetail(projectId) {
@@ -58,8 +56,7 @@ class ExploreProjects extends React.Component {
   }
 
   render() {
-    const { projects } = this.props;
-    const { activeOracleProjects } = this.state;
+    const { activeOracleProjects, projects } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -71,24 +68,25 @@ class ExploreProjects extends React.Component {
               <h1>Explore Projects</h1>
             </div>
             <div className="ProjectsCardsContainer">
-              {projects.map(project => {
-                const showTag =
-                  project.status === projectStatus.IN_PROGRESS &&
-                  activeOracleProjects.indexOf(project.id) !== -1;
-                return (
-                  <CardProject
-                    enterpriseName={project.projectName}
-                    projectCardImage={project.cardPhoto}
-                    enterpriseLocation={project.location}
-                    timeframe={project.timeframe}
-                    amount={project.goalAmount}
-                    showTag={showTag}
-                    tagClick={() => this.goToProjectProgress(project.id)}
-                    key={project.id}
-                    onClick={() => this.goToProjectDetail(project.id)}
-                  />
-                );
-              })}
+              {projects &&
+                projects.map(project => {
+                  const showTag =
+                    project.status === projectStatus.IN_PROGRESS &&
+                    activeOracleProjects.indexOf(project.id) !== -1;
+                  return (
+                    <CardProject
+                      enterpriseName={project.projectName}
+                      projectCardImage={project.cardPhoto}
+                      enterpriseLocation={project.location}
+                      timeframe={project.timeframe}
+                      amount={project.goalAmount}
+                      showTag={showTag}
+                      tagClick={() => this.goToProjectProgress(project.id)}
+                      key={project.id}
+                      onClick={() => this.goToProjectDetail(project.id)}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CreateProjectSteps from '../components/organisms/CreateProjectSteps/create-project-steps';
+import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 
@@ -38,4 +39,4 @@ const CreateProject = () => {
   );
 };
 
-export default CreateProject;
+export default withUser(CreateProject);

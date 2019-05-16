@@ -8,6 +8,7 @@ import ProjectMission from '../components/molecules/ProjectMission/ProjectMissio
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import Routing from '../components/utils/Routes';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import { withUser } from '../components/utils/UserContext';
 import ProjectStatus from '../constants/ProjectStatus';
 
 import './_style.scss';
@@ -118,4 +119,4 @@ class BackofficeProjectDetail extends React.Component {
   }
 }
 
-export default BackofficeProjectDetail;
+export default withUser(BackofficeProjectDetail);

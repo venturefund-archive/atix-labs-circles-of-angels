@@ -6,6 +6,7 @@ import './_style.scss';
 import './_back-office-edit-project.scss';
 import { updateProject, getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
+import { withUser } from '../components/utils/UserContext';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import Routing from '../components/utils/Routes';
 
@@ -84,4 +85,4 @@ class BackOfficeEditProject extends React.Component {
   }
 }
 
-export default BackOfficeEditProject;
+export default withUser(BackOfficeEditProject);
