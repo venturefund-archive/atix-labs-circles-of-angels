@@ -27,6 +27,10 @@ const goToBackOfficeUsers = () => {
   Routing.toBackOfficeUsers();
 };
 
+const goToMyProjects = () => {
+  Routing.toMyProjects();
+}
+
 const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
     width="50"
@@ -51,9 +55,11 @@ const SideBar = ({ isBackofficeAdmin }) => (
       >
         <Icon type="appstore" />
       </Menu.Item>
-      <Menu.Item key="2">
-        <Icon type="sliders" />
-      </Menu.Item>
+      {!isBackofficeAdmin && (
+        <Menu.Item key="2" onClick={goToMyProjects}>
+          <Icon type="sliders" />
+        </Menu.Item>
+      )}
       {isBackofficeAdmin && (
         <Menu.Item key="3" onClick={goToFundsAdministration}>
           <Icon type="fund" />

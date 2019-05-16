@@ -11,7 +11,8 @@ const CardProject = ({
   amount,
   showTag,
   onClick,
-  tagClick
+  tagClick,
+  milestoneProgress
 }) => (
   <div className="CardProject">
     {showTag && (
@@ -51,7 +52,7 @@ const CardProject = ({
           size="small"
           showInfo={false}
           strokeColor="#22C89B"
-          percent={60}
+          percent={milestoneProgress || 0}
           status="active"
         />
       </div>
