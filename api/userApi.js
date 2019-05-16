@@ -79,6 +79,18 @@ const recoverPassword = async email => {
   }
 };
 
+const updatePassword = async (token, password) => {
+  try {
+    const response = await api.post(`${baseURL}/updatePassword`, {
+      token,
+      password
+    });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   loginUser,
   getOracles,
@@ -87,5 +99,6 @@ export {
   getAllUserRegistrationStatus,
   getAllRoles,
   signUpUser,
-  recoverPassword
+  recoverPassword,
+  updatePassword
 };

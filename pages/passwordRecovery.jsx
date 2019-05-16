@@ -4,6 +4,8 @@ import { withUser } from '../components/utils/UserContext';
 
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
+import { updatePassword } from '../api/userApi';
+import Routing from '../components/utils/Routes';
 
 class PasswordRecovery extends Component {
   static async getInitialProps(query) {
@@ -18,7 +20,19 @@ class PasswordRecovery extends Component {
 
   updatePassword = async password => {
     const { token } = this.props;
-    console.log(password, token);
+    const response = await updatePassword(token, password);
+    if (response.error) {
+      const { error } = response;
+      const title = error.response ? 'Error!' : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+    } else {
+      showModalSuccess('Success!', 'Your password was successfully changed!');
+      Routing.toLogin();
+    }
+    return response;
   };
 
   render() {

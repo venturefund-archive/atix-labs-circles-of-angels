@@ -18,6 +18,7 @@ const projectEvidence = '/project-evidence';
 const backOfficeUsers = '/back-office-users';
 const backOfficeMilestones = '/back-office-milestones';
 const register = '/register';
+const recovery = '/recovery';
 
 const Routing = {
   toBackOffice: query => {
@@ -80,6 +81,9 @@ const Routing = {
   },
   toRegister: query => {
     goToRoute(register, query);
+  },
+  toRecoveryPassword: query => {
+    goToRoute(recovery, query);
   }
 };
 

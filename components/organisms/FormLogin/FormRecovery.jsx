@@ -3,12 +3,16 @@ import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import 'antd/dist/antd.css';
 import './_style.scss';
+import Routing from '../../utils/Routes';
 
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
   const submit = () => {
-    form.validateFields();
-    return onSubmit(getFieldProps('mail').value);
+    form.validateFields(err => {
+      if (!err) {
+        return onSubmit(getFieldProps('mail').value);
+      }
+    });
   };
   return (
     <Form className="recovery-form" onSubmit={submit}>
@@ -33,6 +37,11 @@ const FormRecovery = ({ form, onSubmit }) => {
           theme="Primary"
           buttonText="Send a verification code"
           onClick={submit}
+        />
+        <CustomButton
+          theme="Cancel"
+          buttonText="Back"
+          onClick={() => Routing.toLogin()}
         />
       </Form.Item>
     </Form>
