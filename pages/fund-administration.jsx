@@ -8,6 +8,7 @@ import {
   getTransferListOfProject,
   updateStateOfTransference
 } from '../api/transferApi';
+import { withUser } from '../components/utils/UserContext';
 import { getProjects } from '../api/projectApi';
 
 class FundAdministration extends React.Component {
@@ -48,4 +49,4 @@ class FundAdministration extends React.Component {
   }
 }
 
-export default FundAdministration;
+export default withUser(FundAdministration);

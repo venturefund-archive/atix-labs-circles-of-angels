@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import Cookies from 'js-cookie';
 import Roles from '../../constants/RolesMap';
 
 const UserContext = React.createContext('user');
@@ -61,18 +62,21 @@ export class UserProvider extends React.Component {
 
   changeUser = user => {
     this.setState({ user });
-    localStorage.setItem(userKey, JSON.stringify(user));
+    //localStorage.setItem(userKey, JSON.stringify(user));
+    Cookies.set(userKey, user);
   };
 
   removeUser = () => {
     this.setState({ user: {} });
-    localStorage.setItem(userKey, null);
+    // localStorage.setItem(userKey, null);
+    Cookies.remove(userKey);
   };
 
   getLoggedUser = () => {
     let user;
     try {
-      user = JSON.parse(localStorage.getItem(userKey));
+      // user = JSON.parse(localStorage.getItem(userKey));
+      user = Cookies.getJSON(userKey);
     } catch (error) {
       user = {};
     }
