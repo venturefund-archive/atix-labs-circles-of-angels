@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Carousel } from 'antd';
+import { Tabs } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -23,44 +23,6 @@ function callback(key) {
   console.log(key);
 }
 
-const CardExperience = () => (
-  <div className="cardExperience">
-    <Carousel dotPosition="right" autoplay effect="fade">
-      <div>
-        <img src="/static/images/donate.jpeg" alt="thing" />
-      </div>
-      <div>
-        <img src="/static/images/donate2.jpeg" alt="thing" />
-      </div>
-      <div>
-        <img src="/static/images/donate3.jpeg" alt="thing" />
-      </div>
-    </Carousel>
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
-        magna at ex ullamcorper sollicitudin id ut sapien
-      </h3>
-    </div>
-  </div>
-);
-const CardExperienceText = () => (
-  <div className="cardExperienceText">
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien
-      </h3>
-    </div>
-  </div>
-);
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
@@ -195,12 +157,16 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <div className="flex-wrap">
-                      <CardExperience />
-                      <CardExperienceText/>
-                      <CardExperience />
-                      <CardExperience />
-                      </div>
+                <div className="cardExperience">
+                  <img src="/static/images/icon-modal.svg" />
+                </div>
+
+                
+                
+                
+                  
+                
+                
                 </TabPane>
               </Tabs>
             </div>

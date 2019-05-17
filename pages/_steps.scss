@@ -2,7 +2,7 @@
 
 .ProjectStepsContainer {
   height: 80%;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   .LabelSteps {
     @include primary-text($label, $grey, 500);
@@ -44,7 +44,7 @@
   }
   .ContainerTableScroll {
     height: 68%;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 .ControlSteps {
