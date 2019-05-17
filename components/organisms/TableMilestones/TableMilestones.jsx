@@ -31,13 +31,57 @@ class TableMilestones extends React.Component {
     this.columns = [];
   }
 
-  componentDidMount() {
+  isEditing = index => {
+    const { editingKey } = this.state;
+    return index === editingKey;
+  };
+
+  edit = (key, record) => {
+    this.actualField.data = { ...record };
+    this.setState({ editingKey: key });
+  };
+
+  cancelEdit = key => {
+    this.setState({ editingKey: '' });
+  };
+
+  showActivityModal = milestoneId => {
+    this.setState({
+      visible: true,
+      currentMilestone: milestoneId,
+      activity: {
+        tasks: '',
+        impact: '',
+        impactCriterion: '',
+        signsOfSuccess: '',
+        signsOfSuccessCriterion: '',
+        category: '',
+        keyPersonnel: '',
+        budget: ''
+      }
+    });
+  };
+
+  hideModal = () => {
+    this.setState({ visible: false });
+  };
+
+  createNewActivity = async () => {
+    const { activity, currentMilestone } = this.state;
+    const { onCreateActivity } = this.props;
+    onCreateActivity(activity, currentMilestone, this.hideModal);
+  };
+
+  render() {
+    const { visible, activity } = this.state;
+
     const {
       onAssignOracle,
       oracles,
+      dataSource,
+      isSocialEntrepreneur,
       onDelete,
-      onEdit,
-      isSocialEntrepreneur
+      onEdit
     } = this.props;
 
     this.columns = [
@@ -137,110 +181,65 @@ class TableMilestones extends React.Component {
         sorter: (a, b) => a.id - b.id
       }
     ];
-    const forSocialEntrepreneur = [
-      {
-        title: 'Action',
-        dataIndex: 'operation',
-        fixed: 'right',
-        render: (text, record, index) => {
-          const { editingKey } = this.state;
-          const editable = this.isEditing(index);
-          return (
-            <div>
-              {editable ? (
-                <span className="flex">
-                  <a
-                    onClick={() => {
-                      onEdit(index, this.actualField);
-                      this.setState({ editingKey: '' });
-                    }}
-                  >
-                    Save
-                  </a>
-                  <Divider type="vertical" />
-                  <a onClick={() => this.cancelEdit(index)}>Cancel</a>
-                </span>
-              ) : (
-                <span className="flex">
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => this.edit(index, record)}
-                  >
-                    Edit
-                  </a>
-                  <Divider type="vertical" />
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => onDelete(record)}
-                  >
-                    Delete
-                  </a>
-                  {record.type === 'Milestone' && (
-                    <span>
-                      <Divider type="vertical" />
-                      <a
-                        onClick={() => this.showActivityModal(record.id)}
-                        title="Create a new Activity"
-                      >
-                        +
-                      </a>
-                    </span>
-                  )}
-                </span>
-              )}
-            </div>
-          );
-        }
+
+    const forSocialEntrepreneur = {
+      title: 'Action',
+      dataIndex: 'operation',
+      fixed: 'right',
+      render: (text, record, index) => {
+        const { editingKey } = this.state;
+        const editable = this.isEditing(index);
+        return (
+          <div>
+            {editable ? (
+              <span className="flex">
+                <a
+                  onClick={() => {
+                    onEdit(index, this.actualField);
+                    this.setState({ editingKey: '' });
+                  }}
+                >
+                  Save
+                </a>
+                <Divider type="vertical" />
+                <a onClick={() => this.cancelEdit(index)}>Cancel</a>
+              </span>
+            ) : (
+              <span className="flex">
+                <a
+                  disabled={editingKey !== ''}
+                  onClick={() => this.edit(index, record)}
+                >
+                  Edit
+                </a>
+                <Divider type="vertical" />
+                <a
+                  disabled={editingKey !== ''}
+                  onClick={() => onDelete(record)}
+                >
+                  Delete
+                </a>
+                {record.type === 'Milestone' && (
+                  <span>
+                    <Divider type="vertical" />
+                    <a
+                      onClick={() => this.showActivityModal(record.id)}
+                      title="Create a new Activity"
+                    >
+                      +
+                    </a>
+                  </span>
+                )}
+              </span>
+            )}
+          </div>
+        );
       }
-    ];
-    if (isSocialEntrepreneur)
-      this.columns = this.columns.concat(forSocialEntrepreneur);
-  }
+    };
+    if (isSocialEntrepreneur) {
+      this.columns.push(forSocialEntrepreneur);
+    }
 
-  isEditing = index => {
-    const { editingKey } = this.state;
-    return index === editingKey;
-  };
-
-  edit = (key, record) => {
-    this.actualField.data = { ...record };
-    this.setState({ editingKey: key });
-  };
-
-  cancelEdit = key => {
-    this.setState({ editingKey: '' });
-  };
-
-  showActivityModal = milestoneId => {
-    this.setState({
-      visible: true,
-      currentMilestone: milestoneId,
-      activity: {
-        tasks: '',
-        impact: '',
-        impactCriterion: '',
-        signsOfSuccess: '',
-        signsOfSuccessCriterion: '',
-        category: '',
-        keyPersonnel: '',
-        budget: ''
-      }
-    });
-  };
-
-  hideModal = () => {
-    this.setState({ visible: false });
-  };
-
-  createNewActivity = async () => {
-    const { activity, currentMilestone } = this.state;
-    const { onCreateActivity } = this.props;
-    onCreateActivity(activity, currentMilestone, this.hideModal);
-  };
-
-  render() {
-    const { dataSource } = this.props;
-    const { visible, activity } = this.state;
     const components = {
       body: {
         cell: EditableCell
@@ -370,22 +369,24 @@ class TableMilestones extends React.Component {
       </Modal>
     );
 
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: (record, index) => ({
-          record,
-          inputType: 'text',
-          dataIndex: col.dataIndex,
-          colkey: col.key,
-          editing: this.isEditing(index),
-          fieldtoedit: this.actualField
+    const columns = this.columns
+      ? this.columns.map(col => {
+          if (!col.editable) {
+            return col;
+          }
+          return {
+            ...col,
+            onCell: (record, index) => ({
+              record,
+              inputType: 'text',
+              dataIndex: col.dataIndex,
+              colkey: col.key,
+              editing: this.isEditing(index),
+              fieldtoedit: this.actualField
+            })
+          };
         })
-      };
-    });
+      : [];
 
     return (
       <div>

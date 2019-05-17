@@ -11,6 +11,7 @@ import {
   getAllUserRegistrationStatus,
   getAllRoles
 } from '../api/userApi';
+import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';
 import './_back-office-users.scss';
@@ -59,7 +60,7 @@ class BackOfficeUsers extends React.Component {
 
   render() {
     const { registrationStatusList, filters, users } = this.props;
-    console.log(users)
+    console.log(users);
     return (
       <div className="AppContainer">
         <SideBar />
@@ -80,4 +81,4 @@ class BackOfficeUsers extends React.Component {
   }
 }
 
-export default BackOfficeUsers;
+export default withUser(BackOfficeUsers);

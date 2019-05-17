@@ -89,7 +89,16 @@ const updatePassword = async (token, password) => {
   } catch (error) {
     return { error };
   }
-}
+};
+
+const getMyProjects = async userId => {
+  try {
+    const response = await api.get(`${baseURL}/${userId}/projects`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
 
 export {
   loginUser,
@@ -100,5 +109,6 @@ export {
   getAllRoles,
   signUpUser,
   recoverPassword,
-  updatePassword
+  updatePassword,
+  getMyProjects
 };

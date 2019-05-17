@@ -6,12 +6,25 @@ import './_style.scss';
 import './_back-office-edit-project.scss';
 import { updateProject, getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
+import { withUser } from '../components/utils/UserContext';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import Routing from '../components/utils/Routes';
 
 class BackOfficeEditProject extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      project: null
+    };
+  }
+
   static async getInitialProps({ query }) {
     const { projectId } = query;
+    return { projectId };
+  }
+
+  componentDidMount = async () => {
+    const { projectId } = this.props;
     const response = await getProject(projectId);
 
     const cardPhoto = await getPhoto(response.data.cardPhoto);
@@ -32,9 +45,8 @@ class BackOfficeEditProject extends React.Component {
         coverPhoto: coverPhoto.data
       }
     };
-
-    return { project, projectId };
-  }
+    this.setState({ project });
+  };
 
   projectDetailPage = () => {
     const { projectId } = this.props;
@@ -65,23 +77,25 @@ class BackOfficeEditProject extends React.Component {
   };
 
   render() {
-    const { project } = this.props;
+    const { project } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
           <Header />
-          <div className="BackOfficeEditProject">
-            <EditProject
-              project={project}
-              onSubmit={this.updateProject}
-              onBack={this.projectDetailPage}
-            />
-          </div>
+          {project && (
+            <div className="BackOfficeEditProject">
+              <EditProject
+                project={project}
+                onSubmit={this.updateProject}
+                onBack={this.projectDetailPage}
+              />
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default BackOfficeEditProject;
+export default withUser(BackOfficeEditProject);

@@ -3,7 +3,11 @@ import { Divider } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import { getActiveProjects, getProjectsAsOracle } from '../api/projectApi';
+import {
+  getActiveProjects,
+  getProjectsAsOracle,
+  getProjectMilestones
+} from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
@@ -11,30 +15,33 @@ import './_style.scss';
 import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
+import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 class ExploreProjects extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeOracleProjects: []
+      activeOracleProjects: [],
+      projects: []
     };
   }
 
-  static async getInitialProps(req) {
-    const response = await getActiveProjects();
-    const projectsWithoutPhoto = response.data;
+  async componentDidMount() {
+    const res = await getActiveProjects();
+    const projectsWithoutPhoto = res.data;
     const projects = await Promise.all(
       projectsWithoutPhoto.map(async project => {
         const projectCardPhoto = await getPhoto(project.cardPhoto);
-        return { ...project, cardPhoto: projectCardPhoto.data };
+        const milestones = await getProjectMilestones(project.id);
+        return {
+          ...project,
+          cardPhoto: projectCardPhoto.data,
+          milestones: milestones.data
+        };
       })
     );
-    return { projects };
-  }
-
-  async componentDidMount() {
-    const { user, projects } = this.props;
+    const { user } = this.props;
     const { activeOracleProjects } = this.state;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
@@ -47,6 +54,17 @@ class ExploreProjects extends React.Component {
 
       this.setState({ activeOracleProjects: oracleProjectsActive });
     }
+    this.setState({ projects });
+  }
+
+  getMilestoneProgress(milestones) {
+    let completedMilestones = 0;
+    milestones.forEach(milestone => {
+      if (milestone.status.status === milestoneActivityStatus.COMPLETED) {
+        completedMilestones++;
+      }
+    });
+    return (completedMilestones * 100) / milestones.length;
   }
 
   goToProjectDetail(projectId) {
@@ -58,8 +76,7 @@ class ExploreProjects extends React.Component {
   }
 
   render() {
-    const { projects } = this.props;
-    const { activeOracleProjects } = this.state;
+    const { activeOracleProjects, projects } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -71,24 +88,28 @@ class ExploreProjects extends React.Component {
               <h1>Explore Projects</h1>
             </div>
             <div className="ProjectsCardsContainer">
-              {projects.map(project => {
-                const showTag =
-                  project.status === projectStatus.IN_PROGRESS &&
-                  activeOracleProjects.indexOf(project.id) !== -1;
-                return (
-                  <CardProject
-                    enterpriseName={project.projectName}
-                    projectCardImage={project.cardPhoto}
-                    enterpriseLocation={project.location}
-                    timeframe={project.timeframe}
-                    amount={project.goalAmount}
-                    showTag={showTag}
-                    tagClick={() => this.goToProjectProgress(project.id)}
-                    key={project.id}
-                    onClick={() => this.goToProjectDetail(project.id)}
-                  />
-                );
-              })}
+              {projects &&
+                projects.map(project => {
+                  const showTag =
+                    project.status === projectStatus.IN_PROGRESS &&
+                    activeOracleProjects.indexOf(project.id) !== -1;
+                  return (
+                    <CardProject
+                      enterpriseName={project.projectName}
+                      projectCardImage={project.cardPhoto}
+                      enterpriseLocation={project.location}
+                      timeframe={project.timeframe}
+                      amount={project.goalAmount}
+                      showTag={showTag}
+                      tagClick={() => this.goToProjectProgress(project.id)}
+                      milestoneProgress={this.getMilestoneProgress(
+                        project.milestones
+                      )}
+                      key={project.id}
+                      onClick={() => this.goToProjectDetail(project.id)}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>

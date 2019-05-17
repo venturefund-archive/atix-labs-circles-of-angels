@@ -10,13 +10,9 @@ import TableProjectProgress from '../components/organisms/TableProjectProgress/T
 import Routing from '../components/utils/Routes';
 import {
   getProjectMilestones,
-  getActualProjectAmount,
   getProject,
   downloadProposal
 } from '../api/projectApi';
-import { getUsers } from '../api/userProjectApi';
-import { getTransferListOfProject } from '../api/transferApi';
-import { getOracles } from '../api/userApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError } from '../components/utils/Modals';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
@@ -26,14 +22,24 @@ const HashIcon = () => (
 );
 
 class ProjectProgress extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      milestones: [],
+      project: {},
+      filters: []
+    };
+  }
+
   static async getInitialProps(query) {
     const { projectId } = query.query;
+    return { projectId };
+  }
+
+  componentDidMount = async () => {
+    const { projectId } = this.props;
     const project = (await getProject(projectId)).data;
     const milestonesResponse = await getProjectMilestones(projectId);
-    const users = await getUsers(projectId);
-    const transfers = await getTransferListOfProject(projectId);
-    const oracles = await getOracles();
-    const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestonesAndActivities = [];
     const oraclesFilter = [];
     const sortedMilestones = milestonesResponse.data.sort(
@@ -66,26 +72,22 @@ class ProjectProgress extends React.Component {
 
     const filters = { oracles: uniqWith(oraclesFilter, isEqual) };
 
-    return {
+    this.setState({
       milestones: milestonesAndActivities,
-      userProjects: users.data,
       project,
-      transfers,
-      oracles,
-      actualAmount,
       filters
-    };
-  }
+    });
+  };
 
   clickDownloadProposal = async () => {
-    const { project } = this.props;
+    const { project } = this.state;
     const response = await downloadProposal(project.id);
     if (response.error) {
       const { error } = response;
       if (error.response) {
         error.response.data.error =
           // eslint-disable-next-line prettier/prettier
-          'This project doesn\'t have a Proposal uploaded';
+          "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? 'Error Downloading Project Proposal'
@@ -99,7 +101,7 @@ class ProjectProgress extends React.Component {
   };
 
   render() {
-    const { milestones, isBackofficeAdmin, filters, project } = this.props;
+    const { milestones, isBackofficeAdmin, filters, project } = this.state;
 
     return (
       <div className="AppContainer">
