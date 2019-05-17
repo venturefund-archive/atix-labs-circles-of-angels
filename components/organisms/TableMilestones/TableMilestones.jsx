@@ -31,69 +31,6 @@ class TableMilestones extends React.Component {
     this.columns = [];
   }
 
-  componentDidMount() {
-    const { onDelete, onEdit, isSocialEntrepreneur } = this.props;
-
-    const forSocialEntrepreneur = [
-      {
-        title: 'Action',
-        dataIndex: 'operation',
-        fixed: 'right',
-        render: (text, record, index) => {
-          const { editingKey } = this.state;
-          const editable = this.isEditing(index);
-          return (
-            <div>
-              {editable ? (
-                <span className="flex">
-                  <a
-                    onClick={() => {
-                      onEdit(index, this.actualField);
-                      this.setState({ editingKey: '' });
-                    }}
-                  >
-                    Save
-                  </a>
-                  <Divider type="vertical" />
-                  <a onClick={() => this.cancelEdit(index)}>Cancel</a>
-                </span>
-              ) : (
-                <span className="flex">
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => this.edit(index, record)}
-                  >
-                    Edit
-                  </a>
-                  <Divider type="vertical" />
-                  <a
-                    disabled={editingKey !== ''}
-                    onClick={() => onDelete(record)}
-                  >
-                    Delete
-                  </a>
-                  {record.type === 'Milestone' && (
-                    <span>
-                      <Divider type="vertical" />
-                      <a
-                        onClick={() => this.showActivityModal(record.id)}
-                        title="Create a new Activity"
-                      >
-                        +
-                      </a>
-                    </span>
-                  )}
-                </span>
-              )}
-            </div>
-          );
-        }
-      }
-    ];
-    if (isSocialEntrepreneur)
-      this.columns = this.columns.concat(forSocialEntrepreneur);
-  }
-
   isEditing = index => {
     const { editingKey } = this.state;
     return index === editingKey;
@@ -142,7 +79,9 @@ class TableMilestones extends React.Component {
       onAssignOracle,
       oracles,
       dataSource,
-      isSocialEntrepreneur
+      isSocialEntrepreneur,
+      onDelete,
+      onEdit
     } = this.props;
 
     this.columns = [
@@ -242,6 +181,64 @@ class TableMilestones extends React.Component {
         sorter: (a, b) => a.id - b.id
       }
     ];
+
+    const forSocialEntrepreneur = {
+      title: 'Action',
+      dataIndex: 'operation',
+      fixed: 'right',
+      render: (text, record, index) => {
+        const { editingKey } = this.state;
+        const editable = this.isEditing(index);
+        return (
+          <div>
+            {editable ? (
+              <span className="flex">
+                <a
+                  onClick={() => {
+                    onEdit(index, this.actualField);
+                    this.setState({ editingKey: '' });
+                  }}
+                >
+                  Save
+                </a>
+                <Divider type="vertical" />
+                <a onClick={() => this.cancelEdit(index)}>Cancel</a>
+              </span>
+            ) : (
+              <span className="flex">
+                <a
+                  disabled={editingKey !== ''}
+                  onClick={() => this.edit(index, record)}
+                >
+                  Edit
+                </a>
+                <Divider type="vertical" />
+                <a
+                  disabled={editingKey !== ''}
+                  onClick={() => onDelete(record)}
+                >
+                  Delete
+                </a>
+                {record.type === 'Milestone' && (
+                  <span>
+                    <Divider type="vertical" />
+                    <a
+                      onClick={() => this.showActivityModal(record.id)}
+                      title="Create a new Activity"
+                    >
+                      +
+                    </a>
+                  </span>
+                )}
+              </span>
+            )}
+          </div>
+        );
+      }
+    };
+    if (isSocialEntrepreneur) {
+      this.columns.push(forSocialEntrepreneur);
+    }
 
     const components = {
       body: {
