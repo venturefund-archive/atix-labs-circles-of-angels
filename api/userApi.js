@@ -70,6 +70,15 @@ const signUpUser = async user => {
   }
 };
 
+const getMyProjects = async userId => {
+  try {
+    const response = await api.get(`${baseURL}/${userId}/projects`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   loginUser,
   getOracles,
@@ -77,5 +86,6 @@ export {
   changeUserRegistrationStatus,
   getAllUserRegistrationStatus,
   getAllRoles,
-  signUpUser
+  signUpUser,
+  getMyProjects
 };
