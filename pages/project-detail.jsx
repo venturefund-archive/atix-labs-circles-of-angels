@@ -16,6 +16,7 @@ import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
+import SeccionExperience from './experiences';
 
 const { TabPane } = Tabs;
 
@@ -56,7 +57,10 @@ const CardExperienceText = () => (
         <span> 3 days ago</span>
       </div>
       <h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
+        magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit
+        amet, consectetur adipiscing elit. Morbi sit amet magna at ex
+        ullamcorper sollicitudin id ut sapien
       </h3>
     </div>
   </div>
@@ -195,12 +199,7 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <div className="flex-wrap">
-                      <CardExperience />
-                      <CardExperienceText/>
-                      <CardExperience />
-                      <CardExperience />
-                      </div>
+                  <SeccionExperience />
                 </TabPane>
               </Tabs>
             </div>
