@@ -2,7 +2,7 @@
 
 .ProjectContainer {
   height: 90%;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   .ProjectHeader {
     display: flex;
@@ -51,4 +51,103 @@
 .SubmitProject {
   @include ControlSteps;
   margin: 0 1.5em;
+}
+
+.cardExperience,.cardExperienceText{
+  width: 32.2%;
+  border-radius: 4px;
+  overflow: hidden;
+  position:relative;
+  margin: 0.5em;
+  box-shadow: $shadow;
+  .absolute{
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 95%;
+    color: white;
+    padding: 1em;
+    text-shadow: 0px 0px 2px black;
+    p{
+      @include primary-text($body-2, $white, 600);
+    }
+    span{
+      @include primary-text($label, $white, 400);
+    }
+    h3{
+      @include primary-text($h3, $white, 600);
+    }
+  }
+}
+.cardExperience:last-child{
+  margin-right: 0;
+}
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 230px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+.ant-carousel .slick-slide img{
+  width:100%;
+  
+}
+.ant-carousel .slick-dots {
+  position: absolute;
+  bottom: 0;
+  right: 17px;
+  display: block;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+  transform: rotate(90deg);
+}
+.ant-carousel .slick-dots li button {
+  width: 22px;
+  height: 5px;
+}
+.cardExperienceText{
+  height: 230px;
+  .absolute{
+    text-shadow: none;
+    justify-content: start;
+    width: 100%;
+    p{
+      @include primary-text($body-2, $on-surface, 600);
+    }
+    span{
+      @include primary-text($label, $on-surface, 400);
+    }
+    h3{
+      @include primary-text($h3, $on-surface, 400);
+      margin-top:2em;
+      position:relative;
+    }
+  }
+  h3:before {
+    content: open-quote;
+    top: 20px;
+  }
+  h3:after {
+    content: close-quote;
+    content: close-quote;
+    bottom: -20px;
+    right: 0;
+  }
+  h3:after,h3:before {
+    line-height: 0px;
+    color: #7372711a;
+    font-size: 8em;
+    position: absolute;
+  }
+}
+.ant-tabs-bar {
+  margin-bottom: 0;
 }
