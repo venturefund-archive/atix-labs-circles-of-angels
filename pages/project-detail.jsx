@@ -1,6 +1,5 @@
 import React from 'react';
-import { Tabs, Carousel } from 'antd';
-import { isEmpty } from 'lodash';
+import { Tabs } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -17,43 +16,13 @@ import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
+import SeccionExperience from './experiences';
 
 const { TabPane } = Tabs;
 
 function callback(key) {
   console.log(key);
 }
-
-const CardExperience = ({ experience }) => {
-  const style = isEmpty(experience.photos)
-    ? 'cardExperienceText'
-    : 'cardExperience';
-  return (
-    <div className={style}>
-      {
-        <Carousel dotPosition="right" autoplay effect="fade">
-          {!isEmpty(experience.photos) &&
-            experience.photos.map(
-              (photo, i) =>
-                photo.image && (
-                  <div key={i}>
-                    <img src={photo.image.data} alt="thing" />
-                  </div>
-                )
-            )}
-        </Carousel>
-      }
-      <div className="absolute">
-        <div className="pplRoute">
-          <p> {experience.user.username}</p>
-          <span> 3 days ago</span>
-        </div>
-        <h3>{experience.comment}</h3>
-      </div>
-    </div>
-  );
-};
-const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
   constructor(props) {
@@ -198,12 +167,7 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <div className="flex-wrap">
-                    {!isEmpty(projectExperiences) &&
-                      projectExperiences.map((experience, i) => (
-                        <CardExperience experience={experience} key={i} />
-                      ))}
-                  </div>
+                  <SeccionExperience experiences={projectExperiences}/>
                 </TabPane>
               </Tabs>
             </div>

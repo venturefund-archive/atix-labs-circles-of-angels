@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Checkbox } from 'antd';
+import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import 'antd/dist/antd.css';
 import './_style.scss';
@@ -8,14 +8,23 @@ import Routing from '../../utils/Routes';
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
   const submit = () => {
-    form.validateFields();
-    onSubmit(getFieldProps('userName').value, getFieldProps('password').value);
+    form.validateFields(err => {
+      if (!err) {
+        return onSubmit(getFieldProps('mail').value);
+      }
+    });
   };
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
         {getFieldDecorator('mail', {
-          rules: [{ required: true, message: 'Please input your mail!' }]
+          rules: [
+            {
+              type: 'email',
+              message: 'The input is not a valid e-mail!'
+            },
+            { required: true, message: 'Please input your mail!' }
+          ]
         })(
           <Input
             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -24,10 +33,16 @@ const FormRecovery = ({ form, onSubmit }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <CustomButton 
-        theme="Primary" 
-        buttonText="Send a verification code" 
-        onClick={submit} />
+        <CustomButton
+          theme="Primary"
+          buttonText="Send a verification code"
+          onClick={submit}
+        />
+        <CustomButton
+          theme="Cancel"
+          buttonText="Back"
+          onClick={() => Routing.toLogin()}
+        />
       </Form.Item>
     </Form>
   );

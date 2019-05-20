@@ -7,7 +7,6 @@ import { loginUser } from '../api/userApi';
 
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
-import DynamicFormRecovery from '../components/organisms/FormLogin/FormRecovery';
 
 class Login extends Component {
   componentDidMount() {

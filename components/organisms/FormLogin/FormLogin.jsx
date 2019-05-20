@@ -40,7 +40,10 @@ const FormLogin = ({ form, onSubmit }) => {
             valuePropName: 'checked',
             initialValue: true
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="#/">
+          <a
+            className="login-form-forgot"
+            onClick={() => Routing.toRecoveryPassword()}
+          >
             Forgot password
           </a>
         </div>
