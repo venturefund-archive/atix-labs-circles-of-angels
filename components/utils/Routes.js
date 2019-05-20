@@ -18,6 +18,12 @@ const projectEvidence = '/project-evidence';
 const backOfficeUsers = '/back-office-users';
 const backOfficeMilestones = '/back-office-milestones';
 const register = '/register';
+const recovery = '/recovery';
+const myProjects = '/my-projects';
+
+const goToRoute = (route, query) => {
+  Router.push({ pathname: route, query });
+};
 
 const Routing = {
   toBackOffice: query => {
@@ -80,11 +86,13 @@ const Routing = {
   },
   toRegister: query => {
     goToRoute(register, query);
+  },
+  toRecoveryPassword: query => {
+    goToRoute(recovery, query);
+  },
+  toMyProjects: query => {
+    goToRoute(myProjects, query);
   }
-};
-
-const goToRoute = (route, query) => {
-  Router.push({ pathname: route, query });
 };
 
 export default Routing;

@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
-import { recoverPassword } from '../api/userApi';
 
 import './_login.scss';
-import DynamicFormRecovery from '../components/organisms/FormLogin/FormRecovery';
+import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
+import { updatePassword } from '../api/userApi';
+import Routing from '../components/utils/Routes';
 
-class Recovery extends Component {
+class PasswordRecovery extends Component {
+  static async getInitialProps(query) {
+    const { token } = query.query;
+    return { token };
+  }
+
   componentDidMount() {
     const { removeUser } = this.props;
     removeUser();
   }
 
-  sendVerificationCode = async email => {
-    const response = await recoverPassword(email);
+  updatePassword = async password => {
+    const { token } = this.props;
+    const response = await updatePassword(token, password);
     if (response.error) {
       const { error } = response;
       const title = error.response ? 'Error!' : error.message;
@@ -22,10 +29,8 @@ class Recovery extends Component {
         : error.message;
       showModalError(title, content);
     } else {
-      showModalSuccess(
-        'Success!',
-        'A mail has been sent to you. Please check your inbox!'
-      );
+      showModalSuccess('Success!', 'Your password was successfully changed!');
+      Routing.toLogin();
     }
     return response;
   };
@@ -39,11 +44,11 @@ class Recovery extends Component {
         <div className="FormSide">
           <h1>CIRCLES OF ANGELS</h1>
           <h2>PASS RECOVERY</h2>
-          <DynamicFormRecovery onSubmit={this.sendVerificationCode} />
+          <DynamicFormPassword onSubmit={this.updatePassword} />
         </div>
       </div>
     );
   }
 }
 
-export default withUser(Recovery);
+export default withUser(PasswordRecovery);

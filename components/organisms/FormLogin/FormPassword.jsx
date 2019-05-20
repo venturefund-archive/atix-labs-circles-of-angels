@@ -1,24 +1,35 @@
 import React from 'react';
-import { Form, Icon, Input, Checkbox } from 'antd';
+import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import 'antd/dist/antd.css';
 import './_style.scss';
-import Routing from '../../utils/Routes';
 
 const FormPassword = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
+
   const submit = () => {
-    form.validateFields();
-    onSubmit(getFieldProps('userName').value, getFieldProps('password').value);
+    form.validateFields(err => {
+      if (!err) {
+        return onSubmit(getFieldProps('newpassword').value);
+      }
+    });
   };
+
+  const comparePasswords = (rule, value, callback) => {
+    if (value && value !== form.getFieldValue('newpassword')) {
+      callback('Passwords do not match!');
+    } else {
+      callback();
+    }
+  };
+
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
         {getFieldDecorator('newpassword', {
-          rules: [{ required: true, message: 'Please input your mail!' }]
+          rules: [{ required: true, message: 'Please input your password!' }]
         })(
           <Input.Password
-            password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="New Password"
           />
@@ -26,21 +37,21 @@ const FormPassword = ({ form, onSubmit }) => {
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('confirm', {
-          rules: [{ required: true, message: 'Please input your mail!' }]
+          rules: [
+            { required: true, message: 'Please input your password!' },
+            {
+              validator: comparePasswords
+            }
+          ]
         })(
           <Input.Password
-            password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="Confirm Password"
           />
         )}
       </Form.Item>
       <Form.Item>
-        <CustomButton
-          theme="Primary"
-          buttonText="Save"
-          onClick={submit}
-        />
+        <CustomButton theme="Primary" buttonText="Save" onClick={submit} />
       </Form.Item>
     </Form>
   );
