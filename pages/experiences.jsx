@@ -35,11 +35,11 @@ const CardExperience = ({ experience }) => {
     </div>
   );
 };
-const SeccionExperience = ({ experiences }) => (
+const SeccionExperience = ({ experiences, onCreate }) => (
   <div className="Experiences">
     <div className="space-between">
       <h1 className="title">Recent Reviews</h1>
-      <ModalNewExperience />
+      <ModalNewExperience onCreate={onCreate} />
     </div>
     <div className="grid">
       {!isEmpty(experiences) &&

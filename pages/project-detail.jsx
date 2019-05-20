@@ -10,7 +10,11 @@ import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import { getProject, getProjectExperiences } from '../api/projectApi';
+import {
+  getProject,
+  getProjectExperiences,
+  createProjectExperience
+} from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
@@ -59,6 +63,12 @@ class ProjectDetail extends React.Component {
         });
     });
     this.setState({ projectDetail, projectExperiences });
+  };
+
+  createProjectExperience = async (experience, photos) => {
+    const experience = await createProjectExperience(experience, photos);
+    projectExperiences.push(experience);
+    this.setState({ projectExperiences });
   };
 
   applyToProject = async () => {
@@ -167,7 +177,10 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <SeccionExperience experiences={projectExperiences}/>
+                  <SeccionExperience
+                    experiences={projectExperiences}
+                    onCreate={createProjectExperience}
+                  />
                 </TabPane>
               </Tabs>
             </div>
