@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs, Carousel } from 'antd';
+import { isEmpty } from 'lodash';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -10,7 +11,7 @@ import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import { getProject } from '../api/projectApi';
+import { getProject, getProjectExperiences } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
@@ -23,44 +24,35 @@ function callback(key) {
   console.log(key);
 }
 
-const CardExperience = () => (
-  <div className="cardExperience">
-    <Carousel dotPosition="right" autoplay effect="fade">
-      <div>
-        <img src="/static/images/donate.jpeg" alt="thing" />
+const CardExperience = ({ experience }) => {
+  const style = isEmpty(experience.photos)
+    ? 'cardExperienceText'
+    : 'cardExperience';
+  return (
+    <div className={style}>
+      {
+        <Carousel dotPosition="right" autoplay effect="fade">
+          {!isEmpty(experience.photos) &&
+            experience.photos.map(
+              (photo, i) =>
+                photo.image && (
+                  <div key={i}>
+                    <img src={photo.image.data} alt="thing" />
+                  </div>
+                )
+            )}
+        </Carousel>
+      }
+      <div className="absolute">
+        <div className="pplRoute">
+          <p> {experience.user.username}</p>
+          <span> 3 days ago</span>
+        </div>
+        <h3>{experience.comment}</h3>
       </div>
-      <div>
-        <img src="/static/images/donate2.jpeg" alt="thing" />
-      </div>
-      <div>
-        <img src="/static/images/donate3.jpeg" alt="thing" />
-      </div>
-    </Carousel>
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
-        magna at ex ullamcorper sollicitudin id ut sapien
-      </h3>
     </div>
-  </div>
-);
-const CardExperienceText = () => (
-  <div className="cardExperienceText">
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien
-      </h3>
-    </div>
-  </div>
-);
+  );
+};
 const imageBaseUrl = './static/images';
 
 class ProjectDetail extends React.Component {
@@ -68,7 +60,8 @@ class ProjectDetail extends React.Component {
     super(props);
 
     this.state = {
-      projectDetail: {}
+      projectDetail: {},
+      projectExperiences: []
     };
   }
 
@@ -86,7 +79,17 @@ class ProjectDetail extends React.Component {
       ...project,
       coverPhoto: coverPhoto.data
     };
-    this.setState({ projectDetail });
+    const projectExperiences = (await getProjectExperiences(projectId))
+      .experiences;
+
+    await projectExperiences.forEach(async experience => {
+      if (experience.photos)
+        await experience.photos.forEach(async photo => {
+          photo.image = await getPhoto(photo.id);
+          this.setState({ projectExperiences });
+        });
+    });
+    this.setState({ projectDetail, projectExperiences });
   };
 
   applyToProject = async () => {
@@ -122,7 +125,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail } = this.state;
+    const { projectDetail, projectExperiences } = this.state;
     const itemsData = projectDetail
       ? [
           {
@@ -196,11 +199,11 @@ class ProjectDetail extends React.Component {
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
                   <div className="flex-wrap">
-                      <CardExperience />
-                      <CardExperienceText/>
-                      <CardExperience />
-                      <CardExperience />
-                      </div>
+                    {!isEmpty(projectExperiences) &&
+                      projectExperiences.map((experience, i) => (
+                        <CardExperience experience={experience} key={i} />
+                      ))}
+                  </div>
                 </TabPane>
               </Tabs>
             </div>
