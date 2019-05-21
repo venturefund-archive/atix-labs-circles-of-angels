@@ -61,7 +61,7 @@ import TransferStatus from '../constants/TransferStatus';
 class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
-    const { transfers, user } = props;
+
 
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
@@ -89,7 +89,12 @@ class ConcensusMilestones extends Component {
     const oracles = await getOracles();
     const actualAmount = (await getActualProjectAmount(projectId)).data;
     const milestones = await this.getMilestones(projectId);
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
+
     this.setState({
+      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
       project,
       userProjects,
       transfers,
