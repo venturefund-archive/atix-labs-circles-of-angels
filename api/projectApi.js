@@ -270,22 +270,23 @@ const getProjectExperiences = async projectId => {
 
 const createProjectExperience = async (experience, photos) => {
   try {
+    photos = photos.map(photo => photo.originFileObj);
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
     const fd = new FormData();
     fd.append('experience', JSON.stringify(experience));
     photos.forEach((photo, i) => {
       fd.append(`photo-${i}`, photo);
     });
-
     const response = await api.post(
-      `${baseURL}/${experience.project}/experience`,
+      `${baseURL}/${experience.projectId}/experience`,
       fd,
       config
     );
 
     return response;
-  } catch (error) {}
+  } catch (error) {
+    return { error };
+  }
 };
 
 export {

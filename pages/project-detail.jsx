@@ -52,22 +52,47 @@ class ProjectDetail extends React.Component {
       ...project,
       coverPhoto: coverPhoto.data
     };
+    const projectExperiences = await this.getExperiences();
+    this.setState({ projectDetail, projectExperiences });
+  };
+
+  getExperiences = async () => {
+    const { projectId } = this.props;
     const projectExperiences = (await getProjectExperiences(projectId))
       .experiences;
 
     await projectExperiences.forEach(async experience => {
+      
+      const date = new Date(experience.createdAt);
+      experience.date = `${date.getFullYear()}-${date.getMonth() +
+        1}-${date.getDate()}   ${date.getHours()}:${date.getMinutes()}`;
+
       if (experience.photos)
         await experience.photos.forEach(async photo => {
           photo.image = await getPhoto(photo.id);
           this.setState({ projectExperiences });
         });
     });
-    this.setState({ projectDetail, projectExperiences });
+    return projectExperiences;
   };
 
-  createProjectExperience = async (experience, photos) => {
-    const experience = await createProjectExperience(experience, photos);
-    projectExperiences.push(experience);
+  createProjectExperience = async experience => {
+    const { projectId, user } = this.props;
+    const { comment, photos } = experience;
+    const newExperience = {
+      comment,
+      projectId,
+      user: user.id
+    };
+    const createdExperience = await createProjectExperience(
+      newExperience,
+      photos
+    );
+    if (createdExperience.error) {
+      console.error(createdExperience.error);
+      return;
+    }
+    const projectExperiences = await this.getExperiences();
     this.setState({ projectExperiences });
   };
 
@@ -179,7 +204,7 @@ class ProjectDetail extends React.Component {
                 <TabPane tab="Experiences" key="2">
                   <SeccionExperience
                     experiences={projectExperiences}
-                    onCreate={createProjectExperience}
+                    onCreate={this.createProjectExperience}
                   />
                 </TabPane>
               </Tabs>
