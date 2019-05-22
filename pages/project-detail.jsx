@@ -10,7 +10,11 @@ import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import { getProject, getProjectExperiences } from '../api/projectApi';
+import {
+  getProject,
+  getProjectExperiences,
+  createProjectExperience
+} from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
@@ -48,17 +52,48 @@ class ProjectDetail extends React.Component {
       ...project,
       coverPhoto: coverPhoto.data
     };
+    const projectExperiences = await this.getExperiences();
+    this.setState({ projectDetail, projectExperiences });
+  };
+
+  getExperiences = async () => {
+    const { projectId } = this.props;
     const projectExperiences = (await getProjectExperiences(projectId))
       .experiences;
 
     await projectExperiences.forEach(async experience => {
+      
+      const date = new Date(experience.createdAt);
+      experience.date = `${date.getFullYear()}-${date.getMonth() +
+        1}-${date.getDate()}   ${date.getHours()}:${date.getMinutes()}`;
+
       if (experience.photos)
         await experience.photos.forEach(async photo => {
           photo.image = await getPhoto(photo.id);
           this.setState({ projectExperiences });
         });
     });
-    this.setState({ projectDetail, projectExperiences });
+    return projectExperiences;
+  };
+
+  createProjectExperience = async experience => {
+    const { projectId, user } = this.props;
+    const { comment, photos } = experience;
+    const newExperience = {
+      comment,
+      projectId,
+      user: user.id
+    };
+    const createdExperience = await createProjectExperience(
+      newExperience,
+      photos
+    );
+    if (createdExperience.error) {
+      console.error(createdExperience.error);
+      return;
+    }
+    const projectExperiences = await this.getExperiences();
+    this.setState({ projectExperiences });
   };
 
   applyToProject = async () => {
@@ -167,7 +202,10 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <SeccionExperience experiences={projectExperiences}/>
+                  <SeccionExperience
+                    experiences={projectExperiences}
+                    onCreate={this.createProjectExperience}
+                  />
                 </TabPane>
               </Tabs>
             </div>
