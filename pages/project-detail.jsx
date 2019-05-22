@@ -16,6 +16,7 @@ import { getPhoto } from '../api/photoApi';
 import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
+import SeccionExperience from './experiences';
 
 const { TabPane } = Tabs;
 
@@ -199,12 +200,7 @@ class ProjectDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
-                  <div className="flex-wrap">
-                    <CardExperience />
-                    <CardExperienceText />
-                    <CardExperience />
-                    <CardExperience />
-                  </div>
+                  <SeccionExperience />
                 </TabPane>
               </Tabs>
             </div>
