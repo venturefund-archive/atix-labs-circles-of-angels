@@ -56,7 +56,10 @@ const CardExperienceText = () => (
         <span> 3 days ago</span>
       </div>
       <h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet magna at ex ullamcorper sollicitudin id ut sapien
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
+        magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit
+        amet, consectetur adipiscing elit. Morbi sit amet magna at ex
+        ullamcorper sollicitudin id ut sapien
       </h3>
     </div>
   </div>
@@ -191,16 +194,17 @@ class ProjectDetail extends React.Component {
                           key={i}
                         />
                       ))}
+                      <h1 className="title">Oracle: Joseph Stewart</h1>
                     </div>
                   </div>
                 </TabPane>
                 <TabPane tab="Experiences" key="2">
                   <div className="flex-wrap">
-                      <CardExperience />
-                      <CardExperienceText/>
-                      <CardExperience />
-                      <CardExperience />
-                      </div>
+                    <CardExperience />
+                    <CardExperienceText />
+                    <CardExperience />
+                    <CardExperience />
+                  </div>
                 </TabPane>
               </Tabs>
             </div>

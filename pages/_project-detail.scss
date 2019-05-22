@@ -42,6 +42,9 @@
     .ProjectGeneralData {
       width: 30%;
       padding: 0 1.5em;
+      .title{
+        @include primary-text($h1, $secondary-color, 600);
+    }
     }
   }
 }
