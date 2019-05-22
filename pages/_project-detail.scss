@@ -52,13 +52,17 @@
   @include ControlSteps;
   margin: 0 1.5em;
 }
-
+.grid{
+  margin-top:1em;
+  display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap: 21px;
+    align-items: stretch;
+}
 .cardExperience,.cardExperienceText{
-  width: 32.2%;
   border-radius: 4px;
   overflow: hidden;
   position:relative;
-  margin: 0.5em;
   box-shadow: $shadow;
   .absolute{
     position: absolute;
@@ -99,7 +103,7 @@
 .ant-carousel .slick-dots {
   position: absolute;
   bottom: 0;
-  right: 17px;
+  right: 35px;
   display: block;
   width: 50%;
   height: 100%;
@@ -150,4 +154,22 @@
 }
 .ant-tabs-bar {
   margin-bottom: 0;
+}
+.Experiences{
+padding:1em 1.5em;
+}
+.ModalNewExperience{
+  p{
+     @include primary-text($body-2, $on-surface, 400);
+  }
+  textarea{
+    margin: 1em 0;
+  }
+  textarea.ant-input{
+    font-size: $body-2;
+  }
+  .ant-modal-footer{
+        display: flex;
+    flex-direction: row-reverse;
+  }
 }
