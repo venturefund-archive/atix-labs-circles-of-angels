@@ -198,6 +198,7 @@ class ProjectDetail extends React.Component {
                           key={i}
                         />
                       ))}
+                      <h1 className="title">Oracle: Joseph Stewart</h1>
                     </div>
                   </div>
                 </TabPane>
