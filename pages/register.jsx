@@ -7,18 +7,26 @@ import './_register.scss';
 import './_login.scss';
 
 class Register extends Component {
-  static async getInitialProps() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seQuestionnaire: null,
+      funderQuestionnaire: null
+    };
+  }
+
+  componentDidMount = async () => {
     const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
     const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
-    return { seQuestionnaire, funderQuestionnaire };
-  }
+    this.setState({ seQuestionnaire, funderQuestionnaire });
+  };
 
   goToLogin() {
     Routes.toLogin();
   }
 
   render() {
-    const { seQuestionnaire, funderQuestionnaire } = this.props;
+    const { seQuestionnaire, funderQuestionnaire } = this.state;
     return (
       <div className="Login">
         <div className="LogoSide">
