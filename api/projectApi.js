@@ -259,6 +259,15 @@ const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
   }
 };
 
+const getProjectExperiences = async projectId => {
+  try {
+    const response = await api.get(`${baseURL}/${projectId}/experiences`);
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export {
   getProjects,
   getActiveProjects,
@@ -276,5 +285,6 @@ export {
   startProject,
   getProjectsAsOracle,
   downloadProposalTemplate,
-  updateProject
+  updateProject,
+  getProjectExperiences
 };

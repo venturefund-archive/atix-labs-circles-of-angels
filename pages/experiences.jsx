@@ -1,62 +1,51 @@
 import React from 'react';
-import { Button, Modal, Form, Input, Radio, Carousel } from 'antd';
+import { isEmpty } from 'lodash';
+import { Carousel } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
 import ModalNewExperience from './new-experiences';
 
-const CardExperience = () => (
-  <div className="cardExperience">
-    <Carousel dotPosition="right" autoplay effect="fade">
-      <div>
-        <img src="/static/images/donate.jpeg" alt="thing" />
+const CardExperience = ({ experience }) => {
+  const style = isEmpty(experience.photos)
+    ? 'cardExperienceText'
+    : 'cardExperience';
+  return (
+    <div className={style}>
+      {
+        <Carousel dotPosition="right" autoplay effect="fade">
+          {!isEmpty(experience.photos) &&
+            experience.photos.map(
+              (photo, i) =>
+                photo.image && (
+                  <div key={i}>
+                    <img src={photo.image.data} alt="thing" />
+                  </div>
+                )
+            )}
+        </Carousel>
+      }
+      <div className="absolute">
+        <div className="pplRoute">
+          <p> {experience.user.username}</p>
+          <span> 3 days ago</span>
+        </div>
+        <h3>{experience.comment}</h3>
       </div>
-      <div>
-        <img src="/static/images/donate2.jpeg" alt="thing" />
-      </div>
-      <div>
-        <img src="/static/images/donate3.jpeg" alt="thing" />
-      </div>
-    </Carousel>
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
-        magna at ex ullamcorper sollicitudin id ut sapien
-      </h3>
     </div>
-  </div>
-);
-const CardExperienceText = () => (
-  <div className="cardExperienceText">
-    <div className="absolute">
-      <div className="pplRoute">
-        <p> Simon Joseph</p>
-        <span> 3 days ago</span>
-      </div>
-      <h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet
-        magna at ex ullamcorper sollicitudin id ut sapien. Lorem ipsum dolor sit
-        amet, consectetur adipiscing elit. Morbi sit amet magna at ex
-        ullamcorper sollicitudin id ut sapien
-      </h3>
-    </div>
-  </div>
-);
-const SeccionExperience = () => (
+  );
+};
+const SeccionExperience = ({ experiences }) => (
   <div className="Experiences">
     <div className="space-between">
       <h1 className="title">Recent Reviews</h1>
       <ModalNewExperience />
     </div>
     <div className="grid">
-      <CardExperience />
-      <CardExperienceText />
-      <CardExperience />
-      <CardExperience />
+      {!isEmpty(experiences) &&
+        experiences.map((experience, i) => (
+          <CardExperience experience={experience} key={i} />
+        ))}
     </div>
   </div>
 );
