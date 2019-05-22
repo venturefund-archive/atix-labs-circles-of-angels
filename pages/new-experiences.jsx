@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Input, Upload, message, Avatar } from 'antd';
+import { Button, Modal, Input, Upload, message, Avatar, Form } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
@@ -10,15 +10,26 @@ const { TextArea } = Input;
 
 class ModalNewExperience extends React.Component {
   state = { visible: false };
+  experience = {
+    comment: '',
+    photos: []
+  };
 
   showModal = () => {
+    const { form } = this.props;
+    form.setFieldsValue({ comment: this.experience.comment });
     this.setState({
       visible: true
     });
   };
 
-  handleOk = e => {
-    console.log(e);
+  handleOk = async e => {
+    const { onCreate } = this.props;
+    await onCreate(this.experience);
+    this.experience = {
+      comment: '',
+      photos: []
+    };
     this.setState({
       visible: false
     });
@@ -31,8 +42,19 @@ class ModalNewExperience extends React.Component {
     });
   };
 
+  handleChange = e => {
+    const { form } = this.props;
+    this.experience.comment = form.getFieldValue('comment');
+  };
+
+  onFileChange = fileList => {
+    this.experience.photos = fileList;
+  };
+
   render() {
     const { visible } = this.state;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <div>
         <CustomButton
@@ -51,7 +73,7 @@ class ModalNewExperience extends React.Component {
               theme="Primary"
               key="back"
               buttonText="Post"
-              onClick={this.handleCancel}
+              onClick={this.handleOk}
             />
           ]}
         >
@@ -66,12 +88,24 @@ class ModalNewExperience extends React.Component {
               </p>
             </div>
           </div>
-          <TextArea placeholder="Share your experience here" rows={5} />
-          <UploadCardImage />
+          <Form onChange={this.handleChange}>
+            <Form.Item>
+              {getFieldDecorator('comment', {})(
+                <TextArea placeholder="Share your experience here" rows={5} />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('photos', {})(
+                <UploadCardImage onChange={this.onFileChange} />
+              )}
+            </Form.Item>
+          </Form>
         </Modal>
       </div>
     );
   }
 }
 
-export default ModalNewExperience;
+export default Form.create({ name: 'CreateExperienceForm' })(
+  ModalNewExperience
+);

@@ -6,8 +6,7 @@ class UploadCardImage extends React.Component {
   state = {
     previewVisible: false,
     previewImage: '',
-    fileList: [
-    ]
+    fileList: []
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -19,7 +18,11 @@ class UploadCardImage extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => {
+    const { onChange } = this.props;
+    if (onChange) onChange(fileList);
+    this.setState({ fileList });
+  };
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;

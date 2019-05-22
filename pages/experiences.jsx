@@ -28,18 +28,18 @@ const CardExperience = ({ experience }) => {
       <div className="absolute">
         <div className="pplRoute">
           <p> {experience.user.username}</p>
-          <span> 3 days ago</span>
+          <span>{experience.date}</span>
         </div>
         <h3>{experience.comment}</h3>
       </div>
     </div>
   );
 };
-const SeccionExperience = ({ experiences }) => (
+const SeccionExperience = ({ experiences, onCreate }) => (
   <div className="Experiences">
     <div className="space-between">
       <h1 className="title">Recent Reviews</h1>
-      <ModalNewExperience />
+      <ModalNewExperience onCreate={onCreate} />
     </div>
     <div className="grid">
       {!isEmpty(experiences) &&
