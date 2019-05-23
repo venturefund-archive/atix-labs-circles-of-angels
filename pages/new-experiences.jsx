@@ -1,15 +1,18 @@
 import React from 'react';
-import { Button, Modal, Input, Upload, message, Avatar, Form } from 'antd';
+import { Modal, Input, Avatar, message, Form } from 'antd';
+import mime from 'mime-types';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
 import UploadCardImage from '../components/molecules/UploadCardImage/UploadCardImage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import FileUploadStatus from '../constants/FileUploadStatus';
 
 const { TextArea } = Input;
 
 class ModalNewExperience extends React.Component {
-  state = { visible: false };
+  state = { visible: false, imageList: [] };
+
   experience = {
     comment: '',
     photos: []
@@ -36,7 +39,6 @@ class ModalNewExperience extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -47,12 +49,28 @@ class ModalNewExperience extends React.Component {
     this.experience.comment = form.getFieldValue('comment');
   };
 
-  onFileChange = fileList => {
-    this.experience.photos = fileList;
+  onFileChange = file => {
+    const { imageList } = this.state;
+    if (file.status === FileUploadStatus.UPLOADING) {
+      if (this.checkFileType(file)) {
+        imageList.push(file);
+      } else {
+        message.error(`${file.name} file type is invalid.`);
+      }
+    } else if (file.status === FileUploadStatus.REMOVED) {
+      imageList.splice(imageList.indexOf(file), 1);
+    }
+    this.setState({ imageList });
+    this.experience.photos = imageList;
+  };
+
+  checkFileType = file => {
+    const fileType = mime.lookup(file.name);
+    return fileType.includes('image/');
   };
 
   render() {
-    const { visible } = this.state;
+    const { visible, imageList } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -96,7 +114,10 @@ class ModalNewExperience extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('photos', {})(
-                <UploadCardImage onChange={this.onFileChange} />
+                <UploadCardImage
+                  onChange={this.onFileChange}
+                  fileList={imageList}
+                />
               )}
             </Form.Item>
           </Form>
