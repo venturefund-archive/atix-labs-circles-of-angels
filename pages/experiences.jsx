@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { Carousel } from 'antd';
+import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
@@ -35,11 +36,11 @@ const CardExperience = ({ experience }) => {
     </div>
   );
 };
-const SeccionExperience = ({ experiences, onCreate }) => (
+const SeccionExperience = ({ experiences, onCreate, user }) => (
   <div className="Experiences">
     <div className="space-between">
       <h1 className="title">Recent Reviews</h1>
-      <ModalNewExperience onCreate={onCreate} />
+      <ModalNewExperience onCreate={onCreate} user={user} />
     </div>
     <div className="grid">
       {!isEmpty(experiences) &&
@@ -50,4 +51,4 @@ const SeccionExperience = ({ experiences, onCreate }) => (
   </div>
 );
 
-export default SeccionExperience;
+export default withUser(SeccionExperience);

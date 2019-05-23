@@ -69,9 +69,18 @@ class ModalNewExperience extends React.Component {
     return fileType.includes('image/');
   };
 
+  getInitials = fullName => {
+    if (!fullName) return;
+    let initials = fullName.match(/\b\w/g) || [];
+    initials = (
+      (initials.shift() || '') + (initials.pop() || '')
+    ).toUpperCase();
+    return initials;
+  };
+
   render() {
     const { visible, imageList } = this.state;
-    const { form } = this.props;
+    const { form, user } = this.props;
     const { getFieldDecorator } = form;
     return (
       <div>
@@ -97,10 +106,10 @@ class ModalNewExperience extends React.Component {
         >
           <div className="pplRoute flex">
             <Avatar style={{ color: '#0083E3', backgroundColor: '#95d2ff' }}>
-              SJ
+              {this.getInitials(user.username)}
             </Avatar>
             <div>
-              <h1 className="ant-modal-title"> Simon Joseph</h1>
+              <h1 className="ant-modal-title">{user.username}</h1>
               <p>
                 Your experience will be posted publicly in the project details
               </p>
