@@ -13,6 +13,7 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import {
   getProject,
   getProjectExperiences,
+  getProjectMilestones,
   createProjectExperience
 } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
@@ -34,7 +35,8 @@ class ProjectDetail extends React.Component {
 
     this.state = {
       projectDetail: {},
-      projectExperiences: []
+      projectExperiences: [],
+      milestones: []
     };
   }
 
@@ -45,15 +47,20 @@ class ProjectDetail extends React.Component {
 
   componentDidMount = async () => {
     const { projectId } = this.props;
-    const response = await getProject(projectId);
-    const project = response.data;
+    const project = (await getProject(projectId)).data;
     const coverPhoto = await getPhoto(project.coverPhoto);
+    const milestones = (await getProjectMilestones(projectId)).data;
+    const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
     const projectDetail = {
       ...project,
       coverPhoto: coverPhoto.data
     };
     const projectExperiences = await this.getExperiences();
-    this.setState({ projectDetail, projectExperiences });
+    this.setState({
+      projectDetail,
+      projectExperiences,
+      milestones: sortedMilestones
+     });
   };
 
   getExperiences = async () => {
@@ -62,7 +69,6 @@ class ProjectDetail extends React.Component {
       .experiences;
 
     await projectExperiences.forEach(async experience => {
-      
       const date = new Date(experience.createdAt);
       experience.date = `${date.getFullYear()}-${date.getMonth() +
         1}-${date.getDate()}   ${date.getHours()}:${date.getMinutes()}`;
@@ -129,7 +135,7 @@ class ProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail, projectExperiences } = this.state;
+    const { projectDetail, projectExperiences, milestones } = this.state;
     const itemsData = projectDetail
       ? [
           {
@@ -184,6 +190,10 @@ class ProjectDetail extends React.Component {
                       terms={
                         projectDetail ? projectDetail.problemAddressed : ''
                       }
+                      startedProject={
+                        projectDetail.status === ProjectStatus.IN_PROGRESS
+                      }
+                      milestones={milestones}
                     />
                     <div className="ProjectGeneralData">
                       <div className="block">
@@ -198,7 +208,7 @@ class ProjectDetail extends React.Component {
                           key={i}
                         />
                       ))}
-                      <h1 className="title">Oracle: Joseph Stewart</h1>
+                      {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
                     </div>
                   </div>
                 </TabPane>
