@@ -1,6 +1,8 @@
 const MilestoneBudgetStatus = {
-  PENDING: 1,
-  TRANSFERRED: 2
+  CLAIMABLE: 1,
+  CLAIMED: 2,
+  FUNDED: 3,
+  BLOCKED: 4,
 };
 
 export default MilestoneBudgetStatus;

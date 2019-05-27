@@ -2,14 +2,19 @@ import React from 'react';
 import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
+import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
+import MilestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 import Routing from '../../utils/Routes';
+import { changeBudgetStatus } from '../../../api/milestonesApi';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_tablestyle.scss';
 
 const TableProjectProgress = ({
   dataSource,
   projectId,
   projectName,
-  filters
+  filters,
+  isSocialEntrepreneur
 }) => {
   const columns = [
     {
@@ -51,7 +56,6 @@ const TableProjectProgress = ({
       fixed: 'right',
       render: (rawStatus, record) => {
         const activityStatus = MilestoneActivityStatusMap[rawStatus];
-        console.log(record);
         return record.type !== 'Milestone' ? (
           <span key={activityStatus.name}>
             <Tag color={activityStatus.color}>
@@ -84,11 +88,28 @@ const TableProjectProgress = ({
       }
     },
     {
+      title: 'Funding Status',
+      key: 'fundingstatus',
+      dataIndex: 'budgetStatus',
+      fixed: 'right',
+      render: (value, record) => {
+        return (
+          record.type === 'Milestone' && (
+            <div className="milestoneStatus">
+              <Tag color={MilestoneBudgetStatusMap[value.id].color}>
+                {MilestoneBudgetStatusMap[value.id].name.toUpperCase()}
+              </Tag>
+            </div>
+          )
+        );
+      }
+    },
+    {
       title: 'Action',
       key: 'action',
       fixed: 'right',
-      render: (text, record) =>
-        record.type !== 'Milestone' && (
+      render: (text, record) => {
+        return record.type !== 'Milestone' ? (
           <span key={record.id}>
             <a
               onClick={() => {
@@ -101,7 +122,19 @@ const TableProjectProgress = ({
               Evidence
             </a>
           </span>
-        )
+        ) : (
+          record.budgetStatus.id === MilestoneBudgetStatus.CLAIMABLE &&
+            isSocialEntrepreneur && (
+              <CustomButton
+                buttonText="CLAIM"
+                theme="Primary"
+                onClick={() =>
+                  changeBudgetStatus(record.id, MilestoneBudgetStatus.CLAIMED)
+                }
+              />
+            )
+        );
+      }
     }
   ];
 
