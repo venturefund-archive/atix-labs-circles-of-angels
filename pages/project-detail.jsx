@@ -70,8 +70,7 @@ class ProjectDetail extends React.Component {
 
     await projectExperiences.forEach(async experience => {
       const date = new Date(experience.createdAt);
-      experience.date = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}   ${date.getHours()}:${date.getMinutes()}`;
+      experience.date = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
 
       if (experience.photos)
         await experience.photos.forEach(async photo => {
