@@ -5,8 +5,13 @@ import './_style.scss';
 class UploadCardImage extends React.Component {
   state = {
     previewVisible: false,
-    previewImage: '',
-    fileList: []
+    previewImage: ''
+  };
+
+  dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -18,14 +23,14 @@ class UploadCardImage extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => {
+  handleChange = ({ file }) => {
     const { onChange } = this.props;
-    if (onChange) onChange(fileList);
-    this.setState({ fileList });
+    if (onChange) onChange(file);
   };
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage } = this.state;
+    const { fileList } = this.props;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -35,8 +40,8 @@ class UploadCardImage extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          multiple={true}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          multiple
+          customRequest={this.dummyRequest}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
