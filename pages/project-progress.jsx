@@ -101,7 +101,13 @@ class ProjectProgress extends React.Component {
   };
 
   render() {
-    const { milestones, isBackofficeAdmin, filters, project } = this.state;
+    const {
+      milestones,
+      isBackofficeAdmin,
+      filters,
+      project,
+    } = this.state;
+    const {isSocialEntrepreneur} = this.props;
 
     return (
       <div className="AppContainer">
@@ -170,6 +176,7 @@ class ProjectProgress extends React.Component {
               projectName={project.projectName}
               projectId={project.id}
               filters={filters}
+              isSocialEntrepreneur={isSocialEntrepreneur}
             />
           </div>
         </div>

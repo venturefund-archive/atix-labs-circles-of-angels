@@ -1,13 +1,12 @@
 import React from 'react';
-import { Table, Tag, Select } from 'antd';
+import { Table, Tag, Button } from 'antd';
 import './_style.scss';
 import milestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import milestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 
 const TableBOMilestones = ({
   dataSource,
-  budgetStatusOptions,
-  onBudgetStatusChange
+  onFundsTransferred
 }) => {
   const columns = [
     {
@@ -60,29 +59,15 @@ const TableBOMilestones = ({
       dataIndex: 'id',
       key: 'changeStatus',
       render: (text, record, index) => {
-        const { budgetStatus, id } = record;
+        const { id } = record;
         return (
           <div className="ActionButtons">
-            <Select
+            <Button
               key={record.id}
-              style={{ width: 100 }}
-              showSearch
-              placeholder="Budget Transfer Status"
-              optionFilterProp="children"
-              onChange={selected => {
-                const status = JSON.parse(selected);
-                if (status.id !== budgetStatus.id) {
-                  onBudgetStatusChange(id, status.id, index);
-                }
-              }}
-              defaultValue={budgetStatus.name}
+              onClick={() => onFundsTransferred(id)}
             >
-              {budgetStatusOptions.map(status => (
-                <Select.Option key={status.id} value={JSON.stringify(status)}>
-                  {status.name}
-                </Select.Option>
-              ))}
-            </Select>
+              Funds has transferred
+            </Button>
           </div>
         );
       }

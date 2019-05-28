@@ -12,6 +12,7 @@ import {
 } from '../api/milestonesApi';
 import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import MilestoneBudgetStatus from '../constants/MilestoneBudgetStatus';
 
 import './_style.scss';
 import './_back-office-projects.scss';
@@ -25,10 +26,10 @@ class BackOfficeMilestones extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
+  getMilestones = async () => {
     const { milestones } = (await getAllMilestones()).data;
     const filterMilestones = milestones.filter(
-      milestone => milestone.status.status === MilestoneActivityStatus.COMPLETED
+      milestone => milestone.budgetStatus.id === MilestoneBudgetStatus.CLAIMED
     );
 
     const sortedMilestones = filterMilestones.sort((a, b) => {
@@ -46,12 +47,20 @@ class BackOfficeMilestones extends React.Component {
       }
       return -1;
     });
-    const { budgetStatus } = (await getAllBudgetStatus()).data;
-    this.setState({ milestones: sortedMilestones, budgetStatus });
+    return sortedMilestones;
   };
 
-  changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
-    const response = await changeBudgetStatus(milestoneId, budgetStatusId);
+  componentDidMount = async () => {
+    const milestones = await this.getMilestones();
+    const { budgetStatus } = (await getAllBudgetStatus()).data;
+    this.setState({ milestones, budgetStatus });
+  };
+
+  onFundsTransferred = async milestoneId => {
+    const response = await changeBudgetStatus(
+      milestoneId,
+      MilestoneBudgetStatus.FUNDED
+    );
     if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -61,16 +70,16 @@ class BackOfficeMilestones extends React.Component {
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
-    } else {
-      showModalSuccess('Success!', response.data.success);
+      return;
     }
+    showModalSuccess('Success!', response.data.success);
 
-    Routing.toBackofficeMilestones();
-    return response;
+    const milestones = await this.getMilestones();
+    this.setState({ milestones });
   };
 
   render() {
-    const { milestones, budgetStatus } = this.state;
+    const { milestones } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
@@ -80,8 +89,7 @@ class BackOfficeMilestones extends React.Component {
             <h1>Milestones Administration</h1>
             <TableBOMilestones
               dataSource={milestones}
-              budgetStatusOptions={budgetStatus}
-              onBudgetStatusChange={this.changeBudgetStatus}
+              onFundsTransferred={this.onFundsTransferred}
             />
           </div>
         </div>
