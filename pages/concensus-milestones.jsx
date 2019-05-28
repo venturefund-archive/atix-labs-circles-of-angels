@@ -62,7 +62,6 @@ class ConcensusMilestones extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       currentStep: props.initialStep ? parseInt(props.initialStep, 10) : 0,
       transferId: '',
@@ -120,11 +119,6 @@ class ConcensusMilestones extends Component {
     return milestonesAndActivities;
   }
 
-  // componentDidMount = () => {
-  //   const { milestones } = this.props;
-  //   this.setState({ milestones });
-  // };
-
   updateState = (evnt, field, value) => {
     evnt.preventDefault();
     this.setState({ [field]: value });
@@ -132,14 +126,7 @@ class ConcensusMilestones extends Component {
 
   startProjectHandle = () => {
     const { projectId } = this.props;
-    const {
-      project,
-      userProjects,
-      transfers,
-      oracles,
-      actualAmount,
-      milestones
-    } = this.state;
+    const { project, actualAmount } = this.state;
     const { goalAmount } = project;
 
     const onConfirm = response => {
@@ -281,7 +268,6 @@ class ConcensusMilestones extends Component {
     if (response.error) {
       const { error } = response;
       if (error.response) {
-        // eslint-disable-next-line prettier/prettier
         error.response.data.error =
           "This project doesn't have an Agreement uploaded";
       }
@@ -300,16 +286,9 @@ class ConcensusMilestones extends Component {
     const { projectId } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
-    if (status !== FileUploadStatus.UPLOADING) {
-      console.log(info.file, info.fileList);
-    }
     if (status === FileUploadStatus.DONE) {
-      const response = await uploadAgreement(
-        projectId,
-        projectAgreement.originFileObj
-      );
+      await uploadAgreement(projectId, projectAgreement.originFileObj);
 
-      console.log(response);
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
@@ -330,7 +309,6 @@ class ConcensusMilestones extends Component {
     if (response.error) {
       const { error } = response;
       if (error.response) {
-        // eslint-disable-next-line prettier/prettier
         error.response.data.error =
           "This project doesn't have a Proposal uploaded";
       }
@@ -347,11 +325,15 @@ class ConcensusMilestones extends Component {
 
   signAgreementOk = async () => {
     const { user, projectId } = this.props;
+    const { userProjects } = this.state;
     const response = await signAgreement(user.id, projectId);
 
-    // reload page
     if (!response.error) {
-      this.goToStep(1);
+      const signed = userProjects.find(
+        userProject => userProject.id === response.data[0].id
+      );
+      signed.status = response.data[0].status;
+      this.setState({ userProjects });
     } else {
       const { error } = response;
       const title = error.response
