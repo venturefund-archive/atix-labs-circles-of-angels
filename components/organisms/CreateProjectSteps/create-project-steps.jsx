@@ -86,7 +86,7 @@ class CreateProjectSteps extends React.Component {
         )
       },
       {
-        title: 'Project completed',
+        title: 'Project Completed',
         content: <Step3 />
       }
     ];
