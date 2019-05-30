@@ -3,7 +3,6 @@ import React from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
-import Routing from '../components/utils/Routes';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import {
   getUsers,
