@@ -61,7 +61,7 @@ const TableBOUsers = ({
               onChange={selected => {
                 const status = JSON.parse(selected);
                 if (status.id !== registrationStatus.id) {
-                  onRegistrationStatusChange(id, status.id, index);
+                  onRegistrationStatusChange(id, status, index);
                 }
               }}
               defaultValue={registrationStatus.name}

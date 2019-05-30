@@ -17,7 +17,17 @@ import './_style.scss';
 import './_back-office-users.scss';
 
 class BackOfficeUsers extends React.Component {
-  static async getInitialProps(query) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      users: [],
+      registrationStatusList: [],
+      filters: {}
+    };
+  }
+
+  async componentDidMount() {
     const roleFilters = [];
     const users = await getUsers();
     const sortedUsers = users.sort((a, b) => b.id - a.id);
@@ -29,17 +39,18 @@ class BackOfficeUsers extends React.Component {
       });
     });
     const { registrationStatus } = (await getAllUserRegistrationStatus()).data;
-    return {
+    this.setState({
       users: sortedUsers,
       registrationStatusList: registrationStatus,
       filters: { roles: roleFilters }
-    };
+    });
   }
 
-  changeRegistrationStatus = async (userId, registrationStatusId) => {
+  changeRegistrationStatus = async (userId, registrationStatus) => {
+    const { users } = this.state;
     const response = await changeUserRegistrationStatus(
       userId,
-      registrationStatusId
+      registrationStatus.id
     );
     if (!response || response.error) {
       const { error } = response;
@@ -52,15 +63,16 @@ class BackOfficeUsers extends React.Component {
       showModalError(title, content);
     } else {
       showModalSuccess('Success!', response.data.success);
+      const updatedUser = users.find(user => user.id === userId);
+      updatedUser.registrationStatus = registrationStatus;
+      this.setState({ users });
     }
 
-    Routing.toBackOfficeUsers();
     return response;
   };
 
   render() {
-    const { registrationStatusList, filters, users } = this.props;
-    console.log(users);
+    const { registrationStatusList, filters, users } = this.state;
     return (
       <div className="AppContainer">
         <SideBar />
