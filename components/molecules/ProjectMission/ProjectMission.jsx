@@ -1,27 +1,34 @@
 import React from 'react';
 import { Steps } from 'antd';
 import './_style.scss';
-import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
+import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
 
 const { Step } = Steps;
 
 const getBudget = milestone => {
-  const budget = milestone.budget;
+  const budget =
+    milestone.budget ||
+    milestone.activities.reduce(
+      (sum, activity) => sum + Number(activity.budget),
+      0
+    );
+
   const prefix = 'USD';
   return budget < 1000 ? `${prefix} ${budget}` : `${prefix} ${budget / 1000}K`;
 };
 
 const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
-  let actualMilestone = 0;
-  for (let key in milestones) {
-    if (
-      milestones[key].status.status === MilestoneActivityStatus.STARTED ||
-      milestones[key].status.status === MilestoneActivityStatus.PENDING
-    ) {
-      actualMilestone = parseInt(key);
-      break;
+  // let actualMilestone = 0;
+
+  let currentMilestone = 0;
+
+  milestones.some((milestone, index) => {
+    if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
+      currentMilestone = index > 0 ? index - 1 : index;
     }
-  }
+    return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
+  });
+
   return (
     <div className="ProjectMission">
       <div className="block">
@@ -35,12 +42,12 @@ const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
       <div className="block">
         <h1 className="title">Project Progress</h1>
         {startedProject && (
-          <Steps size="small" current={actualMilestone}>
+          <Steps size="small" current={currentMilestone}>
             {milestones.map((milestone, i) =>
-              milestone.status.status === MilestoneActivityStatus.COMPLETED ? (
-                <Step key={i} />
+              i < currentMilestone ? (
+                <Step key={milestone.id} />
               ) : (
-                <Step title={getBudget(milestone)} key={i} />
+                <Step title={getBudget(milestone)} key={milestone.id} />
               )
             )}
           </Steps>
