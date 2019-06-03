@@ -13,6 +13,7 @@ import {
   getProject,
   downloadProposal
 } from '../api/projectApi';
+import { changeBudgetStatus } from '../api/milestonesApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError } from '../components/utils/Modals';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
@@ -100,14 +101,35 @@ class ProjectProgress extends React.Component {
     }
   };
 
+  handleChangeBudgetStatus = async (milestoneId, budgetStatusId) => {
+    const { milestones } = this.state;
+    const response = await changeBudgetStatus(milestoneId, budgetStatusId);
+    if (response.error) {
+      const { error } = response;
+      const title = error.response ? 'Error updating Milestone' : error.message;
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+      return response;
+    }
+    const updatedMilestone = milestones.find(
+      milestone => milestone.id === milestoneId
+    );
+
+    console.log(updatedMilestone);
+
+    if (updatedMilestone) {
+      updatedMilestone.budgetStatus.id = budgetStatusId;
+    }
+
+    this.setState({ milestones });
+    return response;
+  };
+
   render() {
-    const {
-      milestones,
-      isBackofficeAdmin,
-      filters,
-      project,
-    } = this.state;
-    const {isSocialEntrepreneur} = this.props;
+    const { milestones, isBackofficeAdmin, filters, project } = this.state;
+    const { isSocialEntrepreneur } = this.props;
 
     return (
       <div className="AppContainer">
@@ -177,6 +199,7 @@ class ProjectProgress extends React.Component {
               projectId={project.id}
               filters={filters}
               isSocialEntrepreneur={isSocialEntrepreneur}
+              onBudgetStatusChange={this.handleChangeBudgetStatus}
             />
           </div>
         </div>

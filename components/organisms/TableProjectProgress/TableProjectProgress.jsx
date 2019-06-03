@@ -5,7 +5,6 @@ import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus'
 import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
 import MilestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 import Routing from '../../utils/Routes';
-import { changeBudgetStatus } from '../../../api/milestonesApi';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_tablestyle.scss';
 
@@ -14,7 +13,8 @@ const TableProjectProgress = ({
   projectId,
   projectName,
   filters,
-  isSocialEntrepreneur
+  isSocialEntrepreneur,
+  onBudgetStatusChange
 }) => {
   const columns = [
     {
@@ -64,7 +64,7 @@ const TableProjectProgress = ({
           </span>
         ) : (
           <div className="milestoneStatus">
-            {record.activities.length == record.completedActivities ? (
+            {record.activities.length === record.completedActivities ? (
               <Tag
                 color={
                   MilestoneActivityStatusMap[MilestoneActivityStatus.COMPLETED]
@@ -129,7 +129,7 @@ const TableProjectProgress = ({
                 buttonText="CLAIM"
                 theme="Primary"
                 onClick={() =>
-                  changeBudgetStatus(record.id, MilestoneBudgetStatus.CLAIMED)
+                  onBudgetStatusChange(record.id, MilestoneBudgetStatus.CLAIMED)
                 }
               />
             )

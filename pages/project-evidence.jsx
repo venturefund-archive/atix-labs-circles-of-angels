@@ -101,7 +101,10 @@ class ProjectEvidence extends Component {
 
     if (response.success) {
       showModalSuccess('Success', response.success);
-      this.goToProjectEvidence();
+      const updatedActivity = await getActivity(activity.id);
+      this.setState({
+        activity: updatedActivity || {}
+      });
     } else if (!response || response.error) {
       const { error } = response;
       const title = error.response
@@ -148,6 +151,8 @@ class ProjectEvidence extends Component {
       }
     } else if (status === FileUploadStatus.ERROR) {
       message.error(`${info.file.name} file upload failed.`);
+    } else if (status === FileUploadStatus.REMOVED) {
+      filelist.splice(filelist.indexOf(info.file.originFileObj), 1);
     }
     this.setState({ uploadEvidenceList: filelist });
   };
@@ -159,8 +164,11 @@ class ProjectEvidence extends Component {
 
     if (response.success) {
       showModalSuccess('Success', response.success);
-      this.setState({ uploadEvidenceList: [] });
-      this.goToProjectEvidence();
+      const updatedActivity = await getActivity(activity.id);
+      this.setState({
+        uploadEvidenceList: [],
+        activity: updatedActivity || {}
+      });
     } else if (!response || response.error) {
       const { error } = response;
       const title = error.response
