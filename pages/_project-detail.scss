@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
 .ProjectContainer {
   height: 90%;
@@ -42,32 +42,33 @@
     .ProjectGeneralData {
       width: 30%;
       padding: 0 1.5em;
-      .title{
+      .title {
         @include primary-text($h1, $secondary-color, 600);
-    }
+      }
     }
   }
 }
-.block{
-  margin:1em 0;
+.block {
+  margin: 1em 0;
 }
 .SubmitProject {
   @include ControlSteps;
   margin: 0 1.5em;
 }
-.grid{
-  margin-top:1em;
+.grid {
+  margin-top: 1em;
   display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    grid-gap: 21px;
-    align-items: stretch;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 21px;
+  align-items: stretch;
 }
-.cardExperience,.cardExperienceText{
+.cardExperience,
+.cardExperienceText {
   border-radius: 4px;
   overflow: hidden;
-  position:relative;
+  position: relative;
   box-shadow: $shadow;
-  .absolute{
+  .absolute {
     position: absolute;
     top: 0;
     display: flex;
@@ -78,20 +79,35 @@
     color: white;
     padding: 1em;
     text-shadow: 0px 0px 2px black;
-    p{
+    p {
       @include primary-text($body-2, $white, 600);
     }
-    span{
+    span {
       @include primary-text($label, $white, 400);
     }
-    h3{
+    h3 {
       @include primary-text($h3, $white, 600);
     }
   }
 }
-.cardExperience:last-child{
+.cardExperience:last-child {
   margin-right: 0;
 }
+
+.cardExperience:hover {
+  img {
+    filter: brightness(0.6);
+    transition: 1s;
+  }
+  h3 {
+    overflow-y: scroll;
+  }
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
 .ant-carousel .slick-slide {
   text-align: center;
   height: 230px;
@@ -99,9 +115,8 @@
   background: #364d79;
   overflow: hidden;
 }
-.ant-carousel .slick-slide img{
-  width:100%;
-  
+.ant-carousel .slick-slide img {
+  width: 100%;
 }
 .ant-carousel .slick-dots {
   position: absolute;
@@ -120,22 +135,22 @@
   width: 22px;
   height: 5px;
 }
-.cardExperienceText{
+.cardExperienceText {
   height: 230px;
-  .absolute{
+  .absolute {
     text-shadow: none;
     justify-content: start;
     width: 100%;
-    p{
+    p {
       @include primary-text($body-2, $on-surface, 600);
     }
-    span{
+    span {
       @include primary-text($label, $on-surface, 400);
     }
-    h3{
+    h3 {
       @include primary-text($h3, $on-surface, 400);
-      margin-top:2em;
-      position:relative;
+      margin-top: 2em;
+      position: relative;
     }
   }
   h3:before {
@@ -148,7 +163,8 @@
     bottom: -20px;
     right: 0;
   }
-  h3:after,h3:before {
+  h3:after,
+  h3:before {
     line-height: 0px;
     color: #7372711a;
     font-size: 8em;
@@ -158,21 +174,21 @@
 .ant-tabs-bar {
   margin-bottom: 0;
 }
-.Experiences{
-padding:1em 1.5em;
+.Experiences {
+  padding: 1em 1.5em;
 }
-.ModalNewExperience{
-  p{
-     @include primary-text($body-2, $on-surface, 400);
+.ModalNewExperience {
+  p {
+    @include primary-text($body-2, $on-surface, 400);
   }
-  textarea{
+  textarea {
     margin: 1em 0;
   }
-  textarea.ant-input{
+  textarea.ant-input {
     font-size: $body-2;
   }
-  .ant-modal-footer{
-        display: flex;
+  .ant-modal-footer {
+    display: flex;
     flex-direction: row-reverse;
   }
 }
