@@ -7,7 +7,8 @@ import Routing from '../../utils/Routes';
 
 const FormLogin = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
-  const submit = () => {
+  const submit = e => {
+    e.preventDefault();
     form.validateFields();
     onSubmit(getFieldProps('userName').value, getFieldProps('password').value);
   };
@@ -47,7 +48,12 @@ const FormLogin = ({ form, onSubmit }) => {
             Forgot password
           </a>
         </div>
-        <CustomButton theme="Primary" buttonText="Sign In" onClick={submit} />
+        <CustomButton
+          theme="Primary"
+          buttonText="Sign In"
+          onClick={submit}
+          htmlType="submit"
+        />
         Don't have an Account?{' '}
         <a onClick={() => Routing.toRegister()}>Sign Up</a>
       </Form.Item>
