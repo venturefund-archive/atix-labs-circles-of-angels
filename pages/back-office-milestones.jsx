@@ -3,7 +3,6 @@ import React from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
-import Routing from '../components/utils/Routes';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import {
   getAllMilestones,
@@ -29,15 +28,16 @@ class BackOfficeMilestones extends React.Component {
   getMilestones = async () => {
     const { milestones } = (await getAllMilestones()).data;
     const filterMilestones = milestones.filter(
-      milestone => milestone.budgetStatus.id === MilestoneBudgetStatus.CLAIMED
+      milestone =>
+        milestone.budgetStatus.id === MilestoneBudgetStatus.CLAIMED ||
+        milestone.budgetStatus.id === MilestoneBudgetStatus.FUNDED
     );
 
     const sortedMilestones = filterMilestones.sort((a, b) => {
       // Order by budgetStatus:Pending>Completed first
-      if (b.budgetStatus.id < a.budgetStatus.id) {
+      if (b.budgetStatus.id === MilestoneBudgetStatus.CLAIMED) {
         return 1;
-      }
-      if (b.budgetStatus.id > a.budgetStatus.id) {
+      } else {
         return -1;
       }
 
