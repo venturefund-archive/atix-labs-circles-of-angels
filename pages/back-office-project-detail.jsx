@@ -110,6 +110,7 @@ class BackofficeProjectDetail extends React.Component {
             </div>
             <div className="SubmitProject">
               <Button onClick={Routing.goBack}>Back</Button>
+              <Button onClick={() => Routing.toEditProject({projectId:projectDetail.id})}>Edit project</Button>
               {ProjectStatus.IN_PROGRESS === projectDetail.status ? (
                 <CustomButton
                   theme="Primary"

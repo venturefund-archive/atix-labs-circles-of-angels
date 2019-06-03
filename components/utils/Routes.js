@@ -20,6 +20,7 @@ const backOfficeMilestones = '/back-office-milestones';
 const register = '/register';
 const recovery = '/recovery';
 const myProjects = '/my-projects';
+const editProject = '/back-office-edit-project';
 
 const goToRoute = (route, query) => {
   Router.push({ pathname: route, query });
@@ -92,6 +93,9 @@ const Routing = {
   },
   toMyProjects: query => {
     goToRoute(myProjects, query);
+  },
+  toEditProject: query => {
+    goToRoute(editProject, query);
   }
 };
 
