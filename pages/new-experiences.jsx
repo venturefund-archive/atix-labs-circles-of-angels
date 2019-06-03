@@ -34,7 +34,8 @@ class ModalNewExperience extends React.Component {
       photos: []
     };
     this.setState({
-      visible: false
+      visible: false,
+      imageList: []
     });
   };
 
