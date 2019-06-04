@@ -672,7 +672,7 @@ class ConcensusMilestones extends Component {
               We are checking the information, your current funds transfer
               status is:
             </h2>
-            {actualTransferState >= 0 && (
+            {actualTransferState && actualTransferState >= 0 && (
               <TransferLabel
                 text={transferStatusMap[actualTransferState].show}
                 theme={transferStatusMap[actualTransferState].theme}
