@@ -419,7 +419,6 @@ class ConcensusMilestones extends Component {
         isFunder &&
         userProject.status === SignStatus.SIGNED
     );
-
     const Steps = props =>
       !isFunder ? <StepsSe {...props} /> : <StepsIf {...props} />;
 

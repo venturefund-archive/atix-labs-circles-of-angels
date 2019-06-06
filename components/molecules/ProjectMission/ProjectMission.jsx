@@ -18,13 +18,13 @@ const getBudget = milestone => {
 };
 
 const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
-  // let actualMilestone = 0;
-
   let currentMilestone = 0;
 
   milestones.some((milestone, index) => {
     if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
       currentMilestone = index > 0 ? index - 1 : index;
+    } else if (index === milestones.length - 1) {
+      currentMilestone = index;
     }
     return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
   });
