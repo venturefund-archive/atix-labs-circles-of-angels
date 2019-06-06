@@ -16,6 +16,7 @@ import {
 import { changeBudgetStatus } from '../api/milestonesApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError } from '../components/utils/Modals';
+import BlockchainStatus from '../constants/BlockchainStatus';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const HashIcon = () => (
@@ -200,6 +201,7 @@ class ProjectProgress extends React.Component {
               filters={filters}
               isSocialEntrepreneur={isSocialEntrepreneur}
               onBudgetStatusChange={this.handleChangeBudgetStatus}
+              projectConfirmedOnBlockchain={project.startBlockchainStatus === BlockchainStatus.CONFIRMED}
             />
           </div>
         </div>

@@ -14,7 +14,8 @@ const TableProjectProgress = ({
   projectName,
   filters,
   isSocialEntrepreneur,
-  onBudgetStatusChange
+  onBudgetStatusChange,
+  projectConfirmedOnBlockchain
 }) => {
   const columns = [
     {
@@ -103,8 +104,11 @@ const TableProjectProgress = ({
           )
         );
       }
-    },
-    {
+    }
+  ];
+
+  if (projectConfirmedOnBlockchain) {
+    columns.push({
       title: 'Action',
       key: 'action',
       fixed: 'right',
@@ -135,8 +139,8 @@ const TableProjectProgress = ({
             )
         );
       }
-    }
-  ];
+    });
+  }
 
   return (
     <Table
