@@ -23,6 +23,7 @@ import {
 } from '../api/projectApi';
 import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
+import { getDestinationCOAAccount } from '../api/generalApi';
 import { getOracles } from '../api/userApi';
 import {
   getTransferListOfProject,
@@ -71,7 +72,12 @@ class ConcensusMilestones extends Component {
       transfers: [],
       oracles: [],
       actualAmount: 0,
-      milestones: []
+      milestones: [],
+      accountInfo: {
+        address: '',
+        owner: '',
+        bank: ''
+      }
     };
   }
 
@@ -91,6 +97,7 @@ class ConcensusMilestones extends Component {
     const actualUserTransfer = transfers.find(
       transfer => transfer.sender === user.id
     );
+    const accountInfo = await getDestinationCOAAccount();
 
     this.setState({
       actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
@@ -99,7 +106,8 @@ class ConcensusMilestones extends Component {
       transfers,
       oracles,
       actualAmount,
-      milestones
+      milestones,
+      accountInfo
     });
   };
 
@@ -406,7 +414,8 @@ class ConcensusMilestones extends Component {
       currentStep,
       milestones,
       actualTransferState,
-      project
+      project,
+      accountInfo
     } = this.state;
     const { faqLink, goalAmount, projectName } = project;
     const { user, projectId } = this.props;
@@ -617,9 +626,9 @@ class ConcensusMilestones extends Component {
           <div className="TransferContent">
             <h2>Circles of Angels Bank Account Information</h2>
             <div className="TransferBankInfo">
-              <h3>Singapore Bank</h3>
-              <h4> Account #: 0012345678</h4>
-              <h4> Account owner: CirclesOfAngels</h4>
+              <h3>{accountInfo.bank}</h3>
+              <h4> Account #: {accountInfo.address}</h4>
+              <h4> Account owner: {accountInfo.owner}</h4>
             </div>
             <FormTransfer
               onTransferChange={evnt =>
