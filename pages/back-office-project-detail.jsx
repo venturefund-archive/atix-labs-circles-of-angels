@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Button } from 'antd';
-import { getProject } from '../api/projectApi';
+import { getProject, getProjectMilestones } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -47,7 +47,7 @@ class BackofficeProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail } = this.state;
+    const { projectDetail, milestones } = this.state;
     const itemsData = projectDetail
       ? [
           {
@@ -118,7 +118,13 @@ class BackofficeProjectDetail extends React.Component {
             </div>
             <div className="SubmitProject">
               <Button onClick={Routing.goBack}>Back</Button>
-              <Button onClick={() => Routing.toEditProject({projectId:projectDetail.id})}>Edit project</Button>
+              <Button
+                onClick={() =>
+                  Routing.toEditProject({ projectId: projectDetail.id })
+                }
+              >
+                Edit project
+              </Button>
               {ProjectStatus.IN_PROGRESS === projectDetail.status ? (
                 <CustomButton
                   theme="Primary"
