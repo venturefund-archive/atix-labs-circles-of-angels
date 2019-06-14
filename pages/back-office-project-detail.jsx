@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Button } from 'antd';
-import { getProject, getProjectMilestones } from '../api/projectApi';
+import { getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -47,7 +47,7 @@ class BackofficeProjectDetail extends React.Component {
   };
 
   render() {
-    const { projectDetail, milestones } = this.state;
+    const { projectDetail } = this.state;
     const itemsData = projectDetail
       ? [
           {
