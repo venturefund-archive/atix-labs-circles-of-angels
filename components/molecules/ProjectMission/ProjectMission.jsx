@@ -28,14 +28,16 @@ const getBudget = milestone => {
 const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
   let currentMilestone = 0;
 
-  milestones.some((milestone, index) => {
-    if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
-      currentMilestone = index > 0 ? index - 1 : index;
-    } else if (index === milestones.length - 1) {
-      currentMilestone = index;
-    }
-    return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
-  });
+  if (milestones) {
+    milestones.some((milestone, index) => {
+      if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
+        currentMilestone = index > 0 ? index - 1 : index;
+      } else if (index === milestones.length - 1) {
+        currentMilestone = index;
+      }
+      return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
+    });
+  }
 
   return (
     <div className="ProjectMission">
@@ -49,7 +51,7 @@ const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
       </div>
       <div className="block">
         <h1 className="title">Project Progress</h1>
-        {startedProject && (
+        {startedProject && milestones && (
           <Steps size="small" current={currentMilestone}>
             {milestones.map((milestone, i) =>
               i < currentMilestone ? (
