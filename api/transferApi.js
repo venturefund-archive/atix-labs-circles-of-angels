@@ -20,9 +20,10 @@ const sendTransferInformation = async ({
 }) => {
   console.log('Sending trasfer info to verificate');
   try {
-    const response = await api.post(`${baseURL}/${transferId}`, {
+    const response = await api.post(`${baseURL}`, {
       amount,
       currency,
+      transferId,
       senderId,
       projectId,
       destinationAccount
@@ -45,7 +46,9 @@ const getTransferDestinationInfo = async () => {
 
 const getTransferStatus = async ({ userId, projectId }) => {
   try {
-    const response = await api.get(`${baseURL}/${userId}/${projectId}/state`);
+    const response = await api.get(
+      `${baseURL}/user/${userId}/project/${projectId}/state`
+    );
     console.log(response);
     return response.data.state;
   } catch (error) {}
