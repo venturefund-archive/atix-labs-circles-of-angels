@@ -8,11 +8,11 @@
 
 import api from './api';
 
-const baseURL = '/userProject';
+const baseURL = '/userProjects';
 
 const getUsers = async projectId => {
   try {
-    const response = await api.get(`${baseURL}/${projectId}/getUsers`);
+    const response = await api.get(`${baseURL}/projects/${projectId}`);
     return response;
   } catch (error) {
     return { error };
@@ -21,8 +21,8 @@ const getUsers = async projectId => {
 
 const signAgreement = async (userId, projectId) => {
   try {
-    const response = await api.get(
-      `${baseURL}/${userId}/${projectId}/signAgreement`
+    const response = await api.put(
+      `${baseURL}/users/${userId}/projects/${projectId}`
     );
     return response;
   } catch (error) {

@@ -9,7 +9,7 @@
 import api from './api';
 
 const baseURL = 'milestones';
-const restActivityBasePath = 'activity';
+const restActivityBasePath = 'activities';
 
 const updateMilestone = async ({
   budget,

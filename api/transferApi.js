@@ -8,7 +8,7 @@
 
 import api from './api';
 
-const baseURL = '/transfer';
+const baseURL = '/transfers';
 
 const sendTransferInformation = async ({
   transferId,
@@ -20,16 +20,13 @@ const sendTransferInformation = async ({
 }) => {
   console.log('Sending trasfer info to verificate');
   try {
-    const response = await api.post(
-      `${baseURL}/${transferId}/sendToVerification`,
-      {
-        amount,
-        currency,
-        senderId,
-        projectId,
-        destinationAccount
-      }
-    );
+    const response = await api.post(`${baseURL}/${transferId}`, {
+      amount,
+      currency,
+      senderId,
+      projectId,
+      destinationAccount
+    });
     return response;
   } catch (error) {
     return { error };
@@ -48,9 +45,7 @@ const getTransferDestinationInfo = async () => {
 
 const getTransferStatus = async ({ userId, projectId }) => {
   try {
-    const response = await api.get(
-      `${baseURL}/${userId}/${projectId}/getState`
-    );
+    const response = await api.get(`${baseURL}/${userId}/${projectId}/state`);
     console.log(response);
     return response.data.state;
   } catch (error) {}
@@ -58,7 +53,7 @@ const getTransferStatus = async ({ userId, projectId }) => {
 
 const getTransferListOfProject = async projectId => {
   try {
-    const response = await api.get(`${baseURL}/${projectId}/getTransfers`);
+    const response = await api.get(`/projects/${projectId}${baseURL}`);
     let transfers = response.data;
     if (!transfers) return [];
     let key = 0;
@@ -72,7 +67,7 @@ const getTransferListOfProject = async projectId => {
 
 const updateStateOfTransference = async (transferId, state) => {
   try {
-    const response = await api.post(`${baseURL}/updateState`, {
+    const response = await api.put(`${baseURL}`, {
       transferId,
       state
     });
