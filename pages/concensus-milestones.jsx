@@ -339,14 +339,14 @@ class ConcensusMilestones extends Component {
     }
   };
 
-  signAgreementOk = async () => {
-    const { user, projectId } = this.props;
+  signAgreementOk = async userProject => {
+    //const { user, projectId } = this.props;
     const { userProjects } = this.state;
-    const response = await signAgreement(user.id, projectId);
+    const response = await signAgreement(userProject.id);
 
     if (!response.error) {
       const signed = userProjects.find(
-        userProject => userProject.id === response.data[0].id
+        signatory => signatory.id === response.data[0].id
       );
       signed.status = response.data[0].status;
       this.setState({ userProjects });
@@ -591,7 +591,7 @@ class ConcensusMilestones extends Component {
                     .toUpperCase()}
                   signStatus={userProject.status}
                   projectId={projectId}
-                  handleOk={this.signAgreementOk}
+                  handleOk={() => this.signAgreementOk(userProject)}
                 />
               );
             })}

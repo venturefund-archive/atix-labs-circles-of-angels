@@ -19,11 +19,11 @@ const getUsers = async projectId => {
   }
 };
 
-const signAgreement = async (userId, projectId) => {
+const signAgreement = async userProjectId => {
   try {
-    const response = await api.put(
-      `${baseURL}/users/${userId}/projects/${projectId}`
-    );
+    const response = await api.put(`${baseURL}/${userProjectId}`, {
+      status: 1
+    });
     return response;
   } catch (error) {
     return { error };
@@ -32,7 +32,8 @@ const signAgreement = async (userId, projectId) => {
 
 const createUserProject = async (userId, projectId) => {
   try {
-    const response = await api.get(`${baseURL}/${userId}/${projectId}/create`);
+    const userProject = { userId, projectId };
+    const response = await api.post(`${baseURL}`, userProject);
 
     return response;
   } catch (error) {
