@@ -62,9 +62,14 @@ const getProject = async projectId => {
 
 const confirmProject = async projectId => {
   try {
-    const response = await api.put(`${baseURL}/${projectId}/status`, {
-      status: ProjectStatus.PUBLISHED
-    });
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.PUBLISHED
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -73,9 +78,14 @@ const confirmProject = async projectId => {
 
 const rejectProject = async projectId => {
   try {
-    const response = await api.put(`${baseURL}/${projectId}/status`, {
-      status: ProjectStatus.REJECTED
-    });
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.REJECTED
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -222,7 +232,14 @@ const getActualProjectAmount = async projectId => {
 
 const startProject = async projectId => {
   try {
-    const response = await api.put(`${baseURL}/${projectId}/start`);
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.IN_PROGRESS
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
