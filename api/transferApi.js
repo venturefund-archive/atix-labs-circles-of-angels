@@ -70,11 +70,13 @@ const getTransferListOfProject = async projectId => {
 
 const updateStateOfTransference = async (transferId, state) => {
   try {
-    const response = await api.put(`${baseURL}`, {
-      transferId,
+    const response = await api.put(`${baseURL}/${transferId}`, {
       state
     });
-  } catch (error) {}
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export {
