@@ -126,10 +126,8 @@ const uploadEvidence = async (activityId, files) => {
 
 const completeActivity = async activityId => {
   try {
-    const response = api.put(`${baseURL}/${activityId}`, {
-      activity: {
-        status: milestoneActivityStatus.COMPLETED
-      }
+    const response = api.put(`${baseURL}/${activityId}/status`, {
+      status: milestoneActivityStatus.COMPLETED
     });
     return response;
   } catch (error) {
