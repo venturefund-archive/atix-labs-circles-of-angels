@@ -189,7 +189,14 @@ class ProjectProgress extends React.Component {
                     <Tooltip title="Hash">
                       <Icon component={HashIcon} />
                     </Tooltip>
-                    {project.transactionHash}
+                    <a
+                      target="_blank"
+                      href={`https://explorer.testnet.rsk.co/txs/${
+                        project.transactionHash
+                      }`}
+                    >
+                      {project.transactionHash}
+                    </a>
                     <div className="speech-bubble-ds-top">
                       <p>
                         <strong>What´s a HASH? </strong>
@@ -209,7 +216,9 @@ class ProjectProgress extends React.Component {
               filters={filters}
               isSocialEntrepreneur={isSocialEntrepreneur}
               onBudgetStatusChange={this.handleChangeBudgetStatus}
-              projectConfirmedOnBlockchain={project.startBlockchainStatus === BlockchainStatus.CONFIRMED}
+              projectConfirmedOnBlockchain={
+                project.startBlockchainStatus === BlockchainStatus.CONFIRMED
+              }
             />
           </div>
         </div>
