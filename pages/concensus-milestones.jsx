@@ -25,7 +25,6 @@ import {
   downloadAgreement,
   downloadProposal,
   uploadAgreement,
-  getActualProjectAmount,
   startProject,
   getProject
 } from '../api/projectApi';
@@ -100,7 +99,7 @@ class ConcensusMilestones extends Component {
     const userProjects = (await getUsers(projectId)).data;
     const transfers = await getTransferListOfProject(projectId);
     const oracles = await getOracles();
-    const actualAmount = (await getActualProjectAmount(projectId)).data;
+    const actualAmount = project.totalFunded;
     const milestones = await this.getMilestones(projectId);
     const actualUserTransfer = transfers.find(
       transfer => transfer.sender === user.id

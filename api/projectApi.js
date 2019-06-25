@@ -221,15 +221,6 @@ const downloadProposalTemplate = async () => {
   }
 };
 
-const getActualProjectAmount = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/funded`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
 const startProject = async projectId => {
   try {
     const fd = new FormData();
@@ -318,7 +309,6 @@ export {
   uploadAgreement,
   downloadProposal,
   downloadMilestonesTemplate,
-  getActualProjectAmount,
   startProject,
   getProjectsAsOracle,
   downloadProposalTemplate,
