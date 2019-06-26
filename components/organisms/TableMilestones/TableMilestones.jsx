@@ -87,7 +87,7 @@ class TableMilestones extends React.Component {
       onAssignOracle,
       oracles,
       dataSource,
-      isSocialEntrepreneur,
+      isOwner,
       onDelete,
       onEdit
     } = this.props;
@@ -134,7 +134,7 @@ class TableMilestones extends React.Component {
               ))}
             </Select>
           );
-          if (isSocialEntrepreneur) return editable;
+          if (isOwner) return editable;
           return oracleToShow;
         }
       },
@@ -244,7 +244,7 @@ class TableMilestones extends React.Component {
         );
       }
     };
-    if (isSocialEntrepreneur) {
+    if (isOwner) {
       this.columns.push(forSocialEntrepreneur);
     }
 

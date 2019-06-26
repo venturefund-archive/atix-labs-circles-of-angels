@@ -425,10 +425,14 @@ class ConcensusMilestones extends Component {
       project,
       accountInfo
     } = this.state;
-    const { faqLink, goalAmount, projectName } = project;
+    const { faqLink, goalAmount, projectName, ownerId } = project;
     const { user, projectId } = this.props;
-    const isSocialEntrepreneur =
-      user && user.role && user.role.id === Roles.SocialEntrepreneur;
+    console.log(user, project);
+    const isOwner =
+      user &&
+      user.role &&
+      user.role.id === Roles.SocialEntrepreneur &&
+      ownerId === user.id;
     const isFunder = user && user.role && user.role.id === Roles.Funder;
     const signedAgreement = Object.values(userProjects).some(
       userProject =>
@@ -457,7 +461,7 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-              {isSocialEntrepreneur && actualAmount > 0 && (
+              {isOwner && actualAmount > 0 && (
                 <CustomButton
                   buttonText="Start Project"
                   theme="Primary"
@@ -500,7 +504,7 @@ class ConcensusMilestones extends Component {
                 </Button>
               </div>
               <div className="vertical Data">
-                {isSocialEntrepreneur && (
+                {isOwner && (
                   <ButtonUpload
                     change={this.changeProjectAgreement}
                     buttonText="Upload Agreement"
@@ -509,7 +513,7 @@ class ConcensusMilestones extends Component {
                 )}
               </div>
               <Divider type="vertical" />
-              {isSocialEntrepreneur &&
+              {isOwner &&
                 (actualAmount >= goalAmount ? (
                   <Alert
                     message="You have reached your goal!"
@@ -535,7 +539,7 @@ class ConcensusMilestones extends Component {
               onEdit={this.save}
               oracles={oracles}
               onAssignOracle={this.onAssignOracle}
-              isSocialEntrepreneur={isSocialEntrepreneur}
+              isOwner={isOwner}
               onCreateActivity={this.createNewActivity}
             />
           </div>
@@ -604,7 +608,7 @@ class ConcensusMilestones extends Component {
             onClick={this.previousStep}
           />
 
-          {!isSocialEntrepreneur ? (
+          {!isOwner ? (
             <CustomButton
               theme="Primary"
               buttonText="Continue"
