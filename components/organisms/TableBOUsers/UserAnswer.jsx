@@ -15,18 +15,16 @@ const columns = [
     title: 'Question',
     dataIndex: 'question',
     key: 'question',
-    render: question => <span>{question.question}</span>,
-    width: '50%'
+    render: question => <div>{question.question}</div>
   },
   {
     title: 'Answer',
     dataIndex: 'answer',
     key: 'answer',
     render: (answer, record) => {
-      if (record.customAnswer) return <span>{record.customAnswer}</span>;
-      return <span>{answer.answer}</span>;
-    },
-    width: '50%'
+      if (record.customAnswer) return <div>{record.customAnswer}</div>;
+      return <div>{answer.answer}</div>;
+    }
   }
 ];
 
@@ -44,6 +42,7 @@ const UserAnswer = ({ user }) =>
           <p>Questionnaire: </p>
           <Table
             dataSource={user.answers}
+            className="TableBOProjects"
             columns={columns}
             pagination={false}
             size="small"
