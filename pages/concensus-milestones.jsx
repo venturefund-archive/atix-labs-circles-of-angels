@@ -65,6 +65,7 @@ import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
 import TransferStatus from '../constants/TransferStatus';
+import BlockchainStatus from '../constants/BlockchainStatus';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -84,7 +85,8 @@ class ConcensusMilestones extends Component {
         address: '',
         owner: '',
         bank: ''
-      }
+      },
+      loading: true
     };
   }
 
@@ -94,28 +96,7 @@ class ConcensusMilestones extends Component {
   }
 
   componentDidMount = async () => {
-    const { projectId, user } = this.props;
-    const project = (await getProject(projectId)).data;
-    const userProjects = (await getUsers(projectId)).data;
-    const transfers = await getTransferListOfProject(projectId);
-    const oracles = await getOracles();
-    const actualAmount = project.totalFunded;
-    const milestones = await this.getMilestones(projectId);
-    const actualUserTransfer = transfers.find(
-      transfer => transfer.sender === user.id
-    );
-    const accountInfo = await getDestinationCOAAccount();
-
-    this.setState({
-      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
-      project,
-      userProjects,
-      transfers,
-      oracles,
-      actualAmount,
-      milestones,
-      accountInfo
-    });
+    await this.fetchDataFromApi();
   };
 
   async getMilestones(projectId) {
@@ -152,10 +133,12 @@ class ConcensusMilestones extends Component {
           : error.message;
         showModalError('Error starting project', content);
       } else {
-        showModalSuccess('Success!', 'Project started correctly');
-        Routing.toProjectProgress({
-          projectId
-        });
+        showModalSuccess(
+          'Success!',
+          'Project start petition sent successfully. ' +
+            'It will start once it is confirmed on the blockchain'
+        );
+        this.fetchDataFromApi();
       }
     };
     if (actualAmount < goalAmount)
@@ -456,13 +439,18 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-              {isSocialEntrepreneur && actualAmount > 0 && (
-                <CustomButton
-                  buttonText="Start Project"
-                  theme="Primary"
-                  onClick={this.startProjectHandle}
-                />
-              )}
+              {isSocialEntrepreneur &&
+                actualAmount > 0 &&
+                project.startBlockchainStatus === BlockchainStatus.PENDING && (
+                  <CustomButton
+                    buttonText="Start Project"
+                    theme="Primary"
+                    disabled={
+                      project.startBlockchainStatus !== BlockchainStatus.PENDING
+                    }
+                    onClick={this.startProjectHandle}
+                  />
+                )}
             </div>
             <div className="flex">
               <div className="vertical  Data">
@@ -508,21 +496,35 @@ class ConcensusMilestones extends Component {
                 )}
               </div>
               <Divider type="vertical" />
-              {isSocialEntrepreneur &&
-                (actualAmount >= goalAmount ? (
+              {(isSocialEntrepreneur &&
+                (project.startBlockchainStatus === BlockchainStatus.PENDING &&
+                  (actualAmount >= goalAmount ? (
+                    <Alert
+                      message="You have reached your goal!"
+                      type="success"
+                      showIcon
+                    />
+                  ) : (
+                    actualAmount > 0 && (
+                      <Alert
+                        message="You can start the project with the current funded amount"
+                        type="info"
+                        showIcon
+                      />
+                    )
+                  )))) ||
+                (project.startBlockchainStatus === BlockchainStatus.SENT ? (
                   <Alert
-                    message="You have reached your goal!"
-                    type="success"
+                    message="Waiting for Blockchain confirmation to start"
+                    type="info"
                     showIcon
                   />
                 ) : (
-                  actualAmount > 0 && (
-                    <Alert
-                      message="You can start the project with the current funded amount"
-                      type="info"
-                      showIcon
-                    />
-                  )
+                  <Alert
+                    message="Project already started"
+                    type="info"
+                    showIcon
+                  />
                 ))}
             </div>
           </div>
@@ -720,8 +722,35 @@ class ConcensusMilestones extends Component {
     }
   };
 
+  async fetchDataFromApi() {
+    const { projectId, user } = this.props;
+    const project = (await getProject(projectId)).data;
+    const userProjects = (await getUsers(projectId)).data;
+    const transfers = await getTransferListOfProject(projectId);
+    const oracles = await getOracles();
+    const actualAmount = project.totalFunded;
+    const milestones = await this.getMilestones(projectId);
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
+    const accountInfo = await getDestinationCOAAccount();
+
+    this.setState({
+      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
+      project,
+      userProjects,
+      transfers,
+      oracles,
+      actualAmount,
+      milestones,
+      accountInfo,
+      loading: false
+    });
+  }
+
   render() {
-    return (
+    const { loading } = this.state;
+    return !loading ? (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
@@ -729,6 +758,8 @@ class ConcensusMilestones extends Component {
           {this.getCurrentStep()}
         </div>
       </div>
+    ) : (
+      <div>Loading...</div>
     );
   }
 }
