@@ -117,7 +117,7 @@ class BackofficeProjectDetail extends React.Component {
               <div />
             </div>
             <div className="SubmitProject">
-              <Button onClick={Routing.goBack}>Back</Button>
+              <Button onClick={Routing.toBackOffice}>Back</Button>
               <Button
                 onClick={() =>
                   Routing.toEditProject({ projectId: projectDetail.id })
