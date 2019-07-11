@@ -66,6 +66,7 @@ import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
 import TransferStatus from '../constants/TransferStatus';
 import BlockchainStatus from '../constants/BlockchainStatus';
+import { isNumber } from 'util';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -226,26 +227,35 @@ class ConcensusMilestones extends Component {
 
   submitTransfer = async evnt => {
     evnt.preventDefault();
-    const { transferId, amount } = this.state;
+    const { transferId, amount, accountInfo } = this.state;
     const { user, projectId } = this.props;
+
+    if (!transferId || !amount) {
+      showModalError('Error!', 'Please complete both fields');
+      return false;
+    }
+
+    if (amount && Number.isNaN(parseFloat(amount))) {
+      showModalError('Error!', 'Amount must be a number');
+      return false;
+    }
+
     const toSubmit = {
       transferId,
       amount,
       currency: 'usd',
       senderId: user.id,
       projectId,
-      destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
+      destinationAccount: accountInfo.address
     };
     const response = await sendTransferInformation(toSubmit);
 
     if (response.error) {
       const { error } = response;
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
+      const title = 'Error!';
       const content = error.response
         ? error.response.data.error
-        : error.message;
+        : 'There was an error submitting the information.';
       showModalError(title, content);
       return response;
     }
@@ -362,18 +372,21 @@ class ConcensusMilestones extends Component {
           ? error.response.data.error
           : error.message;
         showModalError('Error creating Activiy', content);
-      } else {
-        showModalSuccess('Success!', 'Activity created successfully!');
-        hideModal();
-        const milestones = await this.getMilestones(projectId);
-        this.setState({ milestones });
+        return false;
       }
-    } else {
-      showModalError(
-        'Error creating Activiy',
-        'Activity is not valid. Please complete all fields and try again.'
-      );
+      hideModal();
+      showModalSuccess('Success!', 'Activity created successfully!');
+      const milestones = await this.getMilestones(projectId);
+      this.setState({ milestones });
+
+      return true;
     }
+
+    showModalError(
+      'Error creating Activiy',
+      'Activity is not valid. Please complete all fields and try again.'
+    );
+    return false;
   };
 
   goToStep = step => {

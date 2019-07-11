@@ -319,7 +319,14 @@ class ProjectEvidence extends Component {
                         <Tooltip title="Hash">
                           <Icon component={HashIcon} />
                         </Tooltip>
-                        {activity.transactionHash}
+                        <a
+                          target="_blank"
+                          href={`https://explorer.testnet.rsk.co/txs/${
+                            activity.transactionHash
+                          }`}
+                        >
+                          {activity.transactionHash}
+                        </a>
                       </span>
                       <div className="speech-bubble-ds">
                         <p>
