@@ -12,7 +12,7 @@ const baseURL = 'questionnaire';
 
 const getQuestionnaire = async roleId => {
   try {
-    const response = await api.get(`${baseURL}/${roleId}`);
+    const response = await api.get(`/roles/${roleId}/${baseURL}`);
     return response.data;
   } catch (error) {
     return { error };

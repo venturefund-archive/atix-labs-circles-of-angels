@@ -8,7 +8,7 @@
 
 import api from './api';
 
-const baseURL = '/user';
+const baseURL = '/users';
 
 const loginUser = async (email, pwd) => {
   try {
@@ -24,7 +24,7 @@ const loginUser = async (email, pwd) => {
 
 const getOracles = async () => {
   try {
-    const response = await api.get(`${baseURL}/oracle`);
+    const response = await api.get(`${baseURL}/oracles`);
     return response.data;
   } catch (error) {
     return { error };
@@ -42,7 +42,7 @@ const getUsers = async () => {
 
 const getAllRoles = async () => {
   try {
-    const response = await api.get(`${baseURL}/role`);
+    const response = await api.get(`${baseURL}/roles`);
     return response;
   } catch (error) {
     return { error };
@@ -89,7 +89,7 @@ const recoverPassword = async email => {
 
 const updatePassword = async (token, password) => {
   try {
-    const response = await api.post(`${baseURL}/updatePassword`, {
+    const response = await api.put(`${baseURL}/password`, {
       token,
       password
     });
