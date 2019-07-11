@@ -390,18 +390,21 @@ class ConcensusMilestones extends Component {
           ? error.response.data.error
           : error.message;
         showModalError('Error creating Activiy', content);
-      } else {
-        showModalSuccess('Success!', 'Activity created successfully!');
-        hideModal();
-        const milestones = await this.getMilestones(projectId);
-        this.setState({ milestones });
+        return false;
       }
-    } else {
-      showModalError(
-        'Error creating Activiy',
-        'Activity is not valid. Please complete all fields and try again.'
-      );
+      hideModal();
+      showModalSuccess('Success!', 'Activity created successfully!');
+      const milestones = await this.getMilestones(projectId);
+      this.setState({ milestones });
+
+      return true;
     }
+
+    showModalError(
+      'Error creating Activiy',
+      'Activity is not valid. Please complete all fields and try again.'
+    );
+    return false;
   };
 
   goToStep = step => {
