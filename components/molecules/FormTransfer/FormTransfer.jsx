@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Form, Input, Icon } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton.jsx';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
 const FormTransfer = ({ onTransferChange, onAmountChange, submitTransfer }) => (
