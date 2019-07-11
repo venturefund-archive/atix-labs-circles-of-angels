@@ -66,6 +66,7 @@
 .cardExperienceText {
   border-radius: 4px;
   overflow: hidden;
+  overflow-wrap: break-word;
   position: relative;
   box-shadow: $shadow;
   .absolute {
@@ -94,13 +95,14 @@
   margin-right: 0;
 }
 
-.cardExperience:hover {
+.cardExperience:hover,
+.cardExperienceText:hover {
   img {
     filter: brightness(0.6);
     transition: 1s;
   }
   h3 {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   ::-webkit-scrollbar {
     width: 0px;
