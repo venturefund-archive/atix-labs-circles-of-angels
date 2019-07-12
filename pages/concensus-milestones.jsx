@@ -525,20 +525,20 @@ class ConcensusMilestones extends Component {
                         showIcon
                       />
                     )
-                  )))) ||
-                (project.startBlockchainStatus === BlockchainStatus.SENT ? (
+                  ))) ||
+                (isSocialEntrepreneur && project.startBlockchainStatus === BlockchainStatus.SENT ? (
                   <Alert
                     message="Waiting for Blockchain confirmation to start"
                     type="info"
                     showIcon
                   />
-                ) : (
+                ) : project.startBlockchainStatus === BlockchainStatus.CONFIRMED && (
                   <Alert
                     message="Project already started"
                     type="info"
                     showIcon
                   />
-                ))}
+                )))}
             </div>
           </div>
           <Divider />
