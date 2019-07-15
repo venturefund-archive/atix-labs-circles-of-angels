@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const baseURL = 'activities';
 
@@ -46,8 +47,8 @@ const updateActivity = async ({
 
 const assignOracleToActivity = async (userId, activityId) => {
   try {
-    const response = await api.put(
-      `${baseURL}/${activityId}/assignOracle/${userId}`
+    const response = await api.post(
+      `${baseURL}/${activityId}/oracle/${userId}`
     );
     return response.data;
   } catch (error) {
@@ -57,9 +58,7 @@ const assignOracleToActivity = async (userId, activityId) => {
 
 const unassignOracleToActivity = async activityId => {
   try {
-    const response = await api.delete(
-      `${baseURL}/${activityId}/unassignOracle`
-    );
+    const response = await api.delete(`${baseURL}/${activityId}/oracle`);
     return response.data;
   } catch (error) {
     return { error };
@@ -78,7 +77,7 @@ const getActivity = async activityId => {
 const deleteEvidence = async (activityId, evidenceId, fileType) => {
   try {
     const response = await api.delete(
-      `${baseURL}/${activityId}/evidences/${evidenceId}/${fileType}`
+      `${baseURL}/${activityId}/evidence/${evidenceId}/${fileType}`
     );
     return response.data;
   } catch (error) {
@@ -90,7 +89,7 @@ const downloadEvidence = async (activityId, evidenceId, fileType) => {
   try {
     const config = { responseType: 'blob' };
     const response = await api.get(
-      `${baseURL}/${activityId}/evidences/${evidenceId}/download/${fileType}`,
+      `${baseURL}/${activityId}/evidence/${evidenceId}/${fileType}`,
       config
     );
 
@@ -115,7 +114,7 @@ const uploadEvidence = async (activityId, files) => {
     files.forEach(file => fd.append('evidenceFiles', file));
     console.log('Sending information', fd);
     const response = await api.post(
-      `${baseURL}/${activityId}/evidences`,
+      `${baseURL}/${activityId}/evidence`,
       fd,
       config
     );
@@ -127,7 +126,9 @@ const uploadEvidence = async (activityId, files) => {
 
 const completeActivity = async activityId => {
   try {
-    const response = api.post(`${baseURL}/${activityId}/complete`);
+    const response = api.put(`${baseURL}/${activityId}/status`, {
+      status: milestoneActivityStatus.COMPLETED
+    });
     return response;
   } catch (error) {
     return { error };

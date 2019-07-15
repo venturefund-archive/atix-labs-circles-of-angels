@@ -8,22 +8,22 @@
 
 import api from './api';
 
-const baseURL = '/userProject';
+const baseURL = '/userProjects';
 
 const getUsers = async projectId => {
   try {
-    const response = await api.get(`${baseURL}/${projectId}/getUsers`);
+    const response = await api.get(`${baseURL}/projects/${projectId}`);
     return response;
   } catch (error) {
     return { error };
   }
 };
 
-const signAgreement = async (userId, projectId) => {
+const signAgreement = async userProjectId => {
   try {
-    const response = await api.get(
-      `${baseURL}/${userId}/${projectId}/signAgreement`
-    );
+    const response = await api.put(`${baseURL}/${userProjectId}`, {
+      status: 1
+    });
     return response;
   } catch (error) {
     return { error };
@@ -32,7 +32,8 @@ const signAgreement = async (userId, projectId) => {
 
 const createUserProject = async (userId, projectId) => {
   try {
-    const response = await api.get(`${baseURL}/${userId}/${projectId}/create`);
+    const userProject = { userId, projectId };
+    const response = await api.post(`${baseURL}`, userProject);
 
     return response;
   } catch (error) {

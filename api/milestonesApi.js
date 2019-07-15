@@ -9,7 +9,7 @@
 import api from './api';
 
 const baseURL = 'milestones';
-const restActivityBasePath = 'activity';
+const restActivityBasePath = 'activities';
 
 const updateMilestone = async ({
   budget,
@@ -91,8 +91,10 @@ const getAllBudgetStatus = async () => {
 
 const changeBudgetStatus = async (milestoneId, budgetStatusId) => {
   try {
-    const response = await api.put(`${baseURL}/${milestoneId}/budgetStatus`, {
-      budgetStatusId
+    const response = await api.put(`${baseURL}/${milestoneId}`, {
+      milestone: {
+        budgetStatus: budgetStatusId
+      }
     });
     return response;
   } catch (error) {

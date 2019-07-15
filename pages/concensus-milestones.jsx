@@ -25,7 +25,6 @@ import {
   downloadAgreement,
   downloadProposal,
   uploadAgreement,
-  getActualProjectAmount,
   startProject,
   getProject
 } from '../api/projectApi';
@@ -66,6 +65,8 @@ import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
 import TransferStatus from '../constants/TransferStatus';
+import BlockchainStatus from '../constants/BlockchainStatus';
+import { isNumber } from 'util';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -85,7 +86,8 @@ class ConcensusMilestones extends Component {
         address: '',
         owner: '',
         bank: ''
-      }
+      },
+      loading: true
     };
   }
 
@@ -95,28 +97,7 @@ class ConcensusMilestones extends Component {
   }
 
   componentDidMount = async () => {
-    const { projectId, user } = this.props;
-    const project = (await getProject(projectId)).data;
-    const userProjects = (await getUsers(projectId)).data;
-    const transfers = await getTransferListOfProject(projectId);
-    const oracles = await getOracles();
-    const actualAmount = (await getActualProjectAmount(projectId)).data;
-    const milestones = await this.getMilestones(projectId);
-    const actualUserTransfer = transfers.find(
-      transfer => transfer.sender === user.id
-    );
-    const accountInfo = await getDestinationCOAAccount();
-
-    this.setState({
-      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
-      project,
-      userProjects,
-      transfers,
-      oracles,
-      actualAmount,
-      milestones,
-      accountInfo
-    });
+    await this.fetchDataFromApi();
   };
 
   async getMilestones(projectId) {
@@ -153,10 +134,12 @@ class ConcensusMilestones extends Component {
           : error.message;
         showModalError('Error starting project', content);
       } else {
-        showModalSuccess('Success!', 'Project started correctly');
-        Routing.toProjectProgress({
-          projectId
-        });
+        showModalSuccess(
+          'Success!',
+          'Project start petition sent successfully. ' +
+            'It will start once it is confirmed on the blockchain'
+        );
+        this.fetchDataFromApi();
       }
     };
     if (actualAmount < goalAmount)
@@ -244,26 +227,35 @@ class ConcensusMilestones extends Component {
 
   submitTransfer = async evnt => {
     evnt.preventDefault();
-    const { transferId, amount } = this.state;
+    const { transferId, amount, accountInfo } = this.state;
     const { user, projectId } = this.props;
+
+    if (!transferId || !amount) {
+      showModalError('Error!', 'Please complete both fields');
+      return false;
+    }
+
+    if (amount && Number.isNaN(parseFloat(amount))) {
+      showModalError('Error!', 'Amount must be a number');
+      return false;
+    }
+
     const toSubmit = {
       transferId,
       amount,
       currency: 'usd',
       senderId: user.id,
       projectId,
-      destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
+      destinationAccount: accountInfo.address
     };
     const response = await sendTransferInformation(toSubmit);
 
     if (response.error) {
       const { error } = response;
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
+      const title = 'Error!';
       const content = error.response
         ? error.response.data.error
-        : error.message;
+        : 'There was an error submitting the information.';
       showModalError(title, content);
       return response;
     }
@@ -339,14 +331,14 @@ class ConcensusMilestones extends Component {
     }
   };
 
-  signAgreementOk = async () => {
-    const { user, projectId } = this.props;
+  signAgreementOk = async userProject => {
+    //const { user, projectId } = this.props;
     const { userProjects } = this.state;
-    const response = await signAgreement(user.id, projectId);
+    const response = await signAgreement(userProject.id);
 
     if (!response.error) {
       const signed = userProjects.find(
-        userProject => userProject.id === response.data[0].id
+        signatory => signatory.id === response.data[0].id
       );
       signed.status = response.data[0].status;
       this.setState({ userProjects });
@@ -380,18 +372,21 @@ class ConcensusMilestones extends Component {
           ? error.response.data.error
           : error.message;
         showModalError('Error creating Activiy', content);
-      } else {
-        showModalSuccess('Success!', 'Activity created successfully!');
-        hideModal();
-        const milestones = await this.getMilestones(projectId);
-        this.setState({ milestones });
+        return false;
       }
-    } else {
-      showModalError(
-        'Error creating Activiy',
-        'Activity is not valid. Please complete all fields and try again.'
-      );
+      hideModal();
+      showModalSuccess('Success!', 'Activity created successfully!');
+      const milestones = await this.getMilestones(projectId);
+      this.setState({ milestones });
+
+      return true;
     }
+
+    showModalError(
+      'Error creating Activiy',
+      'Activity is not valid. Please complete all fields and try again.'
+    );
+    return false;
   };
 
   goToStep = step => {
@@ -427,7 +422,6 @@ class ConcensusMilestones extends Component {
     } = this.state;
     const { faqLink, goalAmount, projectName, ownerId } = project;
     const { user, projectId } = this.props;
-    console.log(user, project);
     const isOwner =
       user &&
       user.role &&
@@ -461,13 +455,18 @@ class ConcensusMilestones extends Component {
                 <p className="LabelSteps">Project Name</p>
                 <h1>{projectName}</h1>
               </div>
-              {isOwner && actualAmount > 0 && (
-                <CustomButton
-                  buttonText="Start Project"
-                  theme="Primary"
-                  onClick={this.startProjectHandle}
-                />
-              )}
+              {isOwner &&
+                actualAmount > 0 &&
+                project.startBlockchainStatus === BlockchainStatus.PENDING && (
+                  <CustomButton
+                    buttonText="Start Project"
+                    theme="Primary"
+                    disabled={
+                      project.startBlockchainStatus !== BlockchainStatus.PENDING
+                    }
+                    onClick={this.startProjectHandle}
+                  />
+                )}
             </div>
             <div className="flex">
               <div className="vertical  Data">
@@ -513,17 +512,35 @@ class ConcensusMilestones extends Component {
                 )}
               </div>
               <Divider type="vertical" />
-              {isOwner &&
-                (actualAmount >= goalAmount ? (
+              {(isOwner &&
+                (project.startBlockchainStatus === BlockchainStatus.PENDING &&
+                  (actualAmount >= goalAmount ? (
+                    <Alert
+                      message="You have reached your goal!"
+                      type="success"
+                      showIcon
+                    />
+                  ) : (
+                    actualAmount > 0 && (
+                      <Alert
+                        message="You can start the project with the current funded amount"
+                        type="info"
+                        showIcon
+                      />
+                    )
+                  )))) ||
+                (isOwner &&
+                project.startBlockchainStatus === BlockchainStatus.SENT ? (
                   <Alert
-                    message="You have reached your goal!"
-                    type="success"
+                    message="Waiting for Blockchain confirmation to start"
+                    type="info"
                     showIcon
                   />
                 ) : (
-                  actualAmount > 0 && (
+                  project.startBlockchainStatus ===
+                    BlockchainStatus.CONFIRMED && (
                     <Alert
-                      message="You can start the project with the current funded amount"
+                      message="Project already started"
                       type="info"
                       showIcon
                     />
@@ -595,7 +612,7 @@ class ConcensusMilestones extends Component {
                     .toUpperCase()}
                   signStatus={userProject.status}
                   projectId={projectId}
-                  handleOk={this.signAgreementOk}
+                  handleOk={() => this.signAgreementOk(userProject)}
                 />
               );
             })}
@@ -725,8 +742,35 @@ class ConcensusMilestones extends Component {
     }
   };
 
+  async fetchDataFromApi() {
+    const { projectId, user } = this.props;
+    const project = (await getProject(projectId)).data;
+    const userProjects = (await getUsers(projectId)).data;
+    const transfers = await getTransferListOfProject(projectId);
+    const oracles = await getOracles();
+    const actualAmount = project.totalFunded;
+    const milestones = await this.getMilestones(projectId);
+    const actualUserTransfer = transfers.find(
+      transfer => transfer.sender === user.id
+    );
+    const accountInfo = await getDestinationCOAAccount();
+
+    this.setState({
+      actualTransferState: actualUserTransfer ? actualUserTransfer.state : null,
+      project,
+      userProjects,
+      transfers,
+      oracles,
+      actualAmount,
+      milestones,
+      accountInfo,
+      loading: false
+    });
+  }
+
   render() {
-    return (
+    const { loading } = this.state;
+    return !loading ? (
       <div className="AppContainer">
         <SideBar />
         <div className="MainContent">
@@ -734,6 +778,8 @@ class ConcensusMilestones extends Component {
           {this.getCurrentStep()}
         </div>
       </div>
+    ) : (
+      <div>Loading...</div>
     );
   }
 }

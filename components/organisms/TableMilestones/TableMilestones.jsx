@@ -31,7 +31,8 @@ class TableMilestones extends React.Component {
         category: '',
         keyPersonnel: '',
         budget: ''
-      }
+      },
+      createActivityButton: false
     };
     if (!props.user) return;
 
@@ -66,22 +67,32 @@ class TableMilestones extends React.Component {
         category: '',
         keyPersonnel: '',
         budget: ''
-      }
+      },
+      createActivityButton: true
     });
   };
 
   hideModal = () => {
-    this.setState({ visible: false });
+    this.setState({ visible: false, createActivityButton: false });
   };
 
   createNewActivity = async () => {
     const { activity, currentMilestone } = this.state;
     const { onCreateActivity } = this.props;
-    onCreateActivity(activity, currentMilestone, this.hideModal);
+    this.setState({ createActivityButton: false });
+    const created = await onCreateActivity(
+      activity,
+      currentMilestone,
+      this.hideModal
+    );
+    if (!created) {
+      this.setState({ createActivityButton: true });
+    }
+    return created;
   };
 
   render() {
-    const { visible, activity } = this.state;
+    const { visible, activity, createActivityButton } = this.state;
 
     const {
       onAssignOracle,
@@ -259,6 +270,7 @@ class TableMilestones extends React.Component {
         title="Create new Activity"
         visible={visible}
         onOk={this.createNewActivity}
+        okButtonProps={{ disabled: !createActivityButton }}
         onCancel={() => this.setState({ visible: false })}
         okText="Create"
         cancelText="Cancel"

@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 import api from './api';
 import ProjectStatus from '../constants/ProjectStatus';
 
-const baseURL = '/project';
+const baseURL = '/projects';
 
 const createProject = async (project, files, ownerId) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -25,7 +25,7 @@ const createProject = async (project, files, ownerId) => {
     fd.append('project', JSON.stringify(project));
     fd.append('ownerId', ownerId);
 
-    const response = await api.post(`${baseURL}/create`, fd, config);
+    const response = await api.post(`${baseURL}`, fd, config);
 
     return response;
   } catch (error) {
@@ -35,7 +35,7 @@ const createProject = async (project, files, ownerId) => {
 
 const getProjects = async () => {
   try {
-    const response = await api.get(`${baseURL}/getProjects`);
+    const response = await api.get(`${baseURL}`);
     return response;
   } catch (error) {
     return { error };
@@ -44,7 +44,7 @@ const getProjects = async () => {
 
 const getActiveProjects = async () => {
   try {
-    const response = await api.get(`${baseURL}/getActiveProjects`);
+    const response = await api.get(`${baseURL}/active`);
     return response;
   } catch (error) {
     return { error };
@@ -53,7 +53,7 @@ const getActiveProjects = async () => {
 
 const getProject = async projectId => {
   try {
-    const response = await api.get(`${baseURL}/${projectId}/getProject`);
+    const response = await api.get(`${baseURL}/${projectId}`);
     return response;
   } catch (error) {
     return { error };
@@ -62,9 +62,14 @@ const getProject = async projectId => {
 
 const confirmProject = async projectId => {
   try {
-    const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
-      status: ProjectStatus.PUBLISHED
-    });
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.PUBLISHED
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -73,9 +78,14 @@ const confirmProject = async projectId => {
 
 const rejectProject = async projectId => {
   try {
-    const response = await api.post(`${baseURL}/${projectId}/updateStatus`, {
-      status: ProjectStatus.REJECTED
-    });
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.REJECTED
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -84,7 +94,7 @@ const rejectProject = async projectId => {
 
 const getProjectMilestones = async projectId => {
   try {
-    const response = await api.get(`${baseURL}/${projectId}/getMilestones`);
+    const response = await api.get(`${baseURL}/${projectId}/milestones`);
     return response;
   } catch (error) {
     return { error };
@@ -95,7 +105,7 @@ const downloadProjectMilestonesFile = async projectId => {
   try {
     const config = { responseType: 'blob' };
     const response = await api.get(
-      `${baseURL}/${projectId}/getMilestonesFile`,
+      `${baseURL}/${projectId}/milestonesFile`,
       config
     );
 
@@ -116,10 +126,7 @@ const downloadProjectMilestonesFile = async projectId => {
 const downloadAgreement = async projectId => {
   try {
     const config = { responseType: 'blob' };
-    const response = await api.get(
-      `${baseURL}/${projectId}/downloadAgreement`,
-      config
-    );
+    const response = await api.get(`${baseURL}/${projectId}/agreement`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -140,10 +147,7 @@ const downloadProposal = async projectId => {
     const config = {
       responseType: 'blob'
     };
-    const response = await api.get(
-      `${baseURL}/${projectId}/downloadProposal`,
-      config
-    );
+    const response = await api.get(`${baseURL}/${projectId}/proposal`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -168,7 +172,7 @@ const uploadAgreement = async (projectId, agreementFile) => {
     fd.append('projectAgreement', agreementFile);
 
     const response = await api.post(
-      `${baseURL}/${projectId}/uploadAgreement`,
+      `${baseURL}/${projectId}/agreement`,
       fd,
       config
     );
@@ -182,10 +186,7 @@ const uploadAgreement = async (projectId, agreementFile) => {
 const downloadMilestonesTemplate = async () => {
   try {
     const config = { responseType: 'blob' };
-    const response = await api.get(
-      `${baseURL}/downloadMilestonesTemplate`,
-      config
-    );
+    const response = await api.get(`${baseURL}/templates/milestones`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -204,7 +205,7 @@ const downloadMilestonesTemplate = async () => {
 const downloadProposalTemplate = async () => {
   try {
     const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/proposalTemplate`, config);
+    const response = await api.get(`${baseURL}/templates/proposal`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -220,18 +221,16 @@ const downloadProposalTemplate = async () => {
   }
 };
 
-const getActualProjectAmount = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/alreadyFunded`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
 const startProject = async projectId => {
   try {
-    const response = await api.put(`${baseURL}/${projectId}/start`);
+    const fd = new FormData();
+    fd.append(
+      'project',
+      JSON.stringify({
+        status: ProjectStatus.IN_PROGRESS
+      })
+    );
+    const response = await api.put(`${baseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -240,7 +239,7 @@ const startProject = async projectId => {
 
 const getProjectsAsOracle = async oracleId => {
   try {
-    const response = await api.get(`${baseURL}/oracle/${oracleId}`);
+    const response = await api.get(`/oracles/${oracleId}${baseURL}`);
     return response;
   } catch (error) {
     return { error };
@@ -286,7 +285,7 @@ const createProjectExperience = async (experience, photos) => {
       fd.append(`photo-${i}`, photo);
     });
     const response = await api.post(
-      `${baseURL}/${experience.projectId}/experience`,
+      `${baseURL}/${experience.projectId}/experiences`,
       fd,
       config
     );
@@ -310,7 +309,6 @@ export {
   uploadAgreement,
   downloadProposal,
   downloadMilestonesTemplate,
-  getActualProjectAmount,
   startProject,
   getProjectsAsOracle,
   downloadProposalTemplate,

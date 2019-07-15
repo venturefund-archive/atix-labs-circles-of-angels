@@ -74,7 +74,7 @@ class TransferTable extends React.Component {
             buttonText="Confirm"
             onClick={() => {
               console.log(record);
-              this.props.saveStatus(record.transferId, record.state);
+              this.props.saveStatus(record.id, record.state);
             }}
           />
         </span>

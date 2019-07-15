@@ -80,7 +80,7 @@ class BackOfficeEditProject extends React.Component {
         : error.message;
       showModalError(title, content);
     } else {
-      showModalSuccess('Success!', response.data.success);
+      showModalSuccess('Success!', 'Project updated successfully!');
     }
   };
 
