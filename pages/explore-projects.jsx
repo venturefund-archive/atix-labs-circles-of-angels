@@ -98,7 +98,13 @@ class ExploreProjects extends React.Component {
             <div className="ProjectsCardsContainer">
               {projects &&
                 projects.map(project => {
+                  const hasOpenMilestones = project.milestones.some(
+                    milestone =>
+                      milestone.status.status !==
+                      milestoneActivityStatus.COMPLETED
+                  );
                   const showTag =
+                    hasOpenMilestones &&
                     project.status === projectStatus.IN_PROGRESS &&
                     activeOracleProjects.indexOf(project.id) !== -1;
                   return (
