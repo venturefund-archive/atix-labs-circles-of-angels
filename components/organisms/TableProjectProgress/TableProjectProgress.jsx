@@ -39,7 +39,7 @@ const TableProjectProgress = ({
       key: 'quarter'
     },
     { title: 'Tasks', dataIndex: 'tasks', key: '1' },
-    { title: 'Social Impact Targets', dataIndex: 'targets', key: '2' },
+    { title: 'Social Impact Targets', dataIndex: 'impact', key: '2' },
     { title: 'Review Criterion', dataIndex: 'impactCriterion', key: '3' },
     { title: 'Expenditure Category', dataIndex: 'category', key: '5' },
     { title: 'Key Personnel Responsible', dataIndex: 'keyPersonnel', key: '6' },
