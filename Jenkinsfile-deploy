@@ -25,7 +25,7 @@ pipeline {
 
   environment {
     SLACK_TOKEN = credentials('slack_token')
-    COA_IP = credentials('COA_IP')
+    COA_IP = credentials('COA_staging')
   }
 
   stages {
@@ -67,6 +67,7 @@ pipeline {
                '''
      
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
+                    cd ${SERVE_DIR}
                     pm2 delete front
                     npm install
                     /bin/rm -r build/
