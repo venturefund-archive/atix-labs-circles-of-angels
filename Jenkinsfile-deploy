@@ -73,7 +73,7 @@ pipeline {
                     npm install
                     /bin/rm -r build/
                     npm run build
-                    pm2 start npm -- run prod --name front
+                    pm2 start "npm run prod" --name front
                   "
                  '''
             }
