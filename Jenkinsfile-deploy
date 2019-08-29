@@ -3,9 +3,9 @@ def getDeploymentServer(branch) {
         case ~/^master$/:
             return ''
         case ~/^develop$/:
-            return credentials('COA_IP')
+            return COA_IP
 	default:
-            return credentials('COA_IP')
+            return COA_IP
     }
 }
 
@@ -25,6 +25,7 @@ pipeline {
 
   environment {
     SLACK_TOKEN = credentials('slack_token')
+    COA_IP = credentials('COA_IP')
   }
 
   stages {
@@ -34,12 +35,6 @@ pipeline {
       }
     }
 
-    stage("dependencies") {
-      steps {
-        sh 'npm install'
-      }    
-    }
-    
     stage("upload build") {
       steps {
         script {
@@ -73,6 +68,7 @@ pipeline {
      
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
                     pm2 delete circle-of-angels-front
+                    npm install
                     /bin/rm -r build/
                     npm run build
                     pm2 start npm -- run prod --name circle-of-angels-front
