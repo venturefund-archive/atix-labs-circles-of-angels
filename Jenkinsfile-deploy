@@ -47,7 +47,7 @@ pipeline {
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
                         cp -aL ${SERVE_DIR} ${BUILDS_DIR}/$BUILD_NUMBER;
                         "
-                '''|
+                '''
               sh '''rsync -av -e "ssh -oStrictHostKeyChecking=no" ${WORKSPACE}/* ${DEPLOY_SERVER}:${BUILDS_DIR}/$BUILD_NUMBER/'''
 
 
