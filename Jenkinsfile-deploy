@@ -67,6 +67,7 @@ pipeline {
                '''
      
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
+                    export PATH=/root/.nvm/versions/node/v10.15.1/bin:$PATH
                     cd ${SERVE_DIR}
                     pm2 delete front
                     npm install
