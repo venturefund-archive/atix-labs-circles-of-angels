@@ -48,6 +48,8 @@ pipeline {
                     export PATH=/root/.nvm/versions/node/v10.15.1/bin:$PATH
                     pm2 delete front
                     rm -r ${SERVE_DIR}/node_modules ${SERVE_DIR}/package-lock.json ${SERVE_DIR}/build 
+                    mkdir /home/backup-front-configs
+                    cp -r ${SERVE_DIR}/api/api.js /home/backup-front-configs;
                     cp -aL ${SERVE_DIR} ${BUILDS_DIR}/$BUILD_NUMBER;
                     "
                 '''
@@ -57,6 +59,8 @@ pipeline {
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
                     export PATH=/root/.nvm/versions/node/v10.15.1/bin:$PATH
                     cd ${SERVE_DIR}
+                    cp -r /home/backup-front-configs/* ${SERVE_DIR}/api;
+                    rm -r /home/backup-front-configs;
                     npm install
                     npm run build
                     pm2 start \\\"npm run prod\\\" --name front
