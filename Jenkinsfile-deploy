@@ -45,6 +45,8 @@ pipeline {
           withEnv(['DEPLOY_SERVER=' + getDeploymentServer(GIT_BRANCH), 'SERVE_DIR=/home/circles-of-angels', 'BUILDS_DIR=/home/builds/circles-of-angels']) {
             sshagent(credentials: ['ssh_jenkins_global'], ignoreMissing: true) {
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
+                    mkdir /home/backup-front-configs
+                    cp -r ${SERVE_DIR}/api/api.js /home/backup-front-configs;
                     cp -aL ${SERVE_DIR} ${BUILDS_DIR}/$BUILD_NUMBER;
                     "
                 '''
@@ -55,6 +57,8 @@ pipeline {
                     export PATH=/root/.nvm/versions/node/v10.15.1/bin:$PATH
                     cd ${SERVE_DIR}
                     pm2 delete front
+                    cp -r /home/backup-front-configs/* ${SERVE_DIR}/api;
+                    rm -r /home/backup-front-configs;
                     npm install
                     /bin/rm -r build/
                     npm run build
