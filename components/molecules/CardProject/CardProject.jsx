@@ -13,14 +13,14 @@ import './_style.scss';
 
 const CardProject = ({
   enterpriseName,
-  projectCardImage,
   enterpriseLocation,
   timeframe,
   amount,
   showTag,
   onClick,
   tagClick,
-  milestoneProgress
+  milestoneProgress,
+  projectId
 }) => (
   <div className="CardProject">
     {showTag && (
@@ -31,7 +31,10 @@ const CardProject = ({
 
     <div onClick={onClick}>
       <div className="ProjectDescription">
-        <img src={projectCardImage} alt="projectCardImage" />
+        <img
+          src={`/projects/${projectId}/cardPhoto.jpg`}
+          alt="projectCardImage"
+        />
         <div className="GradientEfect">
           <div className="DescriptionData">
             <h1>{enterpriseName}</h1>

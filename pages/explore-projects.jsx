@@ -38,19 +38,40 @@ class ExploreProjects extends React.Component {
   async componentDidMount() {
     const res = await getActiveProjects();
     const projectsWithoutPhoto = res.data;
+    const proccessedProjects = [];
+    // for (let index = 0; index < projectsWithoutPhoto.length; index++) {
+    //   const project = projectsWithoutPhoto[index];
+    //   const photo = getPhoto(project.cardPhoto);
+    //   const milestone = getProjectMilestones(project.id);
+
+    //   proccessedProjects[index] = {
+    //     index,
+    //     photo,
+    //     milestone
+    //   };
+    // }
+    // const projects = await Promise.all(
+    //   proccessedProjects.map(async promise => {
+    //     return {
+    //       ...projectsWithoutPhoto[promise.index],
+    //       cardPhoto: (await promise.photo).data,
+    //       milestones: (await promise.milestone).data
+    //     };
+    //   })
+    // );
+    // console.log(projects);
     const projects = await Promise.all(
       projectsWithoutPhoto.map(async project => {
-        const projectCardPhoto = await getPhoto(project.cardPhoto);
+        //const projectCardPhoto = await getPhoto(project.cardPhoto);
         const milestones = await getProjectMilestones(project.id);
         return {
           ...project,
-          cardPhoto: projectCardPhoto.data,
+          //cardPhoto: projectCardPhoto.data,
           milestones: milestones.data
         };
       })
     );
     const { user } = this.props;
-    const { activeOracleProjects } = this.state;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
       const oracleProjects = response.data.projects;
@@ -110,7 +131,6 @@ class ExploreProjects extends React.Component {
                   return (
                     <CardProject
                       enterpriseName={project.projectName}
-                      projectCardImage={project.cardPhoto}
                       enterpriseLocation={project.location}
                       timeframe={project.timeframe}
                       amount={project.goalAmount}
@@ -119,6 +139,7 @@ class ExploreProjects extends React.Component {
                       milestoneProgress={this.getMilestoneProgress(
                         project.milestones
                       )}
+                      projectId={project.id}
                       key={project.id}
                       onClick={() => this.goToProjectDetail(project.id)}
                     />

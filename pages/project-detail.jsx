@@ -55,20 +55,20 @@ class ProjectDetail extends React.Component {
 
   componentDidMount = async () => {
     const { projectId } = this.props;
-    const project = (await getProject(projectId)).data;
-    const coverPhoto = await getPhoto(project.coverPhoto);
+    const projectDetail = (await getProject(projectId)).data;
+    //const coverPhoto = await getPhoto(project.coverPhoto);
     const milestones = (await getProjectMilestones(projectId)).data;
     const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
-    const projectDetail = {
-      ...project,
-      coverPhoto: coverPhoto.data
-    };
+    // const projectDetail = {
+    //   ...project,
+    //   coverPhoto: coverPhoto.data
+    // };
     const projectExperiences = await this.getExperiences();
     this.setState({
       projectDetail,
       projectExperiences,
       milestones: sortedMilestones
-     });
+    });
   };
 
   getExperiences = async () => {
@@ -143,6 +143,7 @@ class ProjectDetail extends React.Component {
 
   render() {
     const { projectDetail, projectExperiences, milestones } = this.state;
+    const { projectId } = this.props;
     const itemsData = projectDetail
       ? [
           {
@@ -181,7 +182,7 @@ class ProjectDetail extends React.Component {
             <div className="ProjectContainer DataSteps">
               <div className="ProjectHeader">
                 <img
-                  src={projectDetail.coverPhoto || ''}
+                  src={`/projects/${projectId}/coverPhoto.jpg`}
                   alt="projectCoverImage"
                 />
                 <div className="ProjectEnterprice">
