@@ -182,7 +182,7 @@ class ProjectDetail extends React.Component {
             <div className="ProjectContainer DataSteps">
               <div className="ProjectHeader">
                 <img
-                  src={`/projects/images/${projectId}/coverPhoto.jpg`}
+                  src={`/files/projects/${projectId}/coverPhoto.jpg`}
                   alt="projectCoverImage"
                 />
                 <div className="ProjectEnterprice">

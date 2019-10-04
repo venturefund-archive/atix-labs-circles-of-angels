@@ -32,7 +32,7 @@ const CardProject = ({
     <div onClick={onClick}>
       <div className="ProjectDescription">
         <img
-          src={`/projects/images/${projectId}/cardPhoto.jpg`}
+          src={`/files/projects/${projectId}/cardPhoto.jpg`}
           alt="projectCardImage"
         />
         <div className="GradientEfect">
