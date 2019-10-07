@@ -33,9 +33,7 @@ import SeccionExperience from './experiences';
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  //console.log(key);
-}
+function callback(key) {}
 
 class ProjectDetail extends React.Component {
   constructor(props) {
@@ -56,13 +54,8 @@ class ProjectDetail extends React.Component {
   componentDidMount = async () => {
     const { projectId } = this.props;
     const projectDetail = (await getProject(projectId)).data;
-    //const coverPhoto = await getPhoto(project.coverPhoto);
     const milestones = (await getProjectMilestones(projectId)).data;
     const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
-    // const projectDetail = {
-    //   ...project,
-    //   coverPhoto: coverPhoto.data
-    // };
     const projectExperiences = await this.getExperiences();
     this.setState({
       projectDetail,
