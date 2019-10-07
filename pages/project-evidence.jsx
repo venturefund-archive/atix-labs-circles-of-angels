@@ -321,7 +321,7 @@ class ProjectEvidence extends Component {
                         </Tooltip>
                         <a
                           target="_blank"
-                          href={`https://explorer.testnet.rsk.co/txs/${
+                          href={`https://explorer.testnet.rsk.co/tx/${
                             activity.transactionHash
                           }`}
                         >
