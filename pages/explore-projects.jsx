@@ -7,16 +7,10 @@
  */
 
 import React from 'react';
-import { Divider } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import {
-  getActiveProjects,
-  getProjectsAsOracle,
-  getProjectMilestones
-} from '../api/projectApi';
-import { getPhoto } from '../api/photoApi';
+import { getProjectsPreview, getProjectsAsOracle } from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
 import './_style.scss';
@@ -36,41 +30,7 @@ class ExploreProjects extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await getActiveProjects();
-    const projectsWithoutPhoto = res.data;
-    const proccessedProjects = [];
-    // for (let index = 0; index < projectsWithoutPhoto.length; index++) {
-    //   const project = projectsWithoutPhoto[index];
-    //   const photo = getPhoto(project.cardPhoto);
-    //   const milestone = getProjectMilestones(project.id);
-
-    //   proccessedProjects[index] = {
-    //     index,
-    //     photo,
-    //     milestone
-    //   };
-    // }
-    // const projects = await Promise.all(
-    //   proccessedProjects.map(async promise => {
-    //     return {
-    //       ...projectsWithoutPhoto[promise.index],
-    //       cardPhoto: (await promise.photo).data,
-    //       milestones: (await promise.milestone).data
-    //     };
-    //   })
-    // );
-    // console.log(projects);
-    const projects = await Promise.all(
-      projectsWithoutPhoto.map(async project => {
-        //const projectCardPhoto = await getPhoto(project.cardPhoto);
-        const milestones = await getProjectMilestones(project.id);
-        return {
-          ...project,
-          //cardPhoto: projectCardPhoto.data,
-          milestones: milestones.data
-        };
-      })
-    );
+    const projects = (await getProjectsPreview()).data;
     const { user } = this.props;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
@@ -119,13 +79,8 @@ class ExploreProjects extends React.Component {
             <div className="ProjectsCardsContainer">
               {projects &&
                 projects.map(project => {
-                  const hasOpenMilestones = project.milestones.some(
-                    milestone =>
-                      milestone.status.status !==
-                      milestoneActivityStatus.COMPLETED
-                  );
                   const showTag =
-                    hasOpenMilestones &&
+                    project.hasOpenMilestones &&
                     project.status === projectStatus.IN_PROGRESS &&
                     activeOracleProjects.indexOf(project.id) !== -1;
                   return (
@@ -136,9 +91,7 @@ class ExploreProjects extends React.Component {
                       amount={project.goalAmount}
                       showTag={showTag}
                       tagClick={() => this.goToProjectProgress(project.id)}
-                      milestoneProgress={this.getMilestoneProgress(
-                        project.milestones
-                      )}
+                      milestoneProgress={project.milestoneProgress}
                       projectId={project.id}
                       key={project.id}
                       onClick={() => this.goToProjectDetail(project.id)}
