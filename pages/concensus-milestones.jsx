@@ -7,6 +7,7 @@
  */
 
 import React, { Component } from 'react';
+import Linkify from 'linkifyjs/react';
 import { message, Divider, Button, Icon, Alert } from 'antd';
 import { values, isEmpty } from 'lodash';
 import animationData from '../components/molecules/Steps/success.json';
@@ -467,9 +468,8 @@ class ConcensusMilestones extends Component {
             </div>
             <div className="flex">
               <div className="vertical  Data">
-                <a className="TextBlue" target="_blank" href={faqLink}>
-                  {faqLink}
-                </a>
+                <Linkify tag="a">{faqLink}</Linkify>
+
                 <span className="Overline">
                   FAQ-Funders and SE's Questions & Answers Link
                 </span>
@@ -525,20 +525,24 @@ class ConcensusMilestones extends Component {
                         showIcon
                       />
                     )
-                  ))) ||
-                (isSocialEntrepreneur && project.startBlockchainStatus === BlockchainStatus.SENT ? (
+                  )))) ||
+                (isSocialEntrepreneur &&
+                project.startBlockchainStatus === BlockchainStatus.SENT ? (
                   <Alert
                     message="Waiting for Blockchain confirmation to start"
                     type="info"
                     showIcon
                   />
-                ) : project.startBlockchainStatus === BlockchainStatus.CONFIRMED && (
-                  <Alert
-                    message="Project already started"
-                    type="info"
-                    showIcon
-                  />
-                )))}
+                ) : (
+                  project.startBlockchainStatus ===
+                    BlockchainStatus.CONFIRMED && (
+                    <Alert
+                      message="Project already started"
+                      type="info"
+                      showIcon
+                    />
+                  )
+                ))}
             </div>
           </div>
           <Divider />
