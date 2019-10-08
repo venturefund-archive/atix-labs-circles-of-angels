@@ -47,7 +47,7 @@ pipeline {
                   script: 'git rev-parse --abbrev-ref HEAD',
                   returnStdout: true
                 ).trim()
-          withEnv(['DEPLOY_SERVER=' + getDeploymentServer(GIT_BRANCH), 'SERVE_DIR=/home/circle-of-angels', 'BUILDS_DIR=/home/builds/circle-of-angels']) {
+          withEnv(['DEPLOY_SERVER=' + getDeploymentServer(GIT_BRANCH), 'SERVE_DIR=/home/circles-of-angels', 'BUILDS_DIR=/home/builds/circles-of-angels']) {
             sshagent(credentials: ['ssh_jenkins_global'], ignoreMissing: true) {
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
                         cp -aL ${SERVE_DIR} ${BUILDS_DIR}/$BUILD_NUMBER;
@@ -72,7 +72,7 @@ pipeline {
                '''
      
               sh '''ssh -oStrictHostKeyChecking=no ${DEPLOY_SERVER} "
-    		   pm2 restart circle-of-angels-front
+    		   pm2 restart circles-of-angels-front
                    "
                  '''
             }
