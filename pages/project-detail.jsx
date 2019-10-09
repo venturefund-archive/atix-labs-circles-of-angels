@@ -34,9 +34,17 @@ import SeccionExperience from './experiences';
 const { TabPane } = Tabs;
 
 function callback(key) {
-  //console.log(key);
+  // console.log(key);
 }
-
+const Item = ({ img, info, label }) => (
+  <div className="flex Item">
+    <img src={img} alt="Circles of Angels" />
+    <div className="vertical">
+      <h2>{info}</h2>
+      <h2 className="opacity">{label}</h2>
+    </div>
+  </div>
+);
 class ProjectDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +64,7 @@ class ProjectDetail extends React.Component {
   componentDidMount = async () => {
     const { projectId } = this.props;
     const projectDetail = (await getProject(projectId)).data;
-    //const coverPhoto = await getPhoto(project.coverPhoto);
+    // const coverPhoto = await getPhoto(project.coverPhoto);
     const milestones = (await getProjectMilestones(projectId)).data;
     const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
     // const projectDetail = {
@@ -181,52 +189,78 @@ class ProjectDetail extends React.Component {
           <div className="ContentComplete">
             <div className="ProjectContainer DataSteps">
               <div className="ProjectHeader">
-                <img
+                {/* <img
                   src={`/files/projects/${projectId}/coverPhoto.jpg`}
                   alt="projectCoverImage"
+                /> */}
+                <img
+                  className="Banner"
+                  src="./static/images/imgcard.png"
+                  alt="Circles of Angels"
                 />
                 <div className="ProjectEnterprice">
-                  <p>Entreprise</p>
-                  <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
+                  <div>
+                    <p>Entreprise</p>
+                    <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
+                  </div>
+                  <div className="flex">
+                    <Item
+                      img="./static/images/world.svg"
+                      info="Cambodia"
+                      label="Country of Impact"
+                    />
+                    <Item
+                      img="./static/images/world.svg"
+                      info="Cambodia"
+                      label="Country of Impact"
+                    />
+                    <Item
+                      img="./static/images/world.svg"
+                      info="Cambodia"
+                      label="Country of Impact"
+                    />
+                  </div>
                 </div>
               </div>
-              <Tabs defaultActiveKey="1" onChange={callback}>
-                <TabPane tab="Project Details" key="1">
-                  <div className="ProjectContent">
-                    <ProjectMission
-                      mission={projectDetail ? projectDetail.mission : ''}
-                      terms={
-                        projectDetail ? projectDetail.problemAddressed : ''
-                      }
-                      startedProject={
-                        projectDetail.status === ProjectStatus.IN_PROGRESS
-                      }
-                      milestones={milestones}
-                    />
-                    <div className="ProjectGeneralData">
-                      <div className="block">
-                        <h1 className="title">Generals</h1>
-                      </div>
+              <div className="BlockContent">
+                <Tabs defaultActiveKey="1" onChange={callback}>
+                  <TabPane tab="details" key="1">
+                    <div className="ProjectContent">
+                      <ProjectMission
+                        mission={projectDetail ? projectDetail.mission : ''}
+                        terms={
+                          projectDetail ? projectDetail.problemAddressed : ''
+                        }
+                        startedProject={
+                          projectDetail.status === ProjectStatus.IN_PROGRESS
+                        }
+                        milestones={milestones}
+                      />
+                      <div className="ProjectGeneralData">
+                        <div className="block">
+                          <h1 className="title">Generals</h1>
+                        </div>
 
-                      {itemsData.map((item, i) => (
-                        <GeneralItem
-                          subtitle={item.subtitle}
-                          title={item.title}
-                          iconItem={item.iconItem}
-                          key={i}
-                        />
-                      ))}
-                      {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
+                        {itemsData.map((item, i) => (
+                          <GeneralItem
+                            subtitle={item.subtitle}
+                            title={item.title}
+                            iconItem={item.iconItem}
+                            key={i}
+                          />
+                        ))}
+                        {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
+                      </div>
                     </div>
-                  </div>
-                </TabPane>
-                <TabPane tab="Experiences" key="2">
-                  <SeccionExperience
-                    experiences={projectExperiences}
-                    onCreate={this.createProjectExperience}
-                  />
-                </TabPane>
-              </Tabs>
+                  </TabPane>
+                  <TabPane tab="Experiences" key="2">
+                    <SeccionExperience
+                      experiences={projectExperiences}
+                      onCreate={this.createProjectExperience}
+                    />
+                  </TabPane>
+                </Tabs>
+              </div>
             </div>
             <div className="SubmitProject StepOne">
               <CustomButton
