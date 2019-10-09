@@ -18,6 +18,8 @@ import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import TitlePage from '../components/atoms/TitlePage/TitlePage';
+import { Row, Col } from 'antd';
 
 class ExploreProjects extends React.Component {
   constructor(props) {
@@ -73,10 +75,8 @@ class ExploreProjects extends React.Component {
           <Header />
 
           <div className="Content">
-            <div className="titlepage">
-              <h1>Explore Projects</h1>
-            </div>
-            <div className="ProjectsCardsContainer">
+            <TitlePage textTitle="Explore Project´s" />
+            <Row className="ProjectsCardsContainer" gutter={16}>
               {projects &&
                 projects.map(project => {
                   const showTag =
@@ -98,7 +98,7 @@ class ExploreProjects extends React.Component {
                     />
                   );
                 })}
-            </div>
+            </Row>
           </div>
         </div>
       </div>

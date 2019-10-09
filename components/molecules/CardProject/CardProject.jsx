@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tag, Progress } from 'antd';
+import { Tag, Progress, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 
@@ -22,7 +22,7 @@ const CardProject = ({
   milestoneProgress,
   projectId
 }) => (
-  <div className="CardProject">
+  <Col className="CardProject" span={8}>
     {showTag && (
       <Tag color="orange" onClick={tagClick}>
         View my activities to verify
@@ -35,13 +35,9 @@ const CardProject = ({
           src={`/files/projects/${projectId}/cardPhoto.jpg`}
           alt="projectCardImage"
         />
-        <div className="GradientEfect">
-          <div className="DescriptionData">
-            <h1>{enterpriseName}</h1>
-          </div>
-        </div>
       </div>
       <div className="ProjectSummery">
+      <h1>{enterpriseName}</h1>
         <div className="space-between">
           <InfoItem
             subtitle="Country of Impact"
@@ -59,16 +55,16 @@ const CardProject = ({
             iconInfoItem="dollar"
           />
         </div>
-        <Progress
+        {/* <Progress
           size="small"
           showInfo={false}
           strokeColor="#22C89B"
           percent={milestoneProgress || 0}
           status="active"
-        />
+        /> */}
       </div>
     </div>
-  </div>
+  </Col>
 );
 
 export default CardProject;
