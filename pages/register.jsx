@@ -7,26 +7,29 @@
  */
 
 import React, { Component } from 'react';
-import FormRegister from '../components/organisms/FormRegister/FormRegister';
-import { getQuestionnaire } from '../api/questionnaireApi';
-import Roles from '../constants/RolesMap';
+import RegisterForm from '../components/organisms/FormRegister/FormRegister';
+// import { getQuestionnaire } from '../api/questionnaireApi';
+// import Roles from '../constants/RolesMap';
 import Routes from '../components/utils/Routes';
 import './_register.scss';
 import './_login.scss';
+import PersonalInfoStep from '../components/organisms/FormRegister/steps/PersonalInfo';
+import RoleSelectionStep from '../components/organisms/FormRegister/steps/RoleSelection';
+// import RoleQuestionsStep from '../components/organisms/FormRegister/steps/RoleQuestions';
+// import CongratsStep from '../components/organisms/FormRegister/steps/Congrats';
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seQuestionnaire: null,
-      funderQuestionnaire: null
+
     };
   }
 
   componentDidMount = async () => {
-    const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
-    const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
-    this.setState({ seQuestionnaire, funderQuestionnaire });
+    // const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
+    // const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
+    // this.setState({ seQuestionnaire, funderQuestionnaire });
   };
 
   goToLogin() {
@@ -34,18 +37,22 @@ class Register extends Component {
   }
 
   render() {
-    const { seQuestionnaire, funderQuestionnaire } = this.state;
+    const {  } = this.state;
     return (
       <div className="Login">
-        <div className="LogoSide">
+        {/* <div className="LogoSide">
           <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
-        </div>
+        </div> */}
         <div className="FormSideRegister">
           <h1>Register</h1>
-          <FormRegister
-            seQuestionnaire={seQuestionnaire}
-            funderQuestionnaire={funderQuestionnaire}
-            goBackHandler={this.goToLogin}
+          <RegisterForm
+            steps={[
+              <PersonalInfoStep />,
+              <RoleSelectionStep />,
+              // RoleQuestionsStep,
+              // CongratsStep
+            ]}
+            // goBackHandler={this.goToLogin}
           />
         </div>
       </div>
