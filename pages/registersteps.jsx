@@ -26,131 +26,26 @@ import Routes from '../components/utils/Routes';
 import './_register-steps.scss';
 import './_style.scss';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import RegisterStep1 from '../components/organisms/RegisterStep1/RegisterStep1';
+import RegisterStep2 from '../components/organisms/RegisterStep2/RegisterStep2';
+import RegisterStep3 from '../components/organisms/RegisterStep3/RegisterStep3';
+import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
 const { Step } = Steps;
 
 const steps = [
   {
-    content: (
-      <div>
-        <div className="InfoStep">
-          <img
-            src="./static/images/icon-personal.svg"
-            alt="Circles of Angels"
-          />
-          <h2> Personal Information</h2>
-          <h4>
-            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
-            amet..
-          </h4>
-        </div>
-        <div className="StepPersonalInformation">
-          <TitlePage textTitle="Register" />
-          <div className="flex Linear">
-            <hr />
-            <p>or register with</p>
-            <hr />
-          </div>
-          <Row gutter={16}>
-            <Form layout="vertical">
-              <Col className="gutter-row" span={12}>
-                <Form.Item label="First Name">
-                  <Input size="large" />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={12}>
-                <Form.Item label="Last Name">
-                  <Input size="large" placeholder="Username" />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={12}>
-                <Form.Item label="Email">
-                  <Input size="large" />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={6}>
-                <Form.Item label="Password">
-                  <Input size="large" />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={6}>
-                <Form.Item label="Repeat Password">
-                  <Input size="large" />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={12}>
-                <Form.Item>
-                  <Checkbox>
-                    I’ve read and accept all the{' '}
-                    <a href="/">Terms and Conditions</a>of the site.
-                  </Checkbox>
-                </Form.Item>
-              </Col>
-            </Form>
-          </Row>
-        </div>
-      </div>
-    )
+    content: <RegisterStep1 />
   },
   {
-    content: (
-      <div>
-        <div className="InfoStep vertical">
-          <img
-            src="./static/images/icon-personal.svg"
-            alt="Circles of Angels"
-          />
-          <h2>Platform User</h2>
-          <h4>
-            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
-            amet..
-          </h4>
-        </div>
-        <div className="StepPersonalInformation">
-          <h1> What do you want to do?</h1>
-        </div>
-      </div>
-    )
+    content: <RegisterStep2 />
   },
   {
-    content: (
-      <div>
-        <div className="InfoStep vertical">
-          <img
-            src="./static/images/icon-personal.svg"
-            alt="Circles of Angels"
-          />
-          <h2>Enterprise Information</h2>
-          <h4>
-            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
-            amet..
-          </h4>
-        </div>
-        <div className="StepPersonalInformation">
-          <h1> I want to create a Project</h1>
-        </div>
-      </div>
-    )
+    content: <RegisterStep3 />
   },
   {
-    content: (
-      <div>
-        <div className="InfoStep vertical">
-          <img
-            src="./static/images/icon-personal.svg"
-            alt="Circles of Angels"
-          />
-          <h2>Enterprise Information</h2>
-          <h4>
-            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
-            amet..
-          </h4>
-        </div>
-        <div className="StepPersonalInformation">
-          <h1> I want to create a Project</h1>
-        </div>
-      </div>
-    )
+    content: <RegisterStep4 />
   }
 ];
 
@@ -187,22 +82,25 @@ class Registersteps extends React.Component {
           <div className="steps-content">{steps[current].content}</div>
           <div className="steps-action">
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={() => this.next()}>
-                Next
-              </Button>
+              <CustomButton
+                theme="Primary"
+                buttonText="Save and Continue"
+                onClick={() => this.next()}
+              />
             )}
             {current === steps.length - 1 && (
-              <Button
-                type="primary"
+              <CustomButton
+                theme="Primary"
+                buttonText="Finish!"
                 onClick={() => message.success('Processing complete!')}
-              >
-                Done
-              </Button>
+              />
             )}
             {current > 0 && (
-              <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                Previous
-              </Button>
+              <CustomButton
+                theme="Secondary"
+                buttonText="Previous"
+                onClick={() => this.prev()}
+              />
             )}
           </div>
         </div>

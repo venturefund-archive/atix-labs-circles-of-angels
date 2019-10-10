@@ -32,12 +32,25 @@
     .steps-content {
       height: 90%;
       position: relative;
-      .ant-form-item-label label{
-        @include primary-text ($labels, $on-surface-medium, 600);
+      padding: 3.5em;
+      .TitlePage h1 {
+        margin-bottom: 2.5em;
+      }
+
+      .FormRegister {
+        margin: 2em 0 2em;
+        .ant-form-item-label label {
+          @include primary-text($labels, $on-surface-medium, 600);
+        }
+      .InputTwoLabel{
+    position: relative;
+    top: -1.5em;
+      }
       }
       .Linear {
+        margin-top: 3em;
         hr {
-          width: 44%;
+          width: 43.5%;
           margin: 0;
           border: 0.5px solid $border;
         }
@@ -59,9 +72,18 @@
           @include primary-text($medium, $on-surface-medium, 400);
         }
       }
+      .ant-checkbox-wrapper span {
+        @include primary-text($body,$on-surface ,400)
+    }
     }
     .steps-action {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
       height: 10%;
+      margin: 0 3.5em;
+      align-items: center;
+      border-top: 1px solid $border;
     }
   }
 }
