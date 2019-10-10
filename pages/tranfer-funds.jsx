@@ -1,24 +1,38 @@
-import React from "react";
-import { Skeleton } from "antd";
+/**
+ * AGPL License
+ * Circle of Angels aims to democratize social impact financing.
+ * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ *
+ * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
+ */
 
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import StepsIf from "../components/molecules/StepsIf/StepsIf.jsx";
-import FormTransfer from "../components/molecules/FormTransfer/FormTransfer.jsx";
-import { sendTransferInformation } from "../api/transferApi";
+import React from 'react';
 
-import "./_style.scss";
-import "./_transfer-funds.scss";
+import Header from '../components/molecules/Header/Header';
+import SideBar from '../components/organisms/SideBar/SideBar';
+import StepsIf from '../components/molecules/StepsIf/StepsIf';
+import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import { sendTransferInformation } from '../api/transferApi';
+import Routing from '../components/utils/Routes';
+import { withUser } from '../components/utils/UserContext';
+
+import './_style.scss';
+import './_transfer-funds.scss';
+import './_steps.scss';
 
 class TransferFunds extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transferNumber: "",
-      amount: ""
+      transferId: '',
+      amount: ''
     };
-    
-    this.userId = this.props.url.query.userId;
+  }
+
+  static async getInitialProps(query) {
+    const { projectId } = query.query;
+    return { projectId };
   }
 
   updateState = (evnt, field, value) => {
@@ -28,18 +42,23 @@ class TransferFunds extends React.Component {
 
   submitTransfer = async evnt => {
     evnt.preventDefault();
+    const { transferId, amount } = this.state;
+    const { user, projectId } = this.props;
     const toSubmit = {
-      transferId: this.state.transferNumber,
-      amount: this.state.amount,
-      currency: "usd",
-      senderId: this.userId ? this.userId : 1,
-      projectId: 1,
-      destinationAccount: "asdf1234qwer5678"
+      transferId,
+      amount,
+      currency: 'usd',
+      senderId: user.id,
+      projectId,
+      destinationAccount: 'asdf1234qwer5678' /** @TODO  unmock account */
     };
     const result = await sendTransferInformation(toSubmit);
-    console.log(result)
+
     if (result.error) alert(`Error: ${result.error}`);
-    else alert(`Success: Transfer submited correctly!`)
+    else {
+      Routing.toTransferFundsConfirmation();
+      alert('Success: Transfer submited correctly!');
+    }
   };
 
   render() {
@@ -48,21 +67,34 @@ class TransferFunds extends React.Component {
         <SideBar />
         <div className="MainContent">
           <Header />
-          <StepsIf />
-          <div className="TransferContainer">
-            <h1>Transfer Funds</h1>
+          <StepsIf stepNumber={2} />
+          <div className="ProjectStepsContainer">
+            <p className="LabelSteps">Funding Step</p>
+            <h3 className="StepDescription">
+              Transfer your pledged funds, help the world become a better place
+              for everyone
+            </h3>
+            <p className="LabelSteps">Project Name</p>
+            <h1>Lorem Ipsum</h1>
             <div className="TransferContent">
               <h2>Circles of Angels Bank Account Information</h2>
-              <Skeleton />
+              <div className="TransferBankInfo">
+                <h3>Singapore Bank</h3>
+                <h4> Account #: 0012345678</h4>
+                <h4> Account owner: CirclesOfAngels</h4>
+              </div>
               <FormTransfer
                 onTransferChange={evnt =>
-                  this.updateState(evnt, "transferNumber", evnt.target.value)
+                  this.updateState(evnt, 'transferId', evnt.target.value)
                 }
                 onAmountChange={evnt =>
-                  this.updateState(evnt, "amount", evnt.target.value)
+                  this.updateState(evnt, 'amount', evnt.target.value)
                 }
                 submitTransfer={this.submitTransfer}
               />
+            </div>
+            <div className="ControlSteps">
+              <CustomButton theme="Cancel" buttonText="Cancel" />
             </div>
           </div>
         </div>
@@ -71,4 +103,4 @@ class TransferFunds extends React.Component {
   }
 }
 
-export default TransferFunds;
+export default withUser(TransferFunds);

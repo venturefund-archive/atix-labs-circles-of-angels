@@ -1,0 +1,66 @@
+@import '../../../css/general_styling.scss';
+
+.ant-table {
+  font-size: $body;
+  border: 1px solid #eceff4;
+  border-radius: 4px;
+  .ant-table-tbody {
+    tr {
+      vertical-align: baseline;
+    }
+  }
+  thead {
+    tr {
+      vertical-align: baseline;
+    }
+  }
+
+  
+}
+.ant-table-title {    
+  @include primary-text($h2, $secondary-color, 600);
+  margin-bottom: 0;
+  padding: 1em 1em;
+  .milestoneStatus{
+    display: flex;
+      width: 20%;
+      color: $sucess-color;
+      background: $success-color-light;
+      padding: 0.5em;
+      border-radius: 4px;
+      justify-content: center;
+      font-weight: 500;
+      .ant-progress-line{
+        width: 42%;
+      }
+  }
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 16px 16px;
+  white-space: nowrap;
+}
+.ant-table-thead > tr > th {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $grey;
+  font-weight: 500;
+  border-top: 1px solid #eceff4;
+  border-bottom: 1px solid #eceff4;
+}
+.ant-table-tbody > tr > td {
+  color: rgba(62, 57, 57, 0.76);
+  border-bottom: 1px solid #eceff4;
+}
+
+.ant-table-tbody > tr > td:first-child {
+  font-weight: 600;
+  color: $secondary-color;
+}
+
+.ant-tabs {
+  width: 100%;
+}
+.ant-tabs-bar {
+  margin-bottom: 0;
+}

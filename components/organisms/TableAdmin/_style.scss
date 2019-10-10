@@ -1,7 +1,7 @@
 @import "../../../css/general_styling.scss";
 
 .TableAdmin {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 
   .ant-tag{
     border-radius: 20px;
@@ -9,20 +9,23 @@
     text-transform: uppercase;
   }
 
-  .ButtonPrimary{
+  .Primary{
     transform: scale(0.8);
   }
 
   select {
-    background: $primary-color;
+    background: $white;
     height: 30px;
     border: none;
     align-items: center;
-    border-radius: 50px;
     outline: none;
+    border: 1px solid $grey;
+    width: 160px;
     cursor: pointer;
-    @include primary-text($button, $white, 400);
+    @include primary-text($button, $secondary-color, 400);
     text-transform: uppercase;
   }
   
 }
+
+

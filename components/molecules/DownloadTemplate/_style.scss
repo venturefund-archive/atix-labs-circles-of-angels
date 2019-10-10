@@ -1,0 +1,22 @@
+@import "../../../css/general_styling.scss";
+
+.DownloadTemplateContainer {    
+  width: 50%;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  border-left: 3px solid #e0e4e8;
+  justify-content: space-between;
+  .Title {
+    @include primary-text($body, $secondary-color, 600);
+    margin-bottom: 0;
+  }
+  p {
+    @include primary-text($body, $on-surface-medium, 400);
+    min-width: 50%;
+    margin-bottom: 1em;
+  }
+  .vertical{
+    padding: 0 0 0 1em;
+  }
+}

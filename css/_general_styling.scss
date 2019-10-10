@@ -2,39 +2,48 @@
 $background: #f1f3f8;
 $surface: #fff;
 
-$primary-color: #0083E3;
-$secondary-color: #454B61;
+$primary-color: #0083e3;
+$secondary-color: rgba(0, 0, 0, 0.76);
+$sucess-color: #5bc431;
+$on-surface-medium: rgba(0, 0, 0, 0.61);
+$on-surface: rgba(0, 0, 0, 0.76);
+$success-color: #15d380;
+$success-color-light: #f5fded;
+$danger-color: #ff0050;
 
 $black: #000;
 $white: #fff;
-$grey: #b3bec5;
-$medium-grey: #c5d0de;
-$light-grey: #EEEFEF;
-
-$theme-color-1: linear-gradient(to bottom, #2A3890, #0083E2);
+$grey: #8b91a4;
+$medium-grey: #b1b4cc;
+$light-grey: #eeefef;
+$theme-color-1: linear-gradient(to bottom, #2a3890, #0083e2);
 
 // Typographic Scale
-$title: 20px;
-$subtitle: 18px;
-$h1: 20px;
-$h2: 15px;
-$button: 13px;
-$body: 13px;
-$body-2: 12px;
-$tabs: 11.5px;
-$label: 10px;
+$title: 22px;
+$subtitle: 16.5px;
+$h1: 16.5px;
+$h2: 14.5px;
+$h3: 13.5px;
+$button: 12.5px;
+$body: 12.5px;
+$body-2: 13.5px;
+$tabs: 12px;
+$label: 12px;
 
 // Shadow
-$shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
+$shadow: 0 3px 7px rgba(30, 30, 31, 0.05), 0 1px 3px rgba(27, 28, 29, 0.07);
+$shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136, 0.15);
 
 // Fonts
 
 @mixin primary-text($font-size, $font-color, $font-weight) {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: $font-size;
   font-weight: $font-weight;
-  @if $font-color { color: $font-color; }
+  @if $font-color {
+    color: $font-color;
+  }
 }
 
 // Container
@@ -46,10 +55,38 @@ $shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.16);
   border-radius: 6px;
   padding: 1em;
 }
-
+@mixin Content {
+  height: 93vh;
+  padding: 0 1.4em;
+  overflow-y: auto;
+}
+@mixin ControlSteps {
+  border-top: 1px solid $light-grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+}
+@mixin ContentComplete {
+  height: 93vh;
+  padding: 0;
+  overflow-y: auto;
+}
 @mixin input-style($border-color) {
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: $border-color;
+}
+
+//Separator
+
+.Separator {
+  border: 1px solid transparent;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.buttonDisabled {
+  opacity: 0.5;
+  cursor: auto;
 }

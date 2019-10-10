@@ -1,5 +1,16 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
-.FormTrasnfer{
-    width: 50%;
+.FormTrasnfer {
+  width: 100%;
+
+  .ant-form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Source Sans Pro', sans-serif;
+    .ant-form-item {
+      width: 45%;
+      margin-right: 1.5em;
+    }
+  }
 }

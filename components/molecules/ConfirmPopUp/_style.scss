@@ -1,0 +1,62 @@
+@import "../css/general_styling.scss";
+
+.ant-modal-content {
+  font-family: 'Source Sans Pro', sans-serif;
+  .ant-modal-title {
+    font-weight: 300;
+    color: $grey;
+  }
+ }
+
+.ConfirmModal {
+  h1 {
+    @include primary-text($h1, $secondary-color, 500);
+    margin: 1.5em 0 0.25em;
+  }
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+    margin-bottom: 1em;
+  }
+  .ProjectDetail {
+    @include primary-text($body, $primary-color, 400);
+  }
+  .ant-modal-header{
+      padding: 16px 30px;
+  }
+  .ant-modal-body{
+      padding: 50px 30px;
+  }
+  .ant-modal-footer {
+      padding: 20px 30px;
+    .ant-btn,
+    .ant-btn:hover,
+    .ant-btn:focus {
+      border-radius: 20px;
+      color: $grey;
+      background-color: rgb(255, 255, 255);
+      border-color: $grey;
+      text-transform: uppercase;
+      padding: 0 25px;
+    }
+    .ant-btn-primary,
+    .ant-btn-primary:hover,
+    .ant-btn-primary:focus {
+      color: rgb(255, 255, 255);
+      background-color: #15d380;
+      border-color: #15d380;
+    }
+  }
+  .ant-modal-close-x{
+      color: $grey;
+  }
+}
+
+.SignatoryList {
+  margin-top: 0em;
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

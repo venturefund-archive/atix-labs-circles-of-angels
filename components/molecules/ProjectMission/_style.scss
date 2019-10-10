@@ -1,0 +1,31 @@
+@import '../css/general_styling.scss';
+
+.ProjectMission {
+  width: 70%;
+  padding: 0 1.5em;
+  p {
+    @include primary-text($body, $on-surface, 400);
+  }
+  .title {
+    @include primary-text($h1, $secondary-color, 600);
+  }
+  .ant-steps {
+    height: 55px;
+    align-items: center;
+    width: 70%;
+  }
+  .ant-steps-item-title::after{
+    height: 2px;
+  }
+  .ant-steps-item-process {
+    display: flex;
+    align-items: center;
+    .ant-steps-item-icon {
+      background:$primary-color;
+      border: 2px solid $success-color;
+      height: 32px;
+      width: 32px;
+      line-height: 30px;
+    }
+  }
+}

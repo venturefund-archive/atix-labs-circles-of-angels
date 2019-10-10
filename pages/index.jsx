@@ -1,45 +1,24 @@
-import React from "react";
-import Header from "../components/molecules/Header/Header.jsx";
-import SideBar from "../components/organisms/SideBar/SideBar.jsx";
-import Link from "next/link";
-import ButtonPrimary from "../components/atoms/ButtonPrimary/ButtonPrimary";
-import "./_style.scss";
+/**
+ * AGPL License
+ * Circle of Angels aims to democratize social impact financing.
+ * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ *
+ * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
+ */
 
-const Index = () => (
-  <div className="AppContainer">
-    <SideBar />
-    <div className="MainContent">
-      <Header />
-      <div className="ButtonContainer">
-        <h1>Login as:</h1>
+import React from 'react';
+import { withUser } from '../components/utils/UserContext';
+import './_style.scss';
+import Routing from '../components/utils/Routes';
 
-        <div className="FunderButtonContainer">
-          <Link href={`/tranfer-funds?userId=1`}>
-            <ButtonPrimary text="As Funder 1"/>
-          </Link>
-          <Link href={`/tranfer-funds?userId=2`}>
-            <ButtonPrimary text="As Funder 2" />
-          </Link>
-        </div>
-
-        <div className="FunderButtonContainer">
-          <Link  href={`/tranfer-funds-confirmation?userId=1`}>
-            <ButtonPrimary text="Funder 1 - Status" />
-          </Link>
-          <Link href={`/tranfer-funds-confirmation?userId=2`}>
-            <ButtonPrimary text="Funder 2- Status" />
-          </Link>
-        </div>
-
-        <Link href="/concensus">
-          <ButtonPrimary text="As Social Entrepreneur" />
-        </Link>
-        <Link href="/fund-administration">
-          <ButtonPrimary text="As Backoffice Administrator" />
-        </Link>
-      </div>
-    </div>
-  </div>
-);
-
-export default Index;
+class Index extends React.Component {
+  componentDidMount() {
+    const { getLoggedUser } = this.props;
+    const user = getLoggedUser();
+    Routing.toUserHome(user);
+  }
+  render() {
+    return <></>;
+  }
+}
+export default withUser(Index);

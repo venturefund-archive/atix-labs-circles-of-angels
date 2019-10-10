@@ -2,9 +2,9 @@
 
 .UserLabel {
   h4 {
-    @include primary-text($body-2, $secondary-color, 400);
+    @include primary-text($body, $secondary-color, 400);
   }
   p {
-    @include primary-text($label, $grey, 400);
+    @include primary-text($body, $grey, 400);
   }
 }

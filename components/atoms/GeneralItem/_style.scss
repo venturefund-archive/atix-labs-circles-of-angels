@@ -1,0 +1,27 @@
+@import "../../../css/general_styling.scss";
+
+.GeneralItem{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+
+    h2{
+        @include primary-text($body, $black, 400);
+    }
+
+    .HeaderData{
+        display: flex;
+        align-items: center;   
+
+        .anticon{
+            margin-right: 0.5em;
+        }
+        p{
+            @include primary-text($body, $grey, 400);
+        } 
+    }
+}
+
+.GeneralItem:last-child{
+    margin-bottom: 0;
+}

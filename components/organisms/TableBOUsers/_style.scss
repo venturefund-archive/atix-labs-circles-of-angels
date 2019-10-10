@@ -1,0 +1,52 @@
+@import "../../../css/general_styling.scss";
+
+.TableBOProjects {
+  font-family: "Source Sans Pro", sans-serif;
+
+  .ant-tag{
+    border-radius: 20px;
+    padding: 0 20px;
+    text-transform: uppercase;
+    cursor: auto;
+  }
+
+  .ActionButtons{
+    display: flex;
+  }
+
+  .Primary, .ButtonDownload{
+    transform: scale(0.8);
+    margin-left: -20px;
+  }
+
+  .Cancel{
+    transform: scale(0.8);
+    margin-left: -10px;
+  }
+
+  .ProjectAccess{
+    cursor: pointer;
+  }
+
+  select {
+    background: $primary-color;
+    height: 30px;
+    border: none;
+    align-items: center;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+    @include primary-text($button, $white, 400);
+    text-transform: uppercase;
+  }
+
+  .ant-table-fixed {
+    table-layout: fixed;
+  }
+
+  .ant-table-tbody > tr > td {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+  }
+}

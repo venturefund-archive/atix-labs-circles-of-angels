@@ -1,18 +1,32 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
-.SignatoriesContainer{
-  padding: 0 1.5em;
-
-    h1{
-      @include primary-text($h1, $secondary-color, 400);
-      margin: 1.5em 0;
+.SignatoryList {
+  margin-top: 0;
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+ 
+  .TabCollaboration {
+    display: flex;
+    flex-flow: column;
+ 
+    .DownloadAgreementContainer {
+      width: 25%;
+      justify-content: flex-start;
     }
-
-    .SignatoryList{
-      display: flex;
-      width: 100%;
-      flex-flow: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
+    .UploadFileContainer {
+      h2,
+      p {
+        display: none;
+      }
     }
+  }
+ }
+ .TransferConfirmationContent, .TransferContent {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2em 0;
 }

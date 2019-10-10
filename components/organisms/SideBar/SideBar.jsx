@@ -1,15 +1,47 @@
-import React from "react";
-import { Layout, Menu, Icon } from "antd";
-import "antd/dist/antd.css";
-import "./_style.scss";
-import Link from "next/link";
-import ButtonPrimary from "../../atoms/ButtonPrimary/ButtonPrimary";
+/**
+ * AGPL License
+ * Circle of Angels aims to democratize social impact financing.
+ * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ *
+ * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
+ */
+
+import React from 'react';
+import { Layout, Menu, Icon } from 'antd';
+import 'antd/dist/antd.css';
+import './_style.scss';
+import Routing from '../../utils/Routes';
+import { withUser } from '../../utils/UserContext';
 
 const { Sider } = Layout;
 
-const SideBar = () => (
+const goToExploreProjects = () => {
+  Routing.toExploreProjects();
+};
+
+const goToFundsAdministration = () => {
+  Routing.toFundAdministration();
+};
+
+const goToBackofficeMilestones = () => {
+  Routing.toBackofficeMilestones();
+};
+
+const goToBackOfficeProjects = () => {
+  Routing.toBackOffice();
+};
+
+const goToBackOfficeUsers = () => {
+  Routing.toBackOfficeUsers();
+};
+
+const goToMyProjects = () => {
+  Routing.toMyProjects();
+}
+
+const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
-    width="80"
+    width="50"
     breakpoint="md"
     collapsedWidth="0"
     onBreakpoint={broken => {
@@ -20,19 +52,41 @@ const SideBar = () => (
     }}
   >
     <div className="logo">
-      <Link href="/">
-        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
-      </Link>
+      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
     </div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
-      <Menu.Item key="1">
-        <img src="./static/images/menu-home.svg" alt="Home" />
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
+      <Menu.Item
+        key="1"
+        onClick={
+          isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
+        }
+      >
+        <Icon type="appstore" />
       </Menu.Item>
-      <Menu.Item key="2">
-        <img src="./static/images/menu-settings.svg" alt="Settings" />
-      </Menu.Item>
+      {!isBackofficeAdmin && (
+        <Menu.Item key="2" onClick={goToMyProjects}>
+          <Icon type="sliders" />
+        </Menu.Item>
+      )}
+      {isBackofficeAdmin && (
+        <Menu.Item key="3" onClick={goToFundsAdministration}>
+          <Icon type="fund" />
+        </Menu.Item>
+      )}
+      {isBackofficeAdmin && (
+        <Menu.Item key="4" onClick={goToBackOfficeUsers}>
+          <Icon type="team" />
+        </Menu.Item>
+      )}
+      {isBackofficeAdmin ? (
+        <Menu.Item key="5" onClick={goToBackofficeMilestones}>
+          <Icon type="file-protect" />
+        </Menu.Item>
+      ) : (
+        ''
+      )}
     </Menu>
   </Sider>
 );
 
-export default SideBar;
+export default withUser(SideBar);
