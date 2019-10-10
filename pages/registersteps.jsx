@@ -54,33 +54,27 @@ const steps = [
           <Row gutter={16}>
             <Form layout="vertical">
               <Col className="gutter-row" span={12}>
-                <Form.Item label="E-mail">
+                <Form.Item label="First Name">
                   <Input size="large" />
                 </Form.Item>
               </Col>
               <Col className="gutter-row" span={12}>
-                <Form.Item label="E-mail">
-                  <Input
-                    size="large"
-                    prefix={
-                      <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
-                    placeholder="Username"
-                  />
+                <Form.Item label="Last Name">
+                  <Input size="large" placeholder="Username" />
                 </Form.Item>
               </Col>
               <Col className="gutter-row" span={12}>
-                <Form.Item label="E-mail">
+                <Form.Item label="Email">
                   <Input size="large" />
                 </Form.Item>
               </Col>
               <Col className="gutter-row" span={6}>
-                <Form.Item label="E-mail">
+                <Form.Item label="Password">
                   <Input size="large" />
                 </Form.Item>
               </Col>
               <Col className="gutter-row" span={6}>
-                <Form.Item label="E-mail">
+                <Form.Item label="Repeat Password">
                   <Input size="large" />
                 </Form.Item>
               </Col>
