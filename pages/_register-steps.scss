@@ -32,6 +32,9 @@
     .steps-content {
       height: 90%;
       position: relative;
+      .ant-form-item-label label{
+        @include primary-text ($labels, $on-surface-medium, 600);
+      }
       .Linear {
         hr {
           width: 44%;
