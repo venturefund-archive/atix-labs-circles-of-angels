@@ -1,0 +1,64 @@
+@import '../css/general_styling.scss';
+
+.RegisterSteps {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  .BlockSteps {
+    width: 25%;
+    background: $light-gray;
+    padding: 5em 0;
+    .ant-steps {
+      width: 90%;
+    }
+    .ant-steps-dot .ant-steps-item-content {
+      width: 100%;
+    }
+    .ant-steps-dot .ant-steps-item-icon {
+      margin-left: 21px;
+    }
+    .ant-steps-dot .ant-steps-item-tail {
+      margin: 0 0 0 24px;
+    }
+    .ant-steps-item-process
+      .ant-steps-item-icon
+      > .ant-steps-icon
+      .ant-steps-icon-dot {
+      background: $primary-color;
+    }
+  }
+  .BlockContent {
+    width: 75%;
+    .steps-content {
+      height: 90%;
+      position: relative;
+      .Linear {
+        hr {
+          width: 44%;
+          margin: 0;
+          border: 0.5px solid $border;
+        }
+        p {
+          @include primary-text($medium, $on-surface-medium, 400);
+          margin: 0 1em;
+        }
+      }
+      .InfoStep {
+        position: absolute;
+        top: 40%;
+        right: 103%;
+        text-align: center;
+        width: 300px;
+        h2 {
+          @include primary-text($labelbig, $on-surface, 400);
+        }
+        h4 {
+          @include primary-text($medium, $on-surface-medium, 400);
+        }
+      }
+    }
+    .steps-action {
+      height: 10%;
+    }
+  }
+}
