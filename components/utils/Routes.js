@@ -30,6 +30,7 @@ const registersteps = '/registersteps';
 const recovery = '/recovery';
 const myProjects = '/my-projects';
 const editProject = '/back-office-edit-project';
+const { termsAndConditionsFilePath } = require('../../constants/DocumentPaths');
 
 const goToRoute = (route, query) => {
   Router.push({ pathname: route, query });
@@ -105,6 +106,9 @@ const Routing = {
   },
   toEditProject: query => {
     goToRoute(editProject, query);
+  },
+  toTermsAndConditionsFile: query => {
+    goToRoute(termsAndConditionsFilePath, query);
   }
 };
 
