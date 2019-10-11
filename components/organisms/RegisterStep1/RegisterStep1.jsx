@@ -33,38 +33,38 @@ const RegisterStep1 = () => (
       </div>
       <Row className="FormRegister" gutter={26}>
         <Form layout="vertical">
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" sm={24} lg={12}>
             <Form.Item label="First Name">
               <Input size="large" />
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" sm={24} lg={12}>
             <Form.Item label="Last Name">
               <Input size="large" />
             </Form.Item>
           </Col>
-                    <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" sm={12} lg={6}>
             <Form.Item label="Country">
               <Input size="large" />
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" sm={12} lg={6}>
             <Form.Item label="Email">
               <Input size="large" />
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" sm={12} lg={6}>
             <Form.Item label="Password">
               <Input size="large" />
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" sm={12} lg={6}>
             <Form.Item label="Repeat Password">
               <Input size="large" />
             </Form.Item>
           </Col>
         </Form>
-        <Col className="gutter-row" span={12}>
+        <Col className="gutter-row" sm={24} lg={12}>
           <Checkbox>
             I’ve read and accept all the <a href="/">Terms and Conditions</a> of
             the site.

@@ -12,7 +12,7 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import './_style.scss';
 
 const OptionsUsers = ({ title, usertype }) => (
-  <Col span={8}>
+  <Col sm={24} md={8} lg={8}>
     <div className="OptionsUsers">
       <img src="./static/images/icon-users-small.svg" alt="platformusers" />
       <h1>{title}</h1>

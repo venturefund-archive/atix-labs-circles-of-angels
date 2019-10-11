@@ -32,7 +32,7 @@ const RegisterStep4 = () => (
     </div>
     <div className="StepPersonalInformation">
       <Row className="FormRegister" gutter={26} type="flex" justify="center">
-        <Col className="gutter-row BlockCongrats" span={12}>
+        <Col className="gutter-row BlockCongrats" span={20}>
           <h1>Congratulations</h1>
           <h2> Hello Social Entrepreneur !</h2>
           <p>

@@ -1,26 +1,55 @@
 @import '../css/general_styling.scss';
-.RegisterWrapper{
+.RegisterWrapper {
   overflow: hidden;
   height: 100vh;
-  .TopBar{
-    height: 7%;
+  .TopBar {
     border-bottom: 1px solid $border;
+    height: 7%;
     padding: 0 1em;
     @include breakpoint(sm) {
-height: 20%;
+      height: 7%;
+      padding: 0 1em;
+      img {
+        width: 100%;
+      }
     }
   }
   .RegisterSteps {
-height: 93%;
+    height: 93%;
+    flex-direction: row;
+    @include breakpoint(sm) {
+      flex-direction: column;
+    }
+    @include breakpoint(md) {
+      flex-direction: column;
+    }
   }
 }
 .RegisterSteps {
   display: flex;
   flex-direction: row;
   .BlockSteps {
-    width: 25%;
     background: $light-gray;
+    height: 100%;
+    width: 25%;
     padding: 5em 0;
+    display: block;
+    @include breakpoint(sm) {
+      height: 10%;
+      width: 100%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @include breakpoint(md) {
+      height: 10%;
+      width: 100%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .ant-steps {
       width: 90%;
     }
@@ -42,29 +71,76 @@ height: 93%;
   }
   .BlockContent {
     width: 75%;
+    height: 100%;
+    @include breakpoint(sm) {
+      width: 100%;
+      height: 90%;
+    }
+    @include breakpoint(md) {
+      width: 100%;
+      height: 90%;
+    }
     .steps-content {
-      height: 87%;
       position: relative;
       padding: 3.5em;
+      overflow-y: visible;
+      height: 87%;
+      @include breakpoint(sm) {
+        overflow-y: scroll;
+        height: 93%;
+        padding: 2em;
+      }
+      @include breakpoint(md) {
+        overflow-y: scroll;
+        height: 93%;
+        padding: 2em;
+      }
       .TitlePage h1 {
         margin-bottom: 2.5em;
+        @include breakpoint(sm) {
+          margin-bottom: 1.5em;
+        }
       }
       .FormRegister {
         margin: 2em 0 2em;
+        @include breakpoint(sm) {
+          margin: 1em 0 1em;
+        }
+        @include breakpoint(md) {
+          margin: 1em 0 1em;
+        }
         .ant-form-item-label label {
           @include primary-text($labels, $on-surface-medium, 600);
         }
-          .InputTwoLabel{
-            position: relative;
-            top: -1.5em;
+        .InputTwoLabel {
+          position: relative;
+          top: -1.5em;
+          @include breakpoint(sm) {
+            top: 0em;
           }
+          @include breakpoint(md) {
+            top: 0em;
+          }
+        }
       }
       .Linear {
         margin-top: 3em;
+        @include breakpoint(sm) {
+          margin-top: 2em;
+        }
+        @include breakpoint(md) {
+          margin-top: 2em;
+        }
         hr {
-          width: 43%;
+          width: 42%;
           margin: 0;
           border: 0.5px solid $border;
+          @include breakpoint(sm) {
+            width: 28%;
+          }
+          @include breakpoint(md) {
+            width: 40%;
+          }
         }
         p {
           @include primary-text($medium, $on-surface-medium, 400);
@@ -85,17 +161,27 @@ height: 93%;
         }
       }
       .ant-checkbox-wrapper span {
-        @include primary-text($body,$on-surface ,400)
-    }
+        @include primary-text($body, $on-surface, 400);
+      }
     }
     .steps-action {
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
-      height: 13%;
       margin: 0 3.5em;
       align-items: center;
       border-top: 1px solid $border;
+      height: 13%;
+      @include breakpoint(sm) {
+        height: 10%;
+        margin: 0;
+        padding: 0 2em;
+      }
+      @include breakpoint(md) {
+        height: 10%;
+        margin: 0;
+        padding: 0 2em;
+      }
     }
   }
 }

@@ -77,10 +77,15 @@ class Registersteps extends React.Component {
           justify="space-between"
           align="middle"
         >
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={10} sm={4} lg={4}>
             <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
           </Col>
-          <Col className="gutter-row" span={3}  offset={15}>
+          <Col
+            className="gutter-row"
+            xs={12}
+            sm={{ span: 7, offset: 10 }}
+            lg={{ span: 3, offset: 14 }}
+          >
             Already Registered? <a href="/">Log In</a>
           </Col>
         </Row>
