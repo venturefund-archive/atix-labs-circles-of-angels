@@ -44,6 +44,7 @@ $tabs: 10px;
 $shadow: 0 3px 7px rgba(30, 30, 31, 0.05), 0 1px 3px rgba(27, 28, 29, 0.07);
 $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136, 0.15);
 
+
 // Fonts
 
 @mixin primary-text($font-size, $font-color, $font-weight) {
@@ -99,4 +100,24 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
 .buttonDisabled {
   opacity: 0.5;
   cursor: auto;
+}
+// Responsive
+
+$screen-sm-min: 420px;
+$screen-md-min: 768px;
+$screen-lg-min: 1024px;
+
+@mixin breakpoint($media) {
+  @if $media == xs {
+    @media only screen and (max-width: $screen-xs-min) { @content; }
+  }
+    @else if $media == sm {
+    @media only screen and (max-width: $screen-sm-min) { @content; }
+  }
+  @else if $media == md {
+    @media only screen and (max-width: $screen-md-min) { @content; }
+  }
+  @else if $media == lg {
+    @media only screen and (max-width: $screen-lg-min) { @content; }
+  }
 }

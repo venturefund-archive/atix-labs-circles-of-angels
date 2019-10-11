@@ -1,9 +1,22 @@
 @import '../css/general_styling.scss';
-
+.RegisterWrapper{
+  overflow: hidden;
+  height: 100vh;
+  .TopBar{
+    height: 7%;
+    border-bottom: 1px solid $border;
+    padding: 0 1em;
+    @include breakpoint(sm) {
+height: 20%;
+    }
+  }
+  .RegisterSteps {
+height: 93%;
+  }
+}
 .RegisterSteps {
   display: flex;
   flex-direction: row;
-  height: 100vh;
   .BlockSteps {
     width: 25%;
     background: $light-gray;
@@ -30,27 +43,26 @@
   .BlockContent {
     width: 75%;
     .steps-content {
-      height: 90%;
+      height: 87%;
       position: relative;
       padding: 3.5em;
       .TitlePage h1 {
         margin-bottom: 2.5em;
       }
-
       .FormRegister {
         margin: 2em 0 2em;
         .ant-form-item-label label {
           @include primary-text($labels, $on-surface-medium, 600);
         }
-      .InputTwoLabel{
-    position: relative;
-    top: -1.5em;
-      }
+          .InputTwoLabel{
+            position: relative;
+            top: -1.5em;
+          }
       }
       .Linear {
         margin-top: 3em;
         hr {
-          width: 43.5%;
+          width: 43%;
           margin: 0;
           border: 0.5px solid $border;
         }
@@ -80,7 +92,7 @@
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
-      height: 10%;
+      height: 13%;
       margin: 0 3.5em;
       align-items: center;
       border-top: 1px solid $border;

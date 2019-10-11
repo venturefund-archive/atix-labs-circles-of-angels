@@ -70,38 +70,54 @@ class Registersteps extends React.Component {
   render() {
     const { current } = this.state;
     return (
-      <div className="RegisterSteps">
-        <div className="BlockSteps">
-          <Steps progressDot current={current}>
-            {steps.map(item => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        </div>
-        <div className="vertical BlockContent">
-          <div className="steps-content">{steps[current].content}</div>
-          <div className="steps-action">
-            {current < steps.length - 1 && (
-              <CustomButton
-                theme="Primary"
-                buttonText="Save and Continue"
-                onClick={() => this.next()}
-              />
-            )}
-            {current === steps.length - 1 && (
-              <CustomButton
-                theme="Primary"
-                buttonText="Finish!"
-                onClick={() => message.success('Processing complete!')}
-              />
-            )}
-            {current > 0 && (
-              <CustomButton
-                theme="Secondary"
-                buttonText="Previous"
-                onClick={() => this.prev()}
-              />
-            )}
+      <div className="RegisterWrapper">
+        <Row
+          className="TopBar"
+          type="flex"
+          justify="space-between"
+          align="middle"
+        >
+          <Col className="gutter-row" span={6}>
+            <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+          </Col>
+          <Col className="gutter-row" span={3}  offset={15}>
+            Already Registered? <a href="/">Log In</a>
+          </Col>
+        </Row>
+
+        <div className="RegisterSteps">
+          <div className="BlockSteps">
+            <Steps progressDot current={current}>
+              {steps.map(item => (
+                <Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+          </div>
+          <div className="vertical BlockContent">
+            <div className="steps-content">{steps[current].content}</div>
+            <div className="steps-action">
+              {current < steps.length - 1 && (
+                <CustomButton
+                  theme="Primary"
+                  buttonText="Save and Continue"
+                  onClick={() => this.next()}
+                />
+              )}
+              {current === steps.length - 1 && (
+                <CustomButton
+                  theme="Primary"
+                  buttonText="Finish!"
+                  onClick={() => message.success('Processing complete!')}
+                />
+              )}
+              {current > 0 && (
+                <CustomButton
+                  theme="Secondary"
+                  buttonText="Previous"
+                  onClick={() => this.prev()}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

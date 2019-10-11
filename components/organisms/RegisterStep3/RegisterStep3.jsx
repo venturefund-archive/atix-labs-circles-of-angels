@@ -57,12 +57,12 @@ const RegisterStep3 = () => (
           </Col>
           <Col className="InputTwoLabel" span={12}>
             <Form.Item
-              label={(
-<div>
+              label={
+                                <div>
                   Which are the areas of impact that you tackle?
-                  <p>Based on the UN Sustainable Development Goals</p>
-                </div>
-)}
+  <p>Based on the UN Sustainable Development Goals</p>
+</div>
+              }
             >
               <Select size="large" mode="tags" onChange={handleChange}>
                 {children}
