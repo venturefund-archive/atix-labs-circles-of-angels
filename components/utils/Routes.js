@@ -26,6 +26,7 @@ const projectEvidence = '/project-evidence';
 const backOfficeUsers = '/back-office-users';
 const backOfficeMilestones = '/back-office-milestones';
 const register = '/register';
+const registersteps = '/registersteps';
 const recovery = '/recovery';
 const myProjects = '/my-projects';
 const editProject = '/back-office-edit-project';

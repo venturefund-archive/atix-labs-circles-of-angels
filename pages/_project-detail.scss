@@ -5,33 +5,48 @@
   overflow-y: auto;
 
   .ProjectHeader {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-end;
     position: relative;
-    height: 50%;
+    height: 45%;
     overflow: hidden;
-    img {
+    border-bottom-left-radius: 30px;
+    .Banner {
       width: 100%;
+      height: 100%;
     }
+  }
+  .BlockContent {
+    height: 55%;
+    padding: 1em 3em;
   }
   .ProjectEnterprice {
     background: rgb(0, 0, 0);
-    background: linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    height: 80%;
+    background: linear-gradient(0deg, #0000003d 0%, #000000c7 -3%, rgba(0, 0, 0, 0) 100%);
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 1em 1.5em;
+    padding: 1em 3em;
+    display:flex;
+    align-items: flex-end;
+    justify-content:space-between;
     h1 {
-      @include primary-text($title, $white, 600);
+      line-height: 40px;
+      @include primary-text($titlebig, $white, 600);
     }
     p {
-      @include primary-text($h2, $white, 400);
+      @include primary-text($labelbig, $white, 400);
+      opacity: 0.7;
+    }
+    .Item {
+      margin-left: 1em;
+      h2 {
+        @include primary-text($medium, $white, 400);
+        line-height: 17px;
+      }
+
+      img {
+        margin-right: 1em;
+      }
     }
   }
 
