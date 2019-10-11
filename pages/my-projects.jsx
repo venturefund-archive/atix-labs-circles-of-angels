@@ -13,7 +13,6 @@ import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getProjectsAsOracle, getProjectMilestones } from '../api/projectApi';
 import { getMyProjects } from '../api/userApi';
-import { getPhoto } from '../api/photoApi';
 import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
 import './_style.scss';
@@ -41,16 +40,13 @@ class MyProjects extends React.Component {
     const projectsWithoutPhoto = res.data;
     const projects = await Promise.all(
       projectsWithoutPhoto.map(async project => {
-        const projectCardPhoto = await getPhoto(project.cardPhoto);
         const milestones = await getProjectMilestones(project.id);
         return {
           ...project,
-          cardPhoto: projectCardPhoto.data,
           milestones: milestones.data
         };
       })
     );
-    const { activeOracleProjects } = this.state;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
       const oracleProjects = response.data.projects;
@@ -113,7 +109,6 @@ class MyProjects extends React.Component {
                       )) && (
                       <CardProject
                         enterpriseName={project.projectName}
-                        projectCardImage={project.cardPhoto}
                         enterpriseLocation={project.location}
                         timeframe={project.timeframe}
                         amount={project.goalAmount}
@@ -122,6 +117,7 @@ class MyProjects extends React.Component {
                         milestoneProgress={this.getMilestoneProgress(
                           project.milestones
                         )}
+                        projectId={project.id}
                         key={project.id}
                         onClick={() => this.goToProjectDetail(project.id)}
                       />
