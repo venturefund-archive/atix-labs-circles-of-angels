@@ -4,6 +4,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "si": "npm run build && npm run dev",
     "prod": "NODE_ENV=production next start"
   },
   "dependencies": {

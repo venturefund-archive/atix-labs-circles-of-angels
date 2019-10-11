@@ -37,11 +37,11 @@ const goToBackOfficeUsers = () => {
 
 const goToMyProjects = () => {
   Routing.toMyProjects();
-}
+};
 
 const SideBar = ({ isBackofficeAdmin }) => (
   <Sider
-    width="50"
+    width="60"
     breakpoint="md"
     collapsedWidth="0"
     onBreakpoint={broken => {
@@ -61,11 +61,11 @@ const SideBar = ({ isBackofficeAdmin }) => (
           isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
         }
       >
-        <Icon type="appstore" />
+         <img src="./static/images/projects-icon-navbar.svg" alt="myprojects" />
       </Menu.Item>
       {!isBackofficeAdmin && (
         <Menu.Item key="2" onClick={goToMyProjects}>
-          <Icon type="sliders" />
+          <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
         </Menu.Item>
       )}
       {isBackofficeAdmin && (
