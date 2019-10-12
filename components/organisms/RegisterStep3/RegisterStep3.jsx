@@ -10,6 +10,7 @@ import React from 'react';
 import { Form, Input, Row, Col, Checkbox, Select } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import RegisterStep from '../FormRegister/steps/RegisterStep';
 
 const { Option } = Select;
 
@@ -22,57 +23,69 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
-const RegisterStep3 = () => (
-  <div>
-    <div className="InfoStep">
-      <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
-      <h2>Enterprise Information</h2>
-      <h4>
-        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
-      </h4>
-    </div>
-    <div className="StepPersonalInformation">
-      <TitlePage textTitle="I want to create a Project" />
-      <Row className="FormRegister" gutter={26}>
-        <Form layout="vertical">
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Form.Item label="What´s your company name?">
-              <Input size="large" />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Form.Item label="Last Name">
-              <Input size="large" />
-            </Form.Item>
-          </Col>
-        </Form>
-      </Row>
-      <TitlePage textTitle="We have some questions for you!" />
-      <Row className="FormRegister" gutter={26}>
-        <Form layout="vertical">
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Form.Item label="What type of funding you are seeking?">
-              <Input size="large" />
-            </Form.Item>
-          </Col>
-          <Col className="InputTwoLabel" sm={24} lg={12}>
-            <Form.Item
-              label={
-                                <div>
-                  Which are the areas of impact that you tackle?
-  <p>Based on the UN Sustainable Development Goals</p>
-</div>
-              }
-            >
-              <Select size="large" mode="tags" onChange={handleChange}>
-                {children}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Form>
-      </Row>
-    </div>
-  </div>
-);
+class RegisterStep3 extends RegisterStep {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="InfoStep">
+          <img
+            src="./static/images/icon-personal.svg"
+            alt="Circles of Angels"
+          />
+          <h2>Enterprise Information</h2>
+          <h4>
+            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
+            amet..
+          </h4>
+        </div>
+        <div className="StepPersonalInformation">
+          <TitlePage textTitle="I want to create a Project" />
+          <Row className="FormRegister" gutter={26}>
+            <Form layout="vertical">
+              <Col className="gutter-row" sm={24} lg={12}>
+                <Form.Item label="What´s your company name?">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+              <Col className="gutter-row" sm={24} lg={12}>
+                <Form.Item label="Last Name">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+            </Form>
+          </Row>
+          <TitlePage textTitle="We have some questions for you!" />
+          <Row className="FormRegister" gutter={26}>
+            <Form layout="vertical">
+              <Col className="gutter-row" sm={24} lg={12}>
+                <Form.Item label="What type of funding you are seeking?">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+              <Col className="InputTwoLabel" sm={24} lg={12}>
+                <Form.Item
+                  label={
+                    <div>
+                      Which are the areas of impact that you tackle?
+                      <p>Based on the UN Sustainable Development Goals</p>
+                    </div>
+                  }
+                >
+                  <Select size="large" mode="tags" onChange={handleChange}>
+                    {children}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Form>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default RegisterStep3;

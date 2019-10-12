@@ -10,6 +10,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import './_style.scss';
+import RegisterStep from '../FormRegister/steps/RegisterStep';
 
 const OptionsUsers = ({ title, usertype }) => (
   <Col sm={24} md={8} lg={8}>
@@ -20,25 +21,38 @@ const OptionsUsers = ({ title, usertype }) => (
     </div>
   </Col>
 );
-const RegisterStep2 = () => (
-  <div>
-    <div className="InfoStep">
-      <img src="./static/images/icon-users.svg" alt="platformusers" />
-      <h2>Platform User</h2>
-      <h4>
-        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
-      </h4>
-    </div>
-    <div className="StepPersonalInformation">
-      <TitlePage textTitle="What do you want to do?" />
+class RegisterStep2 extends RegisterStep {
+  constructor(props) {
+    super(props);
+    console.log('step 2', props)
+  }
 
-      <Row className="FormRegister" gutter={26}>
-        <OptionsUsers title="Create a Project" usertype="Social Entrepreneur" />
-        <OptionsUsers title="Fund a Project" usertype="Impact Funder" />
-        <OptionsUsers title="Monitor a Project" usertype="Oracle" />
-      </Row>
-    </div>
-  </div>
-);
+  render() {
+    return (
+      <div>
+        <div className="InfoStep">
+          <img src="./static/images/icon-users.svg" alt="platformusers" />
+          <h2>Platform User</h2>
+          <h4>
+            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
+            amet..
+          </h4>
+        </div>
+        <div className="StepPersonalInformation">
+          <TitlePage textTitle="What do you want to do?" />
+
+          <Row className="FormRegister" gutter={26}>
+            <OptionsUsers
+              title="Create a Project"
+              usertype="Social Entrepreneur"
+            />
+            <OptionsUsers title="Fund a Project" usertype="Impact Funder" />
+            <OptionsUsers title="Monitor a Project" usertype="Oracle" />
+          </Row>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default RegisterStep2;

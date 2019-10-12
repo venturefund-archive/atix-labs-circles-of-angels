@@ -16,11 +16,15 @@ module.exports = withSass(
     },
     webpack: config => {
       // Fixes npm packages that depend on `fs` module
-      config.node = {
-        fs: 'empty'
+      return {
+        ...config,
+        optimization: {
+          minimizer: []
+        },
+        node: {
+          fs: 'empty'
+        }
       };
-
-      return config;
     }
   })
 );

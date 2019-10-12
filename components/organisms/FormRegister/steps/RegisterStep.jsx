@@ -9,18 +9,15 @@
 import React from 'react';
 // import './_style.scss';
 
-
-export default class RegistrationStep extends React.Component {
+export default class RegisterStep extends React.Component {
   constructor(props) {
     super(props);
     console.log('registration step called', props);
     this.state = {
-      stepName: props.stepName,
-    }
+      // stepName: props.stepName
+    };
   }
-  componentDidMount() {
-
-  }
+  // componentDidMount() {}
   // getStep(step) {
   //   switch (step) {
   //     case 1:
@@ -33,13 +30,14 @@ export default class RegistrationStep extends React.Component {
   //         return <CongratsStep />
   //     }
   // }
-  getNextStepButton(step) {
-    return (
-      <button onClick={ this.nextStep() }
-        value={step < 4 ? "Continue" : "Finish"}
-      />
-    )
-  }
+  // getNextStepButton(step) {
+  //   return (
+  //     <button
+  //       onClick={this.nextStep()}
+  //       value={step < 4 ? 'Continue' : 'Finish'}
+  //     />
+  //   );
+  // }
   // render() {
   //   const {stepName, currentStep } = this.state;
   //   <div id={stepName}>

@@ -19,56 +19,44 @@ import {
   Checkbox
 } from 'antd';
 
-import FormRegister from '../components/organisms/FormRegister/FormRegister';
-import { getQuestionnaire } from '../api/questionnaireApi';
-import Roles from '../constants/RolesMap';
-import Routes from '../components/utils/Routes';
+import RegisterForm from '../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
 import './_style.scss';
-import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
+
 import RegisterStep1 from '../components/organisms/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../components/organisms/RegisterStep2/RegisterStep2';
 import RegisterStep3 from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
-const { Step } = Steps;
-
-const steps = [
-  {
-    content: <RegisterStep1 />
-  },
-  {
-    content: <RegisterStep2 />
-  },
-  {
-    content: <RegisterStep3 />
-  },
-  {
-    content: <RegisterStep4 />
-  }
-];
+// const { Step } = Steps;
 
 class Registersteps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: 0
+      current: 0,
+      steps: [
+        <RegisterStep1 />,
+        <RegisterStep2 />,
+        <RegisterStep3 />,
+        <RegisterStep4 />
+      ]
     };
   }
 
   next() {
-    const current = this.state.current + 1;
+    const { current } = this.state;
+    console.log('page next', current);
     this.setState({ current });
   }
 
   prev() {
-    const current = this.state.current - 1;
+    const { current } = this.state;
     this.setState({ current });
   }
 
   render() {
-    const { current } = this.state;
+    const { current, steps } = this.state;
     return (
       <div className="RegisterWrapper">
         <Row
@@ -90,41 +78,27 @@ class Registersteps extends React.Component {
           </Col>
         </Row>
 
-        <div className="RegisterSteps">
+        {/* <div className="RegisterSteps">
           <div className="BlockSteps">
             <Steps progressDot current={current}>
               {steps.map(item => (
                 <Step key={item.title} title={item.title} />
               ))}
             </Steps>
-          </div>
-          <div className="vertical BlockContent">
-            <div className="steps-content">{steps[current].content}</div>
+          </div> */}
+        <RegisterForm
+          currentStep={current}
+          steps={steps}
+          // goBackHandler={this.goToLogin}
+        />
+        {/* <div className="vertical BlockContent">
+            <div className="steps-content">{steps[current]}</div>
             <div className="steps-action">
-              {current < steps.length - 1 && (
-                <CustomButton
-                  theme="Primary"
-                  buttonText="Save and Continue"
-                  onClick={() => this.next()}
-                />
-              )}
-              {current === steps.length - 1 && (
-                <CustomButton
-                  theme="Primary"
-                  buttonText="Finish!"
-                  onClick={() => message.success('Processing complete!')}
-                />
-              )}
-              {current > 0 && (
-                <CustomButton
-                  theme="Secondary"
-                  buttonText="Previous"
-                  onClick={() => this.prev()}
-                />
-              )}
+              {this.getNextStepButton()}
+              {this.getPreviousStepButton()}
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     );
   }

@@ -6,15 +6,33 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Form, Input, Icon, Select } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_style.scss';
-import { signUpUser } from '../../../api/userApi';
-import { showModalSuccess, showModalError } from '../../utils/Modals';
-import Routing from '../../utils/Routes';
-import PersonalInfoStep from './steps/RoleSelection';
+import React, { useState } from 'react';
+// import './_style.scss';
+import '../../../pages/_style.scss';
+import '../../../pages/registersteps';
+import {
+  Steps,
+  Button,
+  message,
+  Form,
+  Icon,
+  Input,
+  Row,
+  Col,
+  Checkbox
+} from 'antd';
 
+// import FormRegister from '../organisms/FormRegister/FormRegister';
+// import { getQuestionnaire } from '../api/questionnaireApi';
+// import Roles from '../constants/RolesMap';
+// import Routes from '../components/utils/Routes';
+// import register
+import TitlePage from '../../atoms/TitlePage/TitlePage';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import RegisterStep1 from '../RegisterStep1/RegisterStep1';
+import RegisterStep2 from '../RegisterStep2/RegisterStep2';
+import RegisterStep3 from '../RegisterStep3/RegisterStep3';
+import RegisterStep4 from '../RegisterStep4/RegisterStep4';
 // https://stackoverflow.com/questions/56878813/how-to-use-getfielddecorator-with-stateless-components
 // const FormInput = (props) => {
 //   const { }
@@ -33,15 +51,17 @@ import PersonalInfoStep from './steps/RoleSelection';
 //   </Form.Item>
 //   )
 // }
+const { Step } = Steps;
 
 export default class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     // console.log('aaaa', props)
     this.state = {
-      currentStep: 1,
+      current: 0,
       steps: props.steps
     };
+    // console.log(props.)
     // console.log(this.state);
   }
 
@@ -51,46 +71,115 @@ export default class RegisterForm extends React.Component {
     // this.setState({ seQuestionnaire, funderQuestionnaire });
   };
 
-  goToLogin() {
-    Routes.toLogin();
+  nextStep(current) {
+    // console.log('next step!');
+    this.next(current);
+    // console.log('nextstep 2', this.state);
   }
 
-  nextStep = () => {
-    console.log('next step!');
-    this.setCurrentStep(this.state.currentStep + 1);
-  };
+  finishRegister() {
+    message.success('Processing complete!');
+  }
 
-  setCurrentStep = next => {
-    const current = this.state.currentStep;
-    if (current === next) return;
-    if (next < 0 || next > 4) {
-      console.log('invalid step', step);
-    }
+  next(current) {
     this.setState({
-      currentStep: next
+      current: current + 1
     });
-  };
+  }
+
+  prev(current) {
+    this.setState({
+      current: current - 1
+    });
+  }
+
+  getNextStepButton(current, stepsLength) {
+    const isLast = current === stepsLength - 1;
+    return (
+      <CustomButton
+        theme="Primary"
+        buttonText={isLast ? 'Finish!' : 'Save and continue'}
+        onClick={
+          isLast ? () => this.finishRegister() : () => this.nextStep(current)
+        }
+      />
+    );
+  }
+
+  getPrevStepButton(current) {
+    if (current === 0) return;
+
+    return (
+      <CustomButton
+        theme="Secondary"
+        buttonText="Previous"
+        onClick={() => this.prev(current)}
+      />
+    );
+  }
 
   render() {
-    const props = {
-      nextStep: this.nextStep,
-      currentStep: this.state.currentStep
+    // const props = {
+    //   nextStep: this.nextStep,
+    //   currentStep: this.state.currentStep
 
-    };
+    // };
 
-    // const steps = React.Children.map(this.state.steps, (step, i) => {
-    const steps = this.state.steps.map((step, i) => {
-      props.isActive = (i === props.currentStep);
-      // console.log(step, React.isValidElement(step));
-      return React.cloneElement(step, props)
-    });
-    // console.log(steps);
+    // // const steps = React.Children.map(this.state.steps, (step, i) => {
+    // const steps = this.state.steps.map((step, i) => {
+    //   props.isActive = (i === props.currentStep);
+    //   // console.log(step, React.isValidElement(step));
+    //   return React.cloneElement(step, props)
+    // });
+    // // console.log(steps);
+    // return (
+    //   <div className={this.props.className}>
+    //     { steps }
+    //   </div>
+    // )
+    // // <RegistrationStep />
+    const { current, steps } = this.state;
+    const isLastStep = current === steps.length - 1;
+    // console.log('steps[current]', current, steps[current]);
     return (
-      <div className={this.props.className}>
-        { steps }
+      // <div className="RegisterWrapper">
+      //   <Row
+      //     className="TopBar"
+      //     type="flex"
+      //     justify="space-between"
+      //     align="middle"
+      //   >
+      //     <Col className="gutter-row" xs={10} sm={4} lg={4}>
+      //       <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+      //     </Col>
+      //     <Col
+      //       className="gutter-row"
+      //       xs={12}
+      //       sm={{ span: 7, offset: 10 }}
+      //       lg={{ span: 3, offset: 14 }}
+      //     >
+      //       Already Registered? <a href="/">Log In</a>
+      //     </Col>
+      //   </Row>
+
+      <div className="RegisterSteps">
+        <div className="BlockSteps">
+          <Steps progressDot current={current}>
+            {steps.map(item => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+        </div>
+        <div className="vertical BlockContent">
+          <div className="steps-content">{steps[current]}</div>
+          <div className="steps-action">
+            {this.getNextStepButton(current, isLastStep)}
+            {this.getPrevStepButton(current)}
+          </div>
+        </div>
       </div>
-    )
-    // <RegistrationStep />
+      // </div>
+    );
   }
 }
 
@@ -101,7 +190,7 @@ export default class RegisterForm extends React.Component {
 //     form.validateFields(async (err, values) => {
 //       if (!err) {
 //         const user = {
-//           username: values.name,
+//           usernwame: values.name,
 //           email: values.email,
 //           pwd: values.password,
 //           role: values.role
