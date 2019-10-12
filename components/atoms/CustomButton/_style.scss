@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50px;
+  border-radius: 4px;
   padding: 0.6em 1.5em;
   height: 36px;
   text-align: center;
@@ -31,6 +31,26 @@
     display: none;
   }
 }
+/* FACEBOOK */
+.ant-btn.Facebook,
+.ant-btn.Facebook:active,
+.ant-btn.Facebook:focus,
+.ant-btn.Facebook:hover {
+  background: #3B539A;
+  border-radius: 4px;
+  span {
+    @include primary-text($button, $white, 400);
+  }
+  .anticon {
+    display: none;
+  }
+  @include breakpoint(sm) {
+    width: 100%;
+    }
+    @include breakpoint(lg) {
+      width: auto;
+      }
+}
 /* PRIMARY */
 .ant-btn.Primary,
 .ant-btn.Primary:active,
@@ -39,6 +59,20 @@
   background: $primary-color;
   span {
     @include primary-text($button, $white, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+
+/* SECONDARY */
+.ant-btn.Secondary,
+.ant-btn.Secondary:active,
+.ant-btn.Secondary:focus,
+.ant-btn.Secondary:hover {
+  background:transparent;
+  span {
+    @include primary-text($button, $primary-color, 400);
   }
   .anticon {
     display: none;

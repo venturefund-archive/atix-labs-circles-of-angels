@@ -7,16 +7,10 @@
  */
 
 import React from 'react';
-import { Divider } from 'antd';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import {
-  getActiveProjects,
-  getProjectsAsOracle,
-  getProjectMilestones
-} from '../api/projectApi';
-import { getPhoto } from '../api/photoApi';
+import { getProjectsPreview, getProjectsAsOracle } from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
 import Routing from '../components/utils/Routes';
 import './_style.scss';
@@ -24,6 +18,8 @@ import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import TitlePage from '../components/atoms/TitlePage/TitlePage';
+import { Row, Col } from 'antd';
 
 class ExploreProjects extends React.Component {
   constructor(props) {
@@ -36,21 +32,8 @@ class ExploreProjects extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await getActiveProjects();
-    const projectsWithoutPhoto = res.data;
-    const projects = await Promise.all(
-      projectsWithoutPhoto.map(async project => {
-        const projectCardPhoto = await getPhoto(project.cardPhoto);
-        const milestones = await getProjectMilestones(project.id);
-        return {
-          ...project,
-          cardPhoto: projectCardPhoto.data,
-          milestones: milestones.data
-        };
-      })
-    );
+    const projects = (await getProjectsPreview()).data;
     const { user } = this.props;
-    const { activeOracleProjects } = this.state;
     if (user.role.id === Roles.Oracle) {
       const response = await getProjectsAsOracle(user.id);
       const oracleProjects = response.data.projects;
@@ -92,39 +75,30 @@ class ExploreProjects extends React.Component {
           <Header />
 
           <div className="Content">
-            <div className="titlepage">
-              <h1>Explore Projects</h1>
-            </div>
-            <div className="ProjectsCardsContainer">
+            <TitlePage textTitle="Explore Project´s" />
+            <Row className="ProjectsCardsContainer" gutter={16}>
               {projects &&
                 projects.map(project => {
-                  const hasOpenMilestones = project.milestones.some(
-                    milestone =>
-                      milestone.status.status !==
-                      milestoneActivityStatus.COMPLETED
-                  );
                   const showTag =
-                    hasOpenMilestones &&
+                    project.hasOpenMilestones &&
                     project.status === projectStatus.IN_PROGRESS &&
                     activeOracleProjects.indexOf(project.id) !== -1;
                   return (
                     <CardProject
                       enterpriseName={project.projectName}
-                      projectCardImage={project.cardPhoto}
                       enterpriseLocation={project.location}
                       timeframe={project.timeframe}
                       amount={project.goalAmount}
                       showTag={showTag}
                       tagClick={() => this.goToProjectProgress(project.id)}
-                      milestoneProgress={this.getMilestoneProgress(
-                        project.milestones
-                      )}
+                      milestoneProgress={project.milestoneProgress}
+                      projectId={project.id}
                       key={project.id}
                       onClick={() => this.goToProjectDetail(project.id)}
                     />
                   );
                 })}
-            </div>
+            </Row>
           </div>
         </div>
       </div>

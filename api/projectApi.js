@@ -51,6 +51,15 @@ const getActiveProjects = async () => {
   }
 };
 
+const getProjectsPreview = async () => {
+  try {
+    const response = await api.get(`${baseURL}/preview`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 const getProject = async projectId => {
   try {
     const response = await api.get(`${baseURL}/${projectId}`);
@@ -314,5 +323,6 @@ export {
   downloadProposalTemplate,
   updateProject,
   getProjectExperiences,
-  createProjectExperience
+  createProjectExperience,
+  getProjectsPreview
 };
