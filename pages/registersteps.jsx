@@ -23,12 +23,21 @@ import RegisterForm from '../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
 import './_style.scss';
 
-import RegisterStep1 from '../components/organisms/RegisterStep1/RegisterStep1';
+import RegisterStep1, {
+  step1Inputs
+} from '../components/organisms/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../components/organisms/RegisterStep2/RegisterStep2';
 import RegisterStep3 from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
-// const { Step } = Steps;
+// TODO : state shouldnt be modified.
+const getInitialState = state => {
+  Object.entries(state).forEach(([key, value]) => {
+    value.valid = true;
+    state[key] = value;
+  });
+  return state;
+};
 
 class Registersteps extends React.Component {
   constructor(props) {
@@ -36,10 +45,22 @@ class Registersteps extends React.Component {
     this.state = {
       current: 0,
       steps: [
-        <RegisterStep1 />,
-        <RegisterStep2 />,
-        <RegisterStep3 />,
-        <RegisterStep4 />
+        {
+          inputs: getInitialState(step1Inputs),
+          component: RegisterStep1
+        }
+        {
+          inputs: {},
+          component: RegisterStep2
+        },
+        // {
+        //   inputs: {},
+        //   component: RegisterStep3
+        // },
+        // {
+        //   inputs: {},
+        //   component: RegisterStep4
+        // }
       ]
     };
   }
@@ -77,28 +98,7 @@ class Registersteps extends React.Component {
             Already Registered? <a href="/">Log In</a>
           </Col>
         </Row>
-
-        {/* <div className="RegisterSteps">
-          <div className="BlockSteps">
-            <Steps progressDot current={current}>
-              {steps.map(item => (
-                <Step key={item.title} title={item.title} />
-              ))}
-            </Steps>
-          </div> */}
-        <RegisterForm
-          currentStep={current}
-          steps={steps}
-          // goBackHandler={this.goToLogin}
-        />
-        {/* <div className="vertical BlockContent">
-            <div className="steps-content">{steps[current]}</div>
-            <div className="steps-action">
-              {this.getNextStepButton()}
-              {this.getPreviousStepButton()}
-            </div>
-          </div> */}
-        {/* </div> */}
+        <RegisterForm currentStep={current} steps={steps} />
       </div>
     );
   }

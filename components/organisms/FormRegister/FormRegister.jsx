@@ -6,182 +6,141 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import './_style.scss';
 import '../../../pages/_style.scss';
 import '../../../pages/registersteps';
-import {
-  Steps,
-  Button,
-  message,
-  Form,
-  Icon,
-  Input,
-  Row,
-  Col,
-  Checkbox
-} from 'antd';
+import { Steps } from 'antd';
 
-// import FormRegister from '../organisms/FormRegister/FormRegister';
-// import { getQuestionnaire } from '../api/questionnaireApi';
-// import Roles from '../constants/RolesMap';
-// import Routes from '../components/utils/Routes';
 // import register
-import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import RegisterStep1 from '../RegisterStep1/RegisterStep1';
-import RegisterStep2 from '../RegisterStep2/RegisterStep2';
-import RegisterStep3 from '../RegisterStep3/RegisterStep3';
-import RegisterStep4 from '../RegisterStep4/RegisterStep4';
-// https://stackoverflow.com/questions/56878813/how-to-use-getfielddecorator-with-stateless-components
-// const FormInput = (props) => {
-//   const { }
-//   const rules = formRules[name];
-//   return (
-//     <Form.Item>
-//     {
 
-//       getFieldDecorator(name, { rules })
-//       (
-//       <Input
-//         placeholder="Full Name"
-//         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-//       />
-//     )}
-//   </Form.Item>
-//   )
-// }
 const { Step } = Steps;
 
-export default class RegisterForm extends React.Component {
-  constructor(props) {
-    super(props);
-    // console.log('aaaa', props)
-    this.state = {
-      current: 0,
-      steps: props.steps
-    };
-    // console.log(props.)
-    // console.log(this.state);
-  }
+const useForm = (initialState, submitCallback) => {
+  const [inputs, setInputs] = useState(initialState);
 
-  componentDidMount = async () => {
-    // const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
-    // const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
-    // this.setState({ seQuestionnaire, funderQuestionnaire });
+  const handleChange = e => {
+    e.persist();
+
+    const input = inputs[e.target.name];
+    input.value = e.target.value;
+
+    const rule = isValidInput(input);
+    // no invalid rule => is valid input
+    input.valid = rule === undefined;
+
+    if (!input.valid) {
+      input.errorMessage = rule.message;
+    }
+
+    setInputs({
+      ...inputs,
+      input
+    });
   };
 
-  nextStep(current) {
-    // console.log('next step!');
-    this.next(current);
-    // console.log('nextstep 2', this.state);
-  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    const isValid = inputs.every(input => isValidInput(input));
+    if (isValid) {
+      submitCallback();
+    }
+  };
 
-  finishRegister() {
-    message.success('Processing complete!');
-  }
+  // TODO : should this be async?
+  const validate = (rule, value) => {
+    let isValid = true;
 
-  next(current) {
-    this.setState({
-      current: current + 1
+    // TODO : why is this happening?
+    if (value === undefined) {
+      value = '';
+    }
+
+    const v = rule.whitespace ? value.trim() : value;
+
+    if (rule.required) {
+      isValid = isValid && v.length > 0;
+    }
+    if (rule.regex) {
+      isValid = isValid && v.value.match(rule.regex);
+    }
+    return isValid;
+  };
+
+  const isValidInput = input => {
+    // TODO : input.value wont work for Checkbox and maybe Select.
+    // find the first not satisfied rule
+    return input.rules.find(rule => {
+      // allow custom validators.
+      const validator = rule.validator ? rule.validator : validate;
+      return !validator(rule, input.value, inputs) ? rule.message : undefined;
     });
-  }
+  };
 
-  prev(current) {
-    this.setState({
-      current: current - 1
-    });
-  }
+  return [inputs, handleChange, handleSubmit];
+};
 
-  getNextStepButton(current, stepsLength) {
+// TODO : refactor as functional component
+function RegisterForm({ currentStep, steps }) {
+  const submitCallback = () => true;
+  const [inputs, setInputs, setSubmit] = useForm(
+    steps[currentStep].inputs,
+    submitCallback
+  );
+
+  function next(current) {}
+
+  function prev(current) {}
+
+  function getNextStepButton(current, stepsLength) {
     const isLast = current === stepsLength - 1;
     return (
       <CustomButton
         theme="Primary"
         buttonText={isLast ? 'Finish!' : 'Save and continue'}
-        onClick={
-          isLast ? () => this.finishRegister() : () => this.nextStep(current)
-        }
+        onClick={() => next(current)}
       />
     );
   }
 
-  getPrevStepButton(current) {
+  function getPrevStepButton(current) {
     if (current === 0) return;
 
     return (
       <CustomButton
         theme="Secondary"
         buttonText="Previous"
-        onClick={() => this.prev(current)}
+        onClick={() => prev(current)}
       />
     );
   }
+  function getStepComponent(current) {
+    const Component = steps[current].component;
+    return <Component inputs={steps[current].inputs} setInputs={setInputs} />;
+  }
 
-  render() {
-    // const props = {
-    //   nextStep: this.nextStep,
-    //   currentStep: this.state.currentStep
-
-    // };
-
-    // // const steps = React.Children.map(this.state.steps, (step, i) => {
-    // const steps = this.state.steps.map((step, i) => {
-    //   props.isActive = (i === props.currentStep);
-    //   // console.log(step, React.isValidElement(step));
-    //   return React.cloneElement(step, props)
-    // });
-    // // console.log(steps);
-    // return (
-    //   <div className={this.props.className}>
-    //     { steps }
-    //   </div>
-    // )
-    // // <RegistrationStep />
-    const { current, steps } = this.state;
-    const isLastStep = current === steps.length - 1;
-    // console.log('steps[current]', current, steps[current]);
-    return (
-      // <div className="RegisterWrapper">
-      //   <Row
-      //     className="TopBar"
-      //     type="flex"
-      //     justify="space-between"
-      //     align="middle"
-      //   >
-      //     <Col className="gutter-row" xs={10} sm={4} lg={4}>
-      //       <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
-      //     </Col>
-      //     <Col
-      //       className="gutter-row"
-      //       xs={12}
-      //       sm={{ span: 7, offset: 10 }}
-      //       lg={{ span: 3, offset: 14 }}
-      //     >
-      //       Already Registered? <a href="/">Log In</a>
-      //     </Col>
-      //   </Row>
-
-      <div className="RegisterSteps">
-        <div className="BlockSteps">
-          <Steps progressDot current={current}>
-            {steps.map(item => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        </div>
-        <div className="vertical BlockContent">
-          <div className="steps-content">{steps[current]}</div>
-          <div className="steps-action">
-            {this.getNextStepButton(current, isLastStep)}
-            {this.getPrevStepButton(current)}
-          </div>
+  return (
+    <div className="RegisterSteps">
+      <div className="BlockSteps">
+        <Steps progressDot current={currentStep}>
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+      </div>
+      <div className="vertical BlockContent">
+        <div className="steps-content">{getStepComponent(currentStep)}</div>
+        <div className="steps-action">
+          {getNextStepButton(currentStep, currentStep === 3)}
+          {getPrevStepButton(currentStep)}
         </div>
       </div>
-      // </div>
-    );
-  }
+    </div>
+  );
 }
+
+export default RegisterForm;
 
 // class AngelsForm extends React.Component {
 //   handleSubmit = e => {
