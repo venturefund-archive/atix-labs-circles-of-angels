@@ -27,13 +27,6 @@ const getInitialState = state => {
     state[key] = value;
   });
   return state;
-  // console.log('s',state)
-  // const a = state.map(input => {
-  //   input.valid = true;
-  //   return input;
-  // });
-  // console.log(a);
-  // return a;
 };
 
 const steps = [
@@ -55,8 +48,10 @@ const steps = [
   // }
 ];
 
+
+
 function Registersteps(props) {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
   // const { current, steps } = this.state;
   return (

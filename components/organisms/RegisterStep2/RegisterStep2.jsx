@@ -13,38 +13,41 @@ import './_style.scss';
 
 export const step2Inputs = {
   // TODO : should allow custom keys?
-  role: [
-    {
-      name: 'entrepreneur',
-      usertype: 'Social Entrepreneur',
-      title: 'Create a project',
-      rules: [
-        {
-          required: true,
-          message: 'Please input your name!',
-          whitespace: true
-        }
-      ]
-    },
-    {
-      name: 'funder',
-      usertype: 'Impact Funder',
-      title: 'Create a project',
-      rules: [
-        {
-          required: true,
-          message: 'Please input your name!',
-          whitespace: true
-        }
-      ]
-    },
-    {
-      name: 'oracle',
-      usertype: 'Oracle',
-      title: 'Monitor a project',
-      rules: []
-    }
-  ]
+  role: {
+    name: 'role',
+    options: [
+      {
+        name: 'entrepreneur',
+        usertype: 'Social Entrepreneur',
+        title: 'Create a project',
+        rules: [
+          {
+            required: true,
+            message: 'Please input your name!',
+            whitespace: true
+          }
+        ]
+      },
+      {
+        name: 'funder',
+        usertype: 'Impact Funder',
+        title: 'Create a project',
+        rules: [
+          {
+            required: true,
+            message: 'Please input your name!',
+            whitespace: true
+          }
+        ]
+      },
+      {
+        name: 'oracle',
+        usertype: 'Oracle',
+        title: 'Monitor a project',
+        rules: []
+      }
+    ]
+  }
 };
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
@@ -78,10 +81,11 @@ function FormInput(props) {
 
 const RoleOption = props => {
   const { title, usertype, name, value, handleChange } = props;
-  console.log(handleChange, props);
+  console.log(props);
   return (
     <Col sm={24} md={8} lg={8}>
       <div
+        onClick={e => handleChange(e, "role", name)}
         name={name}
         selected={value ? 'true' : 'false'}
         className="OptionsUsers"
@@ -99,7 +103,7 @@ export default function RegisterStep2(props) {
   // <FormInput {...inputs.fName} setInputs={setInputs} />
   console.log('a', inputs);
 
-  const roleOptions = inputs.role.map(option => (
+  const roleOptions = inputs.role.options.map(option => (
     <RoleOption handleChange={handleChange} {...option} />
   ));
 

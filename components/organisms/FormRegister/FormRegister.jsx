@@ -15,13 +15,15 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const { Step } = Steps;
 
+
+// TODO : esto podría ir en registerstep.jsx
 const useForm = (initialState, submitCallback) => {
   const [inputs, setInputs] = useState(initialState);
 
   // TODO : this is weird
-  useEffect(() => {
-    setInputs(initialState);
-  }, [inputs]);
+  // useEffect(() => {
+  //   setInputs(initialState);
+  // }, [inputs]);
 
   const validateInput = input => {
     const rule = isValidInput(input);
@@ -34,43 +36,69 @@ const useForm = (initialState, submitCallback) => {
     };
   };
 
-  const handleChange = event => {
+  const handleChange = (event, name, newValue) => {
     event.persist();
     // debugger;
-    console.log(event);
-    const input = inputs[event.target.name];
-    input.value = event.target.value;
+    console.log('event', event.target.name || name, event, event.target);
 
-    // TODO : use reducer
+    const input = inputs[event.target.name || name];
+    input.value = event.target.value || newValue; //newValue === undefined ? event.target.value : newValue;
+    // console.log(input);
     const validatedInput = validateInput(input);
-    const r = {};
-    Object.values(inputs).forEach(i => {
-      r[i.name] = i;
+    // const r = {};
+    // Object.values(inputs).forEach(i => {
+    //   r[i.name] = i;
+    // });
+    // r[validatedInput.name] = validatedInput;
+    // setInputs({
+    //   ...r
+    // });
+    // const a = ;
+    // console.log('bloop', Object.keys(inputs));
+    // debugger;
+    const rr = Object.assign({}, inputs, {
+      [validatedInput.name]: validatedInput
     });
-    r[validatedInput.name] = validatedInput;
-
-    setInputs({
-      ...r
-    });
+    setInputs(rr);
+    // setInputs({
+    //   ...inputs,
+    //   ...{
+    //     [validatedInput.name]: validatedInput
+    //   }
+    // });
+    // console.log(Object.keys(inputs));
   };
 
   const handleSubmit = (event, isLastStep) => {
     event.preventDefault();
-    const validateInputs = Object.values(inputs).map(input =>
-      validateInput(input)
+    // const validatedInputs = Object.entries(inputs).map([key, input] => (
+    const validatedInputs = Object.entries(inputs).reduce(
+      (acc, [key, input]) =>
+        Object.assign(acc, { [key]: { ...validateInput(input) } }),
+      {}
     );
+    // console.log('valid???', validatedInputs);
+    //   validateInput(input)
+    // );
     // TODO : use reducer
-    const r = {};
-    validateInputs.forEach(input => {
-      r[input.name] = input;
-    });
-    setInputs({
-      ...r
-    });
+    // const r = {};
+    // validateInputs.forEach(input => {
+    //   r[input.name] = input;
+    // });
+    // setInputs({
+    //   ...r
+    // });
 
-    if (isLastStep) {
+    // console.log('bleep', inputs.email, validatedInputs.email);
+    setInputs(validatedInputs);
+    // console.log('bliip', inputs.email, validatedInputs.email);
+    // debugger;
+
+    const isValid = Object.values(validatedInputs).every(i => i.valid);
+    if (isValid && isLastStep) {
       submitCallback();
     }
+    return isValid;
   };
 
   // TODO : should this be async?
@@ -97,13 +125,16 @@ const useForm = (initialState, submitCallback) => {
   const isValidInput = input => {
     // TODO : input.value wont work for Checkbox (and maybe Select).
     // find the first not satisfied rule
-    console.log(input);
-    return input.rules.find(rule => {
-      // allow custom validators.
-      console.log(rule);
-      const validator = rule.validator ? rule.validator : validate;
-      return !validator(rule, input.value, inputs) ? rule.message : undefined;
-    });
+    // console.log(input);
+    return (
+      input.rules !== undefined &&
+      input.rules.find(rule => {
+        // allow custom validators.
+        // console.log(rule);
+        const validator = rule.validator ? rule.validator : validate;
+        return !validator(rule, input.value, inputs) ? rule.message : undefined;
+      })
+    );
   };
 
   return [inputs, setInputs, handleChange, handleSubmit];
@@ -111,20 +142,25 @@ const useForm = (initialState, submitCallback) => {
 
 // TODO : refactor as functional component
 function RegisterForm({ steps, currentStep, setCurrentStep }) {
+  // TODO : this cannot be here!
+  function finishForm() {
+    const values = steps.map(step =>
+      Object.values(step.inputs).map(input => [input.name, input.value])
+    );
+    const parsed = Array.prototype.concat.apply([], values);
+    console.log('final', parsed);
+  }
+
   const [inputs, setInputs, handleChange, handleSubmit] = useForm(
     steps[currentStep].inputs,
-    () => console.log('submitted!')
+    () => finishForm()
   );
 
   const isLast = step => step === steps.length - 1;
 
   function next(e) {
     const last = isLast(currentStep);
-    if (last) {
-      console.log('handle submit');
-      handleSubmit(e, last);
-    } else {
-      console.log('next step!', currentStep + 1);
+    if (handleSubmit(e, last)) {
       setCurrentStep(currentStep + 1);
     }
   }
@@ -134,12 +170,15 @@ function RegisterForm({ steps, currentStep, setCurrentStep }) {
     setCurrentStep(currentStep + 1);
   }
 
+  const isFormValid = () => Object.values(inputs).every(i => i.valid);
+
   function getNextStepButton(current) {
     return (
       <CustomButton
         theme="Primary"
         buttonText={isLast(current) ? 'Finish!' : 'Save and continue'}
         onClick={next}
+        disabled={!isFormValid}
       />
     );
   }
@@ -153,20 +192,15 @@ function RegisterForm({ steps, currentStep, setCurrentStep }) {
   }
   function getStepComponent(current) {
     const Component = steps[current].component;
-    return (
-      <Component
-        inputs={steps[currentStep].inputs}
-        handleChange={handleChange}
-      />
-    );
+    return <Component inputs={inputs} handleChange={handleChange} />;
   }
 
   return (
     <div className="RegisterSteps">
       <div className="BlockSteps">
         <Steps progressDot current={currentStep}>
-          {steps.map(item => (
-            <Step key={item.title} title={item.title} />
+          {steps.map((item, index) => (
+            <Step key={'bleep-'.concat(index)} title={item.title} />
           ))}
         </Steps>
       </div>
