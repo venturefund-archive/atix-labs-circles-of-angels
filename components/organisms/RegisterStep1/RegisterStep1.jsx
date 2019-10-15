@@ -10,6 +10,7 @@ import React from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import RegisterStep from '../FormRegister/steps/RegisterStep';
 
 export const step1Inputs = {
   fName: {
@@ -73,13 +74,8 @@ export const step1Inputs = {
         message: 'Please repeat your password'
       },
       {
-        validator: ({ rule, value, inputs }) => {
-          // console.log(value, password);
-          if (value !== inputs.password.value) {
-            return 'Password should match';
-          }
-          return false;
-        }
+        validator: (rule, value, inputs) => value === inputs.password.value,
+        message: 'Passwords should match'
       }
     ]
   }
@@ -94,9 +90,9 @@ function FormInput(props) {
     value,
     valid,
     errorMessage,
-    setInputs
+    handleChange
   } = props;
-
+  // console.log('formInput value', value);
   return (
     <Form.Item
       label={label}
@@ -108,14 +104,14 @@ function FormInput(props) {
         placeholder={placeholder}
         value={value}
         size="large"
-        onChange={setInputs}
+        onChange={handleChange}
       />
     </Form.Item>
   );
 }
 
 export default function RegisterStep1(props) {
-  const { inputs, setInputs } = props;
+  const { inputs, handleChange } = props;
   return (
     <div>
       <div className="InfoStep">
@@ -140,10 +136,10 @@ export default function RegisterStep1(props) {
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.fName} setInputs={setInputs} />
+              <FormInput {...inputs.fName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.lName} setInputs={setInputs} />
+              <FormInput {...inputs.lName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Form.Item label="Country">
@@ -151,13 +147,16 @@ export default function RegisterStep1(props) {
               </Form.Item>
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput {...inputs.email} setInputs={setInputs} />
+              <FormInput {...inputs.email} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput {...inputs.password} setInputs={setInputs} />
+              <FormInput {...inputs.password} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput {...inputs.repeatPassword} setInputs={setInputs} />
+              <FormInput
+                {...inputs.repeatPassword}
+                handleChange={handleChange}
+              />
             </Col>
           </Form>
           <Col className="gutter-row" sm={24} lg={12}>

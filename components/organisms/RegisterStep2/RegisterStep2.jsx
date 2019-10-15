@@ -7,40 +7,45 @@
  */
 
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Radio } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import './_style.scss';
-import RegisterStep from '../FormRegister/steps/RegisterStep';
-
-const OptionsUsers = ({ title, usertype }) => (
-  <Col sm={24} md={8} lg={8}>
-    <div className="OptionsUsers">
-      <img src="./static/images/icon-users-small.svg" alt="platformusers" />
-      <h1>{title}</h1>
-      <p>{usertype}</p>
-    </div>
-  </Col>
-);
 
 export const step2Inputs = {
-  // funder, oracle
-
-  // TODO : should allow custom keys like title?
-  entrepreneur: {
-    name: 'entrepreneur',
-    label: 'Social Entrepreneur',
-    placeholder: 'First name',
-    title: "Create a project"
-    rules: [
-      {
-        required: true,
-        message: 'Please input your name!',
-        whitespace: true
-      }
-    ]
-  }
+  // TODO : should allow custom keys?
+  role: [
+    {
+      name: 'entrepreneur',
+      usertype: 'Social Entrepreneur',
+      title: 'Create a project',
+      rules: [
+        {
+          required: true,
+          message: 'Please input your name!',
+          whitespace: true
+        }
+      ]
+    },
+    {
+      name: 'funder',
+      usertype: 'Impact Funder',
+      title: 'Create a project',
+      rules: [
+        {
+          required: true,
+          message: 'Please input your name!',
+          whitespace: true
+        }
+      ]
+    },
+    {
+      name: 'oracle',
+      usertype: 'Oracle',
+      title: 'Monitor a project',
+      rules: []
+    }
+  ]
 };
-
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
 function FormInput(props) {
@@ -51,7 +56,7 @@ function FormInput(props) {
     value,
     valid,
     errorMessage,
-    setInputs
+    handleChange
   } = props;
 
   return (
@@ -65,15 +70,38 @@ function FormInput(props) {
         placeholder={placeholder}
         value={value}
         size="large"
-        onChange={setInputs}
+        onChange={handleChange}
       />
     </Form.Item>
   );
 }
 
+const RoleOption = props => {
+  const { title, usertype, name, value, handleChange } = props;
+  console.log(handleChange, props);
+  return (
+    <Col sm={24} md={8} lg={8}>
+      <div
+        name={name}
+        selected={value ? 'true' : 'false'}
+        className="OptionsUsers"
+      >
+        <img src="./static/images/icon-users-small.svg" alt="platformusers" />
+        <h1>{title}</h1>
+        <p>{usertype}</p>
+      </div>
+    </Col>
+  );
+};
+
 export default function RegisterStep2(props) {
-  const { inputs, setInputs } = props;
+  const { inputs, handleChange } = props;
   // <FormInput {...inputs.fName} setInputs={setInputs} />
+  console.log('a', inputs);
+
+  const roleOptions = inputs.role.map(option => (
+    <RoleOption handleChange={handleChange} {...option} />
+  ));
 
   return (
     <div>
@@ -89,26 +117,9 @@ export default function RegisterStep2(props) {
         <TitlePage textTitle="What do you want to do?" />
 
         <Row className="FormRegister" gutter={26}>
-          <OptionsUsers
-            title="Create a Project"
-            usertype="Social Entrepreneur"
-          />
-          <OptionsUsers title="Fund a Project" usertype="Impact Funder" />
-          <OptionsUsers title="Monitor a Project" usertype="Oracle" />
+          {roleOptions}
         </Row>
       </div>
     </div>
   );
 }
-
-// class RegisterStep2 extends RegisterStep {
-//   constructor(props) {
-//     super(props);
-//     console.log('step 2', props);
-//   }
-
-//   render() {
-
-// }
-
-// export default RegisterStep2;

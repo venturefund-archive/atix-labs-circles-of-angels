@@ -7,12 +7,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-// import './_style.scss';
 import '../../../pages/_style.scss';
 import '../../../pages/registersteps';
 import { Steps } from 'antd';
 
-// import register
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const { Step } = Steps;
@@ -20,30 +18,57 @@ const { Step } = Steps;
 const useForm = (initialState, submitCallback) => {
   const [inputs, setInputs] = useState(initialState);
 
-  const handleChange = e => {
-    e.persist();
+  // TODO : this is weird
+  useEffect(() => {
+    setInputs(initialState);
+  }, [inputs]);
 
-    const input = inputs[e.target.name];
-    input.value = e.target.value;
-
+  const validateInput = input => {
     const rule = isValidInput(input);
-    // no invalid rule => is valid input
-    input.valid = rule === undefined;
+    const valid = rule === undefined;
+    const errorMessage = valid ? undefined : rule.message;
+    return {
+      ...input,
+      valid,
+      errorMessage
+    };
+  };
 
-    if (!input.valid) {
-      input.errorMessage = rule.message;
-    }
+  const handleChange = event => {
+    event.persist();
+    // debugger;
+    console.log(event);
+    const input = inputs[event.target.name];
+    input.value = event.target.value;
+
+    // TODO : use reducer
+    const validatedInput = validateInput(input);
+    const r = {};
+    Object.values(inputs).forEach(i => {
+      r[i.name] = i;
+    });
+    r[validatedInput.name] = validatedInput;
 
     setInputs({
-      ...inputs,
-      input
+      ...r
     });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const isValid = inputs.every(input => isValidInput(input));
-    if (isValid) {
+  const handleSubmit = (event, isLastStep) => {
+    event.preventDefault();
+    const validateInputs = Object.values(inputs).map(input =>
+      validateInput(input)
+    );
+    // TODO : use reducer
+    const r = {};
+    validateInputs.forEach(input => {
+      r[input.name] = input;
+    });
+    setInputs({
+      ...r
+    });
+
+    if (isLastStep) {
       submitCallback();
     }
   };
@@ -63,43 +88,58 @@ const useForm = (initialState, submitCallback) => {
       isValid = isValid && v.length > 0;
     }
     if (rule.regex) {
-      isValid = isValid && v.value.match(rule.regex);
+      // console.log(rule.regex);
+      isValid = isValid && v.match(rule.regex);
     }
     return isValid;
   };
 
   const isValidInput = input => {
-    // TODO : input.value wont work for Checkbox and maybe Select.
+    // TODO : input.value wont work for Checkbox (and maybe Select).
     // find the first not satisfied rule
+    console.log(input);
     return input.rules.find(rule => {
       // allow custom validators.
+      console.log(rule);
       const validator = rule.validator ? rule.validator : validate;
       return !validator(rule, input.value, inputs) ? rule.message : undefined;
     });
   };
 
-  return [inputs, handleChange, handleSubmit];
+  return [inputs, setInputs, handleChange, handleSubmit];
 };
 
 // TODO : refactor as functional component
-function RegisterForm({ currentStep, steps }) {
-  const submitCallback = () => true;
-  const [inputs, setInputs, setSubmit] = useForm(
+function RegisterForm({ steps, currentStep, setCurrentStep }) {
+  const [inputs, setInputs, handleChange, handleSubmit] = useForm(
     steps[currentStep].inputs,
-    submitCallback
+    () => console.log('submitted!')
   );
 
-  function next(current) {}
+  const isLast = step => step === steps.length - 1;
 
-  function prev(current) {}
+  function next(e) {
+    const last = isLast(currentStep);
+    if (last) {
+      console.log('handle submit');
+      handleSubmit(e, last);
+    } else {
+      console.log('next step!', currentStep + 1);
+      setCurrentStep(currentStep + 1);
+    }
+  }
 
-  function getNextStepButton(current, stepsLength) {
-    const isLast = current === stepsLength - 1;
+  function prev() {
+    if (currentStep === 0) return;
+    setCurrentStep(currentStep + 1);
+  }
+
+  function getNextStepButton(current) {
     return (
       <CustomButton
         theme="Primary"
-        buttonText={isLast ? 'Finish!' : 'Save and continue'}
-        onClick={() => next(current)}
+        buttonText={isLast(current) ? 'Finish!' : 'Save and continue'}
+        onClick={next}
       />
     );
   }
@@ -108,16 +148,17 @@ function RegisterForm({ currentStep, steps }) {
     if (current === 0) return;
 
     return (
-      <CustomButton
-        theme="Secondary"
-        buttonText="Previous"
-        onClick={() => prev(current)}
-      />
+      <CustomButton theme="Secondary" buttonText="Previous" onClick={prev} />
     );
   }
   function getStepComponent(current) {
     const Component = steps[current].component;
-    return <Component inputs={steps[current].inputs} setInputs={setInputs} />;
+    return (
+      <Component
+        inputs={steps[currentStep].inputs}
+        handleChange={handleChange}
+      />
+    );
   }
 
   return (
@@ -132,7 +173,7 @@ function RegisterForm({ currentStep, steps }) {
       <div className="vertical BlockContent">
         <div className="steps-content">{getStepComponent(currentStep)}</div>
         <div className="steps-action">
-          {getNextStepButton(currentStep, currentStep === 3)}
+          {getNextStepButton(currentStep)}
           {getPrevStepButton(currentStep)}
         </div>
       </div>
