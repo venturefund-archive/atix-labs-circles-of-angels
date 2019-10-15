@@ -48,10 +48,8 @@ const steps = [
   // }
 ];
 
-
-
-function Registersteps(props) {
-  const [currentStep, setCurrentStep] = useState(0);
+function Registersteps() {
+  // const [currentStep, setCurrentStep] = useState(0);
 
   // const { current, steps } = this.state;
   return (
@@ -77,8 +75,9 @@ function Registersteps(props) {
       {/* {console.log('aaaa', currentStep, steps[currentStep])} */}
       <RegisterForm
         steps={steps}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
+        initialStep={1}
+        // currentStep={currentStep}
+        // setCurrentStep={setCurrentStep}
       />
     </div>
   );

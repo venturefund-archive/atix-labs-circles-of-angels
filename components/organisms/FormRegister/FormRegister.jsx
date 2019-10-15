@@ -15,93 +15,13 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const { Step } = Steps;
 
-
-// TODO : esto podría ir en registerstep.jsx
-const useForm = (initialState, submitCallback) => {
+// TODO : this should be elsewhere
+const useForm = (initialState, initialStep, submitCallback) => {
   const [inputs, setInputs] = useState(initialState);
-
-  // TODO : this is weird
-  // useEffect(() => {
-  //   setInputs(initialState);
-  // }, [inputs]);
-
-  const validateInput = input => {
-    const rule = isValidInput(input);
-    const valid = rule === undefined;
-    const errorMessage = valid ? undefined : rule.message;
-    return {
-      ...input,
-      valid,
-      errorMessage
-    };
-  };
-
-  const handleChange = (event, name, newValue) => {
-    event.persist();
-    // debugger;
-    console.log('event', event.target.name || name, event, event.target);
-
-    const input = inputs[event.target.name || name];
-    input.value = event.target.value || newValue; //newValue === undefined ? event.target.value : newValue;
-    // console.log(input);
-    const validatedInput = validateInput(input);
-    // const r = {};
-    // Object.values(inputs).forEach(i => {
-    //   r[i.name] = i;
-    // });
-    // r[validatedInput.name] = validatedInput;
-    // setInputs({
-    //   ...r
-    // });
-    // const a = ;
-    // console.log('bloop', Object.keys(inputs));
-    // debugger;
-    const rr = Object.assign({}, inputs, {
-      [validatedInput.name]: validatedInput
-    });
-    setInputs(rr);
-    // setInputs({
-    //   ...inputs,
-    //   ...{
-    //     [validatedInput.name]: validatedInput
-    //   }
-    // });
-    // console.log(Object.keys(inputs));
-  };
-
-  const handleSubmit = (event, isLastStep) => {
-    event.preventDefault();
-    // const validatedInputs = Object.entries(inputs).map([key, input] => (
-    const validatedInputs = Object.entries(inputs).reduce(
-      (acc, [key, input]) =>
-        Object.assign(acc, { [key]: { ...validateInput(input) } }),
-      {}
-    );
-    // console.log('valid???', validatedInputs);
-    //   validateInput(input)
-    // );
-    // TODO : use reducer
-    // const r = {};
-    // validateInputs.forEach(input => {
-    //   r[input.name] = input;
-    // });
-    // setInputs({
-    //   ...r
-    // });
-
-    // console.log('bleep', inputs.email, validatedInputs.email);
-    setInputs(validatedInputs);
-    // console.log('bliip', inputs.email, validatedInputs.email);
-    // debugger;
-
-    const isValid = Object.values(validatedInputs).every(i => i.valid);
-    if (isValid && isLastStep) {
-      submitCallback();
-    }
-    return isValid;
-  };
+  const [currentStep, setCurrentStep] = useState(initialStep);
 
   // TODO : should this be async?
+  // Default validator
   const validate = (rule, value) => {
     let isValid = true;
 
@@ -121,47 +41,119 @@ const useForm = (initialState, submitCallback) => {
     }
     return isValid;
   };
+  const getValue = input => {
+    return input.value || input.selected || input.checked;
+  };
 
   const isValidInput = input => {
     // TODO : input.value wont work for Checkbox (and maybe Select).
+    if (input.rules === undefined || input.rules.length === 0) return undefined;
+
     // find the first not satisfied rule
-    // console.log(input);
-    return (
-      input.rules !== undefined &&
-      input.rules.find(rule => {
-        // allow custom validators.
-        // console.log(rule);
-        const validator = rule.validator ? rule.validator : validate;
-        return !validator(rule, input.value, inputs) ? rule.message : undefined;
-      })
-    );
+    return input.rules.find(rule => {
+      // allow custom validators.
+      console.log('validating', getValue(input));
+      const validator = rule.validator ? rule.validator : validate;
+      return !validator(rule, getValue(input), inputs)
+        ? rule.message
+        : undefined;
+    });
   };
 
-  return [inputs, setInputs, handleChange, handleSubmit];
+  const validateInput = input => {
+    const rule = isValidInput(input);
+    console.log('resulting rule', rule);
+    const valid = rule === undefined;
+    const errorMessage = valid ? undefined : rule.message;
+    return {
+      ...input,
+      valid,
+      errorMessage
+    };
+  };
+
+  const handleChange = (event, name, newValue) => {
+    event.persist();
+
+    const input = inputs[name || event.target.name];
+
+    console.log(event, event.target, event.target.name, name, newValue);
+    if (input.options === undefined) {
+      input.value = event.target.value || newValue;
+    } else {
+      input.selected = event.target.name;
+    }
+    console.log('after', input, event.target.name);
+    const validatedInput = validateInput(input);
+
+    const validatedInputs = Object.assign({}, inputs, {
+      [validatedInput.name]: validatedInput
+    });
+    setInputs(validatedInputs);
+  };
+
+  const handleSubmit = (event, isLastStep) => {
+    event.preventDefault();
+    console.log('last', isLastStep, isValidInput(inputs.role));
+
+    const validatedInputs = Object.entries(inputs).reduce(
+      (acc, [key, input]) => {
+        console.log('inputtt', validateInput(input));
+        return Object.assign(acc, { [key]: { ...validateInput(input) } });
+      },
+
+      {}
+    );
+
+    setInputs(validatedInputs);
+
+    const isValid = Object.values(validatedInputs).every(i => i.valid);
+    console.log('last', isLastStep, validatedInputs, isValid);
+    if (isValid && isLastStep) {
+      submitCallback();
+    }
+    return isValid;
+  };
+
+  return [
+    inputs,
+    setInputs,
+    currentStep,
+    setCurrentStep,
+    handleChange,
+    handleSubmit
+  ];
 };
 
 // TODO : refactor as functional component
-function RegisterForm({ steps, currentStep, setCurrentStep }) {
+function RegisterForm({ steps, initialStep }) {
   // TODO : this cannot be here!
   function finishForm() {
     const values = steps.map(step =>
       Object.values(step.inputs).map(input => [input.name, input.value])
     );
     const parsed = Array.prototype.concat.apply([], values);
-    console.log('final', parsed);
+    // TODO : send data to register endpoint
+    console.log('complete form', parsed);
   }
 
-  const [inputs, setInputs, handleChange, handleSubmit] = useForm(
-    steps[currentStep].inputs,
-    () => finishForm()
-  );
+  const [
+    inputs,
+    setInputs,
+    currentStep,
+    setCurrentStep,
+    handleChange,
+    handleSubmit
+  ] = useForm(steps[initialStep].inputs, initialStep, () => finishForm());
 
   const isLast = step => step === steps.length - 1;
 
   function next(e) {
     const last = isLast(currentStep);
     if (handleSubmit(e, last)) {
+      // console.log('next step!', currentStep + 1, Object.keys(steps[currentStep + 1].inputs));
       setCurrentStep(currentStep + 1);
+      setInputs(steps[currentStep + 1].inputs);
     }
   }
 
@@ -217,6 +209,7 @@ function RegisterForm({ steps, currentStep, setCurrentStep }) {
 
 export default RegisterForm;
 
+// TODO : leaving as a_reference
 // class AngelsForm extends React.Component {
 //   handleSubmit = e => {
 //     const { form, seQuestionnaire, funderQuestionnaire } = this.props;

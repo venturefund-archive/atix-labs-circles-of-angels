@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Row, Col, Radio } from 'antd';
+import { Row, Col, Button } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import './_style.scss';
 
@@ -19,92 +19,46 @@ export const step2Inputs = {
       {
         name: 'entrepreneur',
         usertype: 'Social Entrepreneur',
-        title: 'Create a project',
-        rules: [
-          {
-            required: true,
-            message: 'Please input your name!',
-            whitespace: true
-          }
-        ]
+        title: 'Create a project'
       },
       {
         name: 'funder',
         usertype: 'Impact Funder',
-        title: 'Create a project',
-        rules: [
-          {
-            required: true,
-            message: 'Please input your name!',
-            whitespace: true
-          }
-        ]
+        title: 'Create a project'
       },
       {
         name: 'oracle',
         usertype: 'Oracle',
-        title: 'Monitor a project',
-        rules: []
+        title: 'Monitor a project'
       }
-    ]
+    ],
+    rules: []
   }
 };
 
-// TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
-function FormInput(props) {
-  const {
-    name,
-    label,
-    placeholder,
-    value,
-    valid,
-    errorMessage,
-    handleChange
-  } = props;
-
-  return (
-    <Form.Item
-      label={label}
-      validateStatus={valid ? 'success' : 'error'}
-      help={errorMessage}
-    >
-      <Input
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        size="large"
-        onChange={handleChange}
-      />
-    </Form.Item>
-  );
-}
-
 const RoleOption = props => {
-  const { title, usertype, name, value, handleChange } = props;
-  console.log(props);
+  const { title, usertype, name, value, selected, handleChange } = props;
+  // console.log(props);
   return (
     <Col sm={24} md={8} lg={8}>
-      <div
-        onClick={e => handleChange(e, "role", name)}
-        name={name}
-        selected={value ? 'true' : 'false'}
-        className="OptionsUsers"
-      >
+      {/* <div custom={name} selected={selected === name} className="OptionsUsers">
         <img src="./static/images/icon-users-small.svg" alt="platformusers" />
         <h1>{title}</h1>
         <p>{usertype}</p>
-      </div>
+      </div> */}
+      <Button name={name} selected={selected === name} className="OptionsUsers">
+        {title}-{usertype}
+      </Button>
     </Col>
   );
 };
 
 export default function RegisterStep2(props) {
   const { inputs, handleChange } = props;
-  // <FormInput {...inputs.fName} setInputs={setInputs} />
-  console.log('a', inputs);
+  // console.log('step2', props);
 
   const roleOptions = inputs.role.options.map(option => (
-    <RoleOption handleChange={handleChange} {...option} />
+    <RoleOption key={option.name} {...option} />
   ));
 
   return (
@@ -120,7 +74,11 @@ export default function RegisterStep2(props) {
       <div className="StepPersonalInformation">
         <TitlePage textTitle="What do you want to do?" />
 
-        <Row className="FormRegister" gutter={26}>
+        <Row
+          className="FormRegister"
+          onClick={e => handleChange(e, 'role')}
+          gutter={26}
+        >
           {roleOptions}
         </Row>
       </div>
