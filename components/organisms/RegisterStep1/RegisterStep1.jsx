@@ -10,7 +10,6 @@ import React from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import RegisterStep from '../FormRegister/steps/RegisterStep';
 
 export const step1Inputs = {
   fName: {

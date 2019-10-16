@@ -54,7 +54,7 @@ const RoleOption = props => {
 
 export default function RegisterStep2(props) {
   const { inputs, handleChange } = props;
-
+console.log(props);
   const roleOptions = inputs.role.options.map(option => (
     <RoleOption key={option.name} {...option} />
   ));

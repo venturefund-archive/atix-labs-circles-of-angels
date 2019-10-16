@@ -16,8 +16,12 @@ import './_style.scss';
 import RegisterStep1, {
   step1Inputs
 } from '../components/organisms/RegisterStep1/RegisterStep1';
-import RegisterStep2, {step2Inputs} from '../components/organisms/RegisterStep2/RegisterStep2';
-import RegisterStep3 from '../components/organisms/RegisterStep3/RegisterStep3';
+import RegisterStep2, {
+  step2Inputs
+} from '../components/organisms/RegisterStep2/RegisterStep2';
+import RegisterStep3, {
+  step3Inputs
+} from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
 // TODO : state shouldnt be modified.
@@ -39,7 +43,7 @@ const steps = [
     component: RegisterStep2
   },
   {
-    inputs: {},
+    inputs: getInitialState(step3Inputs),
     component: RegisterStep3
   },
   {
@@ -48,7 +52,7 @@ const steps = [
   }
 ];
 
-function Registersteps() {
+export default function Registersteps() {
   // const [currentStep, setCurrentStep] = useState(0);
 
   // const { current, steps } = this.state;
@@ -75,11 +79,10 @@ function Registersteps() {
       {/* {console.log('aaaa', currentStep, steps[currentStep])} */}
       <RegisterForm
         steps={steps}
-        initialStep={2}
+        initialStep={0}
         // currentStep={currentStep}
         // setCurrentStep={setCurrentStep}
       />
     </div>
   );
 }
-export default Registersteps;

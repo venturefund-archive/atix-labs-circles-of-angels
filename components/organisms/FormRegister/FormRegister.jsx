@@ -57,18 +57,13 @@ const useForm = (initialState, initialStep, submitCallback) => {
         ? rule.message
         : undefined;
     });
-    // console.log(steps);
-    return (
-      <div className={this.props.className}>
-        { steps }
-      </div>
-    )
-    // <RegistrationStep />
-  }
+  };
 
   const validateInput = input => {
     const rule = isValidInput(input);
+    console.log(rule);
     const valid = rule === undefined;
+    
     const errorMessage = valid ? undefined : rule.message;
     return {
       ...input,
@@ -77,17 +72,29 @@ const useForm = (initialState, initialStep, submitCallback) => {
     };
   };
 
-  const handleChange = (event, name, newValue) => {
-    event.persist();
+  const handleChange = (event, inputName, newValue) => {
+    console.log(event, name, newValue);
 
-    const input = inputs[name || event.target.name];
+    // TODO : it has to be another way to do this.
+    //        the select's onChange handler
+
+    // custom onChange handlers due antd's Select onChange behavior
+    // if event is undefied it expects to receive inputName and newValue
+    if (event !== undefined) {
+      event.persist();
+    }
+
+    const value = newValue || event.target.value;
+    const name = inputName || event.target.name;
+    const input = inputs[name];
+    input.value = value;
 
     // console.log(event, event.target, event.target.name, name, newValue);
-    if (input.options === undefined) {
-      input.value = event.target.value || newValue;
-    } else {
-      input.selected = event.target.name;
-    }
+    // if (input.options === undefined) {
+    //   input.value = event.target.value || newValue;
+    // } else {
+    //   input.selected = event.target.name;
+    // }
     const validatedInput = validateInput(input);
 
     const validatedInputs = Object.assign({}, inputs, {
@@ -159,7 +166,7 @@ function RegisterForm({ steps, initialStep }) {
 
   function prev() {
     if (currentStep === 0) return;
-    setCurrentStep(currentStep + 1);
+    setCurrentStep(currentStep - 1);
   }
 
   const isFormValid = () => Object.values(inputs).every(i => i.valid);
