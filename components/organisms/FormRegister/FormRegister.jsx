@@ -65,7 +65,6 @@ const useForm = (initialState, initialStep, submitCallback) => {
     )
     // <RegistrationStep />
   }
-}
 
   const validateInput = input => {
     const rule = isValidInput(input);
