@@ -37,15 +37,15 @@ const steps = [
   {
     inputs: getInitialState(step2Inputs),
     component: RegisterStep2
+  },
+  {
+    inputs: {},
+    component: RegisterStep3
+  },
+  {
+    inputs: {},
+    component: RegisterStep4
   }
-  // {
-  //   inputs: {},
-  //   component: RegisterStep3
-  // },
-  // {
-  //   inputs: {},
-  //   component: RegisterStep4
-  // }
 ];
 
 function Registersteps() {
@@ -75,7 +75,7 @@ function Registersteps() {
       {/* {console.log('aaaa', currentStep, steps[currentStep])} */}
       <RegisterForm
         steps={steps}
-        initialStep={1}
+        initialStep={2}
         // currentStep={currentStep}
         // setCurrentStep={setCurrentStep}
       />

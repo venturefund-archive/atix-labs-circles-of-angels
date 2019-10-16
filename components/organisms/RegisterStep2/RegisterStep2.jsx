@@ -38,7 +38,6 @@ export const step2Inputs = {
 
 const RoleOption = props => {
   const { title, usertype, name, value, selected, handleChange } = props;
-  // console.log(props);
   return (
     <Col sm={24} md={8} lg={8}>
       {/* <div custom={name} selected={selected === name} className="OptionsUsers">
@@ -55,7 +54,6 @@ const RoleOption = props => {
 
 export default function RegisterStep2(props) {
   const { inputs, handleChange } = props;
-  // console.log('step2', props);
 
   const roleOptions = inputs.role.options.map(option => (
     <RoleOption key={option.name} {...option} />

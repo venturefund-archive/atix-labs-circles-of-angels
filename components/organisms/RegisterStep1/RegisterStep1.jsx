@@ -92,7 +92,7 @@ function FormInput(props) {
     errorMessage,
     handleChange
   } = props;
-  // console.log('formInput value', value);
+
   return (
     <Form.Item
       label={label}
@@ -135,6 +135,7 @@ export default function RegisterStep1(props) {
         </div>
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
+            {/* TODO : we could move the Col tags into the FormInput */}
             <Col className="gutter-row" sm={24} lg={12}>
               <FormInput {...inputs.fName} handleChange={handleChange} />
             </Col>

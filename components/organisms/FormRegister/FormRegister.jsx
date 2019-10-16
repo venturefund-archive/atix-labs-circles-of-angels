@@ -52,7 +52,6 @@ const useForm = (initialState, initialStep, submitCallback) => {
     // find the first not satisfied rule
     return input.rules.find(rule => {
       // allow custom validators.
-      console.log('validating', getValue(input));
       const validator = rule.validator ? rule.validator : validate;
       return !validator(rule, getValue(input), inputs)
         ? rule.message
@@ -62,7 +61,6 @@ const useForm = (initialState, initialStep, submitCallback) => {
 
   const validateInput = input => {
     const rule = isValidInput(input);
-    console.log('resulting rule', rule);
     const valid = rule === undefined;
     const errorMessage = valid ? undefined : rule.message;
     return {
@@ -77,13 +75,12 @@ const useForm = (initialState, initialStep, submitCallback) => {
 
     const input = inputs[name || event.target.name];
 
-    console.log(event, event.target, event.target.name, name, newValue);
+    // console.log(event, event.target, event.target.name, name, newValue);
     if (input.options === undefined) {
       input.value = event.target.value || newValue;
     } else {
       input.selected = event.target.name;
     }
-    console.log('after', input, event.target.name);
     const validatedInput = validateInput(input);
 
     const validatedInputs = Object.assign({}, inputs, {
@@ -94,14 +91,10 @@ const useForm = (initialState, initialStep, submitCallback) => {
 
   const handleSubmit = (event, isLastStep) => {
     event.preventDefault();
-    console.log('last', isLastStep, isValidInput(inputs.role));
 
     const validatedInputs = Object.entries(inputs).reduce(
-      (acc, [key, input]) => {
-        console.log('inputtt', validateInput(input));
-        return Object.assign(acc, { [key]: { ...validateInput(input) } });
-      },
-
+      (acc, [key, input]) =>
+        Object.assign(acc, { [key]: { ...validateInput(input) } }),
       {}
     );
 
