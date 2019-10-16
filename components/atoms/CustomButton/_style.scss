@@ -1,7 +1,7 @@
 @import '../../../css/general_styling.scss';
 
 .ant-btn {
-  height: 36px;
+  height: 38px;
 }
 .ant-btn.CustomButton {
   display: flex;
@@ -9,7 +9,7 @@
   align-items: center;
   border-radius: 4px;
   padding: 0.6em 1.5em;
-  height: 36px;
+  height: 38px;
   text-align: center;
   box-shadow: transparent;
   box-shadow: inherit;
@@ -73,6 +73,20 @@
   background:transparent;
   span {
     @include primary-text($button, $primary-color, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+/* WHITE */
+.ant-btn.White,
+.ant-btn.White:active,
+.ant-btn.White:focus,
+.ant-btn.White:hover {
+  background:transparent;
+  border:2px  solid $white;
+  span {
+    @include primary-text($button, $white, 400);
   }
   .anticon {
     display: none;

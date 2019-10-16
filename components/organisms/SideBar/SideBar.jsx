@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import 'antd/dist/antd.css';
 import './_style.scss';
 import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
