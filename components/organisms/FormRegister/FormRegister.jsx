@@ -6,83 +6,56 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Form, Input, Icon, Select } from 'antd';
+import React, { useState, useEffect } from 'react';
+import '../../../pages/_style.scss';
+import '../../../pages/registersteps';
+import { Steps } from 'antd';
+
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_style.scss';
-import { signUpUser } from '../../../api/userApi';
-import { showModalSuccess, showModalError } from '../../utils/Modals';
-import Routing from '../../utils/Routes';
-import PersonalInfoStep from './steps/RoleSelection';
 
-// https://stackoverflow.com/questions/56878813/how-to-use-getfielddecorator-with-stateless-components
-// const FormInput = (props) => {
-//   const { }
-//   const rules = formRules[name];
-//   return (
-//     <Form.Item>
-//     {
+const { Step } = Steps;
 
-//       getFieldDecorator(name, { rules })
-//       (
-//       <Input
-//         placeholder="Full Name"
-//         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-//       />
-//     )}
-//   </Form.Item>
-//   )
-// }
+// TODO : this should be elsewhere
+const useForm = (initialState, initialStep, submitCallback) => {
+  const [inputs, setInputs] = useState(initialState);
+  const [currentStep, setCurrentStep] = useState(initialStep);
 
-export default class RegisterForm extends React.Component {
-  constructor(props) {
-    super(props);
-    // console.log('aaaa', props)
-    this.state = {
-      currentStep: 1,
-      steps: props.steps
-    };
-    // console.log(this.state);
-  }
+  // TODO : should this be async?
+  // Default validator
+  const validate = (rule, value) => {
+    let isValid = true;
 
-  componentDidMount = async () => {
-    // const seQuestionnaire = await getQuestionnaire(Roles.SocialEntrepreneur);
-    // const funderQuestionnaire = await getQuestionnaire(Roles.Funder);
-    // this.setState({ seQuestionnaire, funderQuestionnaire });
-  };
-
-  goToLogin() {
-    Routes.toLogin();
-  }
-
-  nextStep = () => {
-    console.log('next step!');
-    this.setCurrentStep(this.state.currentStep + 1);
-  };
-
-  setCurrentStep = next => {
-    const current = this.state.currentStep;
-    if (current === next) return;
-    if (next < 0 || next > 4) {
-      console.log('invalid step', next);
+    // TODO : why is this happening?
+    if (value === undefined) {
+      value = '';
     }
-    // this.setState({
-    //   currentStep: next
-    // });
+
+    const v = rule.whitespace ? value.trim() : value;
+
+    if (rule.required) {
+      isValid = isValid && v.length > 0;
+    }
+    if (rule.regex) {
+      // console.log(rule.regex);
+      isValid = isValid && v.match(rule.regex);
+    }
+    return isValid;
+  };
+  const getValue = input => {
+    return input.value || input.selected || input.checked;
   };
 
-  render() {
-    const props = {
-      nextStep: this.nextStep,
-      currentStep: this.state.currentStep
+  const isValidInput = input => {
+    // TODO : input.value wont work for Checkbox (and maybe Select).
+    if (input.rules === undefined || input.rules.length === 0) return undefined;
 
-    };
-
-    // const steps = React.Children.map(this.state.steps, (step, i) => {
-    const steps = this.state.steps.map((step, i) => {
-      props.isActive = (i === props.currentStep);
-      // console.log(step, React.isValidElement(step));
-      return React.cloneElement(step, props)
+    // find the first not satisfied rule
+    return input.rules.find(rule => {
+      // allow custom validators.
+      const validator = rule.validator ? rule.validator : validate;
+      return !validator(rule, getValue(input), inputs)
+        ? rule.message
+        : undefined;
     });
     // console.log(steps);
     return (
@@ -94,6 +67,150 @@ export default class RegisterForm extends React.Component {
   }
 }
 
+  const validateInput = input => {
+    const rule = isValidInput(input);
+    const valid = rule === undefined;
+    const errorMessage = valid ? undefined : rule.message;
+    return {
+      ...input,
+      valid,
+      errorMessage
+    };
+  };
+
+  const handleChange = (event, name, newValue) => {
+    event.persist();
+
+    const input = inputs[name || event.target.name];
+
+    // console.log(event, event.target, event.target.name, name, newValue);
+    if (input.options === undefined) {
+      input.value = event.target.value || newValue;
+    } else {
+      input.selected = event.target.name;
+    }
+    const validatedInput = validateInput(input);
+
+    const validatedInputs = Object.assign({}, inputs, {
+      [validatedInput.name]: validatedInput
+    });
+    setInputs(validatedInputs);
+  };
+
+  const handleSubmit = (event, isLastStep) => {
+    event.preventDefault();
+
+    const validatedInputs = Object.entries(inputs).reduce(
+      (acc, [key, input]) =>
+        Object.assign(acc, { [key]: { ...validateInput(input) } }),
+      {}
+    );
+
+    setInputs(validatedInputs);
+
+    const isValid = Object.values(validatedInputs).every(i => i.valid);
+    console.log('last', isLastStep, validatedInputs, isValid);
+    if (isValid && isLastStep) {
+      submitCallback();
+    }
+    return isValid;
+  };
+
+  return [
+    inputs,
+    setInputs,
+    currentStep,
+    setCurrentStep,
+    handleChange,
+    handleSubmit
+  ];
+};
+
+// TODO : refactor as functional component
+function RegisterForm({ steps, initialStep }) {
+  // TODO : this cannot be here!
+  function finishForm() {
+    const values = steps.map(step =>
+      Object.values(step.inputs).map(input => [input.name, input.value])
+    );
+    const parsed = Array.prototype.concat.apply([], values);
+    // TODO : send data to register endpoint
+    console.log('complete form', parsed);
+  }
+
+  const [
+    inputs,
+    setInputs,
+    currentStep,
+    setCurrentStep,
+    handleChange,
+    handleSubmit
+  ] = useForm(steps[initialStep].inputs, initialStep, () => finishForm());
+
+  const isLast = step => step === steps.length - 1;
+
+  function next(e) {
+    const last = isLast(currentStep);
+    if (handleSubmit(e, last)) {
+      // console.log('next step!', currentStep + 1, Object.keys(steps[currentStep + 1].inputs));
+      setCurrentStep(currentStep + 1);
+      setInputs(steps[currentStep + 1].inputs);
+    }
+  }
+
+  function prev() {
+    if (currentStep === 0) return;
+    setCurrentStep(currentStep + 1);
+  }
+
+  const isFormValid = () => Object.values(inputs).every(i => i.valid);
+
+  function getNextStepButton(current) {
+    return (
+      <CustomButton
+        theme="Primary"
+        buttonText={isLast(current) ? 'Finish!' : 'Save and continue'}
+        onClick={next}
+        disabled={!isFormValid}
+      />
+    );
+  }
+
+  function getPrevStepButton(current) {
+    if (current === 0) return;
+
+    return (
+      <CustomButton theme="Secondary" buttonText="Previous" onClick={prev} />
+    );
+  }
+  function getStepComponent(current) {
+    const Component = steps[current].component;
+    return <Component inputs={inputs} handleChange={handleChange} />;
+  }
+
+  return (
+    <div className="RegisterSteps">
+      <div className="BlockSteps">
+        <Steps progressDot current={currentStep}>
+          {steps.map((item, index) => (
+            <Step key={'bleep-'.concat(index)} title={item.title} />
+          ))}
+        </Steps>
+      </div>
+      <div className="vertical BlockContent">
+        <div className="steps-content">{getStepComponent(currentStep)}</div>
+        <div className="steps-action">
+          {getNextStepButton(currentStep)}
+          {getPrevStepButton(currentStep)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default RegisterForm;
+
+// TODO : leaving as a_reference
 // class AngelsForm extends React.Component {
 //   handleSubmit = e => {
 //     const { form, seQuestionnaire, funderQuestionnaire } = this.props;
@@ -101,7 +218,7 @@ export default class RegisterForm extends React.Component {
 //     form.validateFields(async (err, values) => {
 //       if (!err) {
 //         const user = {
-//           username: values.name,
+//           usernwame: values.name,
 //           email: values.email,
 //           pwd: values.password,
 //           role: values.role

@@ -44,6 +44,12 @@
   .anticon {
     display: none;
   }
+  @include breakpoint(sm) {
+    width: 100%;
+    }
+    @include breakpoint(lg) {
+      width: auto;
+      }
 }
 /* PRIMARY */
 .ant-btn.Primary,

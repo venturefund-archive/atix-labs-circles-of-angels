@@ -9,6 +9,7 @@
 import React from 'react';
 import { Row, Col, Select } from 'antd';
 import './_style.scss';
+import RegisterStep from '../FormRegister/steps/RegisterStep';
 
 const { Option } = Select;
 
@@ -21,28 +22,45 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
-const RegisterStep4 = () => (
-  <div className="RegisterStep4">
-    <div className="InfoStep">
-      <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
-      <h2>Enterprise Information</h2>
-      <h4>
-        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
-      </h4>
-    </div>
-    <div className="StepPersonalInformation">
-      <Row className="FormRegister" gutter={26} type="flex" justify="center">
-        <Col className="gutter-row BlockCongrats" span={12}>
-          <h1>Congratulations</h1>
-          <h2> Hello Social Entrepreneur !</h2>
-          <p>
-            Continue discovering the Circles of Angels platform while
-            administration confirm your account
-          </p>
-        </Col>
-      </Row>
-    </div>
-  </div>
-);
+class RegisterStep4 extends RegisterStep {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="RegisterStep4">
+        <div className="InfoStep">
+          <img
+            src="./static/images/icon-personal.svg"
+            alt="Circles of Angels"
+          />
+          <h2>Enterprise Information</h2>
+          <h4>
+            Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
+            amet..
+          </h4>
+        </div>
+        <div className="StepPersonalInformation">
+          <Row
+            className="FormRegister"
+            gutter={26}
+            type="flex"
+            justify="center"
+          >
+            <Col className="gutter-row BlockCongrats" span={20}>
+              <h1>Congratulations</h1>
+              <h2> Hello Social Entrepreneur !</h2>
+              <p>
+                Continue discovering the Circles of Angels platform while
+                administration confirm your account
+              </p>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default RegisterStep4;
