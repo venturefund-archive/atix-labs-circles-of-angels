@@ -75,7 +75,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
     );
   }
   function getStepComponent(current) {
-    console.log(steps);
+    // console.log(steps);
     const Component = steps[current].component;
     return <Component inputs={fields} handleChange={handleChange} />;
   }

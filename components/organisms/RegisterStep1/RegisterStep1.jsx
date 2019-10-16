@@ -80,35 +80,6 @@ export const step1Inputs = {
   }
 };
 
-// TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
-function FormInput(props) {
-  const {
-    name,
-    label,
-    placeholder,
-    value,
-    valid,
-    errorMessage,
-    handleChange
-  } = props;
-
-  return (
-    <Form.Item
-      label={label}
-      validateStatus={valid ? 'success' : 'error'}
-      help={errorMessage}
-    >
-      <Input
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        size="large"
-        onChange={handleChange}
-      />
-    </Form.Item>
-  );
-}
-
 export default function RegisterStep1(props) {
   const { inputs, handleChange } = props;
   return (

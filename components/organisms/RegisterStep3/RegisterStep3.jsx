@@ -123,68 +123,6 @@ export const step3Inputs = {
   ...questions.entrepreneur
 };
 
-// TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
-function FormInput(props) {
-  const {
-    name,
-    label,
-    placeholder,
-    value,
-    valid,
-    errorMessage,
-    handleChange
-  } = props;
-  return (
-    <Form.Item
-      label={label}
-      validateStatus={valid ? 'success' : 'error'}
-      help={errorMessage}
-    >
-      <Input
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        size="large"
-        onChange={handleChange}
-      />
-    </Form.Item>
-  );
-}
-
-// TODO : move this logic to components/atoms/
-function FormField(props) {
-  // console.log(props);
-  const {
-    value,
-    label,
-    options,
-    valid,
-    errorMessage,
-    mode,
-    handleChange
-  } = props;
-  if (props.type === 'select') {
-    const children = options.map(o => <Option key={o}>{o}</Option>);
-    return (
-      <Form.Item
-        label={label}
-        validateStatus={valid ? 'success' : 'error'}
-        help={errorMessage}
-      >
-        <Select
-          defaultValue={value}
-          size="large"
-          mode={mode}
-          onChange={handleChange}
-        >
-          {children}
-        </Select>
-      </Form.Item>
-    );
-  }
-  return FormInput(props);
-}
-
 export default function RegisterStep3(props) {
   const { inputs, handleChange } = props;
   const handleChangeOnSelect = (fieldName, value) => (value, options) =>

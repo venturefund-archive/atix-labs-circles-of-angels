@@ -69,9 +69,6 @@ export default function useMultiStepForm(
   const handleChange = (event, fieldName, newValue) => {
     console.log(event, name, newValue);
 
-    // TODO : it has to be another way to do this.
-    //        the select's onChange handler
-
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive inputName and newValue
     if (event !== undefined) {
@@ -87,11 +84,6 @@ export default function useMultiStepForm(
       ...fields,
       [field.name]: validateField(field)
     });
-    //   const validatedField = validateInput(input);
-    //   const validatedInputs = Object.assign({}, inputs, {
-    //     // [validatedInput.name]: validatedInput
-    //   });
-    //   setInputs(validatedInputs);
   };
 
   const handleSubmit = (event, isLastStep) => {
