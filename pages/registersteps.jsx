@@ -24,8 +24,9 @@ import RegisterStep3, {
 } from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
-// TODO : state shouldnt be modified.
+// // TODO : state shouldnt be modified.
 const getInitialState = state => {
+  return state;
   Object.entries(state).forEach(([key, value]) => {
     value.valid = true;
     state[key] = value;
@@ -35,23 +36,31 @@ const getInitialState = state => {
 
 const steps = [
   {
-    inputs: getInitialState(step1Inputs),
+    fields: Object.keys(step1Inputs),
     component: RegisterStep1
   },
   {
-    inputs: getInitialState(step2Inputs),
+    fields: Object.keys(step2Inputs),
     component: RegisterStep2
   },
   {
-    inputs: getInitialState(step3Inputs),
+    fields: Object.keys(step3Inputs),
     component: RegisterStep3
   },
   {
-    inputs: {},
+    fields: {},
     component: RegisterStep4
   }
 ];
 
+let fields = {
+  ...step1Inputs,
+  ...step2Inputs,
+  ...step3Inputs
+}
+Object.entries(fields).forEach(([key, value]) => {
+  value.valid = true;
+});
 export default function Registersteps() {
   // const [currentStep, setCurrentStep] = useState(0);
 
@@ -78,7 +87,8 @@ export default function Registersteps() {
       </Row>
       {/* {console.log('aaaa', currentStep, steps[currentStep])} */}
       <RegisterForm
-        steps={steps}
+        formFields={fields}
+        formSteps={steps}
         initialStep={0}
         // currentStep={currentStep}
         // setCurrentStep={setCurrentStep}

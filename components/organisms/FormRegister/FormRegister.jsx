@@ -12,131 +12,15 @@ import '../../../pages/registersteps';
 import { Steps } from 'antd';
 
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import useMultiStepForm from '../../../hooks/useMultiStepForm';
 
 const { Step } = Steps;
 
-// TODO : this should be elsewhere
-const useForm = (initialState, initialStep, submitCallback) => {
-  const [inputs, setInputs] = useState(initialState);
-  const [currentStep, setCurrentStep] = useState(initialStep);
-
-  // TODO : should this be async?
-  // Default validator
-  const validate = (rule, value) => {
-    let isValid = true;
-
-    // TODO : why is this happening?
-    if (value === undefined) {
-      value = '';
-    }
-
-    const v = rule.whitespace ? value.trim() : value;
-
-    if (rule.required) {
-      isValid = isValid && v.length > 0;
-    }
-    if (rule.regex) {
-      // console.log(rule.regex);
-      isValid = isValid && v.match(rule.regex);
-    }
-    return isValid;
-  };
-  const getValue = input => {
-    return input.value || input.selected || input.checked;
-  };
-
-  const isValidInput = input => {
-    // TODO : input.value wont work for Checkbox (and maybe Select).
-    if (input.rules === undefined || input.rules.length === 0) return undefined;
-
-    // find the first not satisfied rule
-    return input.rules.find(rule => {
-      // allow custom validators.
-      const validator = rule.validator ? rule.validator : validate;
-      return !validator(rule, getValue(input), inputs)
-        ? rule.message
-        : undefined;
-    });
-  };
-
-  const validateInput = input => {
-    const rule = isValidInput(input);
-    console.log(rule);
-    const valid = rule === undefined;
-    
-    const errorMessage = valid ? undefined : rule.message;
-    return {
-      ...input,
-      valid,
-      errorMessage
-    };
-  };
-
-  const handleChange = (event, inputName, newValue) => {
-    console.log(event, name, newValue);
-
-    // TODO : it has to be another way to do this.
-    //        the select's onChange handler
-
-    // custom onChange handlers due antd's Select onChange behavior
-    // if event is undefied it expects to receive inputName and newValue
-    if (event !== undefined) {
-      event.persist();
-    }
-
-    const value = newValue || event.target.value;
-    const name = inputName || event.target.name;
-    const input = inputs[name];
-    input.value = value;
-
-    // console.log(event, event.target, event.target.name, name, newValue);
-    // if (input.options === undefined) {
-    //   input.value = event.target.value || newValue;
-    // } else {
-    //   input.selected = event.target.name;
-    // }
-    const validatedInput = validateInput(input);
-
-    const validatedInputs = Object.assign({}, inputs, {
-      [validatedInput.name]: validatedInput
-    });
-    setInputs(validatedInputs);
-  };
-
-  const handleSubmit = (event, isLastStep) => {
-    event.preventDefault();
-
-    const validatedInputs = Object.entries(inputs).reduce(
-      (acc, [key, input]) =>
-        Object.assign(acc, { [key]: { ...validateInput(input) } }),
-      {}
-    );
-
-    setInputs(validatedInputs);
-
-    const isValid = Object.values(validatedInputs).every(i => i.valid);
-    console.log('last', isLastStep, validatedInputs, isValid);
-    if (isValid && isLastStep) {
-      submitCallback();
-    }
-    return isValid;
-  };
-
-  return [
-    inputs,
-    setInputs,
-    currentStep,
-    setCurrentStep,
-    handleChange,
-    handleSubmit
-  ];
-};
-
 // TODO : refactor as functional component
-function RegisterForm({ steps, initialStep }) {
+function RegisterForm({ formFields, formSteps, initialStep }) {
   // TODO : this cannot be here!
   function finishForm() {
-    const values = steps.map(step =>
+    const values = formSteps.map(step =>
       Object.values(step.inputs).map(input => [input.name, input.value])
     );
     const parsed = Array.prototype.concat.apply([], values);
@@ -145,13 +29,14 @@ function RegisterForm({ steps, initialStep }) {
   }
 
   const [
-    inputs,
-    setInputs,
+    fields,
+    setFields,
+    steps,
     currentStep,
     setCurrentStep,
     handleChange,
     handleSubmit
-  ] = useForm(steps[initialStep].inputs, initialStep, () => finishForm());
+  ] = useMultiStepForm(formFields, formSteps, initialStep, () => finishForm());
 
   const isLast = step => step === steps.length - 1;
 
@@ -160,7 +45,7 @@ function RegisterForm({ steps, initialStep }) {
     if (handleSubmit(e, last)) {
       // console.log('next step!', currentStep + 1, Object.keys(steps[currentStep + 1].inputs));
       setCurrentStep(currentStep + 1);
-      setInputs(steps[currentStep + 1].inputs);
+      // setInputs(steps[currentStep + 1].inputs);
     }
   }
 
@@ -169,7 +54,7 @@ function RegisterForm({ steps, initialStep }) {
     setCurrentStep(currentStep - 1);
   }
 
-  const isFormValid = () => Object.values(inputs).every(i => i.valid);
+  const isFormValid = () => Object.values(fields).every(i => i.valid);
 
   function getNextStepButton(current) {
     return (
@@ -190,15 +75,16 @@ function RegisterForm({ steps, initialStep }) {
     );
   }
   function getStepComponent(current) {
+    console.log(steps);
     const Component = steps[current].component;
-    return <Component inputs={inputs} handleChange={handleChange} />;
+    return <Component inputs={fields} handleChange={handleChange} />;
   }
 
   return (
     <div className="RegisterSteps">
       <div className="BlockSteps">
         <Steps progressDot current={currentStep}>
-          {steps.map((item, index) => (
+          {formSteps.map((item, index) => (
             <Step key={'bleep-'.concat(index)} title={item.title} />
           ))}
         </Steps>

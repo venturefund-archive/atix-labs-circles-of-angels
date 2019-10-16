@@ -134,7 +134,6 @@ function FormInput(props) {
     errorMessage,
     handleChange
   } = props;
-  // console.log(props, name, label, placeholder, value);
   return (
     <Form.Item
       label={label}
