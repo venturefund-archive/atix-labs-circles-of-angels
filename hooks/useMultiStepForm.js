@@ -90,7 +90,7 @@ export default function useMultiStepForm(
     event.preventDefault();
 
     // TODO : it has to be a clearer way to do this.
-    const validatedFields = Object.entries(fields).reduce(
+    const validatedFields = Object.entries(steps[currentStep].fields).reduce(
       (acc, [key, field]) =>
         Object.assign(acc, { [key]: { ...validateField(field) } }),
       {}
