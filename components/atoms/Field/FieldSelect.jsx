@@ -1,10 +1,10 @@
 import React from 'react';
-import { Form, Input } from 'antd';
-import FieldInput from './FieldInput copy 2';
+import { Form, Select, Option } from 'antd';
+import FieldInput from './FieldInput';
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
 // TODO : move this logic to components/atoms/
-function FieldSelect(props) {
+export default function FieldSelect(props) {
   // console.log(props);
   const {
     value,
@@ -31,5 +31,7 @@ function FieldSelect(props) {
         {children}
       </Select>
     </Form.Item>
-    );
+  );
 }
+
+// TODO : Add props validation

@@ -10,6 +10,7 @@ import React from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import Field from '../../atoms/Field/Field';
 
 export const step1Inputs = {
   fName: {
@@ -107,10 +108,10 @@ export default function RegisterStep1(props) {
           <Form layout="vertical">
             {/* TODO : we could move the Col tags into the FormInput */}
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.fName} handleChange={handleChange} />
+              <Field {...inputs.fName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.lName} handleChange={handleChange} />
+              <Field {...inputs.lName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Form.Item label="Country">
@@ -118,13 +119,13 @@ export default function RegisterStep1(props) {
               </Form.Item>
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput {...inputs.email} handleChange={handleChange} />
+              <Field {...inputs.email} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput {...inputs.password} handleChange={handleChange} />
+              <Field {...inputs.password} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <FormInput
+              <Field
                 {...inputs.repeatPassword}
                 handleChange={handleChange}
               />
