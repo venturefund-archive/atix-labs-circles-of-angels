@@ -3,3 +3,6 @@ node_modules
 .next/*
 .DS_STORE
 **/.DS_STORE
+
+# dot environment variables
+.env
