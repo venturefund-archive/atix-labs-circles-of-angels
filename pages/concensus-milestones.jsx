@@ -295,13 +295,21 @@ class ConcensusMilestones extends Component {
     const { projectId } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
-    if (status === FileUploadStatus.DONE) {
-      await uploadAgreement(projectId, projectAgreement.originFileObj);
 
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (status === FileUploadStatus.ERROR) {
+    // TODO : this was locally modified on production.
+    //        nobody knows who made it.
+    try {
+      if (status === FileUploadStatus.DONE || status === FileUploadStatus.UPLOADING) {
+        // TODO : unused variable.
+        const response = await uploadAgreement(projectId, projectAgreement.originFileObj);
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (status === FileUploadStatus.ERROR) {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    } catch (error) {
       message.error(`${info.file.name} file upload failed.`);
     }
+
   };
 
   actualUserNeedsTransfer = () => {
