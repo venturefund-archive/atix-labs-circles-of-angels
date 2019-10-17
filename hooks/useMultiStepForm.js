@@ -56,9 +56,10 @@ export default function useMultiStepForm(
 
   const validateField = field => {
     const rule = isValidField(field);
-    const valid = rule === undefined;
 
+    const valid = rule === undefined;
     const errorMessage = valid ? undefined : rule.message;
+
     return {
       ...field,
       valid,
@@ -89,13 +90,12 @@ export default function useMultiStepForm(
   const handleSubmit = (event, isLastStep) => {
     event.preventDefault();
 
-    // TODO : it has to be a clearer way to do this.
-    const validatedFields = Object.entries(steps[currentStep].fields).reduce(
-      (acc, [key, field]) =>
-        Object.assign(acc, { [key]: { ...validateField(field) } }),
+    const validatedFields = steps[currentStep].fields.reduce(
+      (acc, fieldName) =>
+        Object.assign(acc, { [fieldName]: fields[fieldName] }, {}),
       {}
     );
-    setFields(validatedFields);
+    setFields({ ...fields, ...validatedFields });
 
     const isValid = Object.values(validatedFields).every(i => i.valid);
     console.log('last', isLastStep, validatedFields, isValid);
@@ -107,6 +107,7 @@ export default function useMultiStepForm(
 
     return isValid;
   };
+
   return [
     fields,
     setFields,

@@ -82,7 +82,7 @@ export const step1Inputs = {
 };
 
 export default function RegisterStep1(props) {
-  const { inputs, handleChange } = props;
+  const { fields, handleChange } = props;
   return (
     <div>
       <div className="InfoStep">
@@ -108,10 +108,10 @@ export default function RegisterStep1(props) {
           <Form layout="vertical">
             {/* TODO : we could move the Col tags into the FormInput */}
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field {...inputs.fName} handleChange={handleChange} />
+              <Field {...fields.fName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field {...inputs.lName} handleChange={handleChange} />
+              <Field {...fields.lName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Form.Item label="Country">
@@ -119,16 +119,13 @@ export default function RegisterStep1(props) {
               </Form.Item>
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <Field {...inputs.email} handleChange={handleChange} />
+              <Field {...fields.email} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <Field {...inputs.password} handleChange={handleChange} />
+              <Field {...fields.password} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <Field
-                {...inputs.repeatPassword}
-                handleChange={handleChange}
-              />
+              <Field {...fields.repeatPassword} handleChange={handleChange} />
             </Col>
           </Form>
           <Col className="gutter-row" sm={24} lg={12}>

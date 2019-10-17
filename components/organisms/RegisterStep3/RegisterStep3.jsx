@@ -9,6 +9,8 @@
 import React from 'react';
 import { Form, Input, Row, Col, Select } from 'antd';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
+import Field from '../../atoms/Field/Field';
+
 const { Option } = Select;
 
 const commonQuestions = {
@@ -43,10 +45,9 @@ const questions = {
     ...commonQuestions,
     seeking: {
       name: 'seeking',
+      type: 'select',
       label: 'What type of funding are you seeking?',
       placeholder: 'Phone number',
-      type: 'select',
-
       // TODO : update later
       options: ['Grant', 'Debt', 'Equity', 'Other'],
       rules: [
@@ -59,6 +60,7 @@ const questions = {
     },
     goals: {
       name: 'goals',
+      type: 'select',
       label: (
         <div>
           Which are the areas of impact that you tackle?
@@ -66,7 +68,6 @@ const questions = {
         </div>
       ),
       placeholder: 'Please select up to 3 goals',
-      type: 'select',
       // TODO : update later
       options: ['Water', 'Earth', 'Fire', 'Air'],
       rules: [
@@ -82,8 +83,8 @@ const questions = {
     ...commonQuestions,
     seeking: {
       name: 'seeking',
-      label: 'How often do you or your firm make angel impact investments?',
       type: 'select',
+      label: 'How often do you or your firm make angel impact investments?',
       // TODO : update later
       options: ['None', 'Sometimes', 'Always'],
       rules: [
@@ -96,6 +97,7 @@ const questions = {
     },
     goals: {
       name: 'goals',
+      type: 'select',
       label: (
         <div>
           Which are the areas of impact that you tackle?
@@ -103,7 +105,6 @@ const questions = {
         </div>
       ),
       placeholder: 'Please select up to 3 goals',
-      type: 'select',
       // TODO : update later
       options: ['Water', 'Earth', 'Fire', 'Air'],
       rules: [
@@ -124,9 +125,9 @@ export const step3Inputs = {
 };
 
 export default function RegisterStep3(props) {
-  const { inputs, handleChange } = props;
-  const handleChangeOnSelect = (fieldName, value) => (value, options) =>
-    handleChange(undefined, value, fieldName);
+  const { fields, handleChange } = props;
+  // const handleChangeOnSelect = (fieldName, v) => (value, options) =>
+  //   handleChange(undefined, value, fieldName);
 
   // const children = []; //[<Option key="1">1</Option>, <Option key="2">2</Option>];
   return (
@@ -144,10 +145,10 @@ export default function RegisterStep3(props) {
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.phone} handleChange={handleChange} />
+              <Field {...fields.phone} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormInput {...inputs.company} handleChange={handleChange} />
+              <Field {...fields.company} handleChange={handleChange} />
             </Col>
           </Form>
         </Row>
@@ -157,16 +158,16 @@ export default function RegisterStep3(props) {
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
-              <FormField
-                {...inputs.seeking}
+              <Field
+                {...fields.seeking}
                 handleChange={(value, options) =>
                   handleChange(undefined, 'seeking', value)
                 }
               />
             </Col>
             <Col className="InputTwoLabel" sm={24} lg={12}>
-              <FormField
-                {...inputs.goals}
+              <Field
+                {...fields.goals}
                 mode="tags"
                 handleChange={(value, options) =>
                   handleChange(undefined, 'goals', value)

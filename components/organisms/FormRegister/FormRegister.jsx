@@ -43,9 +43,8 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
   function next(e) {
     const last = isLast(currentStep);
     if (handleSubmit(e, last)) {
-      // console.log('next step!', currentStep + 1, Object.keys(steps[currentStep + 1].inputs));
+      console.log('next step!', currentStep + 1)
       setCurrentStep(currentStep + 1);
-      // setInputs(steps[currentStep + 1].inputs);
     }
   }
 
@@ -75,9 +74,8 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
     );
   }
   function getStepComponent(current) {
-    // console.log(steps);
     const Component = steps[current].component;
-    return <Component inputs={fields} handleChange={handleChange} />;
+    return <Component fields={fields} handleChange={handleChange} />;
   }
 
   return (

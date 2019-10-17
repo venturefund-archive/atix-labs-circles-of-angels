@@ -24,16 +24,6 @@ import RegisterStep3, {
 } from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
 
-// // TODO : state shouldnt be modified.
-const getInitialState = state => {
-  return state;
-  Object.entries(state).forEach(([key, value]) => {
-    value.valid = true;
-    state[key] = value;
-  });
-  return state;
-};
-
 const steps = [
   {
     fields: Object.keys(step1Inputs),
@@ -57,7 +47,9 @@ let fields = {
   ...step1Inputs,
   ...step2Inputs,
   ...step3Inputs
-}
+};
+
+// TODO : get rid of this.
 Object.entries(fields).forEach(([key, value]) => {
   value.valid = true;
 });
