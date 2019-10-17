@@ -38,6 +38,7 @@ export const step2Inputs = {
 
 const RoleOption = props => {
   const { title, usertype, name, value, selected, handleChange } = props;
+
   return (
     <Col sm={24} md={8} lg={8}>
       {/* <div custom={name} selected={selected === name} className="OptionsUsers">
@@ -45,7 +46,7 @@ const RoleOption = props => {
         <h1>{title}</h1>
         <p>{usertype}</p>
       </div> */}
-      <Button name={name} selected={selected === name} className="OptionsUsers">
+      <Button name={name} selected={selected === name} value={usertype} className="OptionsUsers">
         {title}-{usertype}
       </Button>
     </Col>

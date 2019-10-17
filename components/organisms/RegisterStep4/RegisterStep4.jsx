@@ -11,7 +11,8 @@ import { Row, Col } from 'antd';
 import './_style.scss';
 
 export default function RegisterStep4(props) {
-  const { inputs } = props;
+  const { fields } = props;
+
   return (
     <div className="RegisterStep4">
       <div className="InfoStep">
@@ -34,7 +35,7 @@ export default function RegisterStep4(props) {
         >
           <Col className="gutter-row BlockCongrats" span={20}>
             <h1>Congratulations</h1>
-            <h2> Hello {inputs.role.value}!</h2>
+            <h2> Hello {fields.role.value}!</h2>
             <p>
               Continue discovering the Circles of Angels platform while
               administration confirm your account
