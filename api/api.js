@@ -8,6 +8,7 @@
 
 import axios from 'axios';
 
+// TODO : why is this commented?
 // const config = new Conf();
 // console.log(config)
 // const actualEnvironment = "develop";
@@ -17,8 +18,17 @@ import axios from 'axios';
 //   timeout: 1000
 // });
 
+require("dotenv").config();
+
+const baseURL = process.env.BASE_URL;
+
+// we throw an error if no baseURL was provided
+if (!baseURL) {
+  throw new Error("Check your baseURL settings in your environment variables.")
+}
+
 const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: baseURL,
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',
