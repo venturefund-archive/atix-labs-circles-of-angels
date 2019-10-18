@@ -46,7 +46,7 @@ const ProjectCard = () => (
 );
 const Landing = ({ title, usertype }) => (
   <Row className="Landing">
-    <TopBar textBlack="Register" textLink="Login" />
+    <TopBar textBlack="Register"  />
     <Row type="flex" className="BlockBanner Wrapper" align="middle">
       <Col sm={24} md={24} lg={24}>
         <h1>
