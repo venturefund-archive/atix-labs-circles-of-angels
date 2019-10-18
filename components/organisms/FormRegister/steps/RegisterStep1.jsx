@@ -92,6 +92,17 @@ export const step1Inputs = {
         message: 'Passwords should match'
       }
     ]
+  },
+  termsAndConditions: {
+    name: 'termsAndConditions',
+    type: 'checkbox',
+    label: 'I’ve read and accept all the Terms and Conditions of the site.',
+    rules: [
+      {
+        required: true,
+        message: 'Please, agree with terms and conditions to continue'
+      }
+    ]
   }
 };
 
@@ -141,10 +152,7 @@ export default function RegisterStep1(props) {
             </Col>
           </Form>
           <Col className="gutter-row" sm={24} lg={12}>
-            <Checkbox>
-              I’ve read and accept all the <a href="/">Terms and Conditions</a>{' '}
-              of the site.
-            </Checkbox>
+            <Field {...fields.termsAndConditions} handleChange={handleChange} />
           </Col>
         </Row>
       </div>
