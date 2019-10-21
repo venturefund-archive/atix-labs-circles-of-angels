@@ -8,9 +8,11 @@
 
 import React from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import Field from '../../atoms/Field/Field';
+import TitlePage from '../../../atoms/TitlePage/TitlePage';
+import CustomButton from '../../../atoms/CustomButton/CustomButton';
+import Field from '../../../atoms/Field/Field';
+
+const countries = ['Argentina', 'Angola', 'Argelia']
 
 export const step1Inputs = {
   fName: {
@@ -49,6 +51,18 @@ export const step1Inputs = {
       {
         required: true,
         message: 'Please input your E-mail!'
+      }
+    ]
+  },
+  country: {
+    name: 'country',
+    type: 'select',
+    label: 'Country',
+    options: countries,
+    rules: [
+      {
+        required: true,
+        message: 'Choose a country!'
       }
     ]
   },
@@ -114,9 +128,7 @@ export default function RegisterStep1(props) {
               <Field {...fields.lName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
-              <Form.Item label="Country">
-                <Input size="large" />
-              </Form.Item>
+              <Field {...fields.country} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Field {...fields.email} handleChange={handleChange} />

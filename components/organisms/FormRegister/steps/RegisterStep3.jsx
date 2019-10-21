@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { Form, Input, Row, Col, Select } from 'antd';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
-import Field from '../../atoms/Field/Field';
+import TitlePage from '../../../atoms/TitlePage/TitlePage';
+import Field from '../../../atoms/Field/Field';
 
 const { Option } = Select;
 
@@ -40,7 +40,8 @@ const commonQuestions = {
     ]
   }
 };
-const questions = {
+
+export const questionsByRole = {
   entrepreneur: {
     ...commonQuestions,
     seeking: {
@@ -116,20 +117,65 @@ const questions = {
       ]
     }
   },
-  oracle: {}
+  oracle: {
+    ...commonQuestions,
+    seeking: {
+      name: 'seeking',
+      type: 'select',
+      label: 'How often do you or your firm make angel impact investments?',
+      // TODO : update later
+      options: ['None', 'Sometimes', 'Always'],
+      rules: [
+        {
+          required: true,
+          // TODO : change wording
+          message: 'Please input your phone!'
+        }
+      ]
+    },
+    goals: {
+      name: 'goals',
+      type: 'select',
+      label: (
+        <div>
+          Which are the areas of impact that you tackle?
+          <p>Based on the UN Sustainable Development Goals</p>
+        </div>
+      ),
+      placeholder: 'Please select up to 3 goals',
+      // TODO : update later
+      options: ['Water', 'Earth', 'Fire', 'Air'],
+      rules: [
+        {
+          required: true,
+          // TODO : change wording
+          message: 'Please choose at least one goal'
+        }
+      ]
+    }
+  }
 };
 
-export const step3Inputs = {
-  // TODO : should allow custom keys?
-  ...questions.entrepreneur
-};
+export const step3Inputs = {};
 
 export default function RegisterStep3(props) {
   const { fields, handleChange } = props;
   // const handleChangeOnSelect = (fieldName, v) => (value, options) =>
   //   handleChange(undefined, value, fieldName);
 
-  // const children = []; //[<Option key="1">1</Option>, <Option key="2">2</Option>];
+  const getFormTitle = () => {
+    // TODO : this shouldn't use label's value.
+    if (fields.role.value === 'Social Entrepreneur') {
+      return 'I want to create a project';
+    } else if (fields.role.value === 'Impact Funder') {
+      return 'I want to fund a project';
+    } else if (fields.role.value === 'Oracle') {
+      return 'I want to monitor a project'
+    }
+  };
+
+  // const questionFields = questionsByRole.
+
   return (
     <div>
       <div className="InfoStep">
@@ -141,7 +187,7 @@ export default function RegisterStep3(props) {
         </h4>
       </div>
       <div className="StepPersonalInformation">
-        <TitlePage textTitle="I want to create a Project" />
+        <TitlePage textTitle={getFormTitle()} />
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
@@ -158,21 +204,13 @@ export default function RegisterStep3(props) {
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field
-                {...fields.seeking}
-                handleChange={(value, options) =>
-                  handleChange(undefined, 'seeking', value)
-                }
-              />
+              <Field {...fields.seeking} handleChange={handleChange} />
             </Col>
             <Col className="InputTwoLabel" sm={24} lg={12}>
               <Field
                 {...fields.goals}
                 mode="tags"
-                handleChange={(value, options) =>
-                  handleChange(undefined, 'goals', value)
-                }
-                // handleChange={value => handleChangeOnSelect('goals', value)}
+                handleChange={handleChange}
               />
             </Col>
           </Form>

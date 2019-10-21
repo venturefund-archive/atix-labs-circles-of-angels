@@ -13,6 +13,7 @@ import { Steps } from 'antd';
 
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
+import { questionsByRole } from './steps/RegisterStep3';
 
 const { Step } = Steps;
 
@@ -32,6 +33,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
     fields,
     setFields,
     steps,
+    setNextStep,
     currentStep,
     setCurrentStep,
     handleChange,
@@ -43,7 +45,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
   function next(e) {
     const last = isLast(currentStep);
     if (handleSubmit(e, last)) {
-      console.log('next step!', currentStep + 1)
+      console.log('next step!', currentStep + 1);
       setCurrentStep(currentStep + 1);
     }
   }
@@ -75,7 +77,14 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
   }
   function getStepComponent(current) {
     const Component = steps[current].component;
-    return <Component fields={fields} handleChange={handleChange} />;
+    return (
+      <Component
+        fields={fields}
+        setFields={setFields}
+        setNextStep={setNextStep}
+        handleChange={handleChange}
+      />
+    );
   }
 
   return (

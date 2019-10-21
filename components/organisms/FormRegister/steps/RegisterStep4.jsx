@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
-import './_style.scss';
+import './_style4.scss';
 
 export default function RegisterStep4(props) {
   const { fields } = props;

@@ -15,23 +15,23 @@ import './_style.scss';
 
 import RegisterStep1, {
   step1Inputs
-} from '../components/organisms/RegisterStep1/RegisterStep1';
+} from '../components/organisms/FormRegister/steps/RegisterStep1';
 import RegisterStep2, {
   step2Inputs
-} from '../components/organisms/RegisterStep2/RegisterStep2';
+} from '../components/organisms/FormRegister/steps/RegisterStep2';
 import RegisterStep3, {
   step3Inputs
-} from '../components/organisms/RegisterStep3/RegisterStep3';
-import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
+} from '../components/organisms/FormRegister/steps/RegisterStep3';
+import RegisterStep4 from '../components/organisms/FormRegister/steps/RegisterStep4';
 
 const steps = [
   {
-    fields: Object.keys(step1Inputs),
-    component: RegisterStep1
-  },
-  {
     fields: Object.keys(step2Inputs),
     component: RegisterStep2
+  },
+  {
+    fields: Object.keys(step1Inputs),
+    component: RegisterStep1
   },
   {
     fields: Object.keys(step3Inputs),

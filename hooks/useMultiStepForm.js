@@ -6,13 +6,17 @@ export default function useMultiStepForm(
   initialStep,
   submitCallback
 ) {
-  // const [inputs, setInputs] = useState(initialState);
   const [fields, setFields] = useState(formFields);
   const [steps, setSteps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
-  // console.log('ret useform', fields, steps, formFields, formSteps);
 
-  const getField = name => formFields[name];
+
+  // TODO : This should replace all steps!
+  //        Allowing to add or delete predefinied steps dynamically. 
+  const setStep = (number, step) => {
+    if (number <= 0 || number > steps.length) return;
+    steps[number] = step;
+  }
 
   // TODO : should this be async?
   // Default validator
@@ -68,10 +72,10 @@ export default function useMultiStepForm(
   };
 
   const handleChange = (event, fieldName, newValue) => {
-    console.log(event, name, newValue);
+    console.log(event, fieldName, newValue);
 
     // custom onChange handlers due antd's Select onChange behavior
-    // if event is undefied it expects to receive inputName and newValue
+    // if event is undefied it expects to receive a fieldName and its newValue
     if (event !== undefined) {
       event.persist();
     }
@@ -79,7 +83,7 @@ export default function useMultiStepForm(
     const value = newValue || event.target.value;
     const name = fieldName || event.target.name;
     const field = fields[name];
-
+    console.log('handling:', value, name)
     field.value = value;
 
     setFields({
@@ -113,6 +117,7 @@ export default function useMultiStepForm(
     fields,
     setFields,
     steps,
+    setStep,
     currentStep,
     setCurrentStep,
     handleChange,
