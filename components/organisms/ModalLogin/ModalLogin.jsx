@@ -45,17 +45,19 @@ class ModalLogin extends React.Component {
           buttonText="Login"
           theme="Secondary"
           onClick={this.showModal}
-        />
+          />
         <Modal
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           className="ModalLogin"
+          width="400"
+          footer={null}
         >
           <TitlePage textTitle="Login" />
           <CustomButton
             theme="Facebook"
-            buttonText="Register with Facebook Account"
+            buttonText="Login with Facebook"
           />
           <div className="flex Linear">
             <hr />
