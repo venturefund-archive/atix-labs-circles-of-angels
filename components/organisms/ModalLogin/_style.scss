@@ -5,6 +5,9 @@
 }
     .ModalLogin{
       width: 470px;
+      .ant-modal-content{
+        border-radius:0;
+      }
       .ant-modal-body{
         padding: 2.5em 2.5em 0;
       }
