@@ -48,7 +48,6 @@ const RoleOption = props => {
         <h1>{title}</h1>
         <p>{usertype}</p>
       </div> */}
-      {/* TODO : find a clearer way to do this. */}
       <Button
         name={name}
         value={usertype}
@@ -66,25 +65,6 @@ const RoleOption = props => {
 export default function RegisterStep2(props) {
   const { fields, setFields, setNextStep, handleChange } = props;
 
-  // // TODO : should this go somewhere else?
-  // useEffect(() => {
-  //   const selectedRole = fields.role.value;
-  //   if (!selectedRole) {
-  //     return;
-  //   }
-  //   console.log('Selected role', selectedRole);
-  //   const questions = questionsByRole[selectedRole];
-  //   if (Object.keys(questions).length === 0) {
-  //     console.log('no questions for', selectedRole);
-  //     // setCurrentStep(3);
-  //   } else {
-  //     console.log(questions);
-  //     setFields({
-  //       ...fields,
-  //       ...questions
-  //     });
-  //   }
-  // });
   const getNextStep = role => {
     // const step = ;
     switch (role) {
@@ -110,7 +90,6 @@ export default function RegisterStep2(props) {
     const role = event.target.name;
     const questions = questionsByRole[role];
     // TODO : get rid of this
-    // console.log(questions, getNextStep(role));
     Object.entries(questions).forEach(([_, field]) => {
       field.valid = true;
     });

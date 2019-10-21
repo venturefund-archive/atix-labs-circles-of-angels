@@ -54,9 +54,6 @@ Object.entries(fields).forEach(([key, value]) => {
   value.valid = true;
 });
 export default function Registersteps() {
-  // const [currentStep, setCurrentStep] = useState(0);
-
-  // const { current, steps } = this.state;
   return (
     <div className="RegisterWrapper">
       <Row
@@ -77,13 +74,10 @@ export default function Registersteps() {
           Already Registered? <a href="/">Log In</a>
         </Col>
       </Row>
-      {/* {console.log('aaaa', currentStep, steps[currentStep])} */}
       <RegisterForm
         formFields={fields}
         formSteps={steps}
         initialStep={0}
-        // currentStep={currentStep}
-        // setCurrentStep={setCurrentStep}
       />
     </div>
   );
