@@ -31,7 +31,7 @@ export default function useMultiStepForm(
     const v = rule.whitespace ? value.trim() : value;
 
     if (rule.required) {
-      isValid = isValid && v.length > 0;
+      isValid = isValid && v && v.length > 0;
     }
     if (rule.regex) {
       // console.log(rule.regex);
@@ -75,15 +75,16 @@ export default function useMultiStepForm(
     console.log(event, fieldName, newValue);
 
     // custom onChange handlers due antd's Select onChange behavior
-    // if event is undefied it expects to receive a fieldName and its newValue
-    if (event !== undefined) {
+    // if event is undefied it expects to receive inputName and newValue
+    if (event !== undefined && event.persist) {
       event.persist();
     }
 
-    const value = newValue || event.target.value;
+    const value = newValue !== undefined ? newValue : event.target.value;
+    // const value = newValue || event.target.value;
     const name = fieldName || event.target.name;
     const field = fields[name];
-    console.log('handling:', value, name)
+
     field.value = value;
 
     setFields({

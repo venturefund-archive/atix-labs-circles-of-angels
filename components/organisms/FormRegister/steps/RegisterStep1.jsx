@@ -7,12 +7,16 @@
  */
 
 import React from 'react';
+
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
 
-const countries = ['Argentina', 'Angola', 'Argelia']
+const countries = ['Argentina', 'Angola', 'Argelia'];
+const {
+  termsAndConditionsFilePath
+} = require('../../../../constants/DocumentPaths');
 
 export const step1Inputs = {
   fName: {
@@ -96,10 +100,19 @@ export const step1Inputs = {
   termsAndConditions: {
     name: 'termsAndConditions',
     type: 'checkbox',
-    label: 'I’ve read and accept all the Terms and Conditions of the site.',
+    label: (
+      <>
+        I’ve read and accept all the{' '}
+        <a target="_blank" href={termsAndConditionsFilePath}>
+          Terms and Conditions
+        </a>{' '}
+        of the site.
+      </>
+    ),
+    handleChange: () => {},
     rules: [
       {
-        required: true,
+        validator: (rule, value) => value,
         message: 'Please, agree with terms and conditions to continue'
       }
     ]
@@ -150,10 +163,13 @@ export default function RegisterStep1(props) {
             <Col className="gutter-row" sm={12} lg={6}>
               <Field {...fields.repeatPassword} handleChange={handleChange} />
             </Col>
+            <Col className="gutter-row" sm={24} lg={12}>
+              <Field
+                {...fields.termsAndConditions}
+                handleChange={handleChange}
+              />
+            </Col>
           </Form>
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Field {...fields.termsAndConditions} handleChange={handleChange} />
-          </Col>
         </Row>
       </div>
     </div>
