@@ -9,7 +9,6 @@
 import React from 'react';
 import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import 'antd/dist/antd.css';
 import './_style.scss';
 
 const FormPassword = ({ form, onSubmit }) => {

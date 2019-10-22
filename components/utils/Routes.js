@@ -26,6 +26,7 @@ const projectEvidence = '/project-evidence';
 const backOfficeUsers = '/back-office-users';
 const backOfficeMilestones = '/back-office-milestones';
 const register = '/register';
+const landing = '/landing';
 const registersteps = '/registersteps';
 const recovery = '/recovery';
 const myProjects = '/my-projects';
@@ -105,6 +106,9 @@ const Routing = {
   },
   toEditProject: query => {
     goToRoute(editProject, query);
+  },
+  toRegisterSteps: query => {
+    goToRoute(registersteps, query);
   }
 };
 

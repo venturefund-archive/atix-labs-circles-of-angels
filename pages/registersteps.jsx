@@ -31,6 +31,7 @@ import RegisterStep1 from '../components/organisms/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../components/organisms/RegisterStep2/RegisterStep2';
 import RegisterStep3 from '../components/organisms/RegisterStep3/RegisterStep3';
 import RegisterStep4 from '../components/organisms/RegisterStep4/RegisterStep4';
+import TopBar from '../components/organisms/TopBar/TopBar';
 
 const { Step } = Steps;
 
@@ -71,24 +72,7 @@ class Registersteps extends React.Component {
     const { current } = this.state;
     return (
       <div className="RegisterWrapper">
-        <Row
-          className="TopBar"
-          type="flex"
-          justify="space-between"
-          align="middle"
-        >
-          <Col className="gutter-row" xs={10} sm={4} lg={4}>
-            <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
-          </Col>
-          <Col
-            className="gutter-row"
-            xs={12}
-            sm={{ span: 7, offset: 10 }}
-            lg={{ span: 3, offset: 14 }}
-          >
-            Already Registered? <a href="/">Log In</a>
-          </Col>
-        </Row>
+        <TopBar textBlack="Already register?" textLink="Login"/>
 
         <div className="RegisterSteps">
           <div className="BlockSteps">
