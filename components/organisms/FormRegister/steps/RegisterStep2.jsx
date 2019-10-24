@@ -48,7 +48,7 @@ const RoleOption = props => {
         <h1>{title}</h1>
         <p>{usertype}</p>
       </div> */}
-      <Button
+      <a
         name={name}
         value={usertype}
         className={`OptionsUsers`}
@@ -57,7 +57,7 @@ const RoleOption = props => {
         <img src="./static/images/icon-users-small.svg" alt="platformusers" />
         <h1>{title}</h1>
         <p>{usertype}</p>
-      </Button>
+      </a>
     </Col>
   );
 };

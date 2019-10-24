@@ -109,7 +109,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
 
 export default RegisterForm;
 
-// TODO : leaving as a_reference
+// TODO : leaving as a reference
 // class AngelsForm extends React.Component {
 //   handleSubmit = e => {
 //     const { form, seQuestionnaire, funderQuestionnaire } = this.props;
