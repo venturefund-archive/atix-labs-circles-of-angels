@@ -38,8 +38,8 @@ The following behaviors are considered harassment and are unacceptable within ou
   * Personal insults, particularly those related to gender, sexual orientation, race, religion, or disability.
   * Inappropriate photography or recording.
   * Inappropriate physical contact. You should have someone's consent before touching them.
-  * Unwelcome sexual attention. This includes, sexualized comments or jokes; inappropriate touching, groping, and unwelcomed sexual advances.
-  * Deliberate intimidation, stalking or following (online or in person).
+  * Unwelcome sexual attention. This includes sexualized comments or jokes; inappropriate touching, groping, and unwelcomed sexual advances.
+  * Deliberate intimidation, stalking or following (online or in-person).
   * Advocating for, or encouraging, any of the above behavior.
   * Sustained disruption of community events, including talks and presentations.
 
@@ -53,17 +53,18 @@ If a community member engages in unacceptable behavior, the community organizers
 
 ## 6. Reporting Guidelines
 
-If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a community organizer as soon as possible. [CONTACT_INFO_HERE].
+If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a Community Organizer as soon as possible.
+You can contact the Community Organizer here: community@atixlabs.com
 
-[LINK_TO_REPORTING_GUIDELINES]
+*We're still working on a reporting guideline to help those who may need it. We'll add a link to the said template as soon as we can*
 
 Additionally, community organizers are available to help community members engage with local law enforcement or to otherwise help those experiencing unacceptable behavior feel safe. In the context of in-person events, organizers will also provide escorts as desired by the person experiencing distress.
 
 ## 7. Addressing Grievances
 
-If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify [GOVERNING_BODY] with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies. [LINK_TO_POLICY]
+If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify Community Organizer with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies. [LINK_TO_POLICY]
 
-[NOTE: Every organization's governing policies should dictate how you handle warnings and expulsions of community members. It is strongly recommended that you mention those policies here or in Section 7 and that you include a mechanism for addressing grievances.]
+**[NOTE: Every organization's governing policies should dictate how you handle warnings and expulsions of community members. It is strongly recommended that you mention those policies here or in Section 7 and that you include a mechanism for addressing grievances.]**
 
 ## 8. Scope
 
@@ -73,7 +74,7 @@ This code of conduct and its related procedures also applies to unacceptable beh
 
 ## 9. Contact info
 
-[YOUR CONTACT INFO HERE -- this should be a single person or a small team who can respond to issues directly]
+Any inquiries should be sent to this email address: community@atixlabs.com
 
 ## 10. License and attribution
 
