@@ -27,10 +27,10 @@ const ProjectCard = () => (
       align="middle"
       className="ProjectSummery"
     >
-      <Col span={18}>
+      <Col sm={16} md={18} lg={18}>
         <h1>Yellow Hammock</h1>
       </Col>
-      <Col span={6}>
+      <Col sm={6} md={6} lg={6}>
         <Tag color="red">Funding Phase</Tag>
       </Col>
       <Col span={24}>
@@ -46,7 +46,7 @@ const ProjectCard = () => (
 );
 const Landing = ({ title, usertype }) => (
   <Row className="Landing">
-    <TopBar textBlack="Register"  />
+    <TopBar textBlack="Register" />
     <Row type="flex" className="BlockBanner Wrapper" align="middle">
       <Col sm={24} md={24} lg={24}>
         <h1>
@@ -57,7 +57,7 @@ const Landing = ({ title, usertype }) => (
           Enabling Purposeled companies to grow, flourish and <br /> impact
           local communities
         </h2>
-        <Col className="space-between" sm={24} md={6} lg={7}>
+        <Col className="space-between" sm={24} md={12} lg={7}>
           <CustomButton buttonText="I´ve got a project!" theme="Primary" />
           <CustomButton buttonText="I want to fund!" theme="White" />
         </Col>

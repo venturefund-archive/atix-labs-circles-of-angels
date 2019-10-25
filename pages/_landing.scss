@@ -5,15 +5,21 @@
   .Wrapper{
 
     padding: 0 6em;
+    @include breakpoint(md) {
+      padding: 2em;
+    }
+    @include breakpoint(sm) {
+      padding: 2em;
+    }
   }
   .TopBar{
     img{
       margin-left: 5em;
-      @include breakpoint(sm) {
+      @include breakpoint(md) {
         margin-left: 0em;
       }
-      @include breakpoint(md) {
-        margin-left: 5em;
+      @include breakpoint(sm) {
+        margin-left: 0em;
       }
     }
   }
@@ -29,10 +35,29 @@
     h1 {
       @include primary-text($titlebanner, $white, 600);
       line-height: 96px;
+      @include breakpoint(md) {
+        @include primary-text($titlebig, $white, 600);
+        line-height: normal;
+      }
+      @include breakpoint(sm) {
+        @include primary-text($titlebig, $white, 600);
+        line-height: normal;
+      }
     }
     h2 {
       @include primary-text($titlepage, $white, 400);
       margin: 1.5em 0;
+      @include breakpoint(md) {
+        @include primary-text($title, $white, 400);
+        margin: 1.5em 0;
+      }
+      @include breakpoint(sm) {
+        @include primary-text($title, $white, 400);
+        margin: 2.5em 0;
+        br{
+          display:none;
+        }
+      }
     }
     .ant-btn.CustomButton {
       transform: scale(1.1);
