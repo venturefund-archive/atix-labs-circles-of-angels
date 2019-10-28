@@ -70,7 +70,7 @@ export default function useMultiStepForm(
   };
 
   const handleChange = (event, fieldName, newValue) => {
-    console.log(event, fieldName, newValue);
+    // console.log(event, fieldName, newValue);
 
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive a fieldName and its newValue
@@ -81,7 +81,6 @@ export default function useMultiStepForm(
     const value = newValue || event.target.value || event.target.name;
     const name = fieldName || event.target.name;
     const field = fields[name];
-    console.log('handling:', value, name);
     field.value = value;
 
     setFields({

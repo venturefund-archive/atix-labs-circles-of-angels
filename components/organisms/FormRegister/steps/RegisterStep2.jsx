@@ -66,7 +66,6 @@ export default function RegisterStep2(props) {
   const { fields, setFields, setNextStep, handleChange } = props;
 
   const getNextStep = role => {
-    // const step = ;
     switch (role) {
       case 'entrepreneur':
       case 'funder':
