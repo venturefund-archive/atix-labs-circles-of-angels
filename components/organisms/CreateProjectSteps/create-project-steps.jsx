@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Steps, message } from 'antd';
 import Step1 from '../../molecules/Steps/step-1';
 import Step2 from '../../molecules/Steps/step-2';
@@ -29,89 +29,80 @@ const changeProjectFile = (project, key, file) => {
   }
 };
 
-class CreateProjectSteps extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      current: 0,
-      hiddenButtons: {
-        hideButtonCard: false,
-        hideButtonCover: false,
-        hideButtonProposal: false,
-        hideButtonAgreement: false
-      }
-    };
+const hideButton = ({ hiddenButtons, setHiddenButtons }) => button => {
+  hiddenButtons[button] = true;
+  setHiddenButtons(hiddenButtons);
+};
+
+const showButton = ({ hiddenButtons, setHiddenButtons }) => button => {
+  hiddenButtons[button] = false;
+  setHiddenButtons(hiddenButtons);
+};
+
+const next = ({ current, setCurrent }) => () => setCurrent(current + 1);
+
+const prev = ({ current, setCurrent }) => () => setCurrent(current - 1);
+
+const steps = ({
+  project,
+  current,
+  hiddenButtons,
+  setCurrent,
+  setHiddenButtons
+}) => [
+  {
+    title: 'Project Details',
+    content: (
+      <Step1
+        project={project}
+        next={next({ current, setCurrent })}
+        changeProjectFile={changeProjectFile}
+        hiddenButtons={hiddenButtons}
+        showButton={showButton({ hiddenButtons, setHiddenButtons })}
+        hideButton={hideButton({ hiddenButtons, setHiddenButtons })}
+      />
+    )
+  },
+  {
+    title: 'Project Milestones',
+    content: (
+      <Step2
+        project={project}
+        next={next({ current, setCurrent })}
+        prev={prev({ current, setCurrent })}
+        changeProjectFile={changeProjectFile}
+      />
+    )
+  },
+  {
+    title: 'Project Completed',
+    content: <Step3 />
   }
+];
 
-  hideButton = button => {
-    const { hiddenButtons } = this.state;
-    hiddenButtons[button] = true;
-    this.setState({ hiddenButtons });
-  };
+const CreateProjectSteps = ({ project }) => {
+  const [current, setCurrent] = useState(0);
+  const [hiddenButtons, setHiddenButtons] = useState({
+    projectProposal: false,
+    projectCardPhoto: false,
+    projectCoverPhoto: false,
+    projectAgreement: false
+  });
 
-  showButton = button => {
-    const { hiddenButtons } = this.state;
-    hiddenButtons[button] = false;
-    this.setState({ hiddenButtons });
-  };
-
-  next = () => {
-    const { current } = this.state;
-    this.setState({ current: current + 1 });
-  };
-
-  prev = () => {
-    const { current } = this.state;
-    this.setState({ current: current - 1 });
-  };
-
-  render() {
-    const { project } = this.props;
-    const { current, hiddenButtons } = this.state;
-    this.steps = [
-      {
-        title: 'Project Details',
-        content: (
-          <Step1
-            project={project}
-            next={this.next}
-            changeProjectFile={changeProjectFile}
-            hiddenButtons={hiddenButtons}
-            showButton={this.showButton}
-            hideButton={this.hideButton}
-          />
-        )
-      },
-      {
-        title: 'Project Milestones',
-        content: (
-          <Step2
-            project={project}
-            next={this.next}
-            prev={this.prev}
-            changeProjectFile={this.changeProjectFile}
-          />
-        )
-      },
-      {
-        title: 'Project Completed',
-        content: <Step3 />
-      }
-    ];
-
-    return (
-      <div className="CreateProjectContainer">
-        <div className="StepsContainer">
-          <Steps size="small" current={current}>
-            {this.steps.map(item => (
+  return (
+    <div className="CreateProjectContainer">
+      <div className="StepsContainer">
+        <Steps size="small" current={current}>
+          {steps({ project, setCurrent, hiddenButtons, setHiddenButtons }).map(
+            item => (
               <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        </div>
-        {this.steps[current].content}
+            )
+          )}
+        </Steps>
       </div>
-    );
-  }
-}
+      {steps[current].content}
+    </div>
+  );
+};
 
 export default CreateProjectSteps;
