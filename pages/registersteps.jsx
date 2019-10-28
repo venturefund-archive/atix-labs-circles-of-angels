@@ -49,10 +49,6 @@ let fields = {
   ...step3Inputs
 };
 
-// TODO : get rid of this.
-Object.entries(fields).forEach(([key, value]) => {
-  value.valid = true;
-});
 export default function Registersteps() {
   return (
     <div className="RegisterWrapper">

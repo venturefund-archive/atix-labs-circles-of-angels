@@ -12,11 +12,11 @@ export default function FieldInput(props) {
       errorMessage,
       handleChange
     } = props;
-  
+    
     return (
       <Form.Item
         label={label}
-        validateStatus={valid ? 'success' : 'error'}
+        validateStatus={valid || valid === undefined ? 'success' : 'error'}
         help={errorMessage}
       >
         <Input

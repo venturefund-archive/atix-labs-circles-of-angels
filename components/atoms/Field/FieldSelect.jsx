@@ -21,7 +21,7 @@ export default function FieldSelect(props) {
   return (
     <Form.Item
       label={label}
-      validateStatus={valid ? 'success' : 'error'}
+      validateStatus={valid || valid === undefined ? 'success' : 'error'}
       help={errorMessage}
     >
       <Select
