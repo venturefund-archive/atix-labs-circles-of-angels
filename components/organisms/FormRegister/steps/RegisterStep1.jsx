@@ -120,7 +120,9 @@ export default function RegisterStep1(props) {
         </div>
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
-            {/* TODO : we could move the Col tags into the FormInput */}
+            {/* TODO : we could move the Col tags into the Field component,
+                       and it could also include the sm and lg tags.
+            */}
             <Col className="gutter-row" sm={24} lg={12}>
               <Field {...fields.firstName} handleChange={handleChange} />
             </Col>
