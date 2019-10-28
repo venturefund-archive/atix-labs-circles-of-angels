@@ -12,7 +12,7 @@ import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { withUser } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
-
+import { ProjectCard } from './landing';
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 

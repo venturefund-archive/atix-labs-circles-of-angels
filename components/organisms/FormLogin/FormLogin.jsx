@@ -15,6 +15,7 @@ import Routing from '../../utils/Routes';
 const FormLogin = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
   const submit = e => {
+    console.log(onSubmit);
     e.preventDefault();
     form.validateFields();
     onSubmit(getFieldProps('userName').value, getFieldProps('password').value);

@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Tag, Row, Col } from 'antd';
 
 import './_landing.scss';
@@ -14,7 +14,7 @@ import './_style.scss';
 import TopBar from '../components/organisms/TopBar/TopBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import CardProject from '../components/molecules/CardProject/CardProject';
+import renderEmpty from 'antd/lib/config-provider/renderEmpty';
 
 const ProjectCard = () => (
   <Col className="CardProject" span={8}>
@@ -44,33 +44,42 @@ const ProjectCard = () => (
     </Row>
   </Col>
 );
-const Landing = ({ title, usertype }) => (
-  <Row className="Landing">
-    <TopBar textBlack="Register"  />
-    <Row type="flex" className="BlockBanner Wrapper" align="middle">
-      <Col sm={24} md={24} lg={24}>
-        <h1>
-          Making impact <br />
-          funding accesible
-        </h1>
-        <h2>
-          Enabling Purposeled companies to grow, flourish and <br /> impact
-          local communities
-        </h2>
-        <Col className="space-between" sm={24} md={6} lg={7}>
-          <CustomButton buttonText="I´ve got a project!" theme="Primary" />
-          <CustomButton buttonText="I want to fund!" theme="White" />
+
+function Landing() {
+  const [visibility, setVisibility] = useState(false);
+  return (
+    <Row className="Landing">
+      <TopBar
+        textBlack="Register"
+        setVisibility={setVisibility}
+        visibility={visibility}
+      />
+      <Row type="flex" className="BlockBanner Wrapper" align="middle">
+        <Col sm={24} md={24} lg={24}>
+          <h1>
+            Making impact <br />
+            funding accesible
+          </h1>
+          <h2>
+            Enabling Purposeled companies to grow, flourish and <br /> impact
+            local communities
+          </h2>
+          <Col className="space-between" sm={24} md={6} lg={7}>
+            <CustomButton buttonText="I´ve got a project!" theme="Primary" />
+            <CustomButton buttonText="I want to fund!" theme="White" />
+          </Col>
         </Col>
-      </Col>
+      </Row>
+      <Row className="Wrapper" gutter={30} type="flex" align="middle">
+        <Col span={24}>
+          <TitlePage textTitle="Our Impact Projects" />
+        </Col>
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+      </Row>
     </Row>
-    <Row className="Wrapper" gutter={30} type="flex" align="middle">
-      <Col span={24}>
-        <TitlePage textTitle="Our Impact Projects" />
-      </Col>
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
-    </Row>
-  </Row>
-);
+  );
+}
+
 export default Landing;
