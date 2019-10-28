@@ -15,8 +15,8 @@ import Field from '../../../atoms/Field/Field';
 const countries = ['Argentina', 'Angola', 'Argelia']
 
 export const step1Inputs = {
-  fName: {
-    name: 'fName',
+  firstName: {
+    name: 'firstName',
     label: 'First name',
     placeholder: 'First name',
     rules: [
@@ -27,8 +27,8 @@ export const step1Inputs = {
       }
     ]
   },
-  lName: {
-    name: 'lName',
+  lastName: {
+    name: 'lastName',
     label: 'Last name',
     placeholder: 'Last name',
     rules: [
@@ -122,10 +122,10 @@ export default function RegisterStep1(props) {
           <Form layout="vertical">
             {/* TODO : we could move the Col tags into the FormInput */}
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field {...fields.fName} handleChange={handleChange} />
+              <Field {...fields.firstName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field {...fields.lName} handleChange={handleChange} />
+              <Field {...fields.lastName} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Field {...fields.country} handleChange={handleChange} />

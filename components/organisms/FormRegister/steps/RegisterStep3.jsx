@@ -21,8 +21,8 @@ const commonQuestions = {
     rules: [
       {
         required: true,
-        // TODO : change wording
-        message: 'Please input your phone!',
+        regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
+        message: 'Provide a valid phone number',
         whitespace: true
       }
     ]
@@ -170,7 +170,7 @@ export default function RegisterStep3(props) {
     } else if (fields.role.value === 'Impact Funder') {
       return 'I want to fund a project';
     } else if (fields.role.value === 'Oracle') {
-      return 'I want to monitor a project'
+      return 'I want to monitor a project';
     }
   };
 

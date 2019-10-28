@@ -40,7 +40,7 @@ export const step2Inputs = {
 
 const RoleOption = props => {
   const { title, usertype, name, value, selected } = props;
-
+  const selectedClass = selected ? 'selectedOption' : '';
   return (
     <Col sm={24} md={8} lg={8}>
       {/* <div custom={name} selected={selected === name} className="OptionsUsers">
@@ -51,7 +51,7 @@ const RoleOption = props => {
       <a
         name={name}
         value={usertype}
-        className={`OptionsUsers`}
+        className={`OptionsUsers ` + selectedClass}
         selected={selected}
       >
         <img src="./static/images/icon-users-small.svg" alt="platformusers" />
@@ -101,7 +101,7 @@ export default function RegisterStep2(props) {
 
   const roleOptions = fields.role.options.map(option => (
     // TODO : not sure about this.
-    <RoleOption selected={fields.role.value === option.usertype} {...option} />
+    <RoleOption selected={fields.role.value === option.name} {...option} />
   ));
 
   return (

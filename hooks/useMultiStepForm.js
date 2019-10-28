@@ -33,7 +33,6 @@ export default function useMultiStepForm(
       isValid = isValid && v.length > 0;
     }
     if (rule.regex) {
-      // console.log(rule.regex);
       isValid = isValid && v.match(rule.regex);
     }
     return isValid;
@@ -93,7 +92,6 @@ export default function useMultiStepForm(
 
   const handleSubmit = (event, isLastStep) => {
     event.preventDefault();
-    debugger;
 
     const validatedFields = steps[currentStep].fields.reduce(
       (acc, fieldName) =>
@@ -110,7 +108,7 @@ export default function useMultiStepForm(
 
     // TODO : useEffect
     if (isValid && isLastStep) {
-      submitCallback();
+      submitCallback(fields);
     }
 
     return isValid;

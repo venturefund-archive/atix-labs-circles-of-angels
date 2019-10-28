@@ -27,3 +27,7 @@
     @include primary-text($body,$on-surface-medium ,400)
    }
 }
+
+.selectedOption {
+  border: 4px solid cadetblue;
+}
