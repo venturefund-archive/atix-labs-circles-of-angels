@@ -27,10 +27,10 @@ const ProjectCard = () => (
       align="middle"
       className="ProjectSummery"
     >
-      <Col span={18}>
+      <Col sm={16} md={18} lg={18}>
         <h1>Yellow Hammock</h1>
       </Col>
-      <Col span={6}>
+      <Col sm={6} md={6} lg={6}>
         <Tag color="red">Funding Phase</Tag>
       </Col>
       <Col span={24}>
