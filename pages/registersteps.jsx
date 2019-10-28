@@ -38,7 +38,7 @@ const steps = [
     component: RegisterStep3
   },
   {
-    fields: {},
+    fields: [],
     component: RegisterStep4
   }
 ];

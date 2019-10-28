@@ -71,7 +71,7 @@ export default function RegisterStep2(props) {
       case 'entrepreneur':
       case 'funder':
         return {
-          fields: questionsByRole[role],
+          fields: Object.keys(questionsByRole[role]),
           component: RegisterStep3
         };
 
@@ -93,6 +93,7 @@ export default function RegisterStep2(props) {
     Object.entries(questions).forEach(([_, field]) => {
       field.valid = true;
     });
+    console.log('onSelectRole event', event);
     handleChange(event, 'role');
     setFields({ ...fields, ...questions });
     setNextStep(2, getNextStep(role));

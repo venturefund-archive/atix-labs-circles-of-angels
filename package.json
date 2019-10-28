@@ -1,6 +1,7 @@
 {
   "name": "circlesofangels",
   "scripts": {
+    "clean": "rm -rf .next",
     "dev": "next",
     "build": "next build",
     "start": "next start",

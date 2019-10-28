@@ -10,13 +10,12 @@ export default function useMultiStepForm(
   const [steps, setSteps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
-
   // TODO : This should replace all steps!
-  //        Allowing to add or delete predefinied steps dynamically. 
+  //        Allowing to add or delete predefinied steps dynamically.
   const setStep = (number, step) => {
     if (number <= 0 || number > steps.length) return;
     steps[number] = step;
-  }
+  };
 
   // TODO : should this be async?
   // Default validator
@@ -80,10 +79,10 @@ export default function useMultiStepForm(
       event.persist();
     }
 
-    const value = newValue || event.target.value;
+    const value = newValue || event.target.value || event.target.name;
     const name = fieldName || event.target.name;
     const field = fields[name];
-    console.log('handling:', value, name)
+    console.log('handling:', value, name);
     field.value = value;
 
     setFields({
@@ -94,14 +93,18 @@ export default function useMultiStepForm(
 
   const handleSubmit = (event, isLastStep) => {
     event.preventDefault();
+    debugger;
 
     const validatedFields = steps[currentStep].fields.reduce(
       (acc, fieldName) =>
-        Object.assign(acc, { [fieldName]: fields[fieldName] }, {}),
+        Object.assign(
+          acc,
+          { [fieldName]: validateField(fields[fieldName]) },
+          {}
+        ),
       {}
     );
     setFields({ ...fields, ...validatedFields });
-
     const isValid = Object.values(validatedFields).every(i => i.valid);
     console.log('last', isLastStep, validatedFields, isValid);
 

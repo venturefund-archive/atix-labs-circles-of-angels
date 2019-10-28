@@ -69,9 +69,9 @@ const changeUserRegistrationStatus = async (userId, registrationStatus) => {
   }
 };
 
-const signUpUser = async user => {
+const register = async user => {
   try {
-    const response = await api.post(`${baseURL}/signup`, user);
+    const response = await api.post(`${baseURL}/register`, user);
     return response;
   } catch (error) {
     return { error };
@@ -115,7 +115,7 @@ export {
   changeUserRegistrationStatus,
   getAllUserRegistrationStatus,
   getAllRoles,
-  signUpUser,
+  register,
   recoverPassword,
   updatePassword,
   getMyProjects

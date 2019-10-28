@@ -26,6 +26,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
     );
     const parsed = Array.prototype.concat.apply([], values);
     // TODO : send data to register endpoint
+    
     console.log('complete form', parsed);
   }
 
