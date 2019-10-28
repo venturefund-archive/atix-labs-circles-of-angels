@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "si": "npm run build && npm run dev",
-    "prod": "NODE_ENV=production next start"
+    "prod": "NODE_ENV=production next start",
+    "eslint": "./node_modules/eslint/bin/eslint.js . --ext .jsx --ext .js"
   },
   "dependencies": {
     "@zeit/next-sass": "1.0.1",
