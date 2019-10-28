@@ -12,6 +12,7 @@ import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import './_style2.scss';
 import RegisterStep3, { questionsByRole } from './RegisterStep3';
 import RegisterStep4 from './RegisterStep4';
+import { ENTREPRENEUR, FUNDER, ORACLE } from '../../../../constants/constants';
 
 export const step2Inputs = {
   // TODO : should allow custom keys?
@@ -67,15 +68,15 @@ export default function RegisterStep2(props) {
 
   const getNextStep = role => {
     switch (role) {
-      case 'entrepreneur':
-      case 'funder':
+      case ENTREPRENEUR:
+      case FUNDER:
         return {
           fields: Object.keys(questionsByRole[role]),
           component: RegisterStep3
         };
 
       // TODO : this should delete the step 3
-      case 'oracle':
+      case ORACLE:
         return {
           fields: {},
           component: RegisterStep4

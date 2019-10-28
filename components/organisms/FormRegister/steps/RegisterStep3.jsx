@@ -7,11 +7,9 @@
  */
 
 import React from 'react';
-import { Form, Input, Row, Col, Select } from 'antd';
+import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import Field from '../../../atoms/Field/Field';
-
-const { Option } = Select;
 
 const commonQuestions = {
   phone: {
