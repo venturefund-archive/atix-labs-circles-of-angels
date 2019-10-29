@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col } from 'antd';
 
 import RegisterForm from '../components/organisms/FormRegister/FormRegister';

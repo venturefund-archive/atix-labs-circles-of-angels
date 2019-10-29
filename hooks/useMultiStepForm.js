@@ -6,6 +6,7 @@ export default function useMultiStepForm(
   initialStep,
   submitCallback
 ) {
+  // FIXME : it should validate initial state.
   const [fields, setFields] = useState(formFields);
   const [steps, setSteps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -42,7 +43,7 @@ export default function useMultiStepForm(
     return field.value || field.selected || field.checked;
   };
 
-  const isValidField = field => {
+  const getInvalidRule = field => {
     // TODO : input.value wont work for Checkbox (and maybe Select).
     if (field.rules === undefined || field.rules.length === 0) return undefined;
 
@@ -57,7 +58,7 @@ export default function useMultiStepForm(
   };
 
   const validateField = field => {
-    const rule = isValidField(field);
+    const rule = getInvalidRule(field);
 
     const valid = rule === undefined;
     const errorMessage = valid ? undefined : rule.message;

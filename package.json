@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@zeit/next-sass": "1.0.1",
-    "antd": "^3.13.6",
+    "antd": "3.13.6",
     "axios": "0.18.0",
     "conf": "2.2.0",
     "js-cookie": "2.2.0",
@@ -19,7 +19,7 @@
     "next": "8.1.0",
     "node-css": "0.1.0",
     "node-sass": "4.11.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "15.7.2",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-lottie": "1.2.3",
