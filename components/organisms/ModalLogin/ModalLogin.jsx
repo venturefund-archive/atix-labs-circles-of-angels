@@ -6,26 +6,21 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
-import Routing from '../components/utils/Routes';
-import { showModalError } from '../components/utils/Modals';
-import DynamicForm from '../components/organisms/FormLogin/FormLogin';
-import { withUser } from '../components/utils/UserContext';
-import { loginUser } from '../api/userApi';
-import { ProjectCard } from './landing';
-import './_login.scss';
-import UserRegistrationStatus from '../constants/UserRegistrationStatus';
+import React from 'react';
+import { Row, Col, Divider, Modal } from 'antd';
+import './_style.scss';
+import Routing from '../../utils/Routes';
+import { withUser } from '../../utils/UserContext';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import TitlePage from '../../atoms/TitlePage/TitlePage';
+import DynamicForm from '../FormLogin/FormLogin';
+import { loginUser } from '../../../api/userApi';
+import { showModalError } from '../../utils/Modals';
 
-class Login extends Component {
-  componentDidMount() {
-    const { removeUser } = this.props;
-    removeUser();
-  }
-
-  onLoginSubmit = async (email, pwd) => {
+function ModalLogin({ setVisibility, visibility, changeUser }) {
+  const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
-      const { changeUser } = this.props;
 
       if (response.error) {
         const { error } = response;
@@ -85,20 +80,27 @@ class Login extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="Login">
-        <div className="LogoSide">
-          <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
+  return (
+    <div>
+      <Modal
+        visible={visibility}
+        onOk={() => setVisibility(false)}
+        onCancel={() => setVisibility(false)}
+        className="ModalLogin"
+        width="400"
+        footer={null}
+      >
+        <TitlePage textTitle="Login" />
+        <CustomButton theme="Facebook" buttonText="Login with Facebook" />
+        <div className="flex Linear">
+          <hr />
+          <p>or Login with</p>
+          <hr />
         </div>
-        <div className="FormSide">
-          <h1>CIRCLES OF ANGELS</h1>
-          <h2>PLEASE SIGN IN</h2>
-          <DynamicForm onSubmit={this.onLoginSubmit} />
-        </div>
-      </div>
-    );
-  }
+        <DynamicForm onSubmit={onLoginSubmit} />
+      </Modal>
+    </div>
+  );
 }
 
-export default withUser(Login);
+export default withUser(ModalLogin);

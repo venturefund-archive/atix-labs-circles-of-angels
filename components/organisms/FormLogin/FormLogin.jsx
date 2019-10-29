@@ -9,61 +9,55 @@
 import React from 'react';
 import { Form, Icon, Input, Checkbox } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import 'antd/dist/antd.css';
 import './_style.scss';
 import Routing from '../../utils/Routes';
 
 const FormLogin = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
   const submit = e => {
+    console.log(onSubmit);
     e.preventDefault();
     form.validateFields();
     onSubmit(getFieldProps('userName').value, getFieldProps('password').value);
   };
   return (
     <Form className="login-form" onSubmit={submit}>
-      <Form.Item>
+      <Form.Item label="Username">
         {getFieldDecorator('userName', {
-          rules: [{ required: true, message: 'Please input your username!' }]
+          rules: [{ message: 'Please input your username!' }]
         })(
           <Input
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
+          size="large"
           />
         )}
       </Form.Item>
-      <Form.Item>
+      <Form.Item label="Password">
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }]
+          rules: [{message: 'Please input your Password!' }]
         })(
           <Input
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          size="large"
             type="password"
-            placeholder="Password"
           />
         )}
       </Form.Item>
       <Form.Item>
-        <div className="FormControls">
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a
-            className="login-form-forgot"
-            onClick={() => Routing.toRecoveryPassword()}
-          >
-            Forgot password
-          </a>
-        </div>
         <CustomButton
           theme="Primary"
           buttonText="Sign In"
           onClick={submit}
           htmlType="submit"
         />
-        Don't have an Account?{' '}
-        <a onClick={() => Routing.toRegister()}>Sign Up</a>
+      </Form.Item>
+      <Form.Item>
+        <div className="FormControls flex link">
+          <a
+            className="login-form-forgot"
+            onClick={() => Routing.toRecoveryPassword()}
+          >
+            Forgot your password?
+          </a>
+        </div>
       </Form.Item>
     </Form>
   );

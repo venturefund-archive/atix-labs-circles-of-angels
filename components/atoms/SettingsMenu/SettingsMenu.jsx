@@ -25,7 +25,7 @@ const SettingsMenu = ({ text, user }) => {
       ) : (
         ''
       )}
-      <Menu.Item key="2" onClick={() => Routing.toLogin()}>
+      <Menu.Item key="2" onClick={() => Routing.toLanding()}>
         Log out
       </Menu.Item>
     </Menu>
