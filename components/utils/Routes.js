@@ -109,6 +109,9 @@ const Routing = {
   },
   toEditProject: query => {
     goToRoute(editProject, query);
+  },
+  toRegisterSteps: query => {
+    goToRoute(registersteps, query)
   }
 };
 

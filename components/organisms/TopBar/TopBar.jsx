@@ -14,7 +14,7 @@ import { withUser } from '../../utils/UserContext';
 import ModalLogin from '../ModalLogin/ModalLogin';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-function TopBar({ textBlack, textLink, setVisibility, visibility }) {
+function TopBar({ registrationText,textBlack, setVisibility, visibility }) {
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
       <Col className="gutter-row" xs={10} sm={4} lg={4}>
@@ -24,14 +24,18 @@ function TopBar({ textBlack, textLink, setVisibility, visibility }) {
         className="gutter-row"
         xs={{ span: 11, offset: 1 }}
         sm={{ span: 7, offset: 10 }}
-        lg={{ span: 3, offset: 14 }}
+        lg={{ span: 4, offset: 13 }}
       >
-        {textBlack} <Divider type="vertical" />
+        <a onClick={() => Routing.toRegisterSteps()}>{registrationText}</a>
+        <Divider type="vertical" />
+        {textBlack}
         <div className="WrapperModalLogin">
           <CustomButton
             buttonText="Login"
             theme="Secondary"
-            onClick={() => {setVisibility(true)}}
+            onClick={() => {
+              setVisibility(true);
+            }}
           />
           <ModalLogin setVisibility={setVisibility} visibility={visibility} />
         </div>

@@ -14,7 +14,6 @@ import './_style.scss';
 import TopBar from '../components/organisms/TopBar/TopBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import renderEmpty from 'antd/lib/config-provider/renderEmpty';
 
 const ProjectCard = () => (
   <Col className="CardProject" span={8}>
@@ -50,7 +49,7 @@ function Landing() {
   return (
     <Row className="Landing">
       <TopBar
-        textBlack="Register"
+        registrationText="Register"
         setVisibility={setVisibility}
         visibility={visibility}
       />
@@ -70,6 +69,7 @@ function Landing() {
           </Col>
         </Col>
       </Row>
+      
       <Row className="Wrapper" gutter={30} type="flex" align="middle">
         <Col span={24}>
           <TitlePage textTitle="Our Impact Projects" />
