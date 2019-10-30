@@ -8,7 +8,8 @@
 
 import React from 'react';
 import App, { Container } from 'next/app';
-import 'antd/dist/antd.css'; 
+import withReactRouter from './with-react-router';
+import 'antd/dist/antd.css';
 import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
 
@@ -25,7 +26,6 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-
     return (
       <Container>
         <UserProvider>
@@ -36,4 +36,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default withReactRouter(MyApp);
