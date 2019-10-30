@@ -79,7 +79,10 @@ export default function useMultiStepForm(
       event.persist();
     }
 
-    const value = newValue || event.target.value || event.target.name;
+    const value =
+      newValue || event.target.value !== undefined
+        ? event.target.value
+        : event.target.name;
     const name = fieldName || event.target.name;
     const field = fields[name];
     field.value = value;

@@ -21,16 +21,19 @@ export const step2Inputs = {
     options: [
       {
         name: 'entrepreneur',
+        value: 'entrepreneur',
         usertype: 'Social Entrepreneur',
         title: 'Create a project'
       },
       {
         name: 'funder',
+        value: 'funder',
         usertype: 'Impact Funder',
         title: 'Create a project'
       },
       {
         name: 'oracle',
+        value: 'oracle',
         usertype: 'Oracle',
         title: 'Monitor a project'
       }
