@@ -2,18 +2,7 @@
 .RegisterWrapper {
   overflow: hidden;
   height: 100vh;
-  .TopBar {
-    border-bottom: 1px solid $border;
-    height: 7%;
-    padding: 0 1em;
-    @include breakpoint(sm) {
-      height: 7%;
-      padding: 0 1em;
-      img {
-        width: 100%;
-      }
-    }
-  }
+
   .RegisterSteps {
     height: 93%;
     flex-direction: row;
