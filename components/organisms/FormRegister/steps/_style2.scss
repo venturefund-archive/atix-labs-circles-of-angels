@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import "../../../../css/general_styling.scss";
 
 .OptionsUsers{
   padding: 3em 2em;
@@ -26,4 +26,8 @@
   p{
     @include primary-text($body,$on-surface-medium ,400)
    }
+}
+
+.selectedOption {
+  border: 4px solid cadetblue;
 }

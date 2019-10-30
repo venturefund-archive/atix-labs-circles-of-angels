@@ -59,12 +59,15 @@
     "react/jsx-indent": "warn",
     "flowtype/define-flow-type": "warn",
     "flowtype/use-flow-type": "warn",
-    "global-require": "off"
+    "global-require": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "plugins": [
     "import",
     "promise",
     "react",
-    "flowtype"
+    "flowtype",
+    "react-hooks"
   ]
 }
