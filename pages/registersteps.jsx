@@ -70,11 +70,7 @@ export default function Registersteps() {
           Already Registered? <a href="/">Log In</a>
         </Col>
       </Row>
-      <RegisterForm
-        formFields={fields}
-        formSteps={steps}
-        initialStep={0}
-      />
+      <RegisterForm formFields={fields} formSteps={steps} initialStep={0} />
     </div>
   );
 }

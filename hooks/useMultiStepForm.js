@@ -75,11 +75,18 @@ export default function useMultiStepForm(
 
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive a fieldName and its newValue
+    let value;
+    console.log(event, fieldName, newValue);
     if (event !== undefined) {
       event.persist();
+      value =
+        newValue || event.target.value !== undefined
+          ? event.target.value
+          : event.target.name;
+    } else {
+      value = newValue;
     }
 
-    const value = newValue || event.target.value || event.target.name;
     const name = fieldName || event.target.name;
     const field = fields[name];
     field.value = value;
