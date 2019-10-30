@@ -39,9 +39,7 @@ const clickDownloadProposalTemplate = async () => {
   }
   return res;
 };
-
-const validProject = () => {
-  const { project, next } = this.props;
+const validProject = ({ project, next }) => {
   webform.form.validateFields();
   if (
     project.data.projectName &&
@@ -62,13 +60,13 @@ const Step1 = ({
   changeProjectFile,
   hiddenButtons,
   hideButton,
-  showButton
+  showButton,
+  next
 }) => {
   const [projectProposal, setProjectProposal] = useState([]);
   const [projectAgreement, setProjectAgreement] = useState([]);
   const [projectCardPhoto, setProjectCardPhoto] = useState([]);
   const [projectCoverPhoto, setProjectCoverPhoto] = useState([]);
-
   return (
     <div className="StepContent">
       <div className="DataSteps">
@@ -138,7 +136,7 @@ const Step1 = ({
         </div>
       </div>
       <div className="ControlSteps StepOne">
-        <Button type="primary" onClick={validProject}>
+        <Button type="primary" onClick={() => validProject({ project, next })}>
           Continue
         </Button>
       </div>

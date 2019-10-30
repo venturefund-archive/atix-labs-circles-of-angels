@@ -19,6 +19,7 @@ const { Step } = Steps;
 
 const changeProjectFile = (project, key, file) => {
   const { status } = file;
+  console.log('status', status);
   if (status === FileUploadStatus.DONE) {
     message.success(`${file.name} file uploaded successfully`);
     project.files[key] = file;
@@ -88,19 +89,23 @@ const CreateProjectSteps = ({ project }) => {
     projectCoverPhoto: false,
     projectAgreement: false
   });
-
+  const currentStep = steps({
+    project,
+    current,
+    setCurrent,
+    hiddenButtons,
+    setHiddenButtons
+  });
   return (
     <div className="CreateProjectContainer">
       <div className="StepsContainer">
         <Steps size="small" current={current}>
-          {steps({ project, setCurrent, hiddenButtons, setHiddenButtons }).map(
-            item => (
-              <Step key={item.title} title={item.title} />
-            )
-          )}
+          {currentStep.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
         </Steps>
       </div>
-      {steps[current].content}
+      {currentStep[current].content}
     </div>
   );
 };

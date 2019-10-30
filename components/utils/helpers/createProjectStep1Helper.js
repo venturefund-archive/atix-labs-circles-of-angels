@@ -18,7 +18,7 @@ export const getBlockUploadProps = type => parameters => {
   return blockUploadProps[type];
 };
 
-const getProjectProposalProps = ({
+const getProjectAgreementProps = ({
   project,
   setProjectAgreement,
   hideButton,
@@ -29,17 +29,18 @@ const getProjectProposalProps = ({
 }) => ({
   subtitle: 'Project Agreement',
   text: 'Lorem ipsum text description',
-  name: projectCoverAgreementType,
+  name: projectAgreementType,
   typeAccepts: '.pdf, .docx, .doc',
   buttonText: 'Upload File',
   change: info =>
-    verifyFileType(projectCoverAgreementType)(
+    verifyFileType(
       project,
       projectList,
       info,
       setProjectAgreement,
       changeProjectFile,
-      hideButton
+      hideButton,
+      projectAgreementType
     ),
   fileList: projectList,
   defaultFileList: getValidFile(project.files[projectAgreementType]),
@@ -57,7 +58,7 @@ const getProjectProposalProps = ({
 
 const getProjectProposalProps = ({
   project,
-  setProjectCoverPhoto,
+  setProjectProposal,
   hideButton,
   isButtonHide,
   showButton,
@@ -66,20 +67,21 @@ const getProjectProposalProps = ({
 }) => ({
   subtitle: 'Project Proposal - Upload',
   text: 'Please upload the pitch proposal document',
-  name: projectCoverPhotoType,
+  name: projectProposalType,
   typeAccepts: '.pdf, .ppt, .docx, .doc',
   buttonText: 'Upload Project Proposal',
   change: info =>
-    verifyFileType(projectCoverPhotoType)(
+    verifyFileType(
       project,
       projectList,
       info,
-      setProjectCoverPhoto,
+      setProjectProposal,
       changeProjectFile,
-      hideButton
+      hideButton,
+      projectProposalType
     ),
   fileList: projectList,
-  defaultFileList: getValidFile(project.files[projectCoverPhotoType]),
+  defaultFileList: getValidFile(project.files[projectProposalType]),
   hideButton: isButtonHide,
   remove: info =>
     removeFromFilelist({
@@ -88,7 +90,7 @@ const getProjectProposalProps = ({
       changeProjectFile,
       project,
       showButton,
-      setProjectCoverPhoto
+      setProjectProposal
     })
 });
 
@@ -108,13 +110,14 @@ const getProjectCoverPhotoProps = ({
   typeAccepts: 'image/*',
   buttonText: 'Upload Image',
   change: info =>
-    verifyFileType(projectCoverPhotoType)(
+    verifyFileType(
       project,
       projectList,
       info,
       setProjectCoverPhoto,
       changeProjectFile,
-      hideButton
+      hideButton,
+      projectCoverPhotoType
     ),
   fileList: projectList,
   defaultFileList: getValidFile(project.files[projectCoverPhotoType]),
@@ -152,7 +155,8 @@ const getProjectCardPhotoProps = ({
       info,
       setProjectCardPhoto,
       changeProjectFile,
-      hideButton
+      hideButton,
+      projectCardPhotoType
     ),
   fileList: projectList,
   defaultFileList: getValidFile(project.files[projectCardPhotoType]),
@@ -167,17 +171,6 @@ const getProjectCardPhotoProps = ({
       setProjectCardPhoto
     })
 });
-
-
-const fileTypeProcesor = type => {
-  const procesors = {
-    projectProposal: getProcesor(projectProposalType)(parameters),
-    projectCardPhoto: getProcesor(projectCardPhotoType)(parameters),
-    projectCoverPhoto: getProcesor(projectCoverPhotoType)(parameters),
-    projectAgreement: getProcesor(projectAgreementType)(parameters)
-  };
-  return procesors[type](type);
-};
 
 const getFileTypesAllowed = type => {
   const fileTypesAllowed = {
@@ -199,7 +192,7 @@ const getFileTypesAllowed = type => {
   return fileTypesAllowed[type];
 };
 
-const removeFromFilelist = ({
+const removeFromFilelist = async ({
   projectFile,
   info,
   changeProjectFile,
@@ -209,48 +202,36 @@ const removeFromFilelist = ({
 }) => {
   showButton(projectFile);
   setEmptyState(setInitialState);
-  return changeProjectFile(project, projectFile, info);
+  return changeProjectFile(project, projectFile, info.file);
 };
 
 const getValidFile = file => (!isEmpty(file) ? [file] : false);
 
 const setEmptyState = setState => setState([]);
 
-const getProcesor = type => (
-  setState,
-  hideButton,
-  changeProjectFile,
-  project,
-  info,
-  fileType,
-  projectFile
-) => {
-  if (getFileTypesAllowed(type).includes(fileType)) {
-    setState(info.file);
-    hideButton(type);
-    return changeProjectFile(project, projectFile, info.file);
-  }
-};
+const isValidFileType = (fileType, fileTypesAllowed) =>
+  fileTypesAllowed.reduce(
+    (acum, currentType) => acum || fileType.includes(currentType),
+    false
+  );
 
-const verifyFileType = type => async (
+const verifyFileType = async (
   project,
   projectFile,
   info,
   setState,
   changeProjectFile,
-  hideButton
+  hideButton,
+  type
 ) => {
   if (info && info.file) {
-    const fileTypeProcesorResult = fileTypeProcesor(type)({
-      project,
-      projectFile,
-      info,
-      fileType: mime.lookup(info.file.name),
-      changeProjectFile,
-      hideButton,
-      setState
-    });
-    if (fileTypeProcesorResult) return fileTypeProcesorResult;
-    message.error(`${info.file.name} file type is invalid`);
+    if (
+      isValidFileType(mime.lookup(info.file.name), getFileTypesAllowed(type))
+    ) {
+      setState(info.file);
+      hideButton(type);
+      return changeProjectFile(project, projectFile, info.file);
+    }
   }
+  message.error(`${info.file.name} file type is invalid`);
 };
