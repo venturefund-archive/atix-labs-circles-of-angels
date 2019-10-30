@@ -72,6 +72,11 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
     padding: 2em 3em;
     overflow-y: auto;
 }
+@mixin Contentxs {
+  height: 92vh;
+  padding: 1em;
+  overflow-y: auto;
+}
 @mixin ControlSteps {
   border-top: 1px solid $light-grey;
   display: flex;
