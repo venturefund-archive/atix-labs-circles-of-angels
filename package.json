@@ -1,12 +1,13 @@
 {
   "name": "circlesofangels",
   "scripts": {
-    "dev": "next",
+    "clean": "rm -rf .next",
+    "dev": "BABEL_ENV=dev NODE_ENV=dev next",
     "build": "next build",
     "start": "next start",
     "si": "npm run build && npm run dev",
     "prod": "NODE_ENV=production next start",
-    "test": "./node_modules/.bin/jest"
+    "test": "BABEL_ENV=test ./node_modules/.bin/jest"
   },
   "dependencies": {
     "@zeit/next-sass": "1.0.1",
