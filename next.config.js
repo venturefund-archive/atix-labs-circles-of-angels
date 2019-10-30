@@ -14,17 +14,7 @@ module.exports = withSass(
     sassLoaderOptions: {
       includePaths: [`${__dirname}/css/`]
     },
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-      // HACK : Quick fix to avoid using babel when running development mode
-      // TODO : Check that if we can use this to run on production.
-      if (dev) {
-        config.module.rules.forEach(rule => {
-          if (rule.use.loader === 'next-babel-loader') {
-            // neither undefined nor empty-string didn't work
-            rule.use.options.cwd = 'HACK';
-          }
-        });
-      }
+    webpack: config => {
       return {
         ...config,
         optimization: {
