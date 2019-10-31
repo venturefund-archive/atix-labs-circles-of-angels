@@ -10,11 +10,12 @@ import React from 'react';
 import { Icon } from 'antd';
 import './_style.scss';
 
-const InfoItem = ({ subtitle, title }) => (
+const InfoItem = ({ subtitle, title, img }) => (
   <div className="InfoItem">
     <div className="InfoItemData">
       <p>{subtitle}</p>
       <h2>{title}</h2>
+      {img}
     </div>
   </div>
 );

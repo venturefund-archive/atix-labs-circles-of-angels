@@ -58,7 +58,7 @@ const RegisterStep3 = () => (
           <Col className="InputTwoLabel" sm={24} lg={12}>
             <Form.Item
               label={
-                                <div>
+                                <div className="LabelDescription">
                   Which are the areas of impact that you tackle?
   <p>Based on the UN Sustainable Development Goals</p>
 </div>

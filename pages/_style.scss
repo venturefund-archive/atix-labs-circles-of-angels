@@ -28,19 +28,20 @@
 .ContentComplete {
   @include ContentComplete;
 }
-.FooterButtons{
-  position:absolute;
+.FooterButtons {
+  position: absolute;
   right: 0;
-  bottom:0 ;    
+  bottom: 0;
   width: 100%;
   padding: 1.5em 1em;
   background: $light-gray;
   @include breakpoint(sm) {
-    padding:0.5em 1em;
+    padding: 0.5em 1em;
     flex-direction: column-reverse;
-    .ant-col-sm-24,.ant-btn{
+    .ant-col-sm-24,
+    .ant-btn {
       width: 100%;
-      margin:0.1em 0;
+      margin: 0.1em 0;
     }
   }
 }
@@ -84,8 +85,23 @@ p {
   box-shadow: inset 0 0 5px #fff;
   border-radius: 20px;
 }
-.spacedivider{
-  margin:0.5em 0;
+.spacedivider {
+  margin: 0.5em 0;
+}
+.InputTwoLabel {
+  .ant-form-item-label label {
+    line-height: 33px;
+  }
+  .LabelDescription {
+    text-align: left;
+    top: -10px;
+    position: relative;
+    span {
+      display: block;
+      line-height: normal;
+      white-space: normal;
+    }
+  }
 }
 .flex {
   display: flex;
@@ -145,7 +161,7 @@ p {
 }
 /** ant tabs */
 
-.ant-tabs-nav .ant-tabs-tab{
+.ant-tabs-nav .ant-tabs-tab {
   line-height: 13px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -153,16 +169,16 @@ p {
   margin-right: 4em !important;
   @include primary-text($tabs, $on-surface-medium, 600);
 }
-.ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab{
+.ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab {
   @include primary-text($tabs, $on-surface, 600);
   margin-right: 4em !important;
 }
-.ant-tabs-ink-bar{
+.ant-tabs-ink-bar {
   width: 36px !important;
   background-color: $primary-color;
   height: 3px;
 }
-.ant-tabs-nav .ant-tabs-tab:hover{
+.ant-tabs-nav .ant-tabs-tab:hover {
   color: $primary-color;
 }
 
@@ -232,10 +248,10 @@ p {
   transform: rotate(-135deg);
 }
 
-.ant-modal-mask{
+.ant-modal-mask {
   background-color: #26385b33;
 }
-.ant-tag{
-border-radius: 50px;
-border-color: transparent;
+.ant-tag {
+  border-radius: 50px;
+  border-color: transparent;
 }

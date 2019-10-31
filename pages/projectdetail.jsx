@@ -11,7 +11,7 @@ import {
   Tag,
   Row,
   Col,
-  Breadcrumb,
+  Skeleton,
   Divider,
   Form,
   Icon,
@@ -25,6 +25,8 @@ import InfoItem from '../components/atoms/InfoItem/InfoItem';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Header from '../components/molecules/Header/Header';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+
+const { TextArea } = Input;
 
 const props = {
   name: 'file',
@@ -43,78 +45,94 @@ const props = {
     }
   }
 };
-const thumbnails = ({ title, usertype }) => (
-  <div className="AppContainer ThumbnailsWrapper">
+const projectdetail = ({ title, usertype }) => (
+  <div className="AppContainer DetailWrapper">
     <SideBar />
     <div className="MainContent">
       <Header />
 
       <div className="Content">
-        <TitlePage textTitle="Complete Project´s Thumbnail" />
+        <TitlePage textTitle="Complete Project´s Details" />
         <Row type="flex" justify="space-around" align="middle">
           <Col className="CardExample" sm={8} md={8} lg={8}>
-            <h3>This is the preview!</h3>
             <Col className="BlockImage" sm={24} md={24} lg={24}>
-              <img
-                src="./static/images/thumbnail-example.png"
-                alt="thumbnail"
-              />
+              <h5>Organization Name</h5>
+              <h1>Wellness for families in Asia</h1>
+                <Col className="flex" sm={24} md={24} lg={24}>
+                  <InfoItem
+                    img={<img src="./static/images/world.svg" alt="Circles of Angels" /> }
+                    subtitle="Country of Impact"
+                    title="Cambodia"
+                    iconInfoItem="dollar"
+                  />
+                  <InfoItem 
+                    img={<img src="./static/images/calendar.svg" alt="Circles of Angels" /> }
+                    subtitle="Amount"
+                    title="12 Months"
+                    iconInfoItem="dollar"
+                  />
+                  <InfoItem
+                    img={<img src="./static/images/amount.svg" alt="Circles of Angels" /> }
+                    subtitle="Goal Amount"
+                    title="$20.000"
+                    iconInfoItem="dollar"
+                  />
+              </Col>
             </Col>
             <Col className="spacedivider" sm={24} md={24} lg={24}>
-              <Col sm={24} md={24} lg={16}>
-                <h1>Wellness for families in Asia </h1>
+              <Col sm={24} md={24} lg={24}>
+                <h4>Project Mission </h4>
               </Col>
-              <Col sm={24} md={24} lg={8}>
-                <Tag color="orange">Pending for approval</Tag>
+              <Col sm={24} md={24} lg={24}>
+                <Skeleton title={false} />
+              </Col>
+              <Col sm={24} md={24} lg={24}>
+                <h4>The Problem </h4>
+              </Col>
+              <Col sm={24} md={24} lg={24}>
+                <Skeleton paragraph={{ rows: 3 }} title={false} />
               </Col>
             </Col>
-            <Col className="flex" sm={24} md={24} lg={24}>
-              <InfoItem
-                subtitle="Country of Impact"
-                title="Cambodia"
-                iconInfoItem="dollar"
-              />
-              <Divider type="vertical" />
-              <InfoItem
-                subtitle="Amount"
-                title="12 Months"
-                iconInfoItem="dollar"
-              />
-              <Divider type="vertical" />
-              <InfoItem
-                subtitle="Goal Amount"
-                title="$20.000"
-                iconInfoItem="dollar"
-              />
-            </Col>
+
           </Col>
           <Divider type="vertical" />
           <Col sm={24} md={24} lg={12}>
             <Row gutter={22}>
               <Form className="login-form">
-                <Col sm={24} md={24} lg={24}>
-                  <Form.Item label="Project Name">
-                    <Input size="large" />
+                <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
+                  <Form.Item
+                    label={
+                                            <div className="LabelDescription">
+                        Project Mission
+  <span>
+                          Share your Project Mission, the impact you have made
+                          so far and what your project is about
+                        </span>
+</div>
+                    }
+                  >
+                    <TextArea rows={4} />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={24} lg={24}>
-                  <Form.Item label="Country of Impact">
-                    <Input size="large" />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={24} lg={12}>
-                  <Form.Item label="Timeframe">
-                    <Input size="large" />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={24} lg={12}>
-                  <Form.Item label="Goal Amount">
-                    <Input size="large" addonAfter={<Icon type="dollar" />} />
+                <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
+                  <Form.Item
+                    label={
+                                            <div className="LabelDescription">
+                        The Problem
+  <span>
+                          Share with us the problem that you are tackling, what
+                          you are trying to solve and how the funds will help
+                          support your goal
+                        </span>
+</div>
+                    }
+                  >
+                    <TextArea rows={4} />
                   </Form.Item>
                 </Col>
                 <Col sm={24} md={24} lg={24}>
                   <Col sm={24} md={24} lg={18}>
-                    <h3>Thumbnail Image</h3>
+                    <h3>Background Image</h3>
                     <span>
                       Recomended Image Size: 1400x400px. Format: PNG or JPG.
                     </span>
@@ -167,4 +185,4 @@ const thumbnails = ({ title, usertype }) => (
     </div>
   </div>
 );
-export default thumbnails;
+export default projectdetail;
