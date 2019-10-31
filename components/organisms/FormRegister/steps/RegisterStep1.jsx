@@ -7,12 +7,16 @@
  */
 
 import React from 'react';
-import { Form, Input, Row, Col, Checkbox } from 'antd';
+import { Form, Input, Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
 
-const countries = ['Argentina', 'Angola', 'Argelia']
+const {
+  termsAndConditionsFilePath
+} = require('../../../../constants/DocumentPaths');
+
+const countries = ['Argentina', 'Angola', 'Argelia'];
 
 export const step1Inputs = {
   firstName: {
@@ -92,6 +96,27 @@ export const step1Inputs = {
         message: 'Passwords should match'
       }
     ]
+  },
+  termsAndConditions: {
+    name: 'termsAndConditions',
+    type: 'checkbox',
+    value: false,
+    testid: 'termsAndConditions',
+    label: (
+      <>
+        I’ve read and accept all the{' '}
+        <a target="_blank" href={termsAndConditionsFilePath}>
+          Terms and Conditions
+        </a>{' '}
+        of the site.
+      </>
+    ),
+    rules: [
+      {
+        validator: (rule, value) => value,
+        message: 'Please, agree with terms and conditions to continue'
+      }
+    ]
   }
 };
 
@@ -143,10 +168,7 @@ export default function RegisterStep1(props) {
             </Col>
           </Form>
           <Col className="gutter-row" sm={24} lg={12}>
-            <Checkbox>
-              I’ve read and accept all the <a href="/">Terms and Conditions</a>{' '}
-              of the site.
-            </Checkbox>
+            <Field {...fields.termsAndConditions} handleChange={handleChange} />
           </Col>
         </Row>
       </div>
