@@ -35,30 +35,30 @@ class MyProjects extends React.Component {
   }
 
   async componentDidMount() {
-    // const { user } = this.props;
-    // const res = await getMyProjects(user.id);
-    // const projectsWithoutPhoto = res.data;
-    // const projects = await Promise.all(
-    //   projectsWithoutPhoto.map(async project => {
-    //     const milestones = await getProjectMilestones(project.id);
-    //     return {
-    //       ...project,
-    //       milestones: milestones.data
-    //     };
-    //   })
-    // );
-    // if (user.role.id === Roles.Oracle) {
-    //   const response = await getProjectsAsOracle(user.id);
-    //   const oracleProjects = response.data.projects;
-    //   const activeProjects = await projects.map(project => project.id);
+    const { user } = this.props;
+    const res = await getMyProjects(user.id);
+    const projectsWithoutPhoto = res.data;
+    const projects = await Promise.all(
+      projectsWithoutPhoto.map(async project => {
+        const milestones = await getProjectMilestones(project.id);
+        return {
+          ...project,
+          milestones: milestones.data
+        };
+      })
+    );
+    if (user.role.id === Roles.Oracle) {
+      const response = await getProjectsAsOracle(user.id);
+      const oracleProjects = response.data.projects;
+      const activeProjects = await projects.map(project => project.id);
 
-    //   const oracleProjectsActive = oracleProjects.filter(
-    //     project => activeProjects.indexOf(project) !== -1
-    //   );
+      const oracleProjectsActive = oracleProjects.filter(
+        project => activeProjects.indexOf(project) !== -1
+      );
 
-    //   this.setState({ activeOracleProjects: oracleProjectsActive });
-    // }
-    // this.setState({ projects });
+      this.setState({ activeOracleProjects: oracleProjectsActive });
+    }
+    this.setState({ projects });
   }
 
   getMilestoneProgress(milestones) {
