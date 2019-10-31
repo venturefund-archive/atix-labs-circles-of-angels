@@ -24,21 +24,12 @@ const FormLogin = ({ form, onSubmit }) => {
       <Form.Item label="Username">
         {getFieldDecorator('userName', {
           rules: [{ message: 'Please input your username!' }]
-        })(
-          <Input
-          size="large"
-          />
-        )}
+        })(<Input size="large" />)}
       </Form.Item>
       <Form.Item label="Password">
         {getFieldDecorator('password', {
-          rules: [{message: 'Please input your Password!' }]
-        })(
-          <Input
-          size="large"
-            type="password"
-          />
-        )}
+          rules: [{ message: 'Please input your Password!' }]
+        })(<Input size="large" type="password" />)}
       </Form.Item>
       <Form.Item>
         <CustomButton

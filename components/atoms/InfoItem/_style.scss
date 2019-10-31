@@ -14,7 +14,7 @@
         display: flex;
         flex-flow: column-reverse;
         p{
-            @include primary-text($body, $on-surface-medium, 400);
+            @include primary-text($body-2, $on-surface-medium, 400);
         }
         h2{
             line-height: 16px;
