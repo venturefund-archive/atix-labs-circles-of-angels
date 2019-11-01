@@ -11,17 +11,19 @@ const props = {
   handleChange: jest.fn()
 };
 
-test('should be defined and initialized with false value', () => {
-  const { getByTestId, getByText } = render(<CheckboxBare {...props} />);
-  const inputCheckbox = getByTestId(props.testid);
-  expect(inputCheckbox.value).toBe(false.toString());
-  expect(getByText(props.label)).toBeDefined();
-});
+describe('FieldCheckbox atom component', () => {
+  it('it should be unchecked on the first time ', () => {
+    const { getByTestId, getByText } = render(<CheckboxBare {...props} />);
+    const inputCheckbox = getByTestId(props.testid);
+    expect(inputCheckbox.value).toBe(false.toString());
+    expect(getByText(props.label)).toBeDefined();
+  });
 
-test('should toogle state when it is checked', () => {
-  const { getByTestId } = render(<CheckboxBare {...props} />);
-  const inputCheckbox = getByTestId(props.testid);
-  fireEvent.click(inputCheckbox);
-  expect(inputCheckbox.value).toBeTruthy();
-  expect(props.handleChange).toBeCalledTimes(1);
+  it('it should change the value to checked when it is clicked', () => {
+    const { getByTestId } = render(<CheckboxBare {...props} />);
+    const inputCheckbox = getByTestId(props.testid);
+    fireEvent.click(inputCheckbox);
+    expect(inputCheckbox.value).toBeTruthy();
+    expect(props.handleChange).toBeCalledTimes(1);
+  });
 });

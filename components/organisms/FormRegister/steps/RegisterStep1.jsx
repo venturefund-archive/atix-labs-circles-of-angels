@@ -16,6 +16,7 @@ const {
   termsAndConditionsFilePath
 } = require('../../../../constants/DocumentPaths');
 
+// TODO: Find another way to describe the countries. May be, move it into another file
 const countries = ['Argentina', 'Angola', 'Argelia'];
 
 export const step1Inputs = {
