@@ -1,4 +1,5 @@
 module.exports = {
+  verbose: true,
   testMatch: ['<rootDir>/test/**/*.js'],
   testPathIgnorePatterns: ['/node_modules/', '/test/helpers/', '/test/mocks/'],
   moduleDirectories: ['node_modules', __dirname],
