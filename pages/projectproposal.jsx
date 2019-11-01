@@ -24,6 +24,7 @@ import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import FooterButtons from '../components/organisms/FooterButtons/FooterButtons';
 import Header from '../components/molecules/Header/Header';
+import HtmlEditor from '../components/organisms/HtmlEditor/HtmlEditor';
 
 const projectdetail = () => (
   <div className="AppContainer DetailWrapper">
@@ -35,7 +36,7 @@ const projectdetail = () => (
         <TitlePage textTitle="Complete Project´s Details" />
         <Row type="flex" justify="space-around" align="middle">
           <Col className="CardExample" sm={24} md={24} lg={24}>
-            Aca va el htmleditor
+            <HtmlEditor />
           </Col>
         </Row>
         <FooterButtons />
