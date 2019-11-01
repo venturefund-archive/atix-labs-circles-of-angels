@@ -25,6 +25,7 @@ import InfoItem from '../components/atoms/InfoItem/InfoItem';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Header from '../components/molecules/Header/Header';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import FooterButtons from '../components/organisms/FooterButtons/FooterButtons';
 
 const props = {
   name: 'file',
@@ -48,7 +49,6 @@ const thumbnails = ({ title, usertype }) => (
     <SideBar />
     <div className="MainContent">
       <Header />
-
       <div className="Content">
         <TitlePage textTitle="Complete Project´s Thumbnail" />
         <Row type="flex" justify="space-around" align="middle">
@@ -132,37 +132,7 @@ const thumbnails = ({ title, usertype }) => (
             </Row>
           </Col>
         </Row>
-
-        <Row
-          className="FooterButtons"
-          type="flex"
-          justify="space-around"
-          align="middle"
-        >
-          <Col
-            xs={{ span: 24, order: 1 }}
-            sm={{ span: 24, order: 1 }}
-            md={6}
-            lg={{ span: 4, offset: 0, order: 1 }}
-          >
-            <CustomButton buttonText="Back" theme="Cancel" />
-          </Col>
-
-          <Col
-            className="space-between"
-            xs={{ span: 24, order: 2 }}
-            sm={{ span: 24, order: 2 }}
-            md={6}
-            lg={{ span: 3, offset: 15, order: 3 }}
-          >
-            <CustomButton
-              buttonText="Save & Continue"
-              theme="Primary"
-              classNameIcon="iconDisplay"
-              icon="arrow-right"
-            />
-          </Col>
-        </Row>
+        <FooterButtons />
       </div>
     </div>
   </div>

@@ -25,6 +25,7 @@ import InfoItem from '../components/atoms/InfoItem/InfoItem';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Header from '../components/molecules/Header/Header';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import FooterButtons from '../components/organisms/FooterButtons/FooterButtons';
 
 const { TextArea } = Input;
 
@@ -58,25 +59,40 @@ const projectdetail = ({ title, usertype }) => (
             <Col className="BlockImage" sm={24} md={24} lg={24}>
               <h5>Organization Name</h5>
               <h1>Wellness for families in Asia</h1>
-                <Col className="flex" sm={24} md={24} lg={24}>
-                  <InfoItem
-                    img={<img src="./static/images/world.svg" alt="Circles of Angels" /> }
-                    subtitle="Country of Impact"
-                    title="Cambodia"
-                    iconInfoItem="dollar"
-                  />
-                  <InfoItem 
-                    img={<img src="./static/images/calendar.svg" alt="Circles of Angels" /> }
-                    subtitle="Amount"
-                    title="12 Months"
-                    iconInfoItem="dollar"
-                  />
-                  <InfoItem
-                    img={<img src="./static/images/amount.svg" alt="Circles of Angels" /> }
-                    subtitle="Goal Amount"
-                    title="$20.000"
-                    iconInfoItem="dollar"
-                  />
+              <Col className="flex" sm={24} md={24} lg={24}>
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/world.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Country of Impact"
+                  title="Cambodia"
+                  iconInfoItem="dollar"
+                />
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/calendar.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Amount"
+                  title="12 Months"
+                  iconInfoItem="dollar"
+                />
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/amount.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Goal Amount"
+                  title="$20.000"
+                  iconInfoItem="dollar"
+                />
               </Col>
             </Col>
             <Col className="spacedivider" sm={24} md={24} lg={24}>
@@ -93,7 +109,6 @@ const projectdetail = ({ title, usertype }) => (
                 <Skeleton paragraph={{ rows: 3 }} title={false} />
               </Col>
             </Col>
-
           </Col>
           <Divider type="vertical" />
           <Col sm={24} md={24} lg={12}>
@@ -102,13 +117,13 @@ const projectdetail = ({ title, usertype }) => (
                 <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Form.Item
                     label={
-                                            <div className="LabelDescription">
+                      <div className="LabelDescription">
                         Project Mission
-  <span>
+                        <span>
                           Share your Project Mission, the impact you have made
                           so far and what your project is about
                         </span>
-</div>
+                      </div>
                     }
                   >
                     <TextArea rows={4} />
@@ -117,14 +132,14 @@ const projectdetail = ({ title, usertype }) => (
                 <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Form.Item
                     label={
-                                            <div className="LabelDescription">
+                      <div className="LabelDescription">
                         The Problem
-  <span>
+                        <span>
                           Share with us the problem that you are tackling, what
                           you are trying to solve and how the funds will help
                           support your goal
                         </span>
-</div>
+                      </div>
                     }
                   >
                     <TextArea rows={4} />
@@ -150,37 +165,7 @@ const projectdetail = ({ title, usertype }) => (
             </Row>
           </Col>
         </Row>
-
-        <Row
-          className="FooterButtons"
-          type="flex"
-          justify="space-around"
-          align="middle"
-        >
-          <Col
-            xs={{ span: 24, order: 1 }}
-            sm={{ span: 24, order: 1 }}
-            md={6}
-            lg={{ span: 4, offset: 0, order: 1 }}
-          >
-            <CustomButton buttonText="Back" theme="Cancel" />
-          </Col>
-
-          <Col
-            className="space-between"
-            xs={{ span: 24, order: 2 }}
-            sm={{ span: 24, order: 2 }}
-            md={6}
-            lg={{ span: 3, offset: 15, order: 3 }}
-          >
-            <CustomButton
-              buttonText="Save & Continue"
-              theme="Primary"
-              classNameIcon="iconDisplay"
-              icon="arrow-right"
-            />
-          </Col>
-        </Row>
+        <FooterButtons />
       </div>
     </div>
   </div>
