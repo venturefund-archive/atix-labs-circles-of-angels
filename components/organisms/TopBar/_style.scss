@@ -1,0 +1,14 @@
+@import "../../../css/general_styling.scss";
+
+.TopBar {
+  border-bottom: 1px solid $border;
+  height: 7%;
+  padding: 0 1em;
+  @include breakpoint(sm) {
+    height: 7%;
+    padding: 0 1em;
+    img {
+      width: 100%;
+    }
+  }
+}

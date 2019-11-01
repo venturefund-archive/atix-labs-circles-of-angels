@@ -1,0 +1,87 @@
+@import '../css/general_styling.scss';
+
+.Landing {
+  height: 100vh;
+  .Wrapper{
+
+    padding: 0 6em;
+    @include breakpoint(md) {
+      padding: 2em;
+    }
+    @include breakpoint(sm) {
+      padding: 2em;
+    }
+  }
+  .TopBar{
+    img{
+      margin-left: 5em;
+      @include breakpoint(md) {
+        margin-left: 0em;
+      }
+      @include breakpoint(sm) {
+        margin-left: 0em;
+      }
+    }
+  }
+  .BlockBanner {
+    height: 95vh;
+    background: linear-gradient(
+        90deg,
+        rgb(0, 0, 0) 0%,
+        rgba(19, 19, 19, 0.78) 35%,
+        rgba(0, 0, 0, 0.052) 100%
+      ),
+      url(/static/images/background-banner.png);
+    h1 {
+      @include primary-text($titlebanner, $white, 600);
+      line-height: 96px;
+      @include breakpoint(md) {
+        @include primary-text($titlebig, $white, 600);
+        line-height: normal;
+      }
+      @include breakpoint(sm) {
+        @include primary-text($titlebig, $white, 600);
+        line-height: normal;
+      }
+    }
+    h2 {
+      @include primary-text($titlepage, $white, 400);
+      margin: 1.5em 0;
+      @include breakpoint(md) {
+        @include primary-text($title, $white, 400);
+        margin: 1.5em 0;
+      }
+      @include breakpoint(sm) {
+        @include primary-text($title, $white, 400);
+        margin: 2.5em 0;
+        br{
+          display:none;
+        }
+      }
+    }
+    .ant-btn.CustomButton {
+      transform: scale(1.1);
+      margin-left: 0.8em;
+      width: 43%;
+    }
+  }
+  .TitlePage{
+    margin: 4em 0;
+  }
+  .CardProject {
+    .BlockImage {
+      overflow: hidden;
+      height: 230px;
+      border-radius: 8px;
+      img {
+        width: 100%;
+      }
+    }
+    .ant-tag{
+      position: static;
+    }
+    p{
+      margin-top:1em;
+    }
+  }
+}
