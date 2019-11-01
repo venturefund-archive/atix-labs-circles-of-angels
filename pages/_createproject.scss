@@ -77,10 +77,10 @@
         border-radius:4px;
         height: auto;
        }
-                       h1{
-                        @include primary-text($titlecard, $white, 600);
-                        margin-bottom:1em;
-                       }
+                        h1{
+                          @include primary-text($titlecard, $white, 600);
+                          margin-bottom:1em;
+                        }
                        h5{
                         @include primary-text($body-2, $white, 400);
                         opacity:0.65;
