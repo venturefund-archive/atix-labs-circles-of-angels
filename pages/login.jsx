@@ -10,7 +10,11 @@ import React, { Component, useContext } from 'react';
 import Routing from '../components/utils/Routes';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
-import { useUserContext } from '../components/utils/UserContext';
+import {
+  useUserContext,
+  withUserContext,
+  UserContext
+} from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
 
 import './_login.scss';
@@ -21,12 +25,10 @@ function Login(props) {
   console.log('login::props', props);
   console.log('login::userContext', userContext);
   const { removeUser, changeUser } = userContext;
-  console.log('fs', removeUser, changeUser);
 
   const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
-      const { changeUser } = this.props;
 
       if (response.error) {
         const { error } = response;
@@ -100,9 +102,5 @@ function Login(props) {
   );
 }
 
-// Login.getInitialProps = async ({ component, ctx }) => {
-//   console.log('login::getInitialProps', component, ctx);
-//   return {};
-// };
-// console.log('Login', Login);
+// export default withUserContext(Login);
 export default Login;

@@ -16,7 +16,13 @@ export function useUserContext() {
   return useContext(UserContext);
 }
 
-export function UserProvider({ children }) {
+export function withUserContext(children) {
+  return <UserContext.Consumer>{children}</UserContext.Consumer>
+}
+
+export function UserProvider(props) {
+  console.log('UserProvider::props', props);
+  const { children } = props;
   const userKey = 'user';
 
   const changeUser = user => {
@@ -44,7 +50,6 @@ export function UserProvider({ children }) {
 
   // TODO : not sure about user, and isFunder, isOracle, etc.
   const context = {
-    user: getLoggedUser(),
     changeUser,
     removeUser,
     getLoggedUser,
