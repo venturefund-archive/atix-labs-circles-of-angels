@@ -6,23 +6,24 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import Routing from '../components/utils/Routes';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
-import { withUser } from '../components/utils/UserContext';
+import { useUserContext } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
 
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 
-class Login extends Component {
-  componentDidMount() {
-    const { removeUser } = this.props;
-    removeUser();
-  }
+function Login(props) {
+  const userContext = useUserContext();
+  console.log('login::props', props);
+  console.log('login::userContext', userContext);
+  const { removeUser, changeUser } = userContext;
+  console.log('fs', removeUser, changeUser);
 
-  onLoginSubmit = async (email, pwd) => {
+  const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
       const { changeUser } = this.props;
@@ -85,20 +86,23 @@ class Login extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="Login">
-        <div className="LogoSide">
-          <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
-        </div>
-        <div className="FormSide">
-          <h1>CIRCLES OF ANGELS</h1>
-          <h2>PLEASE SIGN IN</h2>
-          <DynamicForm onSubmit={this.onLoginSubmit} />
-        </div>
+  return (
+    <div className="Login">
+      <div className="LogoSide">
+        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
-    );
-  }
+      <div className="FormSide">
+        <h1>CIRCLES OF ANGELS</h1>
+        <h2>PLEASE SIGN IN</h2>
+        <DynamicForm onSubmit={onLoginSubmit} />
+      </div>
+    </div>
+  );
 }
 
-export default withUser(Login);
+// Login.getInitialProps = async ({ component, ctx }) => {
+//   console.log('login::getInitialProps', component, ctx);
+//   return {};
+// };
+// console.log('Login', Login);
+export default Login;
