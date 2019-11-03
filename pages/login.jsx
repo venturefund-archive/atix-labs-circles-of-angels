@@ -6,22 +6,19 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component, useContext } from 'react';
+import React, { useContext } from 'react';
 import Routing from '../components/utils/Routes';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
-import {
-  useUserContext,
-  withUserContext,
-  UserContext
-} from '../components/utils/UserContext';
+import { UserContext } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
 
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 
 function Login(props) {
-  const userContext = useUserContext();
+  console.log('login::DisplayName', UserContext.displayName);
+  const userContext = useContext(UserContext);
   console.log('login::props', props);
   console.log('login::userContext', userContext);
   const { removeUser, changeUser } = userContext;
@@ -102,5 +99,4 @@ function Login(props) {
   );
 }
 
-// export default withUserContext(Login);
 export default Login;

@@ -7,18 +7,16 @@
  */
 
 import React from 'react';
-import App, { Container } from 'next/app';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
+
 function MyApp(props) {
   const { Component } = props;
   return (
-    <Container>
-      <UserProvider>
-        <Component {...props} />
-      </UserProvider>
-    </Container>
+    <UserProvider>
+      <Component {...props} />
+    </UserProvider>
   );
 }
 
