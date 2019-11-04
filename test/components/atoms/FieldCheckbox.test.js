@@ -12,7 +12,7 @@ const props = {
 };
 
 describe('FieldCheckbox atom component', () => {
-  it('it should be unchecked on the first time ', () => {
+  it('should be unchecked on the first time ', () => {
     const { getByTestId, getByText } = render(<CheckboxBare {...props} />);
     const inputCheckbox = getByTestId(props.testid);
     expect(inputCheckbox.value).toBe(false.toString());
