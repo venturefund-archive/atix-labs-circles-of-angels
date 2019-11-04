@@ -10,12 +10,14 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
+import Router from '../components/organisms/Router';
 
 function MyApp(props) {
   const { Component } = props;
+  console.log('MyApp::props', props);
   return (
     <UserProvider>
-      <Component {...props} />
+      <Router {...props} />
     </UserProvider>
   );
 }

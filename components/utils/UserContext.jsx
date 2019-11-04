@@ -19,6 +19,8 @@ export function useUserContext() {
   return useContext(UserContext);
 }
 
+export const withUser = c => c;
+
 // export function withUserContext(children) {
 //   return <UserContext.Consumer>{children}</UserContext.Consumer>;
 // }
