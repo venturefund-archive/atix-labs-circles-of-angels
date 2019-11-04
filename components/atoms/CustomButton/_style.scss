@@ -20,6 +20,7 @@
 .CustomButton:hover {
   opacity: 0.7;
 }
+
 /* SUCCESS */
 .ant-btn.Success,
 .ant-btn.Success:active .ant-btn.Success:focus {
@@ -63,6 +64,13 @@
   .anticon {
     display: none;
   }
+}
+.ant-btn.Primary .anticon, .ant-btn.Primary:active .anticon, .ant-btn.Primary:focus .anticon, .ant-btn.Primary:hover .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.Primary .anticon, .ant-btn.Primary:active .anticon, .ant-btn.Primary:focus .anticon, .ant-btn.Primary:hover .anticon.iconDisplay.none{
+  display: none;
 }
 
 /* SECONDARY */

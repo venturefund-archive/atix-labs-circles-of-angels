@@ -44,10 +44,12 @@ class ModalProjectCreated extends React.Component {
         <CustomButton
           buttonText="Create Project"
           theme="Primary"
+          classNameIcon="iconDisplay"
+          icon="arrow-right"
           onClick={this.showModal}
         />
         <Modal
-        closable={false}
+          closable={false}
           centered
           visible={this.state.visible}
           onOk={this.handleOk}
@@ -62,9 +64,12 @@ class ModalProjectCreated extends React.Component {
           />
 
           <h1>Project Created Successfully!</h1>
-            <p>Lorem ipsum dolor sit amet 
-concerquetcut</p>
-      <CustomButton theme="Primary" buttonText="Go to my dashboard" />
+          <p>Lorem ipsum dolor sit amet concerquetcut</p>
+          <CustomButton
+            theme="Primary"
+            buttonText="Go to my dashboard"
+            classNameIcon="none"
+          />
         </Modal>
       </div>
     );
