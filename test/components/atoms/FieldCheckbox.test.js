@@ -19,7 +19,7 @@ describe('FieldCheckbox atom component', () => {
     expect(getByText(props.label)).toBeDefined();
   });
 
-  it('it should change the value to checked when it is clicked', () => {
+  it('should change the value to checked when it is clicked', () => {
     const { getByTestId } = render(<CheckboxBare {...props} />);
     const inputCheckbox = getByTestId(props.testid);
     fireEvent.click(inputCheckbox);
