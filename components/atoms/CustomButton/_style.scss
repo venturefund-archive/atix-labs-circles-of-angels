@@ -78,6 +78,21 @@
     display: none;
   }
 }
+/* SECONDARY */
+.ant-btn.Alternative,
+.ant-btn.Alternative:active,
+.ant-btn.Alternative:focus,
+.ant-btn.Alternative:hover {
+  background:transparent;
+  border:1px solid $primary-color;
+  span {
+    @include primary-text($button, $primary-color, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+
 /* WHITE */
 .ant-btn.White,
 .ant-btn.White:active,

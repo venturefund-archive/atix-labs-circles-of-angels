@@ -12,14 +12,38 @@
   width: 96vw;
   height: 100vh;
   overflow-x: hidden;
+  @include breakpoint(sm) {
+    width: 100vw;
+  }
 }
 .Content {
   @include Content;
+  @include breakpoint(md) {
+    @include Contentxs;
+  }
+  @include breakpoint(sm) {
+    @include Contentxs;
+  }
 }
 .ContentComplete {
   @include ContentComplete;
 }
-
+.FooterButtons{
+  position:absolute;
+  right: 0;
+  bottom:0 ;    
+  width: 100%;
+  padding: 1.5em 1em;
+  background: $light-gray;
+  @include breakpoint(sm) {
+    padding:0.5em 1em;
+    flex-direction: column-reverse;
+    .ant-col-sm-24,.ant-btn{
+      width: 100%;
+      margin:0.1em 0;
+    }
+  }
+}
 .ButtonContainer {
   align-self: center;
   display: flex;
@@ -92,11 +116,6 @@ p {
 }
 .ant-breadcrumb {
   padding: 1em 0 0 0;
-}
-@media screen and (max-width: 770px) {
-  .MainContent {
-    margin-left: 0px;
-  }
 }
 .has-error .ant-form-explain,
 .has-error .ant-form-split {
@@ -208,4 +227,8 @@ p {
   content: '';
   position: absolute;
   transform: rotate(-135deg);
+}
+
+.ant-modal-mask{
+  background-color: #26385b33;
 }

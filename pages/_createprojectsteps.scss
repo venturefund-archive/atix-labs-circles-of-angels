@@ -1,0 +1,41 @@
+@import '../css/general_styling.scss';
+
+.CreateProjectWrapper {
+  height: 100vh;
+  .Content{
+    position:relative;
+    .ant-breadcrumb{
+  position:absolute;
+  top:0;
+
+  @include breakpoint(sm) {
+    position:relative;
+  }
+    }
+  }
+  .ProjectsCardsContainer{
+    @include breakpoint(sm) {
+      height: 60%;
+      margin:1em 0;
+      overflow-y: auto;
+    }
+  }
+  .Items{
+    padding: 1em;
+    border:1px solid $border;
+    border-radius: 4px;
+    margin: 0.5em 0;
+    h3{
+      @include primary-text($labelbig, $on-surface, 400);
+
+    }
+    h5{
+      @include primary-text($medium, $on-surface-medium, 400);
+    }
+    .ant-col-sm-1{
+      @include breakpoint(sm) {
+        display:none;
+      }
+    }
+  }
+}
