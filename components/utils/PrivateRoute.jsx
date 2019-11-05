@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = routeProps => {
-  const { component: Component, exact, path, authenticated } = routeProps;
+  const {
+    component: Component,
+    exact,
+    path,
+    requiredAuthentication
+  } = routeProps;
+  if (requiredAuthentication && false) {
+    // not logged!
+    return <Redirect to="/login" />;
+  }
   return (
     <Route
       exact={exact}
       path={path}
-      render={props =>
-        authenticated ? (
-          <Component {...props} {...routeProps} />
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
+      render={props => <Component {...props} {...routeProps} />}
     />
   );
 };

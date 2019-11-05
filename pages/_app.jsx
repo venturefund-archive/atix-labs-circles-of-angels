@@ -12,28 +12,40 @@ import withReactRouter from './with-react-router';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
+import Router from '../components/organisms/Router/Router';
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  }
-
-  render() {
-    const { Component, pageProps } = this.props;
-    return (
-      <Container>
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
-      </Container>
-    );
-  }
+function MyApp(props) {
+  const { Component } = props;
+  console.log('MyApp::props', props);
+  return (
+    <UserProvider>
+      <Router {...props} />
+      {/* <Component {...props} /> */}
+    </UserProvider>
+  );
 }
+
+// class MyApp extends App {
+//   static async getInitialProps({ Component, ctx }) {
+//     let pageProps = {};
+
+//     if (Component.getInitialProps) {
+//       pageProps = await Component.getInitialProps(ctx);
+//     }
+
+//     return { pageProps };
+//   }
+
+//   render() {
+//     const { Component, pageProps } = this.props;
+//     return (
+//       <Container>
+//         <UserProvider>
+//           <Component {...pageProps} />
+//         </UserProvider>
+//       </Container>
+//     );
+//   }
+// }
 
 export default withReactRouter(MyApp);
