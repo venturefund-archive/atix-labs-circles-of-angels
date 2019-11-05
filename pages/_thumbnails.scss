@@ -1,0 +1,55 @@
+@import '../css/general_styling.scss';
+
+.ThumbnailsWrapper {
+  .Content{
+    position: relative;
+  }
+  .FooterButtons{
+    @include breakpoint(sm) {
+      position:relative;
+      margin-top:1em;
+     }
+  }
+  .ant-divider, .ant-divider-vertical{
+    height: 60vh;
+    @include breakpoint(sm) {
+     display:none;
+    }
+  }
+  .ant-form-item-label label {
+    @include primary-text($labels, $on-surface, 600);
+  }
+  .CardExample{
+    @include breakpoint(sm) {
+     margin-bottom: 2em;
+     }
+    h1{
+      @include primary-text($titlecard, $on-surface, 600);
+    }
+    h3{
+      @include primary-text($labels, $on-surface, 600);
+      margin: 3.5em 0 0.9em;
+      @include breakpoint(sm) {
+        margin:1em 0;
+       }
+    }
+    .InfoItem{
+      width: 30%;
+      @include breakpoint(sm) {
+        width: 100%;
+       }
+    }
+    .BlockImage{
+      border-radius: 4px;
+      background: $light-gray;
+      overflow:hidden;
+      img{
+        width: 100%;
+      }
+    }
+    .ant-divider, .ant-divider-vertical{
+      margin: 0 1em;
+      height: 35px;
+    }
+  }
+}

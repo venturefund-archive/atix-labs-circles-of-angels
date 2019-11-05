@@ -1,0 +1,27 @@
+@import "../../../css/general_styling.scss";
+
+.WrapperModalLogin {
+  display: inline-block;
+}
+    .ModalProjectCreated{
+      width: 427px;
+      h1{
+        @include primary-text($titlecard, $on-surface, 600);
+        text-align:center;
+        margin-top:1em;
+      }
+      .ant-modal-body{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        padding: 2.5em 2.5em;
+        .ant-btn.Primary{
+          margin: 2em 0 0;
+        }
+      }
+        p {
+          @include primary-text($medium, $on-surface-medium, 400);
+          margin: 0 1em;
+          text-align: center;
+        }
+    }
