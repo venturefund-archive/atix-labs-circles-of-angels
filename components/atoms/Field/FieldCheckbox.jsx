@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { Form, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
-export const CheckboxBare = ({
-  name,
-  label,
-  value = false,
-  testid = 'fieldcheckbox-testid',
-  handleChange
-}) => {
+export const CheckboxBare = ({ name, label, value, testid, handleChange }) => {
   const [checked, setChecked] = useState(value);
   return (
     <Checkbox
