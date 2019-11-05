@@ -21,10 +21,6 @@ export function useUserContext() {
 
 export const withUser = c => c;
 
-// export function withUserContext(children) {
-//   return <UserContext.Consumer>{children}</UserContext.Consumer>;
-// }
-
 const USER_KEY = 'user';
 const changeUser = user => {
   Cookies.set(USER_KEY, user);
@@ -55,8 +51,6 @@ const context = {
 };
 
 export const UserProvider = ({ children }) => {
-  // console.log('UserProvider::children', children);
-  console.log('UserProvider::context =>>>', Object.keys(context));
   return (
     <UserContext.Provider value={context}>{children}</UserContext.Provider>
   );
