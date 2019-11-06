@@ -37,7 +37,7 @@ import TransferFunds from '../../../pages/tranfer-funds';
 
 const routesConfig = [
   { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/register', component: Login, requireAuthentication: false },
+  { path: '/registersteps', component: RegisterSteps, requireAuthentication: false },
   {
     path: '/explore-projects',
     component: ExploreProjects,
