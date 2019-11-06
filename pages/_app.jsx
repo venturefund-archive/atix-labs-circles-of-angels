@@ -10,15 +10,17 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
 import { UserProvider } from '../components/utils/UserContext';
-import Router from '../components/organisms/Router';
+import Router from '../components/organisms/Router/Router';
+import withReactRouter from './with-react-router';
+import { Container } from 'next/app';
 
 function MyApp(props) {
-  const { Component } = props;
-  console.log('MyApp::props', props);
   return (
-    <UserProvider>
-      <Router {...props} />
-    </UserProvider>
+    <Container>
+      <UserProvider>
+        <Router {...props} />
+      </UserProvider>
+    </Container>
   );
 }
 
