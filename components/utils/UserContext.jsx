@@ -10,10 +10,7 @@
 import React, { useContext } from 'react';
 import Cookies from 'js-cookie';
 
-export const UserContext = React.createContext({ time: 'now' });
-console.log('loading up user context', UserContext);
-
-UserContext.displayName = 'USER CONTEXT';
+export const UserContext = React.createContext({});
 
 export function useUserContext() {
   return useContext(UserContext);
