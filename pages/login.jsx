@@ -17,10 +17,7 @@ import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 
 function Login(props) {
-  console.log('login::DisplayName', UserContext.displayName);
   const userContext = useContext(UserContext);
-  console.log('login::props', props);
-  console.log('login::userContext', userContext);
   const { removeUser, changeUser } = userContext;
 
   const onLoginSubmit = async (email, pwd) => {
