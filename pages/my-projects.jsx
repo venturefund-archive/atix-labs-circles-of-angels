@@ -82,50 +82,43 @@ class MyProjects extends React.Component {
   render() {
     const { activeOracleProjects, projects, searchProject } = this.state;
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-
-          <div className="Content">
-            <div className="titlepage">
-              <h1>My Projects</h1>
-            </div>
-            <Search
-              placeholder="Search in my projects"
-              onSearch={value => this.setState({ searchProject: value })}
-              style={{ width: 200 }}
-            />
-            <div className="ProjectsCardsContainer">
-              {projects &&
-                projects.map(project => {
-                  const showTag =
-                    project.status === projectStatus.IN_PROGRESS &&
-                    activeOracleProjects.indexOf(project.id) !== -1;
-                  return (
-                    (searchProject === '' ||
-                      project.projectName.match(
-                        new RegExp(searchProject, 'i')
-                      )) && (
-                      <CardProject
-                        enterpriseName={project.projectName}
-                        enterpriseLocation={project.location}
-                        timeframe={project.timeframe}
-                        amount={project.goalAmount}
-                        showTag={showTag}
-                        tagClick={() => this.goToProjectProgress(project.id)}
-                        milestoneProgress={this.getMilestoneProgress(
-                          project.milestones
-                        )}
-                        projectId={project.id}
-                        key={project.id}
-                        onClick={() => this.goToProjectDetail(project.id)}
-                      />
-                    )
-                  );
-                })}
-            </div>
-          </div>
+      <div className="Content">
+        <div className="titlepage">
+          <h1>My Projects</h1>
+        </div>
+        <Search
+          placeholder="Search in my projects"
+          onSearch={value => this.setState({ searchProject: value })}
+          style={{ width: 200 }}
+        />
+        <div className="ProjectsCardsContainer">
+          {projects &&
+            projects.map(project => {
+              const showTag =
+                project.status === projectStatus.IN_PROGRESS &&
+                activeOracleProjects.indexOf(project.id) !== -1;
+              return (
+                (searchProject === '' ||
+                  project.projectName.match(
+                    new RegExp(searchProject, 'i')
+                  )) && (
+                  <CardProject
+                    enterpriseName={project.projectName}
+                    enterpriseLocation={project.location}
+                    timeframe={project.timeframe}
+                    amount={project.goalAmount}
+                    showTag={showTag}
+                    tagClick={() => this.goToProjectProgress(project.id)}
+                    milestoneProgress={this.getMilestoneProgress(
+                      project.milestones
+                    )}
+                    projectId={project.id}
+                    key={project.id}
+                    onClick={() => this.goToProjectDetail(project.id)}
+                  />
+                )
+              );
+            })}
         </div>
       </div>
     );
