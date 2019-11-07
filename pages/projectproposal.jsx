@@ -35,7 +35,10 @@ const projectdetail = () => (
       <div className="Content">
         <TitlePage textTitle="Complete Project´s Details" />
         <Row type="flex" justify="space-around" align="middle">
-          <Col className="CardExample" sm={24} md={24} lg={24}>
+          <Col sm={24} md={24} lg={24}>
+            <p>Complete Project Proposal lorem ipsum dolor</p>
+          </Col>
+          <Col className="HtmlEditor" sm={24} md={24} lg={24}>
             <HtmlEditor />
           </Col>
         </Row>

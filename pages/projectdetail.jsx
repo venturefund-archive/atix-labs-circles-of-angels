@@ -61,34 +61,34 @@ const projectdetail = ({ title, usertype }) => (
               <h1>Wellness for families in Asia</h1>
               <Col className="flex" sm={24} md={24} lg={24}>
                 <InfoItem
-                  img={
-                    <img
+                  img={(
+<img
                       src="./static/images/world.svg"
                       alt="Circles of Angels"
                     />
-                  }
+)}
                   subtitle="Country of Impact"
                   title="Cambodia"
                   iconInfoItem="dollar"
                 />
                 <InfoItem
-                  img={
-                    <img
+                  img={(
+<img
                       src="./static/images/calendar.svg"
                       alt="Circles of Angels"
                     />
-                  }
+)}
                   subtitle="Amount"
                   title="12 Months"
                   iconInfoItem="dollar"
                 />
                 <InfoItem
-                  img={
-                    <img
+                  img={(
+<img
                       src="./static/images/amount.svg"
                       alt="Circles of Angels"
                     />
-                  }
+)}
                   subtitle="Goal Amount"
                   title="$20.000"
                   iconInfoItem="dollar"
@@ -116,23 +116,23 @@ const projectdetail = ({ title, usertype }) => (
               <Form className="login-form">
                 <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Form.Item
-                    label={
-                      <div className="LabelDescription">
+                    label={(
+<div className="LabelDescription">
                         Project Mission
                         <span>
                           Share your Project Mission, the impact you have made
                           so far and what your project is about
                         </span>
                       </div>
-                    }
+)}
                   >
                     <TextArea rows={4} />
                   </Form.Item>
                 </Col>
                 <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Form.Item
-                    label={
-                      <div className="LabelDescription">
+                    label={(
+<div className="LabelDescription">
                         The Problem
                         <span>
                           Share with us the problem that you are tackling, what
@@ -140,7 +140,7 @@ const projectdetail = ({ title, usertype }) => (
                           support your goal
                         </span>
                       </div>
-                    }
+)}
                   >
                     <TextArea rows={4} />
                   </Form.Item>

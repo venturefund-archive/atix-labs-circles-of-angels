@@ -3,7 +3,8 @@
 .AppContainer {
   display: flex;
   width: 100vw;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Barlow', sans-serif;
+
 }
 
 .MainContent {
@@ -103,6 +104,79 @@ p {
     }
   }
 }
+//LINKS TRANSITION
+
+a.redLink{
+    color: $danger-color;
+    position: relative;
+    background:transparent;
+    padding: 0.4em 0.5em;
+    &:hover{
+      color: $danger-color;
+    }
+}
+a.redLink::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $danger-color;
+  border-radius: 4px;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+a.redLink:hover::before {
+  opacity: .06;
+  transform: scale(1);
+  opacity: .2;
+  z-index: 1;
+}
+
+
+a{
+    color: $primary-color;
+    position: relative;
+    background:transparent;
+    padding: 0.4em 0.5em;
+    &:hover{
+      color: $primary-color;
+    }
+}
+a::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $primary-color;
+  border-radius: 4px;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+a:hover::before {
+  opacity: .06;
+  transform: scale(1);
+  opacity: .2;
+  z-index: 1;
+}
+
+
+// GENERAL CLASSES
+
+
 .flex {
   display: flex;
   align-items: center;

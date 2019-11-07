@@ -2,17 +2,13 @@ import React, { Component } from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 const htmlEditorModules = {
-  toolbar: [
-    [{ size: [] }],
-    ['bold', 'italic', 'underline'],
-    [{ list: 'bullet' }]
-  ],
+  toolbar: [[{ size: [] }], ['bold', 'italic'], [{ list: '' }]],
   clipboard: {
     matchVisual: false
   }
 };
 
-const htmlEditorFormats = ['size', 'bold', 'italic', 'underline', 'bullet'];
+const htmlEditorFormats = ['size', 'bold', 'italic', 'underline'];
 
 export default class HtmlEditor extends Component {
   constructor(props) {

@@ -1,7 +1,8 @@
 @import '../../../css/general_styling.scss';
 .StepsContainer {
   height: 10%;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Barlow', sans-serif;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +82,8 @@
   overflow-y: auto;
 }
 .ant-btn {
-  font-family: 'Muli', sans-serif;
+  font-family: 'Barlow', sans-serif;
+
   font-size: $button;
 }
 .ant-btn-primary {
