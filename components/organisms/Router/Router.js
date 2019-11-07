@@ -34,10 +34,16 @@ import Register from '../../../pages/register';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
 import TransferFunds from '../../../pages/tranfer-funds';
+import Landing from '../../../pages/landing';
 
 const routesConfig = [
   { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/register', component: Login, requireAuthentication: false },
+  {
+    path: '/registersteps',
+    component: RegisterSteps,
+    requireAuthentication: false
+  },
+  { path: '/landing', component: Landing, requireAuthentication: false },
   {
     path: '/explore-projects',
     component: ExploreProjects,

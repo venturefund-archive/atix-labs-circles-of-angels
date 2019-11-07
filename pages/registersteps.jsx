@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
+import { isEmpty } from 'lodash';
 
 import RegisterForm from '../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
@@ -23,6 +24,7 @@ import RegisterStep3, {
   step3Inputs
 } from '../components/organisms/FormRegister/steps/RegisterStep3';
 import RegisterStep4 from '../components/organisms/FormRegister/steps/RegisterStep4';
+import { ENTREPRENEUR, FUNDER, ORACLE } from '../constants/constants';
 
 const steps = [
   {
@@ -49,7 +51,25 @@ let fields = {
   ...step3Inputs
 };
 
-export default function Registersteps() {
+const roleFromQueryString = props => {
+  const params = new URLSearchParams(props.location.search);
+  return params.get('role');
+};
+
+const defineRole = role => {
+  const mappedRoles = { 2: ENTREPRENEUR, 3: FUNDER, 4: ORACLE };
+  return mappedRoles[role];
+};
+
+const defineInitialStep = role => {
+  return isEmpty(role) ? 0 : 1;
+};
+
+export default function Registersteps(props) {
+  const roleQueryString = roleFromQueryString(props);
+  const initialStep = defineInitialStep(roleQueryString);
+  fields.role.value = defineRole(roleQueryString);
+
   return (
     <div className="RegisterWrapper">
       <Row
@@ -70,7 +90,11 @@ export default function Registersteps() {
           Already Registered? <a href="/">Log In</a>
         </Col>
       </Row>
-      <RegisterForm formFields={fields} formSteps={steps} initialStep={0} />
+      <RegisterForm
+        formFields={fields}
+        formSteps={steps}
+        initialStep={initialStep}
+      />
     </div>
   );
 }

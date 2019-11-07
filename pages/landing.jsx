@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import { Tag, Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
 
 import './_landing.scss';
 import './_style.scss';
@@ -59,7 +60,9 @@ const Landing = ({ title, usertype }) => (
         </h2>
         <Col className="space-between" sm={24} md={12} lg={7}>
           <CustomButton buttonText="I´ve got a project!" theme="Primary" />
-          <CustomButton buttonText="I want to fund!" theme="White" />
+          <Link to="/registersteps?role=3">
+            <CustomButton buttonText="I want to fund!" theme="White" />
+          </Link>
         </Col>
       </Col>
     </Row>
