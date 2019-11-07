@@ -61,18 +61,12 @@ class BackOfficeProjects extends React.Component {
   render() {
     const { projects } = this.state;
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="TableContainer">
-            <h1>Projects Administration</h1>
-            <TableBOProjects
-              dataSource={projects}
-              onStateChange={this.updateProject}
-            />
-          </div>
-        </div>
+      <div className="TableContainer">
+        <h1>Projects Administration</h1>
+        <TableBOProjects
+          dataSource={projects}
+          onStateChange={this.updateProject}
+        />
       </div>
     );
   }
