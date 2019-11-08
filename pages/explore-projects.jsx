@@ -46,6 +46,7 @@ class ExploreProjects extends React.Component {
     //   this.setState({ activeOracleProjects: oracleProjectsActive });
     // }
     // this.setState({ projects });
+<<<<<<< HEAD
     const projects = [
       {
         projectName: 'Girls to school',
@@ -55,6 +56,16 @@ class ExploreProjects extends React.Component {
         milestoneProgress: []
       }
     ];
+=======
+    // MOCKS
+    const projects = [{
+      projectName: 'El Buen Proyecto',
+      location: 'Somewhere over the rainbow',
+      timeframe: '1 sprint',
+      goalAmount: '1 sueldo minimo vital y movil',
+      milestoneProgress: []
+    }];
+>>>>>>> 4d855ab79b40f679eb30c554af1b99b8eebc5d3a
     this.setState({ projects });
   }
 
