@@ -45,6 +45,11 @@ const routesConfig = [
     requireAuthentication: true
   },
   {
+    path: '/projectdetail',
+    component: ProjectDetail,
+    requireAuthentication: false
+  },
+  {
     path: '/create-milestones',
     component: CreateMilestones,
     requireAuthentication: true
