@@ -37,22 +37,22 @@ import CreateMilestones from '../../../pages/createmilestones';
 import TransferFunds from '../../../pages/tranfer-funds';
 
 const routesConfig = [
-  { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/register', component: RegisterSteps, requireAuthentication: false },
+  { path: '/login', component: Login, authenticated: false },
+  { path: '/register', component: RegisterSteps, authenticated: false },
   {
     path: '/explore-projects',
     component: ExploreProjects,
-    requireAuthentication: true
+    authenticated: true
   },
   {
     path: '/projectdetail',
     component: ProjectDetail,
-    requireAuthentication: false
+    authenticated: false
   },
   {
     path: '/create-milestones',
     component: CreateMilestones,
-    requireAuthentication: true
+    authenticated: true
   }
 ];
 

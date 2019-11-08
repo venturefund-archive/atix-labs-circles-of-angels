@@ -46,6 +46,7 @@ class ExploreProjects extends React.Component {
     //   this.setState({ activeOracleProjects: oracleProjectsActive });
     // }
     // this.setState({ projects });
+    // MOCKS
     const projects = [{
       projectName: 'El Buen Proyecto',
       location: 'Somewhere over the rainbow',
