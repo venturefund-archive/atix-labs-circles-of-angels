@@ -46,13 +46,15 @@ class ExploreProjects extends React.Component {
     //   this.setState({ activeOracleProjects: oracleProjectsActive });
     // }
     // this.setState({ projects });
-    const projects = [{
-      projectName: 'El Buen Proyecto',
-      location: 'Somewhere over the rainbow',
-      timeframe: '1 sprint',
-      goalAmount: '1 sueldo minimo vital y movil',
-      milestoneProgress: []
-    }];
+    const projects = [
+      {
+        projectName: 'Girls to school',
+        location: 'Cambodia',
+        timeframe: '12 months',
+        goalAmount: '25,000',
+        milestoneProgress: []
+      }
+    ];
     this.setState({ projects });
   }
 

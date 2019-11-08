@@ -36,9 +36,11 @@ const CardProject = ({
           alt="projectCardImage"
         />
       </div>
-      <div className="ProjectSummery">
-      <h1>{enterpriseName}</h1>
-        <div className="space-between">
+      <Row className="ProjectSummery">
+        <Col span={24}>
+          <h1>{enterpriseName}</h1>
+        </Col>
+        <Col span={24}>
           <InfoItem
             subtitle="Country of Impact"
             title={enterpriseLocation}
@@ -54,15 +56,8 @@ const CardProject = ({
             title={`$ ${amount}`}
             iconInfoItem="dollar"
           />
-        </div>
-        {/* <Progress
-          size="small"
-          showInfo={false}
-          strokeColor="#22C89B"
-          percent={milestoneProgress || 0}
-          status="active"
-        /> */}
-      </div>
+        </Col>
+      </Row>
     </div>
   </Col>
 );

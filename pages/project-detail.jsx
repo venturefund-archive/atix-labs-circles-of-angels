@@ -189,17 +189,17 @@ class ProjectDetail extends React.Component {
                     <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
                   </div>
                   <div className="flex">
-                    <Item
+                    <GeneralItem
                       img="./static/images/world.svg"
                       info="Cambodia"
                       label="Country of Impact"
                     />
-                    <Item
+                    <GeneralItem
                       img="./static/images/world.svg"
                       info="Cambodia"
                       label="Country of Impact"
                     />
-                    <Item
+                    <GeneralItem
                       img="./static/images/world.svg"
                       info="Cambodia"
                       label="Country of Impact"
