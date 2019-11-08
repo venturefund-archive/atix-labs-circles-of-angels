@@ -32,19 +32,27 @@ class ExploreProjects extends React.Component {
   }
 
   async componentDidMount() {
-    const projects = (await getProjectsPreview()).data;
-    const { user } = this.props;
-    if (user.role.id === Roles.Oracle) {
-      const response = await getProjectsAsOracle(user.id);
-      const oracleProjects = response.data.projects;
-      const activeProjects = await projects.map(project => project.id);
+    // const projects = (await getProjectsPreview()).data;
+    // const { user } = this.props;
+    // if (user.role.id === Roles.Oracle) {
+    //   const response = await getProjectsAsOracle(user.id);
+    //   const oracleProjects = response.data.projects;
+    //   const activeProjects = await projects.map(project => project.id);
 
-      const oracleProjectsActive = oracleProjects.filter(
-        project => activeProjects.indexOf(project) !== -1
-      );
+    //   const oracleProjectsActive = oracleProjects.filter(
+    //     project => activeProjects.indexOf(project) !== -1
+    //   );
 
-      this.setState({ activeOracleProjects: oracleProjectsActive });
-    }
+    //   this.setState({ activeOracleProjects: oracleProjectsActive });
+    // }
+    // this.setState({ projects });
+    const projects = [{
+      projectName: 'El Buen Proyecto',
+      location: 'Somewhere over the rainbow',
+      timeframe: '1 sprint',
+      goalAmount: '1 sueldo minimo vital y movil',
+      milestoneProgress: []
+    }];
     this.setState({ projects });
   }
 
