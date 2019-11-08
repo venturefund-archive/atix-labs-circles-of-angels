@@ -116,6 +116,11 @@
 .TitlePage{
   margin-bottom: 4em;
 }
+.ant-btn.Alternative{
+  @include breakpoint(sm) {
+    margin-bottom: 1em;
+  }
+}
   .WrapperTable {
     overflow: hidden;
     margin: 0 0 1em 0 !important;
