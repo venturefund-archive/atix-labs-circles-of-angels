@@ -10,14 +10,14 @@ import React, { useContext } from 'react';
 import Routing from '../components/utils/Routes';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
-import { UserContext } from '../components/utils/UserContext';
+import { useUserContext } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
 
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 
 function Login(props) {
-  const userContext = useContext(UserContext);
+  const userContext = useUserContext();
   const { removeUser, changeUser } = userContext;
 
   const onLoginSubmit = async (email, pwd) => {
