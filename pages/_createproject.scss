@@ -1,0 +1,152 @@
+@import '../css/general_styling.scss';
+
+.ThumbnailsWrapper,
+.DetailWrapper {
+  .Content {
+    position: relative;
+  }
+  .FooterButtons {
+    @include breakpoint(sm) {
+      position: relative;
+      margin-top: 1em;
+    }
+  }
+  .ant-divider,
+  .ant-divider-vertical {
+    height: 60vh;
+    @include breakpoint(sm) {
+      display: none;
+    }
+  }
+  .ant-form-item-label label {
+    @include primary-text($labels, $on-surface, 600);
+  }
+}
+.ThumbnailsWrapper {
+  .CardExample {
+    @include breakpoint(sm) {
+      margin-bottom: 2em;
+    }
+    h1 {
+      @include primary-text($titlecard, $on-surface, 600);
+    }
+    h3 {
+      @include primary-text($labels, $on-surface, 600);
+      margin: 3.5em 0 0.9em;
+      @include breakpoint(sm) {
+        margin: 1em 0;
+      }
+    }
+    .InfoItem {
+      width: 30%;
+      @include breakpoint(sm) {
+        width: 100%;
+      }
+    }
+    .BlockImage {
+      border-radius: 4px;
+      background: $light-gray;
+      overflow: hidden;
+      height: 260px;
+      img {
+        width: 100%;
+      }
+    }
+    .ant-divider,
+    .ant-divider-vertical {
+      margin: 0 1em;
+      height: 35px;
+    }
+  }
+}
+.DetailWrapper {
+  .CardExample {
+    border: 1px solid $border;
+    @include breakpoint(sm) {
+      margin-bottom: 2em;
+    }
+    h4 {
+      @include primary-text($body-2, $on-surface-medium, 600);
+      margin-bottom: 1em;
+    }
+    .BlockImage {
+      border-radius: 4px 4px 4px 30px;
+      background: #9ca6b8;
+      overflow: hidden;
+      height: 160px;
+      padding: 1.2em;
+      @include breakpoint(sm) {
+        border-radius: 4px;
+        height: auto;
+      }
+      h1 {
+        @include primary-text($titlecard, $white, 600);
+        margin-bottom: 1em;
+      }
+      h5 {
+        @include primary-text($body-2, $white, 400);
+        opacity: 0.65;
+      }
+    }
+    .ant-skeleton-paragraph {
+      padding: 0;
+    }
+    .ant-skeleton-content .ant-skeleton-paragraph > li {
+      background: $light-gray;
+    }
+    .spacedivider {
+      margin: 0;
+      padding: 1em;
+    }
+    .InfoItem {
+      width: 33%;
+      margin-right: 1em;
+      @include breakpoint(sm) {
+        width: 100%;
+      }
+      p {
+        color: $white;
+        opacity: 0.65;
+        font-weight: 600;
+      }
+      h2 {
+        color: $white;
+      }
+    }
+  }
+}
+
+.HtmlEditor{
+  .quill {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 1px solid $border;
+    margin-top:1em;
+    border-radius:4px;
+    span{
+      color: $on-surface;
+    }
+  }
+  .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label, .ql-snow .ql-stroke{
+    stroke: $primary-color;
+    color: $primary-color;
+  }    
+  .ql-snow.ql-toolbar button{
+    color: $primary-color;
+    &:hover{
+      color: $secondary-color;
+    }
+  }
+  
+  .ql-toolbar.ql-snow{
+    border: none;
+  }
+  .ql-container.ql-snow{
+    height: 50vh;
+    border: none;
+    border-bottom: 1px solid $border;
+  }
+  p{
+    margin-bottom:1em;
+  }
+}

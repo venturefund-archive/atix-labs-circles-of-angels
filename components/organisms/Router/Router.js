@@ -33,14 +33,20 @@ import ProjectProgress from '../../../pages/project-progress';
 import Register from '../../../pages/register';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
+import CreateMilestones from '../../../pages/createmilestones';
 import TransferFunds from '../../../pages/tranfer-funds';
 
 const routesConfig = [
   { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/register', component: Login, requireAuthentication: false },
+  { path: '/register', component: RegisterSteps, requireAuthentication: false },
   {
     path: '/explore-projects',
     component: ExploreProjects,
+    requireAuthentication: true
+  },
+  {
+    path: '/create-milestones',
+    component: CreateMilestones,
     requireAuthentication: true
   }
 ];
