@@ -6,9 +6,10 @@
     "build": "next build",
     "start": "next start",
     "si": "npm run build && npm run dev",
+    "eslint": "./node_modules/eslint/bin/eslint.js . --ext .jsx --ext .js",
     "prod": "NODE_ENV=production next start",
-    "test": "./node_modules/.bin/jest"
-  },
+    "test": "./node_modules/.bin/jest"	  
+},
   "dependencies": {
     "@zeit/next-sass": "1.0.1",
     "antd": "3.13.6",
