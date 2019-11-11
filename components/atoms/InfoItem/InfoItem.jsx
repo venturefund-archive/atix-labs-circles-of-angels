@@ -7,17 +7,17 @@
  */
 
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Col, Row } from 'antd';
 import './_style.scss';
 
-const InfoItem = ({ subtitle, title, img }) => (
-  <div className="InfoItem">
+const InfoItem = ({ subtitle, title, img, span }) => (
+  <Col span={span} className="InfoItem">
     <div className="InfoItemData">
       <p>{subtitle}</p>
       <h2>{title}</h2>
       {img}
     </div>
-  </div>
+  </Col>
 );
 
 export default InfoItem;

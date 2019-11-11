@@ -19,7 +19,26 @@ import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import { Row, Col } from 'antd';
+import { Row, Col, Input,Select } from 'antd';
+
+const { Search } = Input;
+const { Option } = Select;
+
+function onChange(value) {
+  console.log(`selected ${value}`);
+}
+
+function onBlur() {
+  console.log('blur');
+}
+
+function onFocus() {
+  console.log('focus');
+}
+
+function onSearch(val) {
+  console.log('search:', val);
+}
 
 class ExploreProjects extends React.Component {
   constructor(props) {
@@ -46,7 +65,7 @@ class ExploreProjects extends React.Component {
     //   this.setState({ activeOracleProjects: oracleProjectsActive });
     // }
     // this.setState({ projects });
-<<<<<<< HEAD
+    // MOCKS
     const projects = [
       {
         projectName: 'Girls to school',
@@ -56,16 +75,6 @@ class ExploreProjects extends React.Component {
         milestoneProgress: []
       }
     ];
-=======
-    // MOCKS
-    const projects = [{
-      projectName: 'El Buen Proyecto',
-      location: 'Somewhere over the rainbow',
-      timeframe: '1 sprint',
-      goalAmount: '1 sueldo minimo vital y movil',
-      milestoneProgress: []
-    }];
->>>>>>> 4d855ab79b40f679eb30c554af1b99b8eebc5d3a
     this.setState({ projects });
   }
 
@@ -95,8 +104,47 @@ class ExploreProjects extends React.Component {
         <div className="MainContent">
           <Header />
 
-          <div className="Content">
-            <TitlePage textTitle="Explore Project´s" />
+          <div className="Content ExploreProject">
+            <Row>
+              <Col span={14}>
+                <TitlePage textTitle="Explore Project´s" />
+              </Col>
+              <Col span={10}>
+                <Row gutter={10}>
+                  <Col span={8}>
+                    <Search
+                      placeholder="Project Name"
+                      onSearch={value => console.log(value)}
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <Search
+                      placeholder="Country"
+                      onSearch={value => console.log(value)}
+                    />
+                  </Col>
+                  <Col span={8}>
+                  <Select
+    showSearch
+    style={{ width: 200 }}
+    placeholder="Select a person"
+    optionFilterProp="children"
+    onChange={onChange}
+    onFocus={onFocus}
+    onBlur={onBlur}
+    onSearch={onSearch}
+    filterOption={(input, option) =>
+      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    }
+  >
+    <Option value="jack">Jack</Option>
+    <Option value="lucy">Lucy</Option>
+    <Option value="tom">Tom</Option>
+  </Select>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
             <Row className="ProjectsCardsContainer" gutter={16}>
               {projects &&
                 projects.map(project => {

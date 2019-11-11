@@ -15,14 +15,18 @@
     transform: scale(1.1);
     opacity: 1;
   }
-  &:hover{
-
+  .ant-col-1{
+    margin: 0 1em;
   }
-
+  .ant-divider, .ant-divider-vertical{
+    height: 2em;
+  }
   .ProjectDescription {
     width: 100%;
     height: 270px;
     background: #ececec;
+    border-radius: 4px;
+    overflow: hidden;
     img {
       border-radius: 5px;
       height: 100%;

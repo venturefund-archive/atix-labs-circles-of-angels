@@ -186,36 +186,6 @@ class ProjectDetail extends React.Component {
                   src={`/files/projects/${projectId}/coverPhoto.jpg`}
                   alt="projectCoverImage"
                 /> */}
-<<<<<<< HEAD
-                <img
-                  className="Banner"
-                  src="./static/images/imgcard.png"
-                  alt="Circles of Angels"
-                />
-                <div className="ProjectEnterprice">
-                  <div>
-                    <p>Entreprise</p>
-                    <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
-                  </div>
-                  <div className="flex">
-                    <GeneralItem
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                    <GeneralItem
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                    <GeneralItem
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                  </div>
-                </div>
-=======
             <img
               className="Banner"
               src="./static/images/imgcard.png"
@@ -225,7 +195,6 @@ class ProjectDetail extends React.Component {
               <div>
                 <p>Entreprise</p>
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
->>>>>>> 4d855ab79b40f679eb30c554af1b99b8eebc5d3a
               </div>
               <div className="flex">
                 <div

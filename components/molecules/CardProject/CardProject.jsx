@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tag, Progress, Row, Col } from 'antd';
+import { Tag, Divider, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 
@@ -40,18 +40,27 @@ const CardProject = ({
         <Col span={24}>
           <h1>{enterpriseName}</h1>
         </Col>
-        <Col span={24}>
+        <Col className="flex" align="middle" span={24}>
           <InfoItem
+            span="7"
             subtitle="Country of Impact"
             title={enterpriseLocation}
             iconInfoItem="environment"
           />
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
           <InfoItem
+            span="7"
             subtitle="Timeframe"
             title={timeframe}
             iconInfoItem="clock-circle"
           />
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
           <InfoItem
+            span="7"
             subtitle="Amount"
             title={`$ ${amount}`}
             iconInfoItem="dollar"

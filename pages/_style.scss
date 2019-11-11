@@ -3,8 +3,6 @@
 .AppContainer {
   display: flex;
   width: 100vw;
-  font-family: 'Barlow', sans-serif;
-
 }
 
 .MainContent {
@@ -89,21 +87,7 @@ p {
 .spacedivider {
   margin: 0.5em 0;
 }
-.InputTwoLabel {
-  .ant-form-item-label label {
-    line-height: 33px;
-  }
-  .LabelDescription {
-    text-align: left;
-    top: -10px;
-    position: relative;
-    span {
-      display: block;
-      line-height: normal;
-      white-space: normal;
-    }
-  }
-}
+
 //LINKS TRANSITION
 
 a.redLink{
@@ -232,6 +216,38 @@ a:hover::before {
   content: '';
   position: absolute;
   right: 20px;
+}
+/** ant inputs */
+
+.ant-input,.ant-select-selection{
+border-radius: 2px;
+border: 1px solid $light-gray;
+}
+.ant-select-selection__placeholder,
+.ant-select-dropdown-menu-item,
+.ant-select-selection-selected-value,
+.ant-select-selection--multiple > ul > li, .ant-select-selection--multiple .ant-select-selection__rendered > ul > li{
+  font-size: $body-2;
+}
+.ant-input::placeholder,
+.ant-select::placeholder{
+  color: $border;
+  font-size: 13px;
+}
+.InputTwoLabel {
+  .ant-form-item-label label {
+    line-height: 33px;
+  }
+  .LabelDescription {
+    text-align: left;
+    top: -10px;
+    position: relative;
+    span {
+      display: block;
+      line-height: normal;
+      white-space: normal;
+    }
+  }
 }
 /** ant tabs */
 
