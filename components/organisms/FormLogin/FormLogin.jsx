@@ -7,18 +7,16 @@
  */
 
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import { Form, Icon, Input, Checkbox } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
-import Routing from '../../utils/Routes';
 import Field from '../../atoms/Field/Field';
 
 export const formLoginInputs = {
   email: {
     name: 'email',
     label: 'Email',
-    placeholder: 'Email',
+    placeholder: 'example@domain.com',
     rules: [
       {
         regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -96,7 +94,6 @@ const validate = (rule, value) => {
 
 const FormLogin = ({ form, onSubmit }) => {
   const [fields, setFields] = useState(formLoginInputs);
-  const history = useHistory();
 
   const handleChange = event => {
     const newValue = event.target.value;
@@ -130,11 +127,7 @@ const FormLogin = ({ form, onSubmit }) => {
       </Form.Item>
       <Form.Item>
         <div className="FormControls flex link">
-          <a
-            href="/passwordRecovery"
-            className="login-form-forgot"
-            //onClick={() => history.push('/passwordRecovery')}
-          >
+          <a href="/passwordRecovery" className="login-form-forgot">
             Forgot your password?
           </a>
         </div>
