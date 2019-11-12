@@ -31,6 +31,7 @@ import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
 import Register from '../../../pages/register';
+import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
 import TransferFunds from '../../../pages/tranfer-funds';
@@ -39,6 +40,12 @@ import Landing from '../../../pages/landing';
 const routesConfig = [
   { path: '/login', component: Login, requireAuthentication: false },
   { path: '/register', component: Login, requireAuthentication: false },
+  { path: '/recovery', component: Recovery, requireAuthentication: false },
+  {
+    path: '/passwordRecovery',
+    component: PasswordRecovery,
+    requireAuthentication: false
+  },
   {
     path: '/registersteps',
     component: RegisterSteps,
