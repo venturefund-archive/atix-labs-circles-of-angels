@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
+import { useHistory } from 'react-router';
 
 import RegisterForm from '../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
@@ -22,7 +23,7 @@ import RegisterStep2, {
 import RegisterStep3, {
   step3Inputs
 } from '../components/organisms/FormRegister/steps/RegisterStep3';
-import RegisterStep4 from '../components/organisms/FormRegister/steps/RegisterStep4';
+import { register } from '../api/userApi';
 
 const steps = [
   {
@@ -36,10 +37,6 @@ const steps = [
   {
     fields: Object.keys(step3Inputs),
     component: RegisterStep3
-  },
-  {
-    fields: [],
-    component: RegisterStep4
   }
 ];
 
@@ -50,6 +47,22 @@ let fields = {
 };
 
 export default function Registersteps() {
+  const history = useHistory();
+
+  const registerUser = fieldsValues => {
+    const values = Object.values(fieldsValues).reduce(
+      (acc, field) => Object.assign(acc, { [field.name]: field.value }),
+      {}
+    );
+
+    register(values)
+      .then(res =>
+        // TODO redirect to dashboard and show congrats message there
+        history.push('/')
+      )
+      .catch(err => console.error('Error', err));
+  };
+
   return (
     <div className="RegisterWrapper">
       <Row
@@ -67,10 +80,15 @@ export default function Registersteps() {
           sm={{ span: 7, offset: 10 }}
           lg={{ span: 3, offset: 14 }}
         >
-          Already Registered? <a href="/">Log In</a>
+          Already Registered? <a href="/login">Log In</a>
         </Col>
       </Row>
-      <RegisterForm formFields={fields} formSteps={steps} initialStep={0} />
+      <RegisterForm
+        formFields={fields}
+        formSteps={steps}
+        initialStep={0}
+        registerUser={registerUser}
+      />
     </div>
   );
 }
