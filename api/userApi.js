@@ -69,14 +69,7 @@ const changeUserRegistrationStatus = async (userId, registrationStatus) => {
   }
 };
 
-const register = async user => {
-  try {
-    const response = await api.post(`${baseURL}/register`, user);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const register = user => api.post(`${baseURL}/signup`, user);
 
 const recoverPassword = async email => {
   try {
