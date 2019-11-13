@@ -112,9 +112,9 @@ class WebFormProject extends React.Component {
                   placeholder="Project Duration"
                   prefix={
                     <Icon
-                      type="calendar"
-                      style={{ color: 'rgba(0,0,0,.25)' }}
-                    />
+  type="calendar"
+  style={{ color: 'rgba(0,0,0,.25)' }}
+/>
                   }
                 />
               )}

@@ -165,9 +165,11 @@ export default function RegisterStep3(props) {
     // TODO : this shouldn't use label's value.
     if (fields.role.value === 'Social Entrepreneur') {
       return 'I want to create a project';
-    } else if (fields.role.value === 'Impact Funder') {
+    }
+    if (fields.role.value === 'Impact Funder') {
       return 'I want to fund a project';
-    } else if (fields.role.value === 'Oracle') {
+    }
+    if (fields.role.value === 'Oracle') {
       return 'I want to monitor a project';
     }
   };
@@ -196,7 +198,7 @@ export default function RegisterStep3(props) {
             </Col>
           </Form>
         </Row>
-        {/* TODO : This is confusing. 
+        {/* TODO : This is confusing.
                    There are questions before this, whats the purpose of the title? */}
         <TitlePage textTitle="We have some questions for you!" />
         <Row className="FormRegister" gutter={26}>

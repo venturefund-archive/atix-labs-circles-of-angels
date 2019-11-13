@@ -22,7 +22,7 @@ const TableEvidence = ({
       title: 'Documents',
       dataIndex: 'fileName',
       key: 'documents',
-      width: 200,
+      width: 200
     },
     {
       title: 'Date',
