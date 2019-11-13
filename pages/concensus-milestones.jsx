@@ -299,9 +299,15 @@ class ConcensusMilestones extends Component {
     // TODO : this was locally modified on production.
     //        nobody knows who made it.
     try {
-      if (status === FileUploadStatus.DONE || status === FileUploadStatus.UPLOADING) {
+      if (
+        status === FileUploadStatus.DONE ||
+        status === FileUploadStatus.UPLOADING
+      ) {
         // TODO : unused variable.
-        const response = await uploadAgreement(projectId, projectAgreement.originFileObj);
+        const response = await uploadAgreement(
+          projectId,
+          projectAgreement.originFileObj
+        );
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (status === FileUploadStatus.ERROR) {
         message.error(`${info.file.name} file upload failed.`);
@@ -309,7 +315,6 @@ class ConcensusMilestones extends Component {
     } catch (error) {
       message.error(`${info.file.name} file upload failed.`);
     }
-
   };
 
   actualUserNeedsTransfer = () => {
@@ -341,7 +346,7 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async userProject => {
-    //const { user, projectId } = this.props;
+    // const { user, projectId } = this.props;
     const { userProjects } = this.state;
     const response = await signAgreement(userProject.id);
 

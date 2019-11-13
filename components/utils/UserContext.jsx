@@ -9,6 +9,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { useContext } from 'react';
 import Cookies from 'js-cookie';
+import Roles from '../../constants/RolesMap';
 
 export const UserContext = React.createContext({});
 
