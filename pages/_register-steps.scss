@@ -92,9 +92,9 @@
       }
       .FormRegister {
         margin: 2em 0 2em;
-          @include breakpoint(md) {
-            margin: 1em 0 1em;
-          }
+        @include breakpoint(md) {
+          margin: 1em 0 1em;
+        }
         @include breakpoint(sm) {
           margin: 1em 0 1em;
         }
@@ -161,11 +161,11 @@
       align-items: center;
       border-top: 1px solid $border;
       height: 13%;
-        @include breakpoint(md) {
-          height: 10%;
-          margin: 0;
-          padding: 0 2em;
-        }
+      @include breakpoint(md) {
+        height: 10%;
+        margin: 0;
+        padding: 0 2em;
+      }
       @include breakpoint(sm) {
         height: 10%;
         margin: 0;

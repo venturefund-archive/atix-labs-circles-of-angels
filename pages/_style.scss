@@ -3,13 +3,14 @@
 .AppContainer {
   display: flex;
   width: 100vw;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Barlow', sans-serif;
+
 }
 
 .MainContent {
   display: flex;
   flex-flow: column;
-  width: 96vw;
+  width: 100vw;
   height: 100vh;
   overflow-x: hidden;
   @include breakpoint(sm) {
@@ -28,19 +29,20 @@
 .ContentComplete {
   @include ContentComplete;
 }
-.FooterButtons{
-  position:absolute;
+.FooterButtons {
+  position: absolute;
   right: 0;
-  bottom:0 ;    
+  bottom: 0;
   width: 100%;
   padding: 1.5em 1em;
   background: $light-gray;
   @include breakpoint(sm) {
-    padding:0.5em 1em;
+    padding: 0.5em 1em;
     flex-direction: column-reverse;
-    .ant-col-sm-24,.ant-btn{
+    .ant-col-sm-24,
+    .ant-btn {
       width: 100%;
-      margin:0.1em 0;
+      margin: 0.1em 0;
     }
   }
 }
@@ -84,9 +86,97 @@ p {
   box-shadow: inset 0 0 5px #fff;
   border-radius: 20px;
 }
-.spacedivider{
-  margin:0.5em 0;
+.spacedivider {
+  margin: 0.5em 0;
 }
+.InputTwoLabel {
+  .ant-form-item-label label {
+    line-height: 33px;
+  }
+  .LabelDescription {
+    text-align: left;
+    top: -10px;
+    position: relative;
+    span {
+      display: block;
+      line-height: normal;
+      white-space: normal;
+    }
+  }
+}
+//LINKS TRANSITION
+
+a.redLink{
+    color: $danger-color;
+    position: relative;
+    background:transparent;
+    padding: 0.4em 0.5em;
+    &:hover{
+      color: $danger-color;
+    }
+}
+a.redLink::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $danger-color;
+  border-radius: 4px;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+a.redLink:hover::before {
+  opacity: .06;
+  transform: scale(1);
+  opacity: .2;
+  z-index: 1;
+}
+
+
+a{
+    color: $primary-color;
+    position: relative;
+    background:transparent;
+    padding: 0.4em 0.5em;
+    &:hover{
+      color: $primary-color;
+    }
+}
+a::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $primary-color;
+  border-radius: 4px;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+a:hover::before {
+  opacity: .06;
+  transform: scale(1);
+  opacity: .2;
+  z-index: 1;
+}
+
+
+// GENERAL CLASSES
+
+
 .flex {
   display: flex;
   align-items: center;
@@ -145,7 +235,7 @@ p {
 }
 /** ant tabs */
 
-.ant-tabs-nav .ant-tabs-tab{
+.ant-tabs-nav .ant-tabs-tab {
   line-height: 13px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -153,16 +243,16 @@ p {
   margin-right: 4em !important;
   @include primary-text($tabs, $on-surface-medium, 600);
 }
-.ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab{
+.ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab {
   @include primary-text($tabs, $on-surface, 600);
   margin-right: 4em !important;
 }
-.ant-tabs-ink-bar{
+.ant-tabs-ink-bar {
   width: 36px !important;
   background-color: $primary-color;
   height: 3px;
 }
-.ant-tabs-nav .ant-tabs-tab:hover{
+.ant-tabs-nav .ant-tabs-tab:hover {
   color: $primary-color;
 }
 
@@ -232,10 +322,10 @@ p {
   transform: rotate(-135deg);
 }
 
-.ant-modal-mask{
+.ant-modal-mask {
   background-color: #26385b33;
 }
-.ant-tag{
-border-radius: 50px;
-border-color: transparent;
+.ant-tag {
+  border-radius: 50px;
+  border-color: transparent;
 }

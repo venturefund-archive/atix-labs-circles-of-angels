@@ -10,7 +10,7 @@ $on-surface-medium: #728099;
 $on-surface: #303034;
 $success-color: #15d380;
 $success-color-light: #f5fded;
-$danger-color: #ff0050;
+$danger-color: #FF6F6F;
 
 $black: #000;
 $white: #fff;
@@ -50,12 +50,12 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
 
 @mixin primary-text($font-size, $font-color, $font-weight) {
   margin: 0;
-  font-family: 'Muli', sans-serif;
   font-size: $font-size;
   font-weight: $font-weight;
   @if $font-color {
     color: $font-color;
   }
+  font-family: 'Barlow', sans-serif;
 }
 
 // Container

@@ -4,8 +4,7 @@
     width: 22%;
     text-align: left;
     img{
-        width: 25px;
-        height: 25px;
+        margin-bottom:0.5em;
     }
     .anticon {
     margin-top: 5px;}
@@ -13,6 +12,7 @@
     .InfoItemData{
         display: flex;
         flex-flow: column-reverse;
+        align-items: flex-start;
         p{
             @include primary-text($body-2, $on-surface-medium, 400);
         }
