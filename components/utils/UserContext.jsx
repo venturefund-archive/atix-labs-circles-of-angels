@@ -7,110 +7,48 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import React, { useContext } from 'react';
 import Cookies from 'js-cookie';
-import Roles from '../../constants/RolesMap';
 
-const UserContext = React.createContext('user');
-const userKey = 'user';
+export const UserContext = React.createContext({});
 
-export const withUser = ComponentToWrap => {
-  return class UserComponent extends React.Component {
-    static contextType = UserContext;
+export function useUserContext() {
+  return useContext(UserContext);
+}
 
-    static async getInitialProps(query) {
-      let pageProps = {};
-      if (ComponentToWrap.getInitialProps) {
-        pageProps = await ComponentToWrap.getInitialProps(query);
-      }
+export const withUser = c => c;
 
-      return pageProps;
-    }
-
-    render() {
-      const {
-        user,
-        changeUser,
-        removeUser,
-        getLoggedUser,
-        isBackofficeAdmin,
-        isSocialEntrepreneur,
-        isFunder,
-        isOracle
-      } = this.context;
-      return (
-        <ComponentToWrap
-          {...this.props}
-          user={user}
-          changeUser={changeUser}
-          removeUser={removeUser}
-          getLoggedUser={getLoggedUser}
-          isBackofficeAdmin={isBackofficeAdmin}
-          isSocialEntrepreneur={isSocialEntrepreneur}
-          isFunder={isFunder}
-          isOracle={isOracle}
-        />
-      );
-    }
-  };
+const USER_KEY = 'user';
+const changeUser = user => {
+  Cookies.set(USER_KEY, user);
 };
 
-export class UserProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: this.getLoggedUser()
-    };
+const removeUser = () => {
+  Cookies.remove(USER_KEY);
+};
+
+const getLoggedUser = () => {
+  let user;
+  try {
+    user = Cookies.getJSON(USER_KEY);
+  } catch (error) {
+    user = {};
   }
+  return user;
+};
 
-  componentDidMount() {
-    const user = this.getLoggedUser();
-    this.setState({ user });
-  }
+const context = {
+  changeUser,
+  removeUser,
+  getLoggedUser,
+  isBackofficeAdmin: false,
+  isSocialEntrepreneur: false,
+  isFunder: false,
+  isOracle: false
+};
 
-  changeUser = user => {
-    this.setState({ user });
-    //localStorage.setItem(userKey, JSON.stringify(user));
-    Cookies.set(userKey, user);
-  };
-
-  removeUser = () => {
-    this.setState({ user: {} });
-    // localStorage.setItem(userKey, null);
-    Cookies.remove(userKey);
-  };
-
-  getLoggedUser = () => {
-    let user;
-    try {
-      // user = JSON.parse(localStorage.getItem(userKey));
-      user = Cookies.getJSON(userKey);
-    } catch (error) {
-      user = {};
-    }
-    return user;
-  };
-
-  render() {
-    const { user } = this.state;
-    const { children } = this.props;
-    return (
-      <UserContext.Provider
-        value={{
-          user,
-          changeUser: this.changeUser,
-          removeUser: this.removeUser,
-          getLoggedUser: this.getLoggedUser,
-          isBackofficeAdmin:
-            user && user.role && user.role.id === Roles.BackofficeAdmin,
-          isSocialEntrepreneur:
-            user && user.role && user.role.id === Roles.SocialEntrepreneur,
-          isFunder: user && user.role && user.role.id === Roles.Funder,
-          isOracle: user && user.role && user.role.id === Roles.Oracle
-        }}
-      >
-        {children}
-      </UserContext.Provider>
-    );
-  }
-}
+export const UserProvider = ({ children }) => {
+  return (
+    <UserContext.Provider value={context}>{children}</UserContext.Provider>
+  );
+};
