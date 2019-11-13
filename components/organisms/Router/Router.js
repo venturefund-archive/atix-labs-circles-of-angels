@@ -30,6 +30,7 @@ import PasswordRecovery from '../../../pages/passwordRecovery';
 import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
+import Landing from '../../../pages/landing';
 import Register from '../../../pages/register';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
@@ -40,11 +41,6 @@ const routesConfig = [
   { path: '/login', component: Login, authenticated: false },
   { path: '/register', component: RegisterSteps, authenticated: false },
   {
-    path: '/explore-projects',
-    component: ExploreProjects,
-    authenticated: true
-  },
-  {
     path: '/project-detail',
     component: ProjectDetail,
     authenticated: false
@@ -53,7 +49,13 @@ const routesConfig = [
     path: '/create-milestones',
     component: CreateMilestones,
     authenticated: true
-  }
+  },
+  {
+    path: '/explore-projects',
+    component: ExploreProjects,
+    requireAuthentication: true
+  },
+  { path: '/landing', component: Landing, requireAuthentication: false }
 ];
 
 function Router(props) {
@@ -74,8 +76,4 @@ function Router(props) {
   );
 }
 
-Router.propTypes = {
-  getLoggedUser: PropTypes.func.isRequired
-};
-
-export default withUser(Router);
+export default Router;
