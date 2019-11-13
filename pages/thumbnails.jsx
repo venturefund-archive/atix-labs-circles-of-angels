@@ -18,14 +18,14 @@ import {
   Input,
   Upload
 } from 'antd';
-import './_thumbnails.scss';
+import './_createproject.scss';
 import './_style.scss';
-import ModalProjectCreated from '../components/organisms/ModalProjectCreated/ModalProjectCreated';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import InfoItem from '../components/atoms/InfoItem/InfoItem';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import Header from '../components/molecules/Header/Header';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import FooterButtons from '../components/organisms/FooterButtons/FooterButtons';
 
 const props = {
   name: 'file',
@@ -49,7 +49,6 @@ const thumbnails = ({ title, usertype }) => (
     <SideBar />
     <div className="MainContent">
       <Header />
-
       <div className="Content">
         <TitlePage textTitle="Complete Project´s Thumbnail" />
         <Row type="flex" justify="space-around" align="middle">
@@ -110,10 +109,7 @@ const thumbnails = ({ title, usertype }) => (
                 </Col>
                 <Col sm={24} md={24} lg={12}>
                   <Form.Item label="Goal Amount">
-                    <Input
-                      size="large"
-                      addonAfter={<Icon type="dollar" />}
-                    />
+                    <Input size="large" addonAfter={<Icon type="dollar" />} />
                   </Form.Item>
                 </Col>
                 <Col sm={24} md={24} lg={24}>
@@ -136,32 +132,7 @@ const thumbnails = ({ title, usertype }) => (
             </Row>
           </Col>
         </Row>
-
-        <Row
-          className="FooterButtons"
-          type="flex"
-          justify="space-around"
-          align="middle"
-        >
-          <Col
-            xs={{ span: 24, order: 1 }}
-            sm={{ span: 24, order: 1 }}
-            md={6}
-            lg={{ span: 4, offset: 0, order: 1 }}
-          >
-            <CustomButton buttonText="Back" theme="Cancel" />
-          </Col>
-
-          <Col
-            className="space-between"
-            xs={{ span: 24, order: 2 }}
-            sm={{ span: 24, order: 2 }}
-            md={6}
-            lg={{ span: 3, offset: 15, order: 3 }}
-          >
-            <CustomButton buttonText="Save & Continue" theme="Primary" classNameIcon="iconDisplay" icon="arrow-right" />
-          </Col>
-        </Row>
+        <FooterButtons />
       </div>
     </div>
   </div>

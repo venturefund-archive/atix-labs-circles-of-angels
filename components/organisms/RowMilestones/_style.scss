@@ -1,0 +1,19 @@
+@import "../../../css/general_styling.scss";
+
+.FooterButtons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1.5em 1em;
+  background: $light-gray;
+  @include breakpoint(sm) {
+    padding: 0.5em 1em;
+    flex-direction: column-reverse;
+    .ant-col-sm-24,
+    .ant-btn {
+      width: 100%;
+      margin: 0.1em 0;
+    }
+  }
+}
