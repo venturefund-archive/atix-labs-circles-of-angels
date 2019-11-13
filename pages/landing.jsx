@@ -15,6 +15,7 @@ import TopBar from '../components/organisms/TopBar/TopBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CardProject from '../components/molecules/CardProject/CardProject';
+import { useHistory } from 'react-router';
 
 const ProjectCard = () => (
   <Col className="CardProject" span={8}>
@@ -44,7 +45,9 @@ const ProjectCard = () => (
     </Row>
   </Col>
 );
-const Landing = ({ title, usertype }) => (
+const Landing = ({ title, usertype }) => {
+  const history = useHistory();
+  return(
   <Row className="Landing">
     <TopBar textBlack="Register" />
     <Row type="flex" className="BlockBanner Wrapper" align="middle">
@@ -58,8 +61,8 @@ const Landing = ({ title, usertype }) => (
           local communities
         </h2>
         <Col className="space-between" sm={24} md={12} lg={7}>
-          <CustomButton buttonText="I´ve got a project!" theme="Primary" />
-          <CustomButton buttonText="I want to fund!" theme="White" />
+          <CustomButton onClick={() => history.push('/register?role=entrepreneur')} buttonText="I´ve got a project!" theme="Primary" />
+          <CustomButton onClick={() => history.push('/register?role=funder')}buttonText="I want to fund!" theme="White" />
         </Col>
       </Col>
     </Row>
@@ -72,5 +75,5 @@ const Landing = ({ title, usertype }) => (
       <ProjectCard />
     </Row>
   </Row>
-);
+)};
 export default Landing;
