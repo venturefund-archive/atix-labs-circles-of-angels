@@ -8,7 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Row, Col, message } from 'antd';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import RegisterForm from '../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
@@ -25,6 +25,7 @@ import RegisterStep3, {
 } from '../components/organisms/FormRegister/steps/RegisterStep3';
 import { register } from '../api/userApi';
 import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
+import queryString from 'query-string';
 
 const steps = [
   {
@@ -58,6 +59,7 @@ const registerUser = ({ setIsSubmitting, formValues, history }) => {
 
 export default function Registersteps() {
   const history = useHistory();
+  const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState({});
 
@@ -66,6 +68,8 @@ export default function Registersteps() {
     setIsSubmitting(false);
     return history.push('/login');
   };
+
+  const query = queryString.parse(location.search);
 
   // TODO validate with UX team
   const errorCallback = err => {
@@ -82,6 +86,14 @@ export default function Registersteps() {
   });
 
   // TODO add loading when form is submitting
+
+  const role = query.role;
+  const initialStep = role === undefined ? 0 : 1;
+  if (role !== undefined) {
+    // TODO : check if its a valid role.
+    fields.role.value = role;
+  }
+
   return (
     <div className="RegisterWrapper">
       <Row
@@ -105,7 +117,7 @@ export default function Registersteps() {
       <RegisterForm
         formFields={fields}
         formSteps={steps}
-        initialStep={0}
+        initialStep={initialStep}
         registerUser={values => {
           setIsSubmitting(true);
           setFormValues(values);

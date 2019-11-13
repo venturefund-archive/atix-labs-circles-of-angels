@@ -37,6 +37,8 @@ import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation
 import TransferFunds from '../../../pages/tranfer-funds';
 
 const routesConfig = [
+  { path: '/', component: Landing, requireAuthentication: false },
+  { path: '/landing', component: Landing, requireAuthentication: false },
   { path: '/login', component: Login, requireAuthentication: false },
   { path: '/register', component: RegisterSteps, requireAuthentication: false },
   {
@@ -44,7 +46,6 @@ const routesConfig = [
     component: ExploreProjects,
     requireAuthentication: true
   },
-  { path: '/landing', component: Landing, requireAuthentication: false },
   
 ];
 
