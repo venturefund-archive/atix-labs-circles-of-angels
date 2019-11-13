@@ -45,7 +45,7 @@ const routesConfig = [
     authenticated: true
   },
   {
-    path: '/projectdetail',
+    path: '/project-detail',
     component: ProjectDetail,
     authenticated: false
   },
@@ -57,7 +57,7 @@ const routesConfig = [
 ];
 
 function Router(props) {
-  const authenticated = false;
+  const authenticated = true;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">

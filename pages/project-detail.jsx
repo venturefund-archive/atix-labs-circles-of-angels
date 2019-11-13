@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Col, Row, Divider, Progress, Badge } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -58,16 +58,30 @@ class ProjectDetail extends React.Component {
     // const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
     // const projectExperiences = await this.getExperiences();
     const projectDetail = {
-      projectName: 'El Buen Proyecto',
-      location: 'Somewhere over the rainbow',
-      timeframe: '1 sprint',
-      goalAmount: '1 sueldo minimo vital y movil',
+      projectName: 'Girls to school',
+      location: 'Cambodia',
+      timeframe: '12 months',
+      goalAmount: '$25,000',
       milestoneProgress: [],
-      mission: 'Terminar COA',
-      problemAddressed: 'El problema de Irlanda son los irlandeses.',
+      mission:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo',
+      problemAddressed:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum,quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo consequat.Excepteur sint occaecat cupidatat non proident.Excepteur sint occaecat cupidatat nonproident.',
       status: 1
     };
-    const projectExperiences = [];
+    const photos = [
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } }
+    ];
+    const experienceMock = {
+      photos,
+      comment: 'Loremn  ipsum sadda jasdjadjad  ajdjasda',
+      date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`,
+      user: { username: 'Test' }
+    };
+    const projectExperiences = [experienceMock, experienceMock, experienceMock];
     const milestones = [];
     this.setState({
       projectDetail,
@@ -152,32 +166,46 @@ class ProjectDetail extends React.Component {
     const itemsData = projectDetail
       ? [
           {
-            subtitle: 'Country of Impact',
-            title: projectDetail.location,
-            iconItem: 'environment'
+            info: 'Country of Impact',
+            label: projectDetail.location,
+            img: './static/images/world-icon.svg'
           },
           {
-            subtitle: 'Project duration',
-            title: projectDetail.timeframe,
-            iconItem: 'calendar'
+            info: 'Timeframe',
+            label: projectDetail.timeframe,
+            img: './static/images/calendar-icon.svg'
           },
           {
-            subtitle: 'Amount',
-            title: projectDetail.goalAmount,
-            iconItem: 'dollar'
-          },
-          {
-            subtitle: 'Name of Lead',
-            title: projectDetail.ownerName,
-            iconItem: 'user'
-          },
-          {
-            subtitle: 'Mail of Lead',
-            title: projectDetail.ownerEmail,
-            iconItem: 'mail'
+            info: 'Amount',
+            label: projectDetail.goalAmount,
+            img: './static/images/amount-icon.svg'
           }
+          // {
+          //   label: 'Name of Lead',
+          //   info: projectDetail.ownerName,
+          //   img: './static/images/world.svg'
+          // },
+          // {
+          //   label: 'Mail of Lead',
+          //   info: projectDetail.ownerEmail,
+          //   img: './static/images/world.svg'
+          // }
         ]
       : [];
+
+    const experienceTab = (
+      <div>
+        Experiences
+        <Badge
+          count={3}
+          style={{
+            backgroundColor: '#fff',
+            color: '#BDBDBD',
+            boxShadow: '0 0 0 1px #BDBDBD inset'
+          }}
+        />
+      </div>
+    );
     return (
       <div className="ContentComplete">
         <div className="ProjectContainer DataSteps">
@@ -193,32 +221,25 @@ class ProjectDetail extends React.Component {
             />
             <div className="ProjectEnterprice">
               <div>
-                <p>Entreprise</p>
+                <p>Organization Name</p>
                 <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
               <div className="flex">
-                <div
-                  img="./static/images/world.svg"
-                  info="Cambodia"
-                  label="Country of Impact"
-                />
-                <div
-                  img="./static/images/world.svg"
-                  info="Cambodia"
-                  label="Country of Impact"
-                />
-                <div
-                  img="./static/images/world.svg"
-                  info="Cambodia"
-                  label="Country of Impact"
-                />
+                {itemsData.map((item, i) => (
+                  <GeneralItem
+                    label={item.label}
+                    info={item.info}
+                    img={item.img}
+                    key={i}
+                  />
+                ))}
               </div>
             </div>
           </div>
           <div className="BlockContent">
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="details" key="1">
-                <div className="ProjectContent">
+                <Row className="ProjectContent">
                   <ProjectMission
                     mission={projectDetail ? projectDetail.mission : ''}
                     terms={projectDetail ? projectDetail.problemAddressed : ''}
@@ -227,24 +248,50 @@ class ProjectDetail extends React.Component {
                     }
                     milestones={milestones}
                   />
-                  <div className="ProjectGeneralData">
+                  <Col span={1}>
+                    <Divider type="vertical" />
+                  </Col>
+                  <Col className="ProjectProgress" span={11}>
                     <div className="block">
-                      <h1 className="title">Generals</h1>
+                      <h1 className="title">Milestones Progress</h1>
                     </div>
-
-                    {itemsData.map((item, i) => (
-                      <GeneralItem
-                        subtitle={item.subtitle}
-                        title={item.title}
-                        iconItem={item.iconItem}
-                        key={i}
+                    <Col span={12}>
+                      <h4>
+                        Project <strong>Started</strong>
+                      </h4>
+                    </Col>
+                    <Col className="txtright" span={6} offset={6}>
+                      <h4>
+                        Project <strong>Finished!</strong>
+                      </h4>
+                    </Col>
+                    <Col span={1}>
+                      <h4>
+                        <strong>0%</strong>
+                      </h4>
+                    </Col>
+                    <Col span={21}>
+                      <Progress
+                        strokeColor="#6FCF97"
+                        percent={50}
+                        showInfo={false}
                       />
-                    ))}
-                    {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
-                  </div>
-                </div>
+                    </Col>
+                    <Col className="txtright" span={2}>
+                      <h4>
+                        <strong>100%</strong>
+                      </h4>
+                    </Col>
+                  </Col>
+                </Row>
               </TabPane>
-              <TabPane tab="Experiences" key="2">
+              <TabPane tab="Milestones" key="3">
+                <SeccionExperience
+                  experiences={projectExperiences}
+                  onCreate={this.createProjectExperience}
+                />
+              </TabPane>
+              <TabPane tab={experienceTab} key="2">
                 <SeccionExperience
                   experiences={projectExperiences}
                   onCreate={this.createProjectExperience}

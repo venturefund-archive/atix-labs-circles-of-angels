@@ -7,8 +7,9 @@
  */
 
 import React from 'react';
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal, Button } from 'antd';
 import './_style.scss';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 class UploadCardImage extends React.Component {
   state = {
@@ -40,17 +41,18 @@ class UploadCardImage extends React.Component {
     const { previewVisible, previewImage } = this.state;
     const { fileList } = this.props;
     const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
+      <CustomButton
+        theme="Alternative"
+        buttonText="Click to upload a Photo"
+        icon="upload"
+        classNameIcon="iconDisplay"
+      />
     );
     return (
       <div className="clearfix">
         <Upload
           multiple
           customRequest={this.dummyRequest}
-          listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}

@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Carousel } from 'antd';
+import { Col, Row } from 'antd';
+import CustomShowMoreText from '../components/atoms/CustomShowMoreText/CustomShowMoreText';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_steps.scss';
@@ -20,42 +21,65 @@ const CardExperience = ({ experience }) => {
     ? 'cardExperienceText'
     : 'cardExperience';
   return (
-    <div className={style}>
-      {
-        <Carousel dotPosition="right" autoplay effect="fade">
+    <Col span={8}>
+      <Col className="cardExperience" span={24}>
+        <CustomShowMoreText
+          lines={3}
+          text="April visit has been so fun!, These women are amazing with their
+          hands, they have reached 10 hammocks per week!
+          These women are amazing with their
+          hands, they have reached 10 hammocks per week!"
+        />
+        <Col className="ExpPhotosWrapper" gutter={8}>
           {!isEmpty(experience.photos) &&
             experience.photos.map(
               (photo, i) =>
                 photo.image && (
-                  <div key={i}>
-                    <img src={photo.image.data} alt="thing" />
-                  </div>
+                  <Col span={6} key={i}>
+                    <div className="ImgSubWrapper">
+                      <img src={photo.image.data} alt="thing" />
+                    </div>
+                  </Col>
                 )
             )}
-        </Carousel>
-      }
-      <div className="absolute">
-        <div className="pplRoute">
-          <p> {experience.user.username}</p>
-          <span>{experience.date}</span>
-        </div>
-        <h3>{experience.comment}</h3>
-      </div>
-    </div>
+        </Col>
+      </Col>
+    </Col>
+    // <div className={style}>
+    //   {
+    //     <Carousel dotPosition="right" autoplay effect="fade">
+    //       {!isEmpty(experience.photos) &&
+    //         experience.photos.map(
+    //           (photo, i) =>
+    //             photo.image && (
+    //               <div key={i}>
+    //                 <img src={photo.image.data} alt="thing" />
+    //               </div>
+    //             )
+    //         )}
+    //     </Carousel>
+    //   }
+    //   <div className="absolute">
+    //     <div className="pplRoute">
+    //       <p> {experience.user.username}</p>
+    //       <span>{experience.date}</span>
+    //     </div>
+    //     <h3>{experience.comment}</h3>
+    //   </div>
+    // </div>
   );
 };
 const SeccionExperience = ({ experiences, onCreate, user }) => (
   <div className="Experiences">
-    <div className="space-between">
-      <h1 className="title">Recent Reviews</h1>
-      <ModalNewExperience onCreate={onCreate} user={user} />
-    </div>
-    <div className="grid">
+    <Row gutter={12}>
+      <Col span={8}>
+          <ModalNewExperience onCreate={onCreate} user={user} />
+      </Col>
       {!isEmpty(experiences) &&
         experiences.map((experience, i) => (
           <CardExperience experience={experience} key={i} />
         ))}
-    </div>
+    </Row>
   </div>
 );
 

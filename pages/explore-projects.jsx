@@ -19,7 +19,7 @@ import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import { Row, Col, Input,Select } from 'antd';
+import { Row, Col, Input, Select } from 'antd';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -99,77 +99,72 @@ class ExploreProjects extends React.Component {
   render() {
     const { activeOracleProjects, projects } = this.state;
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-
-          <div className="Content ExploreProject">
-            <Row>
-              <Col span={14}>
-                <TitlePage textTitle="Explore Project´s" />
+      <div className="Content ExploreProject">
+        <Row>
+          <Col span={14}>
+            <TitlePage textTitle="Explore Project´s" />
+          </Col>
+          <Col span={10}>
+            <Row gutter={10}>
+              <Col span={8}>
+                <Search
+                  placeholder="Project Name"
+                  onSearch={value => console.log(value)}
+                />
               </Col>
-              <Col span={10}>
-                <Row gutter={10}>
-                  <Col span={8}>
-                    <Search
-                      placeholder="Project Name"
-                      onSearch={value => console.log(value)}
-                    />
-                  </Col>
-                  <Col span={8}>
-                    <Search
-                      placeholder="Country"
-                      onSearch={value => console.log(value)}
-                    />
-                  </Col>
-                  <Col span={8}>
-                  <Select
-    showSearch
-    style={{ width: 200 }}
-    placeholder="Select a person"
-    optionFilterProp="children"
-    onChange={onChange}
-    onFocus={onFocus}
-    onBlur={onBlur}
-    onSearch={onSearch}
-    filterOption={(input, option) =>
-      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    }
-  >
-    <Option value="jack">Jack</Option>
-    <Option value="lucy">Lucy</Option>
-    <Option value="tom">Tom</Option>
-  </Select>
-                  </Col>
-                </Row>
+              <Col span={8}>
+                <Search
+                  placeholder="Country"
+                  onSearch={value => console.log(value)}
+                />
+              </Col>
+              <Col span={8}>
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="Select a person"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
+                  onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    option.props.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="tom">Tom</Option>
+                </Select>
               </Col>
             </Row>
-            <Row className="ProjectsCardsContainer" gutter={16}>
-              {projects &&
-                projects.map(project => {
-                  const showTag =
-                    project.hasOpenMilestones &&
-                    project.status === projectStatus.IN_PROGRESS &&
-                    activeOracleProjects.indexOf(project.id) !== -1;
-                  return (
-                    <CardProject
-                      enterpriseName={project.projectName}
-                      enterpriseLocation={project.location}
-                      timeframe={project.timeframe}
-                      amount={project.goalAmount}
-                      showTag={showTag}
-                      tagClick={() => this.goToProjectProgress(project.id)}
-                      milestoneProgress={project.milestoneProgress}
-                      projectId={project.id}
-                      key={project.id}
-                      onClick={() => this.goToProjectDetail(project.id)}
-                    />
-                  );
-                })}
-            </Row>
-          </div>
-        </div>
+          </Col>
+        </Row>
+        <Row className="ProjectsCardsContainer" gutter={16}>
+          {projects &&
+            projects.map(project => {
+              const showTag =
+                project.hasOpenMilestones &&
+                project.status === projectStatus.IN_PROGRESS &&
+                activeOracleProjects.indexOf(project.id) !== -1;
+              return (
+                <CardProject
+                  enterpriseName={project.projectName}
+                  enterpriseLocation={project.location}
+                  timeframe={project.timeframe}
+                  amount={project.goalAmount}
+                  showTag={showTag}
+                  tagClick={() => this.goToProjectProgress(project.id)}
+                  milestoneProgress={project.milestoneProgress}
+                  projectId={project.id}
+                  key={project.id}
+                  onClick={() => this.goToProjectDetail(project.id)}
+                />
+              );
+            })}
+        </Row>
       </div>
     );
   }

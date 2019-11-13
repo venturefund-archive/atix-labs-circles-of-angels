@@ -73,8 +73,8 @@ p {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width:4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-thumb {
   background: #bfc5ccad;
@@ -124,7 +124,7 @@ a.redLink:hover::before {
 }
 
 
-a{
+a.blueLink{
     color: $primary-color;
     position: relative;
     background:transparent;
@@ -133,7 +133,7 @@ a{
       color: $primary-color;
     }
 }
-a::before {
+a.blueLink::before {
   content: '';
   display: block;
   opacity: 0;
@@ -150,7 +150,7 @@ a::before {
   transform: scale(0);
   transition-property: transform,opacity;
 }
-a:hover::before {
+a.blueLink:hover::before {
   opacity: .06;
   transform: scale(1);
   opacity: .2;
@@ -191,6 +191,9 @@ a:hover::before {
 .opacity {
   opacity: 0.7;
 }
+.txtright{
+text-align: right;
+}
 .ant-breadcrumb {
   padding: 1em 0 0 0;
 }
@@ -221,7 +224,7 @@ a:hover::before {
 
 .ant-input,.ant-select-selection{
 border-radius: 2px;
-border: 1px solid $light-gray;
+border: 1px solid $border;
 }
 .ant-select-selection__placeholder,
 .ant-select-dropdown-menu-item,
@@ -254,7 +257,7 @@ border: 1px solid $light-gray;
 .ant-tabs-nav .ant-tabs-tab {
   line-height: 13px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   padding: 1em 2em 1.5em 0;
   margin-right: 4em !important;
   @include primary-text($tabs, $on-surface-medium, 600);
@@ -264,9 +267,10 @@ border: 1px solid $light-gray;
   margin-right: 4em !important;
 }
 .ant-tabs-ink-bar {
-  width: 36px !important;
+  width: 28px !important;
   background-color: $primary-color;
   height: 3px;
+  bottom: 10px;
 }
 .ant-tabs-nav .ant-tabs-tab:hover {
   color: $primary-color;
@@ -338,10 +342,30 @@ border: 1px solid $light-gray;
   transform: rotate(-135deg);
 }
 
-.ant-modal-mask {
-  background-color: #26385b33;
-}
+
 .ant-tag {
   border-radius: 50px;
   border-color: transparent;
+}
+
+
+//MODALS
+
+.ant-modal-content {
+  .ant-modal-header{
+  padding:1em;
+  img{
+    margin-right: 0.5em;
+  }
+  .ant-modal-title {
+ @include primary-text($labelbig, $on-surface, 600);
+  }
+  }
+  .ant-modal-body{
+    padding:1em;
+  }
+ }
+ 
+ .ant-modal-mask {
+  background-color: #30303466;
 }

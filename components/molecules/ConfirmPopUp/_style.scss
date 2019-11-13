@@ -1,12 +1,5 @@
 @import "../css/general_styling.scss";
 
-.ant-modal-content {
-  .ant-modal-title {
-    font-weight: 300;
-    color: $grey;
-  }
- }
-
 .ConfirmModal {
   h1 {
     @include primary-text($h1, $secondary-color, 500);

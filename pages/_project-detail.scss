@@ -1,12 +1,11 @@
 @import '../css/general_styling.scss';
 
 .ProjectContainer {
-  height: 90%;
+  height: 100%;
   overflow-y: auto;
-
   .ProjectHeader {
     position: relative;
-    height: 45%;
+    height: 46%;
     overflow: hidden;
     border-bottom-left-radius: 30px;
     .Banner {
@@ -16,22 +15,46 @@
   }
   .BlockContent {
     height: 55%;
-    padding: 1em 3em;
+    padding: 0.5em 3em;
+    .ant-tabs-bar {
+      border-bottom: none;
+    }
+    .ant-badge {
+      left: 4px;
+      top: -2px;
+      .ant-badge-count {
+        min-width: 17px;
+        height: 17px;
+        width: 17px;
+        .ant-scroll-number-only {
+          height: 20.15px;
+        }
+      }
+      p {
+        font-size: $tabs;
+        color: #bdbdbd;
+      }
+    }
   }
   .ProjectEnterprice {
     background: rgb(0, 0, 0);
     height: 80%;
-    background: linear-gradient(0deg, #0000003d 0%, #000000c7 -3%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(
+      0deg,
+      #0000003d 0%,
+      #000000c7 -3%,
+      rgba(0, 0, 0, 0) 100%
+    );
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 1em 3em;
-    display:flex;
+    padding: 1.5em 3em;
+    display: flex;
     align-items: flex-end;
-    justify-content:space-between;
+    justify-content: space-between;
     h1 {
-      line-height: 40px;
       @include primary-text($titlebig, $white, 600);
+      line-height: $titlebig;
     }
     p {
       @include primary-text($labelbig, $white, 400);
@@ -51,15 +74,12 @@
   }
 
   .ProjectContent {
-    display: flex;
-    justify-content: space-between;
-    height: 50%;
-    .ProjectGeneralData {
-      width: 30%;
-      padding: 0 1.5em;
-      .title {
-        @include primary-text($h1, $secondary-color, 600);
-      }
+    padding-top: 1em;
+    .ant-col-1 {
+      text-align: center;
+    }
+    .ant-divider-vertical {
+      height: 300px;
     }
   }
 }
@@ -70,88 +90,94 @@
   @include ControlSteps;
   margin: 0 1.5em;
 }
-.grid {
-  margin-top: 1em;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  grid-gap: 21px;
-  align-items: stretch;
+.Experiences {
+  padding-top: 2em;
+}
+.CardNewExperience,
+.cardExperience,
+.cardExperienceText {
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+  border: 1px solid $border;
+  min-height: 230px;
 }
 .cardExperience,
 .cardExperienceText {
-  border-radius: 4px;
-  overflow: hidden;
-  overflow-wrap: break-word;
-  position: relative;
-  box-shadow: $shadow;
-  .absolute {
-    position: absolute;
-    top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2em 1.5em 1.5em;
+  .CustomShowMoreText {
+    position: relative;
+    span {
+      @include primary-text($body-2, $on-surface, 400);
+    }
+    text-align: center;
+    width: 75%;
+    margin: 0 auto;
+    &:before {
+      content: open-quote;
+      top: 2rem;
+      left: 0;
+    }
+    &:after {
+      content: close-quote;
+      content: close-quote;
+      bottom: 0;
+      right: 0;
+    }
+    &:after,
+    &:before {
+      line-height: 0px;
+      color: #6e6f7317;
+      font-size: 8em;
+      position: absolute;
+    }
+    a.TextMore {
+      display: block;
+    }
+  }
+
+  .ExpPhotosWrapper {
+    display: flex;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 2em;
+    overflow-x: scroll;
+    .ImgSubWrapper {
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 4px;
+      img {
+        height: 100%;
+      }
+    }
+  }
+}
+.CardNewExperience {
+  img {
+    margin-bottom: 0.5em;
+  }
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    border: 1px solid $primary-color;
+    box-shadow: 0px 1px 6px rgba(0, 1, 1, 0.17);
+    transition: all 0.5s ease;
+  }
+  button {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    width: 95%;
-    color: white;
-    padding: 1em;
-    text-shadow: 0px 0px 2px black;
-    p {
-      @include primary-text($body-2, $white, 600);
-    }
-    span {
-      @include primary-text($label, $white, 400);
-    }
-    h3 {
-      @include primary-text($h3, $white, 600);
-    }
-  }
-}
-.cardExperience:last-child {
-  margin-right: 0;
-}
-
-.cardExperience:hover,
-.cardExperienceText:hover {
-  img {
-    filter: brightness(0.6);
-    transition: 1s;
-  }
-  h3 {
-    overflow-y: auto;
-  }
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+    align-items: center;
+    justify-content: center;
+    min-height: 229px;
+    padding: 0;
+    @include primary-text($labelbig, $on-surface, 600);
   }
 }
 
-.ant-carousel .slick-slide {
-  text-align: center;
-  height: 230px;
-  line-height: 160px;
-  background: #364d79;
-  overflow: hidden;
-}
-.ant-carousel .slick-slide img {
-  width: 100%;
-}
-.ant-carousel .slick-dots {
-  position: absolute;
-  bottom: 0;
-  right: 35px;
-  display: block;
-  width: 50%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  list-style: none;
-  transform: rotate(90deg);
-}
-.ant-carousel .slick-dots li button {
-  width: 22px;
-  height: 5px;
-}
 .cardExperienceText {
   height: 230px;
   .absolute {
@@ -191,15 +217,20 @@
 .ant-tabs-bar {
   margin-bottom: 0;
 }
-.Experiences {
-  padding: 1em 1.5em;
-}
 .ModalNewExperience {
+  width: 40vw;
   p {
     @include primary-text($body-2, $on-surface, 400);
   }
   textarea {
-    margin: 1em 0;
+    background: #f7f8fd;
+    border: transparent;
+    .ant-form-item {
+      margin-bottom: 0.5em;
+    }
+  }
+  textarea::placeholder {
+    color: $on-surface-medium;
   }
   textarea.ant-input {
     font-size: $body-2;
