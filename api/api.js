@@ -8,7 +8,7 @@
 
 import axios from 'axios';
 
-require('dotenv').config()
+require('dotenv').config();
 
 // const config = new Conf();
 // console.log(config)
@@ -18,11 +18,22 @@ require('dotenv').config()
 //   baseURL: "http://localhost:3001",
 //   timeout: 1000
 // });
+const { NODE_ENV } = process.env;
 
-const frontendURL = process.env.FRONTEND_URL | 'http://localhost:3001';
-
+let baseURL;
+const getBaseURL = () => {
+  switch (NODE_ENV) {
+    case 'development':
+      return 'http://localhost:3001';
+    case 'testing':
+      return '173.255.254.208:3001';
+    case 'production':
+      // TODO : complete later.
+      return undefined;
+  }
+};
 const api = axios.create({
-  baseURL: frontendURL,
+  baseURL: getBaseURL(),
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',
