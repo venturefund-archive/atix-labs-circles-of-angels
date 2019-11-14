@@ -65,11 +65,11 @@
     display: none;
   }
 }
-.ant-btn.Primary .anticon, .ant-btn.Primary:active .anticon, .ant-btn.Primary:focus .anticon, .ant-btn.Primary:hover .anticon.iconDisplay{
+.ant-btn.Primary .anticon.iconDisplay{
   display:block;
   color: $white;
 }
-.ant-btn.Primary .anticon, .ant-btn.Primary:active .anticon, .ant-btn.Primary:focus .anticon, .ant-btn.Primary:hover .anticon.iconDisplay.none{
+.ant-btn.Primary .anticon.none{
   display: none;
 }
 
@@ -86,7 +86,7 @@
     display: none;
   }
 }
-/* SECONDARY */
+/* ALTERNATIVE */
 .ant-btn.Alternative,
 .ant-btn.Alternative:active,
 .ant-btn.Alternative:focus,
@@ -99,6 +99,14 @@
   .anticon {
     display: none;
   }
+}
+
+.ant-btn.Alternative .anticon.iconDisplay{
+  display:block;
+  color: $primary-color;
+}
+.ant-btn.Alternative .anticon.none{
+  display: none;
 }
 
 /* WHITE */
@@ -128,6 +136,14 @@
     display: none;
   }
 }
+.ant-btn.Cancel .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.Cancel .anticon.none{
+  display: none;
+}
+
 
 /* DOWNLOAD */
 .ant-btn.Download,

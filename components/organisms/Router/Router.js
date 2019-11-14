@@ -30,6 +30,7 @@ import PasswordRecovery from '../../../pages/passwordRecovery';
 import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
+import Landing from '../../../pages/landing';
 import Register from '../../../pages/register';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
@@ -37,8 +38,10 @@ import TransferFunds from '../../../pages/tranfer-funds';
 import Landing from '../../../pages/landing';
 
 const routesConfig = [
+  { path: '/', component: Landing, requireAuthentication: false },
+  { path: '/landing', component: Landing, requireAuthentication: false },
   { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/register', component: Login, requireAuthentication: false },
+  { path: '/register', component: RegisterSteps, requireAuthentication: false },
   {
     path: '/registersteps',
     component: RegisterSteps,
@@ -64,7 +67,8 @@ const routesConfig = [
     path: '/explore-projects',
     component: ExploreProjects,
     requireAuthentication: true
-  }
+  },
+  
 ];
 
 function Router(props) {
@@ -85,8 +89,4 @@ function Router(props) {
   );
 }
 
-Router.propTypes = {
-  getLoggedUser: PropTypes.func.isRequired
-};
-
-export default withUser(Router);
+export default Router;

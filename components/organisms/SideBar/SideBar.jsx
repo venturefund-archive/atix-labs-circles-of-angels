@@ -60,11 +60,14 @@ const SideBar = ({ isBackofficeAdmin }) => (
           isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
         }
       >
-         <img src="./static/images/projects-icon-navbar.svg" alt="myprojects" />
+        <img src="./static/images/projects-icon-navbar.svg" alt="myprojects" />
       </Menu.Item>
       {!isBackofficeAdmin && (
         <Menu.Item key="2" onClick={goToMyProjects}>
-          <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
+          <img
+            src="./static/images/dashboard-icon-navbar.svg"
+            alt="myprojects"
+          />
         </Menu.Item>
       )}
       {isBackofficeAdmin && (

@@ -6,9 +6,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from "react";
-import { Button, Icon } from "antd";
-import "./_style.scss";
+import React from 'react';
+import { Button, Icon } from 'antd';
+import './_style.scss';
 
 const DownloadFile = ({ subtitle, text, buttonText, click }) => (
   <div className="DownloadFileContainer">

@@ -14,6 +14,8 @@ import './_style.scss';
 import TopBar from '../components/organisms/TopBar/TopBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
+import CardProject from '../components/molecules/CardProject/CardProject';
+import { useHistory } from 'react-router';
 
 const ProjectCard = () => (
   <Col className="CardProject" span={8}>
@@ -46,6 +48,8 @@ const ProjectCard = () => (
 
 function Landing() {
   const [visibility, setVisibility] = useState(false);
+  const history = useHistory();
+
   return (
     <Row className="Landing">
       <TopBar
@@ -64,8 +68,8 @@ function Landing() {
             local communities
           </h2>
           <Col className="space-between" sm={24} md={6} lg={7}>
-            <CustomButton buttonText="I´ve got a project!" theme="Primary" />
-            <CustomButton buttonText="I want to fund!" theme="White" />
+          <CustomButton onClick={() => history.push('/register?role=entrepreneur')} buttonText="I´ve got a project!" theme="Primary" />
+          <CustomButton onClick={() => history.push('/register?role=funder')}buttonText="I want to fund!" theme="White" />
           </Col>
         </Col>
       </Row>

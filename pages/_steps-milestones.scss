@@ -1,0 +1,242 @@
+@import '../css/general_styling.scss';
+.StepsMilestonesWrapper {
+  .Content {
+    position: relative;
+  }
+  .ant-steps {
+    width: 20%;
+    position: absolute;
+    left: 40%;
+    bottom: 1.5rem;
+    z-index: 99;
+    @include breakpoint(md) {
+      display:block;
+    }
+    @include breakpoint(sm) {
+      display:none;
+    }
+    .ant-steps-item-process
+      > .ant-steps-item-content
+      > .ant-steps-item-title::after {
+      background-color: $border;
+    }
+    .ant-steps-item-finish
+      > .ant-steps-item-content
+      > .ant-steps-item-title::after {
+      background-color: $primary-color;
+    }
+    .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+      color: $primary-color;
+    }
+    .ant-steps-item-finish .ant-steps-item-icon {
+      color: $primary-color;
+      border: 1px solid $primary-color;
+    }
+    .ant-steps-item-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .ant-steps-item-process .ant-steps-item-icon {
+      background: $white;
+      border: 1px solid $primary-color;
+      span {
+        color: $primary-color;
+        font-weight: 600;
+      }
+    }
+  }
+  .steps-content {
+    height: 92%;
+    @include breakpoint(sm) {
+      height: 85%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+  }
+  .Centered {
+    height: 60vh;
+  }
+  .BlockDownload {
+    text-align: center;
+    h1 {
+      @include primary-text($titlecard, $on-surface, 600);
+    }
+    p {
+      @include primary-text($body, $on-surface-medium, 500);
+      margin: 2em 0;
+      &::before {
+        background: $border;
+        content: '';
+        display: block;
+        height: 3px;
+        position: absolute;
+        width: 5%;
+        top: 3em;
+        left: 47%;
+      }
+    }
+    .CustomButton {
+      margin: 0 auto;
+    }
+  }
+}
+
+.Step2 {
+  margin-top: 5em;
+  height: 65vh;
+  @include breakpoint(sm) {
+    margin-top: 2em;
+  }
+  .Preview {
+    height: 100%;
+    margin-right: 3em;
+    border-right: 1px solid $border;
+    @include breakpoint(sm) {
+      height: auto;
+      margin-right: 0em;
+      margin-bottom: 2em;
+    }
+    h3 {
+      @include primary-text($labels, $on-surface, 600);
+      margin-bottom: 1em;
+      @include breakpoint(sm) {
+        margin: 1em 0;
+      }
+    }
+    .BlockVerification {
+      background: $light-gray;
+      height: 40vh;
+      padding: 1em;
+      border-radius: 4px;
+    }
+  }
+}
+
+.Step3{
+.TitlePage{
+  margin-bottom: 4em;
+}
+.ant-btn.Alternative{
+  @include breakpoint(sm) {
+    margin-bottom: 1em;
+  }
+}
+  .WrapperTable {
+    overflow: hidden;
+    margin: 0 0 1em 0 !important;
+    @include breakpoint(sm) {
+      margin: 0 0 1em 0 !important;
+    }
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+      background: $light-gray;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: $border;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px #fff;
+      border-radius: 10px;
+    }
+    .TableMilestones {
+      background: $light-gray;
+      border-radius: 6px 0 0 0;
+    }
+  
+    .TableMilestones,
+    .TableActivities {
+      display: flex;
+      overflow-x: scroll;
+      align-items: flex-start;
+      padding: 0.8em 1em 0.5em;
+      @include breakpoint(sm) {
+        flex-direction: column;
+      }
+      h3 {
+        @include primary-text($h3, $on-surface, 600);
+        margin-top: 1em;
+      }
+      p {
+        @include primary-text($body-2, $on-surface, 400);
+      }
+      label {
+        @include primary-text($body-2, $on-surface-medium, 400);
+      }
+    }
+    .WrapperActionsActivities {
+      background: $white;
+      border-right: 1px solid $border;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .ant-divider-horizontal {
+        margin: 0.2em 0;
+      }
+    }
+    .WrapperActions {
+      height: 81px;
+      background: $light-gray;
+      border-radius: 0px 6px 0px 0px;
+      @include breakpoint(sm) {
+        border-radius: 0px;
+        justify-content: space-evenly;
+      }
+    }
+    .SubWrapperActivities {
+      position: relative;
+      height: 81px;
+      border-bottom: 1px solid $border;
+      border-left: 1px solid $border;
+      overflow: hidden;
+      @include breakpoint(sm) {
+        height: auto;
+      }
+    }
+    .WrapperActions,
+    .WrapperActionsActivities {
+      text-align: center;
+      box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      padding: 0.5em;
+      a {
+        font-size: $body-2;
+      }
+    }
+    .WrapperActivities {
+      padding: 0 !important;
+      background: transparent;
+      .ant-collapse {
+        background-color: transparent;
+        border: none;
+        .ant-collapse-item {
+          border-bottom: transparent;
+        }
+        .ant-collapse-header {
+          padding: 0.5em 1.5em;
+          background: $light-gray;
+          border-top: 1px solid $border;
+          @include primary-text(11px, $primary-color, 600);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          .anticon.anticon-right.ant-collapse-arrow {
+            padding-left: 7em;
+          }
+        }
+        .ant-collapse-content {
+          border: none;
+        }
+        .ant-collapse-content > .ant-collapse-content-box {
+          padding: 0;
+        }
+      }
+    }
+    .ant-divider-vertical {
+      height: 2em;
+      margin: 0;
+      background: $border;
+    }
+  }
+}

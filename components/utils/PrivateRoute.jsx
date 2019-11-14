@@ -7,9 +7,9 @@ const PrivateRoute = routeProps => {
     component: Component,
     exact,
     path,
-    requiredAuthentication
+    requireAuthentication
   } = routeProps;
-  if (requiredAuthentication && false) {
+  if (requireAuthentication && false) {
     // not logged!
     return <Redirect to="/login" />;
   }
@@ -26,11 +26,11 @@ PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
   exact: PropTypes.bool,
   path: PropTypes.string.isRequired,
-  authenticated: PropTypes.bool.isRequired
+  requireAuthentication: PropTypes.bool.isRequired
 };
 
 PrivateRoute.defaultProps = {
-  exact: false
+  exact: true
 };
 
 export default PrivateRoute;
