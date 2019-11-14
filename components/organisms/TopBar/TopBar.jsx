@@ -12,20 +12,32 @@ import './_style.scss';
 import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
 import ModalLogin from '../ModalLogin/ModalLogin';
+import { useHistory } from 'react-router';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-const TopBar = ({ textBlack, textLink }) => (
-  <Row className="TopBar" type="flex" justify="space-between" align="middle">
-    <Col className="gutter-row" xs={10} sm={4} lg={4}>
-      <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
-    </Col>
-    <Col
-      className="gutter-row"
-      xs={{ span: 11, offset: 1 }}
-      sm={{ span: 7, offset: 10 }}
-      lg={{ span: 3, offset: 14 }}
-    >
-      {textBlack} <Divider type="vertical" /> <ModalLogin />
-    </Col>
-  </Row>
-);
+const TopBar = ({ textBlack, textLink }) => {
+  const history = useHistory();
+  return (
+    <Row className="TopBar" type="flex" justify="space-between" align="middle">
+      <Col className="gutter-row" xs={10} sm={4} lg={4}>
+        <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+      </Col>
+      <Col
+        className="gutter-row"
+        xs={{ span: 11, offset: 1 }}
+        sm={{ span: 7, offset: 10 }}
+        lg={{ span: 3, offset: 14 }}
+      >
+        <CustomButton
+          buttonText="Register"
+          theme="Secondary"
+          onClick={() => history.push('/register')}
+        />
+        <Divider type="vertical" />
+        <ModalLogin />
+      </Col>
+    </Row>
+  );
+};
+
 export default TopBar;
