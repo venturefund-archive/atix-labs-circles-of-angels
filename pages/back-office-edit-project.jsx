@@ -86,16 +86,16 @@ class BackOfficeEditProject extends React.Component {
 
   render() {
     const { project } = this.state;
-    return project ? (
+    return (
       <div className="BackOfficeEditProject">
-        <EditProject
-          project={project}
-          onSubmit={this.updateProject}
-          onBack={this.projectDetailPage}
-        />
+        {project && (
+          <EditProject
+            project={project}
+            onSubmit={this.updateProject}
+            onBack={this.projectDetailPage}
+          />
+        )}
       </div>
-    ) : (
-      <div />
     );
   }
 }
