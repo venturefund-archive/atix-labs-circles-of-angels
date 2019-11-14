@@ -20,20 +20,22 @@ require('dotenv').config();
 // });
 const { NODE_ENV } = process.env;
 
-let baseURL;
 const getBaseURL = () => {
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
     case 'testing':
-      return '173.255.254.208:3001';
+      return 'http://173.255.254.208:3001';
     case 'production':
       // TODO : complete later.
       return undefined;
   }
 };
+
+const baseURL = 'http://173.255.254.208:3001'; // getBaseURL();
+
 const api = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: baseURL,
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',
