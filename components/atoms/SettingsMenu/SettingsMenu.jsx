@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { useHistory } from 'react-router';
 import { Menu, Dropdown, Icon } from 'antd';
 import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
@@ -15,17 +16,18 @@ import Roles from '../../../constants/RolesMap';
 import './_style.scss';
 
 const SettingsMenu = ({ text, user }) => {
+  const history = useHistory();
   const menu = (
     <Menu>
       <Menu.Item key="0">My Account</Menu.Item>
       {user.role.id === Roles.SocialEntrepreneur ? (
-        <Menu.Item key="1" onClick={() => Routing.toCreateProject()}>
+        <Menu.Item key="1" onClick={() => history.push('/create-project')}>
           Create Project
         </Menu.Item>
       ) : (
         ''
       )}
-      <Menu.Item key="2" onClick={() => Routing.toLogin()}>
+      <Menu.Item key="2" onClick={() => history.push('/landing')}>
         Log out
       </Menu.Item>
     </Menu>

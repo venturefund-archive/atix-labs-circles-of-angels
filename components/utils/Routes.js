@@ -50,6 +50,9 @@ const Routing = {
   toLogin: query => {
     goToRoute(login, query);
   },
+  toLanding: query => {
+    goToRoute(landing, query);
+  },
   toHome: query => {
     goToRoute(home, query);
   },
