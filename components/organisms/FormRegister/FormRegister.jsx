@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../../../pages/_style.scss';
 import '../../../pages/registersteps';
 import { Steps } from 'antd';
@@ -17,18 +17,7 @@ import useMultiStepForm from '../../../hooks/useMultiStepForm';
 const { Step } = Steps;
 
 // TODO : refactor as functional component
-function RegisterForm({ formFields, formSteps, initialStep }) {
-  // TODO : this cannot be here!
-  function finishForm(fields) {
-    const values = Object.values(fields).reduce(
-      (acc, field) => Object.assign(acc, { [field.name]: field.value }),
-      {}
-    );
-
-    // TODO : send data to register endpoint
-    console.log('complete form', values);
-  }
-
+function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
   const [
     fields,
     setFields,
@@ -38,7 +27,7 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
     setCurrentStep,
     handleChange,
     handleSubmit
-  ] = useMultiStepForm(formFields, formSteps, initialStep, finishForm);
+  ] = useMultiStepForm(formFields, formSteps, initialStep, registerUser);
 
   const isLast = step => step === steps.length - 1;
 
@@ -47,7 +36,6 @@ function RegisterForm({ formFields, formSteps, initialStep }) {
 
     // TODO : weird
     if (handleSubmit(e, last) && !last) {
-      console.log('next step!', currentStep + 1);
       setCurrentStep(currentStep + 1);
     }
   }

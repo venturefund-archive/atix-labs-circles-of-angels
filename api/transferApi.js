@@ -36,7 +36,7 @@ const sendTransferInformation = async ({
 
 const getTransferDestinationInfo = async () => {
   try {
-    const response = await api.get(`/general/accountDestination`);
+    const response = await api.get('/general/accountDestination');
     console.log('Geting transfer destination data');
     return response.data.bankAccount;
   } catch (error) {
@@ -57,7 +57,7 @@ const getTransferStatus = async ({ userId, projectId }) => {
 const getTransferListOfProject = async projectId => {
   try {
     const response = await api.get(`/projects/${projectId}${baseURL}`);
-    let transfers = response.data;
+    const transfers = response.data;
     if (!transfers) return [];
     let key = 0;
     transfers.map(t => {

@@ -39,9 +39,7 @@ export default function useMultiStepForm(
     return isValid;
   };
 
-  const getFieldValue = field => {
-    return field.value || field.selected || field.checked;
-  };
+  const getFieldValue = field => field.value || field.selected || field.checked;
 
   const getInvalidRule = field => {
     // TODO : input.value wont work for Checkbox (and maybe Select).

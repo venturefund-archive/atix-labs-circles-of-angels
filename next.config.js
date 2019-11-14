@@ -9,22 +9,22 @@
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
 
+const { NODE_ENV } = process.env;
+
 module.exports = withSass(
   withCss({
     sassLoaderOptions: {
       includePaths: [`${__dirname}/css/`]
     },
-    webpack: config => {
-      return {
-        ...config,
-        optimization: {
-          minimizer: []
-        },
-        // Fixes npm packages that depend on `fs` module
-        node: {
-          fs: 'empty'
-        }
-      };
-    }
+    webpack: config => ({
+      ...config,
+      optimization: NODE_ENV === 'development' ? {
+        minimizer: []
+      } : config.optimization,
+      // Fixes npm packages that depend on `fs` module
+      node: {
+        fs: 'empty'
+      }
+    })
   })
 );

@@ -12,7 +12,7 @@ import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
 
-const countries = ['Argentina', 'Angola', 'Argelia']
+const countries = ['Argentina', 'Angola', 'Argelia'];
 
 export const step1Inputs = {
   firstName: {

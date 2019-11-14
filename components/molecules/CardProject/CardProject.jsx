@@ -37,7 +37,7 @@ const CardProject = ({
         />
       </div>
       <div className="ProjectSummery">
-      <h1>{enterpriseName}</h1>
+        <h1>{enterpriseName}</h1>
         <div className="space-between">
           <InfoItem
             subtitle="Country of Impact"
