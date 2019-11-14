@@ -27,7 +27,6 @@ import ExploreProjects from '../../../pages/explore-projects';
 import FundAdministration from '../../../pages/fund-administration';
 import NewExperiences from '../../../pages/new-experiences';
 import PasswordRecovery from '../../../pages/passwordRecovery';
-import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
 import Landing from '../../../pages/landing';
@@ -45,11 +44,15 @@ const routesConfig = [
     requireAuthentication: true
   },
   { path: '/landing', component: Landing, requireAuthentication: false },
-  
+  {
+    path: '/create-project',
+    component: CreateProject,
+    requireAuthentication: false
+  }
 ];
 
 function Router(props) {
-  const authenticated = false;
+  const authenticated = true;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">
