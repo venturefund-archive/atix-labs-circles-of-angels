@@ -31,27 +31,21 @@ const Info = ({ text }) => (
   </Col>
 );
 
-const RowMilestones = () => (
-  <Row
-    className="WrapperTable"
-    xs={{ span: 24 }}
-    sm={{ span: 24 }}
-    md={18}
-    lg={{ span: 16 }}
-  >
+const RowMilestones = ({  ActionMilestones, ActionsActivities  }) => (
+  <Row className="WrapperTable">
     <Col
       className="gutter-row TableMilestones"
       xs={{ span: 24 }}
       sm={{ span: 24 }}
       md={18}
-      lg={{ span: 20 }}
+      lg={{ span: 19 }}
     >
       <Col
         className="gutter-row "
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={18}
-        lg={{ span: 3 }}
+        lg={{ span: 2 }}
       >
         <h3>Milestone 1</h3>
       </Col>
@@ -111,13 +105,9 @@ const RowMilestones = () => (
       xs={{ span: 24 }}
       sm={{ span: 24 }}
       md={4}
-      lg={{ span: 4 }}
+      lg={{ span: 5 }}
     >
-      <a className="Link">Edit</a>
-      <Divider type="vertical" />
-      <a className="Link">Add Activity</a>
-      <Divider type="vertical" />
-      <a className="redLink">Delete</a>
+      {ActionMilestones}
     </Col>
     <Col
       className="WrapperActivities"
@@ -134,14 +124,14 @@ const RowMilestones = () => (
               xs={{ span: 24 }}
               sm={{ span: 24 }}
               md={22}
-              lg={{ span: 22 }}
+              lg={{ span: 21 }}
             >
               <Col
                 className="gutter-row "
                 xs={{ span: 24 }}
                 sm={{ span: 24 }}
                 md={3}
-                lg={{ span: 3 }}
+                lg={{ span: 2 }}
               >
                 <h3>Activity 1</h3>
               </Col>
@@ -204,15 +194,9 @@ const RowMilestones = () => (
               xs={{ span: 24 }}
               sm={{ span: 24 }}
               md={2}
-              lg={{ span: 2 }}
+              lg={{ span: 3 }}
             >
-              <Col span={24}>
-                <a className="blueLink">Edit</a>
-              </Col>
-              <Divider />
-              <Col span={24}>
-                <a className="redLink">Delete</a>
-              </Col>
+              {ActionsActivities}
             </Col>
           </div>
         </Panel>

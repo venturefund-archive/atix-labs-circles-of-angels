@@ -159,7 +159,9 @@ a.blueLink:hover::before {
 
 // GENERAL CLASSES
 
-
+.w100{
+  width: 100%
+}
 .flex {
   display: flex;
   align-items: center;
@@ -343,7 +345,7 @@ border: 1px solid $border;
 
 
 .ant-tag {
-  border-radius: 50px;
+  border-radius: 4px;
   border-color: transparent;
 }
 

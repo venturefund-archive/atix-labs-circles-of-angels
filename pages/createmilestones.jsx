@@ -18,6 +18,16 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 const { Step } = Steps;
 
+const ActionMilestonesPreview = () => (
+  <div>
+    <a className="Link blueLink">Edit</a>
+    <Divider type="vertical" />
+    <a className="Link blueLink">Add Activity</a>
+    <Divider type="vertical" />
+    <a className="redLink">Delete</a>
+  </div>
+);
+
 const props = {
   name: 'file',
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -35,8 +45,6 @@ const props = {
     }
   }
 };
-
-const { Panel } = Collapse;
 
 function callback(key) {
   console.log(key);
@@ -182,8 +190,50 @@ const steps = [
             <CustomButton buttonText="+ New Milestone" theme="Alternative" />
           </Col>
         </Row>
-        <RowMilestones />
-        <RowMilestones />
+        <RowMilestones
+          ActionMilestones={(
+<div className="w100 flex space-between">
+  <a className="Link blueLink">Edit</a>
+  <Divider type="vertical" />
+  <a className="Link blueLink">Add Activity</a>
+  <Divider type="vertical" />
+  <a className="redLink">Delete</a>
+</div>
+)}
+          ActionsActivities={
+            <div className="SubWrapperActivitiesActions">
+              <Col span={24}>
+                <a className="blueLink">Edit</a>
+              </Col>
+              <Divider />
+              <Col span={24}>
+                <a className="redLink">Delete</a>
+              </Col>
+            </div>
+          }
+        />
+        <RowMilestones
+          ActionMilestones={(
+<div className="w100 flex space-between">
+  <a className="Link blueLink">Edit</a>
+  <Divider type="vertical" />
+  <a className="Link blueLink">Add Activity</a>
+  <Divider type="vertical" />
+  <a className="redLink">Delete</a>
+</div>
+)}
+          ActionsActivities={(
+<div className="SubWrapperActivitiesActions">
+  <Col span={24}>
+                <a className="blueLink">Edit</a>
+              </Col>
+  <Divider />
+  <Col span={24}>
+                <a className="redLink">Delete</a>
+              </Col>
+</div>
+)}
+        />
       </div>
     )
   }
@@ -210,67 +260,63 @@ class UploadMilestones extends React.Component {
   render() {
     const { current } = this.state;
     return (
-      <div className="AppContainer StepsMilestonesWrapper">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="Content">
-            <Steps current={current}>
-              {steps.map(item => (
-                <Step key={item.title} title={item.title} />
-              ))}
-            </Steps>
-            <div className="steps-content">{steps[current].content}</div>
-            <Row
-              className="steps-action FooterButtons"
-              type="flex"
-              justify="space-around"
-              align="middle"
-            >
-              {current < steps.length - 1 && (
-                <Col
-                  xs={{ span: 24, order: 1 }}
-                  sm={{ span: 24, order: 1 }}
-                  md={6}
-                  lg={{ span: 2, offset: 10, order: 2 }}
-                >
-                  <CustomButton
-                    buttonText="Next"
-                    theme="Primary"
-                    onClick={() => this.next()}
-                  />
-                </Col>
-              )}
-              {current === steps.length - 1 && (
-                <Col
-                  xs={{ span: 24, order: 1 }}
-                  sm={{ span: 24, order: 1 }}
-                  md={6}
-                  lg={{ span: 3, offset: 9, order: 2 }}
-                >
-                  <CustomButton
-                    buttonText="Save & Continue"
-                    theme="Primary"
-                    onClick={() => message.success('Processing complete!')}
-                  />
-                </Col>
-              )}
-              {current > -1 && (
-                <Col
-                  xs={{ span: 24, order: 1 }}
-                  sm={{ span: 24, order: 1 }}
-                  md={6}
-                  lg={{ span: 12, offset: 0, order: 1 }}
-                >
-                  <CustomButton
-                    buttonText="Previous"
-                    theme="Cancel"
-                    onClick={() => this.prev()}
-                  />
-                </Col>
-              )}
-            </Row>
-          </div>
+      <div className="StepsMilestonesWrapper">
+        <div className="Content">
+          <Steps current={current}>
+            {steps.map(item => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+          <div className="steps-content">{steps[current].content}</div>
+          <Row
+            className="steps-action FooterButtons"
+            type="flex"
+            justify="space-around"
+            align="middle"
+          >
+            {current < steps.length - 1 && (
+              <Col
+                xs={{ span: 24, order: 1 }}
+                sm={{ span: 24, order: 1 }}
+                md={6}
+                lg={{ span: 2, offset: 10, order: 2 }}
+              >
+                <CustomButton
+                  buttonText="Next"
+                  theme="Primary"
+                  onClick={() => this.next()}
+                />
+              </Col>
+            )}
+            {current === steps.length - 1 && (
+              <Col
+                xs={{ span: 24, order: 1 }}
+                sm={{ span: 24, order: 1 }}
+                md={6}
+                lg={{ span: 3, offset: 9, order: 2 }}
+              >
+                <CustomButton
+                  buttonText="Save & Continue"
+                  theme="Primary"
+                  onClick={() => message.success('Processing complete!')}
+                />
+              </Col>
+            )}
+            {current > -1 && (
+              <Col
+                xs={{ span: 24, order: 1 }}
+                sm={{ span: 24, order: 1 }}
+                md={6}
+                lg={{ span: 12, offset: 0, order: 1 }}
+              >
+                <CustomButton
+                  buttonText="Previous"
+                  theme="Cancel"
+                  onClick={() => this.prev()}
+                />
+              </Col>
+            )}
+          </Row>
         </div>
       </div>
     );

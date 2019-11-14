@@ -22,7 +22,7 @@ const TopBar = ({ textBlack, textLink }) => (
       className="gutter-row"
       xs={{ span: 11, offset: 1 }}
       sm={{ span: 7, offset: 10 }}
-      lg={{ span: 3, offset: 14 }}
+      lg={{ span: 4, offset: 13 }}
     >
       {textBlack} <Divider type="vertical" /> <ModalLogin />
     </Col>
