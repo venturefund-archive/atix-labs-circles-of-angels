@@ -14,17 +14,15 @@ module.exports = withSass(
     sassLoaderOptions: {
       includePaths: [`${__dirname}/css/`]
     },
-    webpack: config => {
-      return {
-        ...config,
-        optimization: {
-          minimizer: []
-        },
-        // Fixes npm packages that depend on `fs` module
-        node: {
-          fs: 'empty'
-        }
-      };
-    }
+    webpack: config => ({
+      ...config,
+      optimization: {
+        minimizer: []
+      },
+      // Fixes npm packages that depend on `fs` module
+      node: {
+        fs: 'empty'
+      }
+    })
   })
 );

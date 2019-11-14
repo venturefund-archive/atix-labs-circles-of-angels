@@ -6,8 +6,8 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, message } from 'antd';
 import { useHistory } from 'react-router';
 
 import RegisterForm from '../components/organisms/FormRegister/FormRegister';
@@ -24,6 +24,7 @@ import RegisterStep3, {
   step3Inputs
 } from '../components/organisms/FormRegister/steps/RegisterStep3';
 import { register } from '../api/userApi';
+import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
 
 const steps = [
   {
@@ -40,30 +41,47 @@ const steps = [
   }
 ];
 
-let fields = {
+const fields = {
   ...step1Inputs,
   ...step2Inputs,
   ...step3Inputs
 };
 
+const registerUser = ({ setIsSubmitting, formValues, history }) => {
+  const values = Object.values(formValues).reduce(
+    (acc, field) => Object.assign(acc, { [field.name]: field.value }),
+    {}
+  );
+
+  return register(values);
+};
+
 export default function Registersteps() {
   const history = useHistory();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formValues, setFormValues] = useState({});
 
-  const registerUser = fieldsValues => {
-    const values = Object.values(fieldsValues).reduce(
-      (acc, field) => Object.assign(acc, { [field.name]: field.value }),
-      {}
-    );
-
-    register(values)
-      .then(res =>
-        // TODO redirect to dashboard and show congrats message there
-        history.push('/')
-      )
-      // TODO give feedback to user
-      .catch(err => console.error('Error', err));
+  // TODO redirect to dashboard and show feedback
+  const successCallback = res => {
+    setIsSubmitting(false);
+    return history.push('/login');
   };
 
+  // TODO validate with UX team
+  const errorCallback = err => {
+    setIsSubmitting(false);
+    message.error('An error ocurred while creating your account');
+    return console.error('Error', err);
+  };
+
+  useFormSubmitEffect({
+    apiCall: registerUser,
+    successCallback,
+    errorCallback,
+    params: { isSubmitting, formValues }
+  });
+
+  // TODO add loading when form is submitting
   return (
     <div className="RegisterWrapper">
       <Row
@@ -88,7 +106,10 @@ export default function Registersteps() {
         formFields={fields}
         formSteps={steps}
         initialStep={0}
-        registerUser={registerUser}
+        registerUser={values => {
+          setIsSubmitting(true);
+          setFormValues(values);
+        }}
       />
     </div>
   );

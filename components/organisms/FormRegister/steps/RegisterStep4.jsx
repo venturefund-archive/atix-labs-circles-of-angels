@@ -16,10 +16,7 @@ export default function RegisterStep4(props) {
   return (
     <div className="RegisterStep4">
       <div className="InfoStep">
-        <img
-          src="./static/images/icon-personal.svg"
-          alt="Circles of Angels"
-        />
+        <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
         <h2>Enterprise Information</h2>
         <h4>
           Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
@@ -27,12 +24,7 @@ export default function RegisterStep4(props) {
         </h4>
       </div>
       <div className="StepPersonalInformation">
-        <Row
-          className="FormRegister"
-          gutter={26}
-          type="flex"
-          justify="center"
-        >
+        <Row className="FormRegister" gutter={26} type="flex" justify="center">
           <Col className="gutter-row BlockCongrats" span={20}>
             <h1>Congratulations</h1>
             <h2> Hello {fields.role.value}!</h2>

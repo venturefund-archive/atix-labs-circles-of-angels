@@ -31,7 +31,7 @@ const Info = ({ text }) => (
   </Col>
 );
 
-const RowMilestones = ({  ActionMilestones, ActionsActivities  }) => (
+const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
   <Row className="WrapperTable">
     <Col
       className="gutter-row TableMilestones"

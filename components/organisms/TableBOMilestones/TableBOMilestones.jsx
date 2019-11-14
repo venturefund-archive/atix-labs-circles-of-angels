@@ -12,10 +12,7 @@ import './_style.scss';
 import milestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import milestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 
-const TableBOMilestones = ({
-  dataSource,
-  onFundsTransferred
-}) => {
+const TableBOMilestones = ({ dataSource, onFundsTransferred }) => {
   const columns = [
     {
       title: 'Project',
@@ -70,10 +67,7 @@ const TableBOMilestones = ({
         const { id } = record;
         return (
           <div className="ActionButtons">
-            <Button
-              key={record.id}
-              onClick={() => onFundsTransferred(id)}
-            >
+            <Button key={record.id} onClick={() => onFundsTransferred(id)}>
               Funds has transferred
             </Button>
           </div>
