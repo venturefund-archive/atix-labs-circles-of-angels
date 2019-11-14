@@ -6,15 +6,13 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import { Collapse, Row, Col, Upload, Steps, Divider, message } from 'antd';
 import './_steps-milestones.scss';
-import './_style.scss';
-import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
-import Header from '../components/molecules/Header/Header';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import '../../../pages/_style.scss';
+import TitlePage from '../../atoms/TitlePage/TitlePage';
+import RowMilestones from '../RowMilestones/RowMilestones';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const { Step } = Steps;
 
@@ -239,7 +237,7 @@ const steps = [
   }
 ];
 
-class UploadMilestones extends React.Component {
+class CreateMilestonesFormContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -260,67 +258,65 @@ class UploadMilestones extends React.Component {
   render() {
     const { current } = this.state;
     return (
-      <div className="StepsMilestonesWrapper">
-        <div className="Content">
-          <Steps current={current}>
-            {steps.map(item => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-          <div className="steps-content">{steps[current].content}</div>
-          <Row
-            className="steps-action FooterButtons"
-            type="flex"
-            justify="space-around"
-            align="middle"
-          >
-            {current < steps.length - 1 && (
-              <Col
-                xs={{ span: 24, order: 1 }}
-                sm={{ span: 24, order: 1 }}
-                md={6}
-                lg={{ span: 2, offset: 10, order: 2 }}
-              >
-                <CustomButton
-                  buttonText="Next"
-                  theme="Primary"
-                  onClick={() => this.next()}
-                />
-              </Col>
-            )}
-            {current === steps.length - 1 && (
-              <Col
-                xs={{ span: 24, order: 1 }}
-                sm={{ span: 24, order: 1 }}
-                md={6}
-                lg={{ span: 3, offset: 9, order: 2 }}
-              >
-                <CustomButton
-                  buttonText="Save & Continue"
-                  theme="Primary"
-                  onClick={() => message.success('Processing complete!')}
-                />
-              </Col>
-            )}
-            {current > -1 && (
-              <Col
-                xs={{ span: 24, order: 1 }}
-                sm={{ span: 24, order: 1 }}
-                md={6}
-                lg={{ span: 12, offset: 0, order: 1 }}
-              >
-                <CustomButton
-                  buttonText="Previous"
-                  theme="Cancel"
-                  onClick={() => this.prev()}
-                />
-              </Col>
-            )}
-          </Row>
-        </div>
-      </div>
+      <Fragment>
+        <Steps current={current}>
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="steps-content">{steps[current].content}</div>
+        <Row
+          className="steps-action FooterButtons"
+          type="flex"
+          justify="space-around"
+          align="middle"
+        >
+          {current < steps.length - 1 && (
+            <Col
+              xs={{ span: 24, order: 1 }}
+              sm={{ span: 24, order: 1 }}
+              md={6}
+              lg={{ span: 2, offset: 10, order: 2 }}
+            >
+              <CustomButton
+                buttonText="Next"
+                theme="Primary"
+                onClick={() => this.next()}
+              />
+            </Col>
+          )}
+          {current === steps.length - 1 && (
+            <Col
+              xs={{ span: 24, order: 1 }}
+              sm={{ span: 24, order: 1 }}
+              md={6}
+              lg={{ span: 3, offset: 9, order: 2 }}
+            >
+              <CustomButton
+                buttonText="Save & Continue"
+                theme="Primary"
+                onClick={() => message.success('Processing complete!')}
+              />
+            </Col>
+          )}
+          {current > -1 && (
+            <Col
+              xs={{ span: 24, order: 1 }}
+              sm={{ span: 24, order: 1 }}
+              md={6}
+              lg={{ span: 12, offset: 0, order: 1 }}
+            >
+              <CustomButton
+                buttonText="Previous"
+                theme="Cancel"
+                onClick={() => this.prev()}
+              />
+            </Col>
+          )}
+        </Row>
+      </Fragment>
     );
   }
 }
 
-export default UploadMilestones;
+export default CreateMilestonesFormContainer;

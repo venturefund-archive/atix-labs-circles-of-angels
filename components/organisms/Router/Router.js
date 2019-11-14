@@ -8,34 +8,21 @@
 
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Login from '../../../pages/login';
 import PrivateRoute from '../../utils/PrivateRoute';
 import SideBar from '../SideBar/SideBar';
 import Header from '../../molecules/Header/Header';
-import MyProjects from '../../../pages/my-projects';
-import BackOfficeEditProject from '../../../pages/back-office-edit-project';
-import BackofficeMilestones from '../../../pages/back-office-milestones';
-import BackofficeProjectDetail from '../../../pages/back-office-project-detail';
 import BackofficeProjects from '../../../pages/back-office-projects';
-import BackofficeUsers from '../../../pages/back-office-users';
-import ConcensusMilestones from '../../../pages/concensus-milestones';
 import CreateProject from '../../../pages/create-project';
-import Experiences from '../../../pages/experiences';
 import ExploreProjects from '../../../pages/explore-projects';
-import FundAdministration from '../../../pages/fund-administration';
-import NewExperiences from '../../../pages/new-experiences';
 import PasswordRecovery from '../../../pages/passwordRecovery';
-import ProjectDetail from '../../../pages/project-detail';
-import ProjectEvidence from '../../../pages/project-evidence';
-import ProjectProgress from '../../../pages/project-progress';
 import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
-import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
-import CreateMilestones from '../../../pages/createmilestones';
-import TransferFunds from '../../../pages/tranfer-funds';
+
 import { withUser, useUserContext } from '../../utils/UserContext';
+import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/CreateMilestonesFormContainer';
+import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
 
 const routesConfig = [
   { path: '/', component: Landing, requireAuthentication: false },
@@ -70,14 +57,15 @@ const routesConfig = [
   },
     {
     path: '/project-detail',
-    component: ProjectDetail,
+    component: ProjectDetailFormContainer,
     authenticated: false
   },
   {
     path: '/create-milestones',
-    component: CreateMilestones,
+    component: CreateMilestonesFormContainer,
     authenticated: true
-  }
+  },
+  { path: '/landing', component: Landing, requireAuthentication: false }
 ];
 
 function Router(props) {
