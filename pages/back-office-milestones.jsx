@@ -45,9 +45,8 @@ class BackOfficeMilestones extends React.Component {
       // Order by budgetStatus:Pending>Completed first
       if (b.budgetStatus.id === MilestoneBudgetStatus.CLAIMED) {
         return 1;
-      } else {
-        return -1;
       }
+      return -1;
 
       // Order by higher id (newer) second
       if (b.id > a.id) {

@@ -27,7 +27,7 @@ class FundAdministration extends React.Component {
 
   saveStatus = (transferId, state) => {
     updateStateOfTransference(transferId, state);
-    alert(`Status changed successfuly!`);
+    alert('Status changed successfuly!');
   };
 
   getTransfersOfProjects = async projectId => {

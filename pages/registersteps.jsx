@@ -41,7 +41,7 @@ const steps = [
   }
 ];
 
-let fields = {
+const fields = {
   ...step1Inputs,
   ...step2Inputs,
   ...step3Inputs

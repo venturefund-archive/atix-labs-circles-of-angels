@@ -48,11 +48,13 @@ const steps = [
       <div>
         <TitlePage textTitle="Download Project´s Milestones" />
         <Row className="Centered" type="flex" justify="center" align="middle">
-          <Col className="gutter-row BlockDownload"                   
-                  xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={6}
-                  lg={{ span: 10}}>
+          <Col
+            className="gutter-row BlockDownload"
+            xs={{ span: 24 }}
+            sm={{ span: 24 }}
+            md={6}
+            lg={{ span: 10 }}
+          >
             <h1>Download Project Milestones</h1>
             <p>
               To create project Milestones, first you have to download a Project
@@ -75,37 +77,49 @@ const steps = [
       <div>
         <TitlePage textTitle="Upload Project´s Milestones" />
         <Row className="Step2" gutter={16}>
-          <Col className="gutter-row Preview"                  
-          xs={{ span: 24}}
-                  sm={{ span: 24 }}
-                  md={6}
-                  lg={{ span: 11}}>
+          <Col
+            className="gutter-row Preview"
+            xs={{ span: 24 }}
+            sm={{ span: 24 }}
+            md={6}
+            lg={{ span: 11 }}
+          >
             <Row type="flex" justify="center">
-              <Col className="gutter-row"           
-                  xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={18}
-                  lg={{ span: 18}}>
+              <Col
+                className="gutter-row"
+                xs={{ span: 24 }}
+                sm={{ span: 24 }}
+                md={18}
+                lg={{ span: 18 }}
+              >
                 <h3>Milestones Verification</h3>
               </Col>
-              <Col className="BlockVerification"                   
-                  xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={18}
-                  lg={{ span: 18}}>
+              <Col
+                className="BlockVerification"
+                xs={{ span: 24 }}
+                sm={{ span: 24 }}
+                md={18}
+                lg={{ span: 18 }}
+              >
                 <span>You haven´t uploadead any documents yet</span>
               </Col>
             </Row>
           </Col>
-          <Col className="gutter-row"                   xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={18}
-                  lg={{ span: 12}}>
+          <Col
+            className="gutter-row"
+            xs={{ span: 24 }}
+            sm={{ span: 24 }}
+            md={18}
+            lg={{ span: 12 }}
+          >
             <Row>
-              <Col className="gutter-row"                   xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={18}
-                  lg={{ span: 18}}>
+              <Col
+                className="gutter-row"
+                xs={{ span: 24 }}
+                sm={{ span: 24 }}
+                md={18}
+                lg={{ span: 18 }}
+              >
                 <h3>Milestones Verification</h3>
                 <span>
                   Upload your Excel document with your project plan with
@@ -114,10 +128,13 @@ const steps = [
                   Excel.
                 </span>
               </Col>
-              <Col className="BlockVerification"                   xs={{ span: 24}}
-                  sm={{ span: 24}}
-                  md={18}
-                  lg={{ span: 6}}>
+              <Col
+                className="BlockVerification"
+                xs={{ span: 24 }}
+                sm={{ span: 24 }}
+                md={18}
+                lg={{ span: 6 }}
+              >
                 <Upload {...props}>
                   <CustomButton
                     buttonText="Click to upload"
