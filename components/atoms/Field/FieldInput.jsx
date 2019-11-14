@@ -10,7 +10,8 @@ export default function FieldInput(props) {
     value,
     valid,
     errorMessage,
-    handleChange
+    handleChange,
+    type
   } = props;
 
   return (
@@ -21,6 +22,7 @@ export default function FieldInput(props) {
     >
       <Input
         name={name}
+        type={type}
         placeholder={placeholder}
         value={value}
         size="large"
