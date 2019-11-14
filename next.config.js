@@ -16,9 +16,9 @@ module.exports = withSass(
     },
     webpack: config => ({
       ...config,
-      optimization: {
+      optimization: NODE_ENV === 'development' ? {
         minimizer: []
-      },
+      } : config.optimization,
       // Fixes npm packages that depend on `fs` module
       node: {
         fs: 'empty'
