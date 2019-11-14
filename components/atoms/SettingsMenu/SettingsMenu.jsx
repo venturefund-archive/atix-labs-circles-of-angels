@@ -9,7 +9,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Menu, Dropdown, Icon } from 'antd';
-import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
 import Roles from '../../../constants/RolesMap';
 

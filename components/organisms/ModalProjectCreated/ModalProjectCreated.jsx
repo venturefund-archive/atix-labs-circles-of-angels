@@ -9,7 +9,6 @@
 import React from 'react';
 import { Row, Col, Divider, Modal } from 'antd';
 import './_style.scss';
-import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';

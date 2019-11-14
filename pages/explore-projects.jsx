@@ -12,7 +12,6 @@ import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
 import { getProjectsPreview, getProjectsAsOracle } from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
-import Routing from '../components/utils/Routes';
 import './_style.scss';
 import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';

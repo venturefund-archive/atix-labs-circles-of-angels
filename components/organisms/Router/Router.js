@@ -31,12 +31,10 @@ import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
 import Landing from '../../../pages/landing';
-import Register from '../../../pages/register';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
 import TransferFunds from '../../../pages/tranfer-funds';
-import Landing from '../../../pages/landing';
 
 const routesConfig = [
   { path: '/', component: Landing, requireAuthentication: false },

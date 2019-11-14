@@ -12,7 +12,6 @@ import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMa
 import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
 import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
 import MilestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
-import Routing from '../../utils/Routes';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_tablestyle.scss';
 
