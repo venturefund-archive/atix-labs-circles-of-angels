@@ -19,7 +19,6 @@ import BackofficeMilestones from '../../../pages/back-office-milestones';
 import BackofficeProjectDetail from '../../../pages/back-office-project-detail';
 import BackofficeProjects from '../../../pages/back-office-projects';
 import BackofficeUsers from '../../../pages/back-office-users';
-import { withUser } from '../../utils/UserContext';
 import ConcensusMilestones from '../../../pages/concensus-milestones';
 import CreateProject from '../../../pages/create-project';
 import Experiences from '../../../pages/experiences';
@@ -35,6 +34,7 @@ import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
 import TransferFunds from '../../../pages/tranfer-funds';
+import { withUser } from '../../utils/UserContext';
 
 const routesConfig = [
   { path: '/', component: Landing, requireAuthentication: false },
