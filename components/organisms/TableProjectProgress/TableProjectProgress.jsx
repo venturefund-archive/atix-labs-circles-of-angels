@@ -101,17 +101,14 @@ const TableProjectProgress = ({
       key: 'fundingstatus',
       dataIndex: 'budgetStatus',
       fixed: 'right',
-      render: (value, record) => {
-        return (
-          record.type === 'Milestone' && (
-            <div className="milestoneStatus">
-              <Tag color={MilestoneBudgetStatusMap[value.id].color}>
-                {MilestoneBudgetStatusMap[value.id].name.toUpperCase()}
-              </Tag>
-            </div>
-          )
-        );
-      }
+      render: (value, record) =>
+        record.type === 'Milestone' && (
+          <div className="milestoneStatus">
+            <Tag color={MilestoneBudgetStatusMap[value.id].color}>
+              {MilestoneBudgetStatusMap[value.id].name.toUpperCase()}
+            </Tag>
+          </div>
+        )
     }
   ];
 
@@ -120,8 +117,8 @@ const TableProjectProgress = ({
       title: 'Action',
       key: 'action',
       fixed: 'right',
-      render: (text, record) => {
-        return record.type !== 'Milestone' ? (
+      render: (text, record) =>
+        record.type !== 'Milestone' ? (
           <span key={record.id}>
             <a
               onClick={() => {
@@ -136,17 +133,16 @@ const TableProjectProgress = ({
           </span>
         ) : (
           record.budgetStatus.id === MilestoneBudgetStatus.CLAIMABLE &&
-            isSocialEntrepreneur && (
-              <CustomButton
-                buttonText="CLAIM"
-                theme="Primary"
-                onClick={() =>
-                  onBudgetStatusChange(record.id, MilestoneBudgetStatus.CLAIMED)
-                }
-              />
-            )
-        );
-      }
+          isSocialEntrepreneur && (
+            <CustomButton
+              buttonText="CLAIM"
+              theme="Primary"
+              onClick={() =>
+                onBudgetStatusChange(record.id, MilestoneBudgetStatus.CLAIMED)
+              }
+            />
+          )
+        )
     });
   }
 

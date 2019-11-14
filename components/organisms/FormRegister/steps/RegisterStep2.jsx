@@ -55,7 +55,7 @@ const RoleOption = props => {
       <a
         name={name}
         value={usertype}
-        className={`OptionsUsers ` + selectedClass}
+        className={`OptionsUsers ${selectedClass}`}
         selected={selected}
       >
         <img src="./static/images/icon-users-small.svg" alt="platformusers" />

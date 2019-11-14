@@ -63,9 +63,9 @@ const projectdetail = ({ title, usertype }) => (
                 <InfoItem
                   img={(
 <img
-                      src="./static/images/world.svg"
-                      alt="Circles of Angels"
-                    />
+  src="./static/images/world.svg"
+  alt="Circles of Angels"
+/>
 )}
                   subtitle="Country of Impact"
                   title="Cambodia"
@@ -74,9 +74,9 @@ const projectdetail = ({ title, usertype }) => (
                 <InfoItem
                   img={(
 <img
-                      src="./static/images/calendar.svg"
-                      alt="Circles of Angels"
-                    />
+  src="./static/images/calendar.svg"
+  alt="Circles of Angels"
+/>
 )}
                   subtitle="Amount"
                   title="12 Months"
@@ -85,9 +85,9 @@ const projectdetail = ({ title, usertype }) => (
                 <InfoItem
                   img={(
 <img
-                      src="./static/images/amount.svg"
-                      alt="Circles of Angels"
-                    />
+  src="./static/images/amount.svg"
+  alt="Circles of Angels"
+/>
 )}
                   subtitle="Goal Amount"
                   title="$20.000"
@@ -119,11 +119,11 @@ const projectdetail = ({ title, usertype }) => (
                     label={(
 <div className="LabelDescription">
                         Project Mission
-                        <span>
+  <span>
                           Share your Project Mission, the impact you have made
                           so far and what your project is about
                         </span>
-                      </div>
+</div>
 )}
                   >
                     <TextArea rows={4} />
@@ -134,12 +134,12 @@ const projectdetail = ({ title, usertype }) => (
                     label={(
 <div className="LabelDescription">
                         The Problem
-                        <span>
+  <span>
                           Share with us the problem that you are tackling, what
                           you are trying to solve and how the funds will help
                           support your goal
                         </span>
-                      </div>
+</div>
 )}
                   >
                     <TextArea rows={4} />

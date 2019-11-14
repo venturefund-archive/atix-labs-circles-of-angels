@@ -10,7 +10,7 @@ import React from 'react';
 import './_style.scss';
 
 const SignatureLabel = ({ theme, text, iconStatus }) => {
-  const classname = "SignatureLabel " + theme;
+  const classname = `SignatureLabel ${theme}`;
 
   return (
     <div className={classname}>
