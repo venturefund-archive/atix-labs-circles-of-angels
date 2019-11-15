@@ -95,7 +95,7 @@ export default function useMultiStepForm(
     });
   };
 
-  const handleSubmit = (event, isLastStep) => {
+  const validateFields = event => {
     event.preventDefault();
 
     const validatedFields = steps[currentStep].fields.reduce(
@@ -108,16 +108,17 @@ export default function useMultiStepForm(
       {}
     );
     setFields({ ...fields, ...validatedFields });
-    const isValid = Object.values(validatedFields).every(i => i.valid);
-    console.log('last', isLastStep, validatedFields, isValid);
-
-    // TODO : useEffect
-    if (isValid && isLastStep) {
-      submitCallback(fields);
-    }
-
-    return isValid;
+    return Object.values(validatedFields).every(i => i.valid);
   };
+
+  const [shouldSubmit, setShouldSubmit] = useState(false);
+
+  useEffect(() => {
+    if (shouldSubmit) {
+      submitCallback(fields);
+      setShouldSubmit(false);
+    }
+  }, [shouldSubmit, submitCallback, fields]);
 
   return [
     fields,
@@ -127,6 +128,7 @@ export default function useMultiStepForm(
     currentStep,
     setCurrentStep,
     handleChange,
-    handleSubmit
+    validateFields,
+    setShouldSubmit
   ];
 }
