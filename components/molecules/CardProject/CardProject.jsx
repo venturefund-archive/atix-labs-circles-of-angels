@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tag, Progress, Row, Col } from 'antd';
+import { Tag, Divider, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 
@@ -36,33 +36,37 @@ const CardProject = ({
           alt="projectCardImage"
         />
       </div>
-      <div className="ProjectSummery">
-        <h1>{enterpriseName}</h1>
-        <div className="space-between">
+      <Row className="ProjectSummery">
+        <Col span={24}>
+          <h1>{enterpriseName}</h1>
+        </Col>
+        <Col className="flex" align="middle" span={24}>
           <InfoItem
+            span="7"
             subtitle="Country of Impact"
             title={enterpriseLocation}
             iconInfoItem="environment"
           />
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
           <InfoItem
+            span="7"
             subtitle="Timeframe"
             title={timeframe}
             iconInfoItem="clock-circle"
           />
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
           <InfoItem
+            span="7"
             subtitle="Amount"
             title={`$ ${amount}`}
             iconInfoItem="dollar"
           />
-        </div>
-        {/* <Progress
-          size="small"
-          showInfo={false}
-          strokeColor="#22C89B"
-          percent={milestoneProgress || 0}
-          status="active"
-        /> */}
-      </div>
+        </Col>
+      </Row>
     </div>
   </Col>
 );

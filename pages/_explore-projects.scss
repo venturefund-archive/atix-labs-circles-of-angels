@@ -1,5 +1,13 @@
 @import "../css/general_styling.scss";
 
+.ExploreProject{
+  .ant-input-affix-wrapper .ant-input-prefix, .ant-input-affix-wrapper .ant-input-suffix,.ant-input-search-icon,.ant-select-arrow{
+    color:black;
+  }
+  .ant-input::placeholder,.ant-select-selection__placeholder{
+    color: $black;
+  }
+}
 .ProjectsCardsContainer {
   display: flex;
   justify-content: flex-start;

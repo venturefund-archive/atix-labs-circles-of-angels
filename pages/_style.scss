@@ -3,8 +3,6 @@
 .AppContainer {
   display: flex;
   width: 100vw;
-  font-family: 'Barlow', sans-serif;
-
 }
 
 .MainContent {
@@ -75,8 +73,8 @@ p {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width:4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-thumb {
   background: #bfc5ccad;
@@ -88,21 +86,6 @@ p {
 }
 .spacedivider {
   margin: 0.5em 0;
-}
-.InputTwoLabel {
-  .ant-form-item-label label {
-    line-height: 33px;
-  }
-  .LabelDescription {
-    text-align: left;
-    top: -10px;
-    position: relative;
-    span {
-      display: block;
-      line-height: normal;
-      white-space: normal;
-    }
-  }
 }
 //LINKS TRANSITION
 
@@ -140,7 +123,7 @@ a.redLink:hover::before {
 }
 
 
-a{
+a.blueLink{
     color: $primary-color;
     position: relative;
     background:transparent;
@@ -149,7 +132,7 @@ a{
       color: $primary-color;
     }
 }
-a::before {
+a.blueLink::before {
   content: '';
   display: block;
   opacity: 0;
@@ -166,7 +149,7 @@ a::before {
   transform: scale(0);
   transition-property: transform,opacity;
 }
-a:hover::before {
+a.blueLink:hover::before {
   opacity: .06;
   transform: scale(1);
   opacity: .2;
@@ -207,6 +190,9 @@ a:hover::before {
 .opacity {
   opacity: 0.7;
 }
+.txtright{
+text-align: right;
+}
 .ant-breadcrumb {
   padding: 1em 0 0 0;
 }
@@ -233,12 +219,44 @@ a:hover::before {
   position: absolute;
   right: 20px;
 }
+/** ant inputs */
+
+.ant-input,.ant-select-selection{
+border-radius: 2px;
+border: 1px solid $border;
+}
+.ant-select-selection__placeholder,
+.ant-select-dropdown-menu-item,
+.ant-select-selection-selected-value,
+.ant-select-selection--multiple > ul > li, .ant-select-selection--multiple .ant-select-selection__rendered > ul > li{
+  font-size: $body-2;
+}
+.ant-input::placeholder,
+.ant-select::placeholder{
+  color: $border;
+  font-size: 13px;
+}
+.InputTwoLabel {
+  .ant-form-item-label label {
+    line-height: 33px;
+  }
+  .LabelDescription {
+    text-align: left;
+    top: -10px;
+    position: relative;
+    span {
+      display: block;
+      line-height: normal;
+      white-space: normal;
+    }
+  }
+}
 /** ant tabs */
 
 .ant-tabs-nav .ant-tabs-tab {
   line-height: 13px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   padding: 1em 2em 1.5em 0;
   margin-right: 4em !important;
   @include primary-text($tabs, $on-surface-medium, 600);
@@ -248,9 +266,10 @@ a:hover::before {
   margin-right: 4em !important;
 }
 .ant-tabs-ink-bar {
-  width: 36px !important;
+  width: 28px !important;
   background-color: $primary-color;
   height: 3px;
+  bottom: 10px;
 }
 .ant-tabs-nav .ant-tabs-tab:hover {
   color: $primary-color;
@@ -322,10 +341,30 @@ a:hover::before {
   transform: rotate(-135deg);
 }
 
-.ant-modal-mask {
-  background-color: #26385b33;
-}
+
 .ant-tag {
   border-radius: 50px;
   border-color: transparent;
+}
+
+
+//MODALS
+
+.ant-modal-content {
+  .ant-modal-header{
+  padding:1em;
+  img{
+    margin-right: 0.5em;
+  }
+  .ant-modal-title {
+ @include primary-text($labelbig, $on-surface, 600);
+  }
+  }
+  .ant-modal-body{
+    padding:1em;
+  }
+ }
+ 
+ .ant-modal-mask {
+  background-color: #30303466;
 }

@@ -206,11 +206,11 @@ const RowMilestones = () => (
               md={2}
               lg={{ span: 2 }}
             >
-              <Col classNam="" span={24}>
-                <a>Edit</a>
+              <Col span={24}>
+                <a className="blueLink">Edit</a>
               </Col>
               <Divider />
-              <Col classNam="" span={24}>
+              <Col span={24}>
                 <a className="redLink">Delete</a>
               </Col>
             </Col>
