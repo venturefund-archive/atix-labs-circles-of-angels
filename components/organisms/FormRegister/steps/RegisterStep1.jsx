@@ -88,7 +88,7 @@ export const step1Inputs = {
         message: 'Please repeat your password'
       },
       {
-        validator: (rule, value, inputs) => value === inputs.password.value,
+        validator: (rule, value, fields) => value === fields.password.value,
         message: 'Passwords should match'
       }
     ]

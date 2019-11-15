@@ -10,7 +10,7 @@ import React from 'react';
 import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
-import Routing from '../../utils/Routes';
+import { useHistory } from 'react-router';
 
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
@@ -21,6 +21,7 @@ const FormRecovery = ({ form, onSubmit }) => {
       }
     });
   };
+  const history = useHistory();
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
@@ -48,7 +49,7 @@ const FormRecovery = ({ form, onSubmit }) => {
         <CustomButton
           theme="Cancel"
           buttonText="Back"
-          onClick={() => Routing.toLogin()}
+          onClick={() => history.push('/login')}
         />
       </Form.Item>
     </Form>

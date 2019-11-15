@@ -8,6 +8,8 @@
 
 import axios from 'axios';
 
+require('dotenv').config();
+
 // const config = new Conf();
 // console.log(config)
 // const actualEnvironment = "develop";
@@ -16,9 +18,24 @@ import axios from 'axios';
 //   baseURL: "http://localhost:3001",
 //   timeout: 1000
 // });
+const { NODE_ENV } = process.env;
+
+const getBaseURL = () => {
+  switch (NODE_ENV) {
+    case 'development':
+      return 'http://localhost:3001';
+    case 'testing':
+      return 'http://173.255.254.208:3001';
+    case 'production':
+      // TODO : complete later.
+      return undefined;
+  }
+};
+
+const baseURL = 'http://173.255.254.208:3001'; // getBaseURL();
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: baseURL,
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',

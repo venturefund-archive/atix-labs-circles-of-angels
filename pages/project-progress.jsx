@@ -15,7 +15,6 @@ import './_style.scss';
 import './_concensus.scss';
 import './_steps.scss';
 import TableProjectProgress from '../components/organisms/TableProjectProgress/TableProjectProgress';
-import Routing from '../components/utils/Routes';
 import {
   getProjectMilestones,
   getProject,
