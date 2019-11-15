@@ -109,7 +109,7 @@ export default function Registersteps() {
           className="gutter-row"
           xs={12}
           sm={{ span: 7, offset: 10 }}
-          lg={{ span: 3, offset: 14 }}
+          lg={{ span: 4, offset: 13 }}
         >
           Already Registered? <a href="/login">Log In</a>
         </Col>

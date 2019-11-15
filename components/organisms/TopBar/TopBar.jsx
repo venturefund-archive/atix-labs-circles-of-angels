@@ -22,9 +22,9 @@ function TopBar({ textBlack, textLink, setVisibility, visibility }) {
       </Col>
       <Col
         className="gutter-row"
-        xs={12}
-        sm={{ span: 7, offset: 10 }}
-        lg={{ span: 3, offset: 14 }}
+      xs={{ span: 11, offset: 1 }}
+      sm={{ span: 7, offset: 10 }}
+      lg={{ span: 4, offset: 13 }}
       >
         <CustomButton
           buttonText="Register"
