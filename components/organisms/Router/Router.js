@@ -35,7 +35,7 @@ import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
 import CreateMilestones from '../../../pages/createmilestones';
 import TransferFunds from '../../../pages/tranfer-funds';
-import { withUser } from '../../utils/UserContext';
+import { withUser, useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
   { path: '/', component: Landing, requireAuthentication: false },
@@ -81,7 +81,8 @@ const routesConfig = [
 ];
 
 function Router(props) {
-  const authenticated = true;
+  const context = useUserContext();
+  const authenticated = context.getLoggedUser() !== undefined;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">
