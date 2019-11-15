@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tabs, Col, Row, Divider, Progress, Badge } from 'antd';
+import { Tabs, Col, Row, Divider, Progress, Badge, Tag } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -18,6 +18,7 @@ import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import {
   getProject,
   getProjectExperiences,
@@ -285,10 +286,24 @@ class ProjectDetail extends React.Component {
                 </Row>
               </TabPane>
               <TabPane tab="Milestones" key="3">
-                <SeccionExperience
-                  experiences={projectExperiences}
-                  onCreate={this.createProjectExperience}
-                />
+                <div className="MilestonesDetails">
+                  <RowMilestones
+                    ActionMilestones={(
+<div className="space-between w100">
+  <Tag color="#27AE60">Claimable!</Tag>
+  <div style={{ width: 120 }}>
+                          <Progress percent={30} />
+                        </div>
+</div>
+)}
+                    ActionsActivities={(
+<div className="space-between w100">
+  <Tag>Pending</Tag>
+  <a className="blueLink">Evidence</a>
+</div>
+)}
+                  />
+                </div>
               </TabPane>
               <TabPane tab={experienceTab} key="2">
                 <SeccionExperience
