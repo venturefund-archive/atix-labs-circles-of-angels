@@ -30,7 +30,7 @@ PrivateRoute.propTypes = {
 };
 
 PrivateRoute.defaultProps = {
-  exact: false
+  exact: true
 };
 
 export default PrivateRoute;

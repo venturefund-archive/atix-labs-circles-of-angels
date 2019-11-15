@@ -11,7 +11,6 @@ import React from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import Routing from '../components/utils/Routes';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { getProjects } from '../api/projectApi';
 import { changeBudgetStatus } from '../api/milestonesApi';
@@ -61,18 +60,12 @@ class BackOfficeProjects extends React.Component {
   render() {
     const { projects } = this.state;
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="TableContainer">
-            <h1>Projects Administration</h1>
-            <TableBOProjects
-              dataSource={projects}
-              onStateChange={this.updateProject}
-            />
-          </div>
-        </div>
+      <div className="TableContainer">
+        <h1>Projects Administration</h1>
+        <TableBOProjects
+          dataSource={projects}
+          onStateChange={this.updateProject}
+        />
       </div>
     );
   }

@@ -27,7 +27,6 @@ import {
 } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
-import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
 import SeccionExperience from './experiences';

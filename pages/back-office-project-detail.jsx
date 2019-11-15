@@ -14,7 +14,6 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
-import Routing from '../components/utils/Routes';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { withUser } from '../components/utils/UserContext';
 import ProjectStatus from '../constants/ProjectStatus';

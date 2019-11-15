@@ -16,7 +16,6 @@ import { updateProject, getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import Routing from '../components/utils/Routes';
 
 class BackOfficeEditProject extends React.Component {
   constructor(props) {
@@ -86,16 +85,16 @@ class BackOfficeEditProject extends React.Component {
 
   render() {
     const { project } = this.state;
-    return project ? (
+    return (
       <div className="BackOfficeEditProject">
-        <EditProject
-          project={project}
-          onSubmit={this.updateProject}
-          onBack={this.projectDetailPage}
-        />
+        {project && (
+          <EditProject
+            project={project}
+            onSubmit={this.updateProject}
+            onBack={this.projectDetailPage}
+          />
+        )}
       </div>
-    ) : (
-      <div />
     );
   }
 }

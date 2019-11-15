@@ -196,7 +196,13 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
               md={2}
               lg={{ span: 3 }}
             >
-              {ActionsActivities}
+              <Col span={24}>
+                <a className="blueLink">Edit</a>
+              </Col>
+              <Divider />
+              <Col span={24}>
+                <a className="redLink">Delete</a>
+              </Col>
             </Col>
           </div>
         </Panel>
