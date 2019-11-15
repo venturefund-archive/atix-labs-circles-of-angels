@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Steps } from 'antd';
+import { Steps, Row, Col } from 'antd';
 import './_style.scss';
 import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
 
@@ -40,7 +40,7 @@ const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
   }
 
   return (
-    <div className="ProjectMission">
+    <Col className="ProjectMission" span={12}>
       <div className="block">
         <h1 className="title">Our Mission</h1>
         <p>{mission}</p>
@@ -63,7 +63,7 @@ const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
           </Steps>
         )}
       </div>
-    </div>
+    </Col>
   );
 };
 

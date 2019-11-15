@@ -33,6 +33,7 @@ import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
+import CreateMilestones from '../../../pages/createmilestones';
 import TransferFunds from '../../../pages/tranfer-funds';
 import { withUser } from '../../utils/UserContext';
 
@@ -67,11 +68,20 @@ const routesConfig = [
     component: ExploreProjects,
     requireAuthentication: true
   },
-  
+    {
+    path: '/project-detail',
+    component: ProjectDetail,
+    authenticated: false
+  },
+  {
+    path: '/create-milestones',
+    component: CreateMilestones,
+    authenticated: true
+  }
 ];
 
 function Router(props) {
-  const authenticated = false;
+  const authenticated = true;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">

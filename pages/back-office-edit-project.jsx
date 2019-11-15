@@ -86,20 +86,14 @@ class BackOfficeEditProject extends React.Component {
   render() {
     const { project } = this.state;
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          {project && (
-            <div className="BackOfficeEditProject">
-              <EditProject
-                project={project}
-                onSubmit={this.updateProject}
-                onBack={this.projectDetailPage}
-              />
-            </div>
-          )}
-        </div>
+      <div className="BackOfficeEditProject">
+        {project && (
+          <EditProject
+            project={project}
+            onSubmit={this.updateProject}
+            onBack={this.projectDetailPage}
+          />
+        )}
       </div>
     );
   }

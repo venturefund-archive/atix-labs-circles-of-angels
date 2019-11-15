@@ -1,7 +1,6 @@
 @import "../../../css/general_styling.scss";
 
 .InfoItem{
-    width: 22%;
     text-align: left;
     img{
         margin-bottom:0.5em;
@@ -21,8 +20,4 @@
             @include primary-text($body, $on-surface, 600);
         }
     }
-}
-
-.InfoItem:first-child{
-    width:33%;
 }
