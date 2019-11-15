@@ -16,7 +16,6 @@ import useMultiStepForm from '../../../hooks/useMultiStepForm';
 
 const { Step } = Steps;
 
-// TODO : refactor as functional component
 function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
   const [
     fields,
@@ -26,18 +25,20 @@ function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
     currentStep,
     setCurrentStep,
     handleChange,
-    handleSubmit
+    validateFields,
+    setShouldSubmit
   ] = useMultiStepForm(formFields, formSteps, initialStep, registerUser);
 
   const isLast = step => step === steps.length - 1;
 
   function next(e) {
     const last = isLast(currentStep);
+    const isValid = validateFields(e);
 
-    // TODO : weird
-    if (handleSubmit(e, last) && !last) {
-      setCurrentStep(currentStep + 1);
-    }
+    if (!isValid) return;
+
+    if (last) setShouldSubmit(true);
+    else setCurrentStep(currentStep + 1);
   }
 
   function prev() {
