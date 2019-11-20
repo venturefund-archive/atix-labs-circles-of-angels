@@ -23,49 +23,11 @@ function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
     steps,
     setNextStep,
     currentStep,
-    setCurrentStep,
     handleChange,
-    validateFields,
-    setShouldSubmit
+    getNextStepButton,
+    getPrevStepButton
   ] = useMultiStepForm(formFields, formSteps, initialStep, registerUser);
 
-  const isLast = step => step === steps.length - 1;
-
-  function next(e) {
-    const last = isLast(currentStep);
-    const isValid = validateFields(e);
-
-    if (!isValid) return;
-
-    if (last) setShouldSubmit(true);
-    else setCurrentStep(currentStep + 1);
-  }
-
-  function prev() {
-    if (currentStep === 0) return;
-    setCurrentStep(currentStep - 1);
-  }
-
-  const isFormValid = () => Object.values(fields).every(i => i.valid);
-
-  function getNextStepButton(current) {
-    return (
-      <CustomButton
-        theme="Primary"
-        buttonText={isLast(current) ? 'Finish!' : 'Save and continue'}
-        onClick={next}
-        disabled={!isFormValid}
-      />
-    );
-  }
-
-  function getPrevStepButton(current) {
-    if (current === 0) return;
-
-    return (
-      <CustomButton theme="Secondary" buttonText="Previous" onClick={prev} />
-    );
-  }
   function getStepComponent(current) {
     const Component = steps[current].component;
     return (

@@ -41,13 +41,6 @@ class ModalProjectCreated extends React.Component {
   render() {
     return (
       <div className="ModalProjectCreated">
-        <CustomButton
-          buttonText="Create Project"
-          theme="Primary"
-          classNameIcon="iconDisplay"
-          icon="arrow-right"
-          onClick={this.showModal}
-        />
         <Modal
           closable={false}
           centered

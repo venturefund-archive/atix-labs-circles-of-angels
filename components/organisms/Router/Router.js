@@ -21,7 +21,7 @@ import BackofficeProjects from '../../../pages/back-office-projects';
 import BackofficeUsers from '../../../pages/back-office-users';
 import { withUser } from '../../utils/UserContext';
 import ConcensusMilestones from '../../../pages/concensus-milestones';
-import CreateProject from '../../../pages/create-project';
+import CreateProjectContainer from '../../../pages/create-project';
 import Experiences from '../../../pages/experiences';
 import ExploreProjects from '../../../pages/explore-projects';
 import FundAdministration from '../../../pages/fund-administration';
@@ -46,7 +46,7 @@ const routesConfig = [
   { path: '/landing', component: Landing, requireAuthentication: false },
   {
     path: '/create-project',
-    component: CreateProject,
+    component: CreateProjectContainer,
     requireAuthentication: false
   }
 ];
