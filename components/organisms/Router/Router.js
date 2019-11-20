@@ -65,7 +65,7 @@ const routesConfig = [
     component: CreateMilestonesFormContainer,
     authenticated: true
   },
-  { path: '/landing', component: Landing, requireAuthentication: false }
+  { path: '/landing', component: Landing, requireAuthentication: false },
 ];
 
 function Router(props) {
