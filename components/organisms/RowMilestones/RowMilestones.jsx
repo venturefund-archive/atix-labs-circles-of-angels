@@ -1,17 +1,5 @@
-import React, { Component } from 'react';
-import {
-  Tag,
-  Row,
-  Col,
-  Breadcrumb,
-  Divider,
-  Form,
-  Icon,
-  Input,
-  Upload,
-  Collapse
-} from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import React from 'react';
+import { Row, Col, Divider, Collapse } from 'antd';
 import './_style.scss';
 
 const { Panel } = Collapse;

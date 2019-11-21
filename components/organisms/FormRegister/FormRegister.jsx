@@ -11,7 +11,6 @@ import '../../../pages/_style.scss';
 import '../../../pages/registersteps';
 import { Steps } from 'antd';
 
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 
 const { Step } = Steps;
