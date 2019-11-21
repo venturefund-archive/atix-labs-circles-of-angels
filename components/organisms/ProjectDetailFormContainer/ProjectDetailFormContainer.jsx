@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { Row, Col, Skeleton, Divider, Form, Upload } from 'antd';
+import { Row, Col, Skeleton, Divider, Form, Upload, message } from 'antd';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
