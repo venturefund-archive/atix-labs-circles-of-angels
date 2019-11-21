@@ -94,3 +94,17 @@ export const detailsFormInputs = {
     ]
   }
 };
+
+export const proposalFromItems = {
+  proposal: {
+    type: 'htmlEditor',
+    name: 'proposal',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the mission of this project!',
+        whitespace: true
+      }
+    ]
+  }
+};

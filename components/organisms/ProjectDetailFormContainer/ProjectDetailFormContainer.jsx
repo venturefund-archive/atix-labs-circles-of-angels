@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { Row, Col, Skeleton, Divider, Form, Input, Upload } from 'antd';
+import { Row, Col, Skeleton, Divider, Form, Upload } from 'antd';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
@@ -19,8 +19,6 @@ import { detailsFormInputs } from '../../../helpers/createProjectFormFields';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import { getPreviewValue } from '../../../helpers/formatter';
-
-const { TextArea } = Input;
 
 const mockPropsUpload = {
   name: 'file',
@@ -70,7 +68,7 @@ const ProjectDetailFormContainer = ({
     formFields,
     formSteps,
     0,
-    values => submitForm(PROJECT_FORM_NAMES.THUMBNAILS, values),
+    values => submitForm(PROJECT_FORM_NAMES.DETAILS, values),
     true,
     showMainPage
   );

@@ -12,20 +12,58 @@ import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import FooterButtons from '../FooterButtons/FooterButtons';
-import HtmlEditor from '../HtmlEditor/HtmlEditor';
+import { PROJECT_FORM_NAMES } from '../../../constants/constants';
+import useMultiStepForm from '../../../hooks/useMultiStepForm';
+import { proposalFromItems } from '../../../helpers/createProjectFormFields';
+import Field from '../../atoms/Field/Field';
 
-const ProjectProposalFormContainer = () => (
-  <Fragment>
-    <TitlePage textTitle="Complete Project´s Details" />
-    <Row type="flex" justify="space-around" align="middle">
-      <Col sm={24} md={24} lg={24}>
-        <p>Complete Project Proposal lorem ipsum dolor</p>
-      </Col>
-      <Col className="HtmlEditor" sm={24} md={24} lg={24}>
-        <HtmlEditor />
-      </Col>
-    </Row>
-    <FooterButtons />
-  </Fragment>
-);
+const formSteps = [
+  {
+    fields: Object.keys(proposalFromItems)
+  }
+];
+
+const formFields = {
+  ...proposalFromItems
+};
+
+const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
+  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
+
+  const [
+    fields,
+    ,
+    ,
+    ,
+    currentStep,
+    handleChange,
+    getNextStepButton,
+    getPrevStepButton
+  ] = useMultiStepForm(
+    formFields,
+    formSteps,
+    0,
+    values => submitForm(PROJECT_FORM_NAMES.DETAILS, values),
+    true,
+    showMainPage
+  );
+
+  return (
+    <Fragment>
+      <TitlePage textTitle="Complete Project´s Details" />
+      <Row type="flex" justify="space-around" align="middle">
+        <Col sm={24} md={24} lg={24}>
+          <p>Complete Project Proposal lorem ipsum dolor</p>
+        </Col>
+        <Col className="HtmlEditor" sm={24} md={24} lg={24}>
+          <Field {...fields.proposal} handleChange={handleChange} />
+        </Col>
+      </Row>
+      <FooterButtons
+        nextStepButton={getNextStepButton(currentStep)}
+        prevStepButton={getPrevStepButton(currentStep)}
+      />
+    </Fragment>
+  );
+};
 export default ProjectProposalFormContainer;

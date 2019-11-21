@@ -76,6 +76,7 @@ export default function useMultiStepForm(
     // if event is undefied it expects to receive a fieldName and its newValue
     let value;
     console.log(event, fieldName, newValue);
+    debugger;
     if (event !== undefined) {
       event.persist();
       value =
