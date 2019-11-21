@@ -26,14 +26,33 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
+const getApiCall = submittingForm => {
+  // TODO send data to endpoint
+  const apiCall = () => new Promise(resolve => resolve('OK'));
+  switch (submittingForm) {
+    case PROJECT_FORM_NAMES.THUMBNAILS:
+      return apiCall;
+    case PROJECT_FORM_NAMES.DETAILS:
+      return apiCall;
+    case PROJECT_FORM_NAMES.MILESTONES:
+      return apiCall;
+    case PROJECT_FORM_NAMES.PROPOSAL:
+      return apiCall;
+    default:
+      return apiCall;
+  }
+};
+
 const CreateProjectContainer = () => {
-  const [currentWizard, setCurrentWizard] = useState('main');
+  const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
 
+  // TODO add logic to show progress on main page
   const successCallback = res => {
     setIsSubmitting(false);
+    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
     return message.success('Saved successfully');
   };
 
@@ -56,25 +75,8 @@ const CreateProjectContainer = () => {
     updateFormValues(values, formKey);
   };
 
-  const getApiCall = () => {
-    // TODO send data to endpoint
-    const apiCall = () => new Promise(resolve => resolve('OK'));
-    switch (submittingForm) {
-      case PROJECT_FORM_NAMES.THUMBNAILS:
-        return apiCall;
-      case PROJECT_FORM_NAMES.DETAILS:
-        return apiCall;
-      case PROJECT_FORM_NAMES.MILESTONES:
-        return apiCall;
-      case PROJECT_FORM_NAMES.PROPOSAL:
-        return apiCall;
-      default:
-        return apiCall;
-    }
-  };
-
   useFormSubmitEffect({
-    apiCall: getApiCall(),
+    apiCall: getApiCall(submittingForm),
     successCallback,
     errorCallback,
     params: { isSubmitting, formValues: formValues[submittingForm] }
@@ -93,6 +95,7 @@ const CreateProjectContainer = () => {
   if (currentWizard === PROJECT_FORM_NAMES.THUMBNAILS)
     props.updateFormValues = updateFormValues;
 
+  // TODO add loading when "isSubmitting"
   return (
     <div className="Content">
       <CurrentComponent {...props} />

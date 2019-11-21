@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 const htmlEditorModules = {
@@ -10,29 +10,22 @@ const htmlEditorModules = {
 
 const htmlEditorFormats = ['size', 'bold', 'italic', 'underline'];
 
-export default class HtmlEditor extends Component {
-  constructor(props) {
-    super(props);
+const HtmlEditor = ({ name, value, onChange }) => {
+  const ReactQuill = require('react-quill');
+  return (
+    <div className="HtmlEditor">
+      <ReactQuill
+        name={name}
+        theme="snow"
+        onChange={content => {
+          onChange(undefined, name, content);
+        }}
+        value={value}
+        modules={htmlEditorModules}
+        formats={htmlEditorFormats}
+      />
+    </div>
+  );
+};
 
-    if (typeof window !== 'undefined') {
-      this.ReactQuill = require('react-quill');
-    }
-  }
-
-  render() {
-    const { ReactQuill } = this;
-    const { initialValue, value, onChange } = this.props;
-    return typeof window !== 'undefined' && ReactQuill ? (
-      <div className="HtmlEditor">
-        <ReactQuill
-          theme="snow"
-          onChange={onChange}
-          defaultValue="hola"
-          value="hola"
-          modules={htmlEditorModules}
-          formats={htmlEditorFormats}
-        />
-      </div>
-    ) : null;
-  }
-}
+export default HtmlEditor;
