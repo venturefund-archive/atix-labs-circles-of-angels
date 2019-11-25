@@ -43,6 +43,10 @@ export const thumbnailsFormInputs = {
       {
         required: true,
         message: 'Please input the goal amount!'
+      },
+      {
+        validator: (_, value) => !isNaN(value),
+        message: "The goal amount should be a number"
       }
     ]
   }
