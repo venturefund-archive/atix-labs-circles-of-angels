@@ -135,26 +135,6 @@ export default function useMultiStepForm(
 
   const isFormValid = () => Object.values(fields).every(i => i.valid);
 
-  function getNextStepButton(current) {
-    const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
-    return (
-      <CustomButton
-        theme="Primary"
-        buttonText={isLast(current) ? lastText : 'Next'}
-        onClick={nextStep}
-        disabled={!isFormValid}
-      />
-    );
-  }
-
-  function getPrevStepButton(current) {
-    if (current === 0 && !hasMainPage) return;
-
-    return (
-      <CustomButton theme="Secondary" buttonText="Back" onClick={prevStep} />
-    );
-  }
-
   const [shouldSubmit, setShouldSubmit] = useState(false);
 
   useEffect(() => {
