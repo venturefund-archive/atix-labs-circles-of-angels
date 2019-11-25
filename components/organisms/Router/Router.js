@@ -25,47 +25,66 @@ import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/Crea
 import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
 
 const routesConfig = [
-  { path: '/', component: Landing, requireAuthentication: false },
-  { path: '/landing', component: Landing, requireAuthentication: false },
-  { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/recovery', component: Recovery, requireAuthentication: false },
+  {
+    path: '/',
+    component: Landing,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/landing',
+    component: Landing,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/login',
+    component: Login,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/recovery',
+    component: Recovery,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
   {
     path: '/passwordRecovery',
     component: PasswordRecovery,
-    requireAuthentication: false
+    authentication: { required: false, redirect: '/explore-projects' }
   },
-  { path: '/register', component: RegisterSteps, requireAuthentication: false },
+  {
+    path: '/register',
+    component: RegisterSteps,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
   {
     path: '/explore-projects',
     component: ExploreProjects,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/create-project',
     component: CreateProject,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/back-office-projects',
     component: BackofficeProjects,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/explore-projects',
     component: ExploreProjects,
-    requireAuthentication: true
+    authentication: { required: true }
   },
-    {
+  {
     path: '/project-detail',
     component: ProjectDetailFormContainer,
-    authenticated: false
+    authentication: { required: true }
   },
   {
     path: '/create-milestones',
     component: CreateMilestonesFormContainer,
-    authenticated: true
-  },
-  { path: '/landing', component: Landing, requireAuthentication: false },
+    authentication: { required: true }
+  }
 ];
 
 function Router(props) {

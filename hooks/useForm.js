@@ -1,25 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import api from '../api/api';
 
-export default function useMultiStepForm(
-  formFields,
-  formSteps,
-  initialStep,
-  submitCallback,
-  hasMainPage = false, // FIXME : this should go somewhere else
-  showMainPage // FIXME : this should go somewhere else
-) {
-  // FIXME : it should validate initial state.
+export default function useForm(formFields) {
   const [fields, setFields] = useState(formFields);
-  const [steps] = useState(formSteps);
-  const [currentStep, setCurrentStep] = useState(initialStep);
-
-  // TODO : This should replace all steps!
-  //        Allowing to add or delete predefinied steps dynamically.
-  const setStep = (number, step) => {
-    if (number <= 0 || number > steps.length) return;
-    steps[number] = step;
-  };
+  const [shouldSubmit, setShouldSubmit] = useState(false);
 
   // TODO : should this be async?
   // Default validator
@@ -75,10 +60,12 @@ export default function useMultiStepForm(
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive a fieldName and its newValue
     let value;
-    console.log(event, fieldName, newValue);
-    debugger;
+    console.log(event, fieldName, newValue, 'bbb');
+    // debugger;
     if (event !== undefined) {
-      event.persist();
+      if (typeof event.persist === 'function') {
+        event.persist();
+      }
       value =
         newValue || event.target.value !== undefined
           ? event.target.value
@@ -100,7 +87,7 @@ export default function useMultiStepForm(
   const validateFields = event => {
     event.preventDefault();
 
-    const validatedFields = steps[currentStep].fields.reduce(
+    const validatedFields = fields.reduce(
       (acc, fieldName) =>
         Object.assign(
           acc,
@@ -113,50 +100,32 @@ export default function useMultiStepForm(
     return Object.values(validatedFields).every(i => i.valid);
   };
 
-  const isLast = step => step === steps.length - 1;
-
-  const nextStep = e => {
-    const last = isLast(currentStep);
-    const isValid = validateFields(e);
-
-    if (!isValid) return;
-
-    if (last) setShouldSubmit(true);
-    else setCurrentStep(currentStep + 1);
-  };
-
-  const prevStep = () => {
-    if (currentStep === 0) {
-      if (hasMainPage) showMainPage(fields);
-      return;
-    }
-    setCurrentStep(currentStep - 1);
-  };
-
   const isFormValid = () => Object.values(fields).every(i => i.valid);
 
-  // FIXME : this should go somewhere else
-  function getNextStepButton(current) {
-    const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
-    return (
-      <CustomButton
-        theme="Primary"
-        buttonText={isLast(current) ? lastText : 'Next'}
-        onClick={nextStep}
-        disabled={!isFormValid}
-      />
-    );
-  }
-
-  function getPrevStepButton(current) {
-    if (current === 0 && !hasMainPage) return;
-
-    return (
-      <CustomButton theme="Secondary" buttonText="Back" onClick={prevStep} />
-    );
-  }
-
-  const [shouldSubmit, setShouldSubmit] = useState(false);
+  const submitCallback = () => {
+    console.log('valid form', isFormValid());
+    const data = new FormData();
+    Object.values(fields).forEach(field => {
+      if (field.type === 'file') {
+        Object.entries(field.value).forEach(([filename, file]) => {
+          data.append(filename, file);
+        });
+      } else {
+        data.set(field.name, field.value);
+      }
+    });
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    };
+    api
+      .post('/project/thumbnail', data, config)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(response => {
+        console.log(response);
+      });
+  };
 
   useEffect(() => {
     if (shouldSubmit) {
@@ -165,14 +134,5 @@ export default function useMultiStepForm(
     }
   }, [shouldSubmit, submitCallback, fields]);
 
-  return [
-    fields,
-    setFields,
-    steps,
-    setStep,
-    currentStep,
-    handleChange,
-    getNextStepButton,
-    getPrevStepButton
-  ];
+  return [fields, setFields, handleChange, submitCallback];
 }

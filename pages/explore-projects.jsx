@@ -46,7 +46,7 @@ export default function ExploreProjects() {
   useEffect(() => {
     async function fetchProjects() {
       const data = await getProjectsPreview();
-      console.log(data)
+      console.log('projects preview', data)
       setProjects(data.data);
     }
     fetchProjects()

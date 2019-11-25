@@ -15,11 +15,11 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import FooterButtons from '../FooterButtons/FooterButtons';
-import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import Field from '../../atoms/Field/Field';
 import { thumbnailsFormInputs } from '../../../helpers/createProjectFormFields';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import { getPreviewValue } from '../../../helpers/formatter';
+import useForm from '../../../hooks/useForm';
 
 const props = {
   name: 'file',
@@ -34,44 +34,51 @@ const props = {
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
     }
+    message.error(`${info.file.name} file upload failed.`);
   }
 };
-
-const formSteps = [
-  {
-    fields: Object.keys(thumbnailsFormInputs)
-  }
-];
 
 const formFields = {
-  ...thumbnailsFormInputs
+  ...thumbnailsFormInputs,
+  coverPhoto: {
+    name: 'coverPhoto',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      // TODO : define at least one rule
+    ]
+  }
 };
 
-const Thumbnails = ({ setCurrentWizard, submitForm, updateFormValues }) => {
-  const showMainPage = values => {
-    updateFormValues(values, PROJECT_FORM_NAMES.THUMBNAILS);
-    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-  };
-
+const Thumbnails = ({ submitForm }) => {
   const [
     fields,
-    ,
-    ,
-    ,
-    currentStep,
+    setFields,
     handleChange,
-    getNextStepButton,
-    getPrevStepButton
-  ] = useMultiStepForm(
-    formFields,
-    formSteps,
-    0,
-    values => submitForm(PROJECT_FORM_NAMES.THUMBNAILS, values),
-    true,
-    showMainPage
-  );
+    submitCallback
+  ] = useForm(formFields);
+
+  const getNextStepButton = () => {
+    return (
+      <CustomButton
+        theme="Primary"
+        buttonText="Save & Continue"
+        onClick={submitCallback}
+        // disabled={!isFormValid}
+      />
+    );
+  };
+
+  const getPrevStepButton = () => {
+    return (
+      <CustomButton
+        theme="Secondary"
+        buttonText="Back"
+        onClick={() => console.log('prev step')}
+      />
+    );
+  };
 
   return (
     <Fragment>
@@ -99,7 +106,7 @@ const Thumbnails = ({ setCurrentWizard, submitForm, updateFormValues }) => {
             <Divider type="vertical" />
             <InfoItem
               subtitle="Timeframe"
-              title={getPreviewValue(fields.timeframe.value)}
+              title={fields.timeframe.placeholder}
               iconInfoItem="dollar"
             />
             <Divider type="vertical" />
@@ -137,13 +144,7 @@ const Thumbnails = ({ setCurrentWizard, submitForm, updateFormValues }) => {
                   </span>
                 </Col>
                 <Col sm={24} md={24} lg={6}>
-                  {/* TODO add this to multistepfrom hook */}
-                  <Upload {...props}>
-                    <CustomButton
-                      buttonText="Click to upload"
-                      theme="Alternative"
-                    />
-                  </Upload>
+                  <Field {...fields.coverPhoto} handleChange={handleChange} />
                 </Col>
               </Col>
             </Form>
@@ -151,8 +152,8 @@ const Thumbnails = ({ setCurrentWizard, submitForm, updateFormValues }) => {
         </Col>
       </Row>
       <FooterButtons
-        nextStepButton={getNextStepButton(currentStep)}
-        prevStepButton={getPrevStepButton(currentStep)}
+        nextStepButton={getNextStepButton()}
+        prevStepButton={getPrevStepButton()}
       />
     </Fragment>
   );

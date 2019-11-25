@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import './_createprojectsteps.scss';
 import './_style.scss';
@@ -17,6 +17,7 @@ import CreateMilestonesFormContainer from '../components/organisms/CreateMilesto
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
+import { getProject } from '../api/projectApi';
 
 const wizards = {
   main: CreateProject,
@@ -43,11 +44,21 @@ const getApiCall = submittingForm => {
   }
 };
 
-const CreateProjectContainer = () => {
+const CreateProjectContainer = props => {
+  const { projectId } = props;
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const initialProject =
+    projectId !== undefined ? { id: projectId } : undefined;
+  const [project, setProject] = useState(initialProject);
+
+  useEffect(() => {
+    if (project !== undefined) {
+      setProject(getProject(project.id));
+    }
+  }, []);
 
   // TODO add logic to show progress on main page
   const successCallback = res => {
@@ -84,21 +95,20 @@ const CreateProjectContainer = () => {
 
   const CurrentComponent = wizards[currentWizard];
 
-  const props = {
-    setCurrentWizard,
-    submitForm
-  };
+  // if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
+  //   props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
 
-  if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
-
-  if (currentWizard === PROJECT_FORM_NAMES.THUMBNAILS)
-    props.updateFormValues = updateFormValues;
+  // if (currentWizard === PROJECT_FORM_NAMES.THUMBNAILS)
+  //   props.updateFormValues = updateFormValues;
 
   // TODO add loading when "isSubmitting"
   return (
     <div className="Content">
-      <CurrentComponent {...props} />
+      <CurrentComponent
+        setCurrentWizard={setCurrentWizard}
+        submitForm={submitForm}
+        {...props}
+      />
     </div>
   );
 };
