@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
@@ -14,6 +14,7 @@ import { getProjectsPreview, getProjectsAsOracle } from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
+import { useHistory } from 'react-router';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
@@ -41,20 +42,23 @@ function onSearch(val) {
 
 export default function ExploreProjects() {
   const history = useHistory();
-
-  useEffect(async() => {
-
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    async function fetchProjects() {
+      const data = await getProjectsPreview();
+      console.log(data)
+      setProjects(data.data);
+    }
+    fetchProjects()
   }, []);
-
   const goToProjectDetail = projectId => {
-    Routing.toProjectDetail({ projectId });
+    // Routing.toProjectDetail({ projectId });
   }
 
   const goToProjectProgress = (projectId) => {
-    Routing.toProjectProgress({ projectId });
+    // Routing.toProjectProgress({ projectId });
   }
 
-    // const { activeOracleProjects, projects } = this.state;
   return (
     <div className="Content ExploreProject">
       <Row>
@@ -104,8 +108,7 @@ export default function ExploreProjects() {
           projects.map(project => {
             const showTag =
               project.hasOpenMilestones &&
-              project.status === projectStatus.IN_PROGRESS &&
-              activeOracleProjects.indexOf(project.id) !== -1;
+              project.status === projectStatus.IN_PROGRESS
             return (
               <CardProject
                 enterpriseName={project.projectName}
@@ -125,5 +128,3 @@ export default function ExploreProjects() {
     </div>
   );
 }
-
-export default ExploreProjects;

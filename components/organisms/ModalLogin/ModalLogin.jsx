@@ -10,7 +10,7 @@ import React from 'react';
 import { Row, Col, Divider, Modal } from 'antd';
 import './_style.scss';
 import { useHistory } from 'react-router';
-import { withUser } from '../../utils/UserContext';
+import { withUser, useUserContext } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
@@ -20,7 +20,7 @@ import Roles from '../../../constants/RolesMap';
 
 function ModalLogin({ setVisibility, visibility, changeUser }) {
   const history = useHistory();
-
+  const context = useUserContext();
   const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
@@ -29,7 +29,7 @@ function ModalLogin({ setVisibility, visibility, changeUser }) {
 
       const user = response.data;
       
-      changeUser(user);
+      context.changeUser(user);
       history.push('/explore-projects')
     }
   };
