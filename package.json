@@ -3,6 +3,7 @@
   "scripts": {
     "clean": "rm -rf .next",
     "dev": "next",
+    "dev-test": "NODE_ENV=testing next",
     "build": "next build",
     "start": "next start",
     "si": "npm run build && npm run dev",
