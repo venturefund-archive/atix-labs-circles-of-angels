@@ -10,7 +10,7 @@ import React from 'react';
 import { Row, Col, Divider, Modal } from 'antd';
 import './_style.scss';
 import { useHistory } from 'react-router';
-import { withUser } from '../../utils/UserContext';
+import { withUser, useUserContext } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
@@ -20,74 +20,17 @@ import Roles from '../../../constants/RolesMap';
 
 function ModalLogin({ setVisibility, visibility, changeUser }) {
   const history = useHistory();
-
-  const redirectUser = user => {
-    if (!user) return setVisibility(false);
-
-    return user.role.id === Roles.BackofficeAdmin
-      ? history.push('/back-office-projects')
-      : history.push('/explore-projects');
-  };
-
+  const context = useUserContext();
   const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
 
-      if (response.error) {
-        const { error } = response;
-        const title = error.response ? 'Hello!' : error.message;
-        let content = (
-          <div>
-            There was an error logging in! Please try to log-in again later or
-            send an email to{' '}
-            <a href="mailto:hello@circlesofangels.com">
-              hello@circlesofangels.com
-            </a>
-          </div>
-        );
-        if (error.response && error.response.data) {
-          const { data } = error.response;
-          if (data.error.user) {
-            if (
-              data.error.user.registrationStatus ===
-              UserRegistrationStatus.PENDING_APPROVAL
-            ) {
-              content = (
-                <div>
-                  We are reviewing your account details. Please try to log-in
-                  again later or send an email to{' '}
-                  <a href="mailto:hello@circlesofangels.com">
-                    hello@circlesofangels.com
-                  </a>
-                </div>
-              );
-            } else if (
-              data.error.user.registrationStatus ===
-              UserRegistrationStatus.REJECTED
-            ) {
-              content = (
-                <div>
-                  There has been an issue with your account. Please contact us
-                  at{' '}
-                  <a href="mailto:hello@circlesofangels.com">
-                    hello@circlesofangels.com
-                  </a>
-                </div>
-              );
-            }
-          } else {
-            content = error.response
-              ? error.response.data.error.error
-              : error.message;
-          }
-        }
-        showModalError(title, content);
-        return response;
-      }
+      // TODO : handle errors
 
       const user = response.data;
-      changeUser(user);
-      redirectUser(user);
+      
+      context.changeUser(user);
+      history.push('/explore-projects')
     }
   };
 
