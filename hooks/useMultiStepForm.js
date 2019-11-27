@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 export default function useMultiStepForm(
   formFields,
   formSteps,
   initialStep,
-  submitCallback
+  submitCallback,
+  hasMainPage = false,
+  showMainPage
 ) {
   // FIXME : it should validate initial state.
   const [fields, setFields] = useState(formFields);
-  const [steps, setSteps] = useState(formSteps);
+  const [steps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
   // TODO : This should replace all steps!
@@ -69,8 +72,6 @@ export default function useMultiStepForm(
   };
 
   const handleChange = (event, fieldName, newValue) => {
-    // console.log(event, fieldName, newValue);
-
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive a fieldName and its newValue
     let value;
@@ -95,7 +96,7 @@ export default function useMultiStepForm(
     });
   };
 
-  const handleSubmit = (event, isLastStep) => {
+  const validateFields = event => {
     event.preventDefault();
 
     const validatedFields = steps[currentStep].fields.reduce(
@@ -108,16 +109,59 @@ export default function useMultiStepForm(
       {}
     );
     setFields({ ...fields, ...validatedFields });
-    const isValid = Object.values(validatedFields).every(i => i.valid);
-    console.log('last', isLastStep, validatedFields, isValid);
-
-    // TODO : useEffect
-    if (isValid && isLastStep) {
-      submitCallback(fields);
-    }
-
-    return isValid;
+    return Object.values(validatedFields).every(i => i.valid);
   };
+
+  const isLast = step => step === steps.length - 1;
+
+  const nextStep = e => {
+    const last = isLast(currentStep);
+    const isValid = validateFields(e);
+
+    if (!isValid) return;
+
+    if (last) setShouldSubmit(true);
+    else setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    if (currentStep === 0) {
+      if (hasMainPage) showMainPage(fields);
+      return;
+    }
+    setCurrentStep(currentStep - 1);
+  };
+
+  const isFormValid = () => Object.values(fields).every(i => i.valid);
+
+  function getNextStepButton(current) {
+    const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
+    return (
+      <CustomButton
+        theme="Primary"
+        buttonText={isLast(current) ? lastText : 'Next'}
+        onClick={nextStep}
+        disabled={!isFormValid}
+      />
+    );
+  }
+
+  function getPrevStepButton(current) {
+    if (current === 0 && !hasMainPage) return;
+
+    return (
+      <CustomButton theme="Secondary" buttonText="Back" onClick={prevStep} />
+    );
+  }
+
+  const [shouldSubmit, setShouldSubmit] = useState(false);
+
+  useEffect(() => {
+    if (shouldSubmit) {
+      submitCallback(fields);
+      setShouldSubmit(false);
+    }
+  }, [shouldSubmit, submitCallback, fields]);
 
   return [
     fields,
@@ -125,8 +169,8 @@ export default function useMultiStepForm(
     steps,
     setStep,
     currentStep,
-    setCurrentStep,
     handleChange,
-    handleSubmit
+    getNextStepButton,
+    getPrevStepButton
   ];
 }

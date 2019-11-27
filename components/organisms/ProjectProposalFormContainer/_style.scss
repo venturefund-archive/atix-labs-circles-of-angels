@@ -1,7 +1,5 @@
 @import '../css/general_styling.scss';
 
-
-
 .HtmlEditor{
   .quill {
     display: flex;
@@ -23,7 +21,10 @@
       color: $secondary-color;
     }
   }
-  
+  .ql-snow .ql-picker.ql-size .ql-picker-label::before{
+    top: 0px;
+    position: absolute;
+  }
   .ql-toolbar.ql-snow{
     border: none;
   }
