@@ -10,13 +10,13 @@ import React from 'react';
 import { Icon } from 'antd';
 import './_style.scss';
 
-const GeneralItem = ({ subtitle, title, iconItem }) => (
-  <div className="GeneralItem">
-    <div className="HeaderData">
-      <Icon type={iconItem} style={{ color: '#8b91a4' }} />
-      <p>{subtitle}</p>
+const GeneralItem = ({ label, info, img }) => (
+  <div className="GeneralItem flex">
+    <img src={img} alt="imgItems" />
+    <div className="HeaderData vertical">
+      <p className="Label">{label}</p>
+      <h2 className="Info">{info}</h2>
     </div>
-    <h2>{title}</h2>
   </div>
 );
 

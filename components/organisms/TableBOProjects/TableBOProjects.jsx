@@ -11,7 +11,6 @@ import { Table, Tag, Button, Icon } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
-import Routing from '../../utils/Routes';
 import { showModalError, showModalSuccess } from '../../utils/Modals';
 import {
   confirmProject,

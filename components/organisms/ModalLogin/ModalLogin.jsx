@@ -9,63 +9,52 @@
 import React from 'react';
 import { Row, Col, Divider, Modal } from 'antd';
 import './_style.scss';
-import Routing from '../../utils/Routes';
-import { withUser } from '../../utils/UserContext';
+import { useHistory } from 'react-router';
+import { withUser, useUserContext } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
+import { loginUser } from '../../../api/userApi';
+import { showModalError } from '../../utils/Modals';
+import Roles from '../../../constants/RolesMap';
 
-class ModalLogin extends React.Component {
-  state = { visible: false };
+function ModalLogin({ setVisibility, visibility, changeUser }) {
+  const history = useHistory();
+  const context = useUserContext();
+  const onLoginSubmit = async (email, pwd) => {
+    if (email && pwd && email !== '' && pwd !== '') {
+      const response = await loginUser(email, pwd);
 
-  showModal = () => {
-    this.setState({
-      visible: true
-    });
+      // TODO : handle errors
+
+      const user = response.data;
+      
+      context.changeUser(user);
+      history.push('/explore-projects')
+    }
   };
 
-  handleOk = e => {
-    console.log(e);
-    this.setState({
-      visible: false
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visible: false
-    });
-  };
-
-  render() {
-    return (
-      <div className="WrapperModalLogin">
-        <CustomButton
-          buttonText="Login"
-          theme="Secondary"
-          onClick={this.showModal}
-        />
-        <Modal
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          className="ModalLogin"
-          width="400"
-          footer={null}
-        >
-          <TitlePage textTitle="Login" />
-          <CustomButton theme="Facebook" buttonText="Login with Facebook" />
-          <div className="flex Linear">
-            <hr />
-            <p>or Login with</p>
-            <hr />
-          </div>
-          <DynamicForm />
-        </Modal>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Modal
+        visible={visibility}
+        onOk={() => setVisibility(false)}
+        onCancel={() => setVisibility(false)}
+        className="ModalLogin"
+        width="400"
+        footer={null}
+      >
+        <TitlePage textTitle="Login" />
+        <CustomButton theme="Facebook" buttonText="Login with Facebook" />
+        <div className="flex Linear">
+          <hr />
+          <p>or Login with</p>
+          <hr />
+        </div>
+        <DynamicForm onSubmit={onLoginSubmit} />
+      </Modal>
+    </div>
+  );
 }
 
-export default ModalLogin;
+export default withUser(ModalLogin);

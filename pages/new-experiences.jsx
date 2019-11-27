@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Modal, Input, Avatar, message, Form } from 'antd';
+import { Modal, Input, Avatar, message, Form, Button, Col } from 'antd';
 import mime from 'mime-types';
 import './_style.scss';
 import './_steps.scss';
@@ -89,18 +89,33 @@ class ModalNewExperience extends React.Component {
 
   render() {
     const { visible, imageList } = this.state;
-    const { form, user } = this.props;
+    const { form } = this.props;
     const { getFieldDecorator } = form;
+    const user = {};
     return (
       <div>
-        <CustomButton
-          theme="Primary"
-          buttonText="Write a Review"
-          onClick={this.showModal}
-        />
+        <Col className="CardNewExperience vertical" span={24}>
+          <button type="button" onClick={this.showModal}>
+            <img
+              src="./static/images/Icon-experience.svg"
+              alt="new-experience"
+            />
+            Add New Experience
+          </button>
+        </Col>
         <Modal
+          width="600"
+          centered
           className="ModalNewExperience"
-          title="Review"
+          title={
+                        <div className="flex">
+              <img
+    src="./static/images/Icon-experience-small.svg"
+    alt="new-experience"
+  />
+              Add New Experience
+            </div>
+          }
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -108,26 +123,15 @@ class ModalNewExperience extends React.Component {
             <CustomButton
               theme="Primary"
               key="back"
-              buttonText="Post"
+              buttonText="Add My Experience!"
               onClick={this.handleOk}
             />
           ]}
         >
-          <div className="pplRoute flex">
-            <Avatar style={{ color: '#0083E3', backgroundColor: '#95d2ff' }}>
-              {this.getInitials(user.username)}
-            </Avatar>
-            <div>
-              <h1 className="ant-modal-title">{user.username}</h1>
-              <p>
-                Your experience will be posted publicly in the project details
-              </p>
-            </div>
-          </div>
           <Form onChange={this.handleChange}>
             <Form.Item>
               {getFieldDecorator('comment', {})(
-                <TextArea placeholder="Share your experience here" rows={5} />
+                <TextArea placeholder="Share your experience here!" rows={10} />
               )}
             </Form.Item>
             <Form.Item>

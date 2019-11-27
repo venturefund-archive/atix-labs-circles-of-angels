@@ -7,11 +7,11 @@
  */
 
 import React, { useContext } from 'react';
-import Routing from '../components/utils/Routes';
 import { showModalError } from '../components/utils/Modals';
 import DynamicForm from '../components/organisms/FormLogin/FormLogin';
 import { useUserContext } from '../components/utils/UserContext';
 import { loginUser } from '../api/userApi';
+import { useHistory } from "react-router";
 
 import './_login.scss';
 import UserRegistrationStatus from '../constants/UserRegistrationStatus';
@@ -19,7 +19,7 @@ import UserRegistrationStatus from '../constants/UserRegistrationStatus';
 function Login(props) {
   const userContext = useUserContext();
   const { removeUser, changeUser } = userContext;
-
+  // const { useHistory } = useHistory()
   const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
@@ -76,9 +76,8 @@ function Login(props) {
         return response;
       }
 
-      const user = response.data;
       changeUser(user);
-      Routing.toUserHome(user);
+      // history.push('/explore-projects');
     }
   };
 

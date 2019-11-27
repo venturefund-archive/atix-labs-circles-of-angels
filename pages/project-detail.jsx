@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Col, Row, Divider, Progress, Badge, Tag } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -18,6 +18,7 @@ import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import {
   getProject,
   getProjectExperiences,
@@ -26,7 +27,6 @@ import {
 } from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
-import Routing from '../components/utils/Routes';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
 import SeccionExperience from './experiences';
@@ -53,14 +53,40 @@ class ProjectDetail extends React.Component {
 
   componentDidMount = async () => {
     const { projectId } = this.props;
-    const projectDetail = (await getProject(projectId)).data;
-    const milestones = (await getProjectMilestones(projectId)).data;
-    const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
-    const projectExperiences = await this.getExperiences();
+    // const projectDetail = (await getProject(projectId)).data;
+    // const milestones = (await getProjectMilestones(projectId)).data;
+    // const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
+    // const projectExperiences = await this.getExperiences();
+    const projectDetail = {
+      projectName: 'Girls to school',
+      location: 'Cambodia',
+      timeframe: '12 months',
+      goalAmount: '$25,000',
+      milestoneProgress: [],
+      mission:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo',
+      problemAddressed:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum,quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo consequat.Excepteur sint occaecat cupidatat non proident.Excepteur sint occaecat cupidatat nonproident.',
+      status: 1
+    };
+    const photos = [
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } },
+      { image: { data: './static/images/imgcard.png' } }
+    ];
+    const experienceMock = {
+      photos,
+      comment: 'Loremn  ipsum sadda jasdjadjad  ajdjasda',
+      date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`,
+      user: { username: 'Test' }
+    };
+    const projectExperiences = [experienceMock, experienceMock, experienceMock];
+    const milestones = [];
     this.setState({
       projectDetail,
       projectExperiences,
-      milestones: sortedMilestones
+      milestones
     });
   };
 
@@ -140,121 +166,160 @@ class ProjectDetail extends React.Component {
     const itemsData = projectDetail
       ? [
           {
-            subtitle: 'Country of Impact',
-            title: projectDetail.location,
-            iconItem: 'environment'
+            info: 'Country of Impact',
+            label: projectDetail.location,
+            img: './static/images/world-icon.svg'
           },
           {
-            subtitle: 'Project duration',
-            title: projectDetail.timeframe,
-            iconItem: 'calendar'
+            info: 'Timeframe',
+            label: projectDetail.timeframe,
+            img: './static/images/calendar-icon.svg'
           },
           {
-            subtitle: 'Amount',
-            title: projectDetail.goalAmount,
-            iconItem: 'dollar'
-          },
-          {
-            subtitle: 'Name of Lead',
-            title: projectDetail.ownerName,
-            iconItem: 'user'
-          },
-          {
-            subtitle: 'Mail of Lead',
-            title: projectDetail.ownerEmail,
-            iconItem: 'mail'
+            info: 'Amount',
+            label: projectDetail.goalAmount,
+            img: './static/images/amount-icon.svg'
           }
+          // {
+          //   label: 'Name of Lead',
+          //   info: projectDetail.ownerName,
+          //   img: './static/images/world.svg'
+          // },
+          // {
+          //   label: 'Mail of Lead',
+          //   info: projectDetail.ownerEmail,
+          //   img: './static/images/world.svg'
+          // }
         ]
       : [];
+
+    const experienceTab = (
+      <div>
+        Experiences
+        <Badge
+          count={3}
+          style={{
+            backgroundColor: '#fff',
+            color: '#BDBDBD',
+            boxShadow: '0 0 0 1px #BDBDBD inset'
+          }}
+        />
+      </div>
+    );
     return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="ContentComplete">
-            <div className="ProjectContainer DataSteps">
-              <div className="ProjectHeader">
-                {/* <img
+      <div className="ContentComplete">
+        <div className="ProjectContainer DataSteps">
+          <div className="ProjectHeader">
+            {/* <img
                   src={`/files/projects/${projectId}/coverPhoto.jpg`}
                   alt="projectCoverImage"
                 /> */}
-                <img
-                  className="Banner"
-                  src="./static/images/imgcard.png"
-                  alt="Circles of Angels"
-                />
-                <div className="ProjectEnterprice">
-                  <div>
-                    <p>Entreprise</p>
-                    <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
-                  </div>
-                  <div className="flex">
-                    <Item
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                    <Item
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                    <Item
-                      img="./static/images/world.svg"
-                      info="Cambodia"
-                      label="Country of Impact"
-                    />
-                  </div>
-                </div>
+            <img
+              className="Banner"
+              src="./static/images/imgcard.png"
+              alt="Circles of Angels"
+            />
+            <div className="ProjectEnterprice">
+              <div>
+                <p>Organization Name</p>
+                <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
               </div>
-              <div className="BlockContent">
-                <Tabs defaultActiveKey="1" onChange={callback}>
-                  <TabPane tab="details" key="1">
-                    <div className="ProjectContent">
-                      <ProjectMission
-                        mission={projectDetail ? projectDetail.mission : ''}
-                        terms={
-                          projectDetail ? projectDetail.problemAddressed : ''
-                        }
-                        startedProject={
-                          projectDetail.status === ProjectStatus.IN_PROGRESS
-                        }
-                        milestones={milestones}
-                      />
-                      <div className="ProjectGeneralData">
-                        <div className="block">
-                          <h1 className="title">Generals</h1>
-                        </div>
-
-                        {itemsData.map((item, i) => (
-                          <GeneralItem
-                            subtitle={item.subtitle}
-                            title={item.title}
-                            iconItem={item.iconItem}
-                            key={i}
-                          />
-                        ))}
-                        {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
-                      </div>
-                    </div>
-                  </TabPane>
-                  <TabPane tab="Experiences" key="2">
-                    <SeccionExperience
-                      experiences={projectExperiences}
-                      onCreate={this.createProjectExperience}
-                    />
-                  </TabPane>
-                </Tabs>
+              <div className="flex">
+                {itemsData.map((item, i) => (
+                  <GeneralItem
+                    label={item.label}
+                    info={item.info}
+                    img={item.img}
+                    key={i}
+                  />
+                ))}
               </div>
-            </div>
-            <div className="SubmitProject StepOne">
-              <CustomButton
-                buttonText="Go to project"
-                theme="Success"
-                onClick={this.applyToProject}
-              />
             </div>
           </div>
+          <div className="BlockContent">
+            <Tabs defaultActiveKey="1" onChange={callback}>
+              <TabPane tab="details" key="1">
+                <Row className="ProjectContent">
+                  <ProjectMission
+                    mission={projectDetail ? projectDetail.mission : ''}
+                    terms={projectDetail ? projectDetail.problemAddressed : ''}
+                    startedProject={
+                      projectDetail.status === ProjectStatus.IN_PROGRESS
+                    }
+                    milestones={milestones}
+                  />
+                  <Col span={1}>
+                    <Divider type="vertical" />
+                  </Col>
+                  <Col className="ProjectProgress" span={11}>
+                    <div className="block">
+                      <h1 className="title">Milestones Progress</h1>
+                    </div>
+                    <Col span={12}>
+                      <h4>
+                        Project <strong>Started</strong>
+                      </h4>
+                    </Col>
+                    <Col className="txtright" span={6} offset={6}>
+                      <h4>
+                        Project <strong>Finished!</strong>
+                      </h4>
+                    </Col>
+                    <Col span={1}>
+                      <h4>
+                        <strong>0%</strong>
+                      </h4>
+                    </Col>
+                    <Col span={21}>
+                      <Progress
+                        strokeColor="#6FCF97"
+                        percent={50}
+                        showInfo={false}
+                      />
+                    </Col>
+                    <Col className="txtright" span={2}>
+                      <h4>
+                        <strong>100%</strong>
+                      </h4>
+                    </Col>
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane tab="Milestones" key="3">
+                <div className="MilestonesDetails">
+                  <RowMilestones
+                    ActionMilestones={(
+<div className="space-between w100">
+  <Tag color="#27AE60">Claimable!</Tag>
+  <div style={{ width: 120 }}>
+                          <Progress percent={30} />
+                        </div>
+</div>
+)}
+                    ActionsActivities={(
+<div className="space-between w100">
+  <Tag>Pending</Tag>
+  <a className="blueLink">Evidence</a>
+</div>
+)}
+                  />
+                </div>
+              </TabPane>
+              <TabPane tab={experienceTab} key="2">
+                <SeccionExperience
+                  experiences={projectExperiences}
+                  onCreate={this.createProjectExperience}
+                />
+              </TabPane>
+            </Tabs>
+          </div>
+        </div>
+        <div className="SubmitProject StepOne">
+          <CustomButton
+            buttonText="Go to project"
+            theme="Success"
+            onClick={this.applyToProject}
+          />
         </div>
       </div>
     );

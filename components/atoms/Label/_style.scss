@@ -2,7 +2,6 @@
 
 .Label {
   @include primary-text($label, $grey, 400);
-  text-transform: uppercase;
 }
 .LabelBlue{
   @include primary-text($h3, $primary-color, 500);

@@ -19,7 +19,6 @@ import BackofficeMilestones from '../../../pages/back-office-milestones';
 import BackofficeProjectDetail from '../../../pages/back-office-project-detail';
 import BackofficeProjects from '../../../pages/back-office-projects';
 import BackofficeUsers from '../../../pages/back-office-users';
-import { withUser } from '../../utils/UserContext';
 import ConcensusMilestones from '../../../pages/concensus-milestones';
 import CreateProject from '../../../pages/create-project';
 import Experiences from '../../../pages/experiences';
@@ -31,25 +30,59 @@ import ProjectDetail from '../../../pages/project-detail';
 import ProjectEvidence from '../../../pages/project-evidence';
 import ProjectProgress from '../../../pages/project-progress';
 import Landing from '../../../pages/landing';
-import Register from '../../../pages/register';
+import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
+import CreateMilestones from '../../../pages/createmilestones';
 import TransferFunds from '../../../pages/tranfer-funds';
+import { withUser, useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
+  { path: '/', component: Landing, requireAuthentication: false },
+  { path: '/landing', component: Landing, requireAuthentication: false },
   { path: '/login', component: Login, requireAuthentication: false },
+  { path: '/recovery', component: Recovery, requireAuthentication: false },
+  {
+    path: '/passwordRecovery',
+    component: PasswordRecovery,
+    requireAuthentication: false
+  },
   { path: '/register', component: RegisterSteps, requireAuthentication: false },
   {
     path: '/explore-projects',
     component: ExploreProjects,
     requireAuthentication: true
   },
-  { path: '/landing', component: Landing, requireAuthentication: false },
-  
+  {
+    path: '/create-project',
+    component: CreateProject,
+    requireAuthentication: true
+  },
+  {
+    path: '/back-office-projects',
+    component: BackofficeProjects,
+    requireAuthentication: true
+  },
+  {
+    path: '/explore-projects',
+    component: ExploreProjects,
+    requireAuthentication: true
+  },
+    {
+    path: '/project-detail',
+    component: ProjectDetail,
+    authenticated: false
+  },
+  {
+    path: '/create-milestones',
+    component: CreateMilestones,
+    authenticated: true
+  }
 ];
 
 function Router(props) {
-  const authenticated = false;
+  const context = useUserContext();
+  const authenticated = context.getLoggedUser() !== undefined;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">

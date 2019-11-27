@@ -1,19 +1,135 @@
 @import "../../../css/general_styling.scss";
 
-.FooterButtons {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 1.5em 1em;
-  background: $light-gray;
+.WrapperTable {
+  overflow: hidden;
+  margin: 0 0 1em 0 !important;
   @include breakpoint(sm) {
-    padding: 0.5em 1em;
-    flex-direction: column-reverse;
-    .ant-col-sm-24,
-    .ant-btn {
-      width: 100%;
-      margin: 0.1em 0;
+    margin: 0 0 1em 0 !important;
+  }
+  ::-webkit-scrollbar {
+    display:none;
+  }
+  ::-webkit-scrollbar-thumb {
+    display:none;
+  }
+  ::-webkit-scrollbar-track {
+    display:none;
+  }
+  .SubWrapperActivitiesActions{
+        height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .TableMilestones {
+    background: $light-gray;
+    border-radius: 6px 0 0 0;
+  }
+  .ant-progress-show-info .ant-progress-outer {
+    margin-right: calc(-2em - 8px);
+    padding-right: calc(2.5em + 12px);
+}
+.ant-progress-inner {
+      background-color: #E1E3E2;
+}
+.ant-progress-bg {
+      background-color: $success-color-light;
+}
+.ant-progress-text{
+  margin-left:1em;
+   @include primary-text(12.5px, $on-surface, 400);
+}
+  .TableMilestones,
+  .TableActivities {
+    display: flex;
+    overflow-x: scroll;
+    align-items: flex-start;
+    padding: 0.8em 1em 0.5em;
+    @include breakpoint(sm) {
+      flex-direction: column;
     }
+    h3 {
+      @include primary-text($h3, $on-surface, 600);
+      margin-top: 1em;
+    }
+    p {
+      @include primary-text($body-2, $on-surface, 400);
+    }
+    label {
+      @include primary-text($body-2, $on-surface-medium, 400);
+    }
+  }
+  .WrapperActionsActivities {
+    background: $white;
+    border-right: 1px solid $border;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .ant-divider-horizontal {
+      margin: 0.2em 0;
+    }
+  }
+  .WrapperActions {
+    height: 78px;
+    background: $light-gray;
+    border-radius: 0px 6px 0px 0px;
+    @include breakpoint(sm) {
+      border-radius: 0px;
+      justify-content: space-evenly;
+    }
+  }
+  .SubWrapperActivities {
+    position: relative;
+    height: 81px;
+    border-bottom: 1px solid $border;
+    border-left: 1px solid $border;
+    overflow: hidden;
+    @include breakpoint(sm) {
+      height: auto;
+    }
+  }
+  .WrapperActions,
+  .WrapperActionsActivities {
+    text-align: center;
+    box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    padding: 0.5em 1em;
+    a {
+      font-size: $body-2;
+    }
+  }
+  .WrapperActivities {
+    padding: 0 !important;
+    background: transparent;
+    .ant-collapse {
+      background-color: transparent;
+      border: none;
+      .ant-collapse-item {
+        border-bottom: transparent;
+      }
+      .ant-collapse-header {
+        padding: 0.5em 1.5em;
+        background: $light-gray;
+        border-top: 1px solid $border;
+        @include primary-text(11px, $primary-color, 600);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        .anticon.anticon-right.ant-collapse-arrow {
+          padding-left: 7em;
+        }
+      }
+      .ant-collapse-content {
+        border: none;
+      }
+      .ant-collapse-content > .ant-collapse-content-box {
+        padding: 0;
+      }
+    }
+  }
+  .ant-divider-vertical {
+    height: 2em;
+    margin: 0;
+    background: $border;
   }
 }

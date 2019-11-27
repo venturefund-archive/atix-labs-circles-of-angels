@@ -9,11 +9,10 @@
 import React from 'react';
 import { Row, Col, Divider, Modal } from 'antd';
 import './_style.scss';
-import Routing from '../../utils/Routes';
 import { withUser } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
-import DynamicForm from '../FormLogin/FormLogin';
+import FormLogin from '../FormLogin/FormLogin';
 
 class ModalProjectCreated extends React.Component {
   state = { visible: false };
