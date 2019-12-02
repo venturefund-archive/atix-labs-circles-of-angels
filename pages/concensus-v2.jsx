@@ -12,7 +12,29 @@ import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import './_consensusv2.scss';
 import './_style.scss';
+import DrawerUsers from '../components/organisms/DrawerUsers/DrawerUsers';
 
+const Cards = ({ theme, category, user, usersName, usersName2 }) => {
+  const classname = `Cards ${theme}`;
+  return (
+    <Col span={24} className={classname}>
+      <Col span={24}>
+        <h3>{category}</h3>
+      </Col>
+      <Col span={24}>
+        <h3 className="bold"> {user}</h3>
+      </Col>
+      <Col span={24} className="flex">
+        <Col span={3}>
+          <Avatar src="./static/images/user4.png" />
+        </Col>
+        <Col span={21}>
+          <span>{usersName}</span>
+        </Col>
+      </Col>
+    </Col>
+  );
+};
 const Consensusv2 = () => (
   <div className="ConsensusView">
     <Col span={18} className="Left">
@@ -39,31 +61,49 @@ const Consensusv2 = () => (
       </Row>
     </Col>
     <Col span={6} className="Right">
-  <h3>Related users</h3>
-  <Col span={12}> <h4>Followers</h4></Col>
-  <Col span={12} className="flex-end"> <a>View All</a></Col>
+      <h3>Related users</h3>
+      <Col span={12}>
+        <h4>Followers</h4>
+      </Col>
+      <Col span={12} className="flex-end">
+        <a>View All</a>
+        <DrawerUsers />
+      </Col>
+      <Col span={24}>
+        <Avatar src="./static/images/user1.png" />
+        <Avatar src="./static/images/user2.png" />
+        <Avatar src="./static/images/user3.png" />
+        <Avatar src="./static/images/user4.png" />
+      </Col>
+      <Cards
+        theme="Orange"
+        category="Project Social"
+        user="Entrepreneur"
+        usersName="Jenny Steward"
+      />
+      <Cards
+        theme="Blue"
+        category="Interested in"
+        user="Funding"
+        usersName="Marvin Mccoy"
+      />
+      <Cards
+        theme="Red"
+        category="Interested in being"
+        user="Oracles"
+        usersName="Jorge Howard"
+      />
+      <Col span={24} className="BlockActions">
         <Col span={24}>
-          <Avatar src="./static/images/user1.png" />
-          <Avatar src="./static/images/user2.png" />
-          <Avatar src="./static/images/user3.png" />
-          <Avatar src="./static/images/user4.png" />
+          <CustomButton
+            theme="Alternative"
+            buttonText="I want to be an Oracle"
+          />
         </Col>
-        <Col span={24} className="Cards">
-          <Col span={24}>
-          <h3>Project Social</h3>
-          </Col>
-          <Col span={24}>
-          <h3 className="bold"> Entrepreneur</h3>
-          </Col>
-            <Col span={24} className="flex">
-              <Col span={3}>
-                <Avatar src="./static/images/user4.png" />
-              </Col>
-              <Col span={21}>
-                <span>Jenny Steward</span>
-              </Col>
-            </Col>
+        <Col span={24}>
+          <CustomButton theme="Secondary" buttonText="Invite Someone" />
         </Col>
+      </Col>
     </Col>
   </div>
 );
