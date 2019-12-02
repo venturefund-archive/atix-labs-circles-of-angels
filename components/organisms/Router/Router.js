@@ -23,6 +23,7 @@ import RegisterSteps from '../../../pages/registersteps';
 import { withUser, useUserContext } from '../../utils/UserContext';
 import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
 import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/CreateMilestonesFormContainer';
+import Consensusv2 from '../../../pages/concensus-v2';
 
 const routesConfig = [
   { path: '/', component: Landing, requireAuthentication: false },
@@ -53,6 +54,11 @@ const routesConfig = [
   {
     path: '/project-detail',
     component: ProjectDetailFormContainer,
+    authenticated: false
+  },
+  {
+    path: '/consensusv2',
+    component: Consensusv2,
     authenticated: false
   },
   {

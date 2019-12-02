@@ -1,0 +1,51 @@
+@import '../css/general_styling.scss';
+
+.ConsensusView{
+    height: 92vh;
+    .Left{
+        height: 100%;
+        border-right: 1px solid $border;
+        .Top{
+            padding: 2em 1.5em 1.5em 0em;
+            margin-left:2.5em;
+            border-bottom: 1px solid $border;
+            .TitlePage h1{
+                margin-bottom: 0;
+                margin-right:0.5em;
+                &:after{
+                    display:none;
+                }
+            }
+        }
+    }
+  .Right{
+    height: 100%;
+    padding: 2em 2em 2em 1.5em;
+    .ant-avatar-image{
+        margin-right: -8px;
+        border:1px solid $white;
+    }
+    .Cards{
+        padding: 1em;
+        border-left: 4px solid #FE9F30;
+        border-radius: 4px;
+        margin: 1em 0;
+        border-top:1px solid $border;
+        border-right:1px solid $border;
+        border-bottom:1px solid $border;
+        h3{
+            @include primary-text($medium, $on-surface, 400);
+        }
+        h3.bold{
+            @include primary-text($medium, $on-surface, 600);
+        }
+            .ant-avatar-image{
+        margin-right: 0px;
+    }
+        span{
+            @include primary-text($body, $on-surface-medium, 400);
+            margin-left:0.5em;
+        }
+    }
+  }
+}
