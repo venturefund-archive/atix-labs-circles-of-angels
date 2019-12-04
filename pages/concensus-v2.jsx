@@ -7,12 +7,19 @@
  */
 
 import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar } from 'antd';
+import { Row, Col, Tag, Avatar, Tabs } from 'antd';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import './_consensusv2.scss';
 import './_style.scss';
 import DrawerUsers from '../components/organisms/DrawerUsers/DrawerUsers';
+import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
+
+const { TabPane } = Tabs;
+
+function callback(key) {
+  console.log(key);
+}
 
 const Cards = ({ theme, category, user, usersName, usersName2 }) => {
   const classname = `Cards ${theme}`;
@@ -58,6 +65,17 @@ const Consensusv2 = () => (
         <Col span={3} className="">
           <CustomButton buttonText="Follow Project" theme="Primary" />
         </Col>
+      </Row>
+      <Row className="Bottom">
+      <Tabs defaultActiveKey="1" onChange={callback}>
+    <TabPane tab="Milestones" key="1">
+        <RowMilestones />
+    </TabPane>
+    <TabPane tab="Discussions" key="2">
+      Content of Tab Pane 2
+    </TabPane>
+
+  </Tabs>
       </Row>
     </Col>
     <Col span={6} className="Right">

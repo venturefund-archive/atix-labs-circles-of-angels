@@ -33,7 +33,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={18}
-        lg={{ span: 2 }}
+        lg={{ span: 3 }}
       >
         <h3>Milestone 1</h3>
       </Col>
@@ -42,7 +42,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={18}
-        lg={{ span: 3 }}
+        lg={{ span: 4 }}
       >
         <RowLabel text="Quarter" />
         <Info text="May-Jul 2019	" />
@@ -52,7 +52,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={18}
-        lg={{ span: 9 }}
+        lg={{ span: 10 }}
       >
         <RowLabel text="Tasks" />
         <Info text="Disbursed at least 20k USD of FISA to students	" />
@@ -62,7 +62,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={18}
-        lg={{ span: 9 }}
+        lg={{ span: 10 }}
       >
         <RowLabel text="Social Impacts Targets" />
         <Info text="5-7 students have financial resources to go to university	" />
@@ -72,7 +72,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={9}
-        lg={{ span: 9 }}
+        lg={{ span: 10 }}
       >
         <RowLabel text="Review Criterion" />
         <Info text="Planning and legal procedures for pilot study can proceed - Clinicians participating in recruitment identified" />
@@ -82,7 +82,7 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={9}
-        lg={{ span: 9 }}
+        lg={{ span: 10 }}
       >
         <RowLabel text="Review Criterion" />
         <Info text="2 new full-time employees hired" />
