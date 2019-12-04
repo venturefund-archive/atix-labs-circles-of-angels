@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import api from '../api/api';
 
-export default function useForm(formFields) {
+export default function useForm(formFields, ) {
   const [fields, setFields] = useState(formFields);
   const [shouldSubmit, setShouldSubmit] = useState(false);
 
@@ -100,7 +100,7 @@ export default function useForm(formFields) {
     return Object.values(validatedFields).every(i => i.valid);
   };
 
-  const isFormValid = () => Object.values(fields).every(i => i.valid);
+  const isFormValid = () => Object.values(fields).every(field => field.valid);
 
   const submitCallback = () => {
     console.log('valid form', isFormValid());
@@ -114,17 +114,18 @@ export default function useForm(formFields) {
         data.set(field.name, field.value);
       }
     });
-    const config = {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    };
-    api
-      .post('/project/thumbnail', data, config)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(response => {
-        console.log(response);
-      });
+    mandarla
+    // const config = {
+    //   headers: { 'Content-Type': 'multipart/form-data' }
+    // };
+    // api
+    //   .post('/project/thumbnail', data, config)
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(response => {
+    //     console.log(response);
+    //   });
   };
 
   useEffect(() => {

@@ -6,11 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> 1d2639b221513d9237826a73f16b3ee5bad3e125
 import { message } from 'antd';
 import './_createprojectsteps.scss';
 import './_style.scss';

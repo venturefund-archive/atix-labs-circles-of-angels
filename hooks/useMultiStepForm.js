@@ -6,13 +6,8 @@ export default function useMultiStepForm(
   formSteps,
   initialStep,
   submitCallback,
-<<<<<<< HEAD
   hasMainPage = false, // FIXME : this should go somewhere else
   showMainPage // FIXME : this should go somewhere else
-=======
-  hasMainPage = false,
-  showMainPage
->>>>>>> 1d2639b221513d9237826a73f16b3ee5bad3e125
 ) {
   // FIXME : it should validate initial state.
   const [fields, setFields] = useState(formFields);
@@ -140,10 +135,7 @@ export default function useMultiStepForm(
 
   const isFormValid = () => Object.values(fields).every(i => i.valid);
 
-<<<<<<< HEAD
   // FIXME : this should go somewhere else
-=======
->>>>>>> 1d2639b221513d9237826a73f16b3ee5bad3e125
   function getNextStepButton(current) {
     const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
     return (
