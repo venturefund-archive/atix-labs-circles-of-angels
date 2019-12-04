@@ -20,7 +20,7 @@ import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 
-import { withUser, useUserContext } from '../../utils/UserContext';
+import { useUserContext } from '../../utils/UserContext';
 import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
 
