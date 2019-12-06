@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { Tag, Row, Col, Divider, Form, Upload, message } from 'antd';
 import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
@@ -20,6 +20,8 @@ import { thumbnailsFormInputs } from '../../../helpers/createProjectFormFields';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import { getPreviewValue } from '../../../helpers/formatter';
 import useForm from '../../../hooks/useForm';
+import { useCreateProject } from '../../../api/projectApi';
+import api, { getBaseURL } from '../../../api/api';
 
 const formFields = {
   ...thumbnailsFormInputs,
@@ -33,20 +35,22 @@ const formFields = {
   }
 };
 
+const onSubmit = async data => {
+  const url = '/projects/description';
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  const result = await api.post(url, data, config);
+  return result.data;
+};
+
 const Thumbnails = ({ submitForm }) => {
-  const [
-    fields,
-    setFields,
-    handleChange,
-    submitCallback
-  ] = useForm(formFields);
+  const [fields, setFields, handleChange, handleSubmit] = useForm(formFields);
 
   const getNextStepButton = () => {
     return (
       <CustomButton
         theme="Primary"
         buttonText="Save & Continue"
-        onClick={() => submitCallback()}
+        onClick={() => handleSubmit(onSubmit)}
         // disabled={!isFormValid}
       />
     );
