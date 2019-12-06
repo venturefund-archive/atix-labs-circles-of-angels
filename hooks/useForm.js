@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import api from '../api/api';
+import { useState } from 'react';
 
-export default function useForm(formFields, ) {
+export default function useForm(formFields, submitCallback) {
   const [fields, setFields] = useState(formFields);
-  const [shouldSubmit, setShouldSubmit] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // TODO : should this be async?
   // Default validator
@@ -102,8 +100,13 @@ export default function useForm(formFields, ) {
 
   const isFormValid = () => Object.values(fields).every(field => field.valid);
 
-  const submitCallback = () => {
-    console.log('valid form', isFormValid());
+  const handleSubmit = async onSubmit => {
+    if (submitting === true) {
+      console.log('already submitting');
+      return;
+    }
+    setSubmitting(true);
+
     const data = new FormData();
     Object.values(fields).forEach(field => {
       if (field.type === 'file') {
@@ -114,26 +117,11 @@ export default function useForm(formFields, ) {
         data.set(field.name, field.value);
       }
     });
-    mandarla
-    // const config = {
-    //   headers: { 'Content-Type': 'multipart/form-data' }
-    // };
-    // api
-    //   .post('/project/thumbnail', data, config)
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(response => {
-    //     console.log(response);
-    //   });
+
+    const result = await onSubmit(data);
+    setSubmitting(false);
+    return result;
   };
 
-  useEffect(() => {
-    if (shouldSubmit) {
-      submitCallback(fields);
-      setShouldSubmit(false);
-    }
-  }, [shouldSubmit, submitCallback, fields]);
-
-  return [fields, setFields, handleChange, submitCallback];
+  return [fields, setFields, handleChange, handleSubmit, submitting];
 }
