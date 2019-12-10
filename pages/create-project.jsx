@@ -18,6 +18,7 @@ import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject } from '../api/projectApi';
+import api from '../api/api';
 
 const wizards = {
   main: CreateProject,
@@ -45,18 +46,32 @@ const getApiCall = submittingForm => {
 };
 
 const CreateProjectContainer = props => {
-  const { projectId } = props;
+  // TODO : avoid using location state
+  // eslint-disable-next-line react/destructuring-assignment
+  const { location } = props;
+  const projectId =
+    location !== undefined && location.state !== undefined
+      ? location.state.projectId
+      : undefined;
+
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
-  const initialProject =
-    projectId !== undefined ? { id: projectId } : undefined;
+  const initialProject = projectId !== undefined ? { id: projectId } : {};
   const [project, setProject] = useState(initialProject);
 
   useEffect(() => {
-    if (project !== undefined) {
-      setProject(getProject(project.id));
+    async function fetchProject() {
+      const url = '/project/' + project.id;
+      console.log('fetching', url);
+      const result = await api.get(url);
+      console.log('fetched', result.data);
+      setProject(result.data);
+    }
+    console.log('about to fetch');
+    if (project.id !== undefined) {
+      fetchProject();
     }
   }, []);
 
@@ -86,12 +101,12 @@ const CreateProjectContainer = props => {
     updateFormValues(values, formKey);
   };
 
-  useFormSubmitEffect({
-    apiCall: getApiCall(submittingForm),
-    successCallback,
-    errorCallback,
-    params: { isSubmitting, formValues: formValues[submittingForm] }
-  });
+  // useFormSubmitEffect({
+  //   apiCall: getApiCall(submittingForm),
+  //   successCallback,
+  //   errorCallback,
+  //   params: { isSubmitting, formValues: formValues[submittingForm] }
+  // });
 
   const CurrentComponent = wizards[currentWizard];
 
@@ -105,7 +120,9 @@ const CreateProjectContainer = props => {
   return (
     <div className="Content">
       <CurrentComponent
+        project={project}
         setCurrentWizard={setCurrentWizard}
+        goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
         submitForm={submitForm}
         {...props}
       />

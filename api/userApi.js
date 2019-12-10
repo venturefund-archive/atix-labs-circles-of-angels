@@ -12,13 +12,14 @@ const baseURL = '/users';
 
 const loginUser = async (email, pwd) => {
   try {
+
     const response = await api.post(`${baseURL}/login`, {
       email,
       pwd
     });
     return response;
   } catch (error) {
-    return { error };
+    console.error('error', error);
   }
 };
 

@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import { Tag, Row, Col, Divider, Form, Upload, message } from 'antd';
 import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
@@ -20,12 +20,11 @@ import { thumbnailsFormInputs } from '../../../helpers/createProjectFormFields';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import { getPreviewValue } from '../../../helpers/formatter';
 import useForm from '../../../hooks/useForm';
-import { useCreateProject } from '../../../api/projectApi';
 import api, { getBaseURL } from '../../../api/api';
 
 const formFields = {
   ...thumbnailsFormInputs,
-  coverPhoto: {
+  cardPhoto: {
     name: 'coverPhoto',
     label: 'Click to upload',
     type: 'file',
@@ -35,33 +34,53 @@ const formFields = {
   }
 };
 
-const onSubmit = async data => {
-  const url = '/projects/description';
-  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  const result = await api.post(url, data, config);
-  return result.data;
-};
-
-const Thumbnails = ({ submitForm }) => {
+const Thumbnails = ({ project, goBack, submitForm }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(formFields);
+  useEffect(() => {
+    // console.log('project', project);
+    // formFields.countryOfImpact.value = project.country;
+    if (project === undefined || project.id === undefined) return;
+    fields.projectName.value = project.projectName;
+    fields.timeframe.value = project.timeframe;
+    fields.goalAmount.value = project.goalAmount;
+    fields.cardPhoto.value = project.cardPhotoPath;
+    fields.countryOfImpact.value = 'Argentina';
+    setFields({
+      ...fields
+    });
+  }, []);
 
-  const getNextStepButton = () => {
-    return (
-      <CustomButton
-        theme="Primary"
-        buttonText="Save & Continue"
-        onClick={() => handleSubmit(onSubmit)}
-        // disabled={!isFormValid}
-      />
-    );
+  const onSubmit = async data => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    if (project !== undefined && project.id !== undefined) {
+      const url = '/projects/' + project.id + '/description';
+      // eslint-disable-next-line no-param-reassign
+      console.log(data);
+      data.projectId = project.id;
+      return (await api.put(url, data, config)).data;
+    }
+    const url = '/projects/description';
+    return (await api.post(url, data, config)).data;
   };
+
+  const getNextStepButton = () => (
+    <CustomButton
+      theme="Primary"
+      buttonText="Save & Continue"
+      onClick={async () => {
+        await handleSubmit(onSubmit);
+        goBack();
+      }}
+      // disabled={!isFormValid}
+    />
+  );
 
   const getPrevStepButton = () => {
     return (
       <CustomButton
         theme="Secondary"
         buttonText="Back"
-        onClick={() => console.log('prev step')}
+        onClick={() => goBack()}
       />
     );
   };
@@ -73,7 +92,20 @@ const Thumbnails = ({ submitForm }) => {
         <Col className="CardExample" sm={8} md={8} lg={8}>
           <h3>This is the preview!</h3>
           <Col className="BlockImage" sm={24} md={24} lg={24}>
-            <img src="./static/images/thumbnail-example.png" alt="thumbnail" />
+            <img
+              width="700"
+              height="400"
+              // This is beyond ugly but I can live with it... FOW NOW
+              src={
+                fields.cardPhoto.value === undefined
+                  ? './static/images/thumbnail-example.png'
+                  : fields.cardPhoto.value.replace(
+                      '/home/atix/files/server',
+                      ''
+                    )
+              }
+              alt="thumbnail"
+            />
           </Col>
           <Col className="spacedivider" sm={24} md={24} lg={24}>
             <Col sm={24} md={24} lg={16}>
@@ -130,7 +162,7 @@ const Thumbnails = ({ submitForm }) => {
                   </span>
                 </Col>
                 <Col sm={24} md={24} lg={6}>
-                  <Field {...fields.coverPhoto} handleChange={handleChange} />
+                  <Field {...fields.cardPhoto} handleChange={handleChange} />
                 </Col>
               </Col>
             </Form>

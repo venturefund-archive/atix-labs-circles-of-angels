@@ -10,11 +10,16 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import { getProjectsPreview, getProjectsAsOracle, getProjects, useGetProjects } from '../api/projectApi';
+import {
+  getProjectsPreview,
+  getProjectsAsOracle,
+  getProjects,
+  useGetProjects
+} from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
@@ -45,8 +50,15 @@ function onSearch(val) {
 export default function ExploreProjects() {
   const history = useHistory();
   const [projects] = useGetProjects();
-  const goToProjectDetail = projectId => {
-    // Routing.toProjectDetail({ projectId });
+  const goToProjectDetail = project => {
+    const state = { projectId: project.id };
+    if (project.status === 'draft') {
+      // location.
+      history.push('/create-project', state);
+      // return <Redirect</Redirect>
+    } else {
+      history.push('/project-detail', state);
+    }
   };
 
   const goToProjectProgress = projectId => {
@@ -105,6 +117,7 @@ export default function ExploreProjects() {
               project.status === projectStatus.IN_PROGRESS;
             return (
               <CardProject
+                project={project}
                 enterpriseName={project.projectName}
                 enterpriseLocation={project.location}
                 timeframe={project.timeframe}
@@ -114,7 +127,7 @@ export default function ExploreProjects() {
                 milestoneProgress={project.milestoneProgress}
                 projectId={project.id}
                 key={project.id}
-                onClick={() => goToProjectDetail(project.id)}
+                onClick={() => goToProjectDetail(project)}
               />
             );
           })}

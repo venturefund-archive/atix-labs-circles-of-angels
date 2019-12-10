@@ -22,7 +22,7 @@ const Items = ({ title, subtitle, onClick }) => (
   </Col>
 );
 
-const CreateProject = ({ setCurrentWizard }) => (
+const CreateProject = ({ project, setCurrentWizard }) => (
   <Fragment>
     <Breadcrumb>
       <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
@@ -30,7 +30,11 @@ const CreateProject = ({ setCurrentWizard }) => (
         <a href="/">Create Project</a>
       </Breadcrumb.Item>
     </Breadcrumb>
-    <TitlePage textTitle="My project" />
+    <TitlePage
+      textTitle={
+        project.name === undefined ? 'My project' : project.projectName
+      }
+    />
     <Row
       className="ProjectsCardsContainer"
       type="flex"

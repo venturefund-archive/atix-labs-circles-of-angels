@@ -88,8 +88,8 @@ const routesConfig = [
 ];
 
 function Router(props) {
-  const context = useUserContext();
-  const authenticated = context.getLoggedUser() !== undefined;
+  const { getLoggedUser } = useUserContext();
+  const authenticated = getLoggedUser() !== undefined;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">
