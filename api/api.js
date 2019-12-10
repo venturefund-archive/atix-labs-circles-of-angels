@@ -20,7 +20,7 @@ require('dotenv').config();
 // });
 const { NODE_ENV } = process.env;
 
-const getBaseURL = () => {
+export const getBaseURL = () => {
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
@@ -29,13 +29,13 @@ const getBaseURL = () => {
     case 'production':
       // TODO : complete later.
       return undefined;
+    default:
+      throw new Error('invalid environment')
   }
 };
 
-const baseURL = 'http://173.255.254.208:3001'; // getBaseURL();
-
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL: getBaseURL(),
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',
