@@ -23,6 +23,7 @@
   }
   .TableMilestones {
     background: $light-gray;
+    height: 96px;
     border-radius: 6px 0 0 0;
   }
   .ant-progress-show-info .ant-progress-outer {
@@ -71,7 +72,7 @@
     }
   }
   .WrapperActions {
-    height: 78px;
+    height: 96px;
     background: $light-gray;
     border-radius: 0px 6px 0px 0px;
     @include breakpoint(sm) {

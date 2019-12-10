@@ -104,7 +104,7 @@
       @include primary-text($body-2, $primary-color, 500);
     }
     .TextGreen {
-      @include primary-text($body-2, $sucess-color, 500);
+      @include primary-text($body-2, $success-color, 500);
     }
     a.TextBlue {
       width: 130px;

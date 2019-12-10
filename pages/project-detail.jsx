@@ -35,6 +35,14 @@ const { TabPane } = Tabs;
 
 function callback(key) {}
 
+const Actions = () => (
+  <div className="space-between w100">
+    <Tag color="#27AE60">Claimable!</Tag>
+    <div style={{ width: 120 }}>
+      <Progress percent={30} />
+    </div>
+  </div>
+);
 class ProjectDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -288,19 +296,12 @@ class ProjectDetail extends React.Component {
               <TabPane tab="Milestones" key="3">
                 <div className="MilestonesDetails">
                   <RowMilestones
-                    ActionMilestones={(
-<div className="space-between w100">
-  <Tag color="#27AE60">Claimable!</Tag>
-  <div style={{ width: 120 }}>
-                          <Progress percent={30} />
-                        </div>
-</div>
-)}
+                    ActionMilestones={Actions}
                     ActionsActivities={(
 <div className="space-between w100">
-  <Tag>Pending</Tag>
-  <a className="blueLink">Evidence</a>
-</div>
+                        <Tag>Pending</Tag>
+                        <a className="blueLink">Evidence</a>
+                      </div>
 )}
                   />
                 </div>

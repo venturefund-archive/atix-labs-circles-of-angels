@@ -15,3 +15,11 @@ export const ROLE_LABELS = {
   FUNDER: 'Impact funder',
   ORACLE: 'Oracle'
 };
+
+export const PROJECT_FORM_NAMES = {
+  THUMBNAILS: 'thumbnails',
+  DETAILS: 'details',
+  PROPOSAL: 'proposal',
+  MILESTONES: 'milestones',
+  MAIN: 'main'
+};

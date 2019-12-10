@@ -1,11 +1,10 @@
 // Colors
 $background: #f1f3f8;
 $surface: #fff;
-$light-gray:#F3F4FB;
+
 
 $primary-color: #4C7FF7;
 $secondary-color: rgba(0, 0, 0, 0.76);
-$sucess-color: #5bc431;
 $on-surface-medium: #728099;
 $on-surface: #303034;
 $success-color: #15d380;
@@ -16,7 +15,7 @@ $black: #000;
 $white: #fff;
 $grey: #8b91a4;
 $medium-grey: #b1b4cc;
-$light-grey: #eeefef;
+$light-gray:#F3F4FB;
 $theme-color-1: linear-gradient(to bottom, #2a3890, #0083e2);
 
 $border: #E5E6ED;
@@ -78,7 +77,7 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
   overflow-y: auto;
 }
 @mixin ControlSteps {
-  border-top: 1px solid $light-grey;
+  border-top: 1px solid $light-gray;
   display: flex;
   justify-content: space-between;
   align-items: center;
