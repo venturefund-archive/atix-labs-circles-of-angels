@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Col, Breadcrumb, Row, Drawer, Button } from 'antd';
 import './_style.scss';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 class DrawerUsers extends React.Component {
   state = { visible: false };
@@ -20,9 +21,11 @@ class DrawerUsers extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this.showDrawer}>
-          Open
-        </Button>
+        <CustomButton
+          buttonText="View All"
+          theme="Secondary"
+          onClick={this.showDrawer}
+        />
         <Drawer
           title="Basic Drawer"
           placement="right"

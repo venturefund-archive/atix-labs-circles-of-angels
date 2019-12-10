@@ -7,13 +7,16 @@
  */
 
 import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar, Tabs } from 'antd';
+import { Row, Col, Tag, Avatar, Tabs, Tooltip } from 'antd';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import './_consensusv2.scss';
 import './_style.scss';
 import DrawerUsers from '../components/organisms/DrawerUsers/DrawerUsers';
 import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
+import AvatarUser from '../components/atoms/AvatarUser/AvatarUser';
+import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscussion';
+import BlockChat from '../components/molecules/BlockChat/BlockChat';
 
 const { TabPane } = Tabs;
 
@@ -21,7 +24,7 @@ function callback(key) {
   console.log(key);
 }
 
-const Cards = ({ theme, category, user, usersName, usersName2 }) => {
+const Cards = ({ theme, category, user, usersName, avatarImage }) => {
   const classname = `Cards ${theme}`;
   return (
     <Col span={24} className={classname}>
@@ -33,7 +36,7 @@ const Cards = ({ theme, category, user, usersName, usersName2 }) => {
       </Col>
       <Col span={24} className="flex">
         <Col span={3}>
-          <Avatar src="./static/images/user4.png" />
+          <AvatarUser tooltipText={usersName} avatarImage={avatarImage} />
         </Col>
         <Col span={21}>
           <span>{usersName}</span>
@@ -67,15 +70,15 @@ const Consensusv2 = () => (
         </Col>
       </Row>
       <Row className="Bottom">
-      <Tabs defaultActiveKey="1" onChange={callback}>
-    <TabPane tab="Milestones" key="1">
-        <RowMilestones />
-    </TabPane>
-    <TabPane tab="Discussions" key="2">
-      Content of Tab Pane 2
-    </TabPane>
-
-  </Tabs>
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Milestones" key="1">
+            <RowMilestones />
+          </TabPane>
+          <TabPane tab="Discussions" key="2">
+            <BlockDiscussion />
+            <BlockChat />
+          </TabPane>
+        </Tabs>
       </Row>
     </Col>
     <Col span={6} className="Right">
@@ -84,32 +87,46 @@ const Consensusv2 = () => (
         <h4>Followers</h4>
       </Col>
       <Col span={12} className="flex-end">
-        <a>View All</a>
         <DrawerUsers />
       </Col>
       <Col span={24}>
-        <Avatar src="./static/images/user1.png" />
-        <Avatar src="./static/images/user2.png" />
-        <Avatar src="./static/images/user3.png" />
-        <Avatar src="./static/images/user4.png" />
+        <AvatarUser
+          tooltipText="UserName"
+          avatarImage="./static/images/user1.png"
+        />
+        <AvatarUser
+          tooltipText="UserName"
+          avatarImage="./static/images/user2.png"
+        />
+        <AvatarUser
+          tooltipText="UserName"
+          avatarImage="./static/images/user3.png"
+        />
+        <AvatarUser
+          tooltipText="UserName"
+          avatarImage="./static/images/user4.png"
+        />
       </Col>
       <Cards
         theme="Orange"
         category="Project Social"
         user="Entrepreneur"
         usersName="Jenny Steward"
+        avatarImage="./static/images/user1.png"
       />
       <Cards
         theme="Blue"
         category="Interested in"
         user="Funding"
         usersName="Marvin Mccoy"
+        avatarImage="./static/images/user2.png"
       />
       <Cards
         theme="Red"
         category="Interested in being"
         user="Oracles"
         usersName="Jorge Howard"
+        avatarImage="./static/images/user3.png"
       />
       <Col span={24} className="BlockActions">
         <Col span={24}>
