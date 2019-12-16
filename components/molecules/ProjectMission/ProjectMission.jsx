@@ -28,16 +28,16 @@ const getBudget = milestone => {
 const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
   let currentMilestone = 0;
 
-  if (milestones) {
-    milestones.some((milestone, index) => {
-      if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
-        currentMilestone = index > 0 ? index - 1 : index;
-      } else if (index === milestones.length - 1) {
-        currentMilestone = index;
-      }
-      return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
-    });
-  }
+  // if (milestones) {
+  //   milestones.some((milestone, index) => {
+  //     if (milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED) {
+  //       currentMilestone = index > 0 ? index - 1 : index;
+  //     } else if (index === milestones.length - 1) {
+  //       currentMilestone = index;
+  //     }
+  //     return milestone.budgetStatus.id === MilestoneBudgetStatus.BLOCKED;
+  //   });
+  // }
 
   return (
     <Col className="ProjectMission" span={12}>

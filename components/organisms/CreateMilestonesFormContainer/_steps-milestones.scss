@@ -1,8 +1,6 @@
 @import '../css/general_styling.scss';
-.StepsMilestonesWrapper {
-  .Content {
-    position: relative;
-  }
+.Content.StepsMilestonesWrapper {
+  position:relative;
   .ant-steps {
     width: 20%;
     position: absolute;

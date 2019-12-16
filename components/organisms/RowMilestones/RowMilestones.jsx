@@ -1,17 +1,5 @@
-import React, { Component } from 'react';
-import {
-  Tag,
-  Row,
-  Col,
-  Breadcrumb,
-  Divider,
-  Form,
-  Icon,
-  Input,
-  Upload,
-  Collapse
-} from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import React from 'react';
+import { Row, Col, Divider, Collapse, Tag, Progress } from 'antd';
 import './_style.scss';
 
 const { Panel } = Collapse;
@@ -31,84 +19,159 @@ const Info = ({ text }) => (
   </Col>
 );
 
-const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
-  <Row className="WrapperTable">
+const MilestoneRow = ({ className, span, children }) => (
+  <Col
+    className="gutter-row TableMilestones"
+    xs={{ span: 24 }}
+    sm={{ span: 24 }}
+    md={18}
+    lg={{ span }}
+  >
+    {children}
+  </Col>
+);
+
+const MilestoneCol = ({ className, span, children }) => (
+  <Col
+    className={`gutter-row ${className}`}
+    xs={{ span: 24 }}
+    sm={{ span: 24 }}
+    md={18}
+    lg={{ span }}
+  >
+    {children}
+  </Col>
+);
+
+const Milestone = ({ milestone, index }) => {
+  console.log('milestone', milestone);
+  return (
+    <div>
+      <MilestoneRow>
+        <MilestoneCol span={2}>
+          <h3>Milestone {index}</h3>
+        </MilestoneCol>
+        <MilestoneCol className="vertical" span={3}>
+          <RowLabel text="Quarter" />
+          <Info text={milestone.quarter} />
+        </MilestoneCol>
+        <MilestoneCol span={9}>
+          <RowLabel text="Tasks" />
+          <Info text={milestone.description} />
+        </MilestoneCol>
+      </MilestoneRow>
+      <MilestoneActions milestone={milestone} />
+      <MilestoneTasks tasks={milestone.tasks} />
+    </div>
+  );
+};
+
+const MilestoneActions = project => (
+  <Col
+    className="WrapperActions flex space-between"
+    xs={{ span: 24 }}
+    sm={{ span: 24 }}
+    md={4}
+    lg={{ span: 5 }}
+  >
+    <div className="space-between w100">
+      <Tag color="#27AE60">Claimable!</Tag>
+      <div style={{ width: 120 }}>
+        <Progress percent={30} />
+      </div>
+    </div>
+  </Col>
+);
+
+const TaskActions = task => {
+  return (
     <Col
-      className="gutter-row TableMilestones"
+      className="WrapperActionsActivities"
       xs={{ span: 24 }}
       sm={{ span: 24 }}
-      md={18}
-      lg={{ span: 19 }}
+      md={2}
+      lg={{ span: 3 }}
     >
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={18}
-        lg={{ span: 2 }}
-      >
-        <h3>Milestone 1</h3>
+      <Col span={24}>
+        <a className="blueLink">Edit</a>
       </Col>
-      <Col
-        className="gutter-row vertical"
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={18}
-        lg={{ span: 3 }}
-      >
-        <RowLabel text="Quarter" />
-        <Info text="May-Jul 2019	" />
+      <Divider />
+      <Col span={24}>
+        <a className="redLink">Delete</a>
       </Col>
+    </Col>
+  );
+};
+const TaskRow = (task, index) => {
+  return (
+    <div>
       <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={18}
-        lg={{ span: 9 }}
-      >
-        <RowLabel text="Tasks" />
-        <Info text="Disbursed at least 20k USD of FISA to students	" />
-      </Col>
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={18}
-        lg={{ span: 9 }}
-      >
-        <RowLabel text="Social Impacts Targets" />
-        <Info text="5-7 students have financial resources to go to university	" />
-      </Col>
-      <Col
-        className="gutter-row "
+        className="gutter-row TableActivities"
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={9}
-        lg={{ span: 9 }}
+        lg={{ span: 10 }}
       >
-        <RowLabel text="Review Criterion" />
-        <Info text="Planning and legal procedures for pilot study can proceed - Clinicians participating in recruitment identified" />
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={3}
+          lg={{ span: 2 }}
+        >
+          <h3>Activity {index}</h3>
+        </Col>
+        <Col
+          className="gutter-row vertical"
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={3}
+          lg={{ span: 3 }}
+        >
+          <RowLabel text="Asigned Oracle" />
+          <Info text={task.oracle} />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={9}
+          lg={{ span: 9 }}
+        >
+          <RowLabel text="Task" />
+          <Info text={task.description} />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={9}
+          lg={{ span: 9 }}
+        >
+          <RowLabel text="Social Impacts Targets" />
+          <Info text={task.impact} />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={9}
+          lg={{ span: 9 }}
+        >
+          <RowLabel text="Review Criterion" />
+          <Info text={task.review} />
+        </Col>
       </Col>
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 9 }}
-      >
-        <RowLabel text="Review Criterion" />
-        <Info text="2 new full-time employees hired" />
-      </Col>
-    </Col>
-    <Col
-      className="WrapperActions flex space-between"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={4}
-      lg={{ span: 5 }}
-    >
-      {ActionMilestones}
-    </Col>
+      <TaskActions />
+    </div>
+  );
+};
+
+const MilestoneTasks = props => {
+  console.log(props);
+  const { tasks } = props;
+  const tasksElements = tasks.map((task, index) => TaskRow(task, index));
+  return (
     <Col
       className="WrapperActivities"
       xs={{ span: 24 }}
@@ -118,96 +181,22 @@ const RowMilestones = ({ ActionMilestones, ActionsActivities }) => (
     >
       <Collapse defaultActiveKey={['1']} onChange={callback}>
         <Panel header="Activities" key="1">
-          <div className="SubWrapperActivities">
-            <Col
-              className="gutter-row TableActivities"
-              xs={{ span: 24 }}
-              sm={{ span: 24 }}
-              md={22}
-              lg={{ span: 21 }}
-            >
-              <Col
-                className="gutter-row "
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={3}
-                lg={{ span: 2 }}
-              >
-                <h3>Activity 1</h3>
-              </Col>
-              <Col
-                className="gutter-row vertical"
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={3}
-                lg={{ span: 3 }}
-              >
-                <RowLabel text="Asigned Oracle" />
-                <Info text="Michael Son" />
-              </Col>
-              <Col
-                className="gutter-row "
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={9}
-                lg={{ span: 9 }}
-              >
-                <RowLabel text="Task" />
-                <Info
-                  text="Implement a marketing and communication plan in Universities
-        across Cambodia /and also othere countries with lower focus"
-                />
-              </Col>
-              <Col
-                className="gutter-row "
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={9}
-                lg={{ span: 9 }}
-              >
-                <RowLabel text="Social Impacts Targets" />
-                <Info text="200 students know about FISA and can take action" />
-              </Col>
-              <Col
-                className="gutter-row "
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={9}
-                lg={{ span: 9 }}
-              >
-                <RowLabel text="Review Criterion" />
-                <Info text="200 students know about FISA and can take action Evidence" />
-              </Col>
-              <Col
-                className="gutter-row "
-                xs={{ span: 24 }}
-                sm={{ span: 24 }}
-                md={9}
-                lg={{ span: 9 }}
-              >
-                <RowLabel text="Review Criterion" />
-                <Info text="2 new full-time employees hired" />
-              </Col>
-            </Col>
-            <Col
-              className="WrapperActionsActivities"
-              xs={{ span: 24 }}
-              sm={{ span: 24 }}
-              md={2}
-              lg={{ span: 3 }}
-            >
-              <Col span={24}>
-                <a className="blueLink">Edit</a>
-              </Col>
-              <Divider />
-              <Col span={24}>
-                <a className="redLink">Delete</a>
-              </Col>
-            </Col>
-          </div>
+          <div className="SubWrapperActivities">{tasksElements}</div>
         </Panel>
       </Collapse>
     </Col>
-  </Row>
-);
-export default RowMilestones;
+  );
+};
+
+export default function RowMilestones(props) {
+  if (Object.keys(props).length === 0) return null;
+  const { milestones } = props;
+  const milestoneElements = milestones.map((m, i) => (
+    <Milestone milestone={m} index={i} />
+  ));
+  return (
+    <div className="MilestonesDetails">
+      <Row className="WrapperTable">{milestoneElements}</Row>
+    </div>
+  );
+}
