@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { message } from 'antd';
 import './_createprojectsteps.scss';
 import './_style.scss';
@@ -45,35 +45,11 @@ const getApiCall = submittingForm => {
   }
 };
 
-const CreateProjectContainer = props => {
-  // TODO : avoid using location state
-  // eslint-disable-next-line react/destructuring-assignment
-  const { location } = props;
-  const projectId =
-    location !== undefined && location.state !== undefined
-      ? location.state.projectId
-      : undefined;
-
+const CreateProjectContainer = () => {
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
-  const initialProject = projectId !== undefined ? { id: projectId } : {};
-  const [project, setProject] = useState(initialProject);
-
-  useEffect(() => {
-    async function fetchProject() {
-      const url = '/project/' + project.id;
-      console.log('fetching', url);
-      const result = await api.get(url);
-      console.log('fetched', result.data);
-      setProject(result.data);
-    }
-    console.log('about to fetch');
-    if (project.id !== undefined) {
-      fetchProject();
-    }
-  }, []);
 
   // TODO add logic to show progress on main page
   const successCallback = res => {

@@ -19,6 +19,7 @@ import { detailsFormInputs } from '../../../helpers/createProjectFormFields';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import { getPreviewValue } from '../../../helpers/formatter';
+import './_style.scss';
 
 const mockPropsUpload = {
   name: 'file',
@@ -117,17 +118,17 @@ const ProjectDetailFormContainer = ({
               />
             </Col>
           </Col>
-          <Col className="spacedivider" sm={24} md={24} lg={24}>
+          <Col className="spacedivider Details" sm={24} md={24} lg={24}>
             <Col sm={24} md={24} lg={24}>
               <h4>Project Mission </h4>
             </Col>
-            <Col sm={24} md={24} lg={24}>
+            <Col className="Mission" sm={24} md={24} lg={24}>
               {fields.mission.value || <Skeleton title={false} />}
             </Col>
             <Col sm={24} md={24} lg={24}>
               <h4>The Problem </h4>
             </Col>
-            <Col sm={24} md={24} lg={24}>
+            <Col className="Problem" sm={24} md={24} lg={24}>
               {fields.problem.value || (
                 <Skeleton paragraph={{ rows: 3 }} title={false} />
               )}

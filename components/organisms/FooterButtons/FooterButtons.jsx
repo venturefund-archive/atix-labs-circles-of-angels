@@ -12,7 +12,7 @@ const FooterButtons = ({
   <Row
     className="FooterButtons"
     type="flex"
-    justify="space-around"
+    justify="space-between"
     align="middle"
   >
     <Col

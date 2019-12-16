@@ -171,6 +171,10 @@ a.blueLink:hover::before {
   flex-wrap: wrap;
   padding: 0.5em 0;
 }
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+}
 .relative {
   position: relative;
 }
@@ -345,7 +349,7 @@ border: 1px solid $border;
 
 
 .ant-tag {
-  border-radius: 4px;
+  border-radius: 20px;
   border-color: transparent;
 }
 

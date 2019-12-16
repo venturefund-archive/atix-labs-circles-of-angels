@@ -6,8 +6,8 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment, useCallback, useEffect } from 'react';
-import { Tag, Row, Col, Divider, Form, Upload, message } from 'antd';
+import React, { Fragment } from 'react';
+import { Tag, Row, Col, Divider, Form, Upload, message,Skeleton } from 'antd';
 import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
@@ -50,12 +50,12 @@ const Thumbnails = ({ project, goBack, submitForm }) => {
     });
   }, []);
 
+  // FIXME : this is wrong on so many levels.
   const onSubmit = async data => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     if (project !== undefined && project.id !== undefined) {
       const url = '/projects/' + project.id + '/description';
       // eslint-disable-next-line no-param-reassign
-      console.log(data);
       data.projectId = project.id;
       return (await api.put(url, data, config)).data;
     }

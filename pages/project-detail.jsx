@@ -26,7 +26,6 @@ import Roles from '../constants/RolesMap';
 import SeccionExperience from './experiences';
 import { useGet, usePost } from '../hooks/useRequest';
 import useQuery from '../hooks/useQuery';
-import { nullLiteral } from '@babel/types';
 
 const { TabPane } = Tabs;
 

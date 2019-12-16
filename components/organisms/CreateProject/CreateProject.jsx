@@ -6,6 +6,7 @@ import ModalProjectCreated from '../ModalProjectCreated/ModalProjectCreated';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
+import './_style.scss';
 
 const Items = ({ title, subtitle, onClick }) => (
   <Col className="Items flex" sm={24} md={24} lg={24}>

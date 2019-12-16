@@ -16,6 +16,7 @@ import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { proposalFromItems } from '../../../helpers/createProjectFormFields';
 import Field from '../../atoms/Field/Field';
+import './_style.scss';
 
 const formSteps = [
   {

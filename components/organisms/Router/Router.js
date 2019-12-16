@@ -21,8 +21,6 @@ import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
 import ProjectDetail from '../../../pages/project-detail'
 import { useUserContext } from '../../utils/UserContext';
-import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/CreateMilestonesFormContainer';
-import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
 
 const routesConfig = [
   {
