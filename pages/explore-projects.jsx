@@ -54,10 +54,10 @@ export default function ExploreProjects() {
     const state = { projectId: project.id };
     if (project.status === 'draft') {
       // location.
-      history.push('/create-project', state);
+      history.push('/create-project?id=' + project.id, state);
       // return <Redirect</Redirect>
     } else {
-      history.push('/project-detail', state);
+      history.push('/project-detail?id=' + project.id, state);
     }
   };
 

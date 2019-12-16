@@ -19,7 +19,7 @@ import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
-
+import ProjectDetail from '../../../pages/project-detail'
 import { useUserContext } from '../../utils/UserContext';
 import CreateMilestonesFormContainer from '../CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import ProjectDetailFormContainer from '../ProjectDetailFormContainer/ProjectDetailFormContainer';
@@ -77,12 +77,7 @@ const routesConfig = [
   },
   {
     path: '/project-detail',
-    component: ProjectDetailFormContainer,
-    authentication: { required: true }
-  },
-  {
-    path: '/create-milestones',
-    component: CreateMilestonesFormContainer,
+    component: ProjectDetail,
     authentication: { required: true }
   }
 ];

@@ -21,6 +21,7 @@ export default function useRequest(method, url, body, config) {
         data: body,
         ...config // TODO : can this include the base url?
       });
+      console.log('ret', result.data);
       setData(result.data);
     } catch (error) {
       console.error('errors found', error);
@@ -30,12 +31,11 @@ export default function useRequest(method, url, body, config) {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     doFetch();
   }, [method, url, body]);
 
-  return [{ data, errors, loading }, doFetch];
+  return [{ data, errors, loading }, () => {}];
 }
 
 export function useGet(url) {

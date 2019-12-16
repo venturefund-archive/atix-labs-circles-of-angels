@@ -55,7 +55,7 @@ export const createProjectRequest = data => {
 
 export const useGetProjects = () => {
   // const [projects, setProjects] = useState([]);
-  const [{ data, isLoading, isError }, fetch] = useGet('/projects/');
+  const [{ data, isLoading, isError }, fetch] = useGet('/projects');
   return [data, isLoading, isError];
 };
 
