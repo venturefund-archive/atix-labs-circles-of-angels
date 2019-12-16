@@ -20,55 +20,64 @@ const CardProject = ({
   onClick,
   tagClick,
   milestoneProgress,
-  projectId
-}) => (
-  <Col className="CardProject" span={8}>
-    {showTag && (
-      <Tag color="orange" onClick={tagClick}>
-        View my activities to verify
-      </Tag>
-    )}
+  projectId,
+  project
+}) => {
+  const { cardPhotoPath } = project;
+  return (
+    <Col className="CardProject" span={8}>
+      {showTag && (
+        <Tag color="orange" onClick={tagClick}>
+          View my activities to verify
+        </Tag>
+      )}
 
-    <div onClick={onClick}>
-      <div className="ProjectDescription">
-        <img
-          src={`/files/projects/${projectId}/cardPhoto.jpg`}
-          alt="projectCardImage"
-        />
+      <div onClick={onClick}>
+        <div className="ProjectDescription">
+          <img
+            // src={`/files/projects/${projectId}/cardPhoto.jpg`}
+            src={
+              cardPhotoPath !== undefined
+                ? cardPhotoPath.replace('/home/atix/files/server', '')
+                : ''
+            }
+            alt="projectCardImage"
+          />
+        </div>
+        <Row className="ProjectSummery">
+          <Col span={24}>
+            <h1>{enterpriseName}</h1>
+          </Col>
+          <Col className="flex" align="middle" span={24}>
+            <InfoItem
+              span="7"
+              subtitle="Country of Impact"
+              title={enterpriseLocation}
+              iconInfoItem="environment"
+            />
+            <Col span={1}>
+              <Divider type="vertical" />
+            </Col>
+            <InfoItem
+              span="7"
+              subtitle="Timeframe"
+              title={timeframe}
+              iconInfoItem="clock-circle"
+            />
+            <Col span={1}>
+              <Divider type="vertical" />
+            </Col>
+            <InfoItem
+              span="7"
+              subtitle="Amount"
+              title={`$ ${amount}`}
+              iconInfoItem="dollar"
+            />
+          </Col>
+        </Row>
       </div>
-      <Row className="ProjectSummery">
-        <Col span={24}>
-          <h1>{enterpriseName}</h1>
-        </Col>
-        <Col className="flex" align="middle" span={24}>
-          <InfoItem
-            span="7"
-            subtitle="Country of Impact"
-            title={enterpriseLocation}
-            iconInfoItem="environment"
-          />
-          <Col span={1}>
-            <Divider type="vertical" />
-          </Col>
-          <InfoItem
-            span="7"
-            subtitle="Timeframe"
-            title={timeframe}
-            iconInfoItem="clock-circle"
-          />
-          <Col span={1}>
-            <Divider type="vertical" />
-          </Col>
-          <InfoItem
-            span="7"
-            subtitle="Amount"
-            title={`$ ${amount}`}
-            iconInfoItem="dollar"
-          />
-        </Col>
-      </Row>
-    </div>
-  </Col>
-);
+    </Col>
+  );
+};
 
 export default CardProject;

@@ -19,311 +19,208 @@ import ProjectMission from '../components/molecules/ProjectMission/ProjectMissio
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
-import {
-  getProject,
-  getProjectExperiences,
-  getProjectMilestones,
-  createProjectExperience
-} from '../api/projectApi';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
 import ProjectStatus from '../constants/ProjectStatus';
 import Roles from '../constants/RolesMap';
 import SeccionExperience from './experiences';
+import { useGet, usePost } from '../hooks/useRequest';
+import useQuery from '../hooks/useQuery';
 
 const { TabPane } = Tabs;
 
 function callback(key) {}
 
-class ProjectDetail extends React.Component {
-  constructor(props) {
-    super(props);
+export default function ProjectDetail(props) {
+  const { id } = useQuery();
+  const projectId = id;
+  const [{ data, errors, loading }] = useGet('/project/' + projectId + '/full');
 
-    this.state = {
-      projectDetail: {},
-      projectExperiences: [],
-      milestones: []
-    };
-  }
+  const project = data;
+  // if (project !== undefined) {
+  //   project.budgetStatus = 'blocked';
+  // }
 
-  static async getInitialProps(query) {
-    const { projectId } = query.query;
-    return { projectId };
-  }
+  // const applyToProject = async () => {
+  //   const { projectDetail } = this.state;
+  //   const { user } = this.props;
+  //   const isFunder = user && user.role && user.role.id === Roles.Funder;
+  //   if (isFunder) {
+  //     const response = await createUserProject(user.id, projectDetail.id);
 
-  componentDidMount = async () => {
-    const { projectId } = this.props;
-    // const projectDetail = (await getProject(projectId)).data;
-    // const milestones = (await getProjectMilestones(projectId)).data;
-    // const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
-    // const projectExperiences = await this.getExperiences();
-    const projectDetail = {
-      projectName: 'Girls to school',
-      location: 'Cambodia',
-      timeframe: '12 months',
-      goalAmount: '$25,000',
-      milestoneProgress: [],
-      mission:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo',
-      problemAddressed:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ollit anim id est laborum,quis nostrud exercitation ullamco.Laboris nisi ut aliquip ex ea commodo consequat.Excepteur sint occaecat cupidatat non proident.Excepteur sint occaecat cupidatat nonproident.',
-      status: 1
-    };
-    const photos = [
-      { image: { data: './static/images/imgcard.png' } },
-      { image: { data: './static/images/imgcard.png' } },
-      { image: { data: './static/images/imgcard.png' } },
-      { image: { data: './static/images/imgcard.png' } }
-    ];
-    const experienceMock = {
-      photos,
-      comment: 'Loremn  ipsum sadda jasdjadjad  ajdjasda',
-      date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`,
-      user: { username: 'Test' }
-    };
-    const projectExperiences = [experienceMock, experienceMock, experienceMock];
-    const milestones = [];
-    this.setState({
-      projectDetail,
-      projectExperiences,
-      milestones
-    });
-  };
+  //     if (response.error) {
+  //       const { error } = response;
+  //       const title = error.response
+  //         ? `${error.response.status} - ${error.response.statusText}`
+  //         : error.message;
+  //       const content = error.response
+  //         ? error.response.data.error
+  //         : error.message;
+  //       showModalError(title, content);
+  //       return response;
+  //     }
+  //   }
 
-  getExperiences = async () => {
-    const { projectId } = this.props;
-    const projectExperiences = (await getProjectExperiences(projectId))
-      .experiences;
+  //   if (projectDetail.status === ProjectStatus.IN_PROGRESS) {
+  //     Routing.toProjectProgress({
+  //       projectId: projectDetail.id
+  //     });
+  //   } else {
+  //     Routing.toConsensusMilestones({
+  //       projectId: projectDetail.id,
+  //       initialStep: 0
+  //     });
+  //   }
+  // };
 
-    await projectExperiences.forEach(async experience => {
-      const date = new Date(experience.createdAt);
-      experience.date = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
+  // const { projectDetail, projectExperiences, milestones } = this.state;
+  // const { projectId } = this.props;
 
-      if (experience.photos)
-        await experience.photos.forEach(async photo => {
-          photo.image = await getPhoto(photo.id);
-          this.setState({ projectExperiences });
-        });
-    });
-    return projectExperiences;
-  };
+  const experienceTab = (
+    <div>
+      Experiences
+      <Badge
+        count={3}
+        style={{
+          backgroundColor: '#fff',
+          color: '#BDBDBD',
+          boxShadow: '0 0 0 1px #BDBDBD inset'
+        }}
+      />
+    </div>
+  );
 
-  createProjectExperience = async experience => {
-    const { projectId, user } = this.props;
-    const { comment, photos } = experience;
-    const newExperience = {
-      comment,
-      projectId,
-      user: user.id
-    };
-    const createdExperience = await createProjectExperience(
-      newExperience,
-      photos
+  const Project = () => {
+    if (project === undefined) return null;
+
+    const completedMilestones = project.milestones.filter(
+      m => m.status === 'completed'
     );
-    if (createdExperience.error) {
-      console.error(createdExperience.error);
-      return;
-    }
-    const projectExperiences = await this.getExperiences();
-    this.setState({ projectExperiences });
+    const projectProgress =
+      (completedMilestones.length / project.milestones.length) * 100;
+
+    const projectStatus = ProjectStatus.PENDING_APPROVAL;
+
+    return (
+      <Row className="ProjectContent">
+        <ProjectMission
+          mission={project.mission}
+          terms={project.problemAddressed}
+          startedProject={projectStatus}
+          milestones={data.milestones}
+        />
+        <Col span={1}>
+          <Divider type="vertical" />
+        </Col>
+        <Col className="ProjectProgress" span={11}>
+          <div className="block">
+            <h1 className="title">Milestones Progress</h1>
+          </div>
+          <Col span={12}>
+            <h4>
+              Project <strong>Started</strong>
+            </h4>
+          </Col>
+          <Col className="txtright" span={6} offset={6}>
+            <h4>
+              Project <strong>Finished!</strong>
+            </h4>
+          </Col>
+          <Col span={1}>
+            <h4>
+              <strong>0%</strong>
+            </h4>
+          </Col>
+          <Col span={21}>
+            <Progress
+              strokeColor="#6FCF97"
+              percent={projectProgress}
+              showInfo={false}
+            />
+          </Col>
+          <Col className="txtright" span={2}>
+            <h4>
+              <strong>100%</strong>
+            </h4>
+          </Col>
+        </Col>
+      </Row>
+    );
   };
 
-  applyToProject = async () => {
-    const { projectDetail } = this.state;
-    const { user } = this.props;
-    const isFunder = user && user.role && user.role.id === Roles.Funder;
-    if (isFunder) {
-      const response = await createUserProject(user.id, projectDetail.id);
-
-      if (response.error) {
-        const { error } = response;
-        const title = error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message;
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
-        showModalError(title, content);
-        return response;
+  const ProjectDetailHeader = () => {
+    // the label is not a label, it's the value.
+    // and info is *actually* the label.
+    // TODO : change this.
+    const itemsData = [
+      {
+        info: 'Country of Impact',
+        label: data.location,
+        img: './static/images/world-icon.svg'
+      },
+      {
+        info: 'Timeframe',
+        label: data.timeframe,
+        img: './static/images/calendar-icon.svg'
+      },
+      {
+        info: 'Amount',
+        label: data.goalAmount,
+        img: './static/images/amount-icon.svg'
       }
-    }
-
-    if (projectDetail.status === ProjectStatus.IN_PROGRESS) {
-      Routing.toProjectProgress({
-        projectId: projectDetail.id
-      });
-    } else {
-      Routing.toConsensusMilestones({
-        projectId: projectDetail.id,
-        initialStep: 0
-      });
-    }
+    ];
+    return (
+      <div className="ProjectHeader">
+        <img
+          className="Banner"
+          src="./static/images/imgcard.png"
+          alt="Circles of Angels"
+        />
+        <div className="ProjectEnterprice">
+          <div>
+            <p>Organization Name</p>
+            <h1>{project.projectName}</h1>
+          </div>
+          <div className="flex">
+            {itemsData.map(item => (
+              <GeneralItem {...item} key={`data-${item.info}`} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  render() {
-    const { projectDetail, projectExperiences, milestones } = this.state;
-    const { projectId } = this.props;
-    const itemsData = projectDetail
-      ? [
-          {
-            info: 'Country of Impact',
-            label: projectDetail.location,
-            img: './static/images/world-icon.svg'
-          },
-          {
-            info: 'Timeframe',
-            label: projectDetail.timeframe,
-            img: './static/images/calendar-icon.svg'
-          },
-          {
-            info: 'Amount',
-            label: projectDetail.goalAmount,
-            img: './static/images/amount-icon.svg'
-          }
-          // {
-          //   label: 'Name of Lead',
-          //   info: projectDetail.ownerName,
-          //   img: './static/images/world.svg'
-          // },
-          // {
-          //   label: 'Mail of Lead',
-          //   info: projectDetail.ownerEmail,
-          //   img: './static/images/world.svg'
-          // }
-        ]
-      : [];
+  if (data === undefined) return null;
 
-    const experienceTab = (
-      <div>
-        Experiences
-        <Badge
-          count={3}
-          style={{
-            backgroundColor: '#fff',
-            color: '#BDBDBD',
-            boxShadow: '0 0 0 1px #BDBDBD inset'
-          }}
+  return (
+    <div className="ContentComplete">
+      <div className="ProjectContainer DataSteps">
+        <ProjectDetailHeader />
+        <div className="BlockContent">
+          <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="details" key="1">
+              <Project />
+            </TabPane>
+            <TabPane tab="Milestones" key="3">
+              <RowMilestones {...project} />
+            </TabPane>
+            <TabPane tab={experienceTab} key="2">
+              <SeccionExperience
+                experiences={project.experiences}
+                onCreate={() => {}}
+              />
+            </TabPane>
+          </Tabs>
+        </div>
+      </div>
+      <div className="SubmitProject StepOne">
+        <CustomButton
+          buttonText="Go to project"
+          theme="Success"
+          onClick={() => {}}
         />
       </div>
-    );
-    return (
-      <div className="ContentComplete">
-        <div className="ProjectContainer DataSteps">
-          <div className="ProjectHeader">
-            {/* <img
-                  src={`/files/projects/${projectId}/coverPhoto.jpg`}
-                  alt="projectCoverImage"
-                /> */}
-            <img
-              className="Banner"
-              src="./static/images/imgcard.png"
-              alt="Circles of Angels"
-            />
-            <div className="ProjectEnterprice">
-              <div>
-                <p>Organization Name</p>
-                <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
-              </div>
-              <div className="flex">
-                {itemsData.map((item, i) => (
-                  <GeneralItem
-                    label={item.label}
-                    info={item.info}
-                    img={item.img}
-                    key={i}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="BlockContent">
-            <Tabs defaultActiveKey="1" onChange={callback}>
-              <TabPane tab="details" key="1">
-                <Row className="ProjectContent">
-                  <ProjectMission
-                    mission={projectDetail ? projectDetail.mission : ''}
-                    terms={projectDetail ? projectDetail.problemAddressed : ''}
-                    startedProject={
-                      projectDetail.status === ProjectStatus.IN_PROGRESS
-                    }
-                    milestones={milestones}
-                  />
-                  <Col span={1}>
-                    <Divider type="vertical" />
-                  </Col>
-                  <Col className="ProjectProgress" span={11}>
-                    <div className="block">
-                      <h1 className="title">Milestones Progress</h1>
-                    </div>
-                    <Col span={12}>
-                      <h4>
-                        Project <strong>Started</strong>
-                      </h4>
-                    </Col>
-                    <Col className="txtright" span={6} offset={6}>
-                      <h4>
-                        Project <strong>Finished!</strong>
-                      </h4>
-                    </Col>
-                    <Col span={1}>
-                      <h4>
-                        <strong>0%</strong>
-                      </h4>
-                    </Col>
-                    <Col span={21}>
-                      <Progress
-                        strokeColor="#6FCF97"
-                        percent={50}
-                        showInfo={false}
-                      />
-                    </Col>
-                    <Col className="txtright" span={2}>
-                      <h4>
-                        <strong>100%</strong>
-                      </h4>
-                    </Col>
-                  </Col>
-                </Row>
-              </TabPane>
-              <TabPane tab="Milestones" key="3">
-                <div className="MilestonesDetails">
-                  <RowMilestones
-                    ActionMilestones={(
-<div className="space-between w100">
-  <Tag color="#27AE60">Claimable!</Tag>
-  <div style={{ width: 120 }}>
-                          <Progress percent={30} />
-                        </div>
-</div>
-)}
-                    ActionsActivities={(
-<div className="space-between w100">
-  <Tag>Pending</Tag>
-  <a className="blueLink">Evidence</a>
-</div>
-)}
-                  />
-                </div>
-              </TabPane>
-              <TabPane tab={experienceTab} key="2">
-                <SeccionExperience
-                  experiences={projectExperiences}
-                  onCreate={this.createProjectExperience}
-                />
-              </TabPane>
-            </Tabs>
-          </div>
-        </div>
-        <div className="SubmitProject StepOne">
-          <CustomButton
-            buttonText="Go to project"
-            theme="Success"
-            onClick={this.applyToProject}
-          />
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default withUser(ProjectDetail);

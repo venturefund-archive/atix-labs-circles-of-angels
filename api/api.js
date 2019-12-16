@@ -20,22 +20,26 @@ require('dotenv').config();
 // });
 const { NODE_ENV } = process.env;
 
-const getBaseURL = () => {
+export const getBaseURL = () => {
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
     case 'testing':
       return 'http://173.255.254.208:3001';
+    case 'staging':
+      return 'http://45.79.113.200:3001';
     case 'production':
       // TODO : complete later.
       return undefined;
+    default:
+      throw new Error('no scope selected');
   }
 };
 
-const baseURL = 'http://173.255.254.208:3001'; // getBaseURL();
+const baseURL = getBaseURL();
 
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL,
   timeout: 60000,
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',

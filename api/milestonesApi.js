@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import { func } from 'prop-types';
 
 const baseURL = 'milestones';
 const restActivityBasePath = 'activities';

@@ -9,37 +9,54 @@
 import { isEmpty } from 'lodash';
 import api from './api';
 import ProjectStatus from '../constants/ProjectStatus';
+import useRequest, { useGet, usePost } from '../hooks/useRequest';
 
 const baseURL = '/projects';
 
-const createProject = async (project, files, ownerId) => {
+// const createProject = async (project, files, ownerId) => {
+//   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+//   const fd = new FormData();
+//   try {
+//     fd.append('projectProposal', files[0]);
+//     fd.append('projectCoverPhoto', files[1]);
+//     fd.append('projectCardPhoto', files[2]);
+//     fd.append('projectMilestones', files[3]);
+//     fd.append('projectAgreement', files[4]);
+//     fd.append('project', JSON.stringify(project));
+//     fd.append('ownerId', ownerId);
+
+//     const response = await api.post(`${baseURL}`, fd, config);
+
+//     return response;
+//   } catch (error) {
+//     return { error };
+//   }
+// };
+
+export const createProjectRequest = data => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-  const fd = new FormData();
-  try {
-    fd.append('projectProposal', files[0]);
-    fd.append('projectCoverPhoto', files[1]);
-    fd.append('projectCardPhoto', files[2]);
-    fd.append('projectMilestones', files[3]);
-    fd.append('projectAgreement', files[4]);
-    fd.append('project', JSON.stringify(project));
-    fd.append('ownerId', ownerId);
-
-    const response = await api.post(`${baseURL}`, fd, config);
-
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  return {
+    method: 'post',
+    url: '/projects/description',
+    data,
+    config
+  };
 };
 
-const getProjects = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
+// const getProjects = async () => {
+//   try {
+//     const response = await api.get(`${baseURL}`);
+//     return response;
+//   } catch (error) {
+//     return { error };
+//   }
+// };
+
+export const useGetProjects = () => {
+  // const [projects, setProjects] = useState([]);
+  const [{ data, isLoading, isError }, fetch] = useGet('/projects');
+  return [data, isLoading, isError];
 };
 
 const getActiveProjects = async () => {
@@ -306,13 +323,11 @@ const createProjectExperience = async (experience, photos) => {
 };
 
 export {
-  getProjects,
   getActiveProjects,
   getProject,
   confirmProject,
   rejectProject,
   getProjectMilestones,
-  createProject,
   downloadProjectMilestonesFile,
   downloadAgreement,
   uploadAgreement,

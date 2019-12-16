@@ -128,7 +128,7 @@
 .ant-btn.Cancel:active,
 .ant-btn.Cancel:focus,
 .ant-btn.Cancel:hover {
-  background: $grey;
+  background: $on-surface-medium;
   span {
     @include primary-text($button, $white, 400);
   }
@@ -144,6 +144,26 @@
   display: none;
 }
 
+/* SECONDARYCANCEL */
+.ant-btn.SecondaryCancel,
+.ant-btn.SecondaryCancel:active,
+.ant-btn.SecondaryCancel:focus,
+.ant-btn.SecondaryCancel:hover {
+  background: $white;
+  span {
+    @include primary-text($button, $on-surface-medium, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+.ant-btn.SecondaryCancel .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.SecondaryCancel .anticon.none{
+  display: none;
+}
 
 /* DOWNLOAD */
 .ant-btn.Download,
@@ -151,12 +171,12 @@
 .ant-btn.Download:focus,
 .ant-btn.Download:hover {
   background: $white;
-  border: 1px solid $grey;
+  border: 1px solid $on-surface-medium;
   span {
-    @include primary-text($button, $grey, 400);
+    @include primary-text($button, $on-surface-medium, 400);
   }
   .anticon {
-    color: $grey;
+    color: $on-surface-medium;
     margin-left: 0.5em;
   }
 }

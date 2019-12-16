@@ -8,81 +8,81 @@
 
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Login from '../../../pages/login';
 import PrivateRoute from '../../utils/PrivateRoute';
 import SideBar from '../SideBar/SideBar';
 import Header from '../../molecules/Header/Header';
-import MyProjects from '../../../pages/my-projects';
-import BackOfficeEditProject from '../../../pages/back-office-edit-project';
-import BackofficeMilestones from '../../../pages/back-office-milestones';
-import BackofficeProjectDetail from '../../../pages/back-office-project-detail';
 import BackofficeProjects from '../../../pages/back-office-projects';
-import BackofficeUsers from '../../../pages/back-office-users';
-import ConcensusMilestones from '../../../pages/concensus-milestones';
 import CreateProject from '../../../pages/create-project';
-import Experiences from '../../../pages/experiences';
 import ExploreProjects from '../../../pages/explore-projects';
-import FundAdministration from '../../../pages/fund-administration';
-import NewExperiences from '../../../pages/new-experiences';
 import PasswordRecovery from '../../../pages/passwordRecovery';
-import ProjectDetail from '../../../pages/project-detail';
-import ProjectEvidence from '../../../pages/project-evidence';
-import ProjectProgress from '../../../pages/project-progress';
 import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registersteps';
-import TransferFundsConfirmation from '../../../pages/tranfer-funds-confirmation';
-import CreateMilestones from '../../../pages/createmilestones';
-import TransferFunds from '../../../pages/tranfer-funds';
-import { withUser, useUserContext } from '../../utils/UserContext';
+import ProjectDetail from '../../../pages/project-detail'
+import { useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
-  { path: '/', component: Landing, requireAuthentication: false },
-  { path: '/landing', component: Landing, requireAuthentication: false },
-  { path: '/login', component: Login, requireAuthentication: false },
-  { path: '/recovery', component: Recovery, requireAuthentication: false },
+  {
+    path: '/',
+    component: Landing,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/landing',
+    component: Landing,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/login',
+    component: Login,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/recovery',
+    component: Recovery,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
   {
     path: '/passwordRecovery',
     component: PasswordRecovery,
-    requireAuthentication: false
+    authentication: { required: false, redirect: '/explore-projects' }
   },
-  { path: '/register', component: RegisterSteps, requireAuthentication: false },
+  {
+    path: '/register',
+    component: RegisterSteps,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
   {
     path: '/explore-projects',
     component: ExploreProjects,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/create-project',
     component: CreateProject,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/back-office-projects',
     component: BackofficeProjects,
-    requireAuthentication: true
+    authentication: { required: true }
   },
   {
     path: '/explore-projects',
     component: ExploreProjects,
-    requireAuthentication: true
-  },
-    {
-    path: '/project-detail',
-    component: ProjectDetail,
-    authenticated: false
+    authentication: { required: true }
   },
   {
-    path: '/create-milestones',
-    component: CreateMilestones,
-    authenticated: true
+    path: '/project-detail',
+    component: ProjectDetail,
+    authentication: { required: true }
   }
 ];
 
 function Router(props) {
-  const context = useUserContext();
-  const authenticated = context.getLoggedUser() !== undefined;
+  const { getLoggedUser } = useUserContext();
+  const authenticated = getLoggedUser() !== undefined;
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
     <div className="AppContainer">

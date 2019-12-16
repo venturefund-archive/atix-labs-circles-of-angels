@@ -10,16 +10,23 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CardProject from '../components/molecules/CardProject/CardProject';
-import { getProjectsPreview, getProjectsAsOracle } from '../api/projectApi';
+import {
+  getProjectsPreview,
+  getProjectsAsOracle,
+  getProjects,
+  useGetProjects
+} from '../api/projectApi';
 import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import Roles from '../constants/RolesMap';
 import projectStatus from '../constants/ProjectStatus';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import { Row, Col, Input, Select } from 'antd';
+import Axios from 'axios';
+import api from '../api/api';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -42,22 +49,21 @@ function onSearch(val) {
 
 export default function ExploreProjects() {
   const history = useHistory();
-  const [projects, setProjects] = useState([]);
-  useEffect(() => {
-    async function fetchProjects() {
-      const data = await getProjectsPreview();
-      console.log(data)
-      setProjects(data.data);
+  const [projects] = useGetProjects();
+  const goToProjectDetail = project => {
+    const state = { projectId: project.id };
+    if (project.status === 'draft') {
+      // location.
+      history.push('/create-project?id=' + project.id, state);
+      // return <Redirect</Redirect>
+    } else {
+      history.push('/project-detail?id=' + project.id, state);
     }
-    fetchProjects()
-  }, []);
-  const goToProjectDetail = projectId => {
-    // Routing.toProjectDetail({ projectId });
-  }
+  };
 
-  const goToProjectProgress = (projectId) => {
+  const goToProjectProgress = projectId => {
     // Routing.toProjectProgress({ projectId });
-  }
+  };
 
   return (
     <div className="Content ExploreProject">
@@ -108,9 +114,10 @@ export default function ExploreProjects() {
           projects.map(project => {
             const showTag =
               project.hasOpenMilestones &&
-              project.status === projectStatus.IN_PROGRESS
+              project.status === projectStatus.IN_PROGRESS;
             return (
               <CardProject
+                project={project}
                 enterpriseName={project.projectName}
                 enterpriseLocation={project.location}
                 timeframe={project.timeframe}
@@ -120,7 +127,7 @@ export default function ExploreProjects() {
                 milestoneProgress={project.milestoneProgress}
                 projectId={project.id}
                 key={project.id}
-                onClick={() => goToProjectDetail(project.id)}
+                onClick={() => goToProjectDetail(project)}
               />
             );
           })}

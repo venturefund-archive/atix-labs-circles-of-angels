@@ -19,18 +19,13 @@ import { showModalError } from '../../utils/Modals';
 import Roles from '../../../constants/RolesMap';
 
 function ModalLogin({ setVisibility, visibility, changeUser }) {
-  const history = useHistory();
   const context = useUserContext();
   const onLoginSubmit = async (email, pwd) => {
     if (email && pwd && email !== '' && pwd !== '') {
       const response = await loginUser(email, pwd);
-
       // TODO : handle errors
-
       const user = response.data;
-      
       context.changeUser(user);
-      history.push('/explore-projects')
     }
   };
 
