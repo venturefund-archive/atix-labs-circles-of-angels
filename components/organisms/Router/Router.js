@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, BrowserRouter } from 'react-router-dom';
 import Login from '../../../pages/login';
 import PrivateRoute from '../../utils/PrivateRoute';
 import SideBar from '../SideBar/SideBar';
@@ -18,7 +18,7 @@ import ExploreProjects from '../../../pages/explore-projects';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
-import RegisterSteps from '../../../pages/registersteps';
+import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail'
 import { useUserContext } from '../../utils/UserContext';
 

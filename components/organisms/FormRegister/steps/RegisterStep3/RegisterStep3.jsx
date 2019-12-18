@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { Form, Row, Col } from 'antd';
-import TitlePage from '../../../atoms/TitlePage/TitlePage';
-import Field from '../../../atoms/Field/Field';
+import TitlePage from '../../../../atoms/TitlePage/TitlePage';
+import Field from '../../../../atoms/Field/Field';
 
 const commonQuestions = {
   phone: {
@@ -156,8 +156,7 @@ export const questionsByRole = {
 
 export const step3Inputs = {};
 
-export default function RegisterStep3(props) {
-  const { fields, handleChange } = props;
+export default function RegisterStep3({ fields, handleChange }) {
   // const handleChangeOnSelect = (fieldName, v) => (value, options) =>
   //   handleChange(undefined, value, fieldName);
 

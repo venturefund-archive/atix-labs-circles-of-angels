@@ -7,8 +7,9 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../../../pages/_style.scss';
-import '../../../pages/registersteps';
+import '../../../pages/registerSteps/registersteps';
 import { Steps } from 'antd';
 
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
@@ -60,3 +61,15 @@ function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
 }
 
 export default RegisterForm;
+
+RegisterForm.defaultProps = {
+  formSteps: [],
+  initialStep: 0
+};
+
+RegisterForm.propTypes = {
+  formFields: PropTypes.shape({}).isRequired,
+  formSteps: PropTypes.arrayOf,
+  initialStep: PropTypes.number,
+  registerUser: PropTypes.func.isRequired
+};
