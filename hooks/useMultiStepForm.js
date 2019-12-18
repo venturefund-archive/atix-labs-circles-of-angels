@@ -98,6 +98,8 @@ export default function useMultiStepForm(
 
   const validateFields = event => {
     event.preventDefault();
+    const stepFields = steps[currentStep].fields;
+    if (!stepFields.length) return true;
 
     const validatedFields = steps[currentStep].fields.reduce(
       (acc, fieldName) =>
