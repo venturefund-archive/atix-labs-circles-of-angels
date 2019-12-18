@@ -12,7 +12,7 @@ const RegisterStepsHeader = () => (
       sm={{ span: 7, offset: 10 }}
       lg={{ span: 4, offset: 13 }}
     >
-      Already Registered? <a href="/login">Log In</a>
+      Already Registered? <a href="/landing">Log In</a>
     </Col>
   </Row>
 );

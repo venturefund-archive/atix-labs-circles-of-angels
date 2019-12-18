@@ -65,7 +65,7 @@ function Registersteps() {
   const successCallback = () => {
     setIsSubmitting(false);
     message.success('The user has been registered successfully!');
-    return history.push('/login');
+    return history.push('/landing');
   };
 
   const errorCallback = err => {
