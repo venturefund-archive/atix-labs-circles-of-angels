@@ -51,10 +51,18 @@ const RegisterStep2 = ({ fields, handleChange }) => (
             <Field {...fields.email} handleChange={handleChange} />
           </Col>
           <Col className="gutter-row" sm={12} lg={6}>
-            <Field {...fields.password} handleChange={handleChange} />
+            <Field
+              type="password"
+              handleChange={handleChange}
+              {...fields.password}
+            />
           </Col>
           <Col className="gutter-row" sm={12} lg={6}>
-            <Field {...fields.repeatPassword} handleChange={handleChange} />
+            <Field
+              type="password"
+              handleChange={handleChange}
+              {...fields.repeatPassword}
+            />
           </Col>
         </Form>
         <Col className="gutter-row" sm={24} lg={12}>
