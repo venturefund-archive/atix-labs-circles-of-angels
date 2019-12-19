@@ -24,7 +24,12 @@ export const step1Inputs = {
         title: 'Monitor a project'
       }
     ],
-    rules: []
+    rules: [
+      {
+        required: true,
+        message: 'Please select your role!'
+      }
+    ]
   }
 };
 
