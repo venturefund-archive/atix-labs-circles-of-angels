@@ -88,7 +88,7 @@ function Registersteps() {
   const initialStep = !role ? 0 : 1;
 
   // TODO : check if its a valid role.
-  if (!role) fields.role.value = role;
+  if (role) fields.role.value = role;
 
   return (
     <div className="RegisterWrapper">
