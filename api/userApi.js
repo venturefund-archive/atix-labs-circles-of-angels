@@ -10,18 +10,7 @@ import api from './api';
 
 const baseURL = '/users';
 
-const loginUser = async (email, pwd) => {
-  try {
-
-    const response = await api.post(`${baseURL}/login`, {
-      email,
-      pwd
-    });
-    return response;
-  } catch (error) {
-    console.error('error', error);
-  }
-};
+const loginUser = (email, pwd) => api.post(`${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {
