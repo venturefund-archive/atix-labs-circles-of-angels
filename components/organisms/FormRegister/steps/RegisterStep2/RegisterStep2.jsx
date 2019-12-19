@@ -1,0 +1,76 @@
+/**
+ * AGPL License
+ * Circle of Angels aims to democratize social impact financing.
+ * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ *
+ * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Form, Row, Col, Checkbox } from 'antd';
+import TitlePage from '../../../../atoms/TitlePage/TitlePage';
+import CustomButton from '../../../../atoms/CustomButton/CustomButton';
+import Field from '../../../../atoms/Field/Field';
+
+const RegisterStep2 = ({ fields, handleChange }) => (
+  <div>
+    <div className="InfoStep">
+      <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
+      <h2> Personal Information</h2>
+      <h4>
+        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
+      </h4>
+    </div>
+    <div className="StepPersonalInformation">
+      <TitlePage textTitle="Register" />
+      <CustomButton
+        theme="Facebook"
+        buttonText="Register with Facebook Account"
+      />
+      <div className="flex Linear">
+        <hr />
+        <p>or register with</p>
+        <hr />
+      </div>
+      <Row className="FormRegister" gutter={26}>
+        <Form layout="vertical">
+          {/* TODO : we could move the Col tags into the Field component,
+                      and it could also include the sm and lg tags.
+          */}
+          <Col className="gutter-row" sm={24} lg={12}>
+            <Field {...fields.firstName} handleChange={handleChange} />
+          </Col>
+          <Col className="gutter-row" sm={24} lg={12}>
+            <Field {...fields.lastName} handleChange={handleChange} />
+          </Col>
+          <Col className="gutter-row" sm={12} lg={6}>
+            <Field {...fields.country} handleChange={handleChange} />
+          </Col>
+          <Col className="gutter-row" sm={12} lg={6}>
+            <Field {...fields.email} handleChange={handleChange} />
+          </Col>
+          <Col className="gutter-row" sm={12} lg={6}>
+            <Field {...fields.password} handleChange={handleChange} />
+          </Col>
+          <Col className="gutter-row" sm={12} lg={6}>
+            <Field {...fields.repeatPassword} handleChange={handleChange} />
+          </Col>
+        </Form>
+        <Col className="gutter-row" sm={24} lg={12}>
+          <Checkbox>
+            I’ve read and accept all the <a href="/">Terms and Conditions</a> of
+            the site.
+          </Checkbox>
+        </Col>
+      </Row>
+    </div>
+  </div>
+);
+
+export default RegisterStep2;
+
+RegisterStep2.propTypes = {
+  fields: PropTypes.shape({}).isRequired,
+  handleChange: PropTypes.func.isRequired
+};
