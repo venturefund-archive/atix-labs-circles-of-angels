@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { useUserContext } from './UserContext';
+import MainLayout from '../organisms/MainLayout/MainLayout';
 
 const PrivateRoute = routeProps => {
-  const { component: Component, exact, path, authentication } = routeProps;
+  const {
+    component: Component,
+    exact,
+    path,
+    authentication,
+    withHeader,
+    withSideBar
+  } = routeProps;
   const { getLoggedUser } = useUserContext();
   const authenticated = getLoggedUser() !== undefined;
 
@@ -12,20 +20,24 @@ const PrivateRoute = routeProps => {
 
   if (required) {
     if (!authenticated) {
-      // not logged!
-      // return <Redirect to="/login" />;
-      return <Redirect to={redirect === undefined ? "/" : redirect} />;
+      return <Redirect to={redirect === undefined ? '/' : redirect} />;
     }
-  } else {
-    if (authenticated && redirect !== undefined) {
-      return <Redirect to={redirect} />;
-    }
+  } else if (authenticated && redirect !== undefined) {
+    return <Redirect to={redirect} />;
   }
   return (
     <Route
       exact={exact}
       path={path}
-      render={props => <Component {...props} {...routeProps} />}
+      render={props => (
+        <MainLayout
+          withHeader={withHeader}
+          withSideBar={withSideBar}
+          authenticated={authenticated}
+        >
+          <Component {...props} {...routeProps} />
+        </MainLayout>
+      )}
     />
   );
 };
@@ -34,7 +46,6 @@ PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
   exact: PropTypes.bool,
   path: PropTypes.string.isRequired
-  // authenticated: PropTypes.bool.isRequired
 };
 
 PrivateRoute.defaultProps = {
