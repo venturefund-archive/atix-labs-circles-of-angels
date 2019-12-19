@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 export default function useMultiStepForm(
@@ -121,10 +120,7 @@ export default function useMultiStepForm(
     const last = isLast(currentStep);
     const isValid = validateFields(e);
 
-    if (!isValid) {
-      message.error('Complete all the fields');
-      return;
-    }
+    if (!isValid) return;
 
     if (last) setShouldSubmit(true);
     else setCurrentStep(currentStep + 1);

@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 const countries = ['Argentina', 'Angola', 'Argelia'];
 
 export const step1Inputs = {
@@ -27,7 +29,20 @@ export const step1Inputs = {
     rules: [
       {
         required: true,
-        message: 'Please select your role!'
+        message: 'Please select your role!',
+        // TODO: fix hook to allow custom errors. this shouldn't be needed
+        validator: (rule, value) => {
+          let checkValue = value;
+          if (!checkValue) {
+            checkValue = '';
+          }
+
+          if (checkValue.length <= 0) {
+            message.error(rule.message);
+            return false;
+          }
+          return true;
+        }
       }
     ]
   }
