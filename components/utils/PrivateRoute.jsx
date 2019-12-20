@@ -18,11 +18,10 @@ const PrivateRoute = routeProps => {
 
   const { required, redirect } = authentication;
 
-  if (required) {
-    if (!authenticated) {
-      return <Redirect to={redirect === undefined ? '/' : redirect} />;
-    }
-  } else if (authenticated && redirect !== undefined) {
+  if (required && !authenticated) {
+    return <Redirect to={!redirect ? '/' : redirect} />;
+  }
+  if (!required && authenticated && redirect) {
     return <Redirect to={redirect} />;
   }
   return (
