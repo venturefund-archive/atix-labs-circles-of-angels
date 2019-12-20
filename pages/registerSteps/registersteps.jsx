@@ -68,10 +68,9 @@ function Registersteps() {
     return history.push('/landing');
   };
 
-  const errorCallback = err => {
+  const errorCallback = error => {
     setIsSubmitting(false);
-    message.error('An error ocurred while creating your account');
-    console.error('Error', err);
+    message.error(error.response ? error.response.data : error.message);
   };
 
   useFormSubmitEffect({
