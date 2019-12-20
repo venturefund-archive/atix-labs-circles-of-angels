@@ -70,7 +70,7 @@ function Registersteps() {
 
   const errorCallback = error => {
     setIsSubmitting(false);
-    message.error(error.response.data);
+    message.error(error.response ? error.response.data : error.message);
   };
 
   useFormSubmitEffect({
