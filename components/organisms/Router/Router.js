@@ -13,7 +13,7 @@ import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
 import ExploreProjects from '../../../pages/explore-projects';
 import PasswordRecovery from '../../../pages/passwordRecovery';
-import Landing from '../../../pages/landing';
+import Landing from '../../../pages/landing/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
