@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { Layout, Menu, Icon } from 'antd';
+import Roles from '../../../constants/RolesMap';
 import './_style.scss';
 
 const { Sider } = Layout;
@@ -25,22 +26,23 @@ const backOfficeMenuItems = [
   {
     route: '/fund-administration',
     key: 'fund-administration',
-    content: <Icon type="fund" />
+    content: <Icon className="icon" type="fund" />
   },
   {
     route: '/back-office-users',
     key: 'back-office-users',
-    content: <Icon type="team" />
+    content: <Icon className="icon" type="team" />
   },
   {
     route: '/back-office-milestones',
     key: 'back-office-milestones',
-    content: <Icon type="file-protect" />
+    content: <Icon className="icon" type="file-protect" />
   }
 ];
 
-const SideBar = ({ isBackofficeAdmin }) => {
+const SideBar = ({ role }) => {
   const history = useHistory();
+  const isBackofficeAdmin = role === Roles.BackofficeAdmin;
 
   const goToRoute = route => history.push(route);
 
@@ -51,7 +53,7 @@ const SideBar = ({ isBackofficeAdmin }) => {
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
         <Menu.Item
-          key="1"
+          key="projects"
           onClick={
             isBackofficeAdmin
               ? () => goToRoute('/back-office-projects')
@@ -63,7 +65,7 @@ const SideBar = ({ isBackofficeAdmin }) => {
             alt="myprojects"
           />
         </Menu.Item>
-        {!isBackofficeAdmin &&
+        {isBackofficeAdmin &&
           backOfficeMenuItems.map(({ key, route, content }) => (
             <Menu.Item key={key} onClick={() => goToRoute(route)}>
               {content}
@@ -76,10 +78,6 @@ const SideBar = ({ isBackofficeAdmin }) => {
 
 export default SideBar;
 
-SideBar.defaultProps = {
-  isBackofficeAdmin: false
-};
-
 SideBar.propTypes = {
-  isBackofficeAdmin: PropTypes.bool
+  role: PropTypes.string.isRequired
 };

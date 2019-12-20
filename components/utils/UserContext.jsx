@@ -9,7 +9,6 @@
 /* eslint-disable react/no-multi-comp */
 import React, { useContext } from 'react';
 import Cookies from 'js-cookie';
-import Roles from '../../constants/RolesMap';
 
 export const UserContext = React.createContext({});
 
@@ -20,6 +19,7 @@ export function useUserContext() {
 export const withUser = c => c;
 
 const USER_KEY = 'user';
+
 const changeUser = user => {
   Cookies.set(USER_KEY, user);
 };
@@ -30,11 +30,13 @@ const removeUser = () => {
 
 const getLoggedUser = () => {
   let user;
+
   try {
     user = Cookies.getJSON(USER_KEY);
   } catch (error) {
     user = {};
   }
+
   return user;
 };
 

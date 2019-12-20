@@ -3,9 +3,15 @@ import PropTypes from 'prop-types';
 import SideBar from '../SideBar/SideBar';
 import Header from '../../molecules/Header/Header';
 
-const MainLayout = ({ children, withHeader, withSideBar, authenticated }) => (
+const MainLayout = ({
+  children,
+  user,
+  withHeader,
+  withSideBar,
+  authenticated
+}) => (
   <div className="AppContainer">
-    {withSideBar && authenticated && <SideBar />}
+    {withSideBar && authenticated && <SideBar role={user && user.role} />}
     <div className="MainContent">
       {withHeader && authenticated && <Header />}
       <div>{children}</div>
@@ -14,12 +20,14 @@ const MainLayout = ({ children, withHeader, withSideBar, authenticated }) => (
 );
 
 MainLayout.defaultProps = {
+  user: undefined,
   withSideBar: true,
   withHeader: true,
   authenticated: false
 };
 
 MainLayout.propTypes = {
+  user: PropTypes.shape({}),
   children: PropTypes.element.isRequired,
   withHeader: PropTypes.bool,
   withSideBar: PropTypes.bool,

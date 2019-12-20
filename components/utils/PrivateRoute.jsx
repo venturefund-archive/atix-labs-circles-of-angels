@@ -14,7 +14,9 @@ const PrivateRoute = routeProps => {
     withSideBar
   } = routeProps;
   const { getLoggedUser } = useUserContext();
-  const authenticated = getLoggedUser() !== undefined;
+  const user = getLoggedUser();
+  const authenticated = !!user;
+  console.log('loggedUser: ', user);
 
   const { required, redirect } = authentication;
 
@@ -30,6 +32,7 @@ const PrivateRoute = routeProps => {
       path={path}
       render={props => (
         <MainLayout
+          user={user}
           withHeader={withHeader}
           withSideBar={withSideBar}
           authenticated={authenticated}
