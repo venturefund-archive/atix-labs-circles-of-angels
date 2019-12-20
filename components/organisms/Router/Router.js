@@ -9,8 +9,6 @@
 import React from 'react';
 import { Switch, BrowserRouter } from 'react-router-dom';
 import PrivateRoute from '../../utils/PrivateRoute';
-import SideBar from '../SideBar/SideBar';
-import Header from '../../molecules/Header/Header';
 import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
 import ExploreProjects from '../../../pages/explore-projects';
@@ -19,33 +17,42 @@ import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
-import { useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
   {
     path: '/',
     component: Landing,
-    authentication: { required: false, redirect: '/explore-projects' }
+    authentication: { required: false, redirect: '/explore-projects' },
+    withHeader: false,
+    withSideBar: false
   },
   {
     path: '/landing',
     component: Landing,
-    authentication: { required: false, redirect: '/explore-projects' }
+    authentication: { required: false, redirect: '/explore-projects' },
+    withHeader: false,
+    withSideBar: false
   },
   {
     path: '/recovery',
     component: Recovery,
-    authentication: { required: false, redirect: '/explore-projects' }
+    authentication: { required: false, redirect: '/explore-projects' },
+    withHeader: false,
+    withSideBar: false
   },
   {
     path: '/passwordRecovery',
     component: PasswordRecovery,
-    authentication: { required: false, redirect: '/explore-projects' }
+    authentication: { required: false, redirect: '/explore-projects' },
+    withHeader: false,
+    withSideBar: false
   },
   {
     path: '/register',
     component: RegisterSteps,
-    authentication: { required: false, redirect: '/explore-projects' }
+    authentication: { required: false, redirect: '/explore-projects' },
+    withHeader: false,
+    withSideBar: false
   },
   {
     path: '/explore-projects',
@@ -63,34 +70,19 @@ const routesConfig = [
     authentication: { required: true }
   },
   {
-    path: '/explore-projects',
-    component: ExploreProjects,
-    authentication: { required: true }
-  },
-  {
     path: '/project-detail',
     component: ProjectDetail,
     authentication: { required: true }
   }
 ];
 
-function Router(props) {
-  const { getLoggedUser } = useUserContext();
-  const authenticated = getLoggedUser() !== undefined;
+const Router = () => {
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
   return (
-    <div className="AppContainer">
-      {authenticated && <SideBar />}
-      <div className="MainContent">
-        {authenticated && <Header />}
-        <div>
-          <BrowserRouter>
-            <Switch>{routes}</Switch>
-          </BrowserRouter>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Switch>{routes}</Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default Router;
