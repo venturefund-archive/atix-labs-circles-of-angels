@@ -33,7 +33,7 @@ const SettingsMenu = ({ userRole }) => {
       ) : (
         ''
       )}
-      <Menu.Item key="2" onClick={() => logout()}>
+      <Menu.Item key="2" onClick={logout}>
         Log out
       </Menu.Item>
     </Menu>
