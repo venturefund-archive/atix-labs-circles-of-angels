@@ -9,19 +9,17 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
+import { Container } from 'next/app';
 import { UserProvider } from '../components/utils/UserContext';
 import Router from '../components/organisms/Router/Router';
 import withReactRouter from './with-react-router';
-import { Container } from 'next/app';
 
-function MyApp(props) {
-  return (
-    <Container>
-      <UserProvider>
-        <Router {...props} />
-      </UserProvider>
-    </Container>
-  );
-}
+const MyApp = props => (
+  <Container>
+    <UserProvider>
+      <Router {...props} />
+    </UserProvider>
+  </Container>
+);
 
 export default withReactRouter(MyApp);
