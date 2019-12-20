@@ -7,87 +7,79 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import { Layout, Menu, Icon } from 'antd';
 import './_style.scss';
-import { withUser } from '../../utils/UserContext';
 
 const { Sider } = Layout;
 
-const goToExploreProjects = () => {
-  Routing.toExploreProjects();
-};
+const backOfficeMenuItems = [
+  {
+    route: '/my-projects',
+    key: 'my-projects',
+    content: (
+      <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
+    )
+  },
+  {
+    route: '/fund-administration',
+    key: 'fund-administration',
+    content: <Icon type="fund" />
+  },
+  {
+    route: '/back-office-users',
+    key: 'back-office-users',
+    content: <Icon type="team" />
+  },
+  {
+    route: '/back-office-milestones',
+    key: 'back-office-milestones',
+    content: <Icon type="file-protect" />
+  }
+];
 
-const goToFundsAdministration = () => {
-  Routing.toFundAdministration();
-};
+const SideBar = ({ isBackofficeAdmin }) => {
+  const history = useHistory();
 
-const goToBackofficeMilestones = () => {
-  Routing.toBackofficeMilestones();
-};
+  const goToRoute = route => history.push(route);
 
-const goToBackOfficeProjects = () => {
-  Routing.toBackOffice();
-};
-
-const goToBackOfficeUsers = () => {
-  Routing.toBackOfficeUsers();
-};
-
-const goToMyProjects = () => {
-  Routing.toMyProjects();
-};
-
-const SideBar = ({ isBackofficeAdmin }) => (
-  <Sider
-    width="60"
-    breakpoint="md"
-    collapsedWidth="0"
-    onBreakpoint={broken => {
-      console.log(broken);
-    }}
-    onCollapse={(collapsed, type) => {
-      console.log(collapsed, type);
-    }}
-  >
-    <div className="logo">
-      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
-    </div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
-      <Menu.Item
-        key="1"
-        onClick={
-          isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
-        }
-      >
-        <img src="./static/images/projects-icon-navbar.svg" alt="myprojects" />
-      </Menu.Item>
-      {!isBackofficeAdmin && (
-        <Menu.Item key="2" onClick={goToMyProjects}>
+  return (
+    <Sider width="60" breakpoint="md" collapsedWidth="0">
+      <div className="logo">
+        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+      </div>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
+        <Menu.Item
+          key="1"
+          onClick={
+            isBackofficeAdmin
+              ? () => goToRoute('/back-office-projects')
+              : () => goToRoute('/explore-projects')
+          }
+        >
           <img
-            src="./static/images/dashboard-icon-navbar.svg"
+            src="./static/images/projects-icon-navbar.svg"
             alt="myprojects"
           />
         </Menu.Item>
-      )}
-      {isBackofficeAdmin && (
-        <Menu.Item key="3" onClick={goToFundsAdministration}>
-          <Icon type="fund" />
-        </Menu.Item>
-      )}
-      {isBackofficeAdmin && (
-        <Menu.Item key="4" onClick={goToBackOfficeUsers}>
-          <Icon type="team" />
-        </Menu.Item>
-      )}
-      {isBackofficeAdmin ? (
-        <Menu.Item key="5" onClick={goToBackofficeMilestones}>
-          <Icon type="file-protect" />
-        </Menu.Item>
-      ) : (
-        ''
-      )}
-    </Menu>
-  </Sider>
-);
+        {!isBackofficeAdmin &&
+          backOfficeMenuItems.map(({ key, route, content }) => (
+            <Menu.Item key={key} onClick={() => goToRoute(route)}>
+              {content}
+            </Menu.Item>
+          ))}
+      </Menu>
+    </Sider>
+  );
+};
 
-export default withUser(SideBar);
+export default SideBar;
+
+SideBar.defaultProps = {
+  isBackofficeAdmin: false
+};
+
+SideBar.propTypes = {
+  isBackofficeAdmin: PropTypes.bool
+};
