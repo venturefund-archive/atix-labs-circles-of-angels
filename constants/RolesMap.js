@@ -7,10 +7,10 @@
  */
 
 const Roles = {
-  BackofficeAdmin: 1,
-  SocialEntrepreneur: 2,
-  Funder: 3,
-  Oracle: 4
+  BackofficeAdmin: 'admin',
+  SocialEntrepreneur: 'entrepreneur',
+  Funder: 'funder',
+  Oracle: 'oracle'
 };
 
 export default Roles;
