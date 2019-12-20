@@ -16,8 +16,9 @@ import CreateProject from '../../../pages/create-project';
 import ExploreProjects from '../../../pages/explore-projects';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing';
+import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
-import ProjectDetail from '../../../pages/project-detail'
+import ProjectDetail from '../../../pages/project-detail';
 import { useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
@@ -29,6 +30,11 @@ const routesConfig = [
   {
     path: '/landing',
     component: Landing,
+    authentication: { required: false, redirect: '/explore-projects' }
+  },
+  {
+    path: '/recovery',
+    component: Recovery,
     authentication: { required: false, redirect: '/explore-projects' }
   },
   {
