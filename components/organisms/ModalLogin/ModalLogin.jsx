@@ -10,14 +10,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import './_style.scss';
-import { withUser, useUserContext } from '../../utils/UserContext';
+import { useHistory } from 'react-router';
+import { useUserContext } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
 import { loginUser } from '../../../api/userApi';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
-  const context = useUserContext();
+  const { changeUser } = useUserContext();
+  const history = useHistory();
 
   const onLoginSubmit = async (email, pwd) => {
     if (!email || !pwd || email === '' || pwd === '') return;
@@ -25,7 +27,8 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     try {
       const response = await loginUser(email, pwd);
       const user = response.data;
-      context.changeUser(user);
+      changeUser(user);
+      history.push('/explore-projects');
     } catch (error) {
       message.error(error.response.data.error.error);
     }
@@ -54,6 +57,8 @@ const ModalLogin = ({ setVisibility, visibility }) => {
   );
 };
 
+export default ModalLogin;
+
 ModalLogin.defaultProps = {
   visibility: false
 };
@@ -62,5 +67,3 @@ ModalLogin.propTypes = {
   setVisibility: PropTypes.func.isRequired,
   visibility: PropTypes.bool
 };
-
-export default withUser(ModalLogin);
