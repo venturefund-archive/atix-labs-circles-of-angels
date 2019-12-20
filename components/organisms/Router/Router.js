@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { Switch, BrowserRouter } from 'react-router-dom';
-import Login from '../../../pages/login';
 import PrivateRoute from '../../utils/PrivateRoute';
 import SideBar from '../SideBar/SideBar';
 import Header from '../../molecules/Header/Header';
@@ -19,7 +18,7 @@ import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
-import ProjectDetail from '../../../pages/project-detail'
+import ProjectDetail from '../../../pages/project-detail';
 import { useUserContext } from '../../utils/UserContext';
 
 const routesConfig = [
@@ -31,11 +30,6 @@ const routesConfig = [
   {
     path: '/landing',
     component: Landing,
-    authentication: { required: false, redirect: '/explore-projects' }
-  },
-  {
-    path: '/login',
-    component: Login,
     authentication: { required: false, redirect: '/explore-projects' }
   },
   {

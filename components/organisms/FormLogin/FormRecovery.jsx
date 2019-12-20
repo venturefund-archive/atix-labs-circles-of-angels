@@ -8,12 +8,14 @@
 
 import React from 'react';
 import { Form, Icon, Input } from 'antd';
+import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
-import { useHistory } from 'react-router';
 
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
+  const history = useHistory();
+
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
@@ -21,7 +23,7 @@ const FormRecovery = ({ form, onSubmit }) => {
       }
     });
   };
-  const history = useHistory();
+
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
