@@ -6,36 +6,26 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-// import { getProjects } from '../api/projectApi';
-import { changeBudgetStatus } from '../api/milestonesApi';
-import { withUser } from '../components/utils/UserContext';
-
+import React, { useState, useEffect } from 'react';
 import './_style.scss';
 import './_back-office-projects.scss';
+import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
+import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import { changeBudgetStatus } from '../api/milestonesApi';
+import { useGetProjects } from '../api/projectApi';
 
-class BackOfficeProjects extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
-  }
+const BackOfficeProjects = () => {
+  const [data] = useGetProjects();
+  const [projects, setProjects] = useState([]);
 
-  componentDidMount = async () => {
-    const projects = (await getProjects()).data;
-    this.setState({ projects });
-  };
+  const changeProjectStatus = async (milestoneId, budgetStatusId) => {
+    try {
+      const response = await changeBudgetStatus(milestoneId, budgetStatusId);
 
-  changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
-    const response = await changeBudgetStatus(milestoneId, budgetStatusId);
-    if (!response || response.error) {
-      const { error } = response;
+      showModalSuccess('Success!', response.data.success);
+      return response;
+    } catch (error) {
+      // TODO check this
       const title = error.response
         ? 'Error Changing Transfer Status'
         : error.message;
@@ -43,32 +33,24 @@ class BackOfficeProjects extends React.Component {
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
-    } else {
-      showModalSuccess('Success!', response.data.success);
     }
-
-    Routing.toBackOffice();
-    return response;
   };
 
-  updateProject = (index, project) => {
-    const { projects } = this.state;
+  const updateProject = (index, project) => {
     projects[index] = project;
-    this.setState({ projects });
+    setProjects(projects);
   };
 
-  render() {
-    const { projects } = this.state;
-    return (
-      <div className="TableContainer">
-        <h1>Projects Administration</h1>
-        <TableBOProjects
-          dataSource={projects}
-          onStateChange={this.updateProject}
-        />
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    setProjects(data);
+  }, [data]);
 
-export default withUser(BackOfficeProjects);
+  return (
+    <div className="TableContainer">
+      <h1>Projects Administration</h1>
+      <TableBOProjects data={projects} onStateChange={updateProject} />
+    </div>
+  );
+};
+
+export default BackOfficeProjects;

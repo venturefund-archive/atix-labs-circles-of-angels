@@ -7,8 +7,10 @@
  */
 
 import React from 'react';
-import { Table, Tag, Button, Icon } from 'antd';
+import PropTypes from 'prop-types';
 import './_style.scss';
+import { Table, Tag, Icon } from 'antd';
+import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import { showModalError, showModalSuccess } from '../../utils/Modals';
@@ -18,11 +20,9 @@ import {
   downloadProjectMilestonesFile
 } from '../../../api/projectApi';
 
-const projectDetailPage = projectId => {
-  Routing.toBackofficeProjectDetails({ projectId });
-};
+const TableBOProjects = ({ data, onStateChange }) => {
+  const history = useHistory();
 
-const TableBOProjects = ({ dataSource, onStateChange }) => {
   const columns = [
     {
       title: 'User',
@@ -39,9 +39,9 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       dataIndex: 'id',
       key: 'milestones',
       render: projectId => (
-        <Button onClick={() => downloadMilestones(projectId)}>
+        <CustomButton onClick={() => downloadMilestones(projectId)}>
           Download Excel File <Icon type="download" />
-        </Button>
+        </CustomButton>
       )
     },
     {
@@ -49,12 +49,12 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
       dataIndex: 'id',
       key: 'details',
       render: projectId => (
-        <img
-          alt="img"
+        <CustomButton
           className="ProjectAccess"
-          src="./static/images/icon-info.svg"
-          onClick={() => projectDetailPage(projectId)}
-        />
+          onClick={() => goToProjectDetail(projectId)}
+        >
+          <img alt="img" src="./static/images/icon-info.svg" />
+        </CustomButton>
       )
     },
     {
@@ -95,15 +95,10 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
   ];
 
   const downloadMilestones = async projectId => {
-    const response = await downloadProjectMilestonesFile(projectId);
-
-    if (response.error) {
-      const { error } = response;
-      if (error.response) {
-        error.response.data.error =
-          // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Milestones file uploaded";
-      }
+    try {
+      const response = await downloadProjectMilestonesFile(projectId);
+      return response;
+    } catch (error) {
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
         : error.message;
@@ -112,13 +107,21 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         : error.message;
       showModalError(title, content);
     }
-    return response;
   };
 
   const handleConfirm = async (action, projectId, collection, index) => {
-    const response = await action(projectId);
-    if (!response || response.error) {
-      const { error } = response;
+    try {
+      const response = await action(projectId);
+
+      const newCollection = Object.assign({}, collection, {
+        status: response.data.status
+      });
+
+      onStateChange(newCollection, index);
+
+      showModalSuccess('Success!', 'Status changed correctly');
+      return response;
+    } catch (error) {
       const title = error.response
         ? 'Error Changing Project Status'
         : error.message;
@@ -126,18 +129,15 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
-      return response;
     }
-
-    showModalSuccess('Success!', 'Status changed correctly');
-
-    collection.status = response.data.status;
-    onStateChange(collection, index);
   };
+
+  const goToProjectDetail = projectId =>
+    history.push(`/project-detail?proyectId=${projectId}`);
 
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={data}
       columns={columns}
       size="middle"
       className="TableBOProjects"
@@ -146,3 +146,12 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
 };
 
 export default TableBOProjects;
+
+TableBOProjects.defaultProps = {
+  data: []
+};
+
+TableBOProjects.propTypes = {
+  data: PropTypes.arrayOf({}),
+  onStateChange: PropTypes.func.isRequired
+};

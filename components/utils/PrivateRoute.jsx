@@ -16,7 +16,6 @@ const PrivateRoute = routeProps => {
   const { getLoggedUser } = useUserContext();
   const user = getLoggedUser();
   const authenticated = !!user;
-  console.log('loggedUser: ', user);
 
   const { required, redirect } = authentication;
 
