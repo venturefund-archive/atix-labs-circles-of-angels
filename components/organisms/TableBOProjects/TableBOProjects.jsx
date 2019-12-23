@@ -25,11 +25,6 @@ const TableBOProjects = ({ data, onStateChange }) => {
 
   const columns = [
     {
-      title: 'User',
-      dataIndex: 'ownerName',
-      key: 'ownerName'
-    },
-    {
       title: 'Project',
       dataIndex: 'projectName',
       key: 'projectName'
@@ -40,7 +35,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
       key: 'milestones',
       render: projectId => (
         <CustomButton onClick={() => downloadMilestones(projectId)}>
-          Download Excel File <Icon type="download" />
+          <Icon type="download" />
         </CustomButton>
       )
     },
@@ -96,6 +91,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
 
   const downloadMilestones = async projectId => {
     try {
+      // TODO endpoint still not created
       const response = await downloadProjectMilestonesFile(projectId);
       return response;
     } catch (error) {
@@ -117,7 +113,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
         status: response.data.status
       });
 
-      onStateChange(newCollection, index);
+      onStateChange(index, newCollection);
 
       showModalSuccess('Success!', 'Status changed correctly');
       return response;
@@ -133,7 +129,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
   };
 
   const goToProjectDetail = projectId =>
-    history.push(`/project-detail?proyectId=${projectId}`);
+    history.push(`/project-detail?id=${projectId}`);
 
   return (
     <Table
