@@ -213,22 +213,18 @@ const uploadAgreement = async (projectId, agreementFile) => {
 };
 
 const downloadMilestonesTemplate = async () => {
-  try {
-    const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/templates/milestones`, config);
+  const config = { responseType: 'blob' };
+  const response = await api.get(`${baseURL}/templates/milestones`, config);
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    const filename = response.headers.file;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  const filename = response.headers.file;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
 
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  return response;
 };
 
 const downloadProposalTemplate = async () => {

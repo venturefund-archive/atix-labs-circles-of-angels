@@ -66,9 +66,9 @@ const CreateProjectContainer = () => {
   };
 
   const updateFormValues = (values, formKey) => {
-    const newFormValeus = {};
-    newFormValeus[formKey] = values;
-    setFormValues(Object.assign(formValues, newFormValeus));
+    const newFormValues = { ...formValues };
+    newFormValues[formKey] = values;
+    setFormValues(newFormValues);
   };
 
   const submitForm = (formKey, values) => {
@@ -85,9 +85,10 @@ const CreateProjectContainer = () => {
   // });
 
   const CurrentComponent = wizards[currentWizard];
+  const props = {};
 
-  // if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-  //   props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
+  if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
+    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
 
   // if (currentWizard === PROJECT_FORM_NAMES.THUMBNAILS)
   //   props.updateFormValues = updateFormValues;
@@ -96,7 +97,7 @@ const CreateProjectContainer = () => {
   return (
     <div className="Content">
       <CurrentComponent
-        project={project}
+        project={undefined}
         setCurrentWizard={setCurrentWizard}
         goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
         submitForm={submitForm}
