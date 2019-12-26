@@ -24,6 +24,12 @@ const TableBOProjects = ({ data, onStateChange }) => {
   const history = useHistory();
 
   const columns = [
+    // TODO Relation between user and project schemas is not done yet.
+    // {
+    //   title: 'User',
+    //   dataIndex: 'ownerName',
+    //   key: 'ownerName'
+    // },
     {
       title: 'Project',
       dataIndex: 'projectName',
@@ -106,6 +112,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
   };
 
   const handleConfirm = async (action, projectId, collection, index) => {
+    // TODO fix error handle when confirm and reject project are fixed.
     try {
       const response = await action(projectId);
 
