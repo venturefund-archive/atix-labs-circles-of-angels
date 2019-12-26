@@ -7,13 +7,18 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import TableAdminTransfers from './TableAdminTransfers';
 import './_style.scss';
 
 const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
   const columns = [
-    { title: 'Project Id', dataIndex: 'id', key: 'id' },
+    {
+      title: 'Project Id',
+      dataIndex: 'id',
+      key: 'id'
+    },
     {
       title: 'Project Name',
       dataIndex: 'projectName',
@@ -25,6 +30,7 @@ const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
       key: 'owner'
     }
   ];
+
   return (
     <Table
       columns={columns}
@@ -43,3 +49,13 @@ const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
 };
 
 export default TableAdminProjects;
+
+TableAdminProjects.defaultProps = {
+  data: []
+};
+
+TableAdminProjects.propTypes = {
+  data: PropTypes.shape({}),
+  saveStatus: PropTypes.func.isRequired,
+  getTransfersOfProjects: PropTypes.func.isRequired
+};
