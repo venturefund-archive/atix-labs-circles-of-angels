@@ -7,7 +7,6 @@
  */
 
 import api from './api';
-import { func } from 'prop-types';
 
 const baseURL = 'milestones';
 const restActivityBasePath = 'activities';
@@ -75,7 +74,7 @@ const deleteActivity = async activityId => {
 const getAllMilestones = async () => {
   try {
     const response = await api.get(`${baseURL}`);
-    return response;
+    return response && response.data;
   } catch (error) {
     return { error };
   }
