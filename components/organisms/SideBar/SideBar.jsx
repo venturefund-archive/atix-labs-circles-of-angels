@@ -17,17 +17,17 @@ const { Sider } = Layout;
 
 const userMenuItems = [
   {
-    route: '/my-projects',
-    key: 'my-projects',
-    content: (
-      <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
-    )
-  },
-  {
     route: '/explore-projects',
     key: 'explore-projects',
     content: (
       <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    )
+  },
+  {
+    route: '/my-projects',
+    key: 'my-projects',
+    content: (
+      <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
     )
   }
 ];
