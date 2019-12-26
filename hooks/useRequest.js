@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import api, { getBaseURL } from '../api/api';
 
-// function fetch() {
-
-// }
-
 export default function useRequest(method, url, body, config) {
   const [data, setData] = useState(undefined);
   const [errors, setErrors] = useState(undefined);
@@ -13,7 +9,7 @@ export default function useRequest(method, url, body, config) {
   const doFetch = async () => {
     setErrors(undefined);
     setLoading(true);
-    console.log('fetching', method, getBaseURL() + url);
+
     try {
       const result = await api.request({
         method,
@@ -21,7 +17,6 @@ export default function useRequest(method, url, body, config) {
         data: body,
         ...config // TODO : can this include the base url?
       });
-      console.log('ret', result.data);
       setData(result.data);
     } catch (error) {
       console.error('errors found', error);
