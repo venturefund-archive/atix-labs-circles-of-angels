@@ -12,6 +12,10 @@ import PrivateRoute from '../../utils/PrivateRoute';
 import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
 import ExploreProjects from '../../../pages/explore-projects';
+import MyProjects from '../../../pages/my-projects';
+import FundAdministration from '../../../pages/fund-administration';
+import BackOfficeUsers from '../../../pages/back-office-users';
+import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
 import Recovery from '../../../pages/recovery';
@@ -65,13 +69,34 @@ const routesConfig = [
     authentication: { required: true }
   },
   {
+    path: '/project-detail',
+    component: ProjectDetail,
+    authentication: { required: true }
+  },
+  {
     path: '/back-office-projects',
     component: BackofficeProjects,
     authentication: { required: true }
   },
+  // TODO When these pages being done, uncomment this
   {
-    path: '/project-detail',
-    component: ProjectDetail,
+    path: '/my-projects',
+    component: MyProjects,
+    authentication: { required: true }
+  },
+  {
+    path: '/fund-administration',
+    component: FundAdministration,
+    authentication: { required: true }
+  },
+  {
+    path: '/back-office-users',
+    component: BackOfficeUsers,
+    authentication: { required: true }
+  },
+  {
+    path: '/back-office-milestones',
+    component: BackOfficeMilestones,
     authentication: { required: true }
   }
 ];
