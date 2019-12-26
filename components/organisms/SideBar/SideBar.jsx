@@ -7,87 +7,82 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import { Layout, Menu, Icon } from 'antd';
+import Roles from '../../../constants/RolesMap';
 import './_style.scss';
-import { withUser } from '../../utils/UserContext';
 
 const { Sider } = Layout;
 
-const goToExploreProjects = () => {
-  Routing.toExploreProjects();
+const userMenuItems = [
+  {
+    route: '/explore-projects',
+    key: 'explore-projects',
+    content: (
+      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    )
+  },
+  {
+    route: '/my-projects',
+    key: 'my-projects',
+    content: (
+      <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
+    )
+  }
+];
+
+const adminMenuItems = [
+  {
+    route: '/back-office-projects',
+    key: 'back-office-projects',
+    content: (
+      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    )
+  },
+  {
+    route: '/fund-administration',
+    key: 'fund-administration',
+    content: <Icon className="icon" type="fund" />
+  },
+  {
+    route: '/back-office-users',
+    key: 'back-office-users',
+    content: <Icon className="icon" type="team" />
+  },
+  {
+    route: '/back-office-milestones',
+    key: 'back-office-milestones',
+    content: <Icon className="icon" type="file-protect" />
+  }
+];
+
+const SideBar = ({ role }) => {
+  const history = useHistory();
+  const isBackofficeAdmin = role === Roles.BackofficeAdmin;
+
+  const goToRoute = route => history.push(route);
+
+  const getMenuItems = isAdmin => (isAdmin ? adminMenuItems : userMenuItems);
+
+  return (
+    <Sider width="60" breakpoint="md" collapsedWidth="0">
+      <div className="logo">
+        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+      </div>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
+        {getMenuItems(isBackofficeAdmin).map(({ key, route, content }) => (
+          <Menu.Item key={key} onClick={() => goToRoute(route)}>
+            {content}
+          </Menu.Item>
+        ))}
+      </Menu>
+    </Sider>
+  );
 };
 
-const goToFundsAdministration = () => {
-  Routing.toFundAdministration();
+export default SideBar;
+
+SideBar.propTypes = {
+  role: PropTypes.string.isRequired
 };
-
-const goToBackofficeMilestones = () => {
-  Routing.toBackofficeMilestones();
-};
-
-const goToBackOfficeProjects = () => {
-  Routing.toBackOffice();
-};
-
-const goToBackOfficeUsers = () => {
-  Routing.toBackOfficeUsers();
-};
-
-const goToMyProjects = () => {
-  Routing.toMyProjects();
-};
-
-const SideBar = ({ isBackofficeAdmin }) => (
-  <Sider
-    width="60"
-    breakpoint="md"
-    collapsedWidth="0"
-    onBreakpoint={broken => {
-      console.log(broken);
-    }}
-    onCollapse={(collapsed, type) => {
-      console.log(collapsed, type);
-    }}
-  >
-    <div className="logo">
-      <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
-    </div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
-      <Menu.Item
-        key="1"
-        onClick={
-          isBackofficeAdmin ? goToBackOfficeProjects : goToExploreProjects
-        }
-      >
-        <img src="./static/images/projects-icon-navbar.svg" alt="myprojects" />
-      </Menu.Item>
-      {!isBackofficeAdmin && (
-        <Menu.Item key="2" onClick={goToMyProjects}>
-          <img
-            src="./static/images/dashboard-icon-navbar.svg"
-            alt="myprojects"
-          />
-        </Menu.Item>
-      )}
-      {isBackofficeAdmin && (
-        <Menu.Item key="3" onClick={goToFundsAdministration}>
-          <Icon type="fund" />
-        </Menu.Item>
-      )}
-      {isBackofficeAdmin && (
-        <Menu.Item key="4" onClick={goToBackOfficeUsers}>
-          <Icon type="team" />
-        </Menu.Item>
-      )}
-      {isBackofficeAdmin ? (
-        <Menu.Item key="5" onClick={goToBackofficeMilestones}>
-          <Icon type="file-protect" />
-        </Menu.Item>
-      ) : (
-        ''
-      )}
-    </Menu>
-  </Sider>
-);
-
-export default withUser(SideBar);
