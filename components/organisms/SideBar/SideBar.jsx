@@ -15,12 +15,29 @@ import './_style.scss';
 
 const { Sider } = Layout;
 
-const backOfficeMenuItems = [
+const userMenuItems = [
+  {
+    route: '/explore-projects',
+    key: 'explore-projects',
+    content: (
+      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    )
+  },
   {
     route: '/my-projects',
     key: 'my-projects',
     content: (
       <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
+    )
+  }
+];
+
+const adminMenuItems = [
+  {
+    route: '/back-office-projects',
+    key: 'back-office-projects',
+    content: (
+      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
     )
   },
   {
@@ -46,31 +63,19 @@ const SideBar = ({ role }) => {
 
   const goToRoute = route => history.push(route);
 
+  const getMenuItems = isAdmin => (isAdmin ? adminMenuItems : userMenuItems);
+
   return (
     <Sider width="60" breakpoint="md" collapsedWidth="0">
       <div className="logo">
         <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
-        <Menu.Item
-          key="projects"
-          onClick={
-            isBackofficeAdmin
-              ? () => goToRoute('/back-office-projects')
-              : () => goToRoute('/explore-projects')
-          }
-        >
-          <img
-            src="./static/images/projects-icon-navbar.svg"
-            alt="myprojects"
-          />
-        </Menu.Item>
-        {isBackofficeAdmin &&
-          backOfficeMenuItems.map(({ key, route, content }) => (
-            <Menu.Item key={key} onClick={() => goToRoute(route)}>
-              {content}
-            </Menu.Item>
-          ))}
+        {getMenuItems(isBackofficeAdmin).map(({ key, route, content }) => (
+          <Menu.Item key={key} onClick={() => goToRoute(route)}>
+            {content}
+          </Menu.Item>
+        ))}
       </Menu>
     </Sider>
   );
