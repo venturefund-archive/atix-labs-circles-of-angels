@@ -26,7 +26,7 @@ const FundAdministration = () => {
     message.success('Status changed successfuly!');
   };
 
-  const getTransfersOfProjects = async projectId => {
+  const getTransfers = async projectId => {
     const transfers = await getTransferListOfProject(parseInt(projectId, 10));
     return transfers || [];
   };
@@ -41,7 +41,7 @@ const FundAdministration = () => {
       <TableAdminProjects
         data={projects}
         saveStatus={saveStatus}
-        getTransfersOfProjects={getTransfersOfProjects}
+        getTransfers={getTransfers}
       />
     </div>
   );

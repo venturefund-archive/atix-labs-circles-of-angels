@@ -12,7 +12,7 @@ import { Table } from 'antd';
 import TableAdminTransfers from './TableAdminTransfers';
 import './_style.scss';
 
-const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
+const TableAdminProjects = ({ data, saveStatus, getTransfers }) => {
   const columns = [
     {
       title: 'Project Id',
@@ -26,8 +26,8 @@ const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
     },
     {
       title: 'Owner',
-      dataIndex: 'ownerName',
-      key: 'owner'
+      dataIndex: 'owner.firstName',
+      key: 'owner.firstName'
     }
   ];
 
@@ -37,13 +37,13 @@ const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
       dataSource={data}
       size="middle"
       className="TableAdmin"
-      expandedRowRender={record =>
-        TableAdminTransfers({
-          projectId: record.id,
-          saveStatus,
-          getTransfersOfProjects
-        })
-      }
+      expandedRowRender={record => (
+        <TableAdminTransfers
+          projectId={record.id}
+          saveStatus={saveStatus}
+          getTransfers={getTransfers}
+        />
+      )}
     />
   );
 };
@@ -57,5 +57,5 @@ TableAdminProjects.defaultProps = {
 TableAdminProjects.propTypes = {
   data: PropTypes.shape({}),
   saveStatus: PropTypes.func.isRequired,
-  getTransfersOfProjects: PropTypes.func.isRequired
+  getTransfers: PropTypes.func.isRequired
 };
