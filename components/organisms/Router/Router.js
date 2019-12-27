@@ -78,7 +78,6 @@ const routesConfig = [
     component: BackofficeProjects,
     authentication: { required: true }
   },
-  // TODO When these pages being done, uncomment this
   {
     path: '/my-projects',
     component: MyProjects,

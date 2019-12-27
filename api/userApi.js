@@ -22,32 +22,20 @@ const getOracles = async () => {
 };
 
 const getUsers = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response.data.users;
-  } catch (error) {
-    return { error };
-  }
+  const response = await api.get(`${baseURL}`);
+  return response.data.users;
 };
 
 const getAllRoles = async () => {
-  try {
-    const response = await api.get(`${baseURL}/roles`);
-    return response && response.data;
-  } catch (error) {
-    return { error };
-  }
+  const response = await api.get(`${baseURL}/roles`);
+  return response && response.data;
 };
 
 const changeUserRegistrationStatus = async (userId, registrationStatus) => {
-  try {
-    const response = await api.put(`${baseURL}/${userId}`, {
-      registrationStatus
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  const response = await api.put(`${baseURL}/${userId}`, {
+    registrationStatus
+  });
+  return response;
 };
 
 const register = user => api.post(`${baseURL}/signup`, user);

@@ -9,16 +9,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Icon } from 'antd';
+import { Table, Tag, Icon, message } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
-import { showModalError, showModalSuccess } from '../../utils/Modals';
 import {
   confirmProject,
   rejectProject,
   downloadProjectMilestonesFile
 } from '../../../api/projectApi';
+import formatError from '../../../helpers/errorFormatter';
 
 const TableBOProjects = ({ data, onStateChange }) => {
   const history = useHistory();
@@ -101,13 +101,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
       const response = await downloadProjectMilestonesFile(projectId);
       return response;
     } catch (error) {
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
+      message.error(formatError(error));
     }
   };
 
@@ -122,16 +116,10 @@ const TableBOProjects = ({ data, onStateChange }) => {
 
       onStateChange(index, newCollection);
 
-      showModalSuccess('Success!', 'Status changed correctly');
+      message.success('Status changed correctly');
       return response;
     } catch (error) {
-      const title = error.response
-        ? 'Error Changing Project Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
+      message.error(formatError(error));
     }
   };
 

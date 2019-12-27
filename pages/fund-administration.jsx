@@ -16,19 +16,29 @@ import {
   updateStateOfTransference
 } from '../api/transferApi';
 import { useGetProjects } from '../api/projectApi';
+import formatError from '../helpers/errorFormatter';
 
 const FundAdministration = () => {
   const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
+  // TODO Not used until functionality is defined
   const saveStatus = (transferId, state) => {
-    updateStateOfTransference(transferId, state);
-    message.success('Status changed successfuly!');
+    try {
+      updateStateOfTransference(transferId, state);
+      message.success('Status changed successfuly!');
+    } catch (error) {
+      message.error(formatError(error));
+    }
   };
 
   const getTransfers = async projectId => {
-    const transfers = await getTransferListOfProject(parseInt(projectId, 10));
-    return transfers || [];
+    try {
+      const transfers = await getTransferListOfProject(parseInt(projectId, 10));
+      return transfers || [];
+    } catch (error) {
+      message.error(formatError(error));
+    }
   };
 
   useEffect(() => {

@@ -7,12 +7,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { changeBudgetStatus } from '../api/milestonesApi';
 import { useGetProjects } from '../api/projectApi';
+import formatError from '../helpers/errorFormatter';
 
 const BackOfficeProjects = () => {
   const [data] = useGetProjects();
@@ -22,17 +23,10 @@ const BackOfficeProjects = () => {
     try {
       const response = await changeBudgetStatus(milestoneId, budgetStatusId);
 
-      showModalSuccess('Success!', response.data.success);
+      message.success('Status changed successfully');
       return response;
     } catch (error) {
-      // TODO check this
-      const title = error.response
-        ? 'Error Changing Transfer Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
+      message.error(formatError(error));
     }
   };
 
