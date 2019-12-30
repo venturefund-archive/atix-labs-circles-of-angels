@@ -7,10 +7,12 @@
  */
 
 import api from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/users';
 
-const loginUser = (email, pwd) => api.post(`${baseURL}/login`, { email, pwd });
+const loginUser = (email, pwd) =>
+  apiCall('post', `${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {
@@ -21,36 +23,16 @@ const getOracles = async () => {
   }
 };
 
-const getUsers = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response.data.users;
-  } catch (error) {
-    return { error };
-  }
-};
+const getUsers = () => apiCall('get', `${baseURL}`);
 
-const getAllRoles = async () => {
-  try {
-    const response = await api.get(`${baseURL}/roles`);
-    return response && response.data;
-  } catch (error) {
-    return { error };
-  }
-};
+const getAllRoles = () => apiCall('get', `${baseURL}/roles`);
 
-const changeUserRegistrationStatus = async (userId, registrationStatus) => {
-  try {
-    const response = await api.put(`${baseURL}/${userId}`, {
-      registrationStatus
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const changeUserRegistrationStatus = (userId, registrationStatus) =>
+  apiCall('put', `${baseURL}/${userId}`, {
+    registrationStatus
+  });
 
-const register = user => api.post(`${baseURL}/signup`, user);
+const register = user => apiCall('post', `${baseURL}/signup`, user);
 
 const recoverPassword = async email => {
   try {

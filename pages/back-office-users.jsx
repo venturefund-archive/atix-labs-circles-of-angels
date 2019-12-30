@@ -9,6 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import './_style.scss';
 import './_back-office-users.scss';
+import { message } from 'antd';
 import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import {
@@ -16,52 +17,49 @@ import {
   changeUserRegistrationStatus,
   getAllRoles
 } from '../api/userApi';
+import formatError from '../helpers/errorFormatter';
 
 const BackOfficeUsers = () => {
   const [users, setUsers] = useState([]);
   const [filters, setFilters] = useState({});
 
   const fetchUsers = async () => {
-    const roleFilters = [];
-    const usersFound = await getUsers();
-    const roles = await getAllRoles();
+    try {
+      const roleFilters = [];
+      const response = await getUsers();
+      const usersFound = response && response.users;
+      const roles = await getAllRoles();
 
-    if (roles.length) {
-      roles.forEach(role => {
-        roleFilters.push({
-          text: role.toUpperCase(),
-          value: role
+      if (roles.length) {
+        roles.forEach(role => {
+          roleFilters.push({
+            text: role.toUpperCase(),
+            value: role
+          });
         });
-      });
-    }
+      }
 
-    setUsers(usersFound || []);
-    setFilters({ roles: roleFilters });
+      setUsers(usersFound || []);
+      setFilters({ roles: roleFilters });
+    } catch (error) {
+      message.error(error);
+    }
   };
 
   // TODO user registration validation has changed, this will be handle in a future task
   // const changeRegistrationStatus = async (userId, registrationStatus) => {
-  //   const response = await changeUserRegistrationStatus(
-  //     userId,
-  //     registrationStatus.id
-  //   );
-
-  //   if (!response || response.error) {
-  //     const { error } = response;
-  //     const title = error.response
-  //       ? 'Error Changing User Registration Status'
-  //       : error.message;
-  //     const content = error.response
-  //       ? error.response.data.error
-  //       : error.message;
-  //     showModalError(title, content);
-  //   } else {
-  //     showModalSuccess('Success!', response.data.success);
+  //   try {
+  //     const response = await changeUserRegistrationStatus(
+  //       userId,
+  //       registrationStatus.id
+  //     );
   //     const updatedUser = users.find(user => user.id === userId);
   //     updatedUser.registrationStatus = registrationStatus;
+  //     message.success('User updated successfully!');
+  //     return response;
+  //   } catch (error) {
+  //     message.error(error);
   //   }
-
-  //   return response;
   // };
 
   useEffect(() => {

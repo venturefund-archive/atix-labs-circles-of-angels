@@ -25,12 +25,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     if (!email || !pwd || email === '' || pwd === '') return;
 
     try {
-      const response = await loginUser(email, pwd);
-      const user = response.data;
+      const user = await loginUser(email, pwd);
       changeUser(user);
       history.push('/explore-projects');
     } catch (error) {
-      message.error(error.response.data.error.error);
+      message.error(error);
     }
   };
 

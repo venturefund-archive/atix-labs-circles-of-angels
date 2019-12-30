@@ -21,14 +21,23 @@ const FundAdministration = () => {
   const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
-  const saveStatus = (transferId, state) => {
-    updateStateOfTransference(transferId, state);
-    message.success('Status changed successfuly!');
+  // TODO Not used until functionality is defined
+  const saveStatus = async (transferId, state) => {
+    try {
+      await updateStateOfTransference(transferId, state);
+      message.success('Status changed successfuly!');
+    } catch (error) {
+      message.error(error);
+    }
   };
 
   const getTransfers = async projectId => {
-    const transfers = await getTransferListOfProject(parseInt(projectId, 10));
-    return transfers || [];
+    try {
+      const transfers = await getTransferListOfProject(parseInt(projectId, 10));
+      return transfers || [];
+    } catch (error) {
+      message.error(error);
+    }
   };
 
   useEffect(() => {
