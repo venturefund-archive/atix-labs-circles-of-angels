@@ -23,24 +23,16 @@ const getOracles = async () => {
   }
 };
 
-const getUsers = async () => {
-  const response = await api.get(`${baseURL}`);
-  return response.data.users;
-};
+const getUsers = () => apiCall('get', `${baseURL}`);
 
-const getAllRoles = async () => {
-  const response = await api.get(`${baseURL}/roles`);
-  return response && response.data;
-};
+const getAllRoles = () => apiCall('get', `${baseURL}/roles`);
 
-const changeUserRegistrationStatus = async (userId, registrationStatus) => {
-  const response = await api.put(`${baseURL}/${userId}`, {
+const changeUserRegistrationStatus = (userId, registrationStatus) =>
+  apiCall('put', `${baseURL}/${userId}`, {
     registrationStatus
   });
-  return response;
-};
 
-const register = user => api.post(`${baseURL}/signup`, user);
+const register = user => apiCall('post', `${baseURL}/signup`, user);
 
 const recoverPassword = async email => {
   try {

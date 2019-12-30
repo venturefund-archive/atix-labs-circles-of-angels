@@ -25,7 +25,6 @@ import {
 } from '../../components/organisms/FormRegister/steps/stepsInputs';
 import { register } from '../../api/userApi';
 import useFormSubmitEffect from '../../hooks/useFormSubmitEffect';
-import formatError from '../../helpers/errorFormatter';
 
 const steps = [
   {
@@ -71,7 +70,7 @@ function Registersteps() {
 
   const errorCallback = error => {
     setIsSubmitting(false);
-    message.error(formatError(error));
+    message.error(error);
   };
 
   useFormSubmitEffect({

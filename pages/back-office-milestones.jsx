@@ -17,7 +17,6 @@ import {
   changeBudgetStatus
 } from '../api/milestonesApi';
 import MilestoneBudgetStatus from '../constants/MilestoneBudgetStatus';
-import formatError from '../helpers/errorFormatter';
 
 const BackOfficeMilestones = () => {
   const [milestones, setMilestones] = useState([]);
@@ -43,7 +42,7 @@ const BackOfficeMilestones = () => {
       const milestonesFound = await fetchMilestones();
       setMilestones(milestonesFound);
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 

@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/transfers';
 
@@ -54,22 +55,11 @@ const getTransferStatus = async ({ userId, projectId }) => {
   } catch (error) { }
 };
 
-const getTransferListOfProject = async projectId => {
-  const response = await api.get(`/projects/${projectId}${baseURL}`);
-  const transfers = response && response.data;
-  if (!transfers) return [];
+const getTransferListOfProject = projectId =>
+  apiCall('get', `/projects/${projectId}${baseURL}`);
 
-  return transfers.map((transfer, index) =>
-    Object.assign({}, transfer, { key: index })
-  );
-};
-
-const updateStateOfTransference = async (transferId, state) => {
-  const response = await api.put(`${baseURL}/${transferId}`, {
-    state
-  });
-  return response;
-};
+const updateStateOfTransference = (transferId, state) =>
+  apiCall('put', `${baseURL}/${transferId}`, { state });
 
 export {
   sendTransferInformation,

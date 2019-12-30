@@ -119,7 +119,7 @@ const TableBOProjects = ({ data, onStateChange }) => {
       message.success('Status changed correctly');
       return response;
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 

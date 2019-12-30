@@ -26,7 +26,8 @@ const BackOfficeUsers = () => {
   const fetchUsers = async () => {
     try {
       const roleFilters = [];
-      const usersFound = await getUsers();
+      const response = await getUsers();
+      const usersFound = response && response.users;
       const roles = await getAllRoles();
 
       if (roles.length) {
@@ -41,7 +42,7 @@ const BackOfficeUsers = () => {
       setUsers(usersFound || []);
       setFilters({ roles: roleFilters });
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 
@@ -57,7 +58,7 @@ const BackOfficeUsers = () => {
   //     message.success('User updated successfully!');
   //     return response;
   //   } catch (error) {
-  //     message.error(formatError(error));
+  //     message.error(error);
   //   }
   // };
 
