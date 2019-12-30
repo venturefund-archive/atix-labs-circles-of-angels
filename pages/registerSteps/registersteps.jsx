@@ -47,7 +47,7 @@ const fields = {
   ...step3Inputs
 };
 
-function Registersteps() {
+const Registersteps = () => {
   const history = useHistory();
   const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -103,6 +103,6 @@ function Registersteps() {
       />
     </div>
   );
-}
+};
 
 export default Registersteps;

@@ -13,28 +13,12 @@ import TitlePage from '../../../../atoms/TitlePage/TitlePage';
 import '../_style2.scss';
 import RoleOption from './RoleOption';
 import RegisterStep3, { questionsByRole } from '../RegisterStep3/RegisterStep3';
-import RegisterStep4 from '../RegisterStep4/RegisterStep4';
-import {
-  ENTREPRENEUR,
-  FUNDER,
-  ORACLE
-} from '../../../../../constants/constants';
 
 const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
-  const getNextStep = role => {
-    if (role === ENTREPRENEUR || role === FUNDER)
-      return {
-        fields: Object.keys(questionsByRole[role]),
-        component: RegisterStep3
-      };
-
-    if (role === ORACLE)
-      // TODO : this should delete the step 3
-      return {
-        fields: {},
-        component: RegisterStep4
-      };
-  };
+  const getNextStep = role => ({
+    fields: Object.keys(questionsByRole[role]),
+    component: RegisterStep3
+  });
 
   const onSelectRole = role => {
     const questions = questionsByRole[role];
