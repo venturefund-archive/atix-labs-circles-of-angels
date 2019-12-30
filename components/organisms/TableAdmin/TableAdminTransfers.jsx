@@ -7,24 +7,30 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import './_style.scss';
 import { Table } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import transferStatusMap from '../../../model/transferStatus';
-import './_style.scss';
 
-const TableAdminTransfers = ({
-  projectId,
-  saveStatus,
-  getTransfersOfProjects
-}) => (
-  <TransferTable
-    projectId={projectId}
-    saveStatus={saveStatus}
-    getTransfersOfProjects={getTransfersOfProjects}
-  />
-);
-class TransferTable extends React.Component {
-  columns = [
+class TableAdminTransfers extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      transfers: []
+    };
+  }
+
+  componentDidMount = () => this.fetchTransfers();
+
+  fetchTransfers = async () => {
+    const { projectId, getTransfers } = this.props;
+    const data = await getTransfers(projectId);
+    this.setState({ transfers: data || [] });
+  };
+
+  getColumns = () => [
     {
       title: 'Transfer Id',
       dataIndex: 'id',
@@ -47,60 +53,50 @@ class TransferTable extends React.Component {
     },
     {
       title: 'Status',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (text, record) => (
-        <span>
-          <select
-            onChange={evnt => (record.state = evnt.currentTarget.value)}
-            defaultValue={record.state}
-          >
-            {Object.keys(transferStatusMap).map(transferStatusKey => (
-              <option key={transferStatusKey} value={transferStatusKey}>
-                {transferStatusMap[transferStatusKey].show}
-              </option>
-            ))}
-          </select>
-        </span>
-      )
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <span>
-          <CustomButton
-            theme="Primary"
-            buttonText="Confirm"
-            onClick={() => {
-              console.log(record);
-              this.props.saveStatus(record.id, record.state);
-            }}
-          />
-        </span>
-      )
+      dataIndex: 'status',
+      key: 'status'
+      // TODO Disabled until functionality is defined
+      // render: (text, record) => (
+      //   <span>
+      //     <select
+      //       onChange={evnt => (record.status = evnt.currentTarget.value)}
+      //       defaultValue={record.status}
+      //     >
+      //       {Object.keys(transferStatusMap).map(transferStatusKey => (
+      //         <option key={transferStatusKey} value={transferStatusKey}>
+      //           {transferStatusMap[transferStatusKey].show}
+      //         </option>
+      //       ))}
+      //     </select>
+      //   </span>
+      // )
     }
+    // TODO Disabled until functionality is defined
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (text, record) => (
+    //     <span>
+    //       <CustomButton
+    //         theme="Primary"
+    //         buttonText="Confirm"
+    //         onClick={() => {
+    //           console.log(record);
+    //           this.props.saveStatus(record.id, record.state);
+    //         }}
+    //       />
+    //     </span>
+    //   )
+    // }
   ];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-  }
-
-  componentDidMount = async () => {
-    const { getTransfersOfProjects, projectId } = this.props;
-    const data = await getTransfersOfProjects(projectId);
-    this.setState({ data });
-  };
-
   render() {
-    const { data } = this.state;
+    const { transfers } = this.state;
+
     return (
       <Table
-        columns={this.columns}
-        dataSource={data}
+        columns={this.getColumns()}
+        dataSource={transfers}
         size="middle"
         className="TableAdmin"
         pagination={false}
@@ -110,3 +106,9 @@ class TransferTable extends React.Component {
 }
 
 export default TableAdminTransfers;
+
+TableAdminTransfers.propTypes = {
+  projectId: PropTypes.number.isRequired,
+  saveStatus: PropTypes.func.isRequired,
+  getTransfers: PropTypes.func.isRequired
+};
