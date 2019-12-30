@@ -57,15 +57,16 @@ const getTransferStatus = async ({ userId, projectId }) => {
 const getTransferListOfProject = async projectId => {
   try {
     const response = await api.get(`/projects/${projectId}${baseURL}`);
-    const transfers = response.data;
+    const transfers = response && response.data;
     if (!transfers) return [];
-    let key = 0;
-    transfers.map(t => {
-      t.key = key;
-      key++;
-    });
-    return transfers;
-  } catch (error) {}
+
+    return transfers.map((transfer, index) =>
+      Object.assign({}, transfer, { key: index })
+    );
+  } catch (error) {
+    // TODO handle errors on generic method for each apicall
+    console.log('Error: ', error);
+  }
 };
 
 const updateStateOfTransference = async (transferId, state) => {

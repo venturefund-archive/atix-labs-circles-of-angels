@@ -25,11 +25,11 @@ const TableBOProjects = ({ data, onStateChange }) => {
 
   const columns = [
     // TODO Relation between user and project schemas is not done yet.
-    // {
-    //   title: 'User',
-    //   dataIndex: 'ownerName',
-    //   key: 'ownerName'
-    // },
+    {
+      title: 'User',
+      dataIndex: 'owner.firstName',
+      key: 'firstName'
+    },
     {
       title: 'Project',
       dataIndex: 'projectName',

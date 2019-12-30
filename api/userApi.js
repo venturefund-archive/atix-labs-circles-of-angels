@@ -33,16 +33,7 @@ const getUsers = async () => {
 const getAllRoles = async () => {
   try {
     const response = await api.get(`${baseURL}/roles`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const getAllUserRegistrationStatus = async () => {
-  try {
-    const response = await api.get(`${baseURL}/registrationStatus`);
-    return response;
+    return response && response.data;
   } catch (error) {
     return { error };
   }
@@ -96,7 +87,6 @@ export {
   getOracles,
   getUsers,
   changeUserRegistrationStatus,
-  getAllUserRegistrationStatus,
   getAllRoles,
   register,
   recoverPassword,

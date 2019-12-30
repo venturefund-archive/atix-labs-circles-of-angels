@@ -6,10 +6,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
+import React, { useState, useEffect } from 'react';
+import './_style.scss';
+import './_back-office-projects.scss';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import {
@@ -17,53 +16,22 @@ import {
   getAllBudgetStatus,
   changeBudgetStatus
 } from '../api/milestonesApi';
-import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 import MilestoneBudgetStatus from '../constants/MilestoneBudgetStatus';
 
-import './_style.scss';
-import './_back-office-projects.scss';
+const BackOfficeMilestones = () => {
+  const [milestones, setMilestones] = useState([]);
+  const [budgetStatus, setBudgetStatus] = useState([]);
 
-class BackOfficeMilestones extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      milestones: [],
-      budgetStatus: []
-    };
-  }
-
-  getMilestones = async () => {
-    const { milestones } = (await getAllMilestones()).data;
-    const filterMilestones = milestones.filter(
-      milestone =>
-        milestone.budgetStatus.id === MilestoneBudgetStatus.CLAIMED ||
-        milestone.budgetStatus.id === MilestoneBudgetStatus.FUNDED
-    );
-
-    const sortedMilestones = filterMilestones.sort((a, b) => {
-      // Order by budgetStatus:Pending>Completed first
-      if (b.budgetStatus.id === MilestoneBudgetStatus.CLAIMED) {
-        return 1;
-      }
-      return -1;
-
-      // Order by higher id (newer) second
-      if (b.id > a.id) {
-        return 1;
-      }
-      return -1;
-    });
-    return sortedMilestones;
+  const fetchMilestones = async () => {
+    const milestonesFound = await getAllMilestones();
+    // const { budgetStatus } = (await getAllBudgetStatus()).data;
+    setMilestones(milestonesFound);
+    // setBudgetStatus(budgetStatus);
   };
 
-  componentDidMount = async () => {
-    const milestones = await this.getMilestones();
-    const { budgetStatus } = (await getAllBudgetStatus()).data;
-    this.setState({ milestones, budgetStatus });
-  };
-
-  onFundsTransferred = async milestoneId => {
+  // TODO this funtionality is not defined yet
+  const onFundsTransferred = async milestoneId => {
     const response = await changeBudgetStatus(
       milestoneId,
       MilestoneBudgetStatus.FUNDED
@@ -85,24 +53,19 @@ class BackOfficeMilestones extends React.Component {
     this.setState({ milestones });
   };
 
-  render() {
-    const { milestones } = this.state;
-    return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="TableContainer">
-            <h1>Milestones Administration</h1>
-            <TableBOMilestones
-              dataSource={milestones}
-              onFundsTransferred={this.onFundsTransferred}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    fetchMilestones();
+  }, []);
 
-export default withUser(BackOfficeMilestones);
+  return (
+    <div className="TableContainer">
+      <h1>Milestones Administration</h1>
+      <TableBOMilestones
+        data={milestones}
+        onFundsTransferred={onFundsTransferred}
+      />
+    </div>
+  );
+};
+
+export default BackOfficeMilestones;
