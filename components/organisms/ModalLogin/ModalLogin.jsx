@@ -16,7 +16,6 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
 import { loginUser } from '../../../api/userApi';
-import formatError from '../../../helpers/errorFormatter';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
@@ -26,12 +25,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     if (!email || !pwd || email === '' || pwd === '') return;
 
     try {
-      const response = await loginUser(email, pwd);
-      const user = response && response.data;
+      const user = await loginUser(email, pwd);
       changeUser(user);
       history.push('/explore-projects');
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 

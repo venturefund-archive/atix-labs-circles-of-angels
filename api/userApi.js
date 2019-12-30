@@ -7,10 +7,12 @@
  */
 
 import api from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/users';
 
-const loginUser = (email, pwd) => api.post(`${baseURL}/login`, { email, pwd });
+const loginUser = (email, pwd) =>
+  apiCall('post', `${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {

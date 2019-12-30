@@ -13,7 +13,6 @@ import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
 import { changeBudgetStatus } from '../api/milestonesApi';
 import { useGetProjects } from '../api/projectApi';
-import formatError from '../helpers/errorFormatter';
 
 const BackOfficeProjects = () => {
   const [data] = useGetProjects();
@@ -26,7 +25,7 @@ const BackOfficeProjects = () => {
       message.success('Status changed successfully');
       return response;
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 

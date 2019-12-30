@@ -26,11 +26,12 @@ const BackOfficeMilestones = () => {
   const fetchMilestones = async () => {
     try {
       const milestonesFound = await getAllMilestones();
-      // const { budgetStatus } = (await getAllBudgetStatus()).data;
       setMilestones(milestonesFound);
+
+      // const { budgetStatus } = (await getAllBudgetStatus()).data;
       // setBudgetStatus(budgetStatus);
     } catch (error) {
-      message.error(formatError(error));
+      message.error(error);
     }
   };
 

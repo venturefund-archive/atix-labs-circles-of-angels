@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import apiCall from './apiCall'
 
 const baseURL = 'milestones';
 const restActivityBasePath = 'activities';
@@ -71,10 +72,7 @@ const deleteActivity = async activityId => {
   }
 };
 
-const getAllMilestones = async () => {
-  const response = await api.get(`${baseURL}`);
-  return response && response.data;
-};
+const getAllMilestones = () => apiCall('get', `${baseURL}`);
 
 const getAllBudgetStatus = async () => {
   try {
@@ -85,14 +83,12 @@ const getAllBudgetStatus = async () => {
   }
 };
 
-const changeBudgetStatus = async (milestoneId, budgetStatusId) => {
-  const response = await api.put(`${baseURL}/${milestoneId}`, {
+const changeBudgetStatus = (milestoneId, budgetStatusId) =>
+  apiCall('put', `${baseURL}/${milestoneId}`, {
     milestone: {
       budgetStatus: budgetStatusId
     }
   });
-  return response;
-};
 
 export {
   updateMilestone,
