@@ -78,44 +78,7 @@ export const questionsByRole = {
       ]
     }
   },
-  funder: {
-    ...commonQuestions,
-    seeking: {
-      name: 'seeking',
-      type: 'select',
-      label: 'How often do you or your firm make angel impact investments?',
-      // TODO : update later
-      options: ['None', 'Sometimes', 'Always'],
-      rules: [
-        {
-          required: true,
-          // TODO : change wording
-          message: 'Please input your phone!'
-        }
-      ]
-    },
-    goals: {
-      name: 'goals',
-      type: 'select',
-      label: (
-        <div>
-          Which are the areas of impact that you tackle?
-          <p>Based on the UN Sustainable Development Goals</p>
-        </div>
-      ),
-      placeholder: 'Please select up to 3 goals',
-      // TODO : update later
-      options: ['Water', 'Earth', 'Fire', 'Air'],
-      rules: [
-        {
-          required: true,
-          // TODO : change wording
-          message: 'Please choose at least one goal'
-        }
-      ]
-    }
-  },
-  oracle: {
+  supporter: {
     ...commonQuestions,
     seeking: {
       name: 'seeking',
