@@ -21,12 +21,12 @@ const TableBOMilestones = ({ data, onFundsTransferred }) => {
       key: 'projectName'
     },
     {
-      title: 'Project',
+      title: 'Category',
       dataIndex: 'category',
       key: 'category'
     },
     {
-      title: 'Project',
+      title: 'Description',
       dataIndex: 'description',
       key: 'description'
     }
