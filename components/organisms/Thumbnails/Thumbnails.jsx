@@ -17,32 +17,35 @@ import FooterButtons from '../FooterButtons/FooterButtons';
 import { thumbnailsFormInputs } from '../../../helpers/createProjectFormFields';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useForm from '../../../hooks/useForm';
-import api from '../../../api/api';
+import {
+  createProjectThumbnail,
+  updateProjectThumbnail
+} from '../../../api/projectApi';
 import ProjectThumbnailForm from '../../molecules/ProjectThumbnailForm/ProjectThumbnailForm';
 
 const formFields = {
   ...thumbnailsFormInputs
 };
 
-const Thumbnails = ({ project, goBack, submitForm }) => {
+const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(formFields);
 
-  // TODO: load project and get photo if in draft
   useEffect(() => {
     if (!project || !project.id) return;
 
-    fields.projectName.value = project.projectName || '';
-    fields.timeframe.value = project.timeframe || '';
-    fields.goalAmount.value = project.goalAmount || '';
-    fields.cardPhotoPath.value = project.cardPhotoPath || '';
-    fields.location.value = project.location || '';
+    const projectFields = { ...fields };
+
+    projectFields.projectName.value = project.projectName || '';
+    projectFields.timeframe.value = project.timeframe || '';
+    projectFields.goalAmount.value = project.goalAmount || '';
+    projectFields.cardPhotoPath.value = project.cardPhotoPath || '';
+    projectFields.location.value = project.location || '';
 
     setFields({
-      ...fields
+      ...projectFields
     });
-  }, [fields, setFields, project]);
+  }, [project, setFields]);
 
-  // FIXME : this is wrong on so many levels.
   const onSubmit = async data => {
     const formData = {};
     data.forEach((value, key) => {
@@ -50,15 +53,18 @@ const Thumbnails = ({ project, goBack, submitForm }) => {
     });
     submitForm(PROJECT_FORM_NAMES.THUMBNAILS, formData);
     try {
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
       if (project && project.id) {
-        const url = `/projects/${project.id}/description`;
-        // eslint-disable-next-line no-param-reassign
-        data.projectId = project.id;
-        return (await api.put(url, data, config)).data;
+        const response = await updateProjectThumbnail(project.id, data);
+        if (response.errors) {
+          return onError();
+        }
+        return onSuccess(response.data);
       }
-      const url = '/projects/description';
-      return (await api.post(url, data, config)).data;
+      const response = await createProjectThumbnail(data);
+      if (response.errors) {
+        return onError();
+      }
+      return onSuccess(response.data);
     } catch (error) {
       message.error('An error occurred when trying to save the information');
     }
@@ -72,7 +78,6 @@ const Thumbnails = ({ project, goBack, submitForm }) => {
         const submitted = await handleSubmit(onSubmit);
         if (submitted) goBack();
       }}
-      // disabled={!isFormValid}
     />
   );
 
@@ -106,7 +111,9 @@ Thumbnails.propTypes = {
     cardPhotoPath: PropTypes.string,
     location: PropTypes.string
   }),
-  goBack: PropTypes.func.isRequired
+  goBack: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired
 };
 
 export default Thumbnails;

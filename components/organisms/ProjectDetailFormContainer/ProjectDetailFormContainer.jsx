@@ -57,14 +57,16 @@ const ProjectDetailFormContainer = ({
   useEffect(() => {
     if (!project || !project.id) return;
 
-    fields.mission.value = project.mission || '';
-    fields.problemAddressed.value = project.problemAddressed || '';
-    fields.coverPhotoPath.value = project.coverPhotoPath || '';
+    const projectFields = { ...fields };
+
+    projectFields.mission.value = project.mission || '';
+    projectFields.problemAddressed.value = project.problemAddressed || '';
+    projectFields.coverPhotoPath.value = project.coverPhotoPath || '';
 
     setFields({
-      ...fields
+      ...projectFields
     });
-  }, [fields, setFields, project]);
+  }, [setFields, project]);
 
   const onSubmit = values => {
     const formData = {};

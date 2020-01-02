@@ -43,6 +43,7 @@ const formFields = {
   ...{}
 };
 
+// TODO: what happens when project has milestones saved?
 const CreateMilestonesFormContainer = ({ goBack, submitForm }) => {
   const [
     fields,
