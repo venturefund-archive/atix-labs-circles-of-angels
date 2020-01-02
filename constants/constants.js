@@ -7,13 +7,12 @@
  */
 
 export const ENTREPRENEUR = 'entrepreneur';
-export const FUNDER = 'funder';
-export const ORACLE = 'oracle';
+export const SUPPORTER = 'supporter';
 
+// TODO define role name for funder/oracle user
 export const ROLE_LABELS = {
   ENTREPRENEUR: 'Social Entrepreneur',
-  FUNDER: 'Impact funder',
-  ORACLE: 'Oracle'
+  SUPPORTER: 'Impact funder'
 };
 
 export const PROJECT_FORM_NAMES = {
