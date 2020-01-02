@@ -49,7 +49,6 @@ const api = axios.create({
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let errors;
-  let loading = true;
 
   try {
     const result = await api.request({
@@ -62,11 +61,9 @@ export const makeApiRequest = async (method, url, body, config) => {
     data = result.data;
   } catch (error) {
     errors = error;
-  } finally {
-    loading = false;
   }
 
-  return { data, errors, loading };
+  return { data, errors };
 };
 
 export const doGet = async url => makeApiRequest('get', url);
