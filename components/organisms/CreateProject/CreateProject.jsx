@@ -8,7 +8,7 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import './_style.scss';
 
-const Items = ({ title, subtitle, onClick }) => (
+const Items = ({ title, subtitle, onClick, disabled }) => (
   <Col className="Items flex" sm={24} md={24} lg={24}>
     <Col sm={1} md={1} lg={1}>
       <img src="./static/images/unchecked.svg" alt="unchecked" />
@@ -18,7 +18,12 @@ const Items = ({ title, subtitle, onClick }) => (
       <h5>{subtitle}</h5>
     </Col>
     <Col sm={24} md={4} lg={2}>
-      <CustomButton buttonText="Upload" theme="Alternative" onClick={onClick} />
+      <CustomButton
+        buttonText="Upload"
+        theme={disabled ? 'disabled' : 'Alternative'}
+        onClick={onClick}
+        disabled={disabled}
+      />
     </Col>
   </Col>
 );
@@ -53,16 +58,19 @@ const CreateProject = ({ project, setCurrentWizard }) => (
           title="Project Detail"
           subtitle="Here you can upload your project detail"
           onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
+          disabled={!project || !project.id}
         />
         <Items
           title="Project Proposal"
           subtitle="Here you can upload your project proposal"
           onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
+          disabled={!project || !project.id}
         />
         <Items
           title="Project Milestones"
           subtitle="Upload milestones and edit them"
           onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
+          disabled={!project || !project.id}
         />
       </Col>
     </Row>
@@ -83,10 +91,15 @@ CreateProject.propTypes = {
   })
 };
 
+Items.defaultProps = {
+  disabled: false
+};
+
 Items.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default CreateProject;

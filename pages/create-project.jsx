@@ -64,6 +64,14 @@ const CreateProjectContainer = () => {
         return;
       }
       setProject(response.data);
+      const thumbnailsData = {
+        projectName: response.data.projectName,
+        timeframe: response.data.timeframe,
+        goalAmount: response.data.goalAmount,
+        cardPhotoPath: response.data.cardPhotoPath,
+        location: response.data.location
+      };
+      submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
     },
     [history]
   );
