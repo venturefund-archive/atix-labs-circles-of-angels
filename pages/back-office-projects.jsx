@@ -12,27 +12,37 @@ import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
 import { changeBudgetStatus } from '../api/milestonesApi';
-import { useGetProjects } from '../api/projectApi';
+import { useGetProjects, updateProjectStatus } from '../api/projectApi';
+import { projectStatuses } from '../constants/constants';
 
 const BackOfficeProjects = () => {
   const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
-  const changeProjectStatus = async (milestoneId, budgetStatusId) => {
+  const updateStatus = async (index, projectId, status) => {
     try {
-      const response = await changeBudgetStatus(milestoneId, budgetStatusId);
+      await updateProjectStatus(projectId, status);
 
-      message.success('Status changed successfully');
-      return response;
+      // TODO change useGetProjects hook for a normal apicall in order to fetch projects again here
+      // changeProjectStatus(index, newCollection);
+
+      message.success('Project status changed correctly');
     } catch (error) {
       message.error(error);
     }
   };
 
-  const updateProject = (index, project) => {
-    projects[index] = project;
-    setProjects(projects);
-  };
+  // TODO this is not valid at this moment. Analize if will do something similar
+  // const changeProjectStatus = async (milestoneId, budgetStatusId) => {
+  //   try {
+  //     const response = await changeBudgetStatus(milestoneId, budgetStatusId);
+
+  //     message.success('Status changed successfully');
+  //     return response;
+  //   } catch (error) {
+  //     message.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     setProjects(data);
@@ -41,7 +51,15 @@ const BackOfficeProjects = () => {
   return (
     <div className="TableContainer">
       <h1>Projects Administration</h1>
-      <TableBOProjects data={projects} onStateChange={updateProject} />
+      <TableBOProjects
+        data={projects}
+        onConfirm={projectId =>
+          updateStatus(projectId, projectStatuses.PUBLISHED)
+        }
+        onReject={projectId =>
+          updateStatus(projectId, projectStatuses.REJECTED)
+        }
+      />
     </div>
   );
 };

@@ -8,6 +8,7 @@
 
 import { isEmpty } from 'lodash';
 import api from './api';
+import apiCall from './apiCall';
 import ProjectStatus from '../constants/ProjectStatus';
 import useRequest, { useGet, usePost } from '../hooks/useRequest';
 
@@ -116,6 +117,9 @@ const rejectProject = async projectId => {
     return { error };
   }
 };
+
+const updateProjectStatus = async (projectId, status) =>
+  apiCall('post', `${baseURL}/${projectId}/status`, { status });
 
 const getProjectMilestones = async projectId => {
   try {
@@ -326,6 +330,7 @@ export {
   getProject,
   confirmProject,
   rejectProject,
+  updateProjectStatus,
   getProjectMilestones,
   downloadProjectMilestonesFile,
   downloadAgreement,
