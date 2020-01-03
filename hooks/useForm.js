@@ -17,7 +17,11 @@ export default function useForm(formFields, submitCallback) {
     const v = rule.whitespace ? value.trim() : value;
 
     if (rule.required) {
-      isValid = isValid && v.length > 0;
+      const notEmpty = Number.isNaN(Number(v))
+        ? v.length > 0
+        : v.toString().length > 0;
+
+      isValid = isValid && notEmpty;
     }
     if (rule.regex) {
       isValid = isValid && v.match(rule.regex);
@@ -106,14 +110,14 @@ export default function useForm(formFields, submitCallback) {
     setSubmitting(true);
     const data = new FormData();
     Object.values(fields).forEach(field => {
-      if (field.type === 'file') {
-        if (field.value) {
+      if (field.value) {
+        if (field.type === 'file' && field.value.file instanceof File) {
           Object.entries(field.value).forEach(([filename, file]) => {
             data.append(filename, file);
           });
+        } else {
+          data.set(field.name, field.value);
         }
-      } else {
-        data.set(field.name, field.value);
       }
     });
 

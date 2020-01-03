@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment, useEffect } from 'react';
+import { message } from 'antd';
 import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
@@ -14,9 +15,9 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import FooterButtons from '../FooterButtons/FooterButtons';
 import { detailsFormInputs } from '../../../helpers/createProjectFormFields';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import './_style.scss';
 import ProjectDetailForm from '../../molecules/ProjectDetailForm/ProjectDetailForm';
+import { updateProjectDetail } from '../../../api/projectApi';
 
 const formSteps = [
   {
@@ -29,10 +30,11 @@ const formFields = {
 };
 
 const ProjectDetailFormContainer = ({
-  submitForm,
   thumbnailsData,
   project,
-  goBack
+  goBack,
+  onError,
+  onSuccess
 }) => {
   // why multistep form instead of the simple one?
   const [
@@ -53,30 +55,48 @@ const ProjectDetailFormContainer = ({
     goBack
   );
 
-  // TODO: load project and get photo if in draft
   useEffect(() => {
-    if (!project || !project.id) return;
+    if (!project || !project.id) return goBack();
 
     const projectFields = { ...fields };
 
-    projectFields.mission.value = project.mission || '';
-    projectFields.problemAddressed.value = project.problemAddressed || '';
-    projectFields.coverPhotoPath.value = project.coverPhotoPath || '';
+    projectFields.mission.value =
+      project.mission || projectFields.mission.value;
+    projectFields.problemAddressed.value =
+      project.problemAddressed || projectFields.problemAddressed.value;
+    projectFields.coverPhotoPath.value =
+      project.coverPhotoPath || projectFields.coverPhotoPath.value;
 
     setFields({
       ...projectFields
     });
-  }, [setFields, project]);
+  }, [setFields, project, goBack]);
 
-  const onSubmit = values => {
-    const formData = {};
-    Object.keys(values).forEach(key => {
-      formData[key] = values[key].value;
+  const onSubmit = async values => {
+    const data = new FormData();
+    Object.values(values).forEach(field => {
+      if (field.value) {
+        if (field.type === 'file' && field.value.file instanceof File) {
+          Object.entries(field.value).forEach(([filename, file]) => {
+            data.append(filename, file);
+          });
+        } else if (field.type !== 'file') {
+          data.set(field.name, field.value);
+        }
+      }
     });
-    submitForm(PROJECT_FORM_NAMES.DETAILS, formData);
-    // TODO : MAKE API CALL
-    // IF SUBMITTED OK GO BACK
-    goBack();
+    try {
+      if (project && project.id) {
+        const response = await updateProjectDetail(project.id, data);
+        if (response.errors) {
+          return onError();
+        }
+        onSuccess(response.data);
+        goBack();
+      }
+    } catch (error) {
+      message.error('An error occurred when trying to save the information');
+    }
   };
 
   return (
@@ -112,14 +132,15 @@ ProjectDetailFormContainer.propTypes = {
     timeframe: PropTypes.string,
     projectName: PropTypes.string
   }),
-  submitForm: PropTypes.func.isRequired,
   project: PropTypes.shape({
     id: PropTypes.number,
     mission: PropTypes.string,
     problemAddressed: PropTypes.string,
     coverPhotoPath: PropTypes.string
   }),
-  goBack: PropTypes.func.isRequired
+  goBack: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
 };
 
 export default ProjectDetailFormContainer;

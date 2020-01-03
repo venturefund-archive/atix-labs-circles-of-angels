@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 import apiCall from './apiCall';
 import api, { doGet, doPost, doPut } from './api';
 import ProjectStatus from '../constants/ProjectStatus';
-import useRequest, { useGet, usePost } from '../hooks/useRequest';
+import { useGet } from '../hooks/useRequest';
 
 const baseURL = '/projects';
 
@@ -43,6 +43,11 @@ export const createProjectThumbnail = saveData => {
 export const updateProjectThumbnail = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPut(`${baseURL}/${projectId}/description`, saveData, config);
+};
+
+export const updateProjectDetail = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
 };
 
 export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
