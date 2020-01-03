@@ -34,7 +34,11 @@ export default function useMultiStepForm(
     const v = rule.whitespace ? value.trim() : value;
 
     if (rule.required) {
-      isValid = isValid && v.length > 0;
+      const notEmpty = Number.isNaN(Number(v))
+        ? v.length > 0
+        : v.toString().length > 0;
+
+      isValid = isValid && notEmpty;
     }
     if (rule.regex) {
       isValid = isValid && v.match(rule.regex);

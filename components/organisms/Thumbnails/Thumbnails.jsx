@@ -35,11 +35,16 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
 
     const projectFields = { ...fields };
 
-    projectFields.projectName.value = project.projectName || '';
-    projectFields.timeframe.value = project.timeframe || '';
-    projectFields.goalAmount.value = project.goalAmount || '';
-    projectFields.cardPhotoPath.value = project.cardPhotoPath || '';
-    projectFields.location.value = project.location || '';
+    projectFields.projectName.value =
+      project.projectName || projectFields.projectName.value;
+    projectFields.timeframe.value =
+      project.timeframe || projectFields.timeframe.value;
+    projectFields.goalAmount.value =
+      project.goalAmount || projectFields.goalAmount.value;
+    projectFields.cardPhotoPath.value =
+      project.cardPhotoPath || projectFields.cardPhotoPath.value;
+    projectFields.location.value =
+      project.location || projectFields.location.value;
 
     setFields({
       ...projectFields
@@ -49,7 +54,8 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const onSubmit = async data => {
     const formData = {};
     data.forEach((value, key) => {
-      formData[key] = value;
+      if (key !== thumbnailsFormInputs.cardPhotoPath.name)
+        formData[key] = value;
     });
     submitForm(PROJECT_FORM_NAMES.THUMBNAILS, formData);
     try {
