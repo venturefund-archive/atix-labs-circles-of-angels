@@ -13,18 +13,13 @@ import { Table, Tag, Icon, message } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
-import {
-  confirmProject,
-  rejectProject,
-  downloadProjectMilestonesFile
-} from '../../../api/projectApi';
+import { downloadProjectMilestonesFile } from '../../../api/projectApi';
 import formatError from '../../../helpers/errorFormatter';
 
-const TableBOProjects = ({ data, onStateChange }) => {
+const TableBOProjects = ({ data, onConfirm, onReject }) => {
   const history = useHistory();
 
   const columns = [
-    // TODO Relation between user and project schemas is not done yet.
     {
       title: 'User',
       dataIndex: 'owner.firstName',
@@ -74,21 +69,17 @@ const TableBOProjects = ({ data, onStateChange }) => {
       title: 'Actions',
       dataIndex: 'id',
       key: 'action',
-      render: (projectId, collection, index) => (
+      render: projectId => (
         <div className="ActionButtons">
           <CustomButton
             theme="Primary"
             buttonText="Confirm"
-            onClick={async () =>
-              handleConfirm(confirmProject, projectId, collection, index)
-            }
+            onClick={() => onConfirm(projectId)}
           />
           <CustomButton
             theme="Cancel"
             buttonText="Reject"
-            onClick={async () =>
-              handleConfirm(rejectProject, projectId, collection, index)
-            }
+            onClick={() => onReject(projectId)}
           />
         </div>
       )
@@ -102,24 +93,6 @@ const TableBOProjects = ({ data, onStateChange }) => {
       return response;
     } catch (error) {
       message.error(formatError(error));
-    }
-  };
-
-  const handleConfirm = async (action, projectId, collection, index) => {
-    // TODO fix error handle when confirm and reject project are fixed.
-    try {
-      const response = await action(projectId);
-
-      const newCollection = Object.assign({}, collection, {
-        status: response.data.status
-      });
-
-      onStateChange(index, newCollection);
-
-      message.success('Status changed correctly');
-      return response;
-    } catch (error) {
-      message.error(error);
     }
   };
 
@@ -144,5 +117,6 @@ TableBOProjects.defaultProps = {
 
 TableBOProjects.propTypes = {
   data: PropTypes.arrayOf({}),
-  onStateChange: PropTypes.func.isRequired
+  onConfirm: PropTypes.func.isRequired,
+  onReject: PropTypes.func.isRequired
 };

@@ -7,7 +7,7 @@
  */
 
 import api from './api';
-import apiCall from './apiCall'
+import apiCall from './apiCall';
 
 const baseURL = 'milestones';
 const restActivityBasePath = 'activities';

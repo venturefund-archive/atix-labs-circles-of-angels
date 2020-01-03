@@ -22,3 +22,19 @@ export const PROJECT_FORM_NAMES = {
   MILESTONES: 'milestones',
   MAIN: 'main'
 };
+
+export const projectStatuses = {
+  NEW: 'new',
+  TO_REVIEW: 'toreview',
+  REJECTED: 'rejected',
+  DELETED: 'deleted',
+  PUBLISHED: 'published',
+  CONSENSUS: 'consensus',
+  FUNDING: 'funding',
+  EXECUTING: 'executing',
+  CHANGING_SCOPE: 'changingscope',
+  FINISHED: 'finished',
+  ABORTED: 'aborted',
+  ARCHIVED: 'archived',
+  CANCELLED: 'cancelled'
+};
