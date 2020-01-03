@@ -46,7 +46,9 @@ class MyProjects extends React.Component {
         };
       })
     );
-    if (user.role.id === Roles.Oracle) {
+
+    // TODO check this functionality because oracle is not more a role
+    if (user.role.id === Roles.PROJECT_SUPPORTER) {
       const response = await getProjectsAsOracle(user.id);
       const oracleProjects = response.data.projects;
       const activeProjects = await projects.map(project => project.id);
