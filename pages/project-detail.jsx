@@ -44,7 +44,7 @@ export default function ProjectDetail(props) {
   // const applyToProject = async () => {
   //   const { projectDetail } = this.state;
   //   const { user } = this.props;
-  //   const isFunder = user && user.role && user.role.id === Roles.Funder;
+  //   const isFunder = user && user.role && user.role.id === Roles.PROJECT_SUPPORTER;
   //   if (isFunder) {
   //     const response = await createUserProject(user.id, projectDetail.id);
 
