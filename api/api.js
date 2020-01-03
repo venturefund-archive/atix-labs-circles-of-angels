@@ -46,4 +46,32 @@ const api = axios.create({
   withCredentials: true
 });
 
+export const makeApiRequest = async (method, url, body, config) => {
+  let data;
+  let errors;
+
+  try {
+    const result = await api.request({
+      method,
+      url,
+      data: body,
+      ...config
+    });
+    // eslint-disable-next-line prefer-destructuring
+    data = result.data;
+  } catch (error) {
+    errors = error;
+  }
+
+  return { data, errors };
+};
+
+export const doGet = async url => makeApiRequest('get', url);
+
+export const doPost = async (url, data, config) =>
+  makeApiRequest('post', url, data, config);
+
+export const doPut = async (url, data, config) =>
+  makeApiRequest('put', url, data, config);
+
 export default api;

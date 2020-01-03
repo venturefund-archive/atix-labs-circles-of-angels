@@ -7,7 +7,8 @@
  */
 
 import React, { Fragment } from 'react';
-import { Steps } from 'antd';
+import PropTypes from 'prop-types';
+import { Steps, message } from 'antd';
 import './_steps-milestones.scss';
 import '../../../pages/_style.scss';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
@@ -16,6 +17,8 @@ import CreateMilestonesStep1 from './Steps/CreateMilestonesStep1';
 import CreateMilestonesStep2 from './Steps/CreateMilestonesStep2';
 import CreateMilestonesStep3 from './Steps/CreateMilestonesStep3';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
+import { downloadMilestonesTemplate } from '../../../api/projectApi';
+import { milestonesFormItems } from '../../../helpers/createProjectFormFields';
 
 const { Step } = Steps;
 
@@ -25,8 +28,7 @@ const formSteps = [
     component: CreateMilestonesStep1
   },
   {
-    // TODO is empty because the only input is an uploader which is yet to be implemented
-    fields: Object.keys({}),
+    fields: Object.keys(milestonesFormItems),
     component: CreateMilestonesStep2
   },
   {
@@ -37,13 +39,12 @@ const formSteps = [
 
 const formFields = {
   ...{},
-  ...{},
+  ...milestonesFormItems,
   ...{}
 };
 
-const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
-  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-
+// TODO: what happens when project has milestones saved?
+const CreateMilestonesFormContainer = ({ goBack, submitForm }) => {
   const [
     fields,
     setFields,
@@ -57,10 +58,34 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
     formFields,
     formSteps,
     0,
-    values => submitForm(PROJECT_FORM_NAMES.MILESTONES, values),
+    values => onSubmit(values),
     true,
-    showMainPage
+    goBack
   );
+
+  const downloadTemplate = async () => {
+    try {
+      // FIXME: fix this endpoint and api call
+      await downloadMilestonesTemplate();
+    } catch (error) {
+      message.error('There was an error retrieving the template');
+    }
+  };
+
+  const processMilestones = () => {
+    // TODO: MAKE API CALL
+  };
+
+  const onSubmit = values => {
+    const formData = {};
+    Object.keys(values).forEach(key => {
+      formData[key] = values[key].value;
+    });
+    submitForm(PROJECT_FORM_NAMES.MILESTONES, formData);
+    // TODO : MAKE API CALL
+    // IF SUBMITTED OK GO BACK
+    goBack();
+  };
 
   function getStepComponent(current) {
     const Component = steps[current].component;
@@ -70,6 +95,8 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
         setFields={setFields}
         setNextStep={setNextStep}
         handleChange={handleChange}
+        handleDownload={downloadTemplate}
+        handleProcessMilestones={processMilestones}
       />
     );
   }
@@ -88,6 +115,11 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
       />
     </Fragment>
   );
+};
+
+CreateMilestonesFormContainer.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesFormContainer;

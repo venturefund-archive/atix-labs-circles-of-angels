@@ -6,8 +6,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
+import { useHistory } from 'react-router';
 import './_createprojectsteps.scss';
 import './_style.scss';
 import Thumbnails from '../components/organisms/Thumbnails/Thumbnails';
@@ -18,7 +19,7 @@ import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject } from '../api/projectApi';
-import api from '../api/api';
+import useQuery from '../hooks/useQuery';
 
 const wizards = {
   main: CreateProject,
@@ -46,29 +47,52 @@ const getApiCall = submittingForm => {
 };
 
 const CreateProjectContainer = () => {
+  const { id } = useQuery();
+  const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [project, setProject] = useState();
+
+  const fetchProject = useCallback(
+    async projectId => {
+      const response = await getProject(projectId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while fetching the project');
+        history.push('/explore-projects');
+        return;
+      }
+      setProject(response.data);
+    },
+    [history]
+  );
+
+  useEffect(() => {
+    if (id) {
+      fetchProject(id);
+    }
+  }, [id, fetchProject]);
 
   // TODO add logic to show progress on main page
   const successCallback = res => {
     setIsSubmitting(false);
     setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    return message.success('Saved successfully');
+    fetchProject(res.projectId);
+    message.success('Saved successfully');
+    return res;
   };
 
   // TODO validate with UX team
-  const errorCallback = err => {
+  const errorCallback = () => {
     setIsSubmitting(false);
-    message.error('An error ocurred while creating your account');
-    return console.error('Error', err);
+    message.error('An error ocurred while saving the information');
   };
 
   const updateFormValues = (values, formKey) => {
-    const newFormValeus = {};
-    newFormValeus[formKey] = values;
-    setFormValues(Object.assign(formValues, newFormValeus));
+    const newFormValues = { ...formValues };
+    newFormValues[formKey] = values;
+    setFormValues(newFormValues);
   };
 
   const submitForm = (formKey, values) => {
@@ -85,12 +109,10 @@ const CreateProjectContainer = () => {
   // });
 
   const CurrentComponent = wizards[currentWizard];
+  const props = {};
 
-  // if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-  //   props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
-
-  // if (currentWizard === PROJECT_FORM_NAMES.THUMBNAILS)
-  //   props.updateFormValues = updateFormValues;
+  if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
+    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
 
   // TODO add loading when "isSubmitting"
   return (
@@ -99,6 +121,8 @@ const CreateProjectContainer = () => {
         project={project}
         setCurrentWizard={setCurrentWizard}
         goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
+        onError={errorCallback}
+        onSuccess={successCallback}
         submitForm={submitForm}
         {...props}
       />
