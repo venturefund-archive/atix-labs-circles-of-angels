@@ -20,7 +20,8 @@ const SideBar = ({ role }) => {
 
   const goToRoute = route => history.push(route);
 
-  const getMenuItems = userRole => menuItems[userRole];
+  const getMenuItems = userRole =>
+    menuItems.filter(({ allowedRoles }) => allowedRoles.includes(userRole));
 
   return (
     <Sider width="60" breakpoint="md" collapsedWidth="0">
