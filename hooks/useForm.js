@@ -58,7 +58,6 @@ export default function useForm(formFields, submitCallback) {
     // custom onChange handlers due antd's Select onChange behavior
     // if event is undefied it expects to receive a fieldName and its newValue
     let value;
-    console.log(event, fieldName, newValue, 'bbb');
     // debugger;
     if (event !== undefined) {
       if (typeof event.persist === 'function') {
@@ -82,10 +81,8 @@ export default function useForm(formFields, submitCallback) {
     });
   };
 
-  const validateFields = event => {
-    event.preventDefault();
-
-    const validatedFields = fields.reduce(
+  const validateFields = () => {
+    const validatedFields = Object.keys(fields).reduce(
       (acc, fieldName) =>
         Object.assign(
           acc,
@@ -101,18 +98,20 @@ export default function useForm(formFields, submitCallback) {
   const isFormValid = () => Object.values(fields).every(field => field.valid);
 
   const handleSubmit = async onSubmit => {
+    const validated = validateFields();
+    if (!validated) return;
     if (submitting === true) {
-      console.log('already submitting');
       return;
     }
     setSubmitting(true);
-
     const data = new FormData();
     Object.values(fields).forEach(field => {
       if (field.type === 'file') {
-        Object.entries(field.value).forEach(([filename, file]) => {
-          data.append(filename, file);
-        });
+        if (field.value) {
+          Object.entries(field.value).forEach(([filename, file]) => {
+            data.append(filename, file);
+          });
+        }
       } else {
         data.set(field.name, field.value);
       }

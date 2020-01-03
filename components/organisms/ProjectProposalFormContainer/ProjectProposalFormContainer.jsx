@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { Row, Col } from 'antd';
+import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
@@ -15,8 +15,8 @@ import FooterButtons from '../FooterButtons/FooterButtons';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { proposalFromItems } from '../../../helpers/createProjectFormFields';
-import Field from '../../atoms/Field/Field';
 import './_style.scss';
+import ProjectProposalForm from '../../molecules/ProjectProposalForm/ProjectProposalForm';
 
 const formSteps = [
   {
@@ -28,9 +28,8 @@ const formFields = {
   ...proposalFromItems
 };
 
-const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
-  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-
+// TODO: load project proposal saved as draft
+const ProjectProposalFormContainer = ({ goBack, submitForm }) => {
   const [
     fields,
     ,
@@ -44,22 +43,26 @@ const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
     formFields,
     formSteps,
     0,
-    values => submitForm(PROJECT_FORM_NAMES.DETAILS, values),
+    values => onSubmit(values),
     true,
-    showMainPage
+    goBack
   );
+
+  const onSubmit = values => {
+    const formData = {};
+    Object.keys(values).forEach(key => {
+      formData[key] = values[key].value;
+    });
+    submitForm(PROJECT_FORM_NAMES.PROPOSAL, formData);
+    // TODO : MAKE API CALL
+    // IF SUBMITTED OK GO BACK
+    goBack();
+  };
 
   return (
     <Fragment>
-      <TitlePage textTitle="Complete Project´s Details" />
-      <Row type="flex" justify="space-around" align="middle">
-        <Col sm={24} md={24} lg={24}>
-          <p>Complete Project Proposal lorem ipsum dolor</p>
-        </Col>
-        <Col className="HtmlEditor" sm={24} md={24} lg={24}>
-          <Field {...fields.proposal} handleChange={handleChange} />
-        </Col>
-      </Row>
+      <TitlePage textTitle="Complete Project's Proposal" />
+      <ProjectProposalForm fields={fields} handleChange={handleChange} />
       <FooterButtons
         nextStepButton={getNextStepButton(currentStep)}
         prevStepButton={getPrevStepButton(currentStep)}
@@ -67,4 +70,10 @@ const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
     </Fragment>
   );
 };
+
+ProjectProposalFormContainer.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired
+};
+
 export default ProjectProposalFormContainer;

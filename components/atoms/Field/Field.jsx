@@ -21,7 +21,7 @@ export default function Field(props) {
   }
 
   if (type === 'file') {
-    return <FieldFile {...props} />
+    return <FieldFile {...props} />;
   }
 
   return <FieldInput {...props} />;

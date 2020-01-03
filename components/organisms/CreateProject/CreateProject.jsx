@@ -33,7 +33,7 @@ const CreateProject = ({ project, setCurrentWizard }) => (
     </Breadcrumb>
     <TitlePage
       textTitle={
-        project.name === undefined ? 'My project' : project.projectName
+        project && project.projectName ? project.projectName : 'My project'
       }
     />
     <Row
@@ -72,8 +72,21 @@ const CreateProject = ({ project, setCurrentWizard }) => (
   </Fragment>
 );
 
+CreateProject.defaultProps = {
+  project: undefined
+};
+
 CreateProject.propTypes = {
-  setCurrentWizard: PropTypes.func.isRequired
+  setCurrentWizard: PropTypes.func.isRequired,
+  project: PropTypes.shape({
+    projectName: PropTypes.string.isRequired
+  })
+};
+
+Items.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default CreateProject;
