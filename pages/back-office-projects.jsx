@@ -19,7 +19,7 @@ const BackOfficeProjects = () => {
   const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
-  const updateStatus = async (index, projectId, status) => {
+  const updateStatus = async (projectId, status) => {
     try {
       await updateProjectStatus(projectId, status);
 

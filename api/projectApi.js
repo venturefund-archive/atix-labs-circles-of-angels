@@ -119,7 +119,7 @@ const rejectProject = async projectId => {
 };
 
 const updateProjectStatus = async (projectId, status) =>
-  apiCall('post', `${baseURL}/${projectId}/status`, { status });
+  apiCall('put', `${baseURL}/${projectId}/status`, { status });
 
 const getProjectMilestones = async projectId => {
   try {
