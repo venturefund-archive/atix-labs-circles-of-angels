@@ -2,10 +2,9 @@
 
 .ProjectContainer {
   height: 100%;
-  overflow-y: auto;
   .ProjectHeader {
     position: relative;
-    height: 46%;
+    height: 35%;
     overflow: hidden;
     border-bottom-left-radius: 30px;
     .Banner {
@@ -13,9 +12,13 @@
       height: 100%;
     }
   }
+  .DataSteps{
+
+  }
   .BlockContent {
-    height: 55%;
-    padding: 0.5em 3em;
+    height: 65%;
+    overflow-y:scroll;
+    padding: 0.5em 3em 2em;
     .ant-tabs-bar {
       border-bottom: none;
     }
@@ -38,7 +41,7 @@
   }
   .ProjectEnterprice {
     background: rgb(0, 0, 0);
-    height: 80%;
+    height: 100%;
     background: linear-gradient(
       0deg,
       #0000003d 0%,
@@ -48,28 +51,24 @@
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 1.5em 3em;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    h1 {
-      @include primary-text($titlebig, $white, 600);
-      line-height: $titlebig;
-    }
-    p {
-      @include primary-text($labelbig, $white, 400);
-      opacity: 0.7;
-    }
-    .Item {
-      margin-left: 1em;
-      h2 {
-        @include primary-text($medium, $white, 400);
-        line-height: 17px;
-      }
 
-      img {
-        margin-right: 1em;
+    .BlockTop{
+      height:60%;
+      padding:2em 3em;
+      h1 {
+        @include primary-text($titlebig, $white, 600);
+        line-height: $titlebig;
+        margin-right:0.5em;
       }
+      p {
+        @include primary-text($labelbig, $white, 400);
+        opacity: 0.7;
+      }
+    }
+    .BlockBottom{
+      height:40%;
+      border-top:1px solid #e5e6ed40;
+      padding:2em 3em;
     }
   }
 
@@ -81,6 +80,7 @@
     .ant-divider-vertical {
       height: 300px;
     }
+    
   }
 }
 .block {
@@ -238,5 +238,67 @@
   .ant-modal-footer {
     display: flex;
     flex-direction: row-reverse;
+  }
+}
+
+// RIGHT
+
+.Right {
+  height: 100%;
+  padding: 2em 2em 2em 1.5em;
+  position: relative;
+  border-left: 1px solid $border;
+  h3 {
+    @include primary-text($labelbig, $on-surface, 400);
+    margin-bottom: 1.8em;
+  }
+  .ant-avatar-image {
+    margin-right: -8px;
+    border: 1px solid $white;
+  }
+  .ant-btn {
+    margin: 0 auto;
+    height: auto;
+  }
+  .Secondary{
+    padding: 0;
+  }
+  .BlockActions {
+    position: absolute;
+    bottom:1em;
+    left: 0;
+    .ant-btn.Secondary{
+      padding: 1em;
+    }
+  }
+  .Cards {
+    padding: 1em;
+    border-radius: 4px;
+    margin-top: 1em;
+    border-top: 1px solid $border;
+    border-right: 1px solid $border;
+    border-bottom: 1px solid $border;
+    h3 {
+      @include primary-text($medium, $on-surface, 400);
+    }
+    h3.bold {
+      @include primary-text($medium, $on-surface, 600);
+    }
+    .ant-avatar-image {
+      margin-left: 0px;
+    }
+    span {
+      @include primary-text($body, $on-surface-medium, 400);
+      margin-left: 0.5em;
+    }
+  }
+  .Orange {
+    border-left: 4px solid #fe9f30;
+  }
+  .Red {
+    border-left: 4px solid #ff6f6f;
+  }
+  .Blue {
+    border-left: 4px solid $primary-color;
   }
 }
