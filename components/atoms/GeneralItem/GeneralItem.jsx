@@ -10,11 +10,12 @@ import React from 'react';
 import { Icon } from 'antd';
 import './_style.scss';
 
-const GeneralItem = ({ label, info, img }) => (
+const GeneralItem = ({ label, info, img, link }) => (
   <div className="GeneralItem flex">
-    <img src={img} alt="imgItems" />
+    {img && <img src={img} alt="imgItems" />}
     <div className="HeaderData vertical">
       <p className="Label">{label}</p>
+      <a className="Label">{link}</a>
       <h2 className="Info">{info}</h2>
     </div>
   </div>

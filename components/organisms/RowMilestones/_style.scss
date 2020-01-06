@@ -6,6 +6,7 @@
   @include breakpoint(sm) {
     margin: 0 0 1em 0 !important;
   }
+  
   ::-webkit-scrollbar {
     display:none;
   }
@@ -46,6 +47,8 @@
     overflow-x: scroll;
     align-items: flex-start;
     padding: 0.8em 1em 0.5em;
+    height:auto;
+    border-bottom:  1px solid $border;
     @include breakpoint(sm) {
       flex-direction: column;
     }
@@ -59,6 +62,9 @@
     label {
       @include primary-text($body-2, $on-surface-medium, 400);
     }
+  }
+  .TableMilestones{
+    height:96px;
   }
   .WrapperActionsActivities {
     background: $white;
@@ -82,7 +88,6 @@
   }
   .SubWrapperActivities {
     position: relative;
-    height: 81px;
     border-bottom: 1px solid $border;
     border-left: 1px solid $border;
     overflow: hidden;
@@ -103,6 +108,7 @@
   .WrapperActivities {
     padding: 0 !important;
     background: transparent;
+    margin-bottom:1em;
     .ant-collapse {
       background-color: transparent;
       border: none;
