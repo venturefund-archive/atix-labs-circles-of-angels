@@ -38,7 +38,7 @@ function callback(key) {}
 export default function ProjectDetail(props) {
   const { id } = useQuery();
   const projectId = id;
-  const [{ data, errors, loading }] = useGet(`/project/${projectId}/full`);
+  const [{ data, errors, loading }] = useGet(`/projects/${projectId}/full`);
 
   const project = data;
   // if (project !== undefined) {
