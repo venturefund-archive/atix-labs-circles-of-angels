@@ -16,12 +16,8 @@ import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
 import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
-import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscussion';
-import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import AvatarUser from '../components/atoms/AvatarUser/AvatarUser';
-import DrawerUsers from '../components/organisms/DrawerUsers/DrawerUsers';
 import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import { createUserProject } from '../api/userProjectApi';
 import { getPhoto } from '../api/photoApi';
@@ -38,7 +34,7 @@ function callback(key) {}
 export default function ProjectDetail(props) {
   const { id } = useQuery();
   const projectId = id;
-  const [{ data, errors, loading }] = useGet(`/projects/${projectId}/full`);
+  const [{ data, errors, loading }] = useGet('/project/' + projectId + '/full');
 
   const project = data;
   // if (project !== undefined) {
@@ -80,28 +76,6 @@ export default function ProjectDetail(props) {
   // const { projectDetail, projectExperiences, milestones } = this.state;
   // const { projectId } = this.props;
 
-  const Cards = ({ theme, category, user, usersName, avatarImage }) => {
-    const classname = `Cards ${theme}`;
-    return (
-      <Col span={24} className={classname}>
-        <Col span={24}>
-          <h3>{category}</h3>
-        </Col>
-        <Col span={24}>
-          <h3 className="bold"> {user}</h3>
-        </Col>
-        <Col span={24} className="flex">
-          <Col span={3}>
-            <AvatarUser tooltipText={usersName} avatarImage={avatarImage} />
-          </Col>
-          <Col span={21}>
-            <span>{usersName}</span>
-          </Col>
-        </Col>
-      </Col>
-    );
-  };
-
   const experienceTab = (
     <div>
       Experiences
@@ -136,9 +110,9 @@ export default function ProjectDetail(props) {
           milestones={data.milestones}
         />
         <Col span={1}>
-          <Divider />
+          <Divider type="vertical" />
         </Col>
-        <Col className="ProjectProgress" span={24}>
+        <Col className="ProjectProgress" span={11}>
           <div className="block">
             <h1 className="title">Milestones Progress</h1>
           </div>
@@ -203,27 +177,15 @@ export default function ProjectDetail(props) {
           alt="Circles of Angels"
         />
         <div className="ProjectEnterprice">
-          <Row className="BlockTop">
+          <div>
             <p>Organization Name</p>
-            <Col span={21} className="flex">
-              <h1>{project.projectName}</h1>
-              <Tag color="cyan">Consensus Phase</Tag>
-            </Col>
-            <Col span={3}>
-              <CustomButton theme="Primary" buttonText="Follow Project" />
-            </Col>
-          </Row>
-          <Row type="flex" justify="space-between" className="BlockBottom">
-            <Col span={13} className="flex">
-                <GeneralItem link="https://questionsanswers.com"  info="FAQ-Funders and SE´s Questions & Answers" />
-                 <GeneralItem label="$12,000"  info="Goal Amount" />
-            </Col>
-            <Col span={11} className="flex">
-              {itemsData.map(item => (
-                <GeneralItem {...item} key={`data-${item.info}`} />
-              ))}
-            </Col>
-          </Row>
+            <h1>{project.projectName}</h1>
+          </div>
+          <div className="flex">
+            {itemsData.map(item => (
+              <GeneralItem {...item} key={`data-${item.info}`} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -232,10 +194,10 @@ export default function ProjectDetail(props) {
   if (data === undefined) return null;
 
   return (
-    <Row className="ContentComplete">
-      <Col span={18} className="ProjectContainer DataSteps">
+    <div className="ContentComplete">
+      <div className="ProjectContainer DataSteps">
         <ProjectDetailHeader />
-         <div className="BlockContent">
+        <div className="BlockContent">
           <Tabs defaultActiveKey="1" onChange={callback}>
             <TabPane tab="details" key="1">
               <Project />
@@ -243,10 +205,6 @@ export default function ProjectDetail(props) {
             <TabPane tab="Milestones" key="3">
               <RowMilestones {...project} />
             </TabPane>
-                      <TabPane tab="Discussions" key="4">
-            <BlockDiscussion />
-            <BlockChat />
-          </TabPane>
             <TabPane tab={experienceTab} key="2">
               <SeccionExperience
                 experiences={project.experiences}
@@ -255,66 +213,14 @@ export default function ProjectDetail(props) {
             </TabPane>
           </Tabs>
         </div>
-      </Col>
-      <Col span={6} className="Right">
-        <h3>Related users</h3>
-        <Col span={12}>
-          <h4>Followers</h4>
-        </Col>
-        <Col span={12} className="flex-end">
-          <DrawerUsers />
-        </Col>
-        <Col span={24}>
-          <AvatarUser
-            tooltipText="UserName"
-            avatarImage="./static/images/user1.png"
-          />
-          <AvatarUser
-            tooltipText="UserName"
-            avatarImage="./static/images/user2.png"
-          />
-          <AvatarUser
-            tooltipText="UserName"
-            avatarImage="./static/images/user3.png"
-          />
-          <AvatarUser
-            tooltipText="UserName"
-            avatarImage="./static/images/user4.png"
-          />
-        </Col>
-        <Cards
-          theme="Orange"
-          category="Project Social"
-          user="Entrepreneur"
-          usersName="Jenny Steward"
-          avatarImage="./static/images/user1.png"
+      </div>
+      <div className="SubmitProject StepOne">
+        <CustomButton
+          buttonText="Go to project"
+          theme="Success"
+          onClick={() => {}}
         />
-        <Cards
-          theme="Blue"
-          category="Interested in"
-          user="Funding"
-          usersName="Marvin Mccoy"
-          avatarImage="./static/images/user2.png"
-        />
-        <Cards
-          theme="Red"
-          category="Interested in being"
-          user="Oracles"
-          usersName="Jorge Howard"
-          avatarImage="./static/images/user3.png"
-        />
-        <Col span={24} className="BlockActions">
-          <Col span={24}>
-            <CustomButton
-              theme="Alternative"
-              buttonText="I want to be an Oracle"
-            />
-          </Col>
-          <Col span={24}>
-            <CustomButton theme="Secondary" buttonText="Invite Someone" />
-          </Col>
-        </Col>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }
