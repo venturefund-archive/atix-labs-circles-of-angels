@@ -1,23 +1,19 @@
 @import "../../../css/general_styling.scss";
 
 .GeneralItem{
-    margin-right:2.5em;
-    img{
-      margin-right:1.5em;
-      opacity:1;
-    }
+    margin-right:3.5em;
     .Info{
-        @include primary-text($h3, $white, 400);
+        @include primary-text($h2, $white, 400);
         opacity: 0.7;
         line-height: 19px;
     }
     .HeaderData{
-
+        margin-left:1.5em;
         .anticon{
             margin-right: 0.5em;
         }
         .Label{
-            @include primary-text($medium,$white, 600);
+            @include primary-text($h2,$white, 600);
             line-height: 19px;
             opacity:1;
         } 
