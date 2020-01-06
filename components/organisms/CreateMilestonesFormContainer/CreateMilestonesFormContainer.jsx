@@ -61,6 +61,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
 
   const [errorList, setErrorList] = useState([]);
   const [processed, setProcessed] = useState(false);
+  const [processError, setProcessError] = useState();
   const [milestones, setMilestones] = useState([]);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   const fetchMilestones = async () => {
     const response = await getProjectMilestones(project.id);
     if (response.errors) {
-      onError();
+      message.error("An error occurred while getting the project's milestones");
       return;
     }
     setMilestones(response.data);
@@ -99,9 +100,12 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     Object.entries(milestoneFile).forEach(([filename, file]) => {
       data.append(filename, file);
     });
+    setProcessed(false);
     const response = await processProjectMilestones(project.id, data);
+    setProcessed(true);
     if (response.errors) {
       onError();
+      setProcessError(response.errors);
       return;
     }
     if (response.data.projectId) {
@@ -125,7 +129,8 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         handleDownload={downloadTemplate}
         handleProcessMilestones={processMilestones}
         errorList={errorList}
-        processResult={processed}
+        processed={processed}
+        processError={processError}
         milestones={milestones}
       />
     );

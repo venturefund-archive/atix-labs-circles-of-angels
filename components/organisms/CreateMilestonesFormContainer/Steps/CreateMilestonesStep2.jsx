@@ -11,7 +11,8 @@ const CreateMilestonesStep2 = ({
   handleChange,
   handleProcessMilestones,
   errorList,
-  processResult
+  processError,
+  processed
 }) => (
   <Fragment>
     <TitlePage textTitle="Upload Project's Milestones" />
@@ -40,15 +41,17 @@ const CreateMilestonesStep2 = ({
             md={18}
             lg={{ span: 18 }}
           >
-            {processResult && <span>Milestones were created!</span>}
-            {!processResult &&
+            {processed && processError && <span>{processError}</span>}
+            {processed && !processError && <span>Milestones created!</span>}
+            {processed &&
+              !processError &&
               errorList.length > 0 &&
               errorList.map(error => (
                 <span>
                   {error.rowNumber}: {error.msg}
                 </span>
               ))}
-            {!processResult && !errorList.length > 0 && (
+            {!processed && !errorList.length > 0 && (
               <span>You haven't uploaded any documents yet</span>
             )}
           </Col>
@@ -108,7 +111,8 @@ const CreateMilestonesStep2 = ({
 
 CreateMilestonesStep2.defaultProps = {
   errorList: [],
-  processResult: false
+  processed: false,
+  processError: undefined
 };
 
 CreateMilestonesStep2.propTypes = {
@@ -120,7 +124,8 @@ CreateMilestonesStep2.propTypes = {
   errorList: PropTypes.arrayOf(
     PropTypes.shape({ msg: PropTypes.string, rowNumber: PropTypes.number })
   ),
-  processResult: PropTypes.bool
+  processed: PropTypes.bool,
+  processError: PropTypes.string
 };
 
 export default CreateMilestonesStep2;
