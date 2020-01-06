@@ -14,6 +14,10 @@ export default function useMultiStepForm(
   const [steps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
+  useEffect(() => {
+    validateFields();
+  }, [currentStep]);
+
   // TODO : This should replace all steps!
   //        Allowing to add or delete predefinied steps dynamically.
   const setStep = (number, step) => {
@@ -100,8 +104,7 @@ export default function useMultiStepForm(
     });
   };
 
-  const validateFields = event => {
-    event.preventDefault();
+  const validateFields = () => {
     const stepFields = steps[currentStep].fields;
     if (!stepFields.length) return true;
 
@@ -120,9 +123,9 @@ export default function useMultiStepForm(
 
   const isLast = step => step === steps.length - 1;
 
-  const nextStep = e => {
+  const nextStep = () => {
     const last = isLast(currentStep);
-    const isValid = validateFields(e);
+    const isValid = validateFields();
 
     if (!isValid) return;
 
@@ -138,17 +141,25 @@ export default function useMultiStepForm(
     setCurrentStep(currentStep - 1);
   };
 
-  const isFormValid = () => Object.values(fields).every(i => i.valid);
+  const isFormValid = () => {
+    const stepFields = steps[currentStep].fields;
+    return (
+      !stepFields ||
+      !stepFields.length > 0 ||
+      Object.values(stepFields).every(i => fields[i].valid)
+    );
+  };
 
   // FIXME : this should go somewhere else
-  function getNextStepButton(current) {
+  function getNextStepButton(current, disabled) {
     const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
+    const isDisabled = disabled || !isFormValid();
     return (
       <CustomButton
-        theme="Primary"
+        theme={isDisabled ? 'disabled' : 'Primary'}
         buttonText={isLast(current) ? lastText : 'Next'}
         onClick={nextStep}
-        disabled={!isFormValid}
+        disabled={isDisabled}
       />
     );
   }
@@ -178,6 +189,7 @@ export default function useMultiStepForm(
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
+    getPrevStepButton,
+    validateFields
   ];
 }

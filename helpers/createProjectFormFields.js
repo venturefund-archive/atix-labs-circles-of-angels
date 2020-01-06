@@ -157,13 +157,13 @@ export const milestonesFormItems = {
     type: 'file',
     rules: [
       {
-        required: true,
+        required: false,
         message: 'Please upload the milestones information for your project!',
         validator: (rule, value) => {
-          const checkValue = value || '';
-          if (checkValue.length > 0) return true;
-          if (checkValue.file && checkValue.file instanceof File) return true;
-          return false;
+          if (value && value.file && !(value.file instanceof File)) {
+            return false;
+          }
+          return true;
         }
       }
     ]
