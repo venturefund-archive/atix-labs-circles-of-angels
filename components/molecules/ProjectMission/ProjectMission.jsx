@@ -40,7 +40,7 @@ const ProjectMission = ({ mission, terms, startedProject, milestones }) => {
   // }
 
   return (
-    <Col className="ProjectMission" span={12}>
+    <Col className="ProjectMission" span={24}>
       <div className="block">
         <h1 className="title">Our Mission</h1>
         <p>{mission}</p>
