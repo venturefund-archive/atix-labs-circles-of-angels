@@ -24,8 +24,8 @@ const MilestoneRow = ({ className, span, children }) => (
     className="gutter-row TableMilestones"
     xs={{ span: 24 }}
     sm={{ span: 24 }}
-    md={19}
-    lg={{ span:19 }}
+    md={18}
+    lg={{ span }}
   >
     {children}
   </Col>
@@ -48,10 +48,10 @@ const Milestone = ({ milestone, index }) => {
   return (
     <div>
       <MilestoneRow>
-        <MilestoneCol span={3}>
+        <MilestoneCol span={2}>
           <h3>Milestone {index}</h3>
         </MilestoneCol>
-        <MilestoneCol className="vertical" span={4}>
+        <MilestoneCol className="vertical" span={3}>
           <RowLabel text="Quarter" />
           <Info text={milestone.quarter} />
         </MilestoneCol>
@@ -104,20 +104,20 @@ const TaskActions = task => {
 };
 const TaskRow = (task, index) => {
   return (
-    <Col span={24}>
+    <div>
       <Col
         className="gutter-row TableActivities"
         xs={{ span: 24 }}
         sm={{ span: 24 }}
         md={9}
-        lg={{ span: 21 }}
+        lg={{ span: 10 }}
       >
         <Col
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={3}
-          lg={{ span: 3 }}
+          lg={{ span: 2 }}
         >
           <h3>Activity {index}</h3>
         </Col>
@@ -126,7 +126,7 @@ const TaskRow = (task, index) => {
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={3}
-          lg={{ span: 12 }}
+          lg={{ span: 3 }}
         >
           <RowLabel text="Asigned Oracle" />
           <Info text={task.oracle} />
@@ -136,7 +136,7 @@ const TaskRow = (task, index) => {
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={9}
-          lg={{ span: 12 }}
+          lg={{ span: 9 }}
         >
           <RowLabel text="Task" />
           <Info text={task.description} />
@@ -146,7 +146,7 @@ const TaskRow = (task, index) => {
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={9}
-          lg={{ span: 12 }}
+          lg={{ span: 9 }}
         >
           <RowLabel text="Social Impacts Targets" />
           <Info text={task.impact} />
@@ -156,14 +156,14 @@ const TaskRow = (task, index) => {
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={9}
-          lg={{ span: 12 }}
+          lg={{ span: 9 }}
         >
           <RowLabel text="Review Criterion" />
           <Info text={task.review} />
         </Col>
       </Col>
       <TaskActions />
-    </Col>
+    </div>
   );
 };
 
