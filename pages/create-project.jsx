@@ -16,7 +16,6 @@ import ProjectDetailFormContainer from '../components/organisms/ProjectDetailFor
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
-import useFormSubmitEffect from '../hooks/useFormSubmitEffect';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject } from '../api/projectApi';
 import useQuery from '../hooks/useQuery';
@@ -27,23 +26,6 @@ const wizards = {
   details: ProjectDetailFormContainer,
   proposal: ProjectProposalFormContainer,
   milestones: CreateMilestonesFormContainer
-};
-
-const getApiCall = submittingForm => {
-  // TODO send data to endpoint
-  const apiCall = () => new Promise(resolve => resolve('OK'));
-  switch (submittingForm) {
-    case PROJECT_FORM_NAMES.THUMBNAILS:
-      return apiCall;
-    case PROJECT_FORM_NAMES.DETAILS:
-      return apiCall;
-    case PROJECT_FORM_NAMES.MILESTONES:
-      return apiCall;
-    case PROJECT_FORM_NAMES.PROPOSAL:
-      return apiCall;
-    default:
-      return apiCall;
-  }
 };
 
 const CreateProjectContainer = () => {
@@ -108,13 +90,6 @@ const CreateProjectContainer = () => {
     setSubmittingForm(formKey);
     updateFormValues(values, formKey);
   };
-
-  // useFormSubmitEffect({
-  //   apiCall: getApiCall(submittingForm),
-  //   successCallback,
-  //   errorCallback,
-  //   params: { isSubmitting, formValues: formValues[submittingForm] }
-  // });
 
   const CurrentComponent = wizards[currentWizard];
   const props = {};

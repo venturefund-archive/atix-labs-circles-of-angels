@@ -6,17 +6,18 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { message } from 'antd';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import FooterButtons from '../FooterButtons/FooterButtons';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { proposalFromItems } from '../../../helpers/createProjectFormFields';
 import './_style.scss';
 import ProjectProposalForm from '../../molecules/ProjectProposalForm/ProjectProposalForm';
+import { updateProjectProposal } from '../../../api/projectApi';
 
 const formSteps = [
   {
@@ -29,10 +30,15 @@ const formFields = {
 };
 
 // TODO: load project proposal saved as draft
-const ProjectProposalFormContainer = ({ goBack, submitForm }) => {
+const ProjectProposalFormContainer = ({
+  goBack,
+  project,
+  onError,
+  onSuccess
+}) => {
   const [
     fields,
-    ,
+    setFields,
     ,
     ,
     currentStep,
@@ -48,15 +54,35 @@ const ProjectProposalFormContainer = ({ goBack, submitForm }) => {
     goBack
   );
 
-  const onSubmit = values => {
-    const formData = {};
-    Object.keys(values).forEach(key => {
-      formData[key] = values[key].value;
+  useEffect(() => {
+    if (!project || !project.id) return goBack();
+
+    const projectFields = { ...fields };
+
+    projectFields.proposal.value =
+      project.proposal || projectFields.proposal.value;
+
+    setFields({
+      ...projectFields
     });
-    submitForm(PROJECT_FORM_NAMES.PROPOSAL, formData);
-    // TODO : MAKE API CALL
-    // IF SUBMITTED OK GO BACK
-    goBack();
+  }, [setFields, project, goBack]);
+
+  const onSubmit = async values => {
+    if (!values.proposal) return;
+    try {
+      if (project && project.id) {
+        const response = await updateProjectProposal(project.id, {
+          proposal: values.proposal.value
+        });
+        if (response.errors) {
+          return onError();
+        }
+        onSuccess(response.data);
+        goBack();
+      }
+    } catch (error) {
+      message.error('An error occurred when trying to save the information');
+    }
   };
 
   return (
@@ -71,9 +97,18 @@ const ProjectProposalFormContainer = ({ goBack, submitForm }) => {
   );
 };
 
+ProjectProposalFormContainer.defaultProps = {
+  project: undefined
+};
+
 ProjectProposalFormContainer.propTypes = {
   goBack: PropTypes.func.isRequired,
-  submitForm: PropTypes.func.isRequired
+  project: PropTypes.shape({
+    id: PropTypes.number,
+    proposal: PropTypes.string
+  }),
+  onError: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
 };
 
 export default ProjectProposalFormContainer;
