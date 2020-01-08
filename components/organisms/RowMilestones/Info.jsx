@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
 
-const Info = ({ text }) => (
+const Info = ({ value }) => (
   <Col className="gutter-row " span={24}>
-    <p>{text}</p>
+    <p>{value}</p>
   </Col>
 );
 
 Info.defaultProps = {
-  text: ''
+  value: ''
 };
 
 Info.propTypes = {
-  text: PropTypes.string
+  value: PropTypes.string
 };
 
 export default Info;

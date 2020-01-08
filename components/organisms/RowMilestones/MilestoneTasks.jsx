@@ -1,77 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Collapse } from 'antd';
-import RowLabel from './RowLabel';
-import Info from './Info';
-import TaskActions from './TaskActions';
+import { Col, Collapse, message } from 'antd';
+import TaskRow from './TaskRow';
 
 const { Panel } = Collapse;
 
-const TaskRow = (task, index) => (
-  <Col span={24} key={task.id}>
-    <Col
-      className="gutter-row TableActivities"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={9}
-      lg={{ span: 21 }}
-    >
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={3}
-        lg={{ span: 3 }}
-      >
-        <h3>Activity {index}</h3>
-      </Col>
-      <Col
-        className="gutter-row vertical"
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={3}
-        lg={{ span: 12 }}
-      >
-        <RowLabel text="Asigned Oracle" />
-        <Info text={task.oracle} />
-      </Col>
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 12 }}
-      >
-        <RowLabel text="Task" />
-        <Info text={task.description} />
-      </Col>
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 12 }}
-      >
-        <RowLabel text="Social Impacts Targets" />
-        <Info text={task.impact} />
-      </Col>
-      <Col
-        className="gutter-row "
-        xs={{ span: 24 }}
-        sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 12 }}
-      >
-        <RowLabel text="Review Criterion" />
-        <Info text={task.review} />
-      </Col>
-    </Col>
-    <TaskActions />
-  </Col>
-);
+const MilestoneTasks = ({ tasks, onDelete, onEdit, showDelete, showEdit }) => {
+  const [toEditTasks, setToEditTasks] = useState(tasks);
 
-const MilestoneTasks = ({ tasks }) => {
-  const tasksElements = tasks.map((task, i) => TaskRow(task, i));
+  const handleDelete = async (value, index) => {
+    const wasDeleted = await onDelete(value);
+
+    if (wasDeleted) {
+      const tempTasks = [...toEditTasks];
+      tempTasks.splice(index, 1);
+      setToEditTasks(tempTasks);
+    } else {
+      message.error('An error occurred while deleting the record');
+    }
+  };
+
+  const handleEdit = async (value, index) => {
+    const wasEdited = await onEdit(value);
+
+    if (wasEdited) {
+      const tempTasks = [...toEditTasks];
+      tempTasks[index] = value;
+      setToEditTasks(tempTasks);
+    } else {
+      message.error('An error occurred while editing the record');
+    }
+  };
+
+  const tasksElements = toEditTasks.map((task, i) => (
+    <TaskRow
+      task={task}
+      index={i}
+      onDelete={handleDelete}
+      onEdit={handleEdit}
+      showDelete={showDelete}
+      showEdit={showEdit}
+    />
+  ));
   return (
     <Col
       className="WrapperActivities"
@@ -102,7 +72,11 @@ MilestoneTasks.propTypes = {
       impact: PropTypes.string,
       review: PropTypes.string
     })
-  )
+  ),
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  showDelete: PropTypes.bool.isRequired,
+  showEdit: PropTypes.bool.isRequired
 };
 
 export default MilestoneTasks;
