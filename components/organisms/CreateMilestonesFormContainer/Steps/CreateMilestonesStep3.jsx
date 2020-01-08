@@ -1,19 +1,11 @@
 import React from 'react';
-import { Row, Col, Tag, Progress } from 'antd';
+import PropTypes from 'prop-types';
+import { Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
 
-const Actions = () => (
-  <div className="space-between w100">
-    <Tag color="#27AE60">Claimable!</Tag>
-    <div style={{ width: 120 }}>
-      <Progress percent={30} />
-    </div>
-  </div>
-);
-
-export default function CreateMilestonesStep1({ fields, handleChange }) {
+export default function CreateMilestonesStep3({ milestones }) {
   return (
     <div className="Step3">
       <Row type="flex" justify="space-around" align="top">
@@ -34,8 +26,24 @@ export default function CreateMilestonesStep1({ fields, handleChange }) {
           <CustomButton buttonText="+ New Milestone" theme="Alternative" />
         </Col>
       </Row>
-      <RowMilestones ActionMilestones={Actions} />
-      <RowMilestones />
+      <RowMilestones milestones={milestones} />
     </div>
   );
 }
+
+CreateMilestonesStep3.defaultProps = {
+  milestones: []
+};
+
+CreateMilestonesStep3.propTypes = {
+  milestones: PropTypes.arrayOf(
+    PropTypes.shape({
+      taskHash: PropTypes.string,
+      description: PropTypes.string,
+      reviewCriteria: PropTypes.string,
+      category: PropTypes.string,
+      keyPersonnel: PropTypes.string,
+      budget: PropTypes.string
+    })
+  )
+};

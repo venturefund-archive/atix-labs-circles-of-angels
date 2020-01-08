@@ -53,6 +53,14 @@ export const updateProjectDetail = (projectId, saveData) => {
 export const updateProjectProposal = (projectId, saveData) =>
   doPut(`${baseURL}/${projectId}/proposal`, saveData);
 
+export const processProjectMilestones = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/milestones`, saveData, config);
+};
+
+export const getProjectMilestones = projectId =>
+  doGet(`${baseURL}/${projectId}/milestones`);
+
 export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
 
 // const getProjects = async () => {
@@ -121,15 +129,6 @@ const rejectProject = async projectId => {
 
 const updateProjectStatus = async (projectId, status) =>
   apiCall('put', `${baseURL}/${projectId}/status`, { status });
-
-const getProjectMilestones = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/milestones`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
 
 const downloadProjectMilestonesFile = async projectId => {
   try {
@@ -327,7 +326,6 @@ export {
   confirmProject,
   rejectProject,
   updateProjectStatus,
-  getProjectMilestones,
   downloadProjectMilestonesFile,
   downloadAgreement,
   uploadAgreement,

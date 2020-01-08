@@ -65,18 +65,18 @@ const CreateProjectContainer = () => {
   }, [id, fetchProject]);
 
   // TODO add logic to show progress on main page
-  const successCallback = res => {
+  const successCallback = (res, successMsg) => {
     setIsSubmitting(false);
     setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
     fetchProject(res.projectId);
-    message.success('Saved successfully');
+    message.success(successMsg || 'Saved successfully');
     return res;
   };
 
   // TODO validate with UX team
-  const errorCallback = () => {
+  const errorCallback = errorMsg => {
     setIsSubmitting(false);
-    message.error('An error ocurred while saving the information');
+    message.error(errorMsg || 'An error ocurred while saving the information');
   };
 
   const updateFormValues = (values, formKey) => {

@@ -52,7 +52,7 @@ export default function ExploreProjects() {
   const [projects] = useGetProjects();
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
-    if (project.status === 'draft') {
+    if (project.status === 'new') {
       // location.
       history.push('/create-project?id=' + project.id, state);
       // return <Redirect</Redirect>

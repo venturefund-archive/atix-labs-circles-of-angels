@@ -7,6 +7,7 @@
  */
 
 import axios from 'axios';
+import formatError from '../helpers/errorFormatter';
 
 require('dotenv').config();
 
@@ -60,7 +61,7 @@ export const makeApiRequest = async (method, url, body, config) => {
     // eslint-disable-next-line prefer-destructuring
     data = result.data;
   } catch (error) {
-    errors = error;
+    errors = formatError(error);
   }
 
   return { data, errors };

@@ -9,10 +9,13 @@ import { fieldPropType } from '../../../../helpers/createProjectFormFields';
 const CreateMilestonesStep2 = ({
   fields,
   handleChange,
-  handleProcessMilestones
+  handleProcessMilestones,
+  errorList,
+  processError,
+  processed
 }) => (
   <Fragment>
-    <TitlePage textTitle="Upload Project´s Milestones" />
+    <TitlePage textTitle="Upload Project's Milestones" />
     <Row className="Step2" gutter={16}>
       <Col
         className="gutter-row Preview"
@@ -38,7 +41,19 @@ const CreateMilestonesStep2 = ({
             md={18}
             lg={{ span: 18 }}
           >
-            <span>You haven´t uploadead any documents yet</span>
+            {processed && processError && <span>{processError}</span>}
+            {processed && !processError && <span>Milestones created!</span>}
+            {processed &&
+              !processError &&
+              errorList.length > 0 &&
+              errorList.map(error => (
+                <span>
+                  {error.rowNumber}: {error.msg}
+                </span>
+              ))}
+            {!processed && !errorList.length > 0 && (
+              <span>You haven't uploaded any documents yet</span>
+            )}
           </Col>
         </Row>
       </Col>
@@ -83,7 +98,9 @@ const CreateMilestonesStep2 = ({
               icon="arrow-right"
               classNameIcon="iconDisplay"
               disabled={!fields.milestoneFile.value}
-              onClick={handleProcessMilestones}
+              onClick={() =>
+                handleProcessMilestones(fields.milestoneFile.value)
+              }
             />
           </Col>
         </Row>
@@ -92,12 +109,23 @@ const CreateMilestonesStep2 = ({
   </Fragment>
 );
 
+CreateMilestonesStep2.defaultProps = {
+  errorList: [],
+  processed: false,
+  processError: undefined
+};
+
 CreateMilestonesStep2.propTypes = {
   fields: PropTypes.shape({
     milestoneFile: PropTypes.shape(fieldPropType)
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleProcessMilestones: PropTypes.func.isRequired
+  handleProcessMilestones: PropTypes.func.isRequired,
+  errorList: PropTypes.arrayOf(
+    PropTypes.shape({ msg: PropTypes.string, rowNumber: PropTypes.number })
+  ),
+  processed: PropTypes.bool,
+  processError: PropTypes.string
 };
 
 export default CreateMilestonesStep2;

@@ -45,7 +45,8 @@ const ProjectDetailFormContainer = ({
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
+    getPrevStepButton,
+    validateFields
   ] = useMultiStepForm(
     formFields,
     formSteps,
@@ -70,6 +71,7 @@ const ProjectDetailFormContainer = ({
     setFields({
       ...projectFields
     });
+    validateFields();
   }, [setFields, project, goBack]);
 
   const onSubmit = async values => {
