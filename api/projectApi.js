@@ -50,6 +50,9 @@ export const updateProjectDetail = (projectId, saveData) => {
   return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
 };
 
+export const updateProjectProposal = (projectId, saveData) =>
+  doPut(`${baseURL}/${projectId}/proposal`, saveData);
+
 export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
 
 // const getProjects = async () => {
