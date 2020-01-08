@@ -4,10 +4,28 @@ import { Row } from 'antd';
 import './_style.scss';
 import Milestone from './Milestone';
 
-const RowMilestones = ({ milestones }) => {
+const RowMilestones = ({
+  milestones,
+  showMilestoneStatus,
+  onTaskDelete,
+  onTaskEdit,
+  showTaskDelete,
+  showTaskEdit
+}) => {
   if (!milestones) return null;
   const milestoneElements = milestones.map((m, i) => (
-    <Milestone milestone={m} index={i} key={m.id} />
+    <Milestone
+      milestone={m}
+      index={i}
+      key={m.id}
+      showMilestoneStatus={showMilestoneStatus}
+      milestoneProgress={30} // TODO: where do we get this from?
+      milestoneStatus={2} // TODO: where do we get this from?
+      onTaskDelete={onTaskDelete}
+      onTaskEdit={onTaskEdit}
+      showTaskDelete={showTaskDelete}
+      showTaskEdit={showTaskEdit}
+    />
   ));
   return (
     <div className="MilestonesDetails">
@@ -17,7 +35,12 @@ const RowMilestones = ({ milestones }) => {
 };
 
 RowMilestones.defaultProps = {
-  milestones: []
+  milestones: [],
+  showMilestoneStatus: false,
+  onTaskDelete: undefined,
+  onTaskEdit: undefined,
+  showTaskDelete: false,
+  showTaskEdit: false
 };
 
 RowMilestones.propTypes = {
@@ -36,7 +59,12 @@ RowMilestones.propTypes = {
         })
       )
     })
-  )
+  ),
+  showMilestoneStatus: PropTypes.bool,
+  onTaskDelete: PropTypes.func,
+  onTaskEdit: PropTypes.func,
+  showTaskDelete: PropTypes.bool,
+  showTaskEdit: PropTypes.bool
 };
 
 export default RowMilestones;
