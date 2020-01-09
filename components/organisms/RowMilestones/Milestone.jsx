@@ -7,7 +7,18 @@ import Info from './Info';
 import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
 
-const Milestone = ({ milestone, index }) => (
+// TODO: define what milestone fields to show, schema changed
+const Milestone = ({
+  milestone,
+  index,
+  showMilestoneStatus,
+  milestoneProgress,
+  milestoneStatus,
+  onTaskDelete,
+  onTaskEdit,
+  showTaskDelete,
+  showTaskEdit
+}) => (
   <div>
     <MilestoneRow>
       <MilestoneCol span={3}>
@@ -15,15 +26,25 @@ const Milestone = ({ milestone, index }) => (
       </MilestoneCol>
       <MilestoneCol className="vertical" span={4}>
         <RowLabel text="Quarter" />
-        <Info text={milestone.quarter} />
+        <Info value={milestone.quarter} />
       </MilestoneCol>
       <MilestoneCol span={9}>
         <RowLabel text="Tasks" />
-        <Info text={milestone.description} />
+        <Info value={milestone.description} />
       </MilestoneCol>
     </MilestoneRow>
-    <MilestoneActions />
-    <MilestoneTasks tasks={milestone.tasks} />
+    <MilestoneActions
+      show={showMilestoneStatus}
+      status={milestoneStatus}
+      progress={milestoneProgress}
+    />
+    <MilestoneTasks
+      tasks={milestone.tasks}
+      onDelete={onTaskDelete}
+      onEdit={onTaskEdit}
+      showDelete={showTaskDelete}
+      showEdit={showTaskEdit}
+    />
   </div>
 );
 
@@ -42,7 +63,14 @@ Milestone.propTypes = {
       })
     )
   }).isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  showMilestoneStatus: PropTypes.bool.isRequired,
+  milestoneProgress: PropTypes.number.isRequired,
+  milestoneStatus: PropTypes.string.isRequired,
+  onTaskDelete: PropTypes.func.isRequired,
+  onTaskEdit: PropTypes.func.isRequired,
+  showTaskDelete: PropTypes.bool.isRequired,
+  showTaskEdit: PropTypes.bool.isRequired
 };
 
 export default Milestone;
