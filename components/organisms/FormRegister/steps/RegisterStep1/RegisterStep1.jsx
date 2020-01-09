@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
@@ -21,12 +21,16 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
   });
 
   const onSelectRole = role => {
-    const questions = questionsByRole[role];
-
     handleChange(undefined, 'role', role);
-    setFields({ ...fields, ...questions });
     setNextStep(2, getNextStep(role));
   };
+
+  useEffect(() => {
+    if (fields.role && fields.role.valid) {
+      const questions = questionsByRole[fields.role.value];
+      setFields({ ...fields, ...questions });
+    }
+  }, [fields.role.value, setFields]);
 
   return (
     <div>
