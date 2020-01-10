@@ -169,13 +169,3 @@ export const milestonesFormItems = {
     ]
   }
 };
-
-export const fieldPropType = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  rules: PropTypes.array,
-  type: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
-  row: PropTypes.number
-};
