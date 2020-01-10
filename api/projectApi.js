@@ -63,6 +63,11 @@ export const getProjectMilestones = projectId =>
 
 export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
 
+export const useGetPublicProjects = () => {
+  const [{ data, isLoading, isError }] = useGet('/projects/public');
+  return [data, isLoading, isError];
+};
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);
