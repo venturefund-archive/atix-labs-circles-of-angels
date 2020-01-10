@@ -5,7 +5,7 @@ import { getPreviewValue } from '../../../helpers/formatter';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import Field from '../../atoms/Field/Field';
 import { toBase64 } from '../../utils/FileUtils';
-import { fieldPropType } from '../../../helpers/createProjectFormFields';
+import { fieldPropType } from '../../../helpers/proptypes';
 
 const ProjectThumbnailForm = ({ fields, handleChange }) => {
   const [photoPreview, setPhotoPreview] = useState();

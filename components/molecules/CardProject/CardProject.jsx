@@ -7,23 +7,20 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tag, Divider, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
+import { projectCardPropType } from '../../../helpers/proptypes';
 
-const CardProject = ({
-  enterpriseName,
-  enterpriseLocation,
-  timeframe,
-  amount,
-  showTag,
-  onClick,
-  tagClick,
-  milestoneProgress,
-  projectId,
-  project
-}) => {
-  const { cardPhotoPath } = project;
+const CardProject = ({ showTag, onClick, tagClick, project }) => {
+  const {
+    cardPhotoPath,
+    goalAmount,
+    location,
+    projectName,
+    timeframe
+  } = project;
   return (
     <Col className="CardProject" span={8}>
       {showTag && (
@@ -31,7 +28,6 @@ const CardProject = ({
           View my activities to verify
         </Tag>
       )}
-
       <div onClick={onClick}>
         <div className="ProjectDescription">
           <img
@@ -46,20 +42,20 @@ const CardProject = ({
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
-            <h1>{enterpriseName}</h1>
+            <h1>{projectName}</h1>
           </Col>
           <Col className="flex" align="middle" span={24}>
             <InfoItem
-              span="7"
+              span={7}
               subtitle="Country of Impact"
-              title={enterpriseLocation}
+              title={location}
               iconInfoItem="environment"
             />
             <Col span={1}>
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span="7"
+              span={7}
               subtitle="Timeframe"
               title={timeframe}
               iconInfoItem="clock-circle"
@@ -68,9 +64,9 @@ const CardProject = ({
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span="7"
+              span={7}
               subtitle="Amount"
-              title={`$ ${amount}`}
+              title={`$ ${goalAmount}`}
               iconInfoItem="dollar"
             />
           </Col>
@@ -78,6 +74,17 @@ const CardProject = ({
       </div>
     </Col>
   );
+};
+
+CardProject.defaultProps = {
+  showTag: false
+};
+
+CardProject.propTypes = {
+  project: PropTypes.shape(projectCardPropType).isRequired,
+  onClick: PropTypes.func.isRequired,
+  tagClick: PropTypes.func.isRequired,
+  showTag: PropTypes.bool
 };
 
 export default CardProject;

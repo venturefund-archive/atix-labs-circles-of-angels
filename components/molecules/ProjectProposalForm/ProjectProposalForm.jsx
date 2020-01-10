@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
-import { fieldPropType } from '../../../helpers/createProjectFormFields';
+import { fieldPropType } from '../../../helpers/proptypes';
 
 const ProjectProposalForm = ({ fields, handleChange }) => {
   useEffect(() => {

@@ -36,7 +36,7 @@ const PrivateRoute = routeProps => {
           withSideBar={withSideBar}
           authenticated={authenticated}
         >
-          <Component {...props} {...routeProps} />
+          <Component {...props} {...routeProps} user={user} />
         </MainLayout>
       )}
     />

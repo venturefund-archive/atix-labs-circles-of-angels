@@ -6,10 +6,12 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import api, { doGet } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/users';
+
+export const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
 
 const loginUser = (email, pwd) =>
   apiCall('post', `${baseURL}/login`, { email, pwd });
@@ -55,15 +57,6 @@ const updatePassword = async (token, password) => {
   }
 };
 
-const getMyProjects = async userId => {
-  try {
-    const response = await api.get(`${baseURL}/${userId}/projects`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
 export {
   loginUser,
   getOracles,
@@ -72,6 +65,5 @@ export {
   getAllRoles,
   register,
   recoverPassword,
-  updatePassword,
-  getMyProjects
+  updatePassword
 };
