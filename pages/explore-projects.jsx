@@ -8,14 +8,14 @@
 
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useGetProjects } from '../api/projectApi';
+import { useGetPublicProjects } from '../api/projectApi';
 import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 
 export default function ExploreProjects() {
   const history = useHistory();
-  const [projects] = useGetProjects();
+  const [projects] = useGetPublicProjects();
 
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
