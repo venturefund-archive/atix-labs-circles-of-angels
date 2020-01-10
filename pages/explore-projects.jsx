@@ -6,58 +6,25 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import CardProject from '../components/molecules/CardProject/CardProject';
-import {
-  getProjectsPreview,
-  getProjectsAsOracle,
-  getProjects,
-  useGetProjects
-} from '../api/projectApi';
-import { withUser } from '../components/utils/UserContext';
+import React from 'react';
+import { useHistory } from 'react-router';
+import { useGetProjects } from '../api/projectApi';
 import './_style.scss';
 import './_explore-projects.scss';
-import { useHistory, useLocation } from 'react-router';
-import Roles from '../constants/RolesMap';
-import projectStatus from '../constants/ProjectStatus';
-import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
-import TitlePage from '../components/atoms/TitlePage/TitlePage';
-import { Row, Col, Input, Select } from 'antd';
-import Axios from 'axios';
-import api from '../api/api';
-
-const { Search } = Input;
-const { Option } = Select;
-
-function onChange(value) {
-  console.log(`selected ${value}`);
-}
-
-function onBlur() {
-  console.log('blur');
-}
-
-function onFocus() {
-  console.log('focus');
-}
-
-function onSearch(val) {
-  console.log('search:', val);
-}
+import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 
 export default function ExploreProjects() {
   const history = useHistory();
   const [projects] = useGetProjects();
+
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
     if (project.status === 'new') {
       // location.
-      history.push('/create-project?id=' + project.id, state);
+      history.push(`/create-project?id=${project.id}`, state);
       // return <Redirect</Redirect>
     } else {
-      history.push('/project-detail?id=' + project.id, state);
+      history.push(`/project-detail?id=${project.id}`, state);
     }
   };
 
@@ -66,72 +33,11 @@ export default function ExploreProjects() {
   };
 
   return (
-    <div className="Content ExploreProject">
-      <Row>
-        <Col span={14}>
-          <TitlePage textTitle="Explore Project´s" />
-        </Col>
-        <Col span={10}>
-          <Row gutter={10}>
-            <Col span={8}>
-              <Search
-                placeholder="Project Name"
-                onSearch={value => console.log(value)}
-              />
-            </Col>
-            <Col span={8}>
-              <Search
-                placeholder="Country"
-                onSearch={value => console.log(value)}
-              />
-            </Col>
-            <Col span={8}>
-              <Select
-                showSearch
-                style={{ width: 200 }}
-                placeholder="Select a person"
-                optionFilterProp="children"
-                onChange={onChange}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                  option.props.children
-                    .toLowerCase()
-                    .indexOf(input.toLowerCase()) >= 0
-                }
-              >
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="tom">Tom</Option>
-              </Select>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row className="ProjectsCardsContainer" gutter={16}>
-        {projects &&
-          projects.map(project => {
-            const showTag =
-              project.hasOpenMilestones &&
-              project.status === projectStatus.IN_PROGRESS;
-            return (
-              <CardProject
-                project={project}
-                enterpriseName={project.projectName}
-                enterpriseLocation={project.location}
-                timeframe={project.timeframe}
-                amount={project.goalAmount}
-                showTag={showTag}
-                tagClick={() => goToProjectProgress(project.id)}
-                milestoneProgress={project.milestoneProgress}
-                projectId={project.id}
-                key={project.id}
-                onClick={() => goToProjectDetail(project)}
-              />
-            );
-          })}
-      </Row>
-    </div>
+    <ProjectBrowser
+      title="Explore Projects"
+      projects={projects}
+      onCardClick={goToProjectDetail}
+      onTagClick={goToProjectProgress}
+    />
   );
 }

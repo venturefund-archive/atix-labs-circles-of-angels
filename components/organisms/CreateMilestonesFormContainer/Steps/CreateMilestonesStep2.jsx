@@ -4,7 +4,7 @@ import { Row, Col, Divider } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
-import { fieldPropType } from '../../../../helpers/createProjectFormFields';
+import { fieldPropType } from '../../../../helpers/proptypes';
 
 const CreateMilestonesStep2 = ({
   fields,

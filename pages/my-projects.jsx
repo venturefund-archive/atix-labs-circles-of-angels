@@ -6,124 +6,70 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Input } from 'antd';
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import CardProject from '../components/molecules/CardProject/CardProject';
-import { getProjectsAsOracle, getProjectMilestones } from '../api/projectApi';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
+import { message } from 'antd';
 import { getMyProjects } from '../api/userApi';
-import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_explore-projects.scss';
 import Roles from '../constants/RolesMap';
-import projectStatus from '../constants/ProjectStatus';
-import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
+import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
+import { userPropTypes } from '../helpers/proptypes';
 
-const { Search } = Input;
+const MyProjects = ({ user }) => {
+  const history = useHistory();
+  const [projects, setProjects] = useState([]);
 
-class MyProjects extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeOracleProjects: [],
-      projects: [],
-      searchProject: ''
-    };
-  }
-
-  async componentDidMount() {
-    const { user } = this.props;
-    const res = await getMyProjects(user.id);
-    const projectsWithoutPhoto = res.data;
-    const projects = await Promise.all(
-      projectsWithoutPhoto.map(async project => {
-        const milestones = await getProjectMilestones(project.id);
-        return {
-          ...project,
-          milestones: milestones.data
-        };
-      })
-    );
-
-    // TODO check this functionality because oracle is not more a role
-    if (user.role.id === Roles.PROJECT_SUPPORTER) {
-      const response = await getProjectsAsOracle(user.id);
-      const oracleProjects = response.data.projects;
-      const activeProjects = await projects.map(project => project.id);
-
-      const oracleProjectsActive = oracleProjects.filter(
-        project => activeProjects.indexOf(project) !== -1
-      );
-
-      this.setState({ activeOracleProjects: oracleProjectsActive });
+  const fetchMyProjects = async () => {
+    const response = await getMyProjects();
+    if (response.errors || !response.data) {
+      message.error('An error occurred while getting the projects');
+      setProjects([]);
+      return;
     }
-    this.setState({ projects });
-  }
+    if (user.role === Roles.PROJECT_SUPPORTER) {
+      // TODO check this functionality because oracle is not more a role
+      // const response = await getProjectsAsOracle(user.id);
+      // const oracleProjects = response.data.projects;
+      // const activeProjects = await projects.map(project => project.id);
+      // const oracleProjectsActive = oracleProjects.filter(
+      //   project => activeProjects.indexOf(project) !== -1
+      // );
+      // setActiveOracleProjects(oracleProjectsActive);
+    }
+    setProjects(response.data);
+  };
 
-  getMilestoneProgress(milestones) {
-    let completedMilestones = 0;
-    milestones.forEach(milestone => {
-      if (milestone.status.status === milestoneActivityStatus.COMPLETED) {
-        completedMilestones++;
-      }
-    });
-    return (completedMilestones * 100) / milestones.length;
-  }
+  const goToProjectDetail = project => {
+    const state = { projectId: project.id };
+    if (project.status === 'new') {
+      history.push(`/create-project?id=${project.id}`, state);
+    } else {
+      history.push(`/project-detail?id=${project.id}`, state);
+    }
+  };
 
-  goToProjectDetail(projectId) {
-    Routing.toProjectDetail({ projectId });
-  }
+  const goToProjectProgress = projectId => {
+    // TODO: go to project-progress page
+  };
 
-  goToProjectProgress(projectId) {
-    Routing.toProjectProgress({ projectId });
-  }
+  useEffect(() => {
+    fetchMyProjects();
+  }, []);
 
-  render() {
-    const { activeOracleProjects, projects, searchProject } = this.state;
-    return (
-      <div className="Content">
-        <div className="titlepage">
-          <h1>My Projects</h1>
-        </div>
-        <Search
-          placeholder="Search in my projects"
-          onSearch={value => this.setState({ searchProject: value })}
-          style={{ width: 200 }}
-        />
-        <div className="ProjectsCardsContainer">
-          {projects &&
-            projects.map(project => {
-              const showTag =
-                project.status === projectStatus.IN_PROGRESS &&
-                activeOracleProjects.indexOf(project.id) !== -1;
-              return (
-                (searchProject === '' ||
-                  project.projectName.match(
-                    new RegExp(searchProject, 'i')
-                  )) && (
-                  <CardProject
-                    enterpriseName={project.projectName}
-                    enterpriseLocation={project.location}
-                    timeframe={project.timeframe}
-                    amount={project.goalAmount}
-                    showTag={showTag}
-                    tagClick={() => this.goToProjectProgress(project.id)}
-                    milestoneProgress={this.getMilestoneProgress(
-                      project.milestones
-                    )}
-                    projectId={project.id}
-                    key={project.id}
-                    onClick={() => this.goToProjectDetail(project.id)}
-                  />
-                )
-              );
-            })}
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <ProjectBrowser
+      title="My Projects"
+      projects={projects}
+      onCardClick={goToProjectDetail}
+      onTagClick={goToProjectProgress}
+    />
+  );
+};
 
-export default withUser(MyProjects);
+MyProjects.propTypes = {
+  user: PropTypes.shape(userPropTypes).isRequired
+};
+
+export default MyProjects;
