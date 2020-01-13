@@ -7,13 +7,18 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import TableAdminTransfers from './TableAdminTransfers';
 import './_style.scss';
 
-const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
+const TableAdminProjects = ({ data, saveStatus, getTransfers }) => {
   const columns = [
-    { title: 'Project Id', dataIndex: 'id', key: 'id' },
+    {
+      title: 'Project Id',
+      dataIndex: 'id',
+      key: 'id'
+    },
     {
       title: 'Project Name',
       dataIndex: 'projectName',
@@ -21,25 +26,36 @@ const TableAdminProjects = ({ data, saveStatus, getTransfersOfProjects }) => {
     },
     {
       title: 'Owner',
-      dataIndex: 'ownerName',
-      key: 'owner'
+      dataIndex: 'owner.firstName',
+      key: 'owner.firstName'
     }
   ];
+
   return (
     <Table
       columns={columns}
       dataSource={data}
       size="middle"
       className="TableAdmin"
-      expandedRowRender={record =>
-        TableAdminTransfers({
-          projectId: record.id,
-          saveStatus,
-          getTransfersOfProjects
-        })
-      }
+      expandedRowRender={record => (
+        <TableAdminTransfers
+          projectId={record.id}
+          saveStatus={saveStatus}
+          getTransfers={getTransfers}
+        />
+      )}
     />
   );
 };
 
 export default TableAdminProjects;
+
+TableAdminProjects.defaultProps = {
+  data: []
+};
+
+TableAdminProjects.propTypes = {
+  data: PropTypes.shape({}),
+  saveStatus: PropTypes.func.isRequired,
+  getTransfers: PropTypes.func.isRequired
+};

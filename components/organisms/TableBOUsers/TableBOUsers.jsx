@@ -7,22 +7,17 @@
  */
 
 import React from 'react';
-import { Table, Tag, Select } from 'antd';
+import PropTypes from 'prop-types';
+import { Table } from 'antd';
 import './_style.scss';
-import userRegistrationStatusMap from '../../../model/userRegistrationStatusMap';
 import UserAnswer from './UserAnswer';
 
-const TableBOUsers = ({
-  dataSource,
-  onRegistrationStatusChange,
-  registrationStatusOptions,
-  filters
-}) => {
+const TableBOUsers = ({ data, filters }) => {
   const columns = [
     {
-      title: 'Full Name',
-      dataIndex: 'username',
-      key: 'username'
+      title: 'First Name',
+      dataIndex: 'firstName',
+      key: 'firstName'
     },
     {
       title: 'E-mail',
@@ -31,17 +26,16 @@ const TableBOUsers = ({
     },
     {
       title: 'Role',
-      dataIndex: 'role.name',
+      dataIndex: 'role',
       key: 'role',
-      filters: filters.roles,
-      onFilter: (value, record) =>
-        record.role && record.role.name && record.role.name.indexOf(value) === 0
+      filters: filters && filters.roles,
+      onFilter: (value, record) => record.role && !record.role.indexOf(value)
     }
   ];
 
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={data}
       columns={columns}
       size="middle"
       className="TableBOProjects"
@@ -51,3 +45,13 @@ const TableBOUsers = ({
 };
 
 export default TableBOUsers;
+
+TableBOUsers.defaultProps = {
+  data: [],
+  filters: []
+};
+
+TableBOUsers.propTypes = {
+  data: PropTypes.arrayOf({}),
+  filters: PropTypes.shape({})
+};

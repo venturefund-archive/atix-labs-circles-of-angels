@@ -6,8 +6,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
-import { Steps } from 'antd';
+import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Steps, message } from 'antd';
 import './_steps-milestones.scss';
 import '../../../pages/_style.scss';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
@@ -15,7 +16,12 @@ import FooterButtons from '../FooterButtons/FooterButtons';
 import CreateMilestonesStep1 from './Steps/CreateMilestonesStep1';
 import CreateMilestonesStep2 from './Steps/CreateMilestonesStep2';
 import CreateMilestonesStep3 from './Steps/CreateMilestonesStep3';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
+import {
+  downloadMilestonesTemplate,
+  processProjectMilestones,
+  getProjectMilestones
+} from '../../../api/projectApi';
+import { milestonesFormItems } from '../../../helpers/createProjectFormFields';
 
 const { Step } = Steps;
 
@@ -25,8 +31,7 @@ const formSteps = [
     component: CreateMilestonesStep1
   },
   {
-    // TODO is empty because the only input is an uploader which is yet to be implemented
-    fields: Object.keys({}),
+    fields: Object.keys(milestonesFormItems),
     component: CreateMilestonesStep2
   },
   {
@@ -37,13 +42,12 @@ const formSteps = [
 
 const formFields = {
   ...{},
-  ...{},
+  ...milestonesFormItems,
   ...{}
 };
 
-const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
-  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-
+// TODO: what happens when project has milestones saved?
+const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   const [
     fields,
     setFields,
@@ -53,14 +57,66 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
     handleChange,
     getNextStepButton,
     getPrevStepButton
-  ] = useMultiStepForm(
-    formFields,
-    formSteps,
-    0,
-    values => submitForm(PROJECT_FORM_NAMES.MILESTONES, values),
-    true,
-    showMainPage
-  );
+  ] = useMultiStepForm(formFields, formSteps, 0, goBack, true, goBack);
+
+  const [errorList, setErrorList] = useState([]);
+  const [processed, setProcessed] = useState(false);
+  const [processError, setProcessError] = useState();
+  const [milestones, setMilestones] = useState([]);
+
+  useEffect(() => {
+    if (!project || !project.id) goBack();
+    fetchMilestones();
+  }, [project, goBack]);
+
+  useEffect(() => {
+    if (milestones.length > 0) {
+      setProcessed(true);
+    }
+  }, [milestones]);
+
+  const fetchMilestones = async () => {
+    const response = await getProjectMilestones(project.id);
+    if (response.errors) {
+      message.error("An error occurred while getting the project's milestones");
+      return;
+    }
+    setMilestones(response.data);
+  };
+
+  const downloadTemplate = async () => {
+    try {
+      // FIXME: fix this endpoint and api call
+      await downloadMilestonesTemplate();
+    } catch (error) {
+      message.error('There was an error retrieving the template');
+    }
+  };
+
+  const processMilestones = async milestoneFile => {
+    if (!project || !project.id) goBack();
+    if (!milestoneFile || !milestoneFile.file) return;
+    const data = new FormData();
+    Object.entries(milestoneFile).forEach(([filename, file]) => {
+      data.append(filename, file);
+    });
+    setProcessed(false);
+    const response = await processProjectMilestones(project.id, data);
+    setProcessed(true);
+    if (response.errors) {
+      onError();
+      setProcessError(response.errors);
+      return;
+    }
+    if (response.data.projectId) {
+      message.success('Milestones saved successfully');
+      fetchMilestones();
+      return true;
+    }
+    if (response.data.errors) {
+      setErrorList(response.data.errors);
+    }
+  };
 
   function getStepComponent(current) {
     const Component = steps[current].component;
@@ -70,6 +126,12 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
         setFields={setFields}
         setNextStep={setNextStep}
         handleChange={handleChange}
+        handleDownload={downloadTemplate}
+        handleProcessMilestones={processMilestones}
+        errorList={errorList}
+        processed={processed}
+        processError={processError}
+        milestones={milestones}
       />
     );
   }
@@ -83,11 +145,27 @@ const CreateMilestonesFormContainer = ({ setCurrentWizard, submitForm }) => {
       </Steps>
       <div className="steps-content">{getStepComponent(currentStep)}</div>
       <FooterButtons
-        nextStepButton={getNextStepButton(currentStep)}
+        nextStepButton={getNextStepButton(
+          currentStep,
+          currentStep === 1 ? !processed : false
+        )}
         prevStepButton={getPrevStepButton(currentStep)}
       />
     </Fragment>
   );
+};
+
+CreateMilestonesFormContainer.defaultProps = {
+  project: undefined
+};
+
+CreateMilestonesFormContainer.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  project: PropTypes.shape({
+    id: PropTypes.number,
+    milestonePath: PropTypes.string
+  }),
+  onError: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesFormContainer;

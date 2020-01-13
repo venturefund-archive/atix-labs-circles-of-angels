@@ -436,8 +436,8 @@ class ConcensusMilestones extends Component {
     const { faqLink, goalAmount, projectName } = project;
     const { user, projectId } = this.props;
     const isSocialEntrepreneur =
-      user && user.role && user.role.id === Roles.SocialEntrepreneur;
-    const isFunder = user && user.role && user.role.id === Roles.Funder;
+      user && user.role && user.role.id === Roles.ENTREPRENEUR;
+    const isFunder = user && user.role && user.role.id === Roles.PROJECT_SUPPORTER;
     const signedAgreement = Object.values(userProjects).some(
       userProject =>
         userProject.user.id === user.id &&

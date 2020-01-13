@@ -13,17 +13,12 @@ export const step1Inputs = {
         usertype: 'Social Entrepreneur',
         title: 'Create a project'
       },
+      // TODO define wording for each role
       {
-        name: 'funder',
-        value: 'funder',
+        name: 'supporter',
+        value: 'supporter',
         usertype: 'Impact Funder',
-        title: 'Create a project'
-      },
-      {
-        name: 'oracle',
-        value: 'oracle',
-        usertype: 'Oracle',
-        title: 'Monitor a project'
+        title: 'Fund or monitor a project'
       }
     ],
     rules: [

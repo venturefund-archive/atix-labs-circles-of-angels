@@ -7,9 +7,10 @@
  */
 
 import { isEmpty } from 'lodash';
-import api from './api';
+import apiCall from './apiCall';
+import api, { doGet, doPost, doPut } from './api';
 import ProjectStatus from '../constants/ProjectStatus';
-import useRequest, { useGet, usePost } from '../hooks/useRequest';
+import { useGet } from '../hooks/useRequest';
 
 const baseURL = '/projects';
 
@@ -34,14 +35,37 @@ const baseURL = '/projects';
 //   }
 // };
 
-export const createProjectRequest = data => {
+export const createProjectThumbnail = saveData => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return {
-    method: 'post',
-    url: '/projects/description',
-    data,
-    config
-  };
+  return doPost(`${baseURL}/description`, saveData, config);
+};
+
+export const updateProjectThumbnail = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/description`, saveData, config);
+};
+
+export const updateProjectDetail = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
+};
+
+export const updateProjectProposal = (projectId, saveData) =>
+  doPut(`${baseURL}/${projectId}/proposal`, saveData);
+
+export const processProjectMilestones = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/milestones`, saveData, config);
+};
+
+export const getProjectMilestones = projectId =>
+  doGet(`${baseURL}/${projectId}/milestones`);
+
+export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
+
+export const useGetPublicProjects = () => {
+  const [{ data, isLoading, isError }] = useGet('/projects/public');
+  return [data, isLoading, isError];
 };
 
 // const getProjects = async () => {
@@ -54,8 +78,7 @@ export const createProjectRequest = data => {
 // };
 
 export const useGetProjects = () => {
-  // const [projects, setProjects] = useState([]);
-  const [{ data, isLoading, isError }, fetch] = useGet('/projects');
+  const [{ data, isLoading, isError }] = useGet('/projects');
   return [data, isLoading, isError];
 };
 
@@ -71,15 +94,6 @@ const getActiveProjects = async () => {
 const getProjectsPreview = async () => {
   try {
     const response = await api.get(`${baseURL}/preview`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const getProject = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}`);
     return response;
   } catch (error) {
     return { error };
@@ -118,14 +132,8 @@ const rejectProject = async projectId => {
   }
 };
 
-const getProjectMilestones = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/milestones`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const updateProjectStatus = async (projectId, status) =>
+  apiCall('put', `${baseURL}/${projectId}/status`, { status });
 
 const downloadProjectMilestonesFile = async projectId => {
   try {
@@ -210,22 +218,18 @@ const uploadAgreement = async (projectId, agreementFile) => {
 };
 
 const downloadMilestonesTemplate = async () => {
-  try {
-    const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/templates/milestones`, config);
+  const config = { responseType: 'blob' };
+  const response = await api.get(`${baseURL}/templates/milestones`, config);
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    const filename = response.headers.file;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  const filename = response.headers.file;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
 
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  return response;
 };
 
 const downloadProposalTemplate = async () => {
@@ -324,10 +328,9 @@ const createProjectExperience = async (experience, photos) => {
 
 export {
   getActiveProjects,
-  getProject,
   confirmProject,
   rejectProject,
-  getProjectMilestones,
+  updateProjectStatus,
   downloadProjectMilestonesFile,
   downloadAgreement,
   uploadAgreement,

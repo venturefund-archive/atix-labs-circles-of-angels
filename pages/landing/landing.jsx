@@ -40,7 +40,7 @@ function Landing() {
               theme="Primary"
             />
             <CustomButton
-              onClick={() => history.push('/register?role=funder')}
+              onClick={() => history.push('/register?role=supporter')}
               buttonText="I want to fund!"
               theme="White"
             />
