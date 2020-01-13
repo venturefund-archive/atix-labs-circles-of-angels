@@ -106,7 +106,7 @@ RowMilestones.propTypes = {
   onMilestoneDelete: PropTypes.func,
   onMilestoneEdit: PropTypes.func,
   showMilestoneDelete: PropTypes.bool,
-  showMilestoneEdit: PropTypes.bool,
+  showMilestoneEdit: PropTypes.bool
 };
 
 export default RowMilestones;

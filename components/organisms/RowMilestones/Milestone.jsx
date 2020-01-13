@@ -6,6 +6,7 @@ import RowLabel from './RowLabel';
 import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
+import { showModalConfirm } from '../../utils/Modals';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -25,6 +26,13 @@ const Milestone = ({
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
+
+  const deleteMilestone = () =>
+    showModalConfirm(
+      'Attention!',
+      'Are you sure you want to delete this milestone?',
+      () => onMilestoneDelete(milestone.id, index)
+    );
 
   const handleEditRow = save => {
     if (!editing) return setEditing(true);
@@ -59,7 +67,7 @@ const Milestone = ({
         type={milestoneActionType}
         status={milestoneStatus}
         progress={milestoneProgress}
-        onDelete={() => onMilestoneDelete(milestone.id, index)}
+        onDelete={deleteMilestone}
         onEdit={handleEditRow}
         showDelete={showMilestoneDelete}
         showEdit={showMilestoneEdit}

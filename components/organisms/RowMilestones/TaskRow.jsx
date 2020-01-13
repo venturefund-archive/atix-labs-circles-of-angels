@@ -4,11 +4,19 @@ import { Col } from 'antd';
 import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
+import { showModalConfirm } from '../../utils/Modals';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
+
+  const deleteTask = () =>
+    showModalConfirm(
+      'Attention!',
+      'Are you sure you want to delete this task?',
+      () => onDelete(task.id, index)
+    );
 
   const handleEditRow = save => {
     if (!editing) return setEditing(true);
@@ -93,7 +101,7 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
       </Col>
       {(showDelete || showEdit) && (
         <TaskActions
-          onDelete={() => onDelete(task.id, index)}
+          onDelete={deleteTask}
           onEdit={handleEditRow}
           showDelete={showDelete}
           showEdit={showEdit}
