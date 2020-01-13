@@ -5,10 +5,24 @@ import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
 import { updateTask, deleteTask } from '../../../../api/activityApi';
+import {
+  updateMilestone,
+  deleteMilestone
+} from '../../../../api/milestonesApi';
 
 const CreateMilestonesStep3 = ({ milestones }) => {
   const milestoneRowsProps = {
-    showMilestoneStatus: false
+    milestoneActionType: 'edit',
+    onMilestoneDelete: async milestoneId => {
+      const response = await deleteMilestone(milestoneId);
+      return !response.errors;
+    },
+    onMilestoneEdit: async milestone => {
+      const response = await updateMilestone(milestone.id, milestone);
+      return !response.errors;
+    },
+    showMilestoneDelete: true,
+    showMilestoneEdit: true
   };
 
   const taskRowProps = {

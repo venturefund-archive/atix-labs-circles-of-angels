@@ -93,7 +93,7 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
       </Col>
       {(showDelete || showEdit) && (
         <TaskActions
-          onDelete={() => onDelete(task.id)}
+          onDelete={() => onDelete(task.id, index)}
           onEdit={handleEditRow}
           showDelete={showDelete}
           showEdit={showEdit}

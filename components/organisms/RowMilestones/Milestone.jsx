@@ -1,52 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import MilestoneRow from './MilestoneRow';
 import MilestoneCol from './MilestoneCol';
 import RowLabel from './RowLabel';
-import Info from './Info';
 import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
+import EditableInfo from './EditableInfo';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
   milestone,
   index,
-  showMilestoneStatus,
   milestoneProgress,
   milestoneStatus,
   onTaskDelete,
   onTaskEdit,
   showTaskDelete,
-  showTaskEdit
-}) => (
-  <div>
-    <MilestoneRow>
-      <MilestoneCol span={3}>
-        <h3>Milestone {index}</h3>
-      </MilestoneCol>
-      <MilestoneCol className="vertical" span={4}>
-        <RowLabel text="Quarter" />
-        <Info value={milestone.quarter} />
-      </MilestoneCol>
-      <MilestoneCol span={9}>
-        <RowLabel text="Tasks" />
-        <Info value={milestone.description} />
-      </MilestoneCol>
-    </MilestoneRow>
-    <MilestoneActions
-      show={showMilestoneStatus}
-      status={milestoneStatus}
-      progress={milestoneProgress}
-    />
-    <MilestoneTasks
-      tasks={milestone.tasks}
-      onDelete={onTaskDelete}
-      onEdit={onTaskEdit}
-      showDelete={showTaskDelete}
-      showEdit={showTaskEdit}
-    />
-  </div>
-);
+  showTaskEdit,
+  onMilestoneDelete,
+  onMilestoneEdit,
+  showMilestoneDelete,
+  showMilestoneEdit,
+  milestoneActionType
+}) => {
+  const [editFields, setEditFields] = useState(milestone);
+  const [editing, setEditing] = useState(false);
+
+  const handleEditRow = save => {
+    if (!editing) return setEditing(true);
+    setEditing(false);
+    return save === true ? onMilestoneEdit(editFields, index) : undefined;
+  };
+
+  return (
+    <div>
+      <MilestoneRow>
+        <MilestoneCol span={3}>
+          <h3>Milestone {index}</h3>
+        </MilestoneCol>
+        <MilestoneCol className="vertical" span={4}>
+          <RowLabel text="Quarter" />
+          <EditableInfo
+            value={milestone.quarter}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, quarter: v })}
+          />
+        </MilestoneCol>
+        <MilestoneCol span={9}>
+          <RowLabel text="Tasks" />
+          <EditableInfo
+            value={milestone.description}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, description: v })}
+          />
+        </MilestoneCol>
+      </MilestoneRow>
+      <MilestoneActions
+        type={milestoneActionType}
+        status={milestoneStatus}
+        progress={milestoneProgress}
+        onDelete={() => onMilestoneDelete(milestone.id, index)}
+        onEdit={handleEditRow}
+        showDelete={showMilestoneDelete}
+        showEdit={showMilestoneEdit}
+        isEditing={editing}
+      />
+      <MilestoneTasks
+        tasks={milestone.tasks}
+        onDelete={onTaskDelete}
+        onEdit={onTaskEdit}
+        showDelete={showTaskDelete}
+        showEdit={showTaskEdit}
+      />
+    </div>
+  );
+};
 
 Milestone.propTypes = {
   milestone: PropTypes.shape({
@@ -64,13 +92,17 @@ Milestone.propTypes = {
     )
   }).isRequired,
   index: PropTypes.number.isRequired,
-  showMilestoneStatus: PropTypes.bool.isRequired,
   milestoneProgress: PropTypes.number.isRequired,
   milestoneStatus: PropTypes.string.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
   showTaskDelete: PropTypes.bool.isRequired,
-  showTaskEdit: PropTypes.bool.isRequired
+  showTaskEdit: PropTypes.bool.isRequired,
+  onMilestoneDelete: PropTypes.func.isRequired,
+  onMilestoneEdit: PropTypes.func.isRequired,
+  showMilestoneDelete: PropTypes.bool.isRequired,
+  showMilestoneEdit: PropTypes.bool.isRequired,
+  milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired
 };
 
 export default Milestone;

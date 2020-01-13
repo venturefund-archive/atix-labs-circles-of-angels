@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Progress, Tag } from 'antd';
+import { Col, Progress, Tag, Divider } from 'antd';
 import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
 
 // TODO: this is an example on how implement this with the old schema
@@ -24,7 +24,62 @@ const statusTagMap = {
   }
 };
 
-const MilestoneActions = ({ show, status, progress }) => {
+const editMilestoneButtons = (
+  onEdit,
+  onDelete,
+  showEdit,
+  showDelete,
+  isEditing
+) => (
+  <span>
+    {showEdit && (
+      <Col span={24}>
+        {isEditing ? (
+          <span>
+            <a className="blueLink" onClick={() => onEdit(true)}>
+              Save
+            </a>
+            <a className="blueLink" onClick={() => onEdit(false)}>
+              Cancel
+            </a>
+          </span>
+        ) : (
+          <a className="blueLink" onClick={() => onEdit(false)}>
+            Edit
+          </a>
+        )}
+      </Col>
+    )}
+    {showDelete && showEdit && <Divider />}
+    {showDelete && (
+      <Col span={24}>
+        <a className="redLink" onClick={onDelete}>
+          Delete
+        </a>
+      </Col>
+    )}
+  </span>
+);
+
+const statusMilestone = (tagColor, tagText, progress) => (
+  <div className="space-between w100">
+    {tagColor && tagText && <Tag color={tagColor}>{tagText}</Tag>}
+    <div style={{ width: 120 }}>
+      <Progress percent={progress} />
+    </div>
+  </div>
+);
+
+const MilestoneActions = ({
+  type,
+  onEdit,
+  onDelete,
+  showEdit,
+  showDelete,
+  status,
+  progress,
+  isEditing
+}) => {
   // any defaults? or just don't show the tag if no mapping defined?
   const tagColor = statusTagMap[status]
     ? statusTagMap[status].tagColor
@@ -41,24 +96,22 @@ const MilestoneActions = ({ show, status, progress }) => {
       md={4}
       lg={{ span: 5 }}
     >
-      {/* it doesn't really makes much sense to have this prop in the component,
-          the condition should be outside, but leaving it here because styles look bad */}
-      {show && (
-        <div className="space-between w100">
-          {tagColor && tagText && <Tag color={tagColor}>{tagText}</Tag>}
-          <div style={{ width: 120 }}>
-            <Progress percent={progress} />
-          </div>
-        </div>
-      )}
+      {type === 'status' && statusMilestone(tagColor, tagText, progress)}
+      {type === 'edit' &&
+        editMilestoneButtons(onEdit, onDelete, showEdit, showDelete, isEditing)}
     </Col>
   );
 };
 
 MilestoneActions.propTypes = {
-  show: PropTypes.bool.isRequired,
   status: PropTypes.string.isRequired,
-  progress: PropTypes.number.isRequired
+  progress: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  showDelete: PropTypes.bool.isRequired,
+  showEdit: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
+  isEditing: PropTypes.bool.isRequired
 };
 
 export default MilestoneActions;

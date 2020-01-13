@@ -1,30 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from 'antd';
+import { Row, message } from 'antd';
 import './_style.scss';
 import Milestone from './Milestone';
 
 const RowMilestones = ({
   milestones,
-  showMilestoneStatus,
+  milestoneActionType,
   onTaskDelete,
   onTaskEdit,
   showTaskDelete,
-  showTaskEdit
+  showTaskEdit,
+  onMilestoneDelete,
+  onMilestoneEdit,
+  showMilestoneDelete,
+  showMilestoneEdit
 }) => {
+  const [toEditMilestones, setToEditMilestones] = useState(milestones);
+
+  const handleDelete = async (value, index) => {
+    const wasDeleted = await onMilestoneDelete(value);
+
+    if (wasDeleted) {
+      const tempMilestones = [...toEditMilestones];
+      tempMilestones.splice(index, 1);
+      setToEditMilestones(tempMilestones);
+    } else {
+      message.error('An error occurred while deleting the record');
+    }
+  };
+
+  const handleEdit = async (value, index) => {
+    const wasEdited = await onMilestoneEdit(value);
+
+    if (wasEdited) {
+      const tempMilestones = [...toEditMilestones];
+      tempMilestones[index] = value;
+      setToEditMilestones(tempMilestones);
+    } else {
+      message.error('An error occurred while editing the record');
+    }
+  };
+
   if (!milestones) return null;
-  const milestoneElements = milestones.map((m, i) => (
+  const milestoneElements = toEditMilestones.map((m, i) => (
     <Milestone
       milestone={m}
       index={i}
       key={m.id}
-      showMilestoneStatus={showMilestoneStatus}
+      milestoneActionType={milestoneActionType}
       milestoneProgress={30} // TODO: where do we get this from?
       milestoneStatus={2} // TODO: where do we get this from?
       onTaskDelete={onTaskDelete}
       onTaskEdit={onTaskEdit}
       showTaskDelete={showTaskDelete}
       showTaskEdit={showTaskEdit}
+      onMilestoneDelete={handleDelete}
+      onMilestoneEdit={handleEdit}
+      showMilestoneDelete={showMilestoneDelete}
+      showMilestoneEdit={showMilestoneEdit}
     />
   ));
   return (
@@ -36,11 +70,15 @@ const RowMilestones = ({
 
 RowMilestones.defaultProps = {
   milestones: [],
-  showMilestoneStatus: false,
+  milestoneActionType: 'none',
   onTaskDelete: undefined,
   onTaskEdit: undefined,
   showTaskDelete: false,
-  showTaskEdit: false
+  showTaskEdit: false,
+  onMilestoneDelete: undefined,
+  onMilestoneEdit: undefined,
+  showMilestoneDelete: false,
+  showMilestoneEdit: false
 };
 
 RowMilestones.propTypes = {
@@ -60,11 +98,15 @@ RowMilestones.propTypes = {
       )
     })
   ),
-  showMilestoneStatus: PropTypes.bool,
+  milestoneActionType: PropTypes.string,
   onTaskDelete: PropTypes.func,
   onTaskEdit: PropTypes.func,
   showTaskDelete: PropTypes.bool,
-  showTaskEdit: PropTypes.bool
+  showTaskEdit: PropTypes.bool,
+  onMilestoneDelete: PropTypes.func,
+  onMilestoneEdit: PropTypes.func,
+  showMilestoneDelete: PropTypes.bool,
+  showMilestoneEdit: PropTypes.bool,
 };
 
 export default RowMilestones;
