@@ -6,69 +6,62 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-// import { getProjects } from '../api/projectApi';
-import { changeBudgetStatus } from '../api/milestonesApi';
-import { withUser } from '../components/utils/UserContext';
-
+import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
+import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
+import { changeBudgetStatus } from '../api/milestonesApi';
+import { useGetProjects, updateProjectStatus } from '../api/projectApi';
+import { projectStatuses } from '../constants/constants';
 
-class BackOfficeProjects extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
-  }
+const BackOfficeProjects = () => {
+  const [data] = useGetProjects();
+  const [projects, setProjects] = useState([]);
 
-  componentDidMount = async () => {
-    const projects = (await getProjects()).data;
-    this.setState({ projects });
-  };
+  const updateStatus = async (projectId, status) => {
+    try {
+      await updateProjectStatus(projectId, status);
 
-  changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
-    const response = await changeBudgetStatus(milestoneId, budgetStatusId);
-    if (!response || response.error) {
-      const { error } = response;
-      const title = error.response
-        ? 'Error Changing Transfer Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-    } else {
-      showModalSuccess('Success!', response.data.success);
+      // TODO change useGetProjects hook for a normal apicall in order to fetch projects again here
+      // changeProjectStatus(index, newCollection);
+
+      message.success('Project status changed correctly');
+    } catch (error) {
+      message.error(error);
     }
-
-    Routing.toBackOffice();
-    return response;
   };
 
-  updateProject = (index, project) => {
-    const { projects } = this.state;
-    projects[index] = project;
-    this.setState({ projects });
-  };
+  // TODO this is not valid at this moment. Analize if will do something similar
+  // const changeProjectStatus = async (milestoneId, budgetStatusId) => {
+  //   try {
+  //     const response = await changeBudgetStatus(milestoneId, budgetStatusId);
 
-  render() {
-    const { projects } = this.state;
-    return (
-      <div className="TableContainer">
-        <h1>Projects Administration</h1>
-        <TableBOProjects
-          dataSource={projects}
-          onStateChange={this.updateProject}
-        />
-      </div>
-    );
-  }
-}
+  //     message.success('Status changed successfully');
+  //     return response;
+  //   } catch (error) {
+  //     message.error(error);
+  //   }
+  // };
 
-export default withUser(BackOfficeProjects);
+  useEffect(() => {
+    setProjects(data);
+  }, [data]);
+
+  return (
+    <div className="TableContainer">
+      <h1>Projects Administration</h1>
+      <TableBOProjects
+        data={projects}
+        onConfirm={projectId =>
+          updateStatus(projectId, projectStatuses.PUBLISHED)
+        }
+        onReject={projectId =>
+          updateStatus(projectId, projectStatuses.REJECTED)
+        }
+      />
+    </div>
+  );
+};
+
+export default BackOfficeProjects;

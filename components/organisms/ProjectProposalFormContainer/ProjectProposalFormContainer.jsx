@@ -6,17 +6,18 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
-import { Row, Col } from 'antd';
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { message } from 'antd';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import FooterButtons from '../FooterButtons/FooterButtons';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import { proposalFromItems } from '../../../helpers/createProjectFormFields';
-import Field from '../../atoms/Field/Field';
 import './_style.scss';
+import ProjectProposalForm from '../../molecules/ProjectProposalForm/ProjectProposalForm';
+import { updateProjectProposal } from '../../../api/projectApi';
 
 const formSteps = [
   {
@@ -28,38 +29,68 @@ const formFields = {
   ...proposalFromItems
 };
 
-const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
-  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-
+// TODO: load project proposal saved as draft
+const ProjectProposalFormContainer = ({
+  goBack,
+  project,
+  onError,
+  onSuccess
+}) => {
   const [
     fields,
-    ,
+    setFields,
     ,
     ,
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
+    getPrevStepButton,
+    validateFields
   ] = useMultiStepForm(
     formFields,
     formSteps,
     0,
-    values => submitForm(PROJECT_FORM_NAMES.DETAILS, values),
+    values => onSubmit(values),
     true,
-    showMainPage
+    goBack
   );
+
+  useEffect(() => {
+    if (!project || !project.id) return goBack();
+
+    const projectFields = { ...fields };
+
+    projectFields.proposal.value =
+      project.proposal || projectFields.proposal.value;
+
+    setFields({
+      ...projectFields
+    });
+    validateFields();
+  }, [setFields, project, goBack]);
+
+  const onSubmit = async values => {
+    if (!values.proposal) return;
+    try {
+      if (project && project.id) {
+        const response = await updateProjectProposal(project.id, {
+          proposal: values.proposal.value
+        });
+        if (response.errors) {
+          return onError();
+        }
+        onSuccess(response.data);
+        goBack();
+      }
+    } catch (error) {
+      message.error('An error occurred when trying to save the information');
+    }
+  };
 
   return (
     <Fragment>
-      <TitlePage textTitle="Complete Project´s Details" />
-      <Row type="flex" justify="space-around" align="middle">
-        <Col sm={24} md={24} lg={24}>
-          <p>Complete Project Proposal lorem ipsum dolor</p>
-        </Col>
-        <Col className="HtmlEditor" sm={24} md={24} lg={24}>
-          <Field {...fields.proposal} handleChange={handleChange} />
-        </Col>
-      </Row>
+      <TitlePage textTitle="Complete Project's Proposal" />
+      <ProjectProposalForm fields={fields} handleChange={handleChange} />
       <FooterButtons
         nextStepButton={getNextStepButton(currentStep)}
         prevStepButton={getPrevStepButton(currentStep)}
@@ -67,4 +98,19 @@ const ProjectProposalFormContainer = ({ setCurrentWizard, submitForm }) => {
     </Fragment>
   );
 };
+
+ProjectProposalFormContainer.defaultProps = {
+  project: undefined
+};
+
+ProjectProposalFormContainer.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  project: PropTypes.shape({
+    id: PropTypes.number,
+    proposal: PropTypes.string
+  }),
+  onError: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
+};
+
 export default ProjectProposalFormContainer;

@@ -1,19 +1,29 @@
 import React from 'react';
-import { Row, Col, Tag, Progress } from 'antd';
+import PropTypes from 'prop-types';
+import { Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
+import { updateTask, deleteTask } from '../../../../api/activityApi';
 
-const Actions = () => (
-  <div className="space-between w100">
-    <Tag color="#27AE60">Claimable!</Tag>
-    <div style={{ width: 120 }}>
-      <Progress percent={30} />
-    </div>
-  </div>
-);
+const CreateMilestonesStep3 = ({ milestones }) => {
+  const milestoneRowsProps = {
+    showMilestoneStatus: false
+  };
 
-export default function CreateMilestonesStep1({ fields, handleChange }) {
+  const taskRowProps = {
+    onTaskDelete: async taskId => {
+      const response = await deleteTask(taskId);
+      return !response.errors;
+    },
+    onTaskEdit: async task => {
+      const response = await updateTask(task.id, task);
+      return !response.errors;
+    },
+    showTaskDelete: true,
+    showTaskEdit: true
+  };
+
   return (
     <div className="Step3">
       <Row type="flex" justify="space-around" align="top">
@@ -34,8 +44,36 @@ export default function CreateMilestonesStep1({ fields, handleChange }) {
           <CustomButton buttonText="+ New Milestone" theme="Alternative" />
         </Col>
       </Row>
-      <RowMilestones ActionMilestones={Actions} />
-      <RowMilestones />
+      <RowMilestones
+        milestones={milestones}
+        {...milestoneRowsProps}
+        {...taskRowProps}
+      />
     </div>
   );
-}
+};
+
+CreateMilestonesStep3.defaultProps = {
+  milestones: []
+};
+
+CreateMilestonesStep3.propTypes = {
+  milestones: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      quarter: PropTypes.string,
+      tasks: PropTypes.arrayOf(
+        PropTypes.shape({
+          taskHash: PropTypes.string,
+          description: PropTypes.string,
+          reviewCriteria: PropTypes.string,
+          category: PropTypes.string,
+          keyPersonnel: PropTypes.string,
+          budget: PropTypes.string
+        })
+      )
+    })
+  )
+};
+
+export default CreateMilestonesStep3;

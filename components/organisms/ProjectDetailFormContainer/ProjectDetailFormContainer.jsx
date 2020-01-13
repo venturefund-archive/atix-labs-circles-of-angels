@@ -6,38 +6,18 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
-import { Row, Col, Skeleton, Divider, Form, Upload, message } from 'antd';
+import React, { Fragment, useEffect } from 'react';
+import { message } from 'antd';
+import PropTypes from 'prop-types';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
-import InfoItem from '../../atoms/InfoItem/InfoItem';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import FooterButtons from '../FooterButtons/FooterButtons';
-import Field from '../../atoms/Field/Field';
 import { detailsFormInputs } from '../../../helpers/createProjectFormFields';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
-import { getPreviewValue } from '../../../helpers/formatter';
 import './_style.scss';
-
-const mockPropsUpload = {
-  name: 'file',
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  headers: {
-    authorization: 'authorization-text'
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  }
-};
+import ProjectDetailForm from '../../molecules/ProjectDetailForm/ProjectDetailForm';
+import { updateProjectDetail } from '../../../api/projectApi';
 
 const formSteps = [
   {
@@ -50,121 +30,85 @@ const formFields = {
 };
 
 const ProjectDetailFormContainer = ({
-  setCurrentWizard,
-  submitForm,
-  thumbnailsData
+  thumbnailsData,
+  project,
+  goBack,
+  onError,
+  onSuccess
 }) => {
-  const showMainPage = () => setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-
+  // why multistep form instead of the simple one?
   const [
     fields,
-    ,
+    setFields,
     ,
     ,
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
+    getPrevStepButton,
+    validateFields
   ] = useMultiStepForm(
     formFields,
     formSteps,
     0,
-    values => submitForm(PROJECT_FORM_NAMES.DETAILS, values),
+    values => onSubmit(values),
     true,
-    showMainPage
+    goBack
   );
+
+  useEffect(() => {
+    if (!project || !project.id) return goBack();
+
+    const projectFields = { ...fields };
+
+    projectFields.mission.value =
+      project.mission || projectFields.mission.value;
+    projectFields.problemAddressed.value =
+      project.problemAddressed || projectFields.problemAddressed.value;
+    projectFields.coverPhotoPath.value =
+      project.coverPhotoPath || projectFields.coverPhotoPath.value;
+
+    setFields({
+      ...projectFields
+    });
+    validateFields();
+  }, [setFields, project, goBack]);
+
+  const onSubmit = async values => {
+    const data = new FormData();
+    Object.values(values).forEach(field => {
+      if (field.value) {
+        if (field.type === 'file' && field.value.file instanceof File) {
+          Object.entries(field.value).forEach(([filename, file]) => {
+            data.append(filename, file);
+          });
+        } else if (field.type !== 'file') {
+          data.set(field.name, field.value);
+        }
+      }
+    });
+    try {
+      if (project && project.id) {
+        const response = await updateProjectDetail(project.id, data);
+        if (response.errors) {
+          return onError();
+        }
+        onSuccess(response.data);
+        goBack();
+      }
+    } catch (error) {
+      message.error('An error occurred when trying to save the information');
+    }
+  };
 
   return (
     <Fragment>
       <TitlePage textTitle="Complete Project´s Details" />
-      <Row type="flex" justify="space-around" align="middle">
-        <Col className="CardExample" sm={8} md={8} lg={8}>
-          <Col className="BlockImage" sm={24} md={24} lg={24}>
-            <h5>Organization Name</h5>
-            <h1>{getPreviewValue(thumbnailsData.projectName.value)}</h1>
-            <Col className="flex" sm={24} md={24} lg={24}>
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/world.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Country of Impact"
-                title={getPreviewValue(thumbnailsData.countryOfImpact.value)}
-                iconInfoItem="dollar"
-              />
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/calendar.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Timeframe"
-                title={getPreviewValue(thumbnailsData.timeframe.value)}
-                iconInfoItem="dollar"
-              />
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/amount.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Goal Amount"
-                title={`$ ${getPreviewValue(thumbnailsData.goalAmount.value)}`}
-                iconInfoItem="dollar"
-              />
-            </Col>
-          </Col>
-          <Col className="spacedivider Details" sm={24} md={24} lg={24}>
-            <Col sm={24} md={24} lg={24}>
-              <h4>Project Mission </h4>
-            </Col>
-            <Col className="Mission" sm={24} md={24} lg={24}>
-              {fields.mission.value || <Skeleton title={false} />}
-            </Col>
-            <Col sm={24} md={24} lg={24}>
-              <h4>The Problem </h4>
-            </Col>
-            <Col className="Problem" sm={24} md={24} lg={24}>
-              {fields.problem.value || (
-                <Skeleton paragraph={{ rows: 3 }} title={false} />
-              )}
-            </Col>
-          </Col>
-        </Col>
-        <Divider type="vertical" />
-        <Col sm={24} md={24} lg={12}>
-          <Row gutter={22}>
-            <Form className="login-form">
-              <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
-                <Field {...fields.mission} handleChange={handleChange} />
-              </Col>
-              <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
-                <Field {...fields.problem} handleChange={handleChange} />
-              </Col>
-              <Col sm={24} md={24} lg={24}>
-                <Col sm={24} md={24} lg={18}>
-                  <h3>Background Image</h3>
-                  <span>
-                    Recomended Image Size: 1400x400px. Format: PNG or JPG.
-                  </span>
-                </Col>
-                <Col sm={24} md={24} lg={6}>
-                  <Upload {...mockPropsUpload}>
-                    <CustomButton
-                      buttonText="Click to upload"
-                      theme="Alternative"
-                    />
-                  </Upload>
-                </Col>
-              </Col>
-            </Form>
-          </Row>
-        </Col>
-      </Row>
+      <ProjectDetailForm
+        thumbnailsData={thumbnailsData}
+        handleChange={handleChange}
+        fields={fields}
+      />
       <FooterButtons
         nextStepButton={getNextStepButton(currentStep)}
         prevStepButton={getPrevStepButton(currentStep)}
@@ -175,11 +119,30 @@ const ProjectDetailFormContainer = ({
 
 ProjectDetailFormContainer.defaultProps = {
   thumbnailsData: {
-    countryOfImpact: {},
-    goalAmount: {},
-    timeframe: {},
-    projectName: {}
-  }
+    location: '',
+    goalAmount: '',
+    timeframe: '',
+    projectName: ''
+  },
+  project: undefined
+};
+
+ProjectDetailFormContainer.propTypes = {
+  thumbnailsData: PropTypes.shape({
+    location: PropTypes.string,
+    goalAmount: PropTypes.string,
+    timeframe: PropTypes.string,
+    projectName: PropTypes.string
+  }),
+  project: PropTypes.shape({
+    id: PropTypes.number,
+    mission: PropTypes.string,
+    problemAddressed: PropTypes.string,
+    coverPhotoPath: PropTypes.string
+  }),
+  goBack: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
 };
 
 export default ProjectDetailFormContainer;

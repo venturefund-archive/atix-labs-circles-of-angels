@@ -26,7 +26,7 @@ const SettingsMenu = ({ userRole }) => {
   const menu = (
     <Menu>
       <Menu.Item key="0">My Account</Menu.Item>
-      {userRole === Roles.SocialEntrepreneur ? (
+      {userRole === Roles.ENTREPRENEUR ? (
         <Menu.Item key="1" onClick={() => history.push('/create-project')}>
           Create Project
         </Menu.Item>

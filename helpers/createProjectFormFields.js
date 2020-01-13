@@ -1,6 +1,9 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 export const thumbnailsFormInputs = {
-  countryOfImpact: {
-    name: 'countryOfImpact',
+  location: {
+    name: 'location',
     label: 'Country of Impact',
     placeholder: 'Country of Impact',
     rules: [
@@ -45,8 +48,25 @@ export const thumbnailsFormInputs = {
         message: 'Please input the goal amount!'
       },
       {
-        validator: (_, value) => !isNaN(value),
-        message: "The goal amount should be a number"
+        validator: (_, value) => !Number.isNaN(Number(value)),
+        message: 'The goal amount should be a number'
+      }
+    ]
+  },
+  cardPhotoPath: {
+    name: 'cardPhotoPath',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload a thumbnail image for your project!',
+        validator: (rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
       }
     ]
   }
@@ -75,9 +95,9 @@ export const detailsFormInputs = {
       }
     ]
   },
-  problem: {
+  problemAddressed: {
     type: 'textArea',
-    name: 'problem',
+    name: 'problemAddressed',
     rows: 4,
     label: (
       <div className="LabelDescription">
@@ -96,6 +116,23 @@ export const detailsFormInputs = {
         whitespace: true
       }
     ]
+  },
+  coverPhotoPath: {
+    name: 'coverPhotoPath',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload a background image for your project!',
+        validator: (rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
+      }
+    ]
   }
 };
 
@@ -106,8 +143,28 @@ export const proposalFromItems = {
     rules: [
       {
         required: true,
-        message: 'Please input the mission of this project!',
+        message: 'Please input the project proposal!',
         whitespace: true
+      }
+    ]
+  }
+};
+
+export const milestonesFormItems = {
+  milestoneFile: {
+    name: 'milestoneFile',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: false,
+        message: 'Please upload the milestones information for your project!',
+        validator: (rule, value) => {
+          if (value && value.file && !(value.file instanceof File)) {
+            return false;
+          }
+          return true;
+        }
       }
     ]
   }
