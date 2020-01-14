@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Tabs, Col, Row, Divider, Progress, Badge, Tag } from 'antd';
+import { Tabs, Col, Row, Divider, Progress, Badge, Table, Tag } from 'antd';
 import { showModalError } from '../components/utils/Modals';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
@@ -30,6 +30,8 @@ import Roles from '../constants/RolesMap';
 import SeccionExperience from './experiences';
 import { useGet, usePost } from '../hooks/useRequest';
 import useQuery from '../hooks/useQuery';
+import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
+import TableTransfer from '../components/organisms/TableTransfer/TableTransfer';
 
 const { TabPane } = Tabs;
 
@@ -210,15 +212,18 @@ export default function ProjectDetail(props) {
               <Tag color="cyan">Consensus Phase</Tag>
             </Col>
             <Col span={3}>
-              <CustomButton theme="Primary" buttonText="Follow Project" />
+              <ModalInvest />
             </Col>
           </Row>
           <Row type="flex" justify="space-between" className="BlockBottom">
-            <Col span={13} className="flex">
-                <GeneralItem link="https://questionsanswers.com"  info="FAQ-Funders and SE´s Questions & Answers" />
-                 <GeneralItem label="$12,000"  info="Goal Amount" />
+            <Col className="flex">
+              <GeneralItem
+                link="https://questionsanswers.com"
+                info="FAQ-Funders and SE´s Questions & Answers"
+              />
+              <GeneralItem label="$12,000" info="Goal Amount" />
             </Col>
-            <Col span={11} className="flex">
+            <Col className="flex">
               {itemsData.map(item => (
                 <GeneralItem {...item} key={`data-${item.info}`} />
               ))}
@@ -235,7 +240,7 @@ export default function ProjectDetail(props) {
     <Row className="ContentComplete">
       <Col span={18} className="ProjectContainer DataSteps">
         <ProjectDetailHeader />
-         <div className="BlockContent">
+        <div className="BlockContent">
           <Tabs defaultActiveKey="1" onChange={callback}>
             <TabPane tab="details" key="1">
               <Project />
@@ -243,15 +248,18 @@ export default function ProjectDetail(props) {
             <TabPane tab="Milestones" key="3">
               <RowMilestones {...project} />
             </TabPane>
-                      <TabPane tab="Discussions" key="4">
-            <BlockDiscussion />
-            <BlockChat />
-          </TabPane>
+            <TabPane tab="Discussions" key="4">
+              <BlockDiscussion />
+              <BlockChat />
+            </TabPane>
             <TabPane tab={experienceTab} key="2">
               <SeccionExperience
                 experiences={project.experiences}
                 onCreate={() => {}}
               />
+            </TabPane>
+            <TabPane tab="Hola" key="5">
+              <TableTransfer />
             </TabPane>
           </Tabs>
         </div>
