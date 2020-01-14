@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const thumbnailsFormInputs = {
   location: {
@@ -165,6 +164,33 @@ export const milestonesFormItems = {
           }
           return true;
         }
+      }
+    ]
+  }
+};
+
+export const newMilestoneFormItems = {
+  description: {
+    name: 'description',
+    label: 'Description',
+    placeholder: 'Description',
+    rules: [
+      {
+        required: true,
+        message: 'Please input a description for the milestone!',
+        whitespace: true
+      }
+    ]
+  },
+  category: {
+    name: 'category',
+    label: 'Category',
+    placeholder: 'Category',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the milestone category!',
+        whitespace: true
       }
     ]
   }

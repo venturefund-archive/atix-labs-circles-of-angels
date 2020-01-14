@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Progress, Tag, Divider } from 'antd';
 import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 // TODO: this is an example on how implement this with the old schema
 //       but the budget status property doesn't exist anymore
@@ -32,9 +33,9 @@ const editMilestoneButtons = (
   isEditing
 ) => (
   <span>
-    {showEdit && (
-      <Col span={24}>
-        {isEditing ? (
+    <Col span={12}>
+      {showEdit &&
+        (isEditing ? (
           <span>
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
@@ -47,17 +48,17 @@ const editMilestoneButtons = (
           <a className="blueLink" onClick={() => onEdit(false)}>
             Edit
           </a>
-        )}
-      </Col>
-    )}
-    {showDelete && showEdit && <Divider />}
-    {showDelete && (
-      <Col span={24}>
+        ))}
+      {showDelete && showEdit && <Divider />}
+      {showDelete && (
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
-      </Col>
-    )}
+      )}
+    </Col>
+    <Col span={12}>
+      <CustomButton buttonText="+ New Task" theme="Alternative" />
+    </Col>
   </span>
 );
 

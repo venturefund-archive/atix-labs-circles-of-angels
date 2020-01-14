@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
@@ -9,10 +9,13 @@ import {
   updateMilestone,
   deleteMilestone
 } from '../../../../api/milestonesApi';
+import CreateMilestoneContainer from '../../CreateMilestoneContainer/CreateMilestoneContainer';
 
-const CreateMilestonesStep3 = ({ milestones }) => {
+const CreateMilestonesStep3 = ({ milestones, createMilestone }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const milestoneRowsProps = {
     milestoneActionType: 'edit',
+    // these two functions could be passed down from the container
     onMilestoneDelete: async milestoneId => {
       const response = await deleteMilestone(milestoneId);
       return !response.errors;
@@ -55,7 +58,16 @@ const CreateMilestonesStep3 = ({ milestones }) => {
           md={6}
           lg={{ span: 3, offset: 9 }}
         >
-          <CustomButton buttonText="+ New Milestone" theme="Alternative" />
+          <CustomButton
+            buttonText="+ New Milestone"
+            theme="Alternative"
+            onClick={() => setModalVisible(true)}
+          />
+          <CreateMilestoneContainer
+            visibility={modalVisible}
+            setVisibility={setModalVisible}
+            createMilestone={createMilestone}
+          />
         </Col>
       </Row>
       <RowMilestones
@@ -87,7 +99,8 @@ CreateMilestonesStep3.propTypes = {
         })
       )
     })
-  )
+  ),
+  createMilestone: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesStep3;

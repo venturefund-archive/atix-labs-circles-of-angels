@@ -21,6 +21,7 @@ import {
   processProjectMilestones,
   getProjectMilestones
 } from '../../../api/projectApi';
+import { createMilestone } from '../../../api/milestonesApi';
 import { milestonesFormItems } from '../../../helpers/createProjectFormFields';
 
 const { Step } = Steps;
@@ -93,6 +94,17 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     }
   };
 
+  const handleCreateMilestone = async milestoneData => {
+    const response = await createMilestone(project.id, milestoneData);
+    if (response.errors) {
+      onError();
+      return false;
+    }
+    message.success('Milestone was successfully created');
+    fetchMilestones();
+    return true;
+  };
+
   const processMilestones = async milestoneFile => {
     if (!project || !project.id) goBack();
     if (!milestoneFile || !milestoneFile.file) return;
@@ -132,6 +144,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         processed={processed}
         processError={processError}
         milestones={milestones}
+        createMilestone={handleCreateMilestone}
       />
     );
   }

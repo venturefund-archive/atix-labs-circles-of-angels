@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPut, doDelete } from './api';
+import api, { doPut, doDelete, doPost } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/milestones';
@@ -16,6 +16,9 @@ export const updateMilestone = (milestoneId, saveData) =>
 
 export const deleteMilestone = milestoneId =>
   doDelete(`${baseURL}/${milestoneId}`);
+
+export const createMilestone = (projectId, saveData) =>
+  doPost(`/projects/${projectId}${baseURL}`, saveData);
 
 // TODO: delete, used in old consensus page
 const deleteActivity = async activityId => {

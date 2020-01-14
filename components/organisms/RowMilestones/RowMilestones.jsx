@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row, message } from 'antd';
 import './_style.scss';
@@ -41,6 +41,10 @@ const RowMilestones = ({
       message.error('An error occurred while editing the record');
     }
   };
+
+  useEffect(() => {
+    setToEditMilestones(milestones);
+  }, [milestones]);
 
   if (!milestones) return null;
   const milestoneElements = toEditMilestones.map((m, i) => (
