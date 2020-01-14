@@ -1,38 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Collapse, message } from 'antd';
+import { Col, Collapse } from 'antd';
 import TaskRow from './TaskRow';
 
 const { Panel } = Collapse;
 
 const MilestoneTasks = ({ tasks, onDelete, onEdit, showDelete, showEdit }) => {
-  const [toEditTasks, setToEditTasks] = useState(tasks);
+  const handleDelete = value => onDelete(value);
+  const handleEdit = value => onEdit(value);
 
-  const handleDelete = async (value, index) => {
-    const wasDeleted = await onDelete(value);
-
-    if (wasDeleted) {
-      const tempTasks = [...toEditTasks];
-      tempTasks.splice(index, 1);
-      setToEditTasks(tempTasks);
-    } else {
-      message.error('An error occurred while deleting the record');
-    }
-  };
-
-  const handleEdit = async (value, index) => {
-    const wasEdited = await onEdit(value);
-
-    if (wasEdited) {
-      const tempTasks = [...toEditTasks];
-      tempTasks[index] = value;
-      setToEditTasks(tempTasks);
-    } else {
-      message.error('An error occurred while editing the record');
-    }
-  };
-
-  const tasksElements = toEditTasks.map((task, i) => (
+  const tasksElements = tasks.map((task, i) => (
     <TaskRow
       task={task}
       index={i}

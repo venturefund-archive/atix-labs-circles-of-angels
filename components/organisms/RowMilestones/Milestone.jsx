@@ -7,6 +7,7 @@ import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
 import { showModalConfirm } from '../../utils/Modals';
+import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -16,16 +17,19 @@ const Milestone = ({
   milestoneStatus,
   onTaskDelete,
   onTaskEdit,
+  onTaskCreate,
   showTaskDelete,
   showTaskEdit,
   onMilestoneDelete,
   onMilestoneEdit,
   showMilestoneDelete,
   showMilestoneEdit,
+  showCreateTask,
   milestoneActionType
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const deleteMilestone = () =>
     showModalConfirm(
@@ -69,8 +73,10 @@ const Milestone = ({
         progress={milestoneProgress}
         onDelete={deleteMilestone}
         onEdit={handleEditRow}
+        onClickCreateTask={() => setModalVisible(true)}
         showDelete={showMilestoneDelete}
         showEdit={showMilestoneEdit}
+        showCreateTask={showCreateTask}
         isEditing={editing}
       />
       <MilestoneTasks
@@ -79,6 +85,11 @@ const Milestone = ({
         onEdit={onTaskEdit}
         showDelete={showTaskDelete}
         showEdit={showTaskEdit}
+      />
+      <CreateActivityContainer
+        visibility={modalVisible}
+        setVisibility={setModalVisible}
+        createActivity={data => onTaskCreate(data)}
       />
     </div>
   );
@@ -104,12 +115,14 @@ Milestone.propTypes = {
   milestoneStatus: PropTypes.string.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
+  onTaskCreate: PropTypes.func.isRequired,
   showTaskDelete: PropTypes.bool.isRequired,
   showTaskEdit: PropTypes.bool.isRequired,
   onMilestoneDelete: PropTypes.func.isRequired,
   onMilestoneEdit: PropTypes.func.isRequired,
   showMilestoneDelete: PropTypes.bool.isRequired,
   showMilestoneEdit: PropTypes.bool.isRequired,
+  showCreateTask: PropTypes.bool.isRequired,
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired
 };
 

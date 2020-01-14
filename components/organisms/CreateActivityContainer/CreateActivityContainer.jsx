@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useForm from '../../../hooks/useForm';
-import ModalCreateMilestone from '../../molecules/ModalCreateMilestone/ModalCreateMilestone';
-import { newMilestoneFormItems } from '../../../helpers/createProjectFormFields';
+import { newActivityFormItems } from '../../../helpers/createProjectFormFields';
+import ModalCreateActivity from '../../molecules/ModalCreateActivity/ModalCreateActivity';
 
-const CreateMilestoneContainer = ({
+const CreateActivityContainer = ({
   setVisibility,
   visibility,
-  createMilestone
+  createActivity
 }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(
-    newMilestoneFormItems
+    newActivityFormItems
   );
 
   const onSubmit = async data => {
@@ -18,15 +18,15 @@ const CreateMilestoneContainer = ({
     data.forEach((value, key) => {
       formData[key] = value;
     });
-    const response = await createMilestone(formData);
+    const response = await createActivity(formData);
     if (response) {
-      setFields(newMilestoneFormItems);
+      setFields(newActivityFormItems);
       setVisibility(false);
     }
   };
 
   return (
-    <ModalCreateMilestone
+    <ModalCreateActivity
       visibility={visibility}
       onOk={() => handleSubmit(onSubmit)}
       onCancel={() => setVisibility(false)}
@@ -36,14 +36,14 @@ const CreateMilestoneContainer = ({
   );
 };
 
-CreateMilestoneContainer.defaultProps = {
+CreateActivityContainer.defaultProps = {
   visibility: false
 };
 
-CreateMilestoneContainer.propTypes = {
+CreateActivityContainer.propTypes = {
   setVisibility: PropTypes.func.isRequired,
   visibility: PropTypes.bool,
-  createMilestone: PropTypes.func.isRequired
+  createActivity: PropTypes.func.isRequired
 };
 
-export default CreateMilestoneContainer;
+export default CreateActivityContainer;

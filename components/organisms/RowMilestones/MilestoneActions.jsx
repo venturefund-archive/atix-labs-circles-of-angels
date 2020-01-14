@@ -28,8 +28,10 @@ const statusTagMap = {
 const editMilestoneButtons = (
   onEdit,
   onDelete,
+  onClickCreateTask,
   showEdit,
   showDelete,
+  showCreateTask,
   isEditing
 ) => (
   <span>
@@ -56,9 +58,15 @@ const editMilestoneButtons = (
         </a>
       )}
     </Col>
-    <Col span={12}>
-      <CustomButton buttonText="+ New Task" theme="Alternative" />
-    </Col>
+    {showCreateTask && (
+      <Col span={12}>
+        <CustomButton
+          buttonText="+ New Task"
+          theme="Alternative"
+          onClick={onClickCreateTask}
+        />
+      </Col>
+    )}
   </span>
 );
 
@@ -75,8 +83,10 @@ const MilestoneActions = ({
   type,
   onEdit,
   onDelete,
+  onClickCreateTask,
   showEdit,
   showDelete,
+  showCreateTask,
   status,
   progress,
   isEditing
@@ -99,7 +109,15 @@ const MilestoneActions = ({
     >
       {type === 'status' && statusMilestone(tagColor, tagText, progress)}
       {type === 'edit' &&
-        editMilestoneButtons(onEdit, onDelete, showEdit, showDelete, isEditing)}
+        editMilestoneButtons(
+          onEdit,
+          onDelete,
+          onClickCreateTask,
+          showEdit,
+          showDelete,
+          showCreateTask,
+          isEditing
+        )}
     </Col>
   );
 };
@@ -109,8 +127,10 @@ MilestoneActions.propTypes = {
   progress: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onClickCreateTask: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
+  showCreateTask: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   isEditing: PropTypes.bool.isRequired
 };

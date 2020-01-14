@@ -4,39 +4,31 @@ import { Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
-import { updateTask, deleteTask } from '../../../../api/activityApi';
-import {
-  updateMilestone,
-  deleteMilestone
-} from '../../../../api/milestonesApi';
 import CreateMilestoneContainer from '../../CreateMilestoneContainer/CreateMilestoneContainer';
 
-const CreateMilestonesStep3 = ({ milestones, createMilestone }) => {
+const CreateMilestonesStep3 = ({
+  milestones,
+  createMilestone,
+  editMilestone,
+  deleteMilestone,
+  createTask,
+  editTask,
+  deleteTask
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const milestoneRowsProps = {
     milestoneActionType: 'edit',
-    // these two functions could be passed down from the container
-    onMilestoneDelete: async milestoneId => {
-      const response = await deleteMilestone(milestoneId);
-      return !response.errors;
-    },
-    onMilestoneEdit: async milestone => {
-      const response = await updateMilestone(milestone.id, milestone);
-      return !response.errors;
-    },
+    onMilestoneDelete: milestoneId => deleteMilestone(milestoneId),
+    onMilestoneEdit: milestone => editMilestone(milestone.id, milestone),
+    onTaskCreate: (milestoneId, taskData) => createTask(milestoneId, taskData),
     showMilestoneDelete: true,
-    showMilestoneEdit: true
+    showMilestoneEdit: true,
+    showCreateTask: true
   };
 
   const taskRowProps = {
-    onTaskDelete: async taskId => {
-      const response = await deleteTask(taskId);
-      return !response.errors;
-    },
-    onTaskEdit: async task => {
-      const response = await updateTask(task.id, task);
-      return !response.errors;
-    },
+    onTaskDelete: taskId => deleteTask(taskId),
+    onTaskEdit: task => editTask(task.id, task),
     showTaskDelete: true,
     showTaskEdit: true
   };
@@ -100,7 +92,12 @@ CreateMilestonesStep3.propTypes = {
       )
     })
   ),
-  createMilestone: PropTypes.func.isRequired
+  createMilestone: PropTypes.func.isRequired,
+  editMilestone: PropTypes.func.isRequired,
+  deleteMilestone: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesStep3;

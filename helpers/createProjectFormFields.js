@@ -177,7 +177,7 @@ export const newMilestoneFormItems = {
     rules: [
       {
         required: true,
-        message: 'Please input a description for the milestone!',
+        message: 'Please input the description!',
         whitespace: true
       }
     ]
@@ -189,8 +189,74 @@ export const newMilestoneFormItems = {
     rules: [
       {
         required: true,
-        message: 'Please input the milestone category!',
+        message: 'Please input the category!',
         whitespace: true
+      }
+    ]
+  }
+};
+
+export const newActivityFormItems = {
+  description: {
+    name: 'description',
+    label: 'Description',
+    placeholder: 'Description',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the description!',
+        whitespace: true
+      }
+    ]
+  },
+  reviewCriteria: {
+    name: 'reviewCriteria',
+    label: 'Review Criteria',
+    placeholder: 'Review Criteria',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the review criteria!',
+        whitespace: true
+      }
+    ]
+  },
+  category: {
+    name: 'category',
+    label: 'Category',
+    placeholder: 'Category',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the category!',
+        whitespace: true
+      }
+    ]
+  },
+  keyPersonnel: {
+    name: 'keyPersonnel',
+    label: 'Key Personnel',
+    placeholder: 'Key Personnel',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the key personnel!',
+        whitespace: true
+      }
+    ]
+  },
+  budget: {
+    name: 'budget',
+    label: 'Budget',
+    placeholder: 'Budget',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the budget!'
+      },
+      {
+        validator: (_, value) => !Number.isNaN(Number(value)),
+        message: 'The budget should be a number'
       }
     ]
   }
