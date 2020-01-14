@@ -25,7 +25,9 @@ const Milestone = ({
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
-  milestoneActionType
+  milestoneActionType,
+  taskActionType,
+  showTaskAddEvidence
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -85,6 +87,8 @@ const Milestone = ({
         onEdit={onTaskEdit}
         showDelete={showTaskDelete}
         showEdit={showTaskEdit}
+        taskActionType={taskActionType}
+        showAddEvidence={showTaskAddEvidence}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -123,7 +127,9 @@ Milestone.propTypes = {
   showMilestoneDelete: PropTypes.bool.isRequired,
   showMilestoneEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
-  milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired
+  milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
+  showTaskAddEvidence: PropTypes.bool.isRequired
 };
 
 export default Milestone;

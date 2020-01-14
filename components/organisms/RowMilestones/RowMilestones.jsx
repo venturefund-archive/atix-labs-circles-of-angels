@@ -16,7 +16,9 @@ const RowMilestones = ({
   onMilestoneEdit,
   showMilestoneDelete,
   showMilestoneEdit,
-  showCreateTask
+  showCreateTask,
+  showTaskAddEvidence,
+  taskActionType
 }) => {
   const handleTaskCreate = (milestoneId, taskData) =>
     onTaskCreate(milestoneId, taskData);
@@ -42,6 +44,8 @@ const RowMilestones = ({
       showMilestoneDelete={showMilestoneDelete}
       showMilestoneEdit={showMilestoneEdit}
       showCreateTask={showCreateTask}
+      showTaskAddEvidence={showTaskAddEvidence}
+      taskActionType={taskActionType}
     />
   ));
   return (
@@ -63,7 +67,9 @@ RowMilestones.defaultProps = {
   onMilestoneEdit: undefined,
   showMilestoneDelete: false,
   showMilestoneEdit: false,
-  showCreateTask: false
+  showCreateTask: false,
+  showTaskAddEvidence: false,
+  taskActionType: 'none'
 };
 
 RowMilestones.propTypes = {
@@ -83,7 +89,7 @@ RowMilestones.propTypes = {
       )
     })
   ),
-  milestoneActionType: PropTypes.string,
+  milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']),
   onTaskDelete: PropTypes.func,
   onTaskEdit: PropTypes.func,
   onTaskCreate: PropTypes.func,
@@ -93,7 +99,9 @@ RowMilestones.propTypes = {
   onMilestoneEdit: PropTypes.func,
   showMilestoneDelete: PropTypes.bool,
   showMilestoneEdit: PropTypes.bool,
-  showCreateTask: PropTypes.bool
+  showCreateTask: PropTypes.bool,
+  showTaskAddEvidence: PropTypes.bool,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none'])
 };
 
 export default RowMilestones;

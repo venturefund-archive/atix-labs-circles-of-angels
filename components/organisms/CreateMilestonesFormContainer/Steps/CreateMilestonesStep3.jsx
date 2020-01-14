@@ -30,7 +30,9 @@ const CreateMilestonesStep3 = ({
     onTaskDelete: taskId => deleteTask(taskId),
     onTaskEdit: task => editTask(task.id, task),
     showTaskDelete: true,
-    showTaskEdit: true
+    showTaskEdit: true,
+    showTaskAddEvidence: false,
+    taskActionType: 'edit'
   };
 
   return (

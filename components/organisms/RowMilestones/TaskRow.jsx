@@ -7,7 +7,16 @@ import TaskActions from './TaskActions';
 import { showModalConfirm } from '../../utils/Modals';
 
 // TODO: define what task fields to show, schema changed
-const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
+const TaskRow = ({
+  task,
+  index,
+  onDelete,
+  onEdit,
+  showDelete,
+  showEdit,
+  showAddEvidence,
+  taskActionType
+}) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
 
@@ -106,6 +115,8 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
           showDelete={showDelete}
           showEdit={showEdit}
           isEditing={editing}
+          showAddEvidence={showAddEvidence}
+          type={taskActionType}
         />
       )}
     </Col>
@@ -124,7 +135,9 @@ TaskRow.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
-  showEdit: PropTypes.bool.isRequired
+  showEdit: PropTypes.bool.isRequired,
+  showAddEvidence: PropTypes.bool.isRequired,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired
 };
 
 export default TaskRow;

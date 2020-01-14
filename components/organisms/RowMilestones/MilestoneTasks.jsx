@@ -5,7 +5,15 @@ import TaskRow from './TaskRow';
 
 const { Panel } = Collapse;
 
-const MilestoneTasks = ({ tasks, onDelete, onEdit, showDelete, showEdit }) => {
+const MilestoneTasks = ({
+  tasks,
+  onDelete,
+  onEdit,
+  showDelete,
+  showEdit,
+  showAddEvidence,
+  taskActionType
+}) => {
   const handleDelete = value => onDelete(value);
   const handleEdit = value => onEdit(value);
 
@@ -17,6 +25,8 @@ const MilestoneTasks = ({ tasks, onDelete, onEdit, showDelete, showEdit }) => {
       onEdit={handleEdit}
       showDelete={showDelete}
       showEdit={showEdit}
+      showAddEvidence={showAddEvidence}
+      taskActionType={taskActionType}
     />
   ));
   return (
@@ -53,7 +63,9 @@ MilestoneTasks.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
-  showEdit: PropTypes.bool.isRequired
+  showEdit: PropTypes.bool.isRequired,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
+  showAddEvidence: PropTypes.bool.isRequired
 };
 
 export default MilestoneTasks;
