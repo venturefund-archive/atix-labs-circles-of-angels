@@ -183,6 +183,9 @@ a.blueLink:hover::before {
   align-items: center;
   justify-content: center;
 }
+.TextRed{
+ color:$danger-color;
+}
 .space-between {
   display: flex;
   justify-content: space-between;
@@ -256,6 +259,9 @@ border: 1px solid $border;
       white-space: normal;
     }
   }
+}
+.ant-form-item{
+  margin-bottom: 1em;
 }
 /** ant tabs */
 
