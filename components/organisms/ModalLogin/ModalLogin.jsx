@@ -44,12 +44,16 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         footer={null}
       >
         <TitlePage textTitle="Login" />
-        <CustomButton theme="Facebook" buttonText="Login with Facebook" />
-        <div className="flex Linear">
-          <hr />
-          <p>or Login with</p>
-          <hr />
-        </div>
+        {false && (
+          <>
+            <CustomButton theme="Facebook" buttonText="Login with Facebook" />
+            <div className="flex Linear">
+              <hr />
+              <p>or Login with</p>
+              <hr />
+            </div>
+          </>
+        )}
         <DynamicForm onSubmit={onLoginSubmit} />
       </Modal>
     </div>
