@@ -40,11 +40,9 @@ const evidenceTask = showAddEvidence => (
       Evidences
     </a>
     {showAddEvidence && (
-      <CustomButton
-        buttonText="Add Evidence"
-        theme="Alternative"
-        onClick={() => console.log('adding evidence')}
-      />
+          <a className="blueLink" onClick={() => console.log('adding evidence')}>
+     +Add Evidence
+    </a>
     )}
   </Col>
 );
@@ -63,8 +61,8 @@ const TaskActions = ({
     className="WrapperActionsActivities"
     xs={{ span: 24 }}
     sm={{ span: 24 }}
-    md={2}
-    lg={{ span: 3 }}
+    md={24}
+    lg={{ span: 24 }}
   >
     {type === 'evidence' && evidenceTask(showAddEvidence)}
     {type === 'edit' &&
