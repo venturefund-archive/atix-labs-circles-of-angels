@@ -65,11 +65,15 @@
   }
   .TableMilestones{
     height:96px;
+    .gutter-row{
+      margin-right:1em;
+    }
   }
   .WrapperActionsActivities {
     background: $white;
-    border-right: 1px solid $border;
-    height: 100%;
+    text-align: end;
+    border-bottom: 1px solid $border;
+    height:100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -79,6 +83,7 @@
   }
   .WrapperActions {
     height: 96px;
+        text-align: center;
     background: $light-gray;
     border-radius: 0px 6px 0px 0px;
     @include breakpoint(sm) {
@@ -88,8 +93,7 @@
   }
   .SubWrapperActivities {
     position: relative;
-    border-bottom: 1px solid $border;
-    border-left: 1px solid $border;
+    border: 1px solid $border;
     overflow: hidden;
     @include breakpoint(sm) {
       height: auto;
@@ -97,7 +101,6 @@
   }
   .WrapperActions,
   .WrapperActionsActivities {
-    text-align: center;
     box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     padding: 0.5em 1em;

@@ -49,7 +49,7 @@ const Milestone = ({
   return (
     <div>
       <MilestoneRow>
-        <MilestoneCol span={3}>
+        <MilestoneCol span={4}>
           <h3>Milestone {index}</h3>
         </MilestoneCol>
         <MilestoneCol className="vertical" span={4}>

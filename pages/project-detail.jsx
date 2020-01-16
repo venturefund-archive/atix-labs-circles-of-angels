@@ -241,7 +241,14 @@ export default function ProjectDetail(props) {
               <Project />
             </TabPane>
             <TabPane tab="Milestones" key="3">
-              <RowMilestones {...project} />
+              <RowMilestones {...project}   milestoneActionType="edit"
+  taskActionType="evidence" 
+  showTaskDelete
+  showTaskEdit
+  showMilestoneDelete 
+  showMilestoneEdit
+  showCreateTask
+  showTaskAddEvidence />
             </TabPane>
                       <TabPane tab="Discussions" key="4">
             <BlockDiscussion />

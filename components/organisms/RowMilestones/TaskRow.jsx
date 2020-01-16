@@ -39,8 +39,8 @@ const TaskRow = ({
         className="gutter-row TableActivities"
         xs={{ span: 24 }}
         sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 21 }}
+        md={24}
+        lg={{ span: 24 }}
       >
         <Col
           className="gutter-row "
