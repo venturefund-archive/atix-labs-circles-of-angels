@@ -8,6 +8,14 @@ export const userPropTypes = {
   role: PropTypes.string
 };
 
+export const userAvatarPropTypes = {
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  avatarImage: PropTypes.string,
+  id: PropTypes.number,
+  role: PropTypes.string
+};
+
 export const projectCardPropType = {
   projectName: PropTypes.string,
   location: PropTypes.string,
