@@ -1,27 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
-import { updateTask, deleteTask } from '../../../../api/activityApi';
+import CreateMilestoneContainer from '../../CreateMilestoneContainer/CreateMilestoneContainer';
 
-const CreateMilestonesStep3 = ({ milestones }) => {
+const CreateMilestonesStep3 = ({
+  milestones,
+  createMilestone,
+  editMilestone,
+  deleteMilestone,
+  createTask,
+  editTask,
+  deleteTask
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const milestoneRowsProps = {
-    showMilestoneStatus: false
+    milestoneActionType: 'edit',
+    onMilestoneDelete: milestoneId => deleteMilestone(milestoneId),
+    onMilestoneEdit: milestone => editMilestone(milestone.id, milestone),
+    onTaskCreate: (milestoneId, taskData) => createTask(milestoneId, taskData),
+    showMilestoneDelete: true,
+    showMilestoneEdit: true,
+    showCreateTask: true
   };
 
   const taskRowProps = {
-    onTaskDelete: async taskId => {
-      const response = await deleteTask(taskId);
-      return !response.errors;
-    },
-    onTaskEdit: async task => {
-      const response = await updateTask(task.id, task);
-      return !response.errors;
-    },
+    onTaskDelete: taskId => deleteTask(taskId),
+    onTaskEdit: task => editTask(task.id, task),
     showTaskDelete: true,
-    showTaskEdit: true
+    showTaskEdit: true,
+    showTaskAddEvidence: false,
+    taskActionType: 'edit'
   };
 
   return (
@@ -41,7 +52,16 @@ const CreateMilestonesStep3 = ({ milestones }) => {
           md={6}
           lg={{ span: 3, offset: 9 }}
         >
-          <CustomButton buttonText="+ New Milestone" theme="Alternative" />
+          <CustomButton
+            buttonText="+ New Milestone"
+            theme="Alternative"
+            onClick={() => setModalVisible(true)}
+          />
+          <CreateMilestoneContainer
+            visibility={modalVisible}
+            setVisibility={setModalVisible}
+            createMilestone={createMilestone}
+          />
         </Col>
       </Row>
       <RowMilestones
@@ -73,7 +93,13 @@ CreateMilestonesStep3.propTypes = {
         })
       )
     })
-  )
+  ),
+  createMilestone: PropTypes.func.isRequired,
+  editMilestone: PropTypes.func.isRequired,
+  deleteMilestone: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesStep3;
