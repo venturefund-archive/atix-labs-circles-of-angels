@@ -10,12 +10,12 @@ import React from 'react';
 import { isEmpty } from 'lodash';
 import { Col, Row } from 'antd';
 import CustomShowMoreText from '../components/atoms/CustomShowMoreText/CustomShowMoreText';
-import { withUser } from '../components/utils/UserContext';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
 import ModalNewExperience from './new-experiences';
 
+// TODO: everything
 const CardExperience = ({ experience }) => {
   const style = isEmpty(experience.photos)
     ? 'cardExperienceText'
@@ -73,7 +73,7 @@ const SeccionExperience = ({ experiences, onCreate, user }) => (
   <div className="Experiences">
     <Row gutter={12}>
       <Col span={8}>
-          <ModalNewExperience onCreate={onCreate} user={user} />
+        <ModalNewExperience onCreate={onCreate} user={user} />
       </Col>
       {!isEmpty(experiences) &&
         experiences.map((experience, i) => (
@@ -83,4 +83,4 @@ const SeccionExperience = ({ experiences, onCreate, user }) => (
   </div>
 );
 
-export default withUser(SeccionExperience);
+export default SeccionExperience;
