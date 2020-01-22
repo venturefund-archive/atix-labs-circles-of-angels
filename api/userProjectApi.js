@@ -45,4 +45,13 @@ const createUserProject = async (userId, projectId) => {
 const followProject = async projectId =>
   apiCall('post', `/projects/${projectId}/follow`);
 
-export { getUsers, signAgreement, createUserProject, followProject };
+const isFollower = async projectId =>
+  apiCall('get', `/projects/${projectId}/follower`);
+
+export {
+  getUsers,
+  signAgreement,
+  createUserProject,
+  followProject,
+  isFollower
+};

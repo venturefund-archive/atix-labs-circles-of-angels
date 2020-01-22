@@ -20,7 +20,8 @@ const ProjectDetailHeader = ({
   projectName,
   faqLink,
   status,
-  onFollowProject
+  onFollowProject,
+  isFollower
 }) => {
   const itemsData = [
     {
@@ -55,8 +56,8 @@ const ProjectDetailHeader = ({
           </Col>
           <Col span={3}>
             <CustomButton
-              theme="Primary"
-              buttonText="Follow Project"
+              theme={isFollower ? 'Cancel' : 'Primary'}
+              buttonText={isFollower ? 'Unfollow Project' : 'Follow Project'}
               onClick={onFollowProject}
             />
           </Col>
