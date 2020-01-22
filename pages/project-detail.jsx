@@ -13,7 +13,11 @@ import { Tabs, Col, Row, message } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
-import { followProject, isFollower } from '../api/userProjectApi';
+import {
+  followProject,
+  unfollowProject,
+  isFollower
+} from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
 import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
@@ -71,7 +75,17 @@ const ProjectDetail = ({ user }) => {
     try {
       await followProject(projectId);
       setIsFollowing(true);
-      message.success('Project status changed correctly');
+      message.success('You are following this project now!');
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const onUnfollowProject = async () => {
+    try {
+      await unfollowProject(projectId);
+      setIsFollowing(false);
+      message.success('You have followed this project');
     } catch (error) {
       message.error(error);
     }
@@ -125,6 +139,7 @@ const ProjectDetail = ({ user }) => {
         <ProjectDetailHeader
           {...project}
           onFollowProject={onFollowProject}
+          onUnfollowProject={onUnfollowProject}
           isFollower={isFollowing}
         />
         <div className="BlockContent">

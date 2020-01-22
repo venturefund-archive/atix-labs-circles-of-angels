@@ -45,6 +45,9 @@ const createUserProject = async (userId, projectId) => {
 const followProject = async projectId =>
   apiCall('post', `/projects/${projectId}/follow`);
 
+const unfollowProject = async projectId =>
+  apiCall('post', `/projects/${projectId}/unfollow`);
+
 const isFollower = async projectId =>
   apiCall('get', `/projects/${projectId}/follower`);
 
@@ -53,5 +56,6 @@ export {
   signAgreement,
   createUserProject,
   followProject,
+  unfollowProject,
   isFollower
 };
