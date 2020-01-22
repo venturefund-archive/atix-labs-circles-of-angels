@@ -8,11 +8,12 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Col, Row, message } from 'antd';
 import { useHistory } from 'react-router';
+import { Tabs, Col, Row, message } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
+import { followProject } from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
 import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
@@ -77,6 +78,15 @@ const ProjectDetail = ({ user }) => {
     fetchMilestones();
   };
 
+  const onFollowProject = async () => {
+    try {
+      await followProject(projectId);
+      message.success('Project status changed correctly');
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -99,7 +109,7 @@ const ProjectDetail = ({ user }) => {
   return (
     <Row className="ContentComplete">
       <Col span={18} className="ProjectContainer DataSteps">
-        <ProjectDetailHeader {...project} />
+        <ProjectDetailHeader {...project} onFollowProject={onFollowProject} />
         <div className="BlockContent">
           <Tabs defaultActiveKey="1">
             {renderTabs({
@@ -123,8 +133,8 @@ const ProjectDetail = ({ user }) => {
   );
 };
 
+export default ProjectDetail;
+
 ProjectDetail.propTypes = {
   user: PropTypes.shape(userPropTypes).isRequired
 };
-
-export default ProjectDetail;

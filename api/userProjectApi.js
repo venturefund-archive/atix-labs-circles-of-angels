@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/userProjects';
 
@@ -41,4 +42,7 @@ const createUserProject = async (userId, projectId) => {
   }
 };
 
-export { getUsers, signAgreement, createUserProject };
+const followProject = async projectId =>
+  apiCall('post', `/projects/${projectId}/follow`);
+
+export { getUsers, signAgreement, createUserProject, followProject };

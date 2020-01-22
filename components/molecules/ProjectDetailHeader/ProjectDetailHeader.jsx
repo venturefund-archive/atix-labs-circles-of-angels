@@ -19,7 +19,8 @@ const ProjectDetailHeader = ({
   goalAmount,
   projectName,
   faqLink,
-  status
+  status,
+  onFollowProject
 }) => {
   const itemsData = [
     {
@@ -56,7 +57,7 @@ const ProjectDetailHeader = ({
             <CustomButton
               theme="Primary"
               buttonText="Follow Project"
-              onClick={() => console.log('TODO follow project')}
+              onClick={onFollowProject}
             />
           </Col>
         </Row>
@@ -93,7 +94,8 @@ ProjectDetailHeader.propTypes = {
   goalAmount: PropTypes.number,
   projectName: PropTypes.string,
   faqLink: PropTypes.string,
-  status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired
+  status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
+  onFollowProject: PropTypes.func.isRequired
 };
 
 export default ProjectDetailHeader;
