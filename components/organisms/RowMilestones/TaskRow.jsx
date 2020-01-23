@@ -111,7 +111,7 @@ const TaskRow = ({
           />
         </Col>
       </Col>
-      {(showDelete || showEdit) && (
+      {(showDelete || showEdit || showAddEvidence) && (
         <TaskActions
           onDelete={deleteTask}
           onEdit={handleEditRow}
