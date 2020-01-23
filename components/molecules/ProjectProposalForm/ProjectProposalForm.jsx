@@ -17,9 +17,6 @@ const ProjectProposalForm = ({ fields, handleChange }) => {
   return (
     <Fragment>
       <Row type="flex" justify="space-around" align="middle">
-        <Col sm={24} md={24} lg={24}>
-          <p>Complete Project Proposal</p>
-        </Col>
         <Col className="HtmlEditor" sm={24} md={24} lg={24}>
           <Field {...fields.proposal} handleChange={handleChange} />
         </Col>

@@ -1,11 +1,13 @@
 @import '../css/general_styling.scss';
-.Content.StepsMilestonesWrapper {
-  position:relative;
+.StepsMilestonesWrapper {
+  padding: 2em 3em;
+      height: 92%;
+    overflow-y: scroll;
   .ant-steps {
     width: 20%;
     position: absolute;
     left: 40%;
-    bottom: 1.5rem;
+    bottom: 2%;
     z-index: 99;
     @include breakpoint(md) {
       display:block;
@@ -80,7 +82,6 @@
 }
 
 .Step2 {
-  margin-top: 5em;
   height: 65vh;
   @include breakpoint(sm) {
     margin-top: 2em;
@@ -88,6 +89,10 @@
   .Preview {
     height: 100%;
     margin-right: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border-right: 1px solid $border;
     @include breakpoint(sm) {
       height: auto;
@@ -103,7 +108,7 @@
     }
     .BlockVerification {
       background: $light-gray;
-      height: 40vh;
+      height: 55vh;
       padding: 1em;
       border-radius: 4px;
     }

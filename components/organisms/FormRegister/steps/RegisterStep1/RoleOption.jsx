@@ -7,7 +7,7 @@ const RoleOption = ({ onSelect, title, usertype, value, selected }) => {
   const selectedClass = selected ? 'selectedOption' : '';
 
   return (
-    <Col sm={24} md={8} lg={8}>
+    <Col sm={24} md={12} lg={12}>
       <button
         onClick={() => onSelect(value)}
         className={`OptionsUsers ${selectedClass}`}
