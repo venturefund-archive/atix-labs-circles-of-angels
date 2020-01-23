@@ -34,3 +34,22 @@ export const fieldPropType = {
   value: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
   row: PropTypes.number
 };
+
+export const taskPropType = {
+  id: PropTypes.number,
+  taskHash: PropTypes.string,
+  description: PropTypes.string,
+  reviewCriteria: PropTypes.string,
+  category: PropTypes.string,
+  keyPersonnel: PropTypes.string,
+  budget: PropTypes.string,
+  oracle: PropTypes.string,
+  impact: PropTypes.string
+};
+
+export const milestonePropType = {
+  id: PropTypes.number,
+  description: PropTypes.string,
+  quarter: PropTypes.string,
+  tasks: PropTypes.arrayOf(PropTypes.shape(taskPropType))
+};

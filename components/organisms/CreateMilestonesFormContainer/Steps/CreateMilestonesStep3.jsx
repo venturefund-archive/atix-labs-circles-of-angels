@@ -5,6 +5,7 @@ import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import RowMilestones from '../../RowMilestones/RowMilestones';
 import CreateMilestoneContainer from '../../CreateMilestoneContainer/CreateMilestoneContainer';
+import { milestonePropType } from '../../../../helpers/proptypes';
 
 const CreateMilestonesStep3 = ({
   milestones,
@@ -78,22 +79,7 @@ CreateMilestonesStep3.defaultProps = {
 };
 
 CreateMilestonesStep3.propTypes = {
-  milestones: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      quarter: PropTypes.string,
-      tasks: PropTypes.arrayOf(
-        PropTypes.shape({
-          taskHash: PropTypes.string,
-          description: PropTypes.string,
-          reviewCriteria: PropTypes.string,
-          category: PropTypes.string,
-          keyPersonnel: PropTypes.string,
-          budget: PropTypes.string
-        })
-      )
-    })
-  ),
+  milestones: PropTypes.arrayOf(PropTypes.shape(milestonePropType)),
   createMilestone: PropTypes.func.isRequired,
   editMilestone: PropTypes.func.isRequired,
   deleteMilestone: PropTypes.func.isRequired,

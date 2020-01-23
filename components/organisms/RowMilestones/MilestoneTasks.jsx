@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Collapse } from 'antd';
 import TaskRow from './TaskRow';
+import { taskPropType } from '../../../helpers/proptypes';
 
 const { Panel } = Collapse;
 
@@ -51,15 +52,7 @@ MilestoneTasks.defaultProps = {
 };
 
 MilestoneTasks.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      oracle: PropTypes.string,
-      description: PropTypes.string,
-      impact: PropTypes.string,
-      review: PropTypes.string
-    })
-  ),
+  tasks: PropTypes.arrayOf(PropTypes.shape(taskPropType)),
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
