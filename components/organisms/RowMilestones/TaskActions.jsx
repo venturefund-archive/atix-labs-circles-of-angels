@@ -12,7 +12,7 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <a className="redLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
           </span>
@@ -21,16 +21,16 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             Edit
           </a>
         )}
-      </Col>
-    )}
-    {showDelete && showEdit && <Divider />}
-    {showDelete && (
-      <Col span={24}>
+         <Divider type="vertical"/>
+            {showDelete && (
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
+    )}
       </Col>
     )}
+  {showDelete && showEdit}
+
   </span>
 );
 
@@ -40,11 +40,9 @@ const evidenceTask = showAddEvidence => (
       Evidences
     </a>
     {showAddEvidence && (
-      <CustomButton
-        buttonText="Add Evidence"
-        theme="Alternative"
-        onClick={() => console.log('adding evidence')}
-      />
+          <a className="blueLink" onClick={() => console.log('adding evidence')}>
+     +Add Evidence
+    </a>
     )}
   </Col>
 );
@@ -63,8 +61,8 @@ const TaskActions = ({
     className="WrapperActionsActivities"
     xs={{ span: 24 }}
     sm={{ span: 24 }}
-    md={2}
-    lg={{ span: 3 }}
+    md={24}
+    lg={{ span: 24 }}
   >
     {type === 'evidence' && evidenceTask(showAddEvidence)}
     {type === 'edit' &&

@@ -200,20 +200,20 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
 
   return (
     <Fragment>
-    <div className="StepsMilestonesWrapper">
-      <Steps current={currentStep}>
-        {steps.map(item => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className="steps-content">{getStepComponent(currentStep)}</div>
-      <FooterButtons
-        nextStepButton={getNextStepButton(
-          currentStep,
-          currentStep === 1 ? !processed : false
-        )}
-        prevStepButton={getPrevStepButton(currentStep)}
-      />
+      <div className="StepsMilestonesWrapper">
+        <Steps current={currentStep}>
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="steps-content">{getStepComponent(currentStep)}</div>
+        <FooterButtons
+          nextStepButton={getNextStepButton(
+            currentStep,
+            currentStep === 1 ? !processed : false
+          )}
+          prevStepButton={getPrevStepButton(currentStep)}
+        />
       </div>
     </Fragment>
   );

@@ -34,40 +34,44 @@ const editMilestoneButtons = (
   showCreateTask,
   isEditing
 ) => (
-  <span>
-    <Col span={12}>
+  <Col span={24} className="flex">
+    <Col span={18} className="flex">
       {showEdit &&
         (isEditing ? (
-          <span>
+          <Col span={10}>
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
+            <Divider />
             <a className="blueLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
-          </span>
+          </Col>
         ) : (
+           <Col span={10}>
           <a className="blueLink" onClick={() => onEdit(false)}>
             Edit
           </a>
+          </Col>
         ))}
-      {showDelete && showEdit && <Divider />}
-      {showDelete && (
+      {showDelete && showEdit}
+         {showCreateTask && (
+      <Col span={13}>
+          <a className="blueLink" onClick={onClickCreateTask}>
+            + New Task
+          </a>
+      </Col>
+    )}
+
+    </Col>
+        {showDelete && (
+        <Col span={6}>
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
+         </Col>
       )}
-    </Col>
-    {showCreateTask && (
-      <Col span={12}>
-        <CustomButton
-          buttonText="+ New Task"
-          theme="Alternative"
-          onClick={onClickCreateTask}
-        />
-      </Col>
-    )}
-  </span>
+  </Col>
 );
 
 const statusMilestone = (tagColor, tagText, progress) => (
@@ -104,8 +108,8 @@ const MilestoneActions = ({
       className="WrapperActions flex space-between"
       xs={{ span: 24 }}
       sm={{ span: 24 }}
-      md={4}
-      lg={{ span: 5 }}
+      md={6}
+      lg={{ span: 6 }}
     >
       {type === 'status' && statusMilestone(tagColor, tagText, progress)}
       {type === 'edit' &&

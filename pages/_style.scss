@@ -122,6 +122,39 @@ a.redLink:hover::before {
   z-index: 1;
 }
 
+a.greenLink{
+    color: $success-color;
+    position: relative;
+    background:transparent;
+    padding: 0.4em 0.5em;
+    &:hover{
+      color: $success-color;
+    }
+}
+a.greenLink::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $success-color;
+  border-radius: 4px;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+a.greenLink:hover::before {
+  opacity: .06;
+  transform: scale(1);
+  opacity: .2;
+  z-index: 1;
+}
+
 
 a.blueLink{
     color: $primary-color;
