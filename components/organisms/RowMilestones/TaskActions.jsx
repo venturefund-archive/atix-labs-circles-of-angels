@@ -12,7 +12,7 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <a className="redLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
           </span>
@@ -21,16 +21,16 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             Edit
           </a>
         )}
-      </Col>
-    )}
-    {showDelete && showEdit && <Divider />}
-    {showDelete && (
-      <Col span={24}>
+         <Divider type="vertical"/>
+            {showDelete && (
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
+    )}
       </Col>
     )}
+  {showDelete && showEdit}
+
   </span>
 );
 
