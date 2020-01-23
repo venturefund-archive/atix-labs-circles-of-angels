@@ -195,9 +195,19 @@ a.blueLink:hover::before {
 .w100{
   width: 100%
 }
+.h100{
+  height: 100%
+}
 .flex {
   display: flex;
   align-items: center;
+}
+.AlignCenter{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .flex-wrap {
   display: flex;
@@ -215,6 +225,9 @@ a.blueLink:hover::before {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.TextRed{
+ color:$danger-color;
 }
 .space-between {
   display: flex;
@@ -277,18 +290,21 @@ border: 1px solid $border;
 }
 .InputTwoLabel {
   .ant-form-item-label label {
-    line-height: 33px;
+    line-height: 28px;
   }
   .LabelDescription {
     text-align: left;
-    top: -10px;
     position: relative;
+    top: -5px;
     span {
       display: block;
       line-height: normal;
       white-space: normal;
     }
   }
+}
+.ant-form-item{
+  margin-bottom: 1em;
 }
 /** ant tabs */
 

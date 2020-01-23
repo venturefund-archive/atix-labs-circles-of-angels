@@ -33,7 +33,7 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
   }, [fields.role.value, setFields]);
 
   return (
-    <div>
+    <div className=" h100">
       <div className="InfoStep">
         <img src="./static/images/icon-users.svg" alt="platformusers" />
         <h2>Platform User</h2>
@@ -42,7 +42,7 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
           amet..
         </h4>
       </div>
-      <div className="StepPersonalInformation">
+      <div className="StepPersonalInformation h100">
         <TitlePage textTitle="What do you want to do?" />
 
         <Row className="FormRegister" gutter={26}>

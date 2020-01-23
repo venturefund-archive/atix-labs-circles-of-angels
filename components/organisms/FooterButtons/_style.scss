@@ -1,11 +1,11 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
 
 .FooterButtons {
   position: absolute;
   right: 0;
   bottom: 0;
   width: 100%;
-  padding: 1.5em 1em;
+  padding: 1em;
   background: $light-gray;
   border-top: 1px solid #e5e6ed;
   @include breakpoint(sm) {

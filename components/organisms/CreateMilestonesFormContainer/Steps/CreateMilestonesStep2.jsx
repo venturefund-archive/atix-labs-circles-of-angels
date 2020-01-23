@@ -24,22 +24,25 @@ const CreateMilestonesStep2 = ({
         md={6}
         lg={{ span: 11 }}
       >
-        <Row type="flex" justify="center">
+        <Col         
+        xs={{ span: 20 }}
+        sm={{ span: 20 }}
+        md={20}
+        lg={{ span: 20 }}>
           <Col
             className="gutter-row"
             xs={{ span: 24 }}
             sm={{ span: 24 }}
-            md={18}
-            lg={{ span: 18 }}
+            md={24}
+            lg={{ span: 24 }}
           >
-            <h3>Milestones Verification</h3>
           </Col>
           <Col
             className="BlockVerification"
             xs={{ span: 24 }}
             sm={{ span: 24 }}
-            md={18}
-            lg={{ span: 18 }}
+            md={24}
+            lg={{ span: 24 }}
           >
             {processed && processError && <span>{processError}</span>}
             {processed && !processError && <span>Milestones created!</span>}
@@ -55,7 +58,7 @@ const CreateMilestonesStep2 = ({
               <span>You haven't uploaded any documents yet</span>
             )}
           </Col>
-        </Row>
+        </Col>
       </Col>
       <Col
         className="gutter-row"
@@ -84,7 +87,7 @@ const CreateMilestonesStep2 = ({
             xs={{ span: 24 }}
             sm={{ span: 24 }}
             md={18}
-            lg={{ span: 6 }}
+            lg={{ span: 5 , offset: 1 }}
           >
             <Field {...fields.milestoneFile} handleChange={handleChange} />
           </Col>
@@ -94,7 +97,7 @@ const CreateMilestonesStep2 = ({
           <Col className="BlockVerification" lg={{ span: 6, offset: 17 }}>
             <CustomButton
               buttonText="Process Milestones"
-              theme={!fields.milestoneFile.value ? 'disabled' : 'Cancel'}
+              theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
               icon="arrow-right"
               classNameIcon="iconDisplay"
               disabled={!fields.milestoneFile.value}

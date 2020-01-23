@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { message } from 'antd';
 import '../../../pages/_createproject.scss';
 import '../../../pages/_style.scss';
+
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import FooterButtons from '../FooterButtons/FooterButtons';
@@ -93,12 +94,14 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
 
   return (
     <Fragment>
+      <div className="ThumbnailsWrapper">
       <TitlePage textTitle="Complete Project's Thumbnail" />
       <ProjectThumbnailForm fields={fields} handleChange={handleChange} />
       <FooterButtons
         nextStepButton={getNextStepButton()}
         prevStepButton={getPrevStepButton()}
       />
+      </div>
     </Fragment>
   );
 };

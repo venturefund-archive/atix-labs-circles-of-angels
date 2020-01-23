@@ -7,13 +7,29 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
 import { Tooltip, Avatar } from 'antd';
+import { getInitials } from '../../../helpers/formatter';
+import { userAvatarPropTypes } from '../../../helpers/proptypes';
 
-const AvatarUser = ({ tooltipText, avatarImage }) => (
-  <Tooltip title={tooltipText}>
-    <Avatar src={avatarImage} />
-  </Tooltip>
-);
+const AvatarUser = ({ user }) => {
+  const fullName = `${user.firstName} ${user.lastName}`;
+  return (
+    <Tooltip title={fullName}>
+      {user.avatarImage ? (
+        <Avatar src={user.avatarImage} alt={getInitials(fullName)} />
+      ) : (
+        <Avatar style={{ color: '#0055FF', backgroundColor: '#B3CCFF' }}>
+          {getInitials(fullName)}
+        </Avatar>
+      )}
+    </Tooltip>
+  );
+};
+
+AvatarUser.propTypes = {
+  user: PropTypes.shape(userAvatarPropTypes).isRequired
+};
 
 export default AvatarUser;

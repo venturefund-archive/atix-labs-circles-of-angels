@@ -5,6 +5,7 @@ import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
 import { showModalConfirm } from '../../utils/Modals';
+import { taskPropType } from '../../../helpers/proptypes';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({
@@ -104,7 +105,9 @@ const TaskRow = ({
           <EditableInfo
             value={task.reviewCriteria}
             isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, review: v })}
+            updateValue={v =>
+              setEditFields({ ...editFields, reviewCriteria: v })
+            }
           />
         </Col>
       </Col>
@@ -124,13 +127,7 @@ const TaskRow = ({
 };
 
 TaskRow.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.number,
-    oracle: PropTypes.string,
-    description: PropTypes.string,
-    impact: PropTypes.string,
-    reviewCriteria: PropTypes.string
-  }).isRequired,
+  task: PropTypes.shape(taskPropType).isRequired,
   index: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

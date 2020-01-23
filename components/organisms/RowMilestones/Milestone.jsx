@@ -8,6 +8,7 @@ import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
 import { showModalConfirm } from '../../utils/Modals';
 import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
+import { milestonePropType } from '../../../helpers/proptypes';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -100,20 +101,7 @@ const Milestone = ({
 };
 
 Milestone.propTypes = {
-  milestone: PropTypes.shape({
-    id: PropTypes.number,
-    description: PropTypes.string,
-    quarter: PropTypes.number,
-    tasks: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        oracle: PropTypes.string,
-        description: PropTypes.string,
-        impact: PropTypes.string,
-        review: PropTypes.string
-      })
-    )
-  }).isRequired,
+  milestone: PropTypes.shape(milestonePropType).isRequired,
   index: PropTypes.number.isRequired,
   milestoneProgress: PropTypes.number.isRequired,
   milestoneStatus: PropTypes.string.isRequired,

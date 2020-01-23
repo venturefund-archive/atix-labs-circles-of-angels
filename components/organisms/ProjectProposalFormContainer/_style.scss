@@ -1,5 +1,7 @@
 @import '../css/general_styling.scss';
-
+.ProposalWrapper{
+  padding: 2em 3em;
+}
 .HtmlEditor{
   .quill {
     display: flex;

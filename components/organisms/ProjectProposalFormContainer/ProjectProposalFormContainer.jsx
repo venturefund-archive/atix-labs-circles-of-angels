@@ -89,12 +89,14 @@ const ProjectProposalFormContainer = ({
 
   return (
     <Fragment>
+  <div className="ProposalWrapper">
       <TitlePage textTitle="Complete Project's Proposal" />
       <ProjectProposalForm fields={fields} handleChange={handleChange} />
       <FooterButtons
         nextStepButton={getNextStepButton(currentStep)}
         prevStepButton={getPrevStepButton(currentStep)}
       />
+        </div>
     </Fragment>
   );
 };

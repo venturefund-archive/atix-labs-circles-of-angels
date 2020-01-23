@@ -1,0 +1,36 @@
+@import '../../../css/general_styling.scss';
+
+.ModalFund {
+  .Data {
+    background: $primary-color-light;
+    padding: 1em;
+    border-radius: 4px;
+    margin: 1em 0;
+    border-top: 1px solid #e5e6ed;
+    border-right: 1px solid #e5e6ed;
+    border-bottom: 1px solid #e5e6ed;
+    border-left: 4px solid $primary-color;
+    b {
+      margin-right: 0.5em;
+    }
+  }
+  .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1em;
+    .ant-btn.Primary {
+      margin: 1em auto;
+      width: 30%;
+    }
+  }
+  .DraggerFile {
+    width: 100%;
+    padding-right: 0;
+    .ant-upload.ant-upload-drag{
+      height: auto;
+    }
+    .ant-upload.ant-upload-drag p.ant-upload-drag-icon {
+      display: none;
+    }
+  }
+}
