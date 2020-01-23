@@ -4,11 +4,29 @@ import { Col } from 'antd';
 import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
+import { showModalConfirm } from '../../utils/Modals';
+import { taskPropType } from '../../../helpers/proptypes';
 
 // TODO: define what task fields to show, schema changed
-const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
+const TaskRow = ({
+  task,
+  index,
+  onDelete,
+  onEdit,
+  showDelete,
+  showEdit,
+  showAddEvidence,
+  taskActionType
+}) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
+
+  const deleteTask = () =>
+    showModalConfirm(
+      'Attention!',
+      'Are you sure you want to delete this task?',
+      () => onDelete(task.id, index)
+    );
 
   const handleEditRow = save => {
     if (!editing) return setEditing(true);
@@ -22,8 +40,8 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
         className="gutter-row TableActivities"
         xs={{ span: 24 }}
         sm={{ span: 24 }}
-        md={9}
-        lg={{ span: 21 }}
+        md={24}
+        lg={{ span: 24 }}
       >
         <Col
           className="gutter-row "
@@ -87,17 +105,21 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
           <EditableInfo
             value={task.reviewCriteria}
             isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, review: v })}
+            updateValue={v =>
+              setEditFields({ ...editFields, reviewCriteria: v })
+            }
           />
         </Col>
       </Col>
-      {(showDelete || showEdit) && (
+      {(showDelete || showEdit || showAddEvidence) && (
         <TaskActions
-          onDelete={() => onDelete(task.id)}
+          onDelete={deleteTask}
           onEdit={handleEditRow}
           showDelete={showDelete}
           showEdit={showEdit}
           isEditing={editing}
+          showAddEvidence={showAddEvidence}
+          type={taskActionType}
         />
       )}
     </Col>
@@ -105,18 +127,14 @@ const TaskRow = ({ task, index, onDelete, onEdit, showDelete, showEdit }) => {
 };
 
 TaskRow.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.number,
-    oracle: PropTypes.string,
-    description: PropTypes.string,
-    impact: PropTypes.string,
-    reviewCriteria: PropTypes.string
-  }).isRequired,
+  task: PropTypes.shape(taskPropType).isRequired,
   index: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
-  showEdit: PropTypes.bool.isRequired
+  showEdit: PropTypes.bool.isRequired,
+  showAddEvidence: PropTypes.bool.isRequired,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired
 };
 
 export default TaskRow;

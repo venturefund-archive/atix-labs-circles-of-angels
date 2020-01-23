@@ -76,7 +76,7 @@ export default function useForm(formFields, submitCallback) {
     }
 
     const name = fieldName || event.target.name;
-    const field = fields[name];
+    const field = { ...fields[name] };
     field.value = value;
 
     setFields({

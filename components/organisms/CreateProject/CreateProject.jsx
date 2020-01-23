@@ -30,6 +30,7 @@ const Items = ({ title, subtitle, onClick, disabled }) => (
 
 const CreateProject = ({ project, setCurrentWizard }) => (
   <Fragment>
+   <div className="CreateWrapper">
     <Breadcrumb>
       <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
       <Breadcrumb.Item>
@@ -42,13 +43,13 @@ const CreateProject = ({ project, setCurrentWizard }) => (
       }
     />
     <Row
-      className="ProjectsCardsContainer"
+      // className="ProjectsCardsContainer"
       type="flex"
       justify="space-around"
       align="middle"
       gutter={16}
     >
-      <Col sm={24} md={24} lg={24}>
+      <Col className="ProjectsItems" sm={24} md={24} lg={24}>
         <Items
           title="Thumbnails"
           subtitle="Here you can upload the thumbnails of your project"
@@ -77,6 +78,7 @@ const CreateProject = ({ project, setCurrentWizard }) => (
     <FooterButtons showCreateButton>
       <ModalProjectCreated />
     </FooterButtons>
+    </div>
   </Fragment>
 );
 

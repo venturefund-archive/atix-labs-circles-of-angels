@@ -14,7 +14,6 @@ import Field from '../../../../atoms/Field/Field';
 const commonQuestions = {
   phone: {
     name: 'phone',
-
     label: "What's your phone number?",
     rules: [
       {
@@ -61,9 +60,9 @@ export const questionsByRole = {
       name: 'goals',
       type: 'select',
       label: (
-        <div>
+        <div className="LabelDescription">
           Which are the areas of impact that you tackle?
-          <p>Based on the UN Sustainable Development Goals</p>
+          <span>Based on the UN Sustainable Development Goals</span>
         </div>
       ),
       placeholder: 'Please select up to 3 goals',
@@ -149,7 +148,7 @@ export default function RegisterStep3({ fields, handleChange }) {
         </h4>
       </div>
       <div className="StepPersonalInformation">
-        <TitlePage textTitle={getFormTitle()} />
+        <TitlePage textTitle="We have some questions for you!" />
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
@@ -160,9 +159,6 @@ export default function RegisterStep3({ fields, handleChange }) {
             </Col>
           </Form>
         </Row>
-        {/* TODO : This is confusing.
-                   There are questions before this, whats the purpose of the title? */}
-        <TitlePage textTitle="We have some questions for you!" />
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>

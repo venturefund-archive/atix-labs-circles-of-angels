@@ -68,6 +68,9 @@ export const useGetPublicProjects = () => {
   return [data, isLoading, isError];
 };
 
+export const getProjectUsers = projectId =>
+  doGet(`${baseURL}/${projectId}/users`);
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'antd';
+import { Col, Input } from 'antd';
 
 const EditableInfo = ({ value, isEditing, updateValue }) => (
   <Col className="gutter-row " span={24}>
     {isEditing ? (
-      <input
+      <Input
         defaultValue={value}
         onChange={target => updateValue(target.currentTarget.value)}
       />

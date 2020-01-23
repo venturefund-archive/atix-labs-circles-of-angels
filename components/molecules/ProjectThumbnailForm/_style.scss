@@ -1,9 +1,10 @@
 @import '../css/general_styling.scss';
 
-.ThumbnailsWrapper{
+.ThumbnailsWrapper{  
+  padding: 2em 3em;
   .centered{
-    height: 70vh;
-    padding:4em 0;
+    height:65vh;
+    overflow-y:scroll;
   }
   .FooterButtons {
     @include breakpoint(sm) {

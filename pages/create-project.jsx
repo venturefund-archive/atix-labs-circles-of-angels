@@ -99,6 +99,7 @@ const CreateProjectContainer = () => {
 
   // TODO add loading when "isSubmitting"
   return (
+<div className="CreateProjectWrapper">
     <div className="Content">
       <CurrentComponent
         project={project}
@@ -110,6 +111,7 @@ const CreateProjectContainer = () => {
         {...props}
       />
     </div>
+</div>
   );
 };
 export default CreateProjectContainer;

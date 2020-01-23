@@ -1,45 +1,34 @@
-import React, { Fragment } from 'react';
-import { Col, Breadcrumb, Row, Drawer, Button } from 'antd';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Drawer } from 'antd';
 import './_style.scss';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import { userAvatarPropTypes } from '../../../helpers/proptypes';
 
-class DrawerUsers extends React.Component {
-  state = { visible: false };
+const DrawerUsers = ({ users, visible, onClose, title }) => (
+  <div>
+    <Drawer
+      title={title}
+      placement="right"
+      closable={false}
+      onClose={onClose}
+      visible={visible}
+    >
+      {users.map(user => (
+        <p>{`${user.firstName} ${user.lastName}`}</p>
+      ))}
+    </Drawer>
+  </div>
+);
 
-  showDrawer = () => {
-    this.setState({
-      visible: true
-    });
-  };
+DrawerUsers.defaultProps = {
+  visible: false
+};
 
-  onClose = () => {
-    this.setState({
-      visible: false
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <CustomButton
-          buttonText="View All"
-          theme="Secondary"
-          onClick={this.showDrawer}
-        />
-        <Drawer
-          title="Basic Drawer"
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Drawer>
-      </div>
-    );
-  }
-}
+DrawerUsers.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)).isRequired,
+  visible: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired
+};
 
 export default DrawerUsers;
