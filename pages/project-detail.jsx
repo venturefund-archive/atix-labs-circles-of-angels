@@ -79,7 +79,7 @@ const ProjectDetail = ({ user }) => {
 
   useEffect(() => {
     fetchProject();
-  }, [fetchProject]);
+  }, []);
 
   const renderTabs = projectData =>
     Object.values(tabsContent(projectData)).map(
