@@ -6,8 +6,16 @@ import AvatarUser from '../../atoms/AvatarUser/AvatarUser';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
+import { supporterRoles } from '../../../constants/constants';
 
-const ProjectUsersPanel = ({ entrepreneur, funders, oracles, followers }) => {
+const ProjectUsersPanel = ({
+  entrepreneur,
+  funders,
+  oracles,
+  followers,
+  onApply,
+  applied
+}) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   // TODO: this could be a different component
@@ -65,12 +73,16 @@ const ProjectUsersPanel = ({ entrepreneur, funders, oracles, followers }) => {
           <CustomButton
             theme="Alternative"
             buttonText="I want to be an Oracle"
+            hidden={applied}
+            onClick={() => onApply(supporterRoles.ORACLE)}
           />
         </Col>
         <Col span={24}>
           <CustomButton
             theme="Alternative"
             buttonText="I want to be a Funder"
+            hidden={applied}
+            onClick={() => onApply(supporterRoles.FUNDER)}
           />
         </Col>
       </Col>
@@ -81,14 +93,17 @@ const ProjectUsersPanel = ({ entrepreneur, funders, oracles, followers }) => {
 ProjectUsersPanel.defaultProps = {
   funders: [],
   oracles: [],
-  followers: []
+  followers: [],
+  applied: false
 };
 
 ProjectUsersPanel.propTypes = {
   entrepreneur: PropTypes.shape(userAvatarPropTypes).isRequired,
   funders: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   oracles: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
-  followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes))
+  followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
+  onApply: PropTypes.func.isRequired,
+  applied: PropTypes.bool
 };
 
 export default ProjectUsersPanel;
