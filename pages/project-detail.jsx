@@ -8,11 +8,16 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Col, Row, message } from 'antd';
 import { useHistory } from 'react-router';
+import { Tabs, Col, Row, message } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
+import {
+  followProject,
+  unfollowProject,
+  isFollower
+} from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
 import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
@@ -38,6 +43,7 @@ const ProjectDetail = ({ user }) => {
     oracles: [],
     funders: []
   });
+  const [isFollowing, setIsFollowing] = useState(false);
   const [milestones, setMilestones] = useState();
 
   // TODO: this should have pagination
@@ -65,6 +71,35 @@ const ProjectDetail = ({ user }) => {
     setProjectUsers(response.data);
   };
 
+  const onFollowProject = async () => {
+    try {
+      await followProject(projectId);
+      setIsFollowing(true);
+      message.success('You are following this project now!');
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const onUnfollowProject = async () => {
+    try {
+      await unfollowProject(projectId);
+      setIsFollowing(false);
+      message.success('You have followed this project');
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const checkFollowing = async () => {
+    try {
+      const response = await isFollower(projectId);
+      setIsFollowing(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
   const fetchProject = async () => {
     const response = await getProject(projectId);
     if (response.errors) {
@@ -72,7 +107,9 @@ const ProjectDetail = ({ user }) => {
       history.goBack();
       return;
     }
+
     setProject(response.data);
+    checkFollowing();
     fetchProjectUsers();
     fetchMilestones();
   };
@@ -99,7 +136,12 @@ const ProjectDetail = ({ user }) => {
   return (
     <Row className="ContentComplete">
       <Col span={18} className="ProjectContainer DataSteps">
-        <ProjectDetailHeader {...project} />
+        <ProjectDetailHeader
+          {...project}
+          onFollowProject={onFollowProject}
+          onUnfollowProject={onUnfollowProject}
+          isFollower={isFollowing}
+        />
         <div className="BlockContent">
           <Tabs defaultActiveKey="1">
             {renderTabs({
@@ -123,8 +165,8 @@ const ProjectDetail = ({ user }) => {
   );
 };
 
+export default ProjectDetail;
+
 ProjectDetail.propTypes = {
   user: PropTypes.shape(userPropTypes).isRequired
 };
-
-export default ProjectDetail;

@@ -19,7 +19,10 @@ const ProjectDetailHeader = ({
   goalAmount,
   projectName,
   faqLink,
-  status
+  status,
+  onFollowProject,
+  onUnfollowProject,
+  isFollower
 }) => {
   const itemsData = [
     {
@@ -54,9 +57,9 @@ const ProjectDetailHeader = ({
           </Col>
           <Col span={3}>
             <CustomButton
-              theme="Primary"
-              buttonText="Follow Project"
-              onClick={() => console.log('TODO follow project')}
+              theme={isFollower ? 'Cancel' : 'Primary'}
+              buttonText={isFollower ? 'Unfollow Project' : 'Follow Project'}
+              onClick={isFollower ? onUnfollowProject : onFollowProject}
             />
           </Col>
         </Row>
@@ -84,7 +87,8 @@ ProjectDetailHeader.defaultProps = {
   timeframe: '-',
   goalAmount: 0,
   projectName: '-',
-  faqLink: '#'
+  faqLink: '#',
+  isFollower: false
 };
 
 ProjectDetailHeader.propTypes = {
@@ -93,7 +97,10 @@ ProjectDetailHeader.propTypes = {
   goalAmount: PropTypes.number,
   projectName: PropTypes.string,
   faqLink: PropTypes.string,
-  status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired
+  status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
+  onFollowProject: PropTypes.func.isRequired,
+  onUnfollowProject: PropTypes.func.isRequired,
+  isFollower: PropTypes.bool
 };
 
 export default ProjectDetailHeader;
