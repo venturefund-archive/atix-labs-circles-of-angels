@@ -1,10 +1,13 @@
 @import '../css/general_styling.scss';
 
 .DetailWrapper {
+      height: 92vh;
+    position: relative;
+    padding: 2em 3em;
   .centered{
-    height: 70vh;
-    padding:4em 0;
+    height: 66vh;
     overflow-y: scroll;
+    margin: 0 0 1em 0
   }
   .FooterButtons {
     @include breakpoint(sm) {
@@ -24,8 +27,16 @@
   }
 }
 .DetailWrapper {
+    .BlockForm
+  {    
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 1em;
+    }
   .CardExample {
     border: 1px solid $border;
+    height: fit-content;
     @include breakpoint(sm) {
       margin-bottom: 2em;
     }
@@ -33,16 +44,18 @@
 
       h4 {
         @include primary-text($body-2, $on-surface-medium, 600);
-        margin-bottom: 1em;
+        margin: 0.5em 0;
       }
       .Mission{
-        height: 65px;
-        overflow-y:scroll;
+        height: 35px;
+        overflow-y: hidden;
+        word-break: break-word;
         @include primary-text($body-2, $on-surface-medium, 400);
       }
       .Problem{
-        height: 95px;
-        overflow-y:scroll;
+        height: 50px;
+        overflow-y: hidden;
+                word-break: break-word;
         @include primary-text($body-2, $on-surface-medium, 400);
       }
     }
@@ -52,6 +65,7 @@
       overflow: hidden;
       height: 160px;
       padding: 1.2em;
+      position: relative;
       @include breakpoint(sm) {
         border-radius: 4px;
         height: auto;
@@ -64,6 +78,17 @@
         @include primary-text($body-2, $white, 400);
         opacity: 0.65;
       }
+      .BackgroundImage{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width:auto;
+            z-index: -1;
+      }
+    }
+    .transparent{
+      background:transparent;
     }
     .ant-skeleton-paragraph {
       padding: 0;

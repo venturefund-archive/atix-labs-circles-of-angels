@@ -91,7 +91,7 @@
         }
       }
       .FormRegister {
-        margin: 2em 0 2em;
+        margin: 1.5em 0;
         @include breakpoint(md) {
           margin: 1em 0 1em;
         }
@@ -112,8 +112,9 @@
           }
         }
       }
+
       .Linear {
-        margin-top: 3em;
+        margin-top: 1.5em;
         @include breakpoint(md) {
           margin-top: 2em;
         }
@@ -172,5 +173,11 @@
         padding: 0 2em;
       }
     }
+  }
+  .Register2{
+.FormRegister {
+height: 70%;
+    overflow-y: scroll;
+}
   }
 }

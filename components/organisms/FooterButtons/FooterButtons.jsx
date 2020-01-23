@@ -28,7 +28,7 @@ const FooterButtons = ({
       xs={{ span: 24, order: 3 }}
       sm={{ span: 24, order: 3 }}
       md={6}
-      lg={{ span: 3, offset: 12 }}
+      lg={{ span: 3, offset: 14 }}
     >
       {nextStepButton || (
         <CustomButton

@@ -5,7 +5,7 @@ import InfoItem from '../../atoms/InfoItem/InfoItem';
 import { getPreviewValue } from '../../../helpers/formatter';
 import Field from '../../atoms/Field/Field';
 import { toBase64 } from '../../utils/FileUtils';
-import { fieldPropType } from '../../../helpers/proptypes';
+import { fieldPropType } from '../../../helpers/proptypes'
 
 const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
   const [photoPreview, setPhotoPreview] = useState();
@@ -33,19 +33,21 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
 
   return (
     <Fragment>
-      <Row type="flex" justify="space-around" align="middle">
-        <Col className="CardExample" sm={8} md={8} lg={8}>
+      <Row type="flex" justify="space-around" className="centered">
+       <Col className="AlignCenter" sm={8} md={8} lg={8}>
+        <Col className="CardExample" sm={24} md={24} lg={24}>
           <Col className="BlockImage" sm={24} md={24} lg={24}>
             <h5>Organization Name</h5>
             <h1>{getPreviewValue(thumbnailsData.projectName)}</h1>
-            <Col className="BlockImage" sm={24} md={24} lg={24}>
+
               <img
+              className="BackgroundImage"
                 width="700"
                 height="400"
                 src={photoPreview || './static/images/thumbnail-example.png'}
                 alt="background"
               />
-            </Col>
+
             <Col className="flex" sm={24} md={24} lg={24}>
               <InfoItem
                 img={
@@ -94,13 +96,15 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
             </Col>
             <Col className="Problem" sm={24} md={24} lg={24}>
               {fields.problemAddressed.value || (
-                <Skeleton paragraph={{ rows: 3 }} title={false} />
+                <Skeleton paragraph={{ rows: 2 }} title={false} />
               )}
             </Col>
           </Col>
         </Col>
+        </Col>
         <Divider type="vertical" />
-        <Col sm={24} md={24} lg={12}>
+        <Col className="AlignCenter" sm={12} md={12} lg={12}>
+        <Col sm={24} md={24} lg={24} className="BlockForm">
           <Row gutter={22}>
             <Form className="login-form">
               <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
@@ -112,23 +116,24 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                   handleChange={handleChange}
                 />
               </Col>
-              <Col sm={24} md={24} lg={24}>
-                <Col sm={24} md={24} lg={18}>
+              <Col sm={24} md={24} lg={24} className="space-between">
+                <div>
                   <h3>Background Image</h3>
                   <span>
                     Recomended Image Size: 1400x400px. Format: PNG or JPG.
                   </span>
-                </Col>
-                <Col sm={24} md={24} lg={6}>
+                </div>
+                <div>
                   <Field
                     {...fields.coverPhotoPath}
                     handleChange={handleChange}
                     showUploadList={false}
                   />
-                </Col>
+                </div>
               </Col>
             </Form>
           </Row>
+        </Col>
         </Col>
       </Row>
     </Fragment>

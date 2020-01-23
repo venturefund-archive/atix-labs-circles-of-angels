@@ -200,6 +200,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
 
   return (
     <Fragment>
+    <div className="StepsMilestonesWrapper">
       <Steps current={currentStep}>
         {steps.map(item => (
           <Step key={item.title} title={item.title} />
@@ -213,6 +214,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         )}
         prevStepButton={getPrevStepButton(currentStep)}
       />
+      </div>
     </Fragment>
   );
 };

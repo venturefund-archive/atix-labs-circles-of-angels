@@ -153,9 +153,11 @@ class WebFormProject extends React.Component {
               })(
                 <TextArea
                   placeholder="Share with us the problem that you are tackling, what you are trying to solve and how the funds will help support your goal"
+                  autoSize={{ minRows: 2, maxRows: 6 }}
                   prefix={
                     <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
+
                 />
               )}
             </Form.Item>
