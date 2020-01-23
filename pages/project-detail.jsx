@@ -16,7 +16,9 @@ import './_project-detail.scss';
 import {
   followProject,
   unfollowProject,
-  isFollower
+  isFollower,
+  applyToProject,
+  isCandidate
 } from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
 import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
@@ -29,6 +31,7 @@ import {
   getProjectUsers,
   getProjectMilestones
 } from '../api/projectApi';
+import { supporterRoles } from '../constants/constants';
 
 const { TabPane } = Tabs;
 
@@ -44,6 +47,7 @@ const ProjectDetail = ({ user }) => {
     funders: []
   });
   const [isFollowing, setIsFollowing] = useState(false);
+  const [alreadyApplied, setAlreadyApplied] = useState(false);
   const [milestones, setMilestones] = useState();
 
   // TODO: this should have pagination
@@ -100,6 +104,26 @@ const ProjectDetail = ({ user }) => {
     }
   };
 
+  const onApply = async role => {
+    try {
+      await applyToProject(projectId, role);
+
+      setAlreadyApplied(true);
+      message.success(`You have apply as possible ${role} for this project`);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const checkCandidate = async () => {
+    try {
+      const response = await isCandidate(projectId);
+      setAlreadyApplied(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
   const fetchProject = async () => {
     const response = await getProject(projectId);
     if (response.errors) {
@@ -110,6 +134,7 @@ const ProjectDetail = ({ user }) => {
 
     setProject(response.data);
     checkFollowing();
+    checkCandidate();
     fetchProjectUsers();
     fetchMilestones();
   };
@@ -159,6 +184,8 @@ const ProjectDetail = ({ user }) => {
           followers={projectUsers.followers}
           funders={projectUsers.funders}
           oracles={projectUsers.oracles}
+          onApply={onApply}
+          applied={alreadyApplied}
         />
       </Col>
     </Row>

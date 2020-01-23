@@ -38,3 +38,8 @@ export const projectStatuses = {
   ARCHIVED: 'archived',
   CANCELLED: 'cancelled'
 };
+
+export const supporterRoles = {
+  ORACLE: 'oracle',
+  FUNDER: 'funder'
+};
