@@ -103,6 +103,7 @@ const ProjectDetailFormContainer = ({
 
   return (
     <Fragment>
+    <div className="DetailWrapper">
       <TitlePage textTitle="Complete Project´s Details" />
       <ProjectDetailForm
         thumbnailsData={thumbnailsData}
@@ -113,6 +114,7 @@ const ProjectDetailFormContainer = ({
         nextStepButton={getNextStepButton(currentStep)}
         prevStepButton={getPrevStepButton(currentStep)}
       />
+       </div>
     </Fragment>
   );
 };

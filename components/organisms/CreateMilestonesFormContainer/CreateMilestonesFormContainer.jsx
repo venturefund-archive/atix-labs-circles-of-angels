@@ -21,7 +21,13 @@ import {
   processProjectMilestones,
   getProjectMilestones
 } from '../../../api/projectApi';
+import {
+  createMilestone,
+  updateMilestone,
+  deleteMilestone
+} from '../../../api/milestonesApi';
 import { milestonesFormItems } from '../../../helpers/createProjectFormFields';
+import { createTask, updateTask, deleteTask } from '../../../api/activityApi';
 
 const { Step } = Steps;
 
@@ -46,7 +52,6 @@ const formFields = {
   ...{}
 };
 
-// TODO: what happens when project has milestones saved?
 const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   const [
     fields,
@@ -93,6 +98,57 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     }
   };
 
+  const handleResponse = (response, messages) => {
+    const { success, error } = messages || {};
+    if (response.errors) {
+      onError(error);
+      return false;
+    }
+    if (success) message.success(success);
+    fetchMilestones();
+    return true;
+  };
+
+  const handleCreateMilestone = async milestoneData => {
+    const response = await createMilestone(project.id, milestoneData);
+    return handleResponse(response, {
+      success: 'Milestone was successfully created!',
+      error: 'There was an error creating the milestone'
+    });
+  };
+  const handleEditMilestone = async (milestoneId, milestone) => {
+    const response = await updateMilestone(milestoneId, milestone);
+    return handleResponse(response, {
+      error: 'There was an error editing the milestone'
+    });
+  };
+  const handleDeleteMilestone = async milestoneId => {
+    const response = await deleteMilestone(milestoneId);
+    return handleResponse(response, {
+      error: 'There was an error deleting the milestone'
+    });
+  };
+
+  const handleCreateTask = async (milestoneId, taskData) => {
+    const response = await createTask(milestoneId, taskData);
+    return handleResponse(response, {
+      success: 'Task was successfully created!',
+      error: 'There was an error creating the task'
+    });
+  };
+  const handleEditTask = async (taskId, task) => {
+    const response = await updateTask(taskId, task);
+    return handleResponse(response, {
+      error: 'There was an error editing the task'
+    });
+  };
+  const handleDeleteTask = async taskId => {
+    const response = await deleteTask(taskId);
+    return handleResponse(response, {
+      error: 'There was an error deleting the task'
+    });
+  };
+
   const processMilestones = async milestoneFile => {
     if (!project || !project.id) goBack();
     if (!milestoneFile || !milestoneFile.file) return;
@@ -132,25 +188,33 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         processed={processed}
         processError={processError}
         milestones={milestones}
+        createMilestone={handleCreateMilestone}
+        editMilestone={handleEditMilestone}
+        deleteMilestone={handleDeleteMilestone}
+        createTask={handleCreateTask}
+        editTask={handleEditTask}
+        deleteTask={handleDeleteTask}
       />
     );
   }
 
   return (
     <Fragment>
-      <Steps current={currentStep}>
-        {steps.map(item => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className="steps-content">{getStepComponent(currentStep)}</div>
-      <FooterButtons
-        nextStepButton={getNextStepButton(
-          currentStep,
-          currentStep === 1 ? !processed : false
-        )}
-        prevStepButton={getPrevStepButton(currentStep)}
-      />
+      <div className="StepsMilestonesWrapper">
+        <Steps current={currentStep}>
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="steps-content">{getStepComponent(currentStep)}</div>
+        <FooterButtons
+          nextStepButton={getNextStepButton(
+            currentStep,
+            currentStep === 1 ? !processed : false
+          )}
+          prevStepButton={getPrevStepButton(currentStep)}
+        />
+      </div>
     </Fragment>
   );
 };

@@ -14,7 +14,7 @@ import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 import Field from '../../../../atoms/Field/Field';
 
 const RegisterStep2 = ({ fields, handleChange }) => (
-  <div>
+  <div className="h100 Register2">
     <div className="InfoStep">
       <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
       <h2> Personal Information</h2>
@@ -22,7 +22,7 @@ const RegisterStep2 = ({ fields, handleChange }) => (
         Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
       </h4>
     </div>
-    <div className="StepPersonalInformation">
+    <div className="StepPersonalInformation h100">
       <TitlePage textTitle="Register" />
       <CustomButton
         theme="Facebook"

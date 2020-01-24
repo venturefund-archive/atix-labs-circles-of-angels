@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPut, doDelete } from './api';
+import api, { doPut, doDelete, doPost } from './api';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const baseURL = '/activities';
@@ -15,6 +15,9 @@ export const updateTask = (taskId, saveData) =>
   doPut(`${baseURL}/${taskId}`, saveData);
 
 export const deleteTask = taskId => doDelete(`${baseURL}/${taskId}`);
+
+export const createTask = (milestoneId, taskData) =>
+  doPost(`/milestones/${milestoneId}${baseURL}`, taskData);
 
 const updateActivity = async ({
   budget,

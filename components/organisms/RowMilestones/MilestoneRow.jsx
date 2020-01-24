@@ -7,8 +7,8 @@ const MilestoneRow = ({ className, children }) => (
     className={`gutter-row ${className}`}
     xs={{ span: 24 }}
     sm={{ span: 24 }}
-    md={19}
-    lg={{ span: 19 }}
+    md={18}
+    lg={{ span: 18 }}
   >
     {children}
   </Col>

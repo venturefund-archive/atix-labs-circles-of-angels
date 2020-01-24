@@ -11,15 +11,9 @@ import { Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SettingsMenu from '../../atoms/SettingsMenu/SettingsMenu';
+import { getInitials } from '../../../helpers/formatter';
 
 import './_style.scss';
-
-const getInitials = fullName => {
-  if (!fullName) return;
-  let initials = fullName.match(/\b\w/g) || [];
-  initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
-  return initials;
-};
 
 const UserAvatar = ({ user }) => {
   const fullName = `${user.firstName} ${user.lastName}`;

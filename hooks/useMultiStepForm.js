@@ -95,7 +95,7 @@ export default function useMultiStepForm(
     }
 
     const name = fieldName || event.target.name;
-    const field = fields[name];
+    const field = { ...fields[name] };
     field.value = value;
 
     setFields({
