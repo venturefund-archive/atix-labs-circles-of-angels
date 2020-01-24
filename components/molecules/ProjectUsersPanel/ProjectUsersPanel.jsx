@@ -5,6 +5,7 @@ import DrawerUsers from '../../organisms/DrawerUsers/DrawerUsers';
 import AvatarUser from '../../atoms/AvatarUser/AvatarUser';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
+import RolesMap from '../../../constants/RolesMap';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import { supporterRoles } from '../../../constants/constants';
 
@@ -13,10 +14,12 @@ const ProjectUsersPanel = ({
   funders,
   oracles,
   followers,
+  userRole,
   onApply,
   applied
 }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const allowApply = !applied && userRole === RolesMap.PROJECT_SUPPORTER;
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -73,7 +76,7 @@ const ProjectUsersPanel = ({
           <CustomButton
             theme="Alternative"
             buttonText="I want to be an Oracle"
-            hidden={applied}
+            hidden={!allowApply}
             onClick={() => onApply(supporterRoles.ORACLE)}
           />
         </Col>
@@ -81,7 +84,7 @@ const ProjectUsersPanel = ({
           <CustomButton
             theme="Alternative"
             buttonText="I want to be a Funder"
-            hidden={applied}
+            hidden={!allowApply}
             onClick={() => onApply(supporterRoles.FUNDER)}
           />
         </Col>
@@ -102,6 +105,7 @@ ProjectUsersPanel.propTypes = {
   funders: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   oracles: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
+  userRole: PropTypes.string.isRequired,
   onApply: PropTypes.func.isRequired,
   applied: PropTypes.bool
 };

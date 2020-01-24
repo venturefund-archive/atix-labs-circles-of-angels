@@ -184,6 +184,7 @@ const ProjectDetail = ({ user }) => {
           followers={projectUsers.followers}
           funders={projectUsers.funders}
           oracles={projectUsers.oracles}
+          userRole={user.role}
           onApply={onApply}
           applied={alreadyApplied}
         />
