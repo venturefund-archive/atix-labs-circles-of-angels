@@ -115,7 +115,6 @@ const Registersteps = () => {
       component: RegisterStep3
     }
   ];
-  console.log(fields);
 
   if (loading) return <Loading />;
 
