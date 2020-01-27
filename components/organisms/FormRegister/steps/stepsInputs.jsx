@@ -1,7 +1,5 @@
 import { message } from 'antd';
 
-const countries = ['Argentina', 'Angola', 'Argelia'];
-
 export const step1Inputs = {
   // TODO : should allow custom keys?
   role: {
@@ -87,7 +85,7 @@ export const step2Inputs = {
     name: 'country',
     type: 'select',
     label: 'Country',
-    options: countries,
+    options: [],
     rules: [
       {
         required: true,
@@ -123,3 +121,5 @@ export const step2Inputs = {
     ]
   }
 };
+
+export const step3Inputs = {};

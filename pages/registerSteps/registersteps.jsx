@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
@@ -16,42 +16,37 @@ import '../_style.scss';
 import RegisterStepsHeader from './RegisterStepsHeader';
 import RegisterStep1 from '../../components/organisms/FormRegister/steps/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../../components/organisms/FormRegister/steps/RegisterStep2/RegisterStep2';
-import RegisterStep3, {
-  step3Inputs
-} from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
+import RegisterStep3 from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
 import {
   step1Inputs,
-  step2Inputs
+  step2Inputs,
+  step3Inputs
 } from '../../components/organisms/FormRegister/steps/stepsInputs';
-import { register } from '../../api/userApi';
+import { register, getCountries } from '../../api/userApi';
 import useFormSubmitEffect from '../../hooks/useFormSubmitEffect';
-
-const steps = [
-  {
-    fields: Object.keys(step1Inputs),
-    component: RegisterStep1
-  },
-  {
-    fields: Object.keys(step2Inputs),
-    component: RegisterStep2
-  },
-  {
-    fields: Object.keys(step3Inputs),
-    component: RegisterStep3
-  }
-];
-
-const fields = {
-  ...step1Inputs,
-  ...step2Inputs,
-  ...step3Inputs
-};
+import Loading from '../../components/molecules/Loading/Loading';
 
 const Registersteps = () => {
   const history = useHistory();
   const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [fields, setFields] = useState({
+    ...step1Inputs,
+    ...step2Inputs,
+    ...step3Inputs
+  });
+
+  const fetchCountries = async () => {
+    try {
+      const response = await getCountries();
+      setCountries(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
   const registerUser = () => {
     const values = Object.values(formValues).reduce(
@@ -80,14 +75,49 @@ const Registersteps = () => {
     params: { isSubmitting, formValues }
   });
 
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    if (!countries.length) return;
+
+    const step2 = Object.assign({}, step2Inputs, {
+      country: Object.assign({}, step2Inputs.country, { options: countries })
+    });
+
+    const stepFields = {
+      ...step1Inputs,
+      ...step2,
+      ...step3Inputs
+    };
+
+    setFields(stepFields);
+    setLoading(false);
+  }, [countries]);
+
   // TODO add loading when form is submitting
 
   const query = location && queryString.parse(location.search);
   const { role } = query || {};
   const initialStep = !role ? 0 : 1;
+  const steps = [
+    {
+      fields: Object.keys(step1Inputs),
+      component: RegisterStep1
+    },
+    {
+      fields: Object.keys(step2Inputs),
+      component: RegisterStep2
+    },
+    {
+      fields: Object.keys(step3Inputs),
+      component: RegisterStep3
+    }
+  ];
+  console.log(fields);
 
-  // TODO : check if its a valid role.
-  if (role) fields.role.value = role;
+  if (loading) return <Loading />;
 
   return (
     <div className="RegisterWrapper">

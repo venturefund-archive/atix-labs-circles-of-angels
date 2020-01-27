@@ -116,8 +116,6 @@ export const questionsByRole = {
   }
 };
 
-export const step3Inputs = {};
-
 export default function RegisterStep3({ fields, handleChange }) {
   // const handleChangeOnSelect = (fieldName, v) => (value, options) =>
   //   handleChange(undefined, value, fieldName);
