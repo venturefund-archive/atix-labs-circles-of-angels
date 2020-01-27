@@ -24,19 +24,14 @@ const CreateMilestonesStep2 = ({
         md={6}
         lg={{ span: 11 }}
       >
-        <Col         
-        xs={{ span: 20 }}
-        sm={{ span: 20 }}
-        md={20}
-        lg={{ span: 20 }}>
+        <Col xs={{ span: 20 }} sm={{ span: 20 }} md={20} lg={{ span: 20 }}>
           <Col
             className="gutter-row"
             xs={{ span: 24 }}
             sm={{ span: 24 }}
             md={24}
             lg={{ span: 24 }}
-          >
-          </Col>
+          />
           <Col
             className="BlockVerification"
             xs={{ span: 24 }}
@@ -87,7 +82,7 @@ const CreateMilestonesStep2 = ({
             xs={{ span: 24 }}
             sm={{ span: 24 }}
             md={18}
-            lg={{ span: 5 , offset: 1 }}
+            lg={{ span: 5, offset: 1 }}
           >
             <Field {...fields.milestoneFile} handleChange={handleChange} />
           </Col>
