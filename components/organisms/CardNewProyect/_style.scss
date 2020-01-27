@@ -1,0 +1,48 @@
+@import "../../../css/general_styling.scss";
+
+.CardNewProyect {
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 47%;
+  max-width: 47%;
+  margin: 2em 1em;
+  height: 380px;
+  background: $surface;
+  box-shadow: $grey;
+  cursor: pointer;
+  transition: 0.3s;
+
+  img{
+    margin-bottom: 1em;
+  }
+  h1 {
+    @include primary-text($h1, $secondary-color, 500);
+  }
+
+  h2 {
+    @include primary-text($h2, $secondary-color, 400);
+  }
+}
+.CardNewProyect:hover {
+  box-shadow: $grey;
+  transform: scale(1.01);
+}
+.CardNewProyect::before{
+  content: "";
+  width: 0;
+  height: 2px;
+  position: absolute;
+  transition: all 0.2s linear;
+  background: $primary-color;
+  transition-delay: 0.2s;
+  border-radius: 50px;
+  bottom: 23%;
+}
+.CardNewProyect:hover::before, .CardNewProyect:hover::after{
+  width: 20%;
+  transition-delay: 0.2s;
+}
