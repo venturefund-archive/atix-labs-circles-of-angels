@@ -31,7 +31,6 @@ import {
   getProjectUsers,
   getProjectMilestones
 } from '../api/projectApi';
-import { supporterRoles } from '../constants/constants';
 
 const { TabPane } = Tabs;
 

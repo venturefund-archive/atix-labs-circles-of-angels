@@ -57,12 +57,15 @@ const updatePassword = async (token, password) => {
   }
 };
 
+const getCountries = async () => apiCall('get', 'countries');
+
 export {
   loginUser,
   getOracles,
   getUsers,
   changeUserRegistrationStatus,
   getAllRoles,
+  getCountries,
   register,
   recoverPassword,
   updatePassword
