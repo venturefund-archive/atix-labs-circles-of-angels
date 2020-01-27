@@ -103,18 +103,18 @@ const ProjectDetailFormContainer = ({
 
   return (
     <Fragment>
-    <div className="DetailWrapper">
-      <TitlePage textTitle="Complete Project´s Details" />
-      <ProjectDetailForm
-        thumbnailsData={thumbnailsData}
-        handleChange={handleChange}
-        fields={fields}
-      />
-      <FooterButtons
-        nextStepButton={getNextStepButton(currentStep)}
-        prevStepButton={getPrevStepButton(currentStep)}
-      />
-       </div>
+      <div className="DetailWrapper">
+        <TitlePage textTitle="Complete Project´s Details" />
+        <ProjectDetailForm
+          thumbnailsData={thumbnailsData}
+          handleChange={handleChange}
+          fields={fields}
+        />
+        <FooterButtons
+          nextStepButton={getNextStepButton(currentStep)}
+          prevStepButton={getPrevStepButton(currentStep)}
+        />
+      </div>
     </Fragment>
   );
 };

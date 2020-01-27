@@ -17,7 +17,7 @@ import ProjectProposalFormContainer from '../components/organisms/ProjectProposa
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject } from '../api/projectApi';
+import { getProject, sendToReview } from '../api/projectApi';
 import useQuery from '../hooks/useQuery';
 
 const wizards = {
@@ -37,12 +37,24 @@ const CreateProjectContainer = () => {
   const [formValues, setFormValues] = useState({});
   const [project, setProject] = useState();
 
+  const goToMyProjects = () => history.push('/my-projects');
+
+  const sendProjectToReview = async () => {
+    const response = await sendToReview(id);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+    message.success('Your project was successfully sent to review!');
+    goToMyProjects(); // or to project detail?
+  };
+
   const fetchProject = useCallback(
     async projectId => {
       const response = await getProject(projectId);
       if (response.errors || !response.data) {
         message.error('An error occurred while fetching the project');
-        history.push('/explore-projects');
+        goToMyProjects();
         return;
       }
       setProject(response.data);
@@ -99,19 +111,21 @@ const CreateProjectContainer = () => {
 
   // TODO add loading when "isSubmitting"
   return (
-<div className="CreateProjectWrapper">
-    <div className="Content">
-      <CurrentComponent
-        project={project}
-        setCurrentWizard={setCurrentWizard}
-        goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
-        onError={errorCallback}
-        onSuccess={successCallback}
-        submitForm={submitForm}
-        {...props}
-      />
+    <div className="CreateProjectWrapper">
+      <div className="Content">
+        <CurrentComponent
+          project={project}
+          setCurrentWizard={setCurrentWizard}
+          goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
+          onError={errorCallback}
+          onSuccess={successCallback}
+          submitForm={submitForm}
+          goToMyProjects={goToMyProjects}
+          sendToReview={sendProjectToReview}
+          {...props}
+        />
+      </div>
     </div>
-</div>
   );
 };
 export default CreateProjectContainer;
