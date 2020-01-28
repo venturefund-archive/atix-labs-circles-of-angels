@@ -71,6 +71,9 @@ export const useGetPublicProjects = () => {
 export const getProjectUsers = projectId =>
   doGet(`${baseURL}/${projectId}/users`);
 
+export const sendToReview = projectId =>
+  doPut(`${baseURL}/${projectId}/to-review`);
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);

@@ -28,66 +28,96 @@ const Items = ({ title, subtitle, onClick, disabled }) => (
   </Col>
 );
 
-const CreateProject = ({ project, setCurrentWizard }) => (
-  <Fragment>
-   <div className="CreateWrapper">
-    <Breadcrumb>
-      <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-      <Breadcrumb.Item>
-        <a href="/">Create Project</a>
-      </Breadcrumb.Item>
-    </Breadcrumb>
-    <TitlePage
-      textTitle={
-        project && project.projectName ? project.projectName : 'My project'
-      }
+const CreateProject = ({
+  project,
+  setCurrentWizard,
+  goToMyProjects,
+  sendToReview
+}) => {
+  const getContinueLaterButton = () => (
+    <CustomButton
+      buttonText="Save & Continue later"
+      theme="Secondary"
+      // TODO: show saved message? warn about losing non-saved changes?
+      onClick={goToMyProjects}
     />
-    <Row
-      // className="ProjectsCardsContainer"
-      type="flex"
-      justify="space-around"
-      align="middle"
-      gutter={16}
-    >
-      <Col className="ProjectsItems" sm={24} md={24} lg={24}>
-        <Items
-          title="Thumbnails"
-          subtitle="Here you can upload the thumbnails of your project"
-          onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
+  );
+
+  const sendToReviewButton = () => (
+    <CustomButton
+      buttonText="Send to Review"
+      theme="Primary"
+      classNameIcon="iconDisplay"
+      icon="arrow-right"
+      onClick={sendToReview}
+    />
+  );
+  return (
+    <Fragment>
+      <div className="CreateWrapper">
+        <Breadcrumb>
+          <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="/">Create Project</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <TitlePage
+          textTitle={
+            project && project.projectName ? project.projectName : 'My project'
+          }
         />
-        <Items
-          title="Project Detail"
-          subtitle="Here you can upload your project detail"
-          onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
-          disabled={!project || !project.id}
-        />
-        <Items
-          title="Project Proposal"
-          subtitle="Here you can upload your project proposal"
-          onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
-          disabled={!project || !project.id}
-        />
-        <Items
-          title="Project Milestones"
-          subtitle="Upload milestones and edit them"
-          onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
-          disabled={!project || !project.id}
-        />
-      </Col>
-    </Row>
-    <FooterButtons showCreateButton>
-      <ModalProjectCreated />
-    </FooterButtons>
-    </div>
-  </Fragment>
-);
+        <Row
+          // className="ProjectsCardsContainer"
+          type="flex"
+          justify="space-around"
+          align="middle"
+          gutter={16}
+        >
+          <Col className="ProjectsItems" sm={24} md={24} lg={24}>
+            <Items
+              title="Thumbnails"
+              subtitle="Here you can upload the thumbnails of your project"
+              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
+            />
+            <Items
+              title="Project Detail"
+              subtitle="Here you can upload your project detail"
+              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
+              disabled={!project || !project.id}
+            />
+            <Items
+              title="Project Proposal"
+              subtitle="Here you can upload your project proposal"
+              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
+              disabled={!project || !project.id}
+            />
+            <Items
+              title="Project Milestones"
+              subtitle="Upload milestones and edit them"
+              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
+              disabled={!project || !project.id}
+            />
+          </Col>
+        </Row>
+        <FooterButtons
+          finishButton={sendToReviewButton()}
+          nextStepButton={getContinueLaterButton()}
+        >
+          <ModalProjectCreated />
+        </FooterButtons>
+      </div>
+    </Fragment>
+  );
+};
 
 CreateProject.defaultProps = {
   project: undefined
 };
 
 CreateProject.propTypes = {
+  sendToReview: PropTypes.func.isRequired,
   setCurrentWizard: PropTypes.func.isRequired,
+  goToMyProjects: PropTypes.func.isRequired,
   project: PropTypes.shape({
     projectName: PropTypes.string.isRequired
   })

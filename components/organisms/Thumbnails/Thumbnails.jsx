@@ -95,12 +95,12 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   return (
     <Fragment>
       <div className="ThumbnailsWrapper">
-      <TitlePage textTitle="Complete Project's Thumbnail" />
-      <ProjectThumbnailForm fields={fields} handleChange={handleChange} />
-      <FooterButtons
-        nextStepButton={getNextStepButton()}
-        prevStepButton={getPrevStepButton()}
-      />
+        <TitlePage textTitle="Complete Project's Thumbnail" />
+        <ProjectThumbnailForm fields={fields} handleChange={handleChange} />
+        <FooterButtons
+          nextStepButton={getNextStepButton()}
+          prevStepButton={getPrevStepButton()}
+        />
       </div>
     </Fragment>
   );
