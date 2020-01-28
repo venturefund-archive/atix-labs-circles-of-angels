@@ -1,6 +1,6 @@
 import React from 'react';
 import './_style.scss';
-import { Row, Col } from 'antd';
+import { Col } from 'antd';
 import PropTypes from 'prop-types';
 
 const CardNewProyect = ({ onClick }) => (

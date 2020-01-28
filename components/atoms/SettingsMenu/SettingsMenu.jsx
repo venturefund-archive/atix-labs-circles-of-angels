@@ -7,15 +7,13 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { Menu, Dropdown, Icon } from 'antd';
-import Roles from '../../../constants/RolesMap';
 import { useUserContext } from '../../utils/UserContext';
 
 import './_style.scss';
 
-const SettingsMenu = ({ userRole }) => {
+const SettingsMenu = () => {
   const { removeUser } = useUserContext();
   const history = useHistory();
   const logout = () => {
@@ -25,13 +23,6 @@ const SettingsMenu = ({ userRole }) => {
 
   const menu = (
     <Menu>
-      {/* {userRole === Roles.ENTREPRENEUR ? (
-        <Menu.Item key="1" onClick={() => history.push('/create-project')}>
-          Create Project
-        </Menu.Item>
-      ) : (
-        ''
-      )} */}
       <Menu.Item key="2" onClick={logout}>
         Log out
       </Menu.Item>
@@ -47,10 +38,6 @@ const SettingsMenu = ({ userRole }) => {
       </Dropdown>
     </div>
   );
-};
-
-SettingsMenu.propTypes = {
-  userRole: PropTypes.string.isRequired
 };
 
 export default SettingsMenu;
