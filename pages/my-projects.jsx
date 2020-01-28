@@ -54,6 +54,8 @@ const MyProjects = ({ user }) => {
     // TODO: go to project-progress page
   };
 
+  const goToNewProject = () => history.push('/create-project');
+
   useEffect(() => {
     fetchMyProjects();
   }, []);
@@ -64,6 +66,7 @@ const MyProjects = ({ user }) => {
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}
+      onNewProject={goToNewProject}
     />
   );
 };
