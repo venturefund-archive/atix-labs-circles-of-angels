@@ -25,13 +25,13 @@ const SettingsMenu = ({ userRole }) => {
 
   const menu = (
     <Menu>
-      {userRole === Roles.ENTREPRENEUR ? (
+      {/* {userRole === Roles.ENTREPRENEUR ? (
         <Menu.Item key="1" onClick={() => history.push('/create-project')}>
           Create Project
         </Menu.Item>
       ) : (
         ''
-      )}
+      )} */}
       <Menu.Item key="2" onClick={logout}>
         Log out
       </Menu.Item>

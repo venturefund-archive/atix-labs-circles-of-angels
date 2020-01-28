@@ -1,13 +1,15 @@
 import React from 'react';
 import './_style.scss';
+import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 
 const CardNewProyect = ({ onClick }) => (
-  <button className="CardNewProyect" onClick={onClick} type="button">
-    <img src="/static/images/Icon-project-created.svg" alt="" />
-    <h2>Creación de</h2>
-    <h1>Nuevo proyecto</h1>
-  </button>
+  <Col span={8} className="CardNewProyect">
+    <button onClick={onClick} type="button">
+      <img src="/static/images/new.project.svg" alt="" />
+      <h1>New Project</h1>
+    </button>
+  </Col>
 );
 
 export default CardNewProyect;
