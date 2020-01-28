@@ -21,6 +21,13 @@
             line-height: 19px;
             opacity:1;
         } 
+                a{
+                    width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $primary-color;
+                }
     }
 }
 .GeneralItem:last-child {

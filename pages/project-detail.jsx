@@ -159,7 +159,7 @@ const ProjectDetail = ({ user }) => {
   if (!project) return null;
   return (
     <Row className="ContentComplete">
-      <Col span={18} className="ProjectContainer DataSteps">
+      <Col span={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
           onFollowProject={onFollowProject}
