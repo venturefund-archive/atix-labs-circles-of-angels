@@ -61,7 +61,8 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
+    getPrevStepButton,
+    validateFields
   ] = useMultiStepForm(formFields, formSteps, 0, goBack, true, goBack);
 
   const [errorList, setErrorList] = useState([]);
@@ -76,6 +77,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
 
   useEffect(() => {
     if (milestones.length > 0) {
+      validateFields(2);
       setProcessed(true);
     }
   }, [milestones]);
@@ -152,26 +154,30 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   const processMilestones = async milestoneFile => {
     if (!project || !project.id) goBack();
     if (!milestoneFile || !milestoneFile.file) return;
+
     const data = new FormData();
     Object.entries(milestoneFile).forEach(([filename, file]) => {
       data.append(filename, file);
     });
+
     setProcessed(false);
     const response = await processProjectMilestones(project.id, data);
-    setProcessed(true);
+
     if (response.errors) {
       onError();
       setProcessError(response.errors);
       return;
     }
+
+    setProcessed(true);
+
     if (response.data.projectId) {
       message.success('Milestones saved successfully');
       fetchMilestones();
       return true;
     }
-    if (response.data.errors) {
-      setErrorList(response.data.errors);
-    }
+
+    if (response.data.errors) setErrorList(response.data.errors);
   };
 
   function getStepComponent(current) {
@@ -210,7 +216,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? !processed : false
+            currentStep === 1 ? !processed || errorList.length > 0 : false
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />
