@@ -40,13 +40,16 @@ const CreateMilestonesStep2 = ({
             lg={{ span: 24 }}
           >
             {processed && processError && <span>{processError}</span>}
-            {processed && !processError && <span>Milestones created!</span>}
+            {processed && !processError && !errorList.length && (
+              <span>Milestones created!</span>
+            )}
             {processed &&
               !processError &&
               errorList.length > 0 &&
               errorList.map(error => (
                 <span>
                   {error.rowNumber}: {error.msg}
+                  <br />
                 </span>
               ))}
             {!processed && !errorList.length > 0 && (

@@ -168,15 +168,16 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
       setProcessError(response.errors);
       return;
     }
+
+    setProcessed(true);
+
     if (response.data.projectId) {
-      setProcessed(true);
       message.success('Milestones saved successfully');
       fetchMilestones();
       return true;
     }
-    if (response.data.errors) {
-      setErrorList(response.data.errors);
-    }
+
+    if (response.data.errors) setErrorList(response.data.errors);
   };
 
   function getStepComponent(current) {
@@ -215,7 +216,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? !processed : false
+            currentStep === 1 ? !processed || errorList.length > 0 : false
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />
