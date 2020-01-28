@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -31,13 +32,11 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       <div onClick={onClick}>
         <div className="ProjectDescription">
           <img
-            // src={`/files/projects/${projectId}/cardPhoto.jpg`}
             src={
-              cardPhotoPath !== undefined
+              !cardPhotoPath
                 ? cardPhotoPath.replace('/home/atix/files/server', '')
                 : ''
             }
-            alt="projectCardImage"
           />
         </div>
         <Row className="ProjectSummery">
