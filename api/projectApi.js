@@ -71,6 +71,9 @@ export const useGetPublicProjects = () => {
 export const getProjectUsers = projectId =>
   doGet(`${baseURL}/${projectId}/users`);
 
+export const getFeaturedProjects = async () =>
+  apiCall('get', `${baseURL}/featured`);
+
 export const sendToReview = projectId =>
   doPut(`${baseURL}/${projectId}/to-review`);
 
