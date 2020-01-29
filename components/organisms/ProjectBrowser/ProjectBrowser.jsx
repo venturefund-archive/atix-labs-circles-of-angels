@@ -6,9 +6,11 @@ import CardProject from '../../molecules/CardProject/CardProject';
 import CardNewProyect from '../CardNewProyect/CardNewProyect';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { projectCardPropType } from '../../../helpers/proptypes';
+import Roles from '../../../constants/RolesMap';
 
 const ProjectBrowser = ({
   title,
+  userRole,
   projects,
   onTagClick,
   onCardClick,
@@ -21,7 +23,9 @@ const ProjectBrowser = ({
       </Col>
     </Row>
     <Row className="ProjectsCardsContainer" gutter={16}>
-      {onNewProject && <CardNewProyect onClick={onNewProject} />}
+      {userRole === Roles.ENTREPRENEUR && onNewProject && (
+        <CardNewProyect onClick={onNewProject} />
+      )}
       {projects &&
         projects.map(project => (
           <CardProject
@@ -41,6 +45,7 @@ ProjectBrowser.defaultProps = {
 
 ProjectBrowser.propTypes = {
   title: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.shape(projectCardPropType)).isRequired,
   onCardClick: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
