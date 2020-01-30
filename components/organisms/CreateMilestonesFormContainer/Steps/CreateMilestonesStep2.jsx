@@ -24,7 +24,7 @@ const CreateMilestonesStep2 = ({
         md={6}
         lg={{ span: 11 }}
       >
-        <Col xs={{ span: 20 }} sm={{ span: 20 }} md={20} lg={{ span: 20 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={20} lg={{ span: 20 }}>
           <Col
             className="gutter-row"
             xs={{ span: 24 }}
