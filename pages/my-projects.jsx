@@ -15,6 +15,7 @@ import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
+import { projectStatuses } from '../constants/constants';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
@@ -50,7 +51,8 @@ const MyProjects = ({ user }) => {
 
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
-    if (project.status === 'new') {
+    const { status } = project;
+    if (status === projectStatuses.NEW || status === projectStatuses.REJECTED) {
       history.push(`/create-project?id=${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
