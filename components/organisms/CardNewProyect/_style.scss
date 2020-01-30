@@ -8,6 +8,7 @@ overflow: visible;
   justify-content: center;
   align-items: center;
   box-shadow: $grey;
+  min-height: 340px;
   cursor: pointer;
   transition: 0.3s;
     &:hover{
