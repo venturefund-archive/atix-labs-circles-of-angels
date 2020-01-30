@@ -82,7 +82,7 @@ export const questionsByRole = {
     seeking: {
       name: 'seeking',
       type: 'select',
-      label: 'How often do you or your firm make angel impact investments?',
+      label: 'How often do you make angel impact investments?',
       // TODO : update later
       options: ['None', 'Sometimes', 'Always'],
       rules: [
@@ -97,9 +97,9 @@ export const questionsByRole = {
       name: 'goals',
       type: 'select',
       label: (
-        <div>
+        <div className="LabelDescription">
           Which are the areas of impact that you tackle?
-          <p>Based on the UN Sustainable Development Goals</p>
+          <span>Based on the UN Sustainable Development Goals</span>
         </div>
       ),
       placeholder: 'Please select up to 3 goals',

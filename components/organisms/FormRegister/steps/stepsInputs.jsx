@@ -95,6 +95,7 @@ export const step2Inputs = {
   },
   password: {
     name: 'password',
+    type: 'password',
     label: 'Password',
     placeholder: 'Password',
     rules: [
