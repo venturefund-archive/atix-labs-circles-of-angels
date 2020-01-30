@@ -26,6 +26,9 @@
 }
 .ContentComplete {
   @include ContentComplete;
+  @include breakpoint(sm) {
+    overflow-y:visible;
+  }
 }
 .FooterButtons {
   position: absolute;
