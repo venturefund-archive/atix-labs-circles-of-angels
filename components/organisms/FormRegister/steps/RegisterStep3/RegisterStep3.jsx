@@ -82,7 +82,7 @@ export const questionsByRole = {
     seeking: {
       name: 'seeking',
       type: 'select',
-      label: 'How often do you or your firm make angel impact investments?',
+      label: 'How often do you make angel impact investments?',
       // TODO : update later
       options: ['None', 'Sometimes', 'Always'],
       rules: [
