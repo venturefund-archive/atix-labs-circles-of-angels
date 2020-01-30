@@ -31,13 +31,7 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       )}
       <div onClick={onClick}>
         <div className="ProjectDescription">
-          <img
-            src={
-              !cardPhotoPath
-                ? cardPhotoPath.replace('/home/atix/files/server', '')
-                : ''
-            }
-          />
+          <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
