@@ -76,13 +76,15 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
 };
 
 CardProject.defaultProps = {
-  showTag: false
+  showTag: false,
+  onClick: () => null,
+  tagClick: () => null
 };
 
 CardProject.propTypes = {
   project: PropTypes.shape(projectCardPropType).isRequired,
-  onClick: PropTypes.func.isRequired,
-  tagClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  tagClick: PropTypes.func,
   showTag: PropTypes.bool
 };
 
