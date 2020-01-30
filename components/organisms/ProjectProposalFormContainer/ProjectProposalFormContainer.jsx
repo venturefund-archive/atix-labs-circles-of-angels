@@ -59,13 +59,12 @@ const ProjectProposalFormContainer = ({
     if (!project || !project.id) return goBack();
 
     const projectFields = { ...fields };
+    const { proposal } = project;
 
-    projectFields.proposal.value =
-      project.proposal || projectFields.proposal.value;
+    if (!proposal) return;
 
-    setFields({
-      ...projectFields
-    });
+    projectFields.proposal.value = proposal;
+    setFields({ ...projectFields });
     validateFields();
   }, [setFields, project, goBack]);
 
