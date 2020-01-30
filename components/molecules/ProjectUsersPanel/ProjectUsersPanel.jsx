@@ -7,7 +7,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
 import RolesMap from '../../../constants/RolesMap';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
-import { supporterRoles } from '../../../constants/constants';
+import { supporterRoles, projectStatuses } from '../../../constants/constants';
 
 const ProjectUsersPanel = ({
   entrepreneur,
@@ -16,10 +16,15 @@ const ProjectUsersPanel = ({
   followers,
   userRole,
   onApply,
-  applied
+  applied,
+  status
 }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const allowApply = !applied && userRole === RolesMap.PROJECT_SUPPORTER;
+  const allowApply =
+    !applied &&
+    userRole === RolesMap.PROJECT_SUPPORTER &&
+    (status === projectStatuses.PUBLISHED ||
+      status === projectStatuses.CONSENSUS);
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -107,7 +112,8 @@ ProjectUsersPanel.propTypes = {
   followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   userRole: PropTypes.string.isRequired,
   onApply: PropTypes.func.isRequired,
-  applied: PropTypes.bool
+  applied: PropTypes.bool,
+  status: PropTypes.string.isRequired
 };
 
 export default ProjectUsersPanel;

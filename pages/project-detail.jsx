@@ -186,6 +186,7 @@ const ProjectDetail = ({ user }) => {
           userRole={user.role}
           onApply={onApply}
           applied={alreadyApplied}
+          status={project && project.status}
         />
       </Col>
     </Row>
