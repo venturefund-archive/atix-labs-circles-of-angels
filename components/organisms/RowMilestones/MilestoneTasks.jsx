@@ -22,6 +22,7 @@ const MilestoneTasks = ({
     <TaskRow
       task={task}
       index={i}
+      key={task.id}
       onDelete={handleDelete}
       onEdit={handleEdit}
       showDelete={showDelete}
