@@ -230,7 +230,7 @@ const uploadAgreement = async (projectId, agreementFile) => {
 
 const downloadMilestonesTemplate = async () => {
   const config = { responseType: 'blob' };
-  const response = await api.get(`${baseURL}/templates/milestones`, config);
+  const response = await doGet('files/milestones/template', undefined, config);
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement('a');
