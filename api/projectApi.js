@@ -77,6 +77,8 @@ export const getFeaturedProjects = async () =>
 export const sendToReview = projectId =>
   doPut(`${baseURL}/${projectId}/to-review`);
 
+export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);
