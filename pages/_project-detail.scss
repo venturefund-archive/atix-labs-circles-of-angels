@@ -89,72 +89,14 @@
   @include ControlSteps;
   margin: 0 1.5em;
 }
-.Experiences, .MilestonesDetails {
+.MilestonesDetails {
   padding-top: 2em;
 }
-.CardNewExperience,
-.cardExperience,
-.cardExperienceText {
+.CardNewExperience {
   margin-bottom: 0.5em;
   border-radius: 4px;
   border: 1px solid $border;
   min-height: 230px;
-}
-.cardExperience,
-.cardExperienceText {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2em 1.5em 1.5em;
-  .CustomShowMoreText {
-    position: relative;
-    span {
-      @include primary-text($body-2, $on-surface, 400);
-    }
-    text-align: center;
-    width: 75%;
-    margin: 0 auto;
-    &:before {
-      content: open-quote;
-      top: 2rem;
-      left: 0;
-    }
-    &:after {
-      content: close-quote;
-      content: close-quote;
-      bottom: 0;
-      right: 0;
-    }
-    &:after,
-    &:before {
-      line-height: 0px;
-      color: #6e6f7317;
-      font-size: 8em;
-      position: absolute;
-    }
-    a.TextMore {
-      display: block;
-    }
-  }
-
-  .ExpPhotosWrapper {
-    display: flex;
-    display: flex;
-    flex-wrap: nowrap;
-    margin-top: 2em;
-    overflow-x: scroll;
-    .ImgSubWrapper {
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      border-radius: 4px;
-      img {
-        height: 100%;
-      }
-    }
-  }
 }
 .CardNewExperience {
   img {
@@ -177,42 +119,6 @@
   }
 }
 
-.cardExperienceText {
-  height: 230px;
-  .absolute {
-    text-shadow: none;
-    justify-content: start;
-    width: 100%;
-    p {
-      @include primary-text($body-2, $on-surface, 600);
-    }
-    span {
-      @include primary-text($label, $on-surface, 400);
-    }
-    h3 {
-      @include primary-text($h3, $on-surface, 400);
-      margin-top: 2em;
-      position: relative;
-    }
-  }
-  h3:before {
-    content: open-quote;
-    top: 20px;
-  }
-  h3:after {
-    content: close-quote;
-    content: close-quote;
-    bottom: -20px;
-    right: 0;
-  }
-  h3:after,
-  h3:before {
-    line-height: 0px;
-    color: #7372711a;
-    font-size: 8em;
-    position: absolute;
-  }
-}
 .ant-tabs-bar {
   margin-bottom: 0;
 }
