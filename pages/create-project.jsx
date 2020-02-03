@@ -98,13 +98,15 @@ const CreateProjectContainer = () => {
     message.error(errorMsg || 'An error ocurred while saving the information');
 
   const sendProjectToReview = async () => {
-    const response = await sendToReview(id);
-    if (response.errors) {
-      message.error(response.errors);
-      return;
+    if (project && project.id) {
+      const response = await sendToReview(project.id);
+      if (response.errors) {
+        message.error(response.errors);
+        return;
+      }
+      message.success('Your project was successfully sent to review!');
+      goToMyProjects(); // or to project detail?
     }
-    message.success('Your project was successfully sent to review!');
-    goToMyProjects(); // or to project detail?
   };
 
   const goToMyProjects = () => history.push('/my-projects');
