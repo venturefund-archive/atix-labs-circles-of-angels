@@ -52,7 +52,12 @@ const formFields = {
   ...{}
 };
 
-const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
+const CreateMilestonesFormContainer = ({
+  project,
+  goBack,
+  onSuccess,
+  onError
+}) => {
   const [
     fields,
     setFields,
@@ -63,7 +68,17 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     getNextStepButton,
     getPrevStepButton,
     validateFields
-  ] = useMultiStepForm(formFields, formSteps, 0, goBack, true, goBack);
+  ] = useMultiStepForm(
+    formFields,
+    formSteps,
+    0,
+    values => {
+      const response = Object.assign({}, values, { projectId: project.id });
+      onSuccess(response);
+    },
+    true,
+    goBack
+  );
 
   const [errorList, setErrorList] = useState([]);
   const [processed, setProcessed] = useState(false);
@@ -235,6 +250,7 @@ CreateMilestonesFormContainer.propTypes = {
     id: PropTypes.number,
     milestonePath: PropTypes.string
   }),
+  onSuccess: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
 };
 
