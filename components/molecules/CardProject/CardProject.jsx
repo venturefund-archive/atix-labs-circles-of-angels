@@ -13,6 +13,7 @@ import { Tag, Divider, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
+import projectStatusMap from '../../../model/projectStatus';
 
 const CardProject = ({ showTag, onClick, tagClick, project }) => {
   const {
@@ -20,7 +21,9 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
     goalAmount,
     location,
     projectName,
-    timeframe
+    timeframe,
+    status,
+    following
   } = project;
   return (
     <Col className="CardProject" span={8}>
@@ -32,6 +35,16 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       <div onClick={onClick}>
         <div className="ProjectDescription">
           <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
+          <Tag color={projectStatusMap[status].color}>
+            {projectStatusMap[status].name}
+          </Tag>
+          {following ? (
+            <Tag color="violet" align="right">
+              Following
+            </Tag>
+          ) : (
+            ''
+          )}
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
