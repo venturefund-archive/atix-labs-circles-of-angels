@@ -79,6 +79,9 @@ export const sendToReview = projectId =>
 
 export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
 
+export const getProjectExperiences = async projectId =>
+  doGet(`${baseURL}/${projectId}/experiences`);
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);
@@ -307,15 +310,6 @@ const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
   }
 };
 
-const getProjectExperiences = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/experiences`);
-    return response.data;
-  } catch (error) {
-    return { error };
-  }
-};
-
 const createProjectExperience = async (experience, photos) => {
   try {
     photos = photos.map(photo => photo.originFileObj);
@@ -351,7 +345,6 @@ export {
   getProjectsAsOracle,
   downloadProposalTemplate,
   updateProject,
-  getProjectExperiences,
   createProjectExperience,
   getProjectsPreview
 };
