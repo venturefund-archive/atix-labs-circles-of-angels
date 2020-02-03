@@ -29,8 +29,10 @@ import ProjectUsersPanel from '../components/molecules/ProjectUsersPanel/Project
 import {
   getProject,
   getProjectUsers,
-  getProjectMilestones
+  getProjectMilestones,
+  getProjectExperiences
 } from '../api/projectApi';
+import { projectStatuses } from '../constants/constants';
 
 const { TabPane } = Tabs;
 
@@ -48,10 +50,11 @@ const ProjectDetail = ({ user }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
   const [milestones, setMilestones] = useState();
+  const [experiences, setExperiences] = useState([]);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
-    const response = await getProjectMilestones(projectId);
+    const response = await getProjectMilestones(project.id);
     if (response.errors) {
       // TODO: if this fails what to do? ignore it? display an error?
       setMilestones();
@@ -61,7 +64,7 @@ const ProjectDetail = ({ user }) => {
   };
 
   const fetchProjectUsers = async () => {
-    const response = await getProjectUsers(projectId);
+    const response = await getProjectUsers(project.id);
     if (response.errors) {
       // TODO: if this fails what to do? ignore it? display an error?
       setProjectUsers({
@@ -74,9 +77,19 @@ const ProjectDetail = ({ user }) => {
     setProjectUsers(response.data);
   };
 
+  const fetchExperiences = async () => {
+    const response = await getProjectExperiences(project.id);
+    if (response.errors) {
+      // TODO: if this fails what to do? ignore it? display an error?
+      setExperiences([]);
+      return;
+    }
+    setExperiences(response.data);
+  };
+
   const onFollowProject = async () => {
     try {
-      await followProject(projectId);
+      await followProject(project.id);
       setIsFollowing(true);
       message.success('You are following this project now!');
     } catch (error) {
@@ -86,7 +99,7 @@ const ProjectDetail = ({ user }) => {
 
   const onUnfollowProject = async () => {
     try {
-      await unfollowProject(projectId);
+      await unfollowProject(project.id);
       setIsFollowing(false);
       message.success('You have followed this project');
     } catch (error) {
@@ -96,7 +109,7 @@ const ProjectDetail = ({ user }) => {
 
   const checkFollowing = async () => {
     try {
-      const response = await isFollower(projectId);
+      const response = await isFollower(project.id);
       setIsFollowing(response);
     } catch (error) {
       message.error(error);
@@ -105,7 +118,7 @@ const ProjectDetail = ({ user }) => {
 
   const onApply = async role => {
     try {
-      await applyToProject(projectId, role);
+      await applyToProject(project.id, role);
 
       setAlreadyApplied(true);
       message.success(`You have apply as possible ${role} for this project`);
@@ -116,7 +129,7 @@ const ProjectDetail = ({ user }) => {
 
   const checkCandidate = async () => {
     try {
-      const response = await isCandidate(projectId);
+      const response = await isCandidate(project.id);
       setAlreadyApplied(response);
     } catch (error) {
       message.error(error);
@@ -132,18 +145,26 @@ const ProjectDetail = ({ user }) => {
     }
 
     setProject(response.data);
-    checkFollowing();
-    checkCandidate();
-    fetchProjectUsers();
-    fetchMilestones();
   };
 
   useEffect(() => {
     fetchProject();
   }, []);
 
+  useEffect(() => {
+    if (project) {
+      checkFollowing();
+      checkCandidate();
+      fetchProjectUsers();
+      fetchMilestones();
+      if (project.status === projectStatuses.CONSENSUS) {
+        fetchExperiences();
+      }
+    }
+  }, [project]);
+
   const renderTabs = projectData =>
-    Object.values(tabsContent(projectData)).map(
+    Object.values(tabsContent(projectData, user)).map(
       tab =>
         !tab.hidden && (
           <TabPane tab={tab.title} key={tab.key}>
@@ -171,7 +192,8 @@ const ProjectDetail = ({ user }) => {
             {renderTabs({
               ...project,
               milestones,
-              progress: projectProgress
+              progress: projectProgress,
+              experiences
             })}
           </Tabs>
           <ModalInvest />
