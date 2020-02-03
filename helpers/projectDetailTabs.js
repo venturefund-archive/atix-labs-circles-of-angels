@@ -30,6 +30,13 @@ const allowNewExperience = (project, user) => {
   }
 };
 
+const canAssignOracle = (project, user) => {
+  if (project.status === projectStatuses.CONSENSUS && isOwner(project, user)) {
+    return true;
+  }
+  return false;
+};
+
 const experienceTabTitle = project => (
   <div>
     Experiences
@@ -46,7 +53,7 @@ const experienceTabTitle = project => (
 
 // TODO: discussion tab, experience tab, funds tab
 // TODO: check project status and hide accordingly
-export const tabsContent = (project, user) => ({
+export const tabsContent = ({ project, user, assignOracle }) => ({
   details: {
     title: 'Details',
     content: (
@@ -60,7 +67,14 @@ export const tabsContent = (project, user) => ({
   },
   milestones: {
     title: 'Milestones',
-    content: <RowMilestones {...project} />,
+    content: (
+      <RowMilestones
+        {...project}
+        canAssignOracle={canAssignOracle(project, user)}
+        onOracleAssign={assignOracle}
+        oracles={project.oracles}
+      />
+    ),
     key: '2'
   },
   discussions: {

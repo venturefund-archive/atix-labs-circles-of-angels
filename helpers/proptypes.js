@@ -64,7 +64,7 @@ export const taskPropType = {
   category: PropTypes.string,
   keyPersonnel: PropTypes.string,
   budget: PropTypes.string,
-  oracle: PropTypes.string,
+  oracle: PropTypes.number,
   impact: PropTypes.string
 };
 

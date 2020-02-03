@@ -64,6 +64,9 @@
   .TableActivities {
     .gutter-row {
       margin-right: 1em;
+      .ant-select {
+        width: 90%;
+      }
     }
   }
   .WrapperActionsActivities {

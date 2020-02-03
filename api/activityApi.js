@@ -19,6 +19,9 @@ export const deleteTask = taskId => doDelete(`${baseURL}/${taskId}`);
 export const createTask = (milestoneId, taskData) =>
   doPost(`/milestones/${milestoneId}${baseURL}`, taskData);
 
+export const assignOracleToActivity = async (taskId, oracleId) =>
+  doPut(`${baseURL}/${taskId}/assign-oracle`, { oracleId });
+
 const updateActivity = async ({
   budget,
   category,
@@ -48,17 +51,6 @@ const updateActivity = async ({
       }
     });
     return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const assignOracleToActivity = async (userId, activityId) => {
-  try {
-    const response = await api.post(
-      `${baseURL}/${activityId}/oracle/${userId}`
-    );
-    return response.data;
   } catch (error) {
     return { error };
   }
@@ -158,7 +150,6 @@ const createActivity = async (activity, milestoneId) => {
 
 export {
   updateActivity,
-  assignOracleToActivity,
   unassignOracleToActivity,
   getActivity,
   deleteEvidence,
