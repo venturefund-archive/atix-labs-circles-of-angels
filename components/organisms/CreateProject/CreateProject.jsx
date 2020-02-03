@@ -51,15 +51,22 @@ const CreateProject = ({
     />
   );
 
-  const sendToReviewButton = () => (
-    <CustomButton
-      buttonText="Send to Review"
-      theme="Primary"
-      classNameIcon="iconDisplay"
-      icon="arrow-right"
-      onClick={sendToReview}
-    />
-  );
+  const sendToReviewButton = () => {
+    const disabled = Object.values(completedSteps).some(
+      completed => !completed
+    );
+    return (
+      <CustomButton
+        buttonText="Send to Review"
+        theme={disabled ? 'disabled' : 'Primary'}
+        classNameIcon="iconDisplay"
+        icon="arrow-right"
+        onClick={sendToReview}
+        disabled={disabled}
+      />
+    );
+  };
+
   return (
     <Fragment>
       <div className="CreateWrapper">
