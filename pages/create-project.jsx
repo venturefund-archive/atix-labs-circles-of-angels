@@ -32,12 +32,70 @@ const CreateProjectContainer = () => {
   const { id } = useQuery();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [project, setProject] = useState();
+  const [completedSteps, setCompletedSteps] = useState({
+    thumbnails: false,
+    details: false,
+    proposal: false,
+    milestones: false
+  });
 
-  const goToMyProjects = () => history.push('/my-projects');
+  const fetchProject = useCallback(
+    async projectId => {
+      const response = await getProject(projectId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while fetching the project');
+        goToMyProjects();
+        return;
+      }
+      const { data } = response;
+      const thumbnailsData = {
+        projectName: data.projectName,
+        timeframe: data.timeframe,
+        goalAmount: data.goalAmount,
+        cardPhotoPath: data.cardPhotoPath,
+        location: data.location
+      };
+
+      submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
+      setProject(data);
+      checkStepsStatus(data);
+    },
+    [history]
+  );
+
+  const checkStepsStatus = projectToCheck => {
+    const { projectName, mission, proposal, milestonePath } = projectToCheck;
+
+    const stepsStatus = {
+      thumbnails: !!projectName,
+      details: !!mission,
+      proposal: !!proposal,
+      milestones: !!milestonePath
+    };
+
+    setCompletedSteps(stepsStatus);
+  };
+
+  const submitForm = (formKey, values) => updateFormValues(values, formKey);
+
+  const updateFormValues = (values, formKey) => {
+    const newFormValues = { ...formValues };
+    newFormValues[formKey] = values;
+    setFormValues(newFormValues);
+  };
+
+  const successCallback = (res, successMsg) => {
+    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
+    fetchProject(res.projectId);
+    message.success(successMsg || 'Saved successfully');
+    return res;
+  };
+
+  // TODO validate with UX team
+  const errorCallback = errorMsg =>
+    message.error(errorMsg || 'An error ocurred while saving the information');
 
   const sendProjectToReview = async () => {
     const response = await sendToReview(id);
@@ -49,65 +107,20 @@ const CreateProjectContainer = () => {
     goToMyProjects(); // or to project detail?
   };
 
-  const fetchProject = useCallback(
-    async projectId => {
-      const response = await getProject(projectId);
-      if (response.errors || !response.data) {
-        message.error('An error occurred while fetching the project');
-        goToMyProjects();
-        return;
-      }
-      setProject(response.data);
-      const thumbnailsData = {
-        projectName: response.data.projectName,
-        timeframe: response.data.timeframe,
-        goalAmount: response.data.goalAmount,
-        cardPhotoPath: response.data.cardPhotoPath,
-        location: response.data.location
-      };
-      submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
-    },
-    [history]
-  );
+  const goToMyProjects = () => history.push('/my-projects');
 
   useEffect(() => {
-    if (id) {
-      fetchProject(id);
-    }
+    if (id) fetchProject(id);
   }, [id, fetchProject]);
-
-  // TODO add logic to show progress on main page
-  const successCallback = (res, successMsg) => {
-    setIsSubmitting(false);
-    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    fetchProject(res.projectId);
-    message.success(successMsg || 'Saved successfully');
-    return res;
-  };
-
-  // TODO validate with UX team
-  const errorCallback = errorMsg => {
-    setIsSubmitting(false);
-    message.error(errorMsg || 'An error ocurred while saving the information');
-  };
-
-  const updateFormValues = (values, formKey) => {
-    const newFormValues = { ...formValues };
-    newFormValues[formKey] = values;
-    setFormValues(newFormValues);
-  };
-
-  const submitForm = (formKey, values) => {
-    setIsSubmitting(true);
-    setSubmittingForm(formKey);
-    updateFormValues(values, formKey);
-  };
 
   const CurrentComponent = wizards[currentWizard];
   const props = {};
 
   if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
     props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
+
+  if (currentWizard === PROJECT_FORM_NAMES.MAIN)
+    props.completedSteps = completedSteps;
 
   // TODO add loading when "isSubmitting"
   return (
