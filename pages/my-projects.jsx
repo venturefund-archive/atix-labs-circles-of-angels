@@ -43,7 +43,9 @@ const MyProjects = ({ user }) => {
   const fetchFollowedProjects = async () => {
     try {
       const response = await getFollowedProjects();
-      return response;
+      return (
+        response && response.map(project => ({ ...project, following: true }))
+      );
     } catch (error) {
       message.error(error);
     }
