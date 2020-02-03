@@ -40,7 +40,7 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
           </Tag>
           {following ? (
             <Tag color="violet" align="right">
-              following
+              Following
             </Tag>
           ) : (
             ''
