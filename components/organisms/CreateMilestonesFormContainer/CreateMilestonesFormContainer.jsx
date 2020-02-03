@@ -92,12 +92,8 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   };
 
   const downloadTemplate = async () => {
-    try {
-      // FIXME: fix this endpoint and api call
-      await downloadMilestonesTemplate();
-    } catch (error) {
-      message.error('There was an error retrieving the template');
-    }
+    const response = await downloadMilestonesTemplate();
+    if (response.errors) return message.error(response.errors);
   };
 
   const handleResponse = (response, messages) => {
