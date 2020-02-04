@@ -9,14 +9,17 @@ const EditableInfo = ({
   isEditing,
   updateValue,
   selectable,
-  options
+  options,
+  placeholder
 }) => {
   const input = () => {
     if (selectable) {
       return (
         <Select
-          defaultValue={value}
           onChange={selected => updateValue(selected)}
+          placeholder={placeholder}
+          // if value is null use undefined to show placeholder
+          defaultValue={value === null ? undefined : value}
         >
           {options &&
             options.map(option => (
@@ -54,7 +57,8 @@ EditableInfo.defaultProps = {
   isEditing: false,
   updateValue: undefined,
   selectable: false,
-  options: []
+  options: [],
+  placeholder: ''
 };
 
 EditableInfo.propTypes = {
@@ -69,7 +73,8 @@ EditableInfo.propTypes = {
       PropTypes.object
     ]),
     text: PropTypes.string
-  })
+  }),
+  placeholder: PropTypes.string
 };
 
 export default EditableInfo;

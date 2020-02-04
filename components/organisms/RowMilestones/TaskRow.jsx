@@ -77,6 +77,7 @@ const TaskRow = ({
                 }))
               }
               selectable
+              placeholder="Assign an oracle"
             />
           </Col>
         )}
