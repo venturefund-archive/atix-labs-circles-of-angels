@@ -14,6 +14,7 @@ const getTagStatus = status =>
   );
 
 const ProjectDetailHeader = ({
+  coverPhotoPath,
   location,
   timeframe,
   goalAmount,
@@ -45,7 +46,7 @@ const ProjectDetailHeader = ({
     <div className="ProjectHeader">
       <img
         className="Banner"
-        src="./static/images/imgcard.png"
+        src={coverPhotoPath || './static/images/imgcard.png'}
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
@@ -83,6 +84,7 @@ const ProjectDetailHeader = ({
 };
 
 ProjectDetailHeader.defaultProps = {
+  coverPhotoPath: undefined,
   location: '-',
   timeframe: '-',
   goalAmount: 0,
@@ -92,6 +94,7 @@ ProjectDetailHeader.defaultProps = {
 };
 
 ProjectDetailHeader.propTypes = {
+  coverPhotoPath: PropTypes.string,
   location: PropTypes.string,
   timeframe: PropTypes.string,
   goalAmount: PropTypes.number,
