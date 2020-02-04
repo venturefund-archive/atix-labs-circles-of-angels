@@ -25,7 +25,7 @@ const UserAvatar = ({ user }) => {
         </Avatar>
         <UserLabel userName={fullName} userRole={user.role} />
       </div>
-      <SettingsMenu userRole={user.role} />
+      <SettingsMenu />
     </div>
   );
 };

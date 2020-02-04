@@ -15,6 +15,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import { downloadProjectMilestonesFile } from '../../../api/projectApi';
 import formatError from '../../../helpers/errorFormatter';
+import { projectStatuses } from '../../../constants/constants';
 
 const TableBOProjects = ({ data, onConfirm, onReject }) => {
   const history = useHistory();
@@ -67,19 +68,20 @@ const TableBOProjects = ({ data, onConfirm, onReject }) => {
     },
     {
       title: 'Actions',
-      dataIndex: 'id',
       key: 'action',
-      render: projectId => (
+      render: ({ id, status }) => (
         <div className="ActionButtons">
           <CustomButton
             theme="Primary"
             buttonText="Confirm"
-            onClick={() => onConfirm(projectId)}
+            hidden={status !== projectStatuses.TO_REVIEW}
+            onClick={() => onConfirm(id)}
           />
           <CustomButton
             theme="Cancel"
             buttonText="Reject"
-            onClick={() => onReject(projectId)}
+            hidden={status !== projectStatuses.TO_REVIEW}
+            onClick={() => onReject(id)}
           />
         </div>
       )

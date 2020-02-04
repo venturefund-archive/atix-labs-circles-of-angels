@@ -11,7 +11,10 @@ import apiCall from './apiCall';
 
 const baseURL = '/users';
 
-export const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
+const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
+
+const getFollowedProjects = async () =>
+  apiCall('get', `${baseURL}/followed-projects`);
 
 const loginUser = (email, pwd) =>
   apiCall('post', `${baseURL}/login`, { email, pwd });
@@ -57,13 +60,18 @@ const updatePassword = async (token, password) => {
   }
 };
 
+const getCountries = async () => apiCall('get', 'countries');
+
 export {
   loginUser,
   getOracles,
   getUsers,
   changeUserRegistrationStatus,
   getAllRoles,
+  getCountries,
   register,
   recoverPassword,
-  updatePassword
+  updatePassword,
+  getMyProjects,
+  getFollowedProjects
 };

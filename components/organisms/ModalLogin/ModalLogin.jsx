@@ -16,6 +16,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
 import { loginUser } from '../../../api/userApi';
+import { defaultRouteByRole } from '../../../constants/DefaultRouteByRole';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
@@ -27,7 +28,9 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     try {
       const user = await loginUser(email, pwd);
       changeUser(user);
-      history.push('/explore-projects');
+
+      const { role } = user;
+      history.push(defaultRouteByRole[role]);
     } catch (error) {
       message.error(error);
     }

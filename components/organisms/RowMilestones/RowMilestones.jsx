@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row } from 'antd';
 import './_style.scss';
 import Milestone from './Milestone';
-import { milestonePropType } from '../../../helpers/proptypes';
+import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
 
 const RowMilestones = ({
   milestones,
@@ -11,15 +11,19 @@ const RowMilestones = ({
   onTaskDelete,
   onTaskEdit,
   onTaskCreate,
+  onOracleAssign,
   showTaskDelete,
   showTaskEdit,
+  canAssignOracle,
   onMilestoneDelete,
   onMilestoneEdit,
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
   showTaskAddEvidence,
-  taskActionType
+  taskActionType,
+  oracles,
+  hideOracleColumn
 }) => {
   const handleTaskCreate = (milestoneId, taskData) =>
     onTaskCreate(milestoneId, taskData);
@@ -38,8 +42,10 @@ const RowMilestones = ({
       onTaskDelete={onTaskDelete}
       onTaskEdit={onTaskEdit}
       onTaskCreate={taskData => handleTaskCreate(m.id, taskData)}
+      onOracleAssign={onOracleAssign}
       showTaskDelete={showTaskDelete}
       showTaskEdit={showTaskEdit}
+      canAssignOracle={canAssignOracle}
       onMilestoneDelete={handleDelete}
       onMilestoneEdit={handleEdit}
       showMilestoneDelete={showMilestoneDelete}
@@ -47,6 +53,8 @@ const RowMilestones = ({
       showCreateTask={showCreateTask}
       showTaskAddEvidence={showTaskAddEvidence}
       taskActionType={taskActionType}
+      oracles={oracles}
+      hideOracleColumn={hideOracleColumn}
     />
   ));
   return (
@@ -58,10 +66,12 @@ const RowMilestones = ({
 
 RowMilestones.defaultProps = {
   milestones: [],
+  oracles: [],
   milestoneActionType: 'none',
   onTaskDelete: undefined,
   onTaskEdit: undefined,
   onTaskCreate: undefined,
+  onOracleAssign: undefined,
   showTaskDelete: false,
   showTaskEdit: false,
   onMilestoneDelete: undefined,
@@ -70,15 +80,19 @@ RowMilestones.defaultProps = {
   showMilestoneEdit: false,
   showCreateTask: false,
   showTaskAddEvidence: false,
-  taskActionType: 'none'
+  canAssignOracle: false,
+  taskActionType: 'none',
+  hideOracleColumn: false
 };
 
 RowMilestones.propTypes = {
   milestones: PropTypes.arrayOf(PropTypes.shape(milestonePropType)),
+  oracles: PropTypes.arrayOf(PropTypes.shape(userPropTypes)),
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']),
   onTaskDelete: PropTypes.func,
   onTaskEdit: PropTypes.func,
   onTaskCreate: PropTypes.func,
+  onOracleAssign: PropTypes.func,
   showTaskDelete: PropTypes.bool,
   showTaskEdit: PropTypes.bool,
   onMilestoneDelete: PropTypes.func,
@@ -87,7 +101,9 @@ RowMilestones.propTypes = {
   showMilestoneEdit: PropTypes.bool,
   showCreateTask: PropTypes.bool,
   showTaskAddEvidence: PropTypes.bool,
-  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none'])
+  canAssignOracle: PropTypes.bool,
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']),
+  hideOracleColumn: PropTypes.bool
 };
 
 export default RowMilestones;

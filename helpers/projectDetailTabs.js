@@ -4,8 +4,34 @@ import ProjectDetailsTab from '../components/molecules/ProjectDetailsTab/Project
 import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscussion';
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
-import SeccionExperience from '../pages/experiences';
+import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
 import TableTransfer from '../components/organisms/TableTransfer/TableTransfer';
+import { projectStatuses } from '../constants/constants';
+
+const SHOW_EXPERIENCES_STATUS = [
+  projectStatuses.CONSENSUS,
+  projectStatuses.EXECUTING,
+  projectStatuses.FUNDING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];
+
+const isOwner = (project, user) => project.owner === user.id;
+
+const showExperienceTab = projectStatus =>
+  SHOW_EXPERIENCES_STATUS.includes(projectStatus);
+
+const allowNewExperience = (project, user) => {
+  // TODO: do this when new experience modal fixed
+  return false;
+  if (project.status === projectStatuses.CONSENSUS && isOwner(project, user)) {
+    return true;
+  }
+};
+
+const canAssignOracle = (project, user) =>
+  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
 
 const experienceTabTitle = project => (
   <div>
@@ -23,7 +49,7 @@ const experienceTabTitle = project => (
 
 // TODO: discussion tab, experience tab, funds tab
 // TODO: check project status and hide accordingly
-export const tabsContent = project => ({
+export const tabsContent = ({ project, user, assignOracle }) => ({
   details: {
     title: 'Details',
     content: (
@@ -37,7 +63,14 @@ export const tabsContent = project => ({
   },
   milestones: {
     title: 'Milestones',
-    content: <RowMilestones {...project} />,
+    content: (
+      <RowMilestones
+        {...project}
+        canAssignOracle={canAssignOracle(project, user)}
+        onOracleAssign={assignOracle}
+        oracles={project.oracles}
+      />
+    ),
     key: '2'
   },
   discussions: {
@@ -56,11 +89,12 @@ export const tabsContent = project => ({
     content: (
       <SeccionExperience
         experiences={project.experiences}
-        onCreate={() => {}}
+        showCreateExperience={allowNewExperience(project, user)}
+        // TODO: add onCreate prop when modal component fixed
       />
     ),
     key: '4',
-    hidden: true
+    hidden: !showExperienceTab(project.status)
   },
   funds: {
     title: 'Funds',

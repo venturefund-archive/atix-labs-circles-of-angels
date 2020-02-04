@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -49,6 +50,7 @@ const api = axios.create({
 
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
+  let headers;
   let errors;
 
   try {
@@ -58,16 +60,18 @@ export const makeApiRequest = async (method, url, body, config) => {
       data: body,
       ...config
     });
-    // eslint-disable-next-line prefer-destructuring
+
     data = result.data;
+    headers = result.headers;
   } catch (error) {
     errors = formatError(error);
   }
 
-  return { data, errors };
+  return { data, headers, errors };
 };
 
-export const doGet = async url => makeApiRequest('get', url);
+export const doGet = async (url, data, config) =>
+  makeApiRequest('get', url, data, config);
 
 export const doPost = async (url, data, config) =>
   makeApiRequest('post', url, data, config);
