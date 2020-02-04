@@ -33,6 +33,7 @@ import {
   getProjectExperiences
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
+import { assignOracleToActivity } from '../api/activityApi';
 
 const { TabPane } = Tabs;
 
@@ -147,6 +148,15 @@ const ProjectDetail = ({ user }) => {
     setProject(response.data);
   };
 
+  const assignOracle = async (taskId, oracleId) => {
+    const response = await assignOracleToActivity(taskId, oracleId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+    fetchMilestones();
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -164,7 +174,9 @@ const ProjectDetail = ({ user }) => {
   }, [project]);
 
   const renderTabs = projectData =>
-    Object.values(tabsContent(projectData, user)).map(
+    Object.values(
+      tabsContent({ project: projectData, user, assignOracle })
+    ).map(
       tab =>
         !tab.hidden && (
           <TabPane tab={tab.title} key={tab.key}>
@@ -193,7 +205,8 @@ const ProjectDetail = ({ user }) => {
               ...project,
               milestones,
               progress: projectProgress,
-              experiences
+              experiences,
+              oracles: projectUsers.oracles
             })}
           </Tabs>
           <ModalInvest />
