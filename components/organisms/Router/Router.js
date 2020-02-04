@@ -10,6 +10,7 @@ import React from 'react';
 import { Switch, BrowserRouter } from 'react-router-dom';
 import PrivateRoute from '../../utils/PrivateRoute';
 import { routesConfig } from './RouteConfig';
+import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = () => {
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
@@ -17,6 +18,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Switch>{routes}</Switch>
+      <DefaultRoute />
     </BrowserRouter>
   );
 };
