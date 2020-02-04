@@ -19,13 +19,13 @@ const PrivateRoute = routeProps => {
   const authenticated = !!user;
 
   const { required, roles } = authentication;
-  if (required && !authenticated) return <Redirect to="/" />;
+  if (required && !authenticated) return <Redirect push from={path} to="/" />;
 
   if (required && authenticated && !roles.includes(user.role))
-    return <Redirect to={defaultRouteByRole[user.role]} />;
+    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
 
   if (!required && authenticated)
-    return <Redirect to={defaultRouteByRole[user.role]} />;
+    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
 
   return (
     <Route
