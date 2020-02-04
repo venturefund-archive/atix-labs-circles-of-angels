@@ -35,9 +35,11 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       <div onClick={onClick}>
         <div className="ProjectDescription">
           <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
-          <Tag color={projectStatusMap[status].color}>
-            {projectStatusMap[status].name}
-          </Tag>
+          {status && (
+            <Tag color={projectStatusMap[status].color}>
+              {projectStatusMap[status].name}
+            </Tag>
+          )}
           {following ? (
             <Tag color="violet" align="right">
               Following
