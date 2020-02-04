@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Collapse } from 'antd';
 import TaskRow from './TaskRow';
-import { taskPropType } from '../../../helpers/proptypes';
+import { taskPropType, userPropTypes } from '../../../helpers/proptypes';
 
 const { Panel } = Collapse;
 
@@ -13,7 +13,11 @@ const MilestoneTasks = ({
   showDelete,
   showEdit,
   showAddEvidence,
-  taskActionType
+  taskActionType,
+  onOracleAssign,
+  canAssignOracle,
+  oracles,
+  hideOracleColumn
 }) => {
   const handleDelete = value => onDelete(value);
   const handleEdit = value => onEdit(value);
@@ -29,6 +33,10 @@ const MilestoneTasks = ({
       showEdit={showEdit}
       showAddEvidence={showAddEvidence}
       taskActionType={taskActionType}
+      onOracleAssign={onOracleAssign}
+      canAssignOracle={canAssignOracle}
+      oracles={oracles}
+      hideOracleColumn={hideOracleColumn}
     />
   ));
   return (
@@ -49,17 +57,22 @@ const MilestoneTasks = ({
 };
 
 MilestoneTasks.defaultProps = {
-  tasks: []
+  tasks: [],
+  oracles: []
 };
 
 MilestoneTasks.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape(taskPropType)),
+  oracles: PropTypes.arrayOf(PropTypes.shape(userPropTypes)),
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onOracleAssign: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
+  canAssignOracle: PropTypes.bool.isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
-  showAddEvidence: PropTypes.bool.isRequired
+  showAddEvidence: PropTypes.bool.isRequired,
+  hideOracleColumn: PropTypes.bool.isRequired
 };
 
 export default MilestoneTasks;
