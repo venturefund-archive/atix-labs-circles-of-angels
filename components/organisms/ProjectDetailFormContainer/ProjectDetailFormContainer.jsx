@@ -60,17 +60,15 @@ const ProjectDetailFormContainer = ({
     if (!project || !project.id) return goBack();
 
     const projectFields = { ...fields };
+    const { mission, problemAddressed, coverPhotoPath } = project;
 
-    projectFields.mission.value =
-      project.mission || projectFields.mission.value;
-    projectFields.problemAddressed.value =
-      project.problemAddressed || projectFields.problemAddressed.value;
-    projectFields.coverPhotoPath.value =
-      project.coverPhotoPath || projectFields.coverPhotoPath.value;
+    if (!mission && !problemAddressed && !coverPhotoPath) return;
 
-    setFields({
-      ...projectFields
-    });
+    projectFields.mission.value = mission;
+    projectFields.problemAddressed.value = problemAddressed;
+    projectFields.coverPhotoPath.value = coverPhotoPath;
+
+    setFields({ ...projectFields });
     validateFields();
   }, [setFields, project, goBack]);
 
@@ -103,18 +101,18 @@ const ProjectDetailFormContainer = ({
 
   return (
     <Fragment>
-    <div className="DetailWrapper">
-      <TitlePage textTitle="Complete Project´s Details" />
-      <ProjectDetailForm
-        thumbnailsData={thumbnailsData}
-        handleChange={handleChange}
-        fields={fields}
-      />
-      <FooterButtons
-        nextStepButton={getNextStepButton(currentStep)}
-        prevStepButton={getPrevStepButton(currentStep)}
-      />
-       </div>
+      <div className="DetailWrapper">
+        <TitlePage textTitle="Complete Project´s Details" />
+        <ProjectDetailForm
+          thumbnailsData={thumbnailsData}
+          handleChange={handleChange}
+          fields={fields}
+        />
+        <FooterButtons
+          nextStepButton={getNextStepButton(currentStep)}
+          prevStepButton={getPrevStepButton(currentStep)}
+        />
+      </div>
     </Fragment>
   );
 };

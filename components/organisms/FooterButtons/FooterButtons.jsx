@@ -1,14 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
-const FooterButtons = ({
-  showCreateButton,
-  nextStepButton,
-  prevStepButton
-}) => (
+const FooterButtons = ({ finishButton, nextStepButton, prevStepButton }) => (
   <Row
     className="FooterButtons"
     type="flex"
@@ -30,14 +25,9 @@ const FooterButtons = ({
       md={6}
       lg={{ span: 3, offset: 14 }}
     >
-      {nextStepButton || (
-        <CustomButton
-          buttonText="Save & Continue later"
-          theme={showCreateButton ? 'Secondary' : 'Primary'}
-        />
-      )}
+      {nextStepButton}
     </Col>
-    {showCreateButton && (
+    {!!finishButton && (
       <Col
         className="space-between"
         xs={{ span: 24, order: 2 }}
@@ -45,25 +35,21 @@ const FooterButtons = ({
         md={6}
         lg={{ span: 3, offset: 0, order: 3 }}
       >
-        <CustomButton
-          buttonText="Create Project"
-          theme="Primary"
-          classNameIcon="iconDisplay"
-          icon="arrow-right"
-        />
+        {finishButton}
       </Col>
     )}
   </Row>
 );
 
 FooterButtons.defaultProps = {
-  showCreateButton: false,
-  nextStepButton: undefined
+  nextStepButton: undefined,
+  finishButton: undefined,
+  prevStepButton: undefined
 };
 
 FooterButtons.propTypes = {
-  showCreateButton: PropTypes.bool,
-  prevStepButton: PropTypes.func.isRequired,
+  finishButton: PropTypes.func,
+  prevStepButton: PropTypes.func,
   nextStepButton: PropTypes.func
 };
 

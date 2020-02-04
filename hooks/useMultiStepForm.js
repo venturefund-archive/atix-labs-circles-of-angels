@@ -14,10 +14,6 @@ export default function useMultiStepForm(
   const [steps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
-  useEffect(() => {
-    validateFields();
-  }, [currentStep]);
-
   // TODO : This should replace all steps!
   //        Allowing to add or delete predefinied steps dynamically.
   const setStep = (number, step) => {
@@ -104,11 +100,12 @@ export default function useMultiStepForm(
     });
   };
 
-  const validateFields = () => {
-    const stepFields = steps[currentStep].fields;
+  const validateFields = step => {
+    const stepToValidate = step - 1 || currentStep;
+    const stepFields = steps[stepToValidate].fields;
     if (!stepFields.length) return true;
 
-    const validatedFields = steps[currentStep].fields.reduce(
+    const validatedFields = steps[stepToValidate].fields.reduce(
       (acc, fieldName) =>
         Object.assign(
           acc,

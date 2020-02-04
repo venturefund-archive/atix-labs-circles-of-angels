@@ -52,7 +52,12 @@ const formFields = {
   ...{}
 };
 
-const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
+const CreateMilestonesFormContainer = ({
+  project,
+  goBack,
+  onSuccess,
+  onError
+}) => {
   const [
     fields,
     setFields,
@@ -61,8 +66,19 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     currentStep,
     handleChange,
     getNextStepButton,
-    getPrevStepButton
-  ] = useMultiStepForm(formFields, formSteps, 0, goBack, true, goBack);
+    getPrevStepButton,
+    validateFields
+  ] = useMultiStepForm(
+    formFields,
+    formSteps,
+    0,
+    values => {
+      const response = Object.assign({}, values, { projectId: project.id });
+      onSuccess(response);
+    },
+    true,
+    goBack
+  );
 
   const [errorList, setErrorList] = useState([]);
   const [processed, setProcessed] = useState(false);
@@ -76,6 +92,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
 
   useEffect(() => {
     if (milestones.length > 0) {
+      validateFields(2);
       setProcessed(true);
     }
   }, [milestones]);
@@ -90,12 +107,8 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   };
 
   const downloadTemplate = async () => {
-    try {
-      // FIXME: fix this endpoint and api call
-      await downloadMilestonesTemplate();
-    } catch (error) {
-      message.error('There was an error retrieving the template');
-    }
+    const response = await downloadMilestonesTemplate();
+    if (response.errors) return message.error(response.errors);
   };
 
   const handleResponse = (response, messages) => {
@@ -152,26 +165,30 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   const processMilestones = async milestoneFile => {
     if (!project || !project.id) goBack();
     if (!milestoneFile || !milestoneFile.file) return;
+
     const data = new FormData();
     Object.entries(milestoneFile).forEach(([filename, file]) => {
       data.append(filename, file);
     });
+
     setProcessed(false);
     const response = await processProjectMilestones(project.id, data);
-    setProcessed(true);
+
     if (response.errors) {
       onError();
       setProcessError(response.errors);
       return;
     }
+
+    setProcessed(true);
+
     if (response.data.projectId) {
       message.success('Milestones saved successfully');
       fetchMilestones();
       return true;
     }
-    if (response.data.errors) {
-      setErrorList(response.data.errors);
-    }
+
+    if (response.data.errors) setErrorList(response.data.errors);
   };
 
   function getStepComponent(current) {
@@ -210,7 +227,7 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? !processed : false
+            currentStep === 1 ? !processed || errorList.length > 0 : false
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />
@@ -229,6 +246,7 @@ CreateMilestonesFormContainer.propTypes = {
     id: PropTypes.number,
     milestonePath: PropTypes.string
   }),
+  onSuccess: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
 };
 

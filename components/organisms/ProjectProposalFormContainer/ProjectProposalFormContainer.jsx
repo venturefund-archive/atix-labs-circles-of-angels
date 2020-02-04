@@ -59,13 +59,12 @@ const ProjectProposalFormContainer = ({
     if (!project || !project.id) return goBack();
 
     const projectFields = { ...fields };
+    const { proposal } = project;
 
-    projectFields.proposal.value =
-      project.proposal || projectFields.proposal.value;
+    if (!proposal) return;
 
-    setFields({
-      ...projectFields
-    });
+    projectFields.proposal.value = proposal;
+    setFields({ ...projectFields });
     validateFields();
   }, [setFields, project, goBack]);
 
@@ -89,14 +88,14 @@ const ProjectProposalFormContainer = ({
 
   return (
     <Fragment>
-  <div className="ProposalWrapper">
-      <TitlePage textTitle="Complete Project's Proposal" />
-      <ProjectProposalForm fields={fields} handleChange={handleChange} />
-      <FooterButtons
-        nextStepButton={getNextStepButton(currentStep)}
-        prevStepButton={getPrevStepButton(currentStep)}
-      />
-        </div>
+      <div className="ProposalWrapper">
+        <TitlePage textTitle="Complete Project's Proposal" />
+        <ProjectProposalForm fields={fields} handleChange={handleChange} />
+        <FooterButtons
+          nextStepButton={getNextStepButton(currentStep)}
+          prevStepButton={getPrevStepButton(currentStep)}
+        />
+      </div>
     </Fragment>
   );
 };

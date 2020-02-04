@@ -5,7 +5,7 @@ import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
 import { showModalConfirm } from '../../utils/Modals';
-import { taskPropType } from '../../../helpers/proptypes';
+import { taskPropType, userPropTypes } from '../../../helpers/proptypes';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({
@@ -16,7 +16,11 @@ const TaskRow = ({
   showDelete,
   showEdit,
   showAddEvidence,
-  taskActionType
+  taskActionType,
+  onOracleAssign,
+  canAssignOracle,
+  oracles,
+  hideOracleColumn
 }) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
@@ -52,20 +56,31 @@ const TaskRow = ({
         >
           <h3>Activity {index}</h3>
         </Col>
-        <Col
-          className="gutter-row vertical"
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={3}
-          lg={{ span: 12 }}
-        >
-          <RowLabel text="Assigned Oracle" />
-          <EditableInfo // I think this should be a Select
-            value={task.oracle}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, oracle: v })}
-          />
-        </Col>
+        {!hideOracleColumn && (
+          <Col
+            className="gutter-row vertical"
+            xs={{ span: 24 }}
+            sm={{ span: 24 }}
+            md={3}
+            lg={{ span: 12 }}
+          >
+            <RowLabel text="Assigned Oracle" />
+            <EditableInfo
+              value={task.oracle}
+              isEditing={canAssignOracle}
+              updateValue={oracleId => onOracleAssign(task.id, oracleId)}
+              options={
+                oracles &&
+                oracles.map(oracle => ({
+                  value: oracle.id,
+                  text: `${oracle.firstName} ${oracle.lastName}`
+                }))
+              }
+              selectable
+              placeholder="Assign an oracle"
+            />
+          </Col>
+        )}
         <Col
           className="gutter-row "
           xs={{ span: 24 }}
@@ -127,14 +142,18 @@ const TaskRow = ({
 };
 
 TaskRow.propTypes = {
+  oracles: PropTypes.arrayOf(PropTypes.shape(userPropTypes)).isRequired,
   task: PropTypes.shape(taskPropType).isRequired,
   index: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onOracleAssign: PropTypes.func.isRequired,
+  canAssignOracle: PropTypes.bool.isRequired,
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
   showAddEvidence: PropTypes.bool.isRequired,
-  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired
+  taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
+  hideOracleColumn: PropTypes.bool.isRequired
 };
 
 export default TaskRow;

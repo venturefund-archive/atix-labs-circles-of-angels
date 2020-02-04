@@ -24,15 +24,6 @@ const RegisterStep2 = ({ fields, handleChange }) => (
     </div>
     <div className="StepPersonalInformation h100">
       <TitlePage textTitle="Register" />
-      <CustomButton
-        theme="Facebook"
-        buttonText="Register with Facebook Account"
-      />
-      <div className="flex Linear">
-        <hr />
-        <p>or register with</p>
-        <hr />
-      </div>
       <Row className="FormRegister" gutter={26}>
         <Form layout="vertical">
           {/* TODO : we could move the Col tags into the Field component,
@@ -65,12 +56,13 @@ const RegisterStep2 = ({ fields, handleChange }) => (
             />
           </Col>
         </Form>
-        <Col className="gutter-row" sm={24} lg={12}>
+        {/* TODO define waht happen with terms and conditions */}
+        {/* <Col className="gutter-row" sm={24} lg={12}>
           <Checkbox>
             I’ve read and accept all the <a href="/">Terms and Conditions</a> of
             the site.
           </Checkbox>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   </div>

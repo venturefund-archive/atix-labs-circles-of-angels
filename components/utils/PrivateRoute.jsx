@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { useUserContext } from './UserContext';
 import MainLayout from '../organisms/MainLayout/MainLayout';
+import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
 
 const PrivateRoute = routeProps => {
   const {
@@ -17,14 +18,15 @@ const PrivateRoute = routeProps => {
   const user = getLoggedUser();
   const authenticated = !!user;
 
-  const { required, redirect } = authentication;
+  const { required, roles } = authentication;
+  if (required && !authenticated) return <Redirect push from={path} to="/" />;
 
-  if (required && !authenticated) {
-    return <Redirect to={!redirect ? '/' : redirect} />;
-  }
-  if (!required && authenticated && redirect) {
-    return <Redirect to={redirect} />;
-  }
+  if (required && authenticated && !roles.includes(user.role))
+    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+
+  if (!required && authenticated)
+    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+
   return (
     <Route
       exact={exact}

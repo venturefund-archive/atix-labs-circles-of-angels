@@ -1,0 +1,21 @@
+@import '../../../css/general_styling.scss';
+
+.ant-spin-blur{
+  opacity: 0.2;
+}
+.ant-spin{
+  color: $primary-color;
+  font-size: 18px;
+  font-variant: all-small-caps;
+  font-family: 'Avenir-medium';
+  font-weight: 500;
+}
+.ant-spin-nested-loading {
+  height: 100%;
+}
+.ant-spin-nested-loading > div > .ant-spin {
+  max-height: 100%;
+}
+.ant-spin-dot i{
+background-color: $primary-color;
+}

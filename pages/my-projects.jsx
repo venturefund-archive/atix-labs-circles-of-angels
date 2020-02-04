@@ -10,40 +10,51 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-import { getMyProjects } from '../api/userApi';
+import { getMyProjects, getFollowedProjects } from '../api/userApi';
 import './_style.scss';
 import './_explore-projects.scss';
-import Roles from '../constants/RolesMap';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
+import { projectStatuses } from '../constants/constants';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
   const [projects, setProjects] = useState([]);
 
+  const fetchProjects = async () => {
+    const myProjects = await fetchMyProjects();
+    const followedProjects = await fetchFollowedProjects();
+
+    // TODO analize if is all projects will be together
+    setProjects(myProjects.concat(followedProjects));
+  };
+
   const fetchMyProjects = async () => {
     const response = await getMyProjects();
+
     if (response.errors || !response.data) {
       message.error('An error occurred while getting the projects');
-      setProjects([]);
-      return;
+      return [];
     }
-    if (user.role === Roles.PROJECT_SUPPORTER) {
-      // TODO check this functionality because oracle is not more a role
-      // const response = await getProjectsAsOracle(user.id);
-      // const oracleProjects = response.data.projects;
-      // const activeProjects = await projects.map(project => project.id);
-      // const oracleProjectsActive = oracleProjects.filter(
-      //   project => activeProjects.indexOf(project) !== -1
-      // );
-      // setActiveOracleProjects(oracleProjectsActive);
+
+    return response.data;
+  };
+
+  const fetchFollowedProjects = async () => {
+    try {
+      const response = await getFollowedProjects();
+      return (
+        response && response.map(project => ({ ...project, following: true }))
+      );
+    } catch (error) {
+      message.error(error);
     }
-    setProjects(response.data);
   };
 
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
-    if (project.status === 'new') {
+    const { status } = project;
+    if (status === projectStatuses.NEW || status === projectStatuses.REJECTED) {
       history.push(`/create-project?id=${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
@@ -54,16 +65,20 @@ const MyProjects = ({ user }) => {
     // TODO: go to project-progress page
   };
 
+  const goToNewProject = () => history.push('/create-project');
+
   useEffect(() => {
-    fetchMyProjects();
+    fetchProjects();
   }, []);
 
   return (
     <ProjectBrowser
       title="My Projects"
+      userRole={user && user.role}
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}
+      onNewProject={goToNewProject}
     />
   );
 };

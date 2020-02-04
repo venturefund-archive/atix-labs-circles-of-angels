@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
-import CardProject from '../../molecules/CardProject/CardProject';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
 import './_style.scss';
+import CardProject from '../../molecules/CardProject/CardProject';
+import CardNewProyect from '../CardNewProyect/CardNewProyect';
+import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { projectCardPropType } from '../../../helpers/proptypes';
+import Roles from '../../../constants/RolesMap';
 
-const ProjectBrowser = ({ title, projects, onTagClick, onCardClick }) => (
+const ProjectBrowser = ({
+  title,
+  userRole,
+  projects,
+  onTagClick,
+  onCardClick,
+  onNewProject
+}) => (
   <div className="Content ExploreProject">
     <Row>
       <Col span={14}>
@@ -14,6 +23,9 @@ const ProjectBrowser = ({ title, projects, onTagClick, onCardClick }) => (
       </Col>
     </Row>
     <Row className="ProjectsCardsContainer" gutter={16}>
+      {userRole === Roles.ENTREPRENEUR && onNewProject && (
+        <CardNewProyect onClick={onNewProject} />
+      )}
       {projects &&
         projects.map(project => (
           <CardProject
@@ -27,11 +39,17 @@ const ProjectBrowser = ({ title, projects, onTagClick, onCardClick }) => (
   </div>
 );
 
+ProjectBrowser.defaultProps = {
+  onNewProject: undefined
+};
+
 ProjectBrowser.propTypes = {
   title: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.shape(projectCardPropType)).isRequired,
   onCardClick: PropTypes.func.isRequired,
-  onTagClick: PropTypes.func.isRequired
+  onTagClick: PropTypes.func.isRequired,
+  onNewProject: PropTypes.func
 };
 
 export default ProjectBrowser;

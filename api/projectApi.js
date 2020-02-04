@@ -71,6 +71,17 @@ export const useGetPublicProjects = () => {
 export const getProjectUsers = projectId =>
   doGet(`${baseURL}/${projectId}/users`);
 
+export const getFeaturedProjects = async () =>
+  apiCall('get', `${baseURL}/featured`);
+
+export const sendToReview = projectId =>
+  doPut(`${baseURL}/${projectId}/to-review`);
+
+export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
+
+export const getProjectExperiences = async projectId =>
+  doGet(`${baseURL}/${projectId}/experiences`);
+
 // const getProjects = async () => {
 //   try {
 //     const response = await api.get(`${baseURL}`);
@@ -222,7 +233,7 @@ const uploadAgreement = async (projectId, agreementFile) => {
 
 const downloadMilestonesTemplate = async () => {
   const config = { responseType: 'blob' };
-  const response = await api.get(`${baseURL}/templates/milestones`, config);
+  const response = await doGet('files/milestones/template', undefined, config);
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement('a');
@@ -299,15 +310,6 @@ const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
   }
 };
 
-const getProjectExperiences = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/experiences`);
-    return response.data;
-  } catch (error) {
-    return { error };
-  }
-};
-
 const createProjectExperience = async (experience, photos) => {
   try {
     photos = photos.map(photo => photo.originFileObj);
@@ -343,7 +345,6 @@ export {
   getProjectsAsOracle,
   downloadProposalTemplate,
   updateProject,
-  getProjectExperiences,
   createProjectExperience,
   getProjectsPreview
 };

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -12,6 +13,7 @@ import { Tag, Divider, Row, Col } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
+import projectStatusMap from '../../../model/projectStatus';
 
 const CardProject = ({ showTag, onClick, tagClick, project }) => {
   const {
@@ -19,7 +21,9 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
     goalAmount,
     location,
     projectName,
-    timeframe
+    timeframe,
+    status,
+    following
   } = project;
   return (
     <Col className="CardProject" span={8}>
@@ -30,15 +34,19 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       )}
       <div onClick={onClick}>
         <div className="ProjectDescription">
-          <img
-            // src={`/files/projects/${projectId}/cardPhoto.jpg`}
-            src={
-              cardPhotoPath !== undefined
-                ? cardPhotoPath.replace('/home/atix/files/server', '')
-                : ''
-            }
-            alt="projectCardImage"
-          />
+          <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
+          {status && (
+            <Tag color={projectStatusMap[status].color}>
+              {projectStatusMap[status].name}
+            </Tag>
+          )}
+          {following ? (
+            <Tag color="violet" align="right">
+              Following
+            </Tag>
+          ) : (
+            ''
+          )}
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
@@ -77,13 +85,15 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
 };
 
 CardProject.defaultProps = {
-  showTag: false
+  showTag: false,
+  onClick: () => null,
+  tagClick: () => null
 };
 
 CardProject.propTypes = {
   project: PropTypes.shape(projectCardPropType).isRequired,
-  onClick: PropTypes.func.isRequired,
-  tagClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  tagClick: PropTypes.func,
   showTag: PropTypes.bool
 };
 
