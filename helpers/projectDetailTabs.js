@@ -30,12 +30,8 @@ const allowNewExperience = (project, user) => {
   }
 };
 
-const canAssignOracle = (project, user) => {
-  if (project.status === projectStatuses.CONSENSUS && isOwner(project, user)) {
-    return true;
-  }
-  return false;
-};
+const canAssignOracle = (project, user) =>
+  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
 
 const experienceTabTitle = project => (
   <div>
