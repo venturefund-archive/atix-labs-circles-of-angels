@@ -14,11 +14,12 @@ import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = () => {
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
-
   return (
     <BrowserRouter>
-      <Switch>{routes}</Switch>
-      <DefaultRoute />
+      <Switch>
+        {routes}
+        <DefaultRoute />
+      </Switch>
     </BrowserRouter>
   );
 };
