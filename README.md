@@ -1,31 +1,38 @@
-# Circle of Angels
+# Circles of Angels
 
-Circle of Angels is a platform that brings Social Entrepreneurs and Funders around the world closer while ensuring the transparency of investments and donations through blockchain technology, which allows for traceability of operations, tracking and visualization of the real impact that entrepreneurs are generating in their communities.
-
-## Technologies
-
-- ReactJS v16.8.3
-
-- Next.js v8.0.3
+Circles of Angels is a platform that brings Social Entrepreneurs and Funders around the world closer while ensuring the transparency of investments and donations through blockchain technology, which allows for traceability of operations, tracking and visualization of the real impact that entrepreneurs are generating in their communities.
 
 ## Prerequisites
 
 - Node v10.15.3
 
-## Installation 
+## Tools and frameworks
 
-- In the project directory, run `npm install` to install the dependencies needed
+- react@16.8.3
 
-#### Running a Development build
+- next@9.1.2
 
-- In the project directory, run `npm run dev` to run the app in development mode
+- antd@3.13.6
 
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- fastify@1.14.3
 
-#### Running a Production build
+## Contributing
 
-- In the project directory, run `npm run build` to create an optimized production build
+Clone the repository by running `git@gitlab.com:atixlabs-oss/circles-of-angels.git` and create a new branch from the latest development branch
 
-- In the project directory, run `npm run start` to run the app in production
+## Development
 
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- #### Setup environment
+
+  - Run `npm install` to install the dependencies
+
+- #### Running a Development build
+
+  - Run `npm run dev` to run the app in development mode
+  - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+- #### Running a Production build
+
+  - Run `npm run build` to create an optimized production build
+  - Run `npm start` to start the app
+  - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
