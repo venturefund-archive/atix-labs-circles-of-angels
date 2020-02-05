@@ -113,7 +113,7 @@ export default function useForm(formFields, submitCallback) {
       if (field.value) {
         if (field.type === 'file') {
           Object.entries(field.value).forEach(([filename, file]) => {
-            data.append(filename, file);
+            data.append(field.name, file);
           });
         } else {
           data.set(field.name, field.value);

@@ -164,6 +164,8 @@ const ProjectDetail = ({ user }) => {
       message.error(response.errors);
       return;
     }
+
+    message.success('Experience added successfully!');
     fetchExperiences();
   };
 

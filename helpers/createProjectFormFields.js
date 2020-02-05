@@ -278,8 +278,8 @@ export const newExperienceFormItems = {
       }
     ]
   },
-  photos: {
-    name: 'photos',
+  files: {
+    name: 'files',
     label: 'Click to upload',
     type: 'file',
     rules: [
