@@ -3,31 +3,37 @@ import PropTypes from 'prop-types';
 import { Upload, Form } from 'antd';
 import CustomButton from '../CustomButton/CustomButton';
 
-// TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
 const FieldFile = ({
   name,
   handleChange,
   showUploadList,
   valid,
-  errorMessage
+  errorMessage,
+  multiple
 }) => {
   const [fileList, setFileList] = useState([]);
 
-  const fileChange = ({ filename, file, onSuccess }) => {
+  const fileChange = ({ file, onSuccess }) => {
     setTimeout(() => {
-      changeFile({ filename, file });
+      changeFile({ file });
       onSuccess('ok');
     }, 0);
   };
 
-  const removeFile = () => {
-    handleChange(undefined, name, undefined);
-    setFileList([]);
+  const removeFile = fileToRemove => {
+    const newFileList = fileList;
+    newFileList.splice(newFileList.indexOf(fileToRemove), 1);
+
+    handleChange(undefined, name, newFileList);
+    setFileList(newFileList);
   };
 
-  const changeFile = ({ filename, file }) => {
-    handleChange(undefined, name, { [filename]: file });
-    setFileList([file]);
+  const changeFile = ({ file }) => {
+    const newFileList = fileList;
+    newFileList.push(file);
+
+    handleChange(undefined, name, newFileList);
+    setFileList(newFileList);
   };
 
   return (
@@ -36,6 +42,7 @@ const FieldFile = ({
       help={errorMessage}
     >
       <Upload
+        multiple={multiple}
         customRequest={fileChange}
         showUploadList={showUploadList}
         onRemove={removeFile}
@@ -50,7 +57,8 @@ const FieldFile = ({
 FieldFile.defaultProps = {
   showUploadList: true,
   valid: undefined,
-  errorMessage: undefined
+  errorMessage: undefined,
+  multiple: false
 };
 
 FieldFile.propTypes = {
@@ -58,7 +66,8 @@ FieldFile.propTypes = {
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   valid: PropTypes.bool,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  multiple: PropTypes.bool
 };
 
 export default FieldFile;

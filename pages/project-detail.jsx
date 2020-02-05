@@ -159,7 +159,6 @@ const ProjectDetail = ({ user }) => {
   };
 
   const onCreateExperience = async experience => {
-    console.log('experience: ', experience);
     const response = await addProjectExperience(project.id, experience);
     if (response.errors) {
       message.error(response.errors);

@@ -14,7 +14,13 @@ const NewExperienceForm = ({ fields, handleChange }) => {
           <Field {...comment} type="textArea" handleChange={handleChange} />
         </Col>
         <Col sm={24} md={24} lg={24}>
-          <Field {...photos} type="file" handleChange={handleChange} />
+          <Field
+            {...photos}
+            multiple
+            type="file"
+            name={photos.name}
+            handleChange={handleChange}
+          />
         </Col>
       </Form>
     </Fragment>
