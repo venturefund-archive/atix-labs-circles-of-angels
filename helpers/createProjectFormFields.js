@@ -286,7 +286,7 @@ export const newExperienceFormItems = {
       {
         required: true,
         message: 'Please upload the image/s for describe your experience!',
-        validator: (rule, value) => {
+        validator: (_rule, value) => {
           const checkValue = value || '';
           if (checkValue.length > 0) return true;
           if (checkValue.file && checkValue.file instanceof File) return true;

@@ -24,12 +24,7 @@ const NewExperience = ({ onCreate }) => {
   const onShowModal = () => setVisible(true);
 
   const onSubmit = async data => {
-    const formData = {};
-    data.forEach((value, key) => {
-      formData[key] = value;
-    });
-
-    await onCreate(formData);
+    await onCreate(data);
     onClose();
   };
 
