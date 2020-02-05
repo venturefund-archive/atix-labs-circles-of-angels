@@ -30,7 +30,8 @@ import {
   getProject,
   getProjectUsers,
   getProjectMilestones,
-  getProjectExperiences
+  getProjectExperiences,
+  addProjectExperience
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
@@ -157,6 +158,16 @@ const ProjectDetail = ({ user }) => {
     fetchMilestones();
   };
 
+  const onCreateExperience = async experience => {
+    console.log('experience: ', experience);
+    const response = await addProjectExperience(project.id, experience);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+    fetchExperiences();
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -175,7 +186,12 @@ const ProjectDetail = ({ user }) => {
 
   const renderTabs = projectData =>
     Object.values(
-      tabsContent({ project: projectData, user, assignOracle })
+      tabsContent({
+        project: projectData,
+        user,
+        assignOracle,
+        onCreateExperience
+      })
     ).map(
       tab =>
         !tab.hidden && (
@@ -190,6 +206,7 @@ const ProjectDetail = ({ user }) => {
   const projectProgress = 0;
 
   if (!project) return null;
+
   return (
     <Row className="ContentComplete">
       <Col span={18} className="ProjectContainer scrollY DataSteps">
