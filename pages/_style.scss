@@ -26,6 +26,9 @@
 }
 .ContentComplete {
   @include ContentComplete;
+  @include breakpoint(sm) {
+    overflow-y:visible;
+  }
 }
 .FooterButtons {
   position: absolute;
@@ -75,6 +78,9 @@ p {
 ::-webkit-scrollbar {
   width:6px;
   height: 6px;
+    @include breakpoint(sm) {
+    display:none
+  }
 }
 ::-webkit-scrollbar-thumb {
   background: #bfc5ccad;
@@ -214,6 +220,7 @@ a.blueLink:hover::before {
 }
 .scrollY{
 overflow-y:scroll;
+
 }
 .flex {
   display: flex;

@@ -12,24 +12,25 @@ const ProjectMilestonesProgress = ({ projectProgress }) => (
         Project <strong>Started</strong>
       </h4>
     </Col>
-    <Col className="txtright" span={6} offset={6}>
+    <Col className="txtright" xs={{span:10 , offset:2 }}  lg={{span:6 , offset:6 }} >
       <h4>
         Project <strong>Finished!</strong>
       </h4>
     </Col>
-    <Col span={1}>
+    <Col xs={2} lg={1}>
       <h4>
         <strong>0%</strong>
       </h4>
     </Col>
-    <Col span={21}>
+    <Col  xs={19} lg={21}>
       <Progress
         strokeColor="#6FCF97"
         percent={projectProgress}
         showInfo={false}
       />
     </Col>
-    <Col className="txtright" span={2}>
+    <Col className="txtright" xs={3}
+    lg={2}>
       <h4>
         <strong>100%</strong>
       </h4>

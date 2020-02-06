@@ -52,27 +52,30 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
           <Col span={24}>
             <h1>{projectName}</h1>
           </Col>
-          <Col className="flex" align="middle" span={24}>
+          <Col align="middle" span={24}>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Country of Impact"
               title={location}
               iconInfoItem="environment"
             />
-            <Col span={1}>
+            <Col span={1}  xs={0} >
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Timeframe"
               title={timeframe}
               iconInfoItem="clock-circle"
             />
-            <Col span={1}>
+            <Col span={1} xs={0} >
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Amount"
               title={`$ ${goalAmount}`}
               iconInfoItem="dollar"

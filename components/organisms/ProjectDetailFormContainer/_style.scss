@@ -4,6 +4,9 @@
       height: 92vh;
     position: relative;
     padding: 2em 3em;
+    @include breakpoint(sm) {
+      padding: 2em 1em 0;
+    }
   .centered{
     height: 66vh;
     overflow-y: scroll;

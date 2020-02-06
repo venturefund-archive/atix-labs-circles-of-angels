@@ -52,14 +52,15 @@ const ProjectDetailHeader = ({
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
           <p>Organization Name</p>
-          <Col span={21} className="flex">
+          <Col xs={24} md={21} lg={21} className="flex">
             <h1>{projectName}</h1>
             {getTagStatus(status)}
           </Col>
-          <Col span={3}>
+          <Col xs={24} md={3} lg={3}>
             <CustomButton
-              theme={isFollower ? 'Cancel' : 'Primary'}
-              buttonText={isFollower ? 'Unfollow Project' : 'Follow Project'}
+              theme={isFollower ? 'Alternative' : 'Primary'}
+              buttonText={isFollower ? 'Following' : 'Follow Project'}
+              icon='check'
               onClick={isFollower ? onUnfollowProject : onFollowProject}
             />
           </Col>

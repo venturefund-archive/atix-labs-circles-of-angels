@@ -192,7 +192,7 @@ const ProjectDetail = ({ user }) => {
   if (!project) return null;
   return (
     <Row className="ContentComplete">
-      <Col span={18} className="ProjectContainer scrollY DataSteps">
+      <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
           onFollowProject={onFollowProject}
@@ -212,7 +212,7 @@ const ProjectDetail = ({ user }) => {
           <ModalInvest />
         </div>
       </Col>
-      <Col span={6} className="Right">
+      <Col xs={24} lg={6} className="Right">
         <ProjectUsersPanel
           entrepreneur={projectUsers.owner}
           followers={projectUsers.followers}
