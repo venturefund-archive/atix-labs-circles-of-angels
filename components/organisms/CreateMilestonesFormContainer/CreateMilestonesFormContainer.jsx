@@ -162,13 +162,13 @@ const CreateMilestonesFormContainer = ({
     });
   };
 
-  const processMilestones = async milestoneFile => {
+  const processMilestones = async (fieldName, milestoneFile) => {
     if (!project || !project.id) goBack();
-    if (!milestoneFile || !milestoneFile.file) return;
+    if (!milestoneFile.length) return;
 
     const data = new FormData();
-    Object.entries(milestoneFile).forEach(([filename, file]) => {
-      data.append(filename, file);
+    milestoneFile.forEach(file => {
+      data.append(fieldName, file);
     });
 
     setProcessed(false);

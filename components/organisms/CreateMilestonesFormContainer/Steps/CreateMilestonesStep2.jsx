@@ -98,7 +98,12 @@ const CreateMilestonesStep2 = ({
             icon="arrow-right"
             classNameIcon="iconDisplay"
             disabled={!fields.milestoneFile.value}
-            onClick={() => handleProcessMilestones(fields.milestoneFile.value)}
+            onClick={() =>
+              handleProcessMilestones(
+                fields.milestoneFile.name,
+                fields.milestoneFile.value
+              )
+            }
           />
         </Row>
       </Col>

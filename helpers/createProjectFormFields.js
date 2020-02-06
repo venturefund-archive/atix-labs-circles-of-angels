@@ -162,12 +162,8 @@ export const milestonesFormItems = {
       {
         required: false,
         message: 'Please upload the milestones information for your project!',
-        validator: (rule, value) => {
-          if (value && value.file && !(value.file instanceof File)) {
-            return false;
-          }
-          return true;
-        }
+        validator: (_rule, value) =>
+          value.length > 0 || (value.file && value.file instanceof File)
       }
     ]
   }
