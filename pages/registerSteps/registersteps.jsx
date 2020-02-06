@@ -16,7 +16,9 @@ import '../_style.scss';
 import RegisterStepsHeader from './RegisterStepsHeader';
 import RegisterStep1 from '../../components/organisms/FormRegister/steps/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../../components/organisms/FormRegister/steps/RegisterStep2/RegisterStep2';
-import RegisterStep3 from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
+import RegisterStep3, {
+  questionsByRole
+} from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
 import {
   step1Inputs,
   step2Inputs,
@@ -25,6 +27,9 @@ import {
 import { register, getCountries } from '../../api/userApi';
 import useFormSubmitEffect from '../../hooks/useFormSubmitEffect';
 import Loading from '../../components/molecules/Loading/Loading';
+import userRoles from '../../constants/RolesMap';
+
+const REGISTER_ROLES = [userRoles.ENTREPRENEUR, userRoles.PROJECT_SUPPORTER];
 
 const Registersteps = () => {
   const history = useHistory();
@@ -38,6 +43,24 @@ const Registersteps = () => {
     ...step2Inputs,
     ...step3Inputs
   });
+
+  const query = location && queryString.parse(location.search);
+  const { role } = query || {};
+  const initialStep = !role ? 0 : 1;
+  const steps = [
+    {
+      fields: Object.keys(step1Inputs),
+      component: RegisterStep1
+    },
+    {
+      fields: Object.keys(step2Inputs),
+      component: RegisterStep2
+    },
+    {
+      fields: Object.keys(step3Inputs),
+      component: RegisterStep3
+    }
+  ];
 
   const fetchCountries = async () => {
     try {
@@ -68,6 +91,14 @@ const Registersteps = () => {
     message.error(error);
   };
 
+  const setQuestionsByRole = selectedRole => {
+    if (selectedRole) {
+      steps[2].fields = Object.keys(questionsByRole[role]);
+      const questions = questionsByRole[selectedRole];
+      setFields({ ...fields, ...questions });
+    }
+  };
+
   useFormSubmitEffect({
     apiCall: registerUser,
     successCallback,
@@ -80,41 +111,23 @@ const Registersteps = () => {
   }, []);
 
   useEffect(() => {
+    if (role && !REGISTER_ROLES.includes(role))
+      return history.push('/register');
+    setQuestionsByRole(role);
+  }, [role]);
+
+  useEffect(() => {
     if (!countries.length) return;
 
     const step2 = Object.assign({}, step2Inputs, {
       country: Object.assign({}, step2Inputs.country, { options: countries })
     });
 
-    const stepFields = {
-      ...step1Inputs,
-      ...step2,
-      ...step3Inputs
-    };
-
-    setFields(stepFields);
+    setFields({ ...fields, ...step2 });
     setLoading(false);
   }, [countries]);
 
   // TODO add loading when form is submitting
-
-  const query = location && queryString.parse(location.search);
-  const { role } = query || {};
-  const initialStep = !role ? 0 : 1;
-  const steps = [
-    {
-      fields: Object.keys(step1Inputs),
-      component: RegisterStep1
-    },
-    {
-      fields: Object.keys(step2Inputs),
-      component: RegisterStep2
-    },
-    {
-      fields: Object.keys(step3Inputs),
-      component: RegisterStep3
-    }
-  ];
 
   if (loading) return <Loading />;
 
