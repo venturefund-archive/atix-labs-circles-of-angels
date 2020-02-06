@@ -11,24 +11,25 @@ import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import {
-  useGetProjects,
-  updateProjectStatus,
-  publish
-} from '../api/projectApi';
+import { getProjects, updateProjectStatus, publish } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 
 const BackOfficeProjects = () => {
-  const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await getProjects();
+      setProjects(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
   const handleReject = async projectId => {
     try {
       await updateProjectStatus(projectId, projectStatuses.REJECTED);
-
-      // TODO change useGetProjects hook for a normal apicall in order to fetch projects again here
-      // changeProjectStatus(index, newCollection);
-
+      fetchProjects();
       message.success('Project status changed correctly');
     } catch (error) {
       message.error(error);
@@ -36,26 +37,15 @@ const BackOfficeProjects = () => {
   };
 
   const handleConfirm = async projectId => {
-    const response = publish(projectId);
+    const response = await publish(projectId);
     if (response.errors) return message.error(response.errors);
+    fetchProjects();
     message.success('Project status changed correctly');
   };
 
-  // TODO this is not valid at this moment. Analize if will do something similar
-  // const changeProjectStatus = async (milestoneId, budgetStatusId) => {
-  //   try {
-  //     const response = await changeBudgetStatus(milestoneId, budgetStatusId);
-
-  //     message.success('Status changed successfully');
-  //     return response;
-  //   } catch (error) {
-  //     message.error(error);
-  //   }
-  // };
-
   useEffect(() => {
-    setProjects(data);
-  }, [data]);
+    fetchProjects();
+  }, []);
 
   return (
     <div className="TableContainer">
