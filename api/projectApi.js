@@ -14,26 +14,7 @@ import { useGet } from '../hooks/useRequest';
 
 const baseURL = '/projects';
 
-// const createProject = async (project, files, ownerId) => {
-//   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-//   const fd = new FormData();
-//   try {
-//     fd.append('projectProposal', files[0]);
-//     fd.append('projectCoverPhoto', files[1]);
-//     fd.append('projectCardPhoto', files[2]);
-//     fd.append('projectMilestones', files[3]);
-//     fd.append('projectAgreement', files[4]);
-//     fd.append('project', JSON.stringify(project));
-//     fd.append('ownerId', ownerId);
-
-//     const response = await api.post(`${baseURL}`, fd, config);
-
-//     return response;
-//   } catch (error) {
-//     return { error };
-//   }
-// };
+export const getProjects = () => apiCall('get', `${baseURL}`);
 
 export const createProjectThumbnail = saveData => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -81,15 +62,6 @@ export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
 
 export const getProjectExperiences = async projectId =>
   doGet(`${baseURL}/${projectId}/experiences`);
-
-// const getProjects = async () => {
-//   try {
-//     const response = await api.get(`${baseURL}`);
-//     return response;
-//   } catch (error) {
-//     return { error };
-//   }
-// };
 
 export const useGetProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects');
