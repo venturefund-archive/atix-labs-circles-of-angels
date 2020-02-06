@@ -52,7 +52,12 @@ const formFields = {
   ...{}
 };
 
-const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
+const CreateMilestonesFormContainer = ({
+  project,
+  goBack,
+  onSuccess,
+  onError
+}) => {
   const [
     fields,
     setFields,
@@ -63,7 +68,17 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
     getNextStepButton,
     getPrevStepButton,
     validateFields
-  ] = useMultiStepForm(formFields, formSteps, 0, goBack, true, goBack);
+  ] = useMultiStepForm(
+    formFields,
+    formSteps,
+    0,
+    values => {
+      const response = Object.assign({}, values, { projectId: project.id });
+      onSuccess(response);
+    },
+    true,
+    goBack
+  );
 
   const [errorList, setErrorList] = useState([]);
   const [processed, setProcessed] = useState(false);
@@ -92,12 +107,8 @@ const CreateMilestonesFormContainer = ({ project, goBack, onError }) => {
   };
 
   const downloadTemplate = async () => {
-    try {
-      // FIXME: fix this endpoint and api call
-      await downloadMilestonesTemplate();
-    } catch (error) {
-      message.error('There was an error retrieving the template');
-    }
+    const response = await downloadMilestonesTemplate();
+    if (response.errors) return message.error(response.errors);
   };
 
   const handleResponse = (response, messages) => {
@@ -235,6 +246,7 @@ CreateMilestonesFormContainer.propTypes = {
     id: PropTypes.number,
     milestonePath: PropTypes.string
   }),
+  onSuccess: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
 };
 

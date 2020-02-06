@@ -11,17 +11,20 @@ import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { changeBudgetStatus } from '../api/milestonesApi';
-import { useGetProjects, updateProjectStatus } from '../api/projectApi';
+import {
+  useGetProjects,
+  updateProjectStatus,
+  publish
+} from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 
 const BackOfficeProjects = () => {
   const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
-  const updateStatus = async (projectId, status) => {
+  const handleReject = async projectId => {
     try {
-      await updateProjectStatus(projectId, status);
+      await updateProjectStatus(projectId, projectStatuses.REJECTED);
 
       // TODO change useGetProjects hook for a normal apicall in order to fetch projects again here
       // changeProjectStatus(index, newCollection);
@@ -30,6 +33,12 @@ const BackOfficeProjects = () => {
     } catch (error) {
       message.error(error);
     }
+  };
+
+  const handleConfirm = async projectId => {
+    const response = publish(projectId);
+    if (response.errors) return message.error(response.errors);
+    message.success('Project status changed correctly');
   };
 
   // TODO this is not valid at this moment. Analize if will do something similar
@@ -53,12 +62,8 @@ const BackOfficeProjects = () => {
       <h1>Projects Administration</h1>
       <TableBOProjects
         data={projects}
-        onConfirm={projectId =>
-          updateStatus(projectId, projectStatuses.PUBLISHED)
-        }
-        onReject={projectId =>
-          updateStatus(projectId, projectStatuses.REJECTED)
-        }
+        onConfirm={projectId => handleConfirm(projectId)}
+        onReject={projectId => handleReject(projectId)}
       />
     </div>
   );

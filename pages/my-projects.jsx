@@ -15,6 +15,7 @@ import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
+import { projectStatuses } from '../constants/constants';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
@@ -42,7 +43,9 @@ const MyProjects = ({ user }) => {
   const fetchFollowedProjects = async () => {
     try {
       const response = await getFollowedProjects();
-      return response;
+      return (
+        response && response.map(project => ({ ...project, following: true }))
+      );
     } catch (error) {
       message.error(error);
     }
@@ -50,7 +53,8 @@ const MyProjects = ({ user }) => {
 
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
-    if (project.status === 'new') {
+    const { status } = project;
+    if (status === projectStatuses.NEW || status === projectStatuses.REJECTED) {
       history.push(`/create-project?id=${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
@@ -70,6 +74,7 @@ const MyProjects = ({ user }) => {
   return (
     <ProjectBrowser
       title="My Projects"
+      userRole={user && user.role}
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}
