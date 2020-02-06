@@ -8,7 +8,7 @@ import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
 import { showModalConfirm } from '../../utils/Modals';
 import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
-import { milestonePropType } from '../../../helpers/proptypes';
+import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -19,8 +19,10 @@ const Milestone = ({
   onTaskDelete,
   onTaskEdit,
   onTaskCreate,
+  onOracleAssign,
   showTaskDelete,
   showTaskEdit,
+  canAssignOracle,
   onMilestoneDelete,
   onMilestoneEdit,
   showMilestoneDelete,
@@ -28,7 +30,9 @@ const Milestone = ({
   showCreateTask,
   milestoneActionType,
   taskActionType,
-  showTaskAddEvidence
+  showTaskAddEvidence,
+  oracles,
+  hideOracleColumn
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -90,6 +94,10 @@ const Milestone = ({
         showEdit={showTaskEdit}
         taskActionType={taskActionType}
         showAddEvidence={showTaskAddEvidence}
+        onOracleAssign={onOracleAssign}
+        canAssignOracle={canAssignOracle}
+        oracles={oracles}
+        hideOracleColumn={hideOracleColumn}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -102,12 +110,14 @@ const Milestone = ({
 
 Milestone.propTypes = {
   milestone: PropTypes.shape(milestonePropType).isRequired,
+  oracles: PropTypes.arrayOf(PropTypes.shape(userPropTypes)).isRequired,
   index: PropTypes.number.isRequired,
   milestoneProgress: PropTypes.number.isRequired,
   milestoneStatus: PropTypes.string.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
   onTaskCreate: PropTypes.func.isRequired,
+  onOracleAssign: PropTypes.func.isRequired,
   showTaskDelete: PropTypes.bool.isRequired,
   showTaskEdit: PropTypes.bool.isRequired,
   onMilestoneDelete: PropTypes.func.isRequired,
@@ -115,9 +125,11 @@ Milestone.propTypes = {
   showMilestoneDelete: PropTypes.bool.isRequired,
   showMilestoneEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
+  canAssignOracle: PropTypes.bool.isRequired,
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
-  showTaskAddEvidence: PropTypes.bool.isRequired
+  showTaskAddEvidence: PropTypes.bool.isRequired,
+  hideOracleColumn: PropTypes.bool.isRequired
 };
 
 export default Milestone;

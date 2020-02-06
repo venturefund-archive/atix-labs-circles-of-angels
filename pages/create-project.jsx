@@ -32,22 +32,14 @@ const CreateProjectContainer = () => {
   const { id } = useQuery();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittingForm, setSubmittingForm] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [project, setProject] = useState();
-
-  const goToMyProjects = () => history.push('/my-projects');
-
-  const sendProjectToReview = async () => {
-    const response = await sendToReview(id);
-    if (response.errors) {
-      message.error(response.errors);
-      return;
-    }
-    message.success('Your project was successfully sent to review!');
-    goToMyProjects(); // or to project detail?
-  };
+  const [completedSteps, setCompletedSteps] = useState({
+    thumbnails: false,
+    details: false,
+    proposal: false,
+    milestones: false
+  });
 
   const fetchProject = useCallback(
     async projectId => {
@@ -57,39 +49,36 @@ const CreateProjectContainer = () => {
         goToMyProjects();
         return;
       }
-      setProject(response.data);
+      const { data } = response;
       const thumbnailsData = {
-        projectName: response.data.projectName,
-        timeframe: response.data.timeframe,
-        goalAmount: response.data.goalAmount,
-        cardPhotoPath: response.data.cardPhotoPath,
-        location: response.data.location
+        projectName: data.projectName,
+        timeframe: data.timeframe,
+        goalAmount: data.goalAmount,
+        cardPhotoPath: data.cardPhotoPath,
+        location: data.location
       };
+
       submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
+      setProject(data);
+      checkStepsStatus(data);
     },
     [history]
   );
 
-  useEffect(() => {
-    if (id) {
-      fetchProject(id);
-    }
-  }, [id, fetchProject]);
+  const checkStepsStatus = projectToCheck => {
+    const { projectName, mission, proposal, milestonePath } = projectToCheck;
 
-  // TODO add logic to show progress on main page
-  const successCallback = (res, successMsg) => {
-    setIsSubmitting(false);
-    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    fetchProject(res.projectId);
-    message.success(successMsg || 'Saved successfully');
-    return res;
+    const stepsStatus = {
+      thumbnails: !!projectName,
+      details: !!mission,
+      proposal: !!proposal,
+      milestones: !!milestonePath
+    };
+
+    setCompletedSteps(stepsStatus);
   };
 
-  // TODO validate with UX team
-  const errorCallback = errorMsg => {
-    setIsSubmitting(false);
-    message.error(errorMsg || 'An error ocurred while saving the information');
-  };
+  const submitForm = (formKey, values) => updateFormValues(values, formKey);
 
   const updateFormValues = (values, formKey) => {
     const newFormValues = { ...formValues };
@@ -97,17 +86,43 @@ const CreateProjectContainer = () => {
     setFormValues(newFormValues);
   };
 
-  const submitForm = (formKey, values) => {
-    setIsSubmitting(true);
-    setSubmittingForm(formKey);
-    updateFormValues(values, formKey);
+  const successCallback = (res, successMsg) => {
+    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
+    fetchProject(res.projectId);
+    message.success(successMsg || 'Saved successfully');
+    return res;
   };
+
+  // TODO validate with UX team
+  const errorCallback = errorMsg =>
+    message.error(errorMsg || 'An error ocurred while saving the information');
+
+  const sendProjectToReview = async () => {
+    if (project && project.id) {
+      const response = await sendToReview(project.id);
+      if (response.errors) {
+        message.error(response.errors);
+        return;
+      }
+      message.success('Your project was successfully sent to review!');
+      goToMyProjects(); // or to project detail?
+    }
+  };
+
+  const goToMyProjects = () => history.push('/my-projects');
+
+  useEffect(() => {
+    if (id) fetchProject(id);
+  }, [id, fetchProject]);
 
   const CurrentComponent = wizards[currentWizard];
   const props = {};
 
   if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
     props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
+
+  if (currentWizard === PROJECT_FORM_NAMES.MAIN)
+    props.completedSteps = completedSteps;
 
   // TODO add loading when "isSubmitting"
   return (

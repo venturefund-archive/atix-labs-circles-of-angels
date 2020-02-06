@@ -94,6 +94,7 @@ const validate = (rule, value) => {
 
 const FormLogin = ({ form, onSubmit }) => {
   const [fields, setFields] = useState(formLoginInputs);
+  const clearFields = () => setFields(formLoginInputs);
 
   const handleChange = event => {
     const newValue = event.target.value;
@@ -110,7 +111,7 @@ const FormLogin = ({ form, onSubmit }) => {
   const submit = e => {
     e.preventDefault();
     form.validateFields();
-    onSubmit(fields.email.value, fields.password.value);
+    onSubmit(fields.email.value, fields.password.value, clearFields);
   };
 
   return (

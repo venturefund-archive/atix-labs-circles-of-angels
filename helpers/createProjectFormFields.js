@@ -143,7 +143,11 @@ export const proposalFromItems = {
       {
         required: true,
         message: 'Please input the project proposal!',
-        whitespace: true
+        validator: (rule, value) => {
+          const regex = new RegExp(/<[^>]*>/gm);
+          const textContent = value.replace(regex, '');
+          return textContent;
+        }
       }
     ]
   }
