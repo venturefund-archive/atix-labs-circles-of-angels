@@ -1,8 +1,19 @@
 @import '../css/general_styling.scss';
 .ProposalWrapper{
   padding: 2em 3em;
+  @include breakpoint(sm) {
+    padding: 2em 1em 0;
+  }
+  .ant-form-item-with-help{
+    @include breakpoint(sm) {
+      width: 100%;
+    }
+  }
 }
 .HtmlEditor{
+  @include breakpoint(sm) {
+    width: 100%;
+  }
   .quill {
     display: flex;
     flex-direction: column-reverse;

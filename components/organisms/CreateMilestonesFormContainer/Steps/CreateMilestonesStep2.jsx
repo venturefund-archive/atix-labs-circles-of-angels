@@ -24,7 +24,7 @@ const CreateMilestonesStep2 = ({
         md={6}
         lg={{ span: 11 }}
       >
-        <Col xs={{ span: 20 }} sm={{ span: 20 }} md={20} lg={{ span: 20 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={20} lg={{ span: 20 }}>
           <Col
             className="gutter-row"
             xs={{ span: 24 }}
@@ -89,21 +89,17 @@ const CreateMilestonesStep2 = ({
           >
             <Field {...fields.milestoneFile} handleChange={handleChange} />
           </Col>
-          <Col className="BlockVerification" span={24}>
+          <Col span={24}>
             <Divider />
           </Col>
-          <Col className="BlockVerification" lg={{ span: 6, offset: 17 }}>
-            <CustomButton
-              buttonText="Process Milestones"
-              theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
-              icon="arrow-right"
-              classNameIcon="iconDisplay"
-              disabled={!fields.milestoneFile.value}
-              onClick={() =>
-                handleProcessMilestones(fields.milestoneFile.value)
-              }
-            />
-          </Col>
+          <CustomButton
+            buttonText="Process Milestones"
+            theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
+            icon="arrow-right"
+            classNameIcon="iconDisplay"
+            disabled={!fields.milestoneFile.value}
+            onClick={() => handleProcessMilestones(fields.milestoneFile.value)}
+          />
         </Row>
       </Col>
     </Row>

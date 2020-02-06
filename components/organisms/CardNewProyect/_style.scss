@@ -11,6 +11,9 @@ overflow: visible;
   min-height: 340px;
   cursor: pointer;
   transition: 0.3s;
+  @include breakpoint(sm) {
+    width: 100%;
+  }
     &:hover{
   transform: scale(1.01);
   }

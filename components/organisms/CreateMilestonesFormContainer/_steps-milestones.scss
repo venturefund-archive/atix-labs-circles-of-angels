@@ -3,6 +3,9 @@
   padding: 2em 3em;
       height: 92%;
     overflow-y: scroll;
+    @include breakpoint(sm) {
+      padding: 2em 1em 0;
+    }
   .ant-steps {
     width: 20%;
     position: absolute;
