@@ -5,7 +5,7 @@ import Field from '../../atoms/Field/Field';
 import { fieldPropType } from '../../../helpers/proptypes';
 
 const NewExperienceForm = ({ fields, handleChange }) => {
-  const { comment, files } = fields;
+  const { comment, photos } = fields;
 
   return (
     <Fragment>
@@ -15,10 +15,10 @@ const NewExperienceForm = ({ fields, handleChange }) => {
         </Col>
         <Col sm={24} md={24} lg={24}>
           <Field
-            {...files}
+            {...photos}
             multiple
             type="file"
-            name={files.name}
+            name={photos.name}
             handleChange={handleChange}
           />
         </Col>

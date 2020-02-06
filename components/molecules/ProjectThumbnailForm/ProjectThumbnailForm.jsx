@@ -1,20 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Tag, Row, Col, Divider, Form, message, Skeleton } from 'antd';
-import { getPreviewValue } from '../../../helpers/formatter';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import Field from '../../atoms/Field/Field';
 import { toBase64 } from '../../utils/FileUtils';
 import { fieldPropType } from '../../../helpers/proptypes';
 import './_style.scss';
 
-
-
 const ProjectThumbnailForm = ({ fields, handleChange }) => {
   const [photoPreview, setPhotoPreview] = useState();
 
-const amount = fields.goalAmount.value === undefined ? <Skeleton paragraph={{ rows: 1 }} title={false} /> : "$" + fields.goalAmount.value
-   useEffect(() => {
+  const amount =
+    fields.goalAmount.value === undefined ? (
+      <Skeleton paragraph={{ rows: 1 }} title={false} />
+    ) : (
+      `$${fields.goalAmount.value}`
+    );
+
+  useEffect(() => {
     const loadPhotoPreview = async () => {
       if (fields.cardPhotoPath.value) {
         if (fields.cardPhotoPath.value.file) {
@@ -37,7 +40,12 @@ const amount = fields.goalAmount.value === undefined ? <Skeleton paragraph={{ ro
 
   return (
     <Fragment>
-      <Row type="flex" justify="space-around" align="middle" className="centered">
+      <Row
+        type="flex"
+        justify="space-around"
+        align="middle"
+        className="centered"
+      >
         <Col className="CardExample" sm={8} md={8} lg={8}>
           <h3>This is the preview!</h3>
           <Col className="BlockImage" sm={24} md={24} lg={24}>
@@ -50,9 +58,11 @@ const amount = fields.goalAmount.value === undefined ? <Skeleton paragraph={{ ro
           </Col>
           <Col className="spacedivider" sm={24} md={24} lg={24}>
             <Col sm={24} md={24} lg={16}>
-           <h1>
-           {fields.projectName.value|| <Skeleton paragraph={{ rows: 1 }} title={false} />}
-           </h1> 
+              <h1>
+                {fields.projectName.value || (
+                  <Skeleton paragraph={{ rows: 1 }} title={false} />
+                )}
+              </h1>
             </Col>
             <Col sm={24} md={24} lg={8}>
               <Tag color="orange">Pending for approval</Tag>
@@ -61,13 +71,21 @@ const amount = fields.goalAmount.value === undefined ? <Skeleton paragraph={{ ro
           <Col className="flex" sm={24} md={24} lg={24}>
             <InfoItem
               subtitle="Country of Impact"
-              title={fields.location.value|| <Skeleton paragraph={{ rows: 1 }} title={false} />}
+              title={
+                fields.location.value || (
+                  <Skeleton paragraph={{ rows: 1 }} title={false} />
+                )
+              }
               iconInfoItem="dollar"
             />
             <Divider type="vertical" />
             <InfoItem
               subtitle="Timeframe"
-              title={fields.timeframe.value|| <Skeleton paragraph={{ rows: 1 }} title={false} />}
+              title={
+                fields.timeframe.value || (
+                  <Skeleton paragraph={{ rows: 1 }} title={false} />
+                )
+              }
               iconInfoItem="dollar"
             />
             <Divider type="vertical" />
