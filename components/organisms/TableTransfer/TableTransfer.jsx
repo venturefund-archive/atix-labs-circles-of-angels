@@ -19,10 +19,21 @@ const TableTransfer = ({ transfers }) => {
   // TODO check which fields will be showed
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-      render: text => <a>{text}</a>
+      title: 'Transfer Id',
+      dataIndex: 'transferId',
+      key: 'transferId'
+    },
+    {
+      title: 'Sender',
+      key: 'sender',
+      render: ({ sender }) => (
+        <span>{`${sender.firstName} ${sender.lastName}`}</span>
+      )
+    },
+    {
+      title: 'Destination Account',
+      dataIndex: 'destinationAccount',
+      key: 'destinationAccount'
     },
     {
       title: 'Amount',
@@ -30,9 +41,9 @@ const TableTransfer = ({ transfers }) => {
       key: 'amount'
     },
     {
-      title: 'Sender',
-      dataIndex: 'sender',
-      key: 'sender'
+      title: 'Currency',
+      dataIndex: 'currency',
+      key: 'currency'
     },
     {
       title: 'Status',
