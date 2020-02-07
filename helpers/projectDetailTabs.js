@@ -30,13 +30,8 @@ const isOwner = (project, user) => project.owner === user.id;
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
-const allowNewExperience = (project, user) => {
-  // TODO: do this when new experience modal fixed
-  return false;
-  if (project.status === projectStatuses.CONSENSUS && isOwner(project, user)) {
-    return true;
-  }
-};
+const allowNewExperience = (project, user) =>
+  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
 
 const showFundsTab = projectStatus =>
   SHOW_FUNDS_STATUSES.includes(projectStatus);
@@ -58,9 +53,14 @@ const experienceTabTitle = project => (
   </div>
 );
 
-// TODO: discussion tab, experience tab, funds tab
+// TODO: discussion tab, funds tab
 // TODO: check project status and hide accordingly
-export const tabsContent = ({ project, user, assignOracle }) => ({
+export const tabsContent = ({
+  project,
+  user,
+  assignOracle,
+  onCreateExperience
+}) => ({
   details: {
     title: 'Details',
     content: (
@@ -100,8 +100,8 @@ export const tabsContent = ({ project, user, assignOracle }) => ({
     content: (
       <SeccionExperience
         experiences={project.experiences}
+        onCreate={onCreateExperience}
         showCreateExperience={allowNewExperience(project, user)}
-        // TODO: add onCreate prop when modal component fixed
       />
     ),
     key: '4',

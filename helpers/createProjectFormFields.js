@@ -162,12 +162,8 @@ export const milestonesFormItems = {
       {
         required: false,
         message: 'Please upload the milestones information for your project!',
-        validator: (rule, value) => {
-          if (value && value.file && !(value.file instanceof File)) {
-            return false;
-          }
-          return true;
-        }
+        validator: (_rule, value) =>
+          value.length > 0 || (value.file && value.file instanceof File)
       }
     ]
   }
@@ -261,6 +257,37 @@ export const newActivityFormItems = {
       {
         validator: (_, value) => !Number.isNaN(Number(value)),
         message: 'The budget should be a number'
+      }
+    ]
+  }
+};
+
+export const newExperienceFormItems = {
+  comment: {
+    name: 'comment',
+    placeholder: 'Share your experience here!',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the comment',
+        whitespace: true
+      }
+    ]
+  },
+  photos: {
+    name: 'photos',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload the image/s for describe your experience!',
+        validator: (_rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
       }
     ]
   }
