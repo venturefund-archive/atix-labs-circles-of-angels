@@ -38,10 +38,6 @@ const ProjectUsersPanel = ({
           visible={drawerVisible}
           onClose={() => setDrawerVisible(false)}
           title="Followers"
-        />
-        <CustomButton
-          buttonText="View All"
-          theme="Secondary"
           onClick={() => setDrawerVisible(true)}
         />
       </Col>
@@ -79,7 +75,7 @@ const ProjectUsersPanel = ({
       <Col span={24} className="BlockActions">
         <Col span={24}>
           <CustomButton
-            theme="Alternative"
+            theme="Primary"
             buttonText="I want to be an Oracle"
             hidden={!allowApply}
             onClick={() => onApply(supporterRoles.ORACLE)}
