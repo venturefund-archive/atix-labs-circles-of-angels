@@ -18,7 +18,7 @@ import { projectPropTypes } from '../../../helpers/proptypes';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalInvest from '../ModalInvest/ModalInvest';
 
-const Transfers = ({ project }) => {
+const Transfers = ({ project, allowNewFund }) => {
   const [transfers, setTransfers] = useState([]);
   const [visible, setVisible] = useState(false);
 
@@ -56,6 +56,7 @@ const Transfers = ({ project }) => {
         theme="Primary"
         buttonText="New Fund"
         onClick={onShowModal}
+        hidden={!allowNewFund}
       />
       <ModalInvest
         visible={visible}
@@ -69,9 +70,11 @@ const Transfers = ({ project }) => {
 export default Transfers;
 
 Transfers.defaultProps = {
-  project: undefined
+  project: undefined,
+  allowNewFund: false
 };
 
 Transfers.propTypes = {
-  project: PropTypes.shape(projectPropTypes)
+  project: PropTypes.shape(projectPropTypes),
+  allowNewFund: PropTypes.bool
 };

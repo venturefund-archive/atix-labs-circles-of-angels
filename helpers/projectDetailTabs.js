@@ -53,13 +53,14 @@ const experienceTabTitle = project => (
   </div>
 );
 
-// TODO: discussion tab, funds tab
+// TODO: discussion tab
 // TODO: check project status and hide accordingly
 export const tabsContent = ({
   project,
   user,
   assignOracle,
-  onCreateExperience
+  onCreateExperience,
+  allowNewFund
 }) => ({
   details: {
     title: 'Details',
@@ -109,7 +110,7 @@ export const tabsContent = ({
   },
   funds: {
     title: 'Funds',
-    content: <Transfers project={project} />,
+    content: <Transfers project={project} allowNewFund={allowNewFund} />,
     key: '5',
     hidden: !showFundsTab(project.status)
   }

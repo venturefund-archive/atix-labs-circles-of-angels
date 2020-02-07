@@ -34,6 +34,7 @@ import {
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
+import RolesMap from '../constants/RolesMap';
 
 const { TabPane } = Tabs;
 
@@ -168,6 +169,14 @@ const ProjectDetail = ({ user }) => {
     fetchExperiences();
   };
 
+  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
+
+  const isFunder = () =>
+    projectUsers.funders.find(funder => funder.id === user.id);
+
+  const allowNewFund = () =>
+    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -190,7 +199,8 @@ const ProjectDetail = ({ user }) => {
         project: projectData,
         user,
         assignOracle,
-        onCreateExperience
+        onCreateExperience,
+        allowNewFund: allowNewFund()
       })
     ).map(
       tab =>
