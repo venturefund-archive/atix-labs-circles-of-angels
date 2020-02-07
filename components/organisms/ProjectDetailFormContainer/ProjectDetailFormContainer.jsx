@@ -76,15 +76,19 @@ const ProjectDetailFormContainer = ({
     const data = new FormData();
     Object.values(values).forEach(field => {
       if (field.value) {
-        if (field.type === 'file' && field.value.file instanceof File) {
-          Object.entries(field.value).forEach(([filename, file]) => {
-            data.append(filename, file);
-          });
+        if (field.type === 'file') {
+          field.value.forEach(file => data.append(field.name, file));
         } else if (field.type !== 'file') {
           data.set(field.name, field.value);
         }
       }
     });
+
+    const formData = {};
+    data.forEach((value, key) => {
+      formData[key] = value;
+    });
+    console.log('formData: ', formData);
     try {
       if (project && project.id) {
         const response = await updateProjectDetail(project.id, data);
