@@ -5,11 +5,19 @@ import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscussion';
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
-import TableTransfer from '../components/organisms/TableTransfer/TableTransfer';
+import Transfers from '../components/organisms/Transfers/Transfers';
 import { projectStatuses } from '../constants/constants';
 
-const SHOW_EXPERIENCES_STATUS = [
+const SHOW_EXPERIENCES_STATUSES = [
   projectStatuses.CONSENSUS,
+  projectStatuses.EXECUTING,
+  projectStatuses.FUNDING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];
+
+const SHOW_FUNDS_STATUSES = [
   projectStatuses.EXECUTING,
   projectStatuses.FUNDING,
   projectStatuses.FINISHED,
@@ -20,7 +28,7 @@ const SHOW_EXPERIENCES_STATUS = [
 const isOwner = (project, user) => project.owner === user.id;
 
 const showExperienceTab = projectStatus =>
-  SHOW_EXPERIENCES_STATUS.includes(projectStatus);
+  SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
 const allowNewExperience = (project, user) => {
   // TODO: do this when new experience modal fixed
@@ -29,6 +37,9 @@ const allowNewExperience = (project, user) => {
     return true;
   }
 };
+
+const showFundsTab = projectStatus =>
+  SHOW_FUNDS_STATUSES.includes(projectStatus);
 
 const canAssignOracle = (project, user) =>
   project.status === projectStatuses.CONSENSUS && isOwner(project, user);
@@ -98,8 +109,8 @@ export const tabsContent = ({ project, user, assignOracle }) => ({
   },
   funds: {
     title: 'Funds',
-    content: <TableTransfer />,
+    content: <Transfers project={project} />,
     key: '5',
-    hidden: true
+    hidden: !showFundsTab(project.status)
   }
 });

@@ -21,7 +21,6 @@ import {
   isCandidate
 } from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
-import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
 import { userPropTypes } from '../helpers/proptypes';
 import { tabsContent } from '../helpers/projectDetailTabs';
@@ -209,7 +208,6 @@ const ProjectDetail = ({ user }) => {
               oracles: projectUsers.oracles
             })}
           </Tabs>
-          <ModalInvest />
         </div>
       </Col>
       <Col xs={24} lg={6} className="Right">
