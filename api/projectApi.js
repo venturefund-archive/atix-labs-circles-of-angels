@@ -62,6 +62,11 @@ export const sendToReview = projectId =>
 
 export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
 
+export const addProjectExperience = (projectId, experienceData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPost(`${baseURL}/${projectId}/experiences`, experienceData, config);
+};
+
 export const getProjectExperiences = async projectId =>
   doGet(`${baseURL}/${projectId}/experiences`);
 
