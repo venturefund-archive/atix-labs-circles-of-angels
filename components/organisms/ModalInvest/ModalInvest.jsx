@@ -8,25 +8,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Row, Col, Form, Input } from 'antd';
+import { Modal } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import DragUploadFile from '../../molecules/DragUploadFile/DragUploadFile';
+import useForm from '../../../hooks/useForm';
+import { newFundFormItems } from '../../../helpers/createProjectFormFields';
 import './_style.scss';
+import NewFundForm from '../NewFundForm.jsx/NewFundForm';
 
-// TODO: add functionality
-const ModalInvest = ({ visibility, setVisibility, onOk, onCancel }) => {
-  // TODO: useForm and separate component
+const ModalInvest = ({ visible, onCreate, onClose }) => {
+  const [fields, setFields, handleChange, handleSubmit] = useForm(
+    newFundFormItems
+  );
 
-  const handleOk = e => {
-    console.log(e);
-    onOk(e);
-    setVisibility(false);
+  const onSubmit = async data => {
+    await onCreate(data);
+    cleanForm();
   };
 
-  const handleCancel = e => {
-    console.log(e);
-    onCancel(e);
-    setVisibility(false);
+  const cleanForm = () => {
+    setFields(newFundFormItems);
+    onClose();
   };
 
   return (
@@ -35,48 +36,33 @@ const ModalInvest = ({ visibility, setVisibility, onOk, onCancel }) => {
         title="Fund Project"
         className="ModalFund"
         width="700px"
-        visible={visibility}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
+        visible={visible}
+        onCancel={cleanForm}
+        footer={[
+          <CustomButton
+            theme="Primary"
+            key="back"
+            buttonText="Confirm"
+            onClick={() => handleSubmit(onSubmit)}
+          />
+        ]}
       >
-        <Row className="Data" justify="center">
-          <Col className="flex" span={12}>
-            <b>Alias:</b>
-            <p>COA Alias</p>
-          </Col>
-          <Col className="flex" span={12}>
-            <b>ID ACCOUNT: </b>
-            <p>0170347240000030652220</p>
-          </Col>
-        </Row>
-        <Form.Item label="Amount Transfer">
-          <Input size="large" placeholder="Username" />
-        </Form.Item>
-        <Form.Item label="Your ID Account">
-          <Input size="large" placeholder="Username" />
-        </Form.Item>
-        <DragUploadFile
-          text="Upload your receipt"
-          description="from the account you make the transfer"
-        />
-        <CustomButton theme="Primary" buttonText="Fund!" classNameIcon="none" />
+        <NewFundForm fields={fields} handleChange={handleChange} />
       </Modal>
     </div>
   );
 };
 
 ModalInvest.defaultProps = {
-  visibility: false,
-  onOk: undefined,
-  onCancel: undefined
+  visible: false,
+  onCreate: undefined,
+  onClose: undefined
 };
 
 ModalInvest.propTypes = {
-  visibility: PropTypes.bool,
-  setVisibility: PropTypes.func.isRequired,
-  onOk: PropTypes.func,
-  onCancel: PropTypes.func
+  visible: PropTypes.bool,
+  onCreate: PropTypes.func,
+  onClose: PropTypes.func
 };
 
 export default ModalInvest;

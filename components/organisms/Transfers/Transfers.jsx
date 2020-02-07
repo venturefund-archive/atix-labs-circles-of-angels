@@ -10,11 +10,17 @@ import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
 import TableTransfer from '../TableTransfer/TableTransfer';
-import { getTransferListOfProject } from '../../../api/transferApi';
+import {
+  getTransferListOfProject,
+  createTransfer
+} from '../../../api/transferApi';
 import { projectPropTypes } from '../../../helpers/proptypes';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import ModalInvest from '../ModalInvest/ModalInvest';
 
 const Transfers = ({ project }) => {
   const [transfers, setTransfers] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   const fetchTransfers = async () => {
     try {
@@ -26,6 +32,19 @@ const Transfers = ({ project }) => {
     }
   };
 
+  const onNewFund = async fund => {
+    const response = await createTransfer(project.id, fund);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Fund done successfully!');
+    fetchTransfers();
+  };
+
+  const onShowModal = () => setVisible(true);
+
   useEffect(() => {
     fetchTransfers();
   }, []);
@@ -33,6 +52,16 @@ const Transfers = ({ project }) => {
   return (
     <Fragment>
       <TableTransfer transfers={transfers} />
+      <CustomButton
+        theme="Primary"
+        buttonText="New Fund"
+        onClick={onShowModal}
+      />
+      <ModalInvest
+        visible={visible}
+        onCreate={onNewFund}
+        onClose={() => setVisible(false)}
+      />
     </Fragment>
   );
 };
