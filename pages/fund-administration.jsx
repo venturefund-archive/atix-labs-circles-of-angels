@@ -15,11 +15,20 @@ import {
   getTransferListOfProject,
   updateStateOfTransference
 } from '../api/transferApi';
-import { useGetProjects } from '../api/projectApi';
+import { getFundingProjects } from '../api/projectApi';
 
 const FundAdministration = () => {
-  const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
+
+  const fetchProjects = async () => {
+    const response = await getFundingProjects();
+    if (response.errors) {
+      setProjects([]);
+      message.error(response.errors);
+      return;
+    }
+    setProjects(response.data);
+  };
 
   // TODO Not used until functionality is defined
   const saveStatus = async (transferId, state) => {
@@ -41,8 +50,8 @@ const FundAdministration = () => {
   };
 
   useEffect(() => {
-    setProjects(data);
-  }, [data]);
+    fetchProjects();
+  }, []);
 
   return (
     <div className="FundAdminContainer">

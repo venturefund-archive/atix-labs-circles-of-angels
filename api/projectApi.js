@@ -16,6 +16,8 @@ const baseURL = '/projects';
 
 export const getProjects = () => apiCall('get', `${baseURL}`);
 
+export const getFundingProjects = () => doGet(`${baseURL}/funding`);
+
 export const createProjectThumbnail = saveData => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPost(`${baseURL}/description`, saveData, config);
