@@ -9,7 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Divider, Row, Col } from 'antd';
+import { Tag, Divider, Row, Col, Icon} from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
@@ -41,8 +41,9 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
             </Tag>
           )}
           {following ? (
-            <Tag color="violet" align="right">
+            <Tag className="Follow" color="#4C7FF7" align="right">
               Following
+              <Icon type="check" style={{ color: 'white' }} />
             </Tag>
           ) : (
             ''
