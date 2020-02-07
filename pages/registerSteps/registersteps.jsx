@@ -95,7 +95,11 @@ const Registersteps = () => {
     if (selectedRole) {
       steps[2].fields = Object.keys(questionsByRole[role]);
       const questions = questionsByRole[selectedRole];
-      setFields({ ...fields, ...questions });
+      setFields({
+        ...fields,
+        ...questions,
+        role: { ...fields.role, value: selectedRole }
+      });
     }
   };
 
