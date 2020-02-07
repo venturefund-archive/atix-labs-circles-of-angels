@@ -265,3 +265,34 @@ export const newActivityFormItems = {
     ]
   }
 };
+
+export const newExperienceFormItems = {
+  comment: {
+    name: 'comment',
+    placeholder: 'Share your experience here!',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the comment',
+        whitespace: true
+      }
+    ]
+  },
+  files: {
+    name: 'files',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload the image/s for describe your experience!',
+        validator: (_rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
+      }
+    ]
+  }
+};
