@@ -51,8 +51,9 @@
       position: absolute;
       bottom:0;
       left: 0;
-      .ant-btn.Secondary{
-        padding: 1em;
+      .CustomButton{
+        margin-top: 1em;
+        height: 38px;
       }
     }
     .Cards {
@@ -72,8 +73,7 @@
         margin-left: 0px;
       }
       span {
-        @include primary-text($body, $on-surface-medium, 400);
-        margin-left: 0.5em;
+        @include primary-text($body, $primary-color, 400);
       }
     }
     .Orange {

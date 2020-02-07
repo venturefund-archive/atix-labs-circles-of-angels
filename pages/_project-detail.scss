@@ -243,8 +243,8 @@
     position: absolute;
     bottom: 1em;
     left: 0;
-    .ant-btn.Secondary {
-      padding: 1em;
+    .CustomButton{
+      margin-top: 1em;
     }
   }
   .Cards {
@@ -263,9 +263,11 @@
     .ant-avatar-image {
       margin-left: 0px;
     }
+    .ant-avatar-string{
+        color: $primary-color;
+      }
     span {
-      @include primary-text($body, $on-surface-medium, 400);
-      margin-left: 0.5em;
+      @include primary-text($body, $on-surface, 400);
     }
   }
   .Orange {
