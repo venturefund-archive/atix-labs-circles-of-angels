@@ -20,9 +20,17 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
   useEffect(() => {
     const loadPhotoPreview = async () => {
       if (fields.cardPhotoPath.value) {
-        if (fields.cardPhotoPath.value.file) {
+        if (
+          typeof fields.cardPhotoPath.value === 'string' &&
+          fields.cardPhotoPath.value !== ''
+        ) {
+          setPhotoPreview(fields.cardPhotoPath.value);
+        } else if (
+          Array.isArray(fields.cardPhotoPath.value) &&
+          fields.cardPhotoPath.value.length > 0
+        ) {
           try {
-            const b64Photo = await toBase64(fields.cardPhotoPath.value.file);
+            const b64Photo = await toBase64(fields.cardPhotoPath.value[0]);
             setPhotoPreview(b64Photo);
           } catch (err) {
             message.error(
@@ -30,8 +38,6 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
             );
             setPhotoPreview();
           }
-        } else if (fields.cardPhotoPath.value !== '') {
-          setPhotoPreview(fields.cardPhotoPath.value);
         }
       }
     };
