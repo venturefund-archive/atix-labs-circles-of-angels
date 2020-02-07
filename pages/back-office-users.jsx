@@ -11,13 +11,8 @@ import './_style.scss';
 import './_back-office-users.scss';
 import { message } from 'antd';
 import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import {
-  getUsers,
-  changeUserRegistrationStatus,
-  getAllRoles
-} from '../api/userApi';
-import formatError from '../helpers/errorFormatter';
+import { getUsers } from '../api/userApi';
+import userRoles from '../constants/RolesMap';
 
 const BackOfficeUsers = () => {
   const [users, setUsers] = useState([]);
@@ -25,22 +20,16 @@ const BackOfficeUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const roleFilters = [];
       const response = await getUsers();
       const usersFound = response && response.users;
-      const roles = await getAllRoles();
-
-      if (roles.length) {
-        roles.forEach(role => {
-          roleFilters.push({
-            text: role.toUpperCase(),
-            value: role
-          });
-        });
-      }
-
+      const roleFilters = Object.values(userRoles)
+        .filter(role => role !== userRoles.COA_ADMIN)
+        .map(role => ({
+          text: role.toUpperCase(),
+          value: role
+        }));
       setUsers(usersFound || []);
-      setFilters({ roles: roleFilters });
+      setFilters({ roles: roleFilters || [] });
     } catch (error) {
       message.error(error);
     }
