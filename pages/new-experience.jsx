@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Col } from 'antd';
 import useForm from '../hooks/useForm';
@@ -16,12 +16,11 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 const NewExperience = ({ onCreate }) => {
   const [visible, setVisible] = useState(false);
+  const [clean, setClean] = useState(false);
 
   const [fields, setFields, handleChange, handleSubmit] = useForm(
     newExperienceFormItems
   );
-
-  const onShowModal = () => setVisible(true);
 
   const onSubmit = async data => {
     await onCreate(data);
@@ -32,6 +31,12 @@ const NewExperience = ({ onCreate }) => {
     setFields(newExperienceFormItems);
     setVisible(false);
   };
+
+  const onShowModal = () => setVisible(true);
+
+  useEffect(() => {
+    setClean(!visible);
+  }, [visible]);
 
   return (
     <Col className="CardNewExperience vertical" span={24}>
@@ -55,7 +60,11 @@ const NewExperience = ({ onCreate }) => {
           />
         ]}
       >
-        <NewExperienceForm fields={fields} handleChange={handleChange} />
+        <NewExperienceForm
+          fields={fields}
+          handleChange={handleChange}
+          cleanInputFile={clean}
+        />
       </Modal>
     </Col>
   );

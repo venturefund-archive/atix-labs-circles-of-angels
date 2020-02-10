@@ -4,7 +4,7 @@ import { Form, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
 import { fieldPropType } from '../../../helpers/proptypes';
 
-const NewExperienceForm = ({ fields, handleChange }) => {
+const NewExperienceForm = ({ fields, handleChange, cleanInputFile }) => {
   const { comment, photos } = fields;
 
   return (
@@ -20,6 +20,7 @@ const NewExperienceForm = ({ fields, handleChange }) => {
             type="file"
             name={photos.name}
             handleChange={handleChange}
+            clean={cleanInputFile}
           />
         </Col>
       </Form>
@@ -30,7 +31,8 @@ const NewExperienceForm = ({ fields, handleChange }) => {
 export default NewExperienceForm;
 
 NewExperienceForm.defaulProps = {
-  fields: {}
+  fields: {},
+  cleanInputFile: false
 };
 
 NewExperienceForm.propTypes = {
@@ -38,5 +40,6 @@ NewExperienceForm.propTypes = {
     comment: fieldPropType,
     photo: fieldPropType
   }).isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  cleanInputFile: PropTypes.bool
 };
