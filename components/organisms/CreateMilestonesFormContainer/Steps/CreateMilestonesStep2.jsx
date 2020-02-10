@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, Empty } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
@@ -47,13 +47,18 @@ const CreateMilestonesStep2 = ({
               !processError &&
               errorList.length > 0 &&
               errorList.map(error => (
-                <span>
-                  {error.rowNumber}: {error.msg}
+                <div>
+                  <p>
+                    <strong>{error.rowNumber} :</strong>
+                    {error.msg}
+                  </p>
                   <br />
-                </span>
+                </div>
               ))}
             {!processed && !errorList.length > 0 && (
-              <span>You haven't uploaded any documents yet</span>
+              <div className="EmptyMilestone vertical center">
+                <Empty description="You haven't uploaded any documents yet" />
+              </div>
             )}
           </Col>
         </Col>
