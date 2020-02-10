@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Form } from 'antd';
 import CustomButton from '../CustomButton/CustomButton';
@@ -9,7 +9,8 @@ const FieldFile = ({
   showUploadList,
   valid,
   errorMessage,
-  multiple
+  multiple,
+  clean
 }) => {
   const [fileList, setFileList] = useState([]);
 
@@ -36,6 +37,12 @@ const FieldFile = ({
     setFileList(newFileList);
   };
 
+  const cleanField = () => setFileList([]);
+
+  useEffect(() => {
+    cleanField();
+  }, [clean]);
+
   return (
     <Form.Item
       validateStatus={valid || valid === undefined ? 'success' : 'error'}
@@ -58,7 +65,8 @@ FieldFile.defaultProps = {
   showUploadList: true,
   valid: undefined,
   errorMessage: undefined,
-  multiple: false
+  multiple: false,
+  clean: false
 };
 
 FieldFile.propTypes = {
@@ -67,7 +75,8 @@ FieldFile.propTypes = {
   handleChange: PropTypes.func.isRequired,
   valid: PropTypes.bool,
   errorMessage: PropTypes.string,
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+  clean: PropTypes.bool
 };
 
 export default FieldFile;
