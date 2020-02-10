@@ -48,10 +48,10 @@ const CreateMilestonesStep2 = ({
               errorList.length > 0 &&
               errorList.map(error => (
                 <div>
-                <p>
-                <strong>{error.rowNumber} :</strong>
-                {error.msg}
-                </p>
+                  <p>
+                    <strong>{error.rowNumber} :</strong>
+                    {error.msg}
+                  </p>
                   <br />
                 </div>
               ))}
