@@ -12,7 +12,7 @@ import { Table } from 'antd';
 import TableAdminTransfers from './TableAdminTransfers';
 import './_style.scss';
 
-const TableAdminProjects = ({ data, saveStatus, getTransfers }) => {
+const TableAdminProjects = ({ data, fetchTransfers }) => {
   const columns = [
     {
       title: 'Project Id',
@@ -40,8 +40,7 @@ const TableAdminProjects = ({ data, saveStatus, getTransfers }) => {
       expandedRowRender={record => (
         <TableAdminTransfers
           projectId={record.id}
-          saveStatus={saveStatus}
-          getTransfers={getTransfers}
+          getTransfers={fetchTransfers}
         />
       )}
     />
@@ -56,6 +55,5 @@ TableAdminProjects.defaultProps = {
 
 TableAdminProjects.propTypes = {
   data: PropTypes.shape({}),
-  saveStatus: PropTypes.func.isRequired,
-  getTransfers: PropTypes.func.isRequired
+  fetchTransfers: PropTypes.func.isRequired
 };

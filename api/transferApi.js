@@ -66,11 +66,19 @@ const createTransfer = (projectId, transfer) => {
 const updateStateOfTransference = (transferId, state) =>
   apiCall('put', `${baseURL}/${transferId}`, { state });
 
+const addApprovedTransferClaim = transferId =>
+  doPost(`${baseURL}/${transferId}/claim/approved`);
+
+const addDisapprovedTransferClaim = (transferId, data) =>
+  doPost(`${baseURL}/${transferId}/claim/disapproved`, data);
+
 export {
   sendTransferInformation,
   getTransferDestinationInfo,
   getTransferStatus,
   getTransferListOfProject,
   updateStateOfTransference,
-  createTransfer
+  createTransfer,
+  addApprovedTransferClaim,
+  addDisapprovedTransferClaim
 };

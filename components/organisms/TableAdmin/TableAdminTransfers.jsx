@@ -6,14 +6,22 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Col, message } from 'antd';
 import transferStatusesMap from '../../../model/transferStatusesMap';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import ModalRejectedClaim from '../ModalRejectedClaim/ModalRejectedClaim';
+import {
+  addApprovedTransferClaim,
+  addDisapprovedTransferClaim
+} from '../../../api/transferApi';
 
 const TableAdminTransfers = ({ projectId, getTransfers }) => {
   const [transfers, setTransfers] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [transferSelected, setTransferSelected] = useState(undefined);
 
   const columns = [
     {
@@ -65,6 +73,36 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
           </Tag>
         </span>
       )
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'id',
+      render: transferId => (
+        <Fragment>
+          <Col span={8}>
+            <CustomButton
+              theme="Primary"
+              key="back"
+              buttonText="Approve"
+              onClick={() => {
+                setTransferSelected(transferId);
+                onApprovedTransfer();
+              }}
+            />
+          </Col>
+          <Col span={8}>
+            <CustomButton
+              theme="Sencondary"
+              key="back"
+              buttonText="Reject"
+              onClick={() => {
+                setTransferSelected(transferId);
+                onShowModal();
+              }}
+            />
+          </Col>
+        </Fragment>
+      )
     }
   ];
 
@@ -73,18 +111,53 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     setTransfers(data);
   };
 
+  const onApprovedTransfer = async transferId => {
+    const response = await addApprovedTransferClaim(transferId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Transfer approved successfully!');
+    fetchTransfers();
+  };
+
+  const onRejectTransfer = async reason => {
+    const response = await addDisapprovedTransferClaim(
+      transferSelected,
+      reason
+    );
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Transfer rejected successfully!');
+    fetchTransfers();
+    setVisible(false);
+  };
+
+  const onShowModal = () => setVisible(true);
+
   useEffect(() => {
     fetchTransfers();
   }, []);
 
   return (
-    <Table
-      columns={columns}
-      dataSource={transfers}
-      size="middle"
-      className="TableAdmin"
-      pagination={false}
-    />
+    <Fragment>
+      <Table
+        columns={columns}
+        dataSource={transfers}
+        size="middle"
+        className="TableAdmin"
+        pagination={false}
+      />
+      <ModalRejectedClaim
+        visible={visible}
+        onSubmit={onRejectTransfer}
+        onClose={() => setVisible(false)}
+      />
+    </Fragment>
   );
 };
 
