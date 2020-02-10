@@ -21,7 +21,6 @@ import {
   isCandidate
 } from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
-import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
 import { userPropTypes } from '../helpers/proptypes';
 import { tabsContent } from '../helpers/projectDetailTabs';
@@ -35,6 +34,7 @@ import {
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
+import RolesMap from '../constants/RolesMap';
 
 const { TabPane } = Tabs;
 
@@ -169,6 +169,14 @@ const ProjectDetail = ({ user }) => {
     fetchExperiences();
   };
 
+  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
+
+  const isFunder = () =>
+    projectUsers.funders.find(funder => funder.id === user.id);
+
+  const allowNewFund = () =>
+    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -191,7 +199,8 @@ const ProjectDetail = ({ user }) => {
         project: projectData,
         user,
         assignOracle,
-        onCreateExperience
+        onCreateExperience,
+        allowNewFund: allowNewFund()
       })
     ).map(
       tab =>
@@ -227,7 +236,6 @@ const ProjectDetail = ({ user }) => {
               oracles: projectUsers.oracles
             })}
           </Tabs>
-          <ModalInvest />
         </div>
       </Col>
       <Col xs={24} lg={6} className="Right">
