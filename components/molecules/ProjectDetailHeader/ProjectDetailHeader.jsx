@@ -58,9 +58,10 @@ const ProjectDetailHeader = ({
           </Col>
           <Col xs={24} md={3} lg={3}>
             <CustomButton
-              theme={isFollower ? 'Alternative' : 'Primary'}
+              theme={isFollower ? 'Primary' : 'Primary'}
               buttonText={isFollower ? 'Following' : 'Follow Project'}
               icon='check'
+              classNameIcon={isFollower ? 'iconDisplay' : 'none'}
               onClick={isFollower ? onUnfollowProject : onFollowProject}
             />
           </Col>
