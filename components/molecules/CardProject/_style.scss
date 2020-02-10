@@ -7,9 +7,15 @@
   .ant-tag{
     position: absolute;
     top: 1em;
-    left: 1em;
+    left: 1.5em;
     z-index: 9;
     cursor: pointer;
+    .anticon{
+      margin-left:0.5em;
+    }
+  }
+  .ant-tag.Follow{
+    left: 9em;
   }
   .ant-tag:hover{
     transform: scale(1.1);
