@@ -30,7 +30,7 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
       const questions = questionsByRole[fields.role.value];
       setFields({ ...fields, ...questions });
     }
-  }, [fields.role.value, setFields]);
+  }, [fields.role.value]);
 
   return (
     <div className=" h100">
