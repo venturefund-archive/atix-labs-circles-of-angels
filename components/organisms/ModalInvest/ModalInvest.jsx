@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -16,6 +16,7 @@ import './_style.scss';
 import NewFundForm from '../NewFundForm.jsx/NewFundForm';
 
 const ModalInvest = ({ visible, onCreate, onClose }) => {
+  const [clean, setClean] = useState(false);
   const [fields, setFields, handleChange, handleSubmit] = useForm(
     newFundFormItems
   );
@@ -29,6 +30,10 @@ const ModalInvest = ({ visible, onCreate, onClose }) => {
     setFields(newFundFormItems);
     onClose();
   };
+
+  useEffect(() => {
+    setClean(!visible);
+  }, [visible]);
 
   return (
     <div>
@@ -47,7 +52,11 @@ const ModalInvest = ({ visible, onCreate, onClose }) => {
           />
         ]}
       >
-        <NewFundForm fields={fields} handleChange={handleChange} />
+        <NewFundForm
+          fields={fields}
+          handleChange={handleChange}
+          cleanInputFile={clean}
+        />
       </Modal>
     </div>
   );

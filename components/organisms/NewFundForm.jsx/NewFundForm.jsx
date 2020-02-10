@@ -4,7 +4,7 @@ import { Form, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
 import { fieldPropType } from '../../../helpers/proptypes';
 
-const NewFundForm = ({ fields, handleChange }) => {
+const NewFundForm = ({ fields, handleChange, cleanInputFile }) => {
   const {
     amount,
     currency,
@@ -35,6 +35,7 @@ const NewFundForm = ({ fields, handleChange }) => {
             type="file"
             name={receiptPath && receiptPath.name}
             handleChange={handleChange}
+            clean={cleanInputFile}
           />
         </Col>
       </Form>
@@ -44,14 +45,16 @@ const NewFundForm = ({ fields, handleChange }) => {
 
 export default NewFundForm;
 
-NewFundForm.defaulProps = {
-  fields: {}
+NewFundForm.defaultProps = {
+  fields: {},
+  cleanInputFile: false
 };
 
 NewFundForm.propTypes = {
   fields: PropTypes.shape({
     comment: fieldPropType,
     photo: fieldPropType
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired
+  }),
+  handleChange: PropTypes.func.isRequired,
+  cleanInputFile: PropTypes.bool
 };
