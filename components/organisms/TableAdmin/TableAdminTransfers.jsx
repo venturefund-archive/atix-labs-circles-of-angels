@@ -111,8 +111,8 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     setTransfers(data);
   };
 
-  const onApprovedTransfer = async transferId => {
-    const response = await addApprovedTransferClaim(transferId);
+  const onApprovedTransfer = async () => {
+    const response = await addApprovedTransferClaim(transferSelected);
     if (response.errors) {
       message.error(response.errors);
       return;

@@ -70,7 +70,7 @@ const addApprovedTransferClaim = transferId =>
   doPost(`${baseURL}/${transferId}/claim/approved`);
 
 const addDisapprovedTransferClaim = (transferId, data) =>
-  doPost(`${baseURL}/${transferId}/claim/disapproved`, data);
+  doPost(`${baseURL}/${transferId}/claim/disapproved`, { ...data });
 
 export {
   sendTransferInformation,

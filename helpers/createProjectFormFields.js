@@ -376,7 +376,7 @@ export const newFundFormItems = {
 };
 
 export const newTransferClaimFormItems = {
-  reason: {
+  rejectionReason: {
     name: 'rejectionReason',
     label: 'Rejection reason',
     placeholder: 'Rejection reason',

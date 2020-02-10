@@ -21,7 +21,6 @@ const ModalRejectedClaim = ({ visible, onSubmit, onClose }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(
     newTransferClaimFormItems
   );
-  const { rejectionReason } = fields;
 
   const onSubmitForm = async data => {
     await onSubmit(data);
@@ -50,13 +49,11 @@ const ModalRejectedClaim = ({ visible, onSubmit, onClose }) => {
           />
         ]}
       >
-        <Fragment>
-          <Form>
-            <Col sm={24} md={24} lg={24}>
-              <Field {...rejectionReason} handleChange={handleChange} />
-            </Col>
-          </Form>
-        </Fragment>
+        <Form>
+          <Col sm={24} md={24} lg={24}>
+            <Field {...fields.rejectionReason} handleChange={handleChange} />
+          </Col>
+        </Form>
       </Modal>
     </div>
   );
