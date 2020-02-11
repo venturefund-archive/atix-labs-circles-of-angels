@@ -6,37 +6,16 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Col } from 'antd';
-import useForm from '../hooks/useForm';
-import NewExperienceForm from '../components/organisms/NewExperienceForm/NewExperienceForm';
+import { Col } from 'antd';
 import { newExperienceFormItems } from '../helpers/createProjectFormFields';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import CustomFormModal from '../components/organisms/CustomFormModal/CustomFormModal';
 
 const NewExperience = ({ onCreate }) => {
   const [visible, setVisible] = useState(false);
-  const [clean, setClean] = useState(false);
-
-  const [fields, setFields, handleChange, handleSubmit] = useForm(
-    newExperienceFormItems
-  );
-
-  const onSubmit = async data => {
-    await onCreate(data);
-    onClose();
-  };
-
-  const onClose = () => {
-    setFields(newExperienceFormItems);
-    setVisible(false);
-  };
 
   const onShowModal = () => setVisible(true);
-
-  useEffect(() => {
-    setClean(!visible);
-  }, [visible]);
 
   return (
     <Col className="CardNewExperience vertical" span={24}>
@@ -44,28 +23,13 @@ const NewExperience = ({ onCreate }) => {
         <img src="./static/images/Icon-experience.svg" alt="new-experience" />
         Add New Experience
       </button>
-      <Modal
-        width="600"
-        centered
-        className="ModalNewExperience"
-        title="Add New Experience"
+      <CustomFormModal
+        title="Add new experience"
+        formItems={newExperienceFormItems}
         visible={visible}
-        onCancel={onClose}
-        footer={[
-          <CustomButton
-            theme="Primary"
-            key="back"
-            buttonText="Add My Experience!"
-            onClick={() => handleSubmit(onSubmit)}
-          />
-        ]}
-      >
-        <NewExperienceForm
-          fields={fields}
-          handleChange={handleChange}
-          cleanInputFile={clean}
-        />
-      </Modal>
+        onConfirm={onCreate}
+        onClose={() => setVisible(false)}
+      />
     </Col>
   );
 };
