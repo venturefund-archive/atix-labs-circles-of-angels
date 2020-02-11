@@ -5,8 +5,13 @@ import FooterButtons from '../FooterButtons/FooterButtons';
 import ModalProjectCreated from '../ModalProjectCreated/ModalProjectCreated';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
-import { PROJECT_FORM_NAMES } from '../../../constants/constants';
+import {
+  PROJECT_FORM_NAMES,
+  projectStatuses
+} from '../../../constants/constants';
 import './_style.scss';
+
+const ALLOW_DELETE_STATUSES = [projectStatuses.REJECTED, projectStatuses.NEW];
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <Col className="Items flex" sm={24} md={24} lg={24}>
@@ -27,7 +32,10 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
     <Col className="BlockButton" sm={24} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
-        theme={disabled ? 'disabled' : 'Alternative', completed ? 'Primary' : 'Alternative'}
+        theme={
+          (disabled ? 'disabled' : 'Alternative',
+          completed ? 'Primary' : 'Alternative')
+        }
         onClick={onClick}
         disabled={disabled}
       />
@@ -40,7 +48,8 @@ const CreateProject = ({
   setCurrentWizard,
   goToMyProjects,
   sendToReview,
-  completedSteps
+  completedSteps,
+  deleteProject
 }) => {
   const getContinueLaterButton = () => (
     <CustomButton
@@ -63,6 +72,21 @@ const CreateProject = ({
         icon="arrow-right"
         onClick={sendToReview}
         disabled={disabled}
+      />
+    );
+  };
+
+  const deleteProjectButton = () => {
+    // TODO: the user shouldn't be able to actually enter this page at all
+    //       if the project is not NEW or REJECTED
+    if (!project || !ALLOW_DELETE_STATUSES.includes(project.status)) return;
+    return (
+      <CustomButton
+        buttonText="Delete Project"
+        theme="Alternative"
+        classNameIcon="iconDisplay"
+        icon="delete"
+        onClick={deleteProject}
       />
     );
   };
@@ -121,6 +145,7 @@ const CreateProject = ({
         <FooterButtons
           finishButton={sendToReviewButton()}
           nextStepButton={getContinueLaterButton()}
+          prevStepButton={deleteProjectButton()}
         >
           <ModalProjectCreated />
         </FooterButtons>
@@ -140,6 +165,7 @@ CreateProject.defaultProps = {
 };
 
 CreateProject.propTypes = {
+  deleteProject: PropTypes.func.isRequired,
   sendToReview: PropTypes.func.isRequired,
   setCurrentWizard: PropTypes.func.isRequired,
   goToMyProjects: PropTypes.func.isRequired,
