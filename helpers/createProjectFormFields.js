@@ -360,6 +360,7 @@ export const newFundFormItems = {
     name: 'receiptPath',
     label: 'Click to upload',
     type: 'file',
+    multiple: true,
     rules: [
       {
         required: true,
