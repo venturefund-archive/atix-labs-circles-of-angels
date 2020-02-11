@@ -95,7 +95,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                 theme="Sencondary"
                 key="back"
                 buttonText="Reject"
-                onClick={() => onShowModal(id)}
+                onClick={() => setTransferSelected(id)}
               />
             </Col>
           </Fragment>
@@ -140,16 +140,19 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     message.success('Transfer rejected successfully!');
     fetchTransfers();
     setVisible(false);
+    setTransferSelected(undefined);
   };
 
-  const onShowModal = transferId => {
-    setVisible(true);
-    setTransferSelected(transferId);
-  };
+  const onShowModal = () => setVisible(true);
 
   useEffect(() => {
     fetchTransfers();
   }, []);
+
+  useEffect(() => {
+    if (!transferSelected) return;
+    onShowModal();
+  }, [transferSelected]);
 
   return (
     <Fragment>
