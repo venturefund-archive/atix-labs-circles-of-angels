@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message } from 'antd';
 import transferStatusesMap from '../../../model/transferStatusesMap';
+import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalRejectedClaim from '../ModalRejectedClaim/ModalRejectedClaim';
 import {
@@ -76,27 +77,30 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     },
     {
       title: 'Actions',
-      dataIndex: 'id',
-      render: transferId => (
-        <Fragment>
-          <Col span={8}>
-            <CustomButton
-              theme="Primary"
-              key="back"
-              buttonText="Approve"
-              onClick={() => onApprovedTransfer(transferId)}
-            />
-          </Col>
-          <Col span={8}>
-            <CustomButton
-              theme="Sencondary"
-              key="back"
-              buttonText="Reject"
-              onClick={() => onShowModal(transferId)}
-            />
-          </Col>
-        </Fragment>
-      )
+      render: ({ id, status }) => {
+        if (status !== TransferStatuses.PENDING) return;
+
+        return (
+          <Fragment>
+            <Col span={8}>
+              <CustomButton
+                theme="Primary"
+                key="back"
+                buttonText="Approve"
+                onClick={() => onApprovedTransfer(id)}
+              />
+            </Col>
+            <Col span={8}>
+              <CustomButton
+                theme="Sencondary"
+                key="back"
+                buttonText="Reject"
+                onClick={() => onShowModal(id)}
+              />
+            </Col>
+          </Fragment>
+        );
+      }
     }
   ];
 
