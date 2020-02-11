@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
@@ -16,7 +16,6 @@ import useForm from '../../../hooks/useForm';
 import { newTransferClaimFormItems } from '../../../helpers/createProjectFormFields';
 import './_style.scss';
 
-// TODO this modal should be replaced for a unique and generic modal (similar to ModalInvest and others)
 const ModalRejectedClaim = ({ visible, onSubmit, onClose }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(
     newTransferClaimFormItems

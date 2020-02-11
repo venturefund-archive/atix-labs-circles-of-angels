@@ -30,7 +30,7 @@ const NewExperienceForm = ({ fields, handleChange, cleanInputFile }) => {
 
 export default NewExperienceForm;
 
-NewExperienceForm.defaulProps = {
+NewExperienceForm.defaultProps = {
   fields: {},
   cleanInputFile: false
 };
@@ -39,7 +39,7 @@ NewExperienceForm.propTypes = {
   fields: PropTypes.shape({
     comment: fieldPropType,
     photo: fieldPropType
-  }).isRequired,
+  }),
   handleChange: PropTypes.func.isRequired,
   cleanInputFile: PropTypes.bool
 };

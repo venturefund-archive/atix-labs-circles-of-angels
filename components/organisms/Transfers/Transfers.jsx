@@ -16,7 +16,8 @@ import {
 } from '../../../api/transferApi';
 import { projectPropTypes } from '../../../helpers/proptypes';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import ModalInvest from '../ModalInvest/ModalInvest';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { newFundFormItems } from '../../../helpers/createProjectFormFields';
 
 const Transfers = ({ project, allowNewFund }) => {
   const [transfers, setTransfers] = useState([]);
@@ -58,9 +59,11 @@ const Transfers = ({ project, allowNewFund }) => {
         onClick={onShowModal}
         hidden={!allowNewFund}
       />
-      <ModalInvest
+      <CustomFormModal
+        title="Fund project"
+        formItems={newFundFormItems}
         visible={visible}
-        onCreate={onNewFund}
+        onConfirm={onNewFund}
         onClose={() => setVisible(false)}
       />
     </Fragment>
