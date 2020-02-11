@@ -6,40 +6,41 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table } from 'antd';
+import { Table, Tag, Col, message } from 'antd';
+import transferStatusesMap from '../../../model/transferStatusesMap';
+import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import transferStatusMap from '../../../model/transferStatus';
+import ModalRejectedClaim from '../ModalRejectedClaim/ModalRejectedClaim';
+import {
+  addApprovedTransferClaim,
+  addDisapprovedTransferClaim
+} from '../../../api/transferApi';
 
-class TableAdminTransfers extends React.Component {
-  constructor(props) {
-    super(props);
+const TableAdminTransfers = ({ projectId, getTransfers }) => {
+  const [transfers, setTransfers] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [transferSelected, setTransferSelected] = useState(undefined);
 
-    this.state = {
-      transfers: []
-    };
-  }
-
-  componentDidMount = () => this.fetchTransfers();
-
-  fetchTransfers = async () => {
-    const { projectId, getTransfers } = this.props;
-    const data = await getTransfers(projectId);
-    this.setState({ transfers: data || [] });
-  };
-
-  getColumns = () => [
+  const columns = [
     {
       title: 'Transfer Id',
-      dataIndex: 'id',
-      key: 'id'
+      dataIndex: 'transferId',
+      key: 'transferId'
     },
     {
-      title: 'User Id',
-      dataIndex: 'sender',
-      key: 'name'
+      title: 'Sender',
+      key: 'sender',
+      render: ({ sender }) => (
+        <span>{`${sender.firstName} ${sender.lastName}`}</span>
+      )
+    },
+    {
+      title: 'Destination Account',
+      dataIndex: 'destinationAccount',
+      key: 'destinationAccount'
     },
     {
       title: 'Amount',
@@ -47,68 +48,133 @@ class TableAdminTransfers extends React.Component {
       key: 'amount'
     },
     {
-      title: 'Receipt Number',
-      dataIndex: 'transferId',
-      key: 'transferId'
+      title: 'Currency',
+      dataIndex: 'currency',
+      key: 'currency'
+    },
+    {
+      title: 'Receipt',
+      dataIndex: 'receiptPath',
+      key: 'receiptPath',
+      // TODO check how we will handle this
+      render: receipt => (
+        <a href={receipt} target="_blank" rel="noopener noreferrer">
+          View
+        </a>
+      )
     },
     {
       title: 'Status',
+      key: 'status',
       dataIndex: 'status',
-      key: 'status'
-      // TODO Disabled until functionality is defined
-      // render: (text, record) => (
-      //   <span>
-      //     <select
-      //       onChange={evnt => (record.status = evnt.currentTarget.value)}
-      //       defaultValue={record.status}
-      //     >
-      //       {Object.keys(transferStatusMap).map(transferStatusKey => (
-      //         <option key={transferStatusKey} value={transferStatusKey}>
-      //           {transferStatusMap[transferStatusKey].show}
-      //         </option>
-      //       ))}
-      //     </select>
-      //   </span>
-      // )
+      render: status => (
+        <span>
+          <Tag color={transferStatusesMap[status].color} key={status}>
+            {transferStatusesMap[status].name}
+          </Tag>
+        </span>
+      )
+    },
+    {
+      title: 'Actions',
+      render: ({ id, status }) => {
+        if (status !== TransferStatuses.PENDING) return;
+
+        return (
+          <Fragment>
+            <Col span={8}>
+              <CustomButton
+                theme="Primary"
+                key="back"
+                buttonText="Approve"
+                onClick={() => onApprovedTransfer(id)}
+              />
+            </Col>
+            <Col span={8}>
+              <CustomButton
+                theme="Sencondary"
+                key="back"
+                buttonText="Reject"
+                onClick={() => setTransferSelected(id)}
+              />
+            </Col>
+          </Fragment>
+        );
+      }
     }
-    // TODO Disabled until functionality is defined
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (text, record) => (
-    //     <span>
-    //       <CustomButton
-    //         theme="Primary"
-    //         buttonText="Confirm"
-    //         onClick={() => {
-    //           console.log(record);
-    //           this.props.saveStatus(record.id, record.state);
-    //         }}
-    //       />
-    //     </span>
-    //   )
-    // }
   ];
 
-  render() {
-    const { transfers } = this.state;
+  const fetchTransfers = async () => {
+    const data = await getTransfers(projectId);
+    setTransfers(data);
+  };
 
-    return (
+  const onApprovedTransfer = async transferId => {
+    const response = await addApprovedTransferClaim(transferId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Transfer approved successfully!');
+    fetchTransfers();
+  };
+
+  const onRejectTransfer = async data => {
+    if (!transferSelected) return;
+
+    const formData = {};
+    data.forEach((value, key) => {
+      formData[key] = value;
+    });
+
+    const response = await addDisapprovedTransferClaim(
+      transferSelected,
+      formData
+    );
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Transfer rejected successfully!');
+    fetchTransfers();
+    setVisible(false);
+    setTransferSelected(undefined);
+  };
+
+  const onShowModal = () => setVisible(true);
+
+  useEffect(() => {
+    fetchTransfers();
+  }, []);
+
+  useEffect(() => {
+    if (!transferSelected) return;
+    onShowModal();
+  }, [transferSelected]);
+
+  return (
+    <Fragment>
       <Table
-        columns={this.getColumns()}
+        columns={columns}
         dataSource={transfers}
         size="middle"
         className="TableAdmin"
         pagination={false}
       />
-    );
-  }
-}
+      <ModalRejectedClaim
+        visible={visible}
+        onSubmit={onRejectTransfer}
+        onClose={() => setVisible(false)}
+      />
+    </Fragment>
+  );
+};
 
 export default TableAdminTransfers;
 
 TableAdminTransfers.propTypes = {
   projectId: PropTypes.number.isRequired,
-  saveStatus: PropTypes.func.isRequired,
   getTransfers: PropTypes.func.isRequired
 };

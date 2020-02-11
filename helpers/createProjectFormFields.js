@@ -374,3 +374,18 @@ export const newFundFormItems = {
     ]
   }
 };
+
+export const newTransferClaimFormItems = {
+  rejectionReason: {
+    name: 'rejectionReason',
+    label: 'Rejection reason',
+    placeholder: 'Rejection reason',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the rejection reason',
+        whitespace: true
+      }
+    ]
+  }
+};
