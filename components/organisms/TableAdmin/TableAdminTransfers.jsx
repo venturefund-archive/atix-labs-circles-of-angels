@@ -84,10 +84,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
               theme="Primary"
               key="back"
               buttonText="Approve"
-              onClick={() => {
-                setTransferSelected(transferId);
-                onApprovedTransfer();
-              }}
+              onClick={() => onApprovedTransfer(transferId)}
             />
           </Col>
           <Col span={8}>
@@ -95,10 +92,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
               theme="Sencondary"
               key="back"
               buttonText="Reject"
-              onClick={() => {
-                setTransferSelected(transferId);
-                onShowModal();
-              }}
+              onClick={() => onShowModal(transferId)}
             />
           </Col>
         </Fragment>
@@ -111,8 +105,8 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     setTransfers(data);
   };
 
-  const onApprovedTransfer = async () => {
-    const response = await addApprovedTransferClaim(transferSelected);
+  const onApprovedTransfer = async transferId => {
+    const response = await addApprovedTransferClaim(transferId);
     if (response.errors) {
       message.error(response.errors);
       return;
@@ -122,10 +116,17 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     fetchTransfers();
   };
 
-  const onRejectTransfer = async reason => {
+  const onRejectTransfer = async data => {
+    if (!transferSelected) return;
+
+    const formData = {};
+    data.forEach((value, key) => {
+      formData[key] = value;
+    });
+
     const response = await addDisapprovedTransferClaim(
       transferSelected,
-      reason
+      formData
     );
     if (response.errors) {
       message.error(response.errors);
@@ -137,7 +138,10 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     setVisible(false);
   };
 
-  const onShowModal = () => setVisible(true);
+  const onShowModal = transferId => {
+    setVisible(true);
+    setTransferSelected(transferId);
+  };
 
   useEffect(() => {
     fetchTransfers();
