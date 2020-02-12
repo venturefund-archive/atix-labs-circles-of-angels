@@ -33,7 +33,9 @@ const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
 const allowNewExperience = (project, user) =>
-  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
+  [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
+    project.status
+  ) && isOwner(project, user);
 
 const allowNewEvidence = (task, project, user) =>
   project.status === projectStatuses.EXECUTING && isOracle(task, user);
