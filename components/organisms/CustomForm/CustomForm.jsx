@@ -29,10 +29,7 @@ CustomForm.defaultProps = {
 };
 
 CustomForm.propTypes = {
-  fields: PropTypes.shape({
-    comment: fieldPropType,
-    photo: fieldPropType
-  }),
+  fields: PropTypes.shape({}),
   handleChange: PropTypes.func.isRequired,
   cleanInputFile: PropTypes.bool
 };
