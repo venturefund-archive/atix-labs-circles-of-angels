@@ -12,12 +12,12 @@ const MilestoneTasks = ({
   onEdit,
   showDelete,
   showEdit,
-  showAddEvidence,
   taskActionType,
   onOracleAssign,
   canAssignOracle,
   oracles,
-  hideOracleColumn
+  hideOracleColumn,
+  allowNewEvidence
 }) => {
   const handleDelete = value => onDelete(value);
   const handleEdit = value => onEdit(value);
@@ -31,12 +31,12 @@ const MilestoneTasks = ({
       onEdit={handleEdit}
       showDelete={showDelete}
       showEdit={showEdit}
-      showAddEvidence={showAddEvidence}
       taskActionType={taskActionType}
       onOracleAssign={onOracleAssign}
       canAssignOracle={canAssignOracle}
       oracles={oracles}
       hideOracleColumn={hideOracleColumn}
+      allowNewEvidence={allowNewEvidence(task)}
     />
   ));
   return (
@@ -58,7 +58,8 @@ const MilestoneTasks = ({
 
 MilestoneTasks.defaultProps = {
   tasks: [],
-  oracles: []
+  oracles: [],
+  allowNewEvidence: () => undefined
 };
 
 MilestoneTasks.propTypes = {
@@ -71,8 +72,8 @@ MilestoneTasks.propTypes = {
   showEdit: PropTypes.bool.isRequired,
   canAssignOracle: PropTypes.bool.isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
-  showAddEvidence: PropTypes.bool.isRequired,
-  hideOracleColumn: PropTypes.bool.isRequired
+  hideOracleColumn: PropTypes.bool.isRequired,
+  allowNewEvidence: PropTypes.func
 };
 
 export default MilestoneTasks;

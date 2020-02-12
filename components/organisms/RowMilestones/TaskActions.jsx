@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Divider } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
   <span>
@@ -21,28 +23,25 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             Edit
           </a>
         )}
-         <Divider type="vertical"/>
-            {showDelete && (
-        <a className="redLink" onClick={onDelete}>
-          Delete
-        </a>
-    )}
+        <Divider type="vertical" />
+        {showDelete && (
+          <a className="redLink" onClick={onDelete}>
+            Delete
+          </a>
+        )}
       </Col>
     )}
-  {showDelete && showEdit}
-
+    {showDelete && showEdit}
   </span>
 );
 
-const evidenceTask = showAddEvidence => (
+const evidenceTask = (showAddEvidence, onNewEvidence) => (
   <Col span={24}>
-    <a className="blueLink" onClick={() => console.log('show evidences')}>
-      Evidences
-    </a>
+    <a className="blueLink">Evidences</a>
     {showAddEvidence && (
-          <a className="blueLink" onClick={() => console.log('adding evidence')}>
-     +Add Evidence
-    </a>
+      <a className="blueLink" onClick={onNewEvidence}>
+        +Add Evidence
+      </a>
     )}
   </Col>
 );
@@ -53,6 +52,7 @@ const TaskActions = ({
   showDelete,
   onEdit,
   onDelete,
+  onNewEvidence,
   isEditing,
   showAddEvidence,
   type
@@ -64,7 +64,7 @@ const TaskActions = ({
     md={24}
     lg={{ span: 24 }}
   >
-    {type === 'evidence' && evidenceTask(showAddEvidence)}
+    {type === 'evidence' && evidenceTask(showAddEvidence, onNewEvidence)}
     {type === 'edit' &&
       editTaskButtons(onEdit, onDelete, showEdit, showDelete, isEditing)}
   </Col>
@@ -80,6 +80,7 @@ TaskActions.propTypes = {
   showAddEvidence: PropTypes.bool.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onNewEvidence: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   isEditing: PropTypes.bool
 };
