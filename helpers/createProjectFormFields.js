@@ -405,15 +405,15 @@ export const newTaskEvidenceFormItems = {
       }
     ]
   },
-  approve: {
-    name: 'approve',
+  status: {
+    name: 'status',
     label: 'Claim status',
     type: 'select',
     placeholder: 'Select',
     defaultValue: undefined,
     options: [
-      { name: 'Approved', value: 'approved' },
-      { name: 'Disapproved', value: 'disapproved' }
+      { name: 'Approved', value: 'approve' },
+      { name: 'Disapproved', value: 'disapprove' }
     ],
     rules: [
       {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'antd';
+import { Col, message } from 'antd';
 import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
@@ -8,6 +8,7 @@ import { showModalConfirm } from '../../utils/Modals';
 import { taskPropType, userPropTypes } from '../../../helpers/proptypes';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newTaskEvidenceFormItems } from '../../../helpers/createProjectFormFields';
+import { uploadEvidence } from '../../../api/activityApi';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({
@@ -41,7 +42,19 @@ const TaskRow = ({
     return save === true ? onEdit(editFields, index) : undefined;
   };
 
-  const onNewEvidence = data => {};
+  const onNewEvidence = async data => {
+    const status = data.get('status');
+    data.delete('status');
+
+    const response = await uploadEvidence(task.id, data, status);
+
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Evidence added successfully!');
+  };
 
   const onShowModal = () => setVisible(true);
 
