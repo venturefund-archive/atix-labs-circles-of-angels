@@ -13,7 +13,8 @@ import { Table, Tag, Col, message } from 'antd';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import ModalRejectedClaim from '../ModalRejectedClaim/ModalRejectedClaim';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { newTransferClaimFormItems } from '../../../helpers/createProjectFormFields';
 import {
   addApprovedTransferClaim,
   addDisapprovedTransferClaim
@@ -163,9 +164,11 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         className="TableAdmin"
         pagination={false}
       />
-      <ModalRejectedClaim
+      <CustomFormModal
+        title="Reject transfer"
+        formItems={newTransferClaimFormItems}
         visible={visible}
-        onSubmit={onRejectTransfer}
+        onConfirm={onRejectTransfer}
         onClose={() => setVisible(false)}
       />
     </Fragment>
