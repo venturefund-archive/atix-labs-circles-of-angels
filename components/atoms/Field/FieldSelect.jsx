@@ -1,23 +1,24 @@
 import React from 'react';
-import { Form, Select, Option } from 'antd';
+import { Form, Select } from 'antd';
 
-// TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
-// TODO : move this logic to components/atoms/
-export default function FieldSelect(props) {
-  // console.log(props);
+const { Option } = Select;
+
+const FieldSelect = props => {
   const {
     name,
-    value,
+    defaultValue,
     label,
+    placeholder,
     options,
     valid,
     errorMessage,
     mode,
     handleChange
   } = props;
-  const children = options.map(o => <Select.Option key={o}>{o}</Select.Option>);
-  const handleOptionChange = (selectedOption, options) =>
+
+  const handleOptionChange = selectedOption =>
     handleChange(undefined, name, selectedOption);
+
   return (
     <Form.Item
       label={label}
@@ -25,15 +26,19 @@ export default function FieldSelect(props) {
       help={errorMessage}
     >
       <Select
-        defaultValue={value}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
         size="large"
         mode={mode}
         onChange={handleOptionChange}
       >
-        {children}
+        {options &&
+          options.map(option => (
+            <Option key={option.value}>{option.name}</Option>
+          ))}
       </Select>
     </Form.Item>
   );
-}
+};
 
-// TODO : Add props validation
+export default FieldSelect;

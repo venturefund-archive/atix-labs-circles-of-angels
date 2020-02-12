@@ -32,7 +32,6 @@ const CreateMilestonesStep3 = ({
     onTaskEdit: task => editTask(task.id, task),
     showTaskDelete: true,
     showTaskEdit: true,
-    showTaskAddEvidence: false,
     taskActionType: 'edit',
     hideOracleColumn: true
   };

@@ -30,9 +30,9 @@ const Milestone = ({
   showCreateTask,
   milestoneActionType,
   taskActionType,
-  showTaskAddEvidence,
   oracles,
-  hideOracleColumn
+  hideOracleColumn,
+  allowNewEvidence
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -93,11 +93,11 @@ const Milestone = ({
         showDelete={showTaskDelete}
         showEdit={showTaskEdit}
         taskActionType={taskActionType}
-        showAddEvidence={showTaskAddEvidence}
         onOracleAssign={onOracleAssign}
         canAssignOracle={canAssignOracle}
         oracles={oracles}
         hideOracleColumn={hideOracleColumn}
+        allowNewEvidence={allowNewEvidence}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -106,6 +106,10 @@ const Milestone = ({
       />
     </div>
   );
+};
+
+Milestone.defaultProps = {
+  allowNewEvidence: () => undefined
 };
 
 Milestone.propTypes = {
@@ -128,8 +132,8 @@ Milestone.propTypes = {
   canAssignOracle: PropTypes.bool.isRequired,
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
-  showTaskAddEvidence: PropTypes.bool.isRequired,
-  hideOracleColumn: PropTypes.bool.isRequired
+  hideOracleColumn: PropTypes.bool.isRequired,
+  allowNewEvidence: PropTypes.func
 };
 
 export default Milestone;
