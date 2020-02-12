@@ -31,7 +31,9 @@ const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
 const allowNewExperience = (project, user) =>
-  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
+  [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
+    project.status
+  ) && isOwner(project, user);
 
 const showFundsTab = projectStatus =>
   SHOW_FUNDS_STATUSES.includes(projectStatus);
