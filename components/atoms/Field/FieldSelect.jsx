@@ -7,6 +7,7 @@ const FieldSelect = props => {
   const {
     name,
     defaultValue,
+    value,
     label,
     placeholder,
     options,
@@ -27,6 +28,7 @@ const FieldSelect = props => {
     >
       <Select
         defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         size="large"
         mode={mode}
