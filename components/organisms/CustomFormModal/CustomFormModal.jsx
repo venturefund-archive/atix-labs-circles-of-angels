@@ -14,7 +14,7 @@ import useForm from '../../../hooks/useForm';
 import './_style.scss';
 import CustomForm from '../CustomForm/CustomForm';
 
-const CustomFormModal = ({ title, formItems, visible, onConfirm, onClose }) => {
+const CustomFormModal = ({ title, formItems, visible, onConfirm, onClose, body }) => {
   const [clean, setClean] = useState(false);
   const [fields, setFields, handleChange, handleSubmit] = useForm(formItems);
 
@@ -35,6 +35,7 @@ const CustomFormModal = ({ title, formItems, visible, onConfirm, onClose }) => {
   return (
     <div>
       <Modal
+        centered
         title={title}
         className="CustomFormModal"
         width="700px"
@@ -49,11 +50,15 @@ const CustomFormModal = ({ title, formItems, visible, onConfirm, onClose }) => {
           />
         ]}
       >
+          <div>
+          {body}
         <CustomForm
           fields={fields}
           handleChange={handleChange}
           cleanInputFile={clean}
         />
+
+          </div>
       </Modal>
     </div>
   );
