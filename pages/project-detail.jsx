@@ -50,7 +50,8 @@ const ProjectDetail = ({ user }) => {
     funders: []
   });
   const [isFollowing, setIsFollowing] = useState(false);
-  const [alreadyApplied, setAlreadyApplied] = useState(false);
+  // TODO this is set to true initialy  to avoid show the button in the first render before fetch
+  const [alreadyApplied, setAlreadyApplied] = useState(true);
   const [milestones, setMilestones] = useState();
   const [experiences, setExperiences] = useState([]);
 
@@ -248,6 +249,7 @@ const ProjectDetail = ({ user }) => {
           onApply={onApply}
           applied={alreadyApplied}
           status={project && project.status}
+          isSupporter={isSupporter()}
         />
       </Col>
     </Row>
