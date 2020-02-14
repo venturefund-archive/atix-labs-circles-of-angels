@@ -391,3 +391,53 @@ export const newTransferClaimFormItems = {
     ]
   }
 };
+
+export const newTaskEvidenceFormItems = {
+  description: {
+    name: 'description',
+    label: 'Claim description',
+    placeholder: 'Claim description',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the rejection reason',
+        whitespace: true
+      }
+    ]
+  },
+  status: {
+    name: 'status',
+    label: 'Claim status',
+    type: 'select',
+    placeholder: 'Select',
+    defaultValue: undefined,
+    options: [
+      { name: 'Approved', value: 'approve' },
+      { name: 'Disapproved', value: 'disapprove' }
+    ],
+    rules: [
+      {
+        required: true,
+        message: 'Please select the claim status',
+        whitespace: true
+      }
+    ]
+  },
+  proof: {
+    name: 'proof',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload the proof',
+        validator: (_rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
+      }
+    ]
+  }
+};
