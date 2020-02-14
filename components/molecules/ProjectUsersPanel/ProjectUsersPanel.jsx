@@ -5,26 +5,30 @@ import DrawerUsers from '../../organisms/DrawerUsers/DrawerUsers';
 import AvatarUser from '../../atoms/AvatarUser/AvatarUser';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
-import RolesMap from '../../../constants/RolesMap';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import { supporterRoles, projectStatuses } from '../../../constants/constants';
+
+const { PUBLISHED, CONSENSUS, FUNDING } = projectStatuses;
 
 const ProjectUsersPanel = ({
   entrepreneur,
   funders,
   oracles,
   followers,
-  userRole,
   onApply,
   applied,
-  status
+  status,
+  isSupporter
 }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const allowApply =
-    !applied &&
-    userRole === RolesMap.PROJECT_SUPPORTER &&
-    (status === projectStatuses.PUBLISHED ||
-      status === projectStatuses.CONSENSUS);
+  const allowAssignOracleStatuses = [PUBLISHED, CONSENSUS];
+  const allowAssignFunderStatuses = [PUBLISHED, CONSENSUS, FUNDING];
+
+  const allowApplyOracle =
+    !applied && isSupporter && allowAssignOracleStatuses.includes(status);
+
+  const allowApplyFunder =
+    !applied && isSupporter && allowAssignFunderStatuses.includes(status);
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -77,7 +81,7 @@ const ProjectUsersPanel = ({
           <CustomButton
             theme="Primary"
             buttonText="I want to be an Oracle"
-            hidden={!allowApply}
+            hidden={!allowApplyOracle}
             onClick={() => onApply(supporterRoles.ORACLE)}
           />
         </Col>
@@ -85,7 +89,7 @@ const ProjectUsersPanel = ({
           <CustomButton
             theme="Alternative"
             buttonText="I want to be a Funder"
-            hidden={!allowApply}
+            hidden={!allowApplyFunder}
             onClick={() => onApply(supporterRoles.FUNDER)}
           />
         </Col>
@@ -98,7 +102,8 @@ ProjectUsersPanel.defaultProps = {
   funders: [],
   oracles: [],
   followers: [],
-  applied: false
+  applied: true,
+  isSupporter: false
 };
 
 ProjectUsersPanel.propTypes = {
@@ -106,10 +111,10 @@ ProjectUsersPanel.propTypes = {
   funders: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   oracles: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
-  userRole: PropTypes.string.isRequired,
   onApply: PropTypes.func.isRequired,
   applied: PropTypes.bool,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
+  isSupporter: PropTypes.bool
 };
 
 export default ProjectUsersPanel;
