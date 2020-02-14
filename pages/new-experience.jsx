@@ -24,7 +24,7 @@ const NewExperience = ({ onCreate }) => {
         Add New Experience
       </button>
       <CustomFormModal
-        title="Add new experience"
+        title="Write your experience!"
         formItems={newExperienceFormItems}
         visible={visible}
         onConfirm={onCreate}
