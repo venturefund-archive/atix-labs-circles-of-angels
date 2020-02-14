@@ -27,6 +27,8 @@ const SHOW_FUNDS_STATUSES = [
 
 const isOwner = (project, user) => project.owner === user.id;
 
+const isOracle = (task, user) => task.oracle === user.id;
+
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
@@ -34,6 +36,9 @@ const allowNewExperience = (project, user) =>
   [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
     project.status
   ) && isOwner(project, user);
+
+const allowNewEvidence = (task, project, user) =>
+  project.status === projectStatuses.EXECUTING && isOracle(task, user);
 
 const showFundsTab = projectStatus =>
   SHOW_FUNDS_STATUSES.includes(projectStatus);
@@ -82,7 +87,9 @@ export const tabsContent = ({
         {...project}
         canAssignOracle={canAssignOracle(project, user)}
         onOracleAssign={assignOracle}
+        allowNewEvidence={task => allowNewEvidence(task, project, user)}
         oracles={project.oracles}
+        taskActionType="evidence"
       />
     ),
     key: '2'

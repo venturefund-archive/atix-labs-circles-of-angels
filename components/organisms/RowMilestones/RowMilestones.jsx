@@ -20,10 +20,10 @@ const RowMilestones = ({
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
-  showTaskAddEvidence,
   taskActionType,
   oracles,
-  hideOracleColumn
+  hideOracleColumn,
+  allowNewEvidence
 }) => {
   const handleTaskCreate = (milestoneId, taskData) =>
     onTaskCreate(milestoneId, taskData);
@@ -51,10 +51,10 @@ const RowMilestones = ({
       showMilestoneDelete={showMilestoneDelete}
       showMilestoneEdit={showMilestoneEdit}
       showCreateTask={showCreateTask}
-      showTaskAddEvidence={showTaskAddEvidence}
       taskActionType={taskActionType}
       oracles={oracles}
       hideOracleColumn={hideOracleColumn}
+      allowNewEvidence={allowNewEvidence}
     />
   ));
   return (
@@ -79,10 +79,10 @@ RowMilestones.defaultProps = {
   showMilestoneDelete: false,
   showMilestoneEdit: false,
   showCreateTask: false,
-  showTaskAddEvidence: false,
   canAssignOracle: false,
   taskActionType: 'none',
-  hideOracleColumn: false
+  hideOracleColumn: false,
+  allowNewEvidence: () => undefined
 };
 
 RowMilestones.propTypes = {
@@ -100,10 +100,10 @@ RowMilestones.propTypes = {
   showMilestoneDelete: PropTypes.bool,
   showMilestoneEdit: PropTypes.bool,
   showCreateTask: PropTypes.bool,
-  showTaskAddEvidence: PropTypes.bool,
   canAssignOracle: PropTypes.bool,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']),
-  hideOracleColumn: PropTypes.bool
+  hideOracleColumn: PropTypes.bool,
+  allowNewEvidence: PropTypes.func
 };
 
 export default RowMilestones;
