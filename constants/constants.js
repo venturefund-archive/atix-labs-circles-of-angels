@@ -43,3 +43,10 @@ export const supporterRoles = {
   ORACLE: 'oracle',
   FUNDER: 'funder'
 };
+
+export const claimMilestoneStatus = {
+  PENDING: 'pending',
+  CLAIMABLE: 'claimable',
+  CLAIMED: 'claimed',
+  TRANSFERRED: 'transferred'
+};
