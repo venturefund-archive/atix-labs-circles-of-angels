@@ -96,6 +96,14 @@
     display: none;
   }
 }
+.ant-btn.Secondary .anticon.iconDisplay{
+  display:block;
+  color: $primary-color;
+}
+.ant-btn.Secondary .anticon.none{
+  display: none;
+}
+
 /* ALTERNATIVE */
 .ant-btn.Alternative,
 .ant-btn.Alternative:active,
