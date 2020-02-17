@@ -77,7 +77,7 @@ const Transfers = ({ project, allowNewFund }) => {
         visible={visible}
         onConfirm={onNewFund}
         onClose={() => setVisible(false)}
-        body = {blabla}
+        // body = {blabla}
       />
       <TableTransfer transfers={transfers} />
     </Fragment>
