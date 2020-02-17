@@ -20,6 +20,9 @@ export const deleteMilestone = milestoneId =>
 export const createMilestone = (projectId, saveData) =>
   doPost(`/projects/${projectId}${baseURL}`, saveData);
 
+export const claimMilestone = milestoneId =>
+  doPost(`${baseURL}/${milestoneId}/claim`);
+
 // TODO: delete, used in old consensus page
 const deleteActivity = async activityId => {
   try {

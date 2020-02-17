@@ -35,6 +35,7 @@ import {
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
 import RolesMap from '../constants/RolesMap';
+import { claimMilestone } from '../api/milestonesApi';
 
 const { TabPane } = Tabs;
 
@@ -170,6 +171,17 @@ const ProjectDetail = ({ user }) => {
     fetchExperiences();
   };
 
+  const onClaimMilestone = async milestoneId => {
+    const response = await claimMilestone(milestoneId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Milestone claimed successfully!');
+    fetchMilestones();
+  };
+
   const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
 
   const isFunder = () =>
@@ -201,6 +213,7 @@ const ProjectDetail = ({ user }) => {
         user,
         assignOracle,
         onCreateExperience,
+        onClaimMilestone,
         allowNewFund: allowNewFund()
       })
     ).map(
