@@ -25,6 +25,7 @@ const Milestone = ({
   canAssignOracle,
   onMilestoneDelete,
   onMilestoneEdit,
+  onClaimMilestone,
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
@@ -76,11 +77,13 @@ const Milestone = ({
       </MilestoneRow>
       <MilestoneActions
         type={milestoneActionType}
+        milestoneId={milestone.id}
         status={milestoneStatus}
         progress={milestoneProgress}
         onDelete={deleteMilestone}
         onEdit={handleEditRow}
         onClickCreateTask={() => setModalVisible(true)}
+        onClaimMilestone={onClaimMilestone}
         showDelete={showMilestoneDelete}
         showEdit={showMilestoneEdit}
         showCreateTask={showCreateTask}
@@ -109,7 +112,8 @@ const Milestone = ({
 };
 
 Milestone.defaultProps = {
-  allowNewEvidence: () => undefined
+  allowNewEvidence: () => undefined,
+  onClaimMilestone: () => undefined
 };
 
 Milestone.propTypes = {
@@ -122,6 +126,7 @@ Milestone.propTypes = {
   onTaskEdit: PropTypes.func.isRequired,
   onTaskCreate: PropTypes.func.isRequired,
   onOracleAssign: PropTypes.func.isRequired,
+  onClaimMilestone: PropTypes.func,
   showTaskDelete: PropTypes.bool.isRequired,
   showTaskEdit: PropTypes.bool.isRequired,
   onMilestoneDelete: PropTypes.func.isRequired,
