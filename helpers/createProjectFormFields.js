@@ -266,6 +266,8 @@ export const newExperienceFormItems = {
   comment: {
     name: 'comment',
     placeholder: 'Share your experience here!',
+    type: 'textArea',
+    rows: 8,
     rules: [
       {
         required: true,
