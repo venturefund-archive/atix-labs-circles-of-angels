@@ -67,6 +67,7 @@ export const tabsContent = ({
   user,
   assignOracle,
   onCreateExperience,
+  onClaimMilestone,
   allowNewFund
 }) => ({
   details: {
@@ -87,9 +88,11 @@ export const tabsContent = ({
         {...project}
         canAssignOracle={canAssignOracle(project, user)}
         onOracleAssign={assignOracle}
+        onClaimMilestone={onClaimMilestone}
         allowNewEvidence={task => allowNewEvidence(task, project, user)}
         oracles={project.oracles}
         taskActionType="evidence"
+        milestoneActionType="status"
       />
     ),
     key: '2'
