@@ -13,11 +13,14 @@ import { Container } from 'next/app';
 import { UserProvider } from '../components/utils/UserContext';
 import Router from '../components/organisms/Router/Router';
 import withReactRouter from './with-react-router';
+import { StorageProvider } from '../components/utils/StorageContext';
 
 const MyApp = props => (
   <Container>
     <UserProvider>
-      <Router {...props} />
+      <StorageProvider>
+        <Router {...props} />
+      </StorageProvider>
     </UserProvider>
   </Container>
 );
