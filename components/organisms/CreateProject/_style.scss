@@ -1,6 +1,9 @@
 @import '../css/general_styling.scss';
 .CreateWrapper{
   padding: 2em 3em;
+  @include breakpoint(sm) {
+    padding: 1em;
+  }
 }
 .ProjectsItems{
   .Items{
@@ -18,6 +21,11 @@
     .ant-col-sm-1{
       @include breakpoint(sm) {
         display:none;
+      }
+    }
+    .BlockButton{
+      .CustomButton{
+        width:100%;
       }
     }
   }

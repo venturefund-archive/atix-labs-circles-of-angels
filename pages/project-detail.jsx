@@ -21,7 +21,6 @@ import {
   isCandidate
 } from '../api/userProjectApi';
 import useQuery from '../hooks/useQuery';
-import ModalInvest from '../components/organisms/ModalInvest/ModalInvest';
 import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
 import { userPropTypes } from '../helpers/proptypes';
 import { tabsContent } from '../helpers/projectDetailTabs';
@@ -30,10 +29,12 @@ import {
   getProject,
   getProjectUsers,
   getProjectMilestones,
-  getProjectExperiences
+  getProjectExperiences,
+  addProjectExperience
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
+import RolesMap from '../constants/RolesMap';
 
 const { TabPane } = Tabs;
 
@@ -157,6 +158,25 @@ const ProjectDetail = ({ user }) => {
     fetchMilestones();
   };
 
+  const onCreateExperience = async experience => {
+    const response = await addProjectExperience(project.id, experience);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Experience added successfully!');
+    fetchExperiences();
+  };
+
+  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
+
+  const isFunder = () =>
+    projectUsers.funders.find(funder => funder.id === user.id);
+
+  const allowNewFund = () =>
+    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -175,7 +195,13 @@ const ProjectDetail = ({ user }) => {
 
   const renderTabs = projectData =>
     Object.values(
-      tabsContent({ project: projectData, user, assignOracle })
+      tabsContent({
+        project: projectData,
+        user,
+        assignOracle,
+        onCreateExperience,
+        allowNewFund: allowNewFund()
+      })
     ).map(
       tab =>
         !tab.hidden && (
@@ -190,9 +216,10 @@ const ProjectDetail = ({ user }) => {
   const projectProgress = 0;
 
   if (!project) return null;
+
   return (
     <Row className="ContentComplete">
-      <Col span={18} className="ProjectContainer scrollY DataSteps">
+      <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
           onFollowProject={onFollowProject}
@@ -209,10 +236,9 @@ const ProjectDetail = ({ user }) => {
               oracles: projectUsers.oracles
             })}
           </Tabs>
-          <ModalInvest />
         </div>
       </Col>
-      <Col span={6} className="Right">
+      <Col xs={24} lg={6} className="Right">
         <ProjectUsersPanel
           entrepreneur={projectUsers.owner}
           followers={projectUsers.followers}

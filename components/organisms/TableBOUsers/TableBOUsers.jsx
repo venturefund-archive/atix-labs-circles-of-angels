@@ -20,6 +20,11 @@ const TableBOUsers = ({ data, filters }) => {
       key: 'firstName'
     },
     {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName'
+    },
+    {
       title: 'E-mail',
       dataIndex: 'email',
       key: 'email'

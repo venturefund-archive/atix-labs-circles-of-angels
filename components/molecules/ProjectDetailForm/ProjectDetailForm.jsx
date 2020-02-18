@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Skeleton, Divider, Form, message } from 'antd';
@@ -34,106 +35,106 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
   return (
     <Fragment>
       <Row type="flex" justify="space-around" className="centered">
-       <Col className="AlignCenter" sm={8} md={8} lg={8}>
-        <Col className="CardExample" sm={24} md={24} lg={24}>
-          <Col className="BlockImage" sm={24} md={24} lg={24}>
-            <h5>Organization Name</h5>
-            <h1>{getPreviewValue(thumbnailsData.projectName)}</h1>
+        <Col className="AlignCenter" sm={8} md={8} lg={8}>
+          <Col className="CardExample" sm={24} md={24} lg={24}>
+            <Col className="BlockImage" sm={24} md={24} lg={24}>
+              <h5>Organization Name</h5>
+              <h1>{getPreviewValue(thumbnailsData.projectName)}</h1>
 
               <img
-              className="BackgroundImage"
+                className="BackgroundImage"
                 width="700"
                 height="400"
                 src={photoPreview || './static/images/thumbnail-example.png'}
                 alt="background"
               />
 
-            <Col className="flex" sm={24} md={24} lg={24}>
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/world.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Country of Impact"
-                title={getPreviewValue(thumbnailsData.location)}
-                iconInfoItem="dollar"
-              />
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/calendar.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Timeframe"
-                title={getPreviewValue(thumbnailsData.timeframe)}
-                iconInfoItem="dollar"
-              />
-              <InfoItem
-                img={
-                  <img
-                    src="./static/images/amount.svg"
-                    alt="Circles of Angels"
-                  />
-                }
-                subtitle="Goal Amount"
-                title={`$ ${getPreviewValue(thumbnailsData.goalAmount)}`}
-                iconInfoItem="dollar"
-              />
+              <Col className="flex" sm={24} md={24} lg={24}>
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/world.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Country of Impact"
+                  title={getPreviewValue(thumbnailsData.location)}
+                  iconInfoItem="dollar"
+                />
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/calendar.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Timeframe"
+                  title={getPreviewValue(thumbnailsData.timeframe)}
+                  iconInfoItem="dollar"
+                />
+                <InfoItem
+                  img={
+                    <img
+                      src="./static/images/amount.svg"
+                      alt="Circles of Angels"
+                    />
+                  }
+                  subtitle="Goal Amount"
+                  title={`$ ${getPreviewValue(thumbnailsData.goalAmount)}`}
+                  iconInfoItem="dollar"
+                />
+              </Col>
+            </Col>
+            <Col className="spacedivider Details" sm={24} md={24} lg={24}>
+              <Col sm={24} md={24} lg={24}>
+                <h4>Project Mission </h4>
+              </Col>
+              <Col className="Mission" sm={24} md={24} lg={24}>
+                {fields.mission.value || <Skeleton title={false} />}
+              </Col>
+              <Col sm={24} md={24} lg={24}>
+                <h4>The Problem </h4>
+              </Col>
+              <Col className="Problem" sm={24} md={24} lg={24}>
+                {fields.problemAddressed.value || (
+                  <Skeleton paragraph={{ rows: 2 }} title={false} />
+                )}
+              </Col>
             </Col>
           </Col>
-          <Col className="spacedivider Details" sm={24} md={24} lg={24}>
-            <Col sm={24} md={24} lg={24}>
-              <h4>Project Mission </h4>
-            </Col>
-            <Col className="Mission" sm={24} md={24} lg={24}>
-              {fields.mission.value || <Skeleton title={false} />}
-            </Col>
-            <Col sm={24} md={24} lg={24}>
-              <h4>The Problem </h4>
-            </Col>
-            <Col className="Problem" sm={24} md={24} lg={24}>
-              {fields.problemAddressed.value || (
-                <Skeleton paragraph={{ rows: 2 }} title={false} />
-              )}
-            </Col>
-          </Col>
-        </Col>
         </Col>
         <Divider type="vertical" />
         <Col className="AlignCenter" sm={12} md={12} lg={12}>
-        <Col sm={24} md={24} lg={24} className="BlockForm">
-          <Row gutter={22}>
-            <Form className="login-form">
-              <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
-                <Field {...fields.mission} handleChange={handleChange} />
-              </Col>
-              <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
-                <Field
-                  {...fields.problemAddressed}
-                  handleChange={handleChange}
-                />
-              </Col>
-              <Col sm={24} md={24} lg={24} className="space-between">
-                <div>
-                  <h3>Background Image</h3>
-                  <span>
-                    Recomended Image Size: 1400x400px. Format: PNG or JPG.
-                  </span>
-                </div>
-                <div>
+          <Col sm={24} md={24} lg={24} className="BlockForm">
+            <Row gutter={22}>
+              <Form className="login-form">
+                <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
+                  <Field {...fields.mission} handleChange={handleChange} />
+                </Col>
+                <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Field
-                    {...fields.coverPhotoPath}
+                    {...fields.problemAddressed}
                     handleChange={handleChange}
-                    showUploadList={false}
                   />
-                </div>
-              </Col>
-            </Form>
-          </Row>
-        </Col>
+                </Col>
+                <Col sm={24} md={24} lg={24} className="space-between">
+                  <div>
+                    <h3>Background Image</h3>
+                    <span>
+                      Recomended Image Size: 1400x400px. Format: PNG or JPG.
+                    </span>
+                  </div>
+                  <div>
+                    <Field
+                      {...fields.coverPhotoPath}
+                      handleChange={handleChange}
+                      showUploadList={false}
+                    />
+                  </div>
+                </Col>
+              </Form>
+            </Row>
+          </Col>
         </Col>
       </Row>
     </Fragment>

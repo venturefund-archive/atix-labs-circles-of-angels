@@ -64,7 +64,7 @@ import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
-import TransferStatus from '../constants/TransferStatus';
+import TransferStatus from '../constants/TransferStatuses';
 import BlockchainStatus from '../constants/BlockchainStatus';
 import { isNumber } from 'util';
 

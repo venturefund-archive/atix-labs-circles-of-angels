@@ -12,7 +12,6 @@
         line-height: 19px;
     }
     .HeaderData{
-
         .anticon{
             margin-right: 0.5em;
         }
@@ -27,6 +26,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
         color: $primary-color;
+        @include breakpoint(sm) {
+            width: 90vw;
+          }
                 }
     }
 }

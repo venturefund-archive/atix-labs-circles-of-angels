@@ -24,10 +24,10 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
       <h3>{title}</h3>
       <h5>{subtitle}</h5>
     </Col>
-    <Col sm={24} md={4} lg={2}>
+    <Col className="BlockButton" sm={24} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
-        theme={disabled ? 'disabled' : 'Alternative'}
+        theme={disabled ? 'disabled' : 'Alternative', completed ? 'Primary' : 'Alternative'}
         onClick={onClick}
         disabled={disabled}
       />

@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import api, { doPost } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/transfers';
@@ -58,13 +58,27 @@ const getTransferStatus = async ({ userId, projectId }) => {
 const getTransferListOfProject = projectId =>
   apiCall('get', `/projects/${projectId}${baseURL}`);
 
+const createTransfer = (projectId, transfer) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPost(`/projects/${projectId}${baseURL}`, transfer, config);
+};
+
 const updateStateOfTransference = (transferId, state) =>
   apiCall('put', `${baseURL}/${transferId}`, { state });
+
+const addApprovedTransferClaim = transferId =>
+  doPost(`${baseURL}/${transferId}/claim/approved`);
+
+const addDisapprovedTransferClaim = (transferId, data) =>
+  doPost(`${baseURL}/${transferId}/claim/disapproved`, { ...data });
 
 export {
   sendTransferInformation,
   getTransferDestinationInfo,
   getTransferStatus,
   getTransferListOfProject,
-  updateStateOfTransference
+  updateStateOfTransference,
+  createTransfer,
+  addApprovedTransferClaim,
+  addDisapprovedTransferClaim
 };

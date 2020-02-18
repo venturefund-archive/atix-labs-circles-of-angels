@@ -22,7 +22,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
   const history = useHistory();
 
-  const onLoginSubmit = async (email, pwd) => {
+  const onLoginSubmit = async (email, pwd, clearFields) => {
     if (!email || !pwd || email === '' || pwd === '') return;
 
     try {
@@ -31,6 +31,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
 
       const { role } = user;
       history.push(defaultRouteByRole[role]);
+      clearFields();
     } catch (error) {
       message.error(error);
     }

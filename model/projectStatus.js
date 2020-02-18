@@ -7,15 +7,15 @@
  */
 
 const projectStatusMap = {
-  new: { name: 'New', color: 'red' },
-  toreview: { name: 'To Review', color: 'yellow' },
+  new: { name: 'New', color: 'blue' },
+  toreview: { name: 'To Review', color: 'gold' },
   rejected: { name: 'Rejected', color: 'red' },
   deleted: { name: 'Deleted', color: 'red' },
   published: { name: 'Published', color: 'green' },
-  consensus: { name: 'Consensus', color: 'green' },
-  funding: { name: 'Funding', color: 'green' },
+  consensus: { name: 'Consensus', color: 'cyan' },
+  funding: { name: 'Funding', color: 'blue' },
   executing: { name: 'Executing', color: 'green' },
-  changingscope: { name: 'Changing Scope', color: 'yellow' },
+  changingscope: { name: 'Changing Scope', color: 'gold' },
   finished: { name: 'Finished', color: 'green' },
   aborted: { name: 'Aborted', color: 'red' },
   archived: { name: 'Archived', color: 'green' },

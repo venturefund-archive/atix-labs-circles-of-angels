@@ -9,7 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Divider, Row, Col } from 'antd';
+import { Tag, Divider, Row, Col, Icon} from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
@@ -41,8 +41,9 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
             </Tag>
           )}
           {following ? (
-            <Tag color="violet" align="right">
+            <Tag className="Follow" color="#4C7FF7" align="right">
               Following
+              <Icon type="check" style={{ color: 'white' }} />
             </Tag>
           ) : (
             ''
@@ -52,27 +53,30 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
           <Col span={24}>
             <h1>{projectName}</h1>
           </Col>
-          <Col className="flex" align="middle" span={24}>
+          <Col align="middle" span={24}>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Country of Impact"
               title={location}
               iconInfoItem="environment"
             />
-            <Col span={1}>
+            <Col span={1}  xs={0} >
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Timeframe"
               title={timeframe}
               iconInfoItem="clock-circle"
             />
-            <Col span={1}>
+            <Col span={1} xs={0} >
               <Divider type="vertical" />
             </Col>
             <InfoItem
-              span={7}
+              xs={24}
+              lg={7}
               subtitle="Amount"
               title={`$ ${goalAmount}`}
               iconInfoItem="dollar"
