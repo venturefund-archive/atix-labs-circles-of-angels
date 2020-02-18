@@ -34,15 +34,15 @@ const menuItems = [
     allowedRoles: [Roles.PROJECT_CURATOR]
   },
   {
-    route: '/back-office-milestones',
-    key: 'back-office-milestones',
-    content: <Icon className="icon" type="file-protect" />,
-    allowedRoles: [Roles.PROJECT_CURATOR]
-  },
-  {
     route: '/fund-administration',
     key: 'fund-administration',
     content: <Icon className="icon" type="fund" />,
+    allowedRoles: [Roles.BANK_OPERATOR]
+  },
+  {
+    route: '/back-office-milestones',
+    key: 'back-office-milestones',
+    content: <Icon className="icon" type="file-protect" />,
     allowedRoles: [Roles.BANK_OPERATOR]
   }
 ];
