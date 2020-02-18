@@ -6,11 +6,11 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-const TransferStatus = {
-  PENDING_VERIFICATION: 0,
-  VERIFIED: 2,
-  RECONCILIATION: 1,
-  CANCELLED: 3
+const TransferStatuses = {
+  PENDING: 'pending',
+  RECONCILIATION: 'reconciliation',
+  VERIFIED: 'verified',
+  CANCELLED: 'cancelled'
 };
 
-export default TransferStatus;
+export default TransferStatuses;

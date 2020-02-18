@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -7,92 +8,68 @@
  */
 
 import React from 'react';
-import { Table, Select, Divider, Modal, Icon, Tag, Input } from 'antd';
-import { withUser } from '../../utils/UserContext';
-import EditableCell from '../../molecules/EditableCell/EditableCell';
+import PropTypes from 'prop-types';
+import { Table, Tag } from 'antd';
+import { transferPropType } from '../../../helpers/proptypes';
+import transferStatusesMap from '../../../model/transferStatusesMap';
 import '../TableProjectProgress/_tablestyle.scss';
 import './_style.scss';
 
-const { TextArea } = Input;
+const TableTransfer = ({ transfers }) => {
+  // TODO check which fields will be showed
+  const columns = [
+    {
+      title: 'Transfer Id',
+      dataIndex: 'transferId',
+      key: 'transferId'
+    },
+    {
+      title: 'Sender',
+      key: 'sender',
+      render: ({ sender }) => (
+        <span>{`${sender.firstName} ${sender.lastName}`}</span>
+      )
+    },
+    {
+      title: 'Destination Account',
+      dataIndex: 'destinationAccount',
+      key: 'destinationAccount'
+    },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount'
+    },
+    {
+      title: 'Currency',
+      dataIndex: 'currency',
+      key: 'currency'
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: status => (
+        <span>
+          <Tag color={transferStatusesMap[status].color} key={status}>
+            {transferStatusesMap[status].name}
+          </Tag>
+        </span>
+      )
+    }
+  ];
 
-const columns = [
-  {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-    render: text => <a>{text}</a>
-  },
-  {
-    title: 'Amount',
-    dataIndex: 'amount',
-    key: 'amount'
-  },
-  {
-    title: 'From',
-    dataIndex: 'from',
-    key: 'from'
-  },
-  {
-    title: 'Status',
-    key: 'status',
-    dataIndex: 'status',
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'rechazado') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    )
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <span>
-        <a>Receive</a>
-        <Divider type="vertical" />
-        <a>Aprobar {record.name}</a>
-        <Divider type="vertical" />
-        <a className="TextRed">Delete</a>
-      </span>
-    )
-  }
-];
-
-const data = [
-  {
-    key: '1',
-    id: 'John Brown',
-    from: 'Joe Black',
-    amount: 'John Brown',
-    status: ['aprobado']
-  },
-  {
-    key: '2',
-    id: 'Jim Green',
-    from: 'Joe Black',
-    amount: 'London No. 1 Lake Park',
-    status: ['loser']
-  },
-  {
-    key: '3',
-    id: 'Joe Black',
-    from: 'Joe Black',
-    amount: 'Sidney No. 1 Lake Park',
-    status: ['pendiente']
-  }
-];
-
-const TableTransfer = () => (
-  <Table className="TableTransfer" columns={columns} dataSource={data} />
-);
+  return (
+    <Table className="TableTransfer" columns={columns} dataSource={transfers} />
+  );
+};
 
 export default TableTransfer;
+
+TableTransfer.defaultProps = {
+  transfers: []
+};
+
+TableTransfer.propTypes = {
+  transfers: PropTypes.arrayOf(transferPropType)
+};

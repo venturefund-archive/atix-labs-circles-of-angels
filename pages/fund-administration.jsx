@@ -11,27 +11,23 @@ import { message } from 'antd';
 import TableAdminProjects from '../components/organisms/TableAdmin/TableAdminProjects';
 import './_style.scss';
 import './_fund-administration.scss';
-import {
-  getTransferListOfProject,
-  updateStateOfTransference
-} from '../api/transferApi';
-import { useGetProjects } from '../api/projectApi';
+import { getTransferListOfProject } from '../api/transferApi';
+import { getFundingProjects } from '../api/projectApi';
 
 const FundAdministration = () => {
-  const [data] = useGetProjects();
   const [projects, setProjects] = useState([]);
 
-  // TODO Not used until functionality is defined
-  const saveStatus = async (transferId, state) => {
-    try {
-      await updateStateOfTransference(transferId, state);
-      message.success('Status changed successfuly!');
-    } catch (error) {
-      message.error(error);
+  const fetchProjects = async () => {
+    const response = await getFundingProjects();
+    if (response.errors) {
+      setProjects([]);
+      message.error(response.errors);
+      return;
     }
+    setProjects(response.data);
   };
 
-  const getTransfers = async projectId => {
+  const fetchTransfers = async projectId => {
     try {
       const transfers = await getTransferListOfProject(parseInt(projectId, 10));
       return transfers || [];
@@ -41,17 +37,13 @@ const FundAdministration = () => {
   };
 
   useEffect(() => {
-    setProjects(data);
-  }, [data]);
+    fetchProjects();
+  }, []);
 
   return (
     <div className="FundAdminContainer">
       <h1>Funds Administration</h1>
-      <TableAdminProjects
-        data={projects}
-        saveStatus={saveStatus}
-        getTransfers={getTransfers}
-      />
+      <TableAdminProjects data={projects} fetchTransfers={fetchTransfers} />
     </div>
   );
 };

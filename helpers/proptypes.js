@@ -86,3 +86,31 @@ export const experiencePropType = {
   user: PropTypes.shape(userPropTypes),
   photos: PropTypes.arrayOf(PropTypes.arrayOf(photoPropType))
 };
+
+export const transferPropType = {
+  id: PropTypes.number,
+  transferId: PropTypes.string,
+  destinationAccount: PropTypes.string,
+  amount: PropTypes.number,
+  currency: PropTypes.string,
+  status: PropTypes.string,
+  createdAt: PropTypes.string,
+  sender: PropTypes.number,
+  project: PropTypes.number
+};
+
+export const projectPropTypes = {
+  id: PropTypes.number,
+  projectName: PropTypes.string,
+  mission: PropTypes.string,
+  problemAddressed: PropTypes.string,
+  location: PropTypes.string,
+  timeframe: PropTypes.string,
+  proposal: PropTypes.string,
+  faqLink: PropTypes.string,
+  coverPhotoPath: PropTypes.string,
+  cardPhotoPath: PropTypes.string,
+  milestonePath: PropTypes.string,
+  goalAmount: PropTypes.number,
+  status: PropTypes.string
+};

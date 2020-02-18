@@ -2,6 +2,9 @@
 
 .ThumbnailsWrapper{  
   padding: 2em 3em;
+  @include breakpoint(sm) {
+    padding: 2em 1em 0;
+  }
   .centered{
     height:65vh;
     overflow-y:scroll;

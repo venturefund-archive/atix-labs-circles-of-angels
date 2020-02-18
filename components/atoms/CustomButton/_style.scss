@@ -21,6 +21,16 @@
   opacity: 0.7;
 }
 
+.ant-btn.disabled{
+  background: #bfc8d2;
+  span .anticon{
+  color: #728099;
+  }
+  &:hover{
+    background: #bfc8d2;
+  }
+}
+
 /* SUCCESS */
 .ant-btn.Success,
 .ant-btn.Success:active .ant-btn.Success:focus {

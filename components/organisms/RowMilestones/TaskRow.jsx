@@ -62,9 +62,9 @@ const TaskRow = ({
             xs={{ span: 24 }}
             sm={{ span: 24 }}
             md={3}
-            lg={{ span: 12 }}
+            lg={{ span: 4 }}
           >
-            <RowLabel text="Assigned Oracle" />
+            <RowLabel text="Oracle" />
             <EditableInfo
               value={task.oracle}
               isEditing={canAssignOracle}

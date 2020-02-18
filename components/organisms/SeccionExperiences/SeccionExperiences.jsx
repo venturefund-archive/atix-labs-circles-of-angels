@@ -10,26 +10,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Col, Row } from 'antd';
-import ModalNewExperience from '../../../pages/new-experiences';
+import NewExperience from '../../../pages/new-experience';
 import CardExperience from '../../molecules/CardExperience/CardExperience';
 import './_style.scss';
-import {
-  userPropTypes,
-  experiencePropType,
-  requiredIf
-} from '../../../helpers/proptypes';
+import { experiencePropType } from '../../../helpers/proptypes';
 
-const SeccionExperience = ({
-  experiences,
-  onCreate,
-  user,
-  showCreateExperience
-}) => (
+const SeccionExperience = ({ experiences, onCreate, showCreateExperience }) => (
   <div className="Experiences">
     <Row gutter={12}>
       {showCreateExperience && (
         <Col span={8}>
-          <ModalNewExperience onCreate={onCreate} user={user} />
+          <NewExperience onCreate={onCreate} />
         </Col>
       )}
       {!isEmpty(experiences) &&
@@ -49,15 +40,7 @@ SeccionExperience.defaultProps = {
 SeccionExperience.propTypes = {
   experiences: PropTypes.arrayOf(PropTypes.shape(experiencePropType)),
   showCreateExperience: PropTypes.bool,
-  onCreate: (props, propName, componentName) =>
-    requiredIf(
-      props,
-      propName,
-      'showCreateExperience',
-      PropTypes.func,
-      componentName
-    ),
-  user: PropTypes.shape(userPropTypes).isRequired
+  onCreate: PropTypes.func
 };
 
 export default SeccionExperience;

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, Empty } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
@@ -24,7 +24,7 @@ const CreateMilestonesStep2 = ({
         md={6}
         lg={{ span: 11 }}
       >
-        <Col xs={{ span: 20 }} sm={{ span: 20 }} md={20} lg={{ span: 20 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={20} lg={{ span: 20 }}>
           <Col
             className="gutter-row"
             xs={{ span: 24 }}
@@ -47,13 +47,18 @@ const CreateMilestonesStep2 = ({
               !processError &&
               errorList.length > 0 &&
               errorList.map(error => (
-                <span>
-                  {error.rowNumber}: {error.msg}
+                <div>
+                  <p>
+                    <strong>{error.rowNumber} :</strong>
+                    {error.msg}
+                  </p>
                   <br />
-                </span>
+                </div>
               ))}
             {!processed && !errorList.length > 0 && (
-              <span>You haven't uploaded any documents yet</span>
+              <div className="EmptyMilestone vertical center">
+                <Empty description="You haven't uploaded any documents yet" />
+              </div>
             )}
           </Col>
         </Col>
@@ -89,21 +94,22 @@ const CreateMilestonesStep2 = ({
           >
             <Field {...fields.milestoneFile} handleChange={handleChange} />
           </Col>
-          <Col className="BlockVerification" span={24}>
+          <Col span={24}>
             <Divider />
           </Col>
-          <Col className="BlockVerification" lg={{ span: 6, offset: 17 }}>
-            <CustomButton
-              buttonText="Process Milestones"
-              theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
-              icon="arrow-right"
-              classNameIcon="iconDisplay"
-              disabled={!fields.milestoneFile.value}
-              onClick={() =>
-                handleProcessMilestones(fields.milestoneFile.value)
-              }
-            />
-          </Col>
+          <CustomButton
+            buttonText="Process Milestones"
+            theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
+            icon="arrow-right"
+            classNameIcon="iconDisplay"
+            disabled={!fields.milestoneFile.value}
+            onClick={() =>
+              handleProcessMilestones(
+                fields.milestoneFile.name,
+                fields.milestoneFile.value
+              )
+            }
+          />
         </Row>
       </Col>
     </Row>

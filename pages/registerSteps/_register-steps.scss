@@ -8,6 +8,7 @@
     flex-direction: row;
     @include breakpoint(sm) {
       flex-direction: column;
+      height: 90%;
     }
     @include breakpoint(md) {
       flex-direction: column;
@@ -174,10 +175,14 @@
       }
     }
   }
-  .Register2{
-.FormRegister {
-height: 70%;
-    overflow-y: scroll;
-}
+  .Register2 {
+    .FormRegister {
+      height: 70%;
+      overflow-y: scroll;
+      @include breakpoint(sm) {
+        margin: 1em 0 1em;
+        height: auto;
+      }
+    }
   }
 }

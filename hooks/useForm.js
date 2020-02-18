@@ -109,11 +109,12 @@ export default function useForm(formFields, submitCallback) {
     }
     setSubmitting(true);
     const data = new FormData();
+
     Object.values(fields).forEach(field => {
       if (field.value) {
-        if (field.type === 'file' && field.value.file instanceof File) {
-          Object.entries(field.value).forEach(([filename, file]) => {
-            data.append(filename, file);
+        if (field.type === 'file') {
+          field.value.forEach(file => {
+            data.append(field.name, file);
           });
         } else {
           data.set(field.name, field.value);

@@ -3,6 +3,9 @@
   padding: 2em 3em;
       height: 92%;
     overflow-y: scroll;
+    @include breakpoint(sm) {
+      padding: 2em 1em 0;
+    }
   .ant-steps {
     width: 20%;
     position: absolute;
@@ -86,6 +89,7 @@
   @include breakpoint(sm) {
     margin-top: 2em;
   }
+
   .Preview {
     height: 100%;
     margin-right: 3em;
@@ -111,6 +115,16 @@
       height: 55vh;
       padding: 1em;
       border-radius: 4px;
+      overflow-y:auto;
+      p{
+        @include primary-text($body, $on-surface, 400);
+      }
+        .EmptyMilestone{
+    height:100%;
+      p.ant-empty-description{
+          @include primary-text($labels, $grey, 400);
+      }
+  }
     }
   }
 }

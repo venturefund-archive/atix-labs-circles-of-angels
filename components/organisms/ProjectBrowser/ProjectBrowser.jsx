@@ -27,6 +27,7 @@ const ProjectBrowser = ({
         <CardNewProyect onClick={onNewProject} />
       )}
       {projects &&
+        projects.length > 0 &&
         projects.map(project => (
           <CardProject
             project={project}

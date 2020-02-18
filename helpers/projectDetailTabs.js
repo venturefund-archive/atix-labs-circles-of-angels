@@ -5,11 +5,19 @@ import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscussion';
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
-import TableTransfer from '../components/organisms/TableTransfer/TableTransfer';
+import Transfers from '../components/organisms/Transfers/Transfers';
 import { projectStatuses } from '../constants/constants';
 
-const SHOW_EXPERIENCES_STATUS = [
+const SHOW_EXPERIENCES_STATUSES = [
   projectStatuses.CONSENSUS,
+  projectStatuses.EXECUTING,
+  projectStatuses.FUNDING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];
+
+const SHOW_FUNDS_STATUSES = [
   projectStatuses.EXECUTING,
   projectStatuses.FUNDING,
   projectStatuses.FINISHED,
@@ -20,15 +28,13 @@ const SHOW_EXPERIENCES_STATUS = [
 const isOwner = (project, user) => project.owner === user.id;
 
 const showExperienceTab = projectStatus =>
-  SHOW_EXPERIENCES_STATUS.includes(projectStatus);
+  SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
 
-const allowNewExperience = (project, user) => {
-  // TODO: do this when new experience modal fixed
-  return false;
-  if (project.status === projectStatuses.CONSENSUS && isOwner(project, user)) {
-    return true;
-  }
-};
+const allowNewExperience = (project, user) =>
+  project.status === projectStatuses.CONSENSUS && isOwner(project, user);
+
+const showFundsTab = projectStatus =>
+  SHOW_FUNDS_STATUSES.includes(projectStatus);
 
 const canAssignOracle = (project, user) =>
   project.status === projectStatuses.CONSENSUS && isOwner(project, user);
@@ -47,9 +53,15 @@ const experienceTabTitle = project => (
   </div>
 );
 
-// TODO: discussion tab, experience tab, funds tab
+// TODO: discussion tab
 // TODO: check project status and hide accordingly
-export const tabsContent = ({ project, user, assignOracle }) => ({
+export const tabsContent = ({
+  project,
+  user,
+  assignOracle,
+  onCreateExperience,
+  allowNewFund
+}) => ({
   details: {
     title: 'Details',
     content: (
@@ -89,8 +101,8 @@ export const tabsContent = ({ project, user, assignOracle }) => ({
     content: (
       <SeccionExperience
         experiences={project.experiences}
+        onCreate={onCreateExperience}
         showCreateExperience={allowNewExperience(project, user)}
-        // TODO: add onCreate prop when modal component fixed
       />
     ),
     key: '4',
@@ -98,8 +110,8 @@ export const tabsContent = ({ project, user, assignOracle }) => ({
   },
   funds: {
     title: 'Funds',
-    content: <TableTransfer />,
+    content: <Transfers project={project} allowNewFund={allowNewFund} />,
     key: '5',
-    hidden: true
+    hidden: !showFundsTab(project.status)
   }
 });

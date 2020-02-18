@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -6,40 +7,36 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'antd';
+import { Modal, Form, Col } from 'antd';
+import Field from '../../atoms/Field/Field';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useForm from '../../../hooks/useForm';
-import { newFundFormItems } from '../../../helpers/createProjectFormFields';
+import { newTransferClaimFormItems } from '../../../helpers/createProjectFormFields';
 import './_style.scss';
-import NewFundForm from '../NewFundForm.jsx/NewFundForm';
 
-const ModalInvest = ({ visible, onCreate, onClose }) => {
-  const [clean, setClean] = useState(false);
+// TODO this modal should be replaced for a unique and generic modal (similar to ModalInvest and others)
+const ModalRejectedClaim = ({ visible, onSubmit, onClose }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(
-    newFundFormItems
+    newTransferClaimFormItems
   );
 
-  const onSubmit = async data => {
-    await onCreate(data);
+  const onSubmitForm = async data => {
+    await onSubmit(data);
     cleanForm();
   };
 
   const cleanForm = () => {
-    setFields(newFundFormItems);
+    setFields(newTransferClaimFormItems);
     onClose();
   };
-
-  useEffect(() => {
-    setClean(!visible);
-  }, [visible]);
 
   return (
     <div>
       <Modal
-        title="Fund Project"
-        className="ModalFund"
+        title="New transfer claim"
+        className="ModalClaim"
         width="700px"
         visible={visible}
         onCancel={cleanForm}
@@ -48,30 +45,30 @@ const ModalInvest = ({ visible, onCreate, onClose }) => {
             theme="Primary"
             key="back"
             buttonText="Confirm"
-            onClick={() => handleSubmit(onSubmit)}
+            onClick={() => handleSubmit(onSubmitForm)}
           />
         ]}
       >
-        <NewFundForm
-          fields={fields}
-          handleChange={handleChange}
-          cleanInputFile={clean}
-        />
+        <Form>
+          <Col sm={24} md={24} lg={24}>
+            <Field {...fields.rejectionReason} handleChange={handleChange} />
+          </Col>
+        </Form>
       </Modal>
     </div>
   );
 };
 
-ModalInvest.defaultProps = {
+ModalRejectedClaim.defaultProps = {
   visible: false,
-  onCreate: undefined,
+  onSubmit: undefined,
   onClose: undefined
 };
 
-ModalInvest.propTypes = {
+ModalRejectedClaim.propTypes = {
   visible: PropTypes.bool,
-  onCreate: PropTypes.func,
+  onSubmit: PropTypes.func,
   onClose: PropTypes.func
 };
 
-export default ModalInvest;
+export default ModalRejectedClaim;
