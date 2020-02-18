@@ -8,10 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Tag, Button } from 'antd';
+import { Table, Tag } from 'antd';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import { claimMilestoneStatus } from '../../../constants/constants';
+import claimMilestoneStatusMap from '../../../model/claimMilestoneStatusMap';
 import './_style.scss';
-import milestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
-import milestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 
 const TableBOMilestones = ({ data, onFundsTransferred }) => {
   const columns = [
@@ -29,63 +30,29 @@ const TableBOMilestones = ({ data, onFundsTransferred }) => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description'
+    },
+    {
+      title: 'Claim status',
+      dataIndex: 'claimStatus',
+      key: 'claimStatus',
+      render: claimStatus => (
+        <Tag color={claimMilestoneStatusMap[claimStatus].color}>
+          {claimMilestoneStatusMap[claimStatus].name}
+        </Tag>
+      )
+    },
+    {
+      dataIndex: 'claimStatus',
+      key: 'actions',
+      render: claimStatus => (
+        <CustomButton
+          className="blueLink"
+          onClick={onFundsTransferred}
+          buttonText="Check as transferred"
+          hidden={claimStatus !== claimMilestoneStatus.CLAIMED}
+        />
+      )
     }
-    // TODO define which params we are showing
-    // {
-    //   title: 'Quarter',
-    //   dataIndex: 'quarter',
-    //   key: 'quarter'
-    // },
-    // {
-    //   title: 'Tasks',
-    //   dataIndex: 'tasks',
-    //   key: 'tasks'
-    // },
-    // {
-    //   title: 'Milestone Status',
-    //   dataIndex: 'status',
-    //   key: 'status',
-    //   render: status => (
-    //     <span>
-    //       <Tag
-    //         color={milestoneActivityStatusMap[status.status].color}
-    //         key={status.status}
-    //       >
-    //         {milestoneActivityStatusMap[status.status].name}
-    //       </Tag>
-    //     </span>
-    //   )
-    // },
-    // {
-    //   title: 'Budget Transfer Status',
-    //   dataIndex: 'budgetStatus',
-    //   key: 'budgetStatus',
-    //   render: status => (
-    //     <span>
-    //       <Tag
-    //         color={milestoneBudgetStatusMap[status.id].color}
-    //         key={status.id}
-    //       >
-    //         {milestoneBudgetStatusMap[status.id].name}
-    //       </Tag>
-    //     </span>
-    //   )
-    // },
-    // {
-    //   title: 'Change Transfer Status',
-    //   dataIndex: 'id',
-    //   key: 'changeStatus',
-    //   render: (text, record, index) => {
-    //     const { id } = record;
-    //     return (
-    //       <div className="ActionButtons">
-    //         <Button key={record.id} onClick={() => onFundsTransferred(id)}>
-    //           Funds has transferred
-    //         </Button>
-    //       </div>
-    //     );
-    //   }
-    // }
   ];
 
   return (
