@@ -11,7 +11,7 @@ import './_style.scss';
 import './_back-office-projects.scss';
 import { message } from 'antd';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
-import { getMilestones } from '../api/milestonesApi';
+import { getMilestones, transferredMilestone } from '../api/milestonesApi';
 import { claimMilestoneStatus } from '../constants/constants';
 
 const BackOfficeMilestones = () => {
@@ -34,7 +34,16 @@ const BackOfficeMilestones = () => {
     setMilestones(response.data);
   };
 
-  const onFundsTransferred = async () => {};
+  const onFundsTransferred = async milestoneId => {
+    const response = await transferredMilestone(milestoneId);
+
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    fetchMilestones();
+  };
 
   useEffect(() => {
     fetchMilestones();

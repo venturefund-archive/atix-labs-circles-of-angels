@@ -42,13 +42,12 @@ const TableBOMilestones = ({ data, onFundsTransferred }) => {
       )
     },
     {
-      dataIndex: 'claimStatus',
       key: 'actions',
-      render: claimStatus => (
+      render: ({ id, claimStatus }) => (
         <CustomButton
           className="blueLink"
-          onClick={onFundsTransferred}
-          buttonText="Check as transferred"
+          onClick={() => onFundsTransferred(id)}
+          buttonText="Mark as transferred"
           hidden={claimStatus !== claimMilestoneStatus.CLAIMED}
         />
       )
