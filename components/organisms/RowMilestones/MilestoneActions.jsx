@@ -75,7 +75,6 @@ const MilestoneActions = ({
   progress,
   isEditing
 }) => {
-  console.log('status: ', status);
   const claimMilestoneStatusMap = {
     [claimMilestoneStatus.PENDING]: {
       text: 'Pending'
