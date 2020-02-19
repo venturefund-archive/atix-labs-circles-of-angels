@@ -47,7 +47,12 @@ export const questionsByRole = {
       label: 'What type of funding are you seeking?',
       placeholder: 'Phone number',
       // TODO : update later
-      options: ['Grant', 'Debt', 'Equity', 'Other'],
+      options: [
+        { value: 0, name: 'Grant' },
+        { value: 1, name: 'Debt' },
+        { value: 2, name: 'Equity' },
+        { value: 3, name: 'Other' }
+      ],
       rules: [
         {
           required: true,
@@ -67,7 +72,12 @@ export const questionsByRole = {
       ),
       placeholder: 'Please select up to 3 goals',
       // TODO : update later
-      options: ['Water', 'Earth', 'Fire', 'Air'],
+      options: [
+        { value: 0, name: 'Water' },
+        { value: 1, name: 'Earth' },
+        { value: 2, name: 'Fire' },
+        { value: 3, name: 'Air' }
+      ],
       rules: [
         {
           required: true,
@@ -84,7 +94,11 @@ export const questionsByRole = {
       type: 'select',
       label: 'How often do you make angel impact investments?',
       // TODO : update later
-      options: ['None', 'Sometimes', 'Always'],
+      options: [
+        { value: 0, name: 'None' },
+        { value: 1, name: 'Sometimes' },
+        { value: 2, name: 'Always' }
+      ],
       rules: [
         {
           required: true,
@@ -104,7 +118,12 @@ export const questionsByRole = {
       ),
       placeholder: 'Please select up to 3 goals',
       // TODO : update later
-      options: ['Water', 'Earth', 'Fire', 'Air'],
+      options: [
+        { value: 0, name: 'Water' },
+        { value: 1, name: 'Earth' },
+        { value: 2, name: 'Fire' },
+        { value: 3, name: 'Air' }
+      ],
       rules: [
         {
           required: true,

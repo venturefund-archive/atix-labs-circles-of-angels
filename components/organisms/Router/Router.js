@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, BrowserRouter } from 'react-router-dom';
 import PrivateRoute from '../../utils/PrivateRoute';
-import { routesConfig } from './RouteConfig';
 import DefaultRoute from '../../utils/DefaultRoute';
 
-const Router = () => {
+const Router = ({ routesConfig }) => {
   const routes = routesConfig.map(route => <PrivateRoute {...route} />);
+
   return (
     <BrowserRouter>
       <Switch>
@@ -25,3 +26,20 @@ const Router = () => {
 };
 
 export default Router;
+
+Router.defaultProps = {
+  routesConfig: []
+};
+
+Router.propTypes = {
+  routesConfig: PropTypes.arrayOf({
+    path: PropTypes.string,
+    component: PropTypes.elementType,
+    authentication: PropTypes.shape({
+      required: PropTypes.bool,
+      roles: PropTypes.arrayOf(PropTypes.string)
+    }),
+    withHeader: PropTypes.bool,
+    withSideBar: PropTypes.bool
+  })
+};

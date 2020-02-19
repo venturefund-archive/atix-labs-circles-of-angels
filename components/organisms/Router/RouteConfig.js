@@ -117,7 +117,7 @@ export const routesConfig = [
     component: BackOfficeMilestones,
     authentication: {
       required: true,
-      roles: [PROJECT_CURATOR]
+      roles: [BANK_OPERATOR]
     }
   }
 ];
