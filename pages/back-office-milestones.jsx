@@ -11,39 +11,38 @@ import './_style.scss';
 import './_back-office-projects.scss';
 import { message } from 'antd';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
-import {
-  getAllMilestones,
-  getAllBudgetStatus,
-  changeBudgetStatus
-} from '../api/milestonesApi';
-import MilestoneBudgetStatus from '../constants/MilestoneBudgetStatus';
+import { getMilestones, transferredMilestone } from '../api/milestonesApi';
+import { claimMilestoneStatus } from '../constants/constants';
 
 const BackOfficeMilestones = () => {
   const [milestones, setMilestones] = useState([]);
-  const [budgetStatus, setBudgetStatus] = useState([]);
 
   const fetchMilestones = async () => {
-    try {
-      const milestonesFound = await getAllMilestones();
-      setMilestones(milestonesFound);
+    // TODO filters should be defined and added
+    const response = await getMilestones({
+      claimStatus: [
+        claimMilestoneStatus.CLAIMED,
+        claimMilestoneStatus.TRANSFERRED
+      ]
+    });
 
-      // const { budgetStatus } = (await getAllBudgetStatus()).data;
-      // setBudgetStatus(budgetStatus);
-    } catch (error) {
-      message.error(error);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
     }
+
+    setMilestones(response.data);
   };
 
-  // TODO this funtionality is not defined yet
   const onFundsTransferred = async milestoneId => {
-    try {
-      await changeBudgetStatus(milestoneId, MilestoneBudgetStatus.FUNDED);
+    const response = await transferredMilestone(milestoneId);
 
-      const milestonesFound = await fetchMilestones();
-      setMilestones(milestonesFound);
-    } catch (error) {
-      message.error(error);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
     }
+
+    fetchMilestones();
   };
 
   useEffect(() => {

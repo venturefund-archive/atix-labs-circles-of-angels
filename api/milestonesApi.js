@@ -6,8 +6,8 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPut, doDelete, doPost } from './api';
-import apiCall from './apiCall';
+import queryString from 'query-string';
+import api, { doGet, doPut, doDelete, doPost } from './api';
 
 const baseURL = '/milestones';
 
@@ -23,8 +23,11 @@ export const createMilestone = (projectId, saveData) =>
 export const claimMilestone = milestoneId =>
   doPost(`${baseURL}/${milestoneId}/claim`);
 
+export const transferredMilestone = milestoneId =>
+  doPost(`${baseURL}/${milestoneId}/transferred`);
+
 // TODO: delete, used in old consensus page
-const deleteActivity = async activityId => {
+export const deleteActivity = async activityId => {
   try {
     console.log('Deleting activity', activityId);
 
@@ -35,27 +38,10 @@ const deleteActivity = async activityId => {
   }
 };
 
-const getAllMilestones = () => apiCall('get', `${baseURL}`);
-
-const getAllBudgetStatus = async () => {
-  try {
-    const response = await api.get(`${baseURL}/budgetStatus`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const changeBudgetStatus = (milestoneId, budgetStatusId) =>
-  apiCall('put', `${baseURL}/${milestoneId}`, {
-    milestone: {
-      budgetStatus: budgetStatusId
-    }
+export const getMilestones = async filters => {
+  const queryParams = queryString.stringify(filters, {
+    skipNull: true
   });
 
-export {
-  deleteActivity,
-  getAllMilestones,
-  getAllBudgetStatus,
-  changeBudgetStatus
+  return doGet(`${baseURL}?${queryParams}`);
 };
