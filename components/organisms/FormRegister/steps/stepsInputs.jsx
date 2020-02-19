@@ -85,6 +85,8 @@ export const step2Inputs = {
     name: 'country',
     type: 'select',
     label: 'Country',
+    placeholder: 'Select',
+    defaultValue: undefined,
     options: [],
     rules: [
       {

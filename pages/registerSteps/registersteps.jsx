@@ -65,7 +65,13 @@ const Registersteps = () => {
   const fetchCountries = async () => {
     try {
       const response = await getCountries();
-      setCountries(response);
+      const countryOptions = response
+        ? response.map(({ id, name }) => ({
+            value: id,
+            name
+          }))
+        : [];
+      setCountries(countryOptions);
     } catch (error) {
       message.error(error);
     }
