@@ -51,10 +51,13 @@ const ProjectDetail = ({ user }) => {
     funders: []
   });
   const [isFollowing, setIsFollowing] = useState(false);
-  // TODO this is set to true initialy  to avoid show the button in the first render before fetch
-  const [alreadyApplied, setAlreadyApplied] = useState(true);
   const [milestones, setMilestones] = useState();
   const [experiences, setExperiences] = useState([]);
+  // TODO this is set to true initialy  to avoid show the button in the first render before fetch
+  const [alreadyApplied, setAlreadyApplied] = useState({
+    oracles: true,
+    funders: true
+  });
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
@@ -124,7 +127,7 @@ const ProjectDetail = ({ user }) => {
     try {
       await applyToProject(project.id, role);
 
-      setAlreadyApplied(true);
+      setAlreadyApplied({ ...alreadyApplied, [role]: true });
       message.success(`You have apply as possible ${role} for this project`);
     } catch (error) {
       message.error(error);
