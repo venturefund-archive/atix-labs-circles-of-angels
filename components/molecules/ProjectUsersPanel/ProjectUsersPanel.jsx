@@ -7,6 +7,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import { supporterRoles, projectStatuses } from '../../../constants/constants';
+import { showModalConfirm } from '../../utils/Modals';
 
 const { PUBLISHED, CONSENSUS, FUNDING } = projectStatuses;
 
@@ -37,6 +38,13 @@ const ProjectUsersPanel = ({
     !alreadyApplyAsFunder &&
     isSupporter &&
     allowAssignFunderStatuses.includes(status);
+
+  const askApplyConfirmation = role =>
+    showModalConfirm(
+      `Applying to ${role}`,
+      `Are you sure you want to apply to ${role} of this project?`,
+      () => onApply(role)
+    );
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -90,7 +98,7 @@ const ProjectUsersPanel = ({
             theme="Primary"
             buttonText="I want to be an Oracle"
             hidden={!allowApplyOracle}
-            onClick={() => onApply(supporterRoles.ORACLES)}
+            onClick={() => askApplyConfirmation(supporterRoles.ORACLES)}
           />
         </Col>
         <Col span={24}>
@@ -98,7 +106,7 @@ const ProjectUsersPanel = ({
             theme="Alternative"
             buttonText="I want to be a Funder"
             hidden={!allowApplyFunder}
-            onClick={() => onApply(supporterRoles.FUNDERS)}
+            onClick={() => askApplyConfirmation(supporterRoles.FUNDERS)}
           />
         </Col>
       </Col>
