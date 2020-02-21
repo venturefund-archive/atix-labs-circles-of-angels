@@ -11,9 +11,11 @@ import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
 import Field from '../../../../atoms/Field/Field';
 
+// TODO: Questions and answers should be de-hardcoded
+
 const commonQuestions = {
-  phone: {
-    name: 'phone',
+  phoneNumber: {
+    name: 'phoneNumber',
     label: "What's your phone number?",
     rules: [
       {
@@ -45,13 +47,13 @@ export const questionsByRole = {
       name: 'seeking',
       type: 'select',
       label: 'What type of funding are you seeking?',
-      placeholder: 'Phone number',
+      placeholder: 'Select an option',
       // TODO : update later
       options: [
-        { value: 0, name: 'Grant' },
-        { value: 1, name: 'Debt' },
-        { value: 2, name: 'Equity' },
-        { value: 3, name: 'Other' }
+        { value: 'Grant', name: 'Grant' },
+        { value: 'Debt', name: 'Debt' },
+        { value: 'Equity', name: 'Equity' },
+        { value: 'Other', name: 'Other' }
       ],
       rules: [
         {
@@ -73,10 +75,10 @@ export const questionsByRole = {
       placeholder: 'Please select up to 3 goals',
       // TODO : update later
       options: [
-        { value: 0, name: 'Water' },
-        { value: 1, name: 'Earth' },
-        { value: 2, name: 'Fire' },
-        { value: 3, name: 'Air' }
+        { value: 'Water', name: 'Water' },
+        { value: 'Earth', name: 'Earth' },
+        { value: 'Fire', name: 'Fire' },
+        { value: 'Air', name: 'Air' }
       ],
       rules: [
         {
@@ -93,11 +95,12 @@ export const questionsByRole = {
       name: 'seeking',
       type: 'select',
       label: 'How often do you make angel impact investments?',
+      placeholder: 'Select an option',
       // TODO : update later
       options: [
-        { value: 0, name: 'None' },
-        { value: 1, name: 'Sometimes' },
-        { value: 2, name: 'Always' }
+        { value: 'None', name: 'None' },
+        { value: 'Sometimes', name: 'Sometimes' },
+        { value: 'Always', name: 'Always' }
       ],
       rules: [
         {
@@ -119,10 +122,10 @@ export const questionsByRole = {
       placeholder: 'Please select up to 3 goals',
       // TODO : update later
       options: [
-        { value: 0, name: 'Water' },
-        { value: 1, name: 'Earth' },
-        { value: 2, name: 'Fire' },
-        { value: 3, name: 'Air' }
+        { value: 'Water', name: 'Water' },
+        { value: 'Earth', name: 'Earth' },
+        { value: 'Fire', name: 'Fire' },
+        { value: 'Air', name: 'Air' }
       ],
       rules: [
         {
@@ -169,7 +172,7 @@ export default function RegisterStep3({ fields, handleChange }) {
         <Row className="FormRegister" gutter={26}>
           <Form layout="vertical">
             <Col className="gutter-row" sm={24} lg={12}>
-              <Field {...fields.phone} handleChange={handleChange} />
+              <Field {...fields.phoneNumber} handleChange={handleChange} />
             </Col>
             <Col className="gutter-row" sm={24} lg={12}>
               <Field {...fields.company} handleChange={handleChange} />
