@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPost } from './api';
+import api, { doGet, doPost } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/transfers';
@@ -58,6 +58,9 @@ const getTransferStatus = async ({ userId, projectId }) => {
 const getTransferListOfProject = projectId =>
   apiCall('get', `/projects/${projectId}${baseURL}`);
 
+const getFundedAmount = projectId =>
+  doGet(`/projects/${projectId}${baseURL}/funded-amount`);
+
 const createTransfer = (projectId, transfer) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPost(`/projects/${projectId}${baseURL}`, transfer, config);
@@ -77,6 +80,7 @@ export {
   getTransferDestinationInfo,
   getTransferStatus,
   getTransferListOfProject,
+  getFundedAmount,
   updateStateOfTransference,
   createTransfer,
   addApprovedTransferClaim,
