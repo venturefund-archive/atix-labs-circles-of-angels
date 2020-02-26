@@ -40,8 +40,8 @@ export const projectStatuses = {
 };
 
 export const supporterRoles = {
-  ORACLE: 'oracle',
-  FUNDER: 'funder'
+  ORACLES: 'oracles',
+  FUNDERS: 'funders'
 };
 
 export const claimMilestoneStatus = {
