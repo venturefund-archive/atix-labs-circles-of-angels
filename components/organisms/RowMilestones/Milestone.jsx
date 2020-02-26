@@ -29,6 +29,7 @@ const Milestone = ({
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
+  showClaimStatus,
   milestoneActionType,
   taskActionType,
   oracles,
@@ -87,6 +88,7 @@ const Milestone = ({
         showDelete={showMilestoneDelete}
         showEdit={showMilestoneEdit}
         showCreateTask={showCreateTask}
+        showClaimStatus={showClaimStatus}
         isEditing={editing}
       />
       <MilestoneTasks
@@ -113,7 +115,8 @@ const Milestone = ({
 
 Milestone.defaultProps = {
   allowNewEvidence: () => undefined,
-  onClaimMilestone: () => undefined
+  onClaimMilestone: () => undefined,
+  showClaimStatus: false
 };
 
 Milestone.propTypes = {
@@ -134,6 +137,7 @@ Milestone.propTypes = {
   showMilestoneDelete: PropTypes.bool.isRequired,
   showMilestoneEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
+  showClaimStatus: PropTypes.bool,
   canAssignOracle: PropTypes.bool.isRequired,
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
