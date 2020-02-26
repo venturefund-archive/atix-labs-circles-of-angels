@@ -8,6 +8,7 @@
 
 import api, { doGet } from './api';
 import apiCall from './apiCall';
+import questionsToText from '../helpers/questionsToText';
 
 const baseURL = '/users';
 
@@ -38,7 +39,10 @@ const changeUserRegistrationStatus = (userId, registrationStatus) =>
     registrationStatus
   });
 
-const register = user => apiCall('post', `${baseURL}/signup`, user);
+const register = user => {
+  const answers = questionsToText(user);
+  return apiCall('post', `${baseURL}/signup`, { ...user, answers });
+};
 
 const recoverPassword = async email => {
   try {
