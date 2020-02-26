@@ -34,8 +34,8 @@ import {
 } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
-import RolesMap from '../constants/RolesMap';
 import { claimMilestone } from '../api/milestonesApi';
+import { isFunder, isSupporter } from '../helpers/utils';
 
 const { TabPane } = Tabs;
 
@@ -182,13 +182,10 @@ const ProjectDetail = ({ user }) => {
     fetchMilestones();
   };
 
-  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
-
-  const isFunder = () =>
-    projectUsers.funders.find(funder => funder.id === user.id);
-
   const allowNewFund = () =>
-    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+    project.status === projectStatuses.FUNDING &&
+    isSupporter(user) &&
+    isFunder(user, projectUsers.funders);
 
   useEffect(() => {
     fetchProject();
@@ -262,7 +259,7 @@ const ProjectDetail = ({ user }) => {
           onApply={onApply}
           applied={alreadyApplied}
           status={project && project.status}
-          isSupporter={isSupporter()}
+          isSupporter={isSupporter(user)}
         />
       </Col>
     </Row>
