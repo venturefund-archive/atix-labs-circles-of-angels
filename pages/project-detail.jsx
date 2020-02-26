@@ -32,12 +32,14 @@ import {
   getProjectExperiences,
   addProjectExperience
 } from '../api/projectApi';
-import { projectStatuses } from '../constants/constants';
+import { projectStatuses, publicProjectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
 import RolesMap from '../constants/RolesMap';
 import { claimMilestone } from '../api/milestonesApi';
+import { getFundedAmount } from '../api/transferApi';
 
 const { TabPane } = Tabs;
+const { CONSENSUS, FUNDING, EXECUTING } = projectStatuses;
 
 const ProjectDetail = ({ user }) => {
   const { id } = useQuery();
@@ -58,6 +60,7 @@ const ProjectDetail = ({ user }) => {
     oracles: true,
     funders: true
   });
+  const [fundedAmount, setFundedAmount] = useState(0);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
@@ -92,6 +95,16 @@ const ProjectDetail = ({ user }) => {
       return;
     }
     setExperiences(response.data);
+  };
+
+  const getTotalFundedAmount = async () => {
+    const response = await getFundedAmount(project.id);
+    if (response.errors) {
+      setFundedAmount(0);
+      return;
+    }
+
+    setFundedAmount(response.data.fundedAmount);
   };
 
   const onFollowProject = async () => {
@@ -203,9 +216,9 @@ const ProjectDetail = ({ user }) => {
       checkCandidate();
       fetchProjectUsers();
       fetchMilestones();
-      if (project.status === projectStatuses.CONSENSUS) {
-        fetchExperiences();
-      }
+      if (Object.values(publicProjectStatuses).includes(project.status))
+        getTotalFundedAmount();
+      if (project.status === projectStatuses.CONSENSUS) fetchExperiences();
     }
   }, [project]);
 
@@ -239,6 +252,7 @@ const ProjectDetail = ({ user }) => {
       <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
+          fundedAmount={fundedAmount}
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
           isFollower={isFollowing}
