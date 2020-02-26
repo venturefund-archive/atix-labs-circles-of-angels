@@ -77,13 +77,13 @@ const ProjectDetailHeader = ({
           </Col>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
-          <Col className="flex">
+          {/* <Col className="flex">
             <GeneralItem
               type="link"
               value={faqLink} // TODO: fix styles when link too long
               label="FAQ-Funders and SE´s Questions & Answers"
             />
-          </Col>
+          </Col> */}
           <Col className="flex">
             {itemsData.map(item => (
               <GeneralItem {...item} key={`data-${item.value}`} />
