@@ -59,9 +59,23 @@ const MyProjects = ({ user }) => {
   const fetchAppliedProjects = async () => {
     try {
       const response = await getAppliedProjects();
-      return (
-        response && response.map(project => ({ ...project, applied: true }))
-      );
+      const { funding, monitoring } = response || {};
+
+      const appliedProjects = funding.map(project => ({
+        ...project,
+        applied: true
+      }));
+
+      monitoring.forEach(project => {
+        if (!funding.some(({ id }) => id === project.id)) {
+          appliedProjects.push({
+            ...project,
+            applied: true
+          });
+        }
+      });
+
+      return appliedProjects;
     } catch (error) {
       message.error(error);
     }
