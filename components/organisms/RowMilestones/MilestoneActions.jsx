@@ -38,7 +38,7 @@ const editMilestoneButtons = (
         <Col span={13}>
           <a className="blueLink" onClick={onClickCreateTask}>
             + New Task
-        </a>
+          </a>
         </Col>
       )}
     </Col>
@@ -52,12 +52,21 @@ const editMilestoneButtons = (
   </Col>
 );
 
-const statusMilestone = (text, onClick, progress) => (
+const statusMilestone = (text, onClick, showClaimStatus, progress) => (
   <div className="space-between w100">
-    <CustomButton className="blueLink" onClick={onClick} buttonText={text} />
-    <div style={{ width: 120 }}>
+    {onClick ? (
+      <CustomButton
+        className="blueLink"
+        onClick={onClick}
+        buttonText={text}
+        hidden={!showClaimStatus}
+      />
+    ) : (
+      <div>{text}</div>
+    )}
+    {/* <div style={{ width: 120 }}>
       <Progress percent={progress} />
-    </div>
+    </div> */}
   </div>
 );
 
@@ -71,6 +80,7 @@ const MilestoneActions = ({
   showEdit,
   showDelete,
   showCreateTask,
+  showClaimStatus,
   status,
   progress,
   isEditing
@@ -101,7 +111,8 @@ const MilestoneActions = ({
       md={6}
       lg={{ span: 6 }}
     >
-      {type === 'status' && statusMilestone(text, onClick, progress)}
+      {type === 'status' &&
+        statusMilestone(text, onClick, showClaimStatus, progress)}
       {type === 'edit' &&
         editMilestoneButtons(
           onEdit,
@@ -119,7 +130,8 @@ const MilestoneActions = ({
 export default MilestoneActions;
 
 MilestoneActions.defaultProps = {
-  onClaimMilestone: () => undefined
+  onClaimMilestone: () => undefined,
+  showClaimStatus: false
 };
 
 MilestoneActions.propTypes = {
@@ -133,6 +145,7 @@ MilestoneActions.propTypes = {
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
+  showClaimStatus: PropTypes.bool,
   type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   isEditing: PropTypes.bool.isRequired
 };
