@@ -111,6 +111,7 @@ const ProjectDetail = ({ user }) => {
     try {
       await followProject(project.id);
       setIsFollowing(true);
+      fetchProjectUsers();
       message.success('You are following this project now!');
     } catch (error) {
       message.error(error);
@@ -121,6 +122,7 @@ const ProjectDetail = ({ user }) => {
     try {
       await unfollowProject(project.id);
       setIsFollowing(false);
+      fetchProjectUsers();
       message.success('You have followed this project');
     } catch (error) {
       message.error(error);
@@ -141,6 +143,7 @@ const ProjectDetail = ({ user }) => {
       await applyToProject(project.id, role);
 
       setAlreadyApplied({ ...alreadyApplied, [role]: true });
+      fetchProjectUsers();
       message.success(`You have apply as possible ${role} for this project`);
     } catch (error) {
       message.error(error);
