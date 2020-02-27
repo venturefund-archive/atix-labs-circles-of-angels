@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Fragment } from 'react';
 import { Col, Breadcrumb, Row } from 'antd';
 import PropTypes from 'prop-types';
@@ -32,10 +33,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
     <Col className="BlockButton" sm={24} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
-        theme={
-          (disabled ? 'disabled' : 'Alternative',
-          completed ? 'Primary' : 'Alternative')
-        }
+        theme={disabled ? 'disabled' : completed ? 'Primary' : 'Alternative'}
         onClick={onClick}
         disabled={disabled}
       />
@@ -51,9 +49,15 @@ const CreateProject = ({
   completedSteps,
   deleteProject
 }) => {
+  const { id, status, projectName } = project;
+
   const getContinueLaterButton = () => (
     <CustomButton
-      buttonText="Save & Continue later"
+      buttonText={
+        status === projectStatuses.CONSENSUS
+          ? 'Save changes'
+          : 'Save & Continue later'
+      }
       theme="Secondary"
       // TODO: show saved message? warn about losing non-saved changes?
       onClick={goToMyProjects}
@@ -61,9 +65,11 @@ const CreateProject = ({
   );
 
   const sendToReviewButton = () => {
+    if (status === projectStatuses.CONSENSUS) return;
     const disabled = Object.values(completedSteps).some(
       completed => !completed
     );
+
     return (
       <CustomButton
         buttonText="Send to Review"
@@ -79,7 +85,8 @@ const CreateProject = ({
   const deleteProjectButton = () => {
     // TODO: the user shouldn't be able to actually enter this page at all
     //       if the project is not NEW or REJECTED
-    if (!project || !ALLOW_DELETE_STATUSES.includes(project.status)) return;
+    if (!id || !ALLOW_DELETE_STATUSES.includes(status)) return;
+
     return (
       <CustomButton
         buttonText="Delete Project"
@@ -100,11 +107,7 @@ const CreateProject = ({
             <a href="/">Create Project</a>
           </Breadcrumb.Item>
         </Breadcrumb>
-        <TitlePage
-          textTitle={
-            project && project.projectName ? project.projectName : 'My project'
-          }
-        />
+        <TitlePage textTitle={projectName || 'My project'} />
         <Row
           // className="ProjectsCardsContainer"
           type="flex"
@@ -117,27 +120,28 @@ const CreateProject = ({
               title="Thumbnails"
               subtitle="Here you can upload the thumbnails of your project"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
+              disabled={status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             />
             <Items
               title="Project Detail"
               subtitle="Here you can upload your project detail"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
-              disabled={!project || !project.id}
+              disabled={!id || status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             />
             <Items
               title="Project Proposal"
               subtitle="Here you can upload your project proposal"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
-              disabled={!project || !project.id}
+              disabled={!id}
               completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             />
             <Items
               title="Project Milestones"
               subtitle="Upload milestones and edit them"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
-              disabled={!project || !project.id}
+              disabled={!id || status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             />
           </Col>
@@ -155,7 +159,7 @@ const CreateProject = ({
 };
 
 CreateProject.defaultProps = {
-  project: undefined,
+  project: {},
   completedSteps: {
     thumbnails: false,
     details: false,
