@@ -10,6 +10,7 @@ const CreateMilestonesStep2 = ({
   fields,
   handleChange,
   handleProcessMilestones,
+  skipStep,
   errorList,
   processError,
   processed
@@ -102,13 +103,24 @@ const CreateMilestonesStep2 = ({
             theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
             icon="arrow-right"
             classNameIcon="iconDisplay"
-            disabled={!fields.milestoneFile.value}
+            disabled={
+              !fields.milestoneFile.value ||
+              fields.milestoneFile.value[0] instanceof File
+            }
             onClick={() =>
               handleProcessMilestones(
                 fields.milestoneFile.name,
                 fields.milestoneFile.value
               )
             }
+          />
+          <CustomButton
+            buttonText="Skip step"
+            theme={processed ? 'disabled' : 'Primary'}
+            icon="arrow-right"
+            classNameIcon="iconDisplay"
+            disabled={processed}
+            onClick={skipStep}
           />
         </Row>
       </Col>
@@ -119,7 +131,8 @@ const CreateMilestonesStep2 = ({
 CreateMilestonesStep2.defaultProps = {
   errorList: [],
   processed: false,
-  processError: undefined
+  processError: undefined,
+  skipStep: () => undefined
 };
 
 CreateMilestonesStep2.propTypes = {
@@ -128,6 +141,7 @@ CreateMilestonesStep2.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleProcessMilestones: PropTypes.func.isRequired,
+  skipStep: PropTypes.func,
   errorList: PropTypes.arrayOf(
     PropTypes.shape({ msg: PropTypes.string, rowNumber: PropTypes.number })
   ),
