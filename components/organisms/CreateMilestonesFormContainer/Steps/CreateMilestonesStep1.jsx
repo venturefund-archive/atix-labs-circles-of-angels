@@ -6,7 +6,7 @@ import CustomButton from '../../../atoms/CustomButton/CustomButton';
 
 const CreateMilestonesStep1 = ({ handleDownload }) => (
   <Fragment>
-    <TitlePage textTitle="Download Project´s Milestones" />
+    <TitlePage textTitle="Download Project´s Milestones Template" />
     <Row className="Centered" type="flex" justify="center" align="middle">
       <Col
         className="gutter-row BlockDownload"
@@ -15,7 +15,7 @@ const CreateMilestonesStep1 = ({ handleDownload }) => (
         md={6}
         lg={{ span: 10 }}
       >
-        <h1>Download Project Milestones</h1>
+        <h1>Download Project´s Milestones Template</h1>
         <p>
           To create project Milestones, first you have to download a Project
           Milestone Template to fill in with your project plan information.
