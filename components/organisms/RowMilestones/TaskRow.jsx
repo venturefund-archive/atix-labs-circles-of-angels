@@ -67,20 +67,20 @@ const TaskRow = ({
         md={24}
         lg={{ span: 24 }}
       >
-        <div className="header space-between" >
+        <div className="header space-between">
           <h3>Activity {index}</h3>
-                {(showDelete || showEdit || allowNewEvidence) && (
-        <TaskActions
-          onDelete={deleteTask}
-          onEdit={handleEditRow}
-          onNewEvidence={onShowModal}
-          showDelete={showDelete}
-          showEdit={showEdit}
-          isEditing={editing}
-          showAddEvidence={allowNewEvidence}
-          type={taskActionType}
-        />
-      )}
+          {(showDelete || showEdit || allowNewEvidence) && (
+            <TaskActions
+              onDelete={deleteTask}
+              onEdit={handleEditRow}
+              onNewEvidence={onShowModal}
+              showDelete={showDelete}
+              showEdit={showEdit}
+              isEditing={editing}
+              showAddEvidence={allowNewEvidence}
+              type={taskActionType}
+            />
+          )}
         </div>
         {!hideOracleColumn && (
           <Col

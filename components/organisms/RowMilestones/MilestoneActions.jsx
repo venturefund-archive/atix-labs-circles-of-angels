@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Progress, Divider } from 'antd';
+import { Col, Progress } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
@@ -34,7 +37,7 @@ const editMilestoneButtons = (
         ))}
       {showDelete && showEdit}
       {showCreateTask && (
-        <div >
+        <div>
           <a className="blueLink" onClick={onClickCreateTask}>
             + New Task
           </a>
@@ -42,7 +45,7 @@ const editMilestoneButtons = (
       )}
     </div>
     {showDelete && (
-      <div >
+      <div>
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
@@ -81,25 +84,23 @@ const MilestoneActions = ({
     },
     [claimMilestoneStatus.CLAIMABLE]: {
       text: 'Claimable!',
-      theme: 'SuccessMst',     
+      theme: 'SuccessMst',
       onClick: () => onClaimMilestone(milestoneId)
     },
     [claimMilestoneStatus.CLAIMED]: {
-      text: 'Claimed',      
-      theme: 'SuccessMst'  
+      text: 'Claimed',
+      theme: 'SuccessMst'
     },
     [claimMilestoneStatus.TRANSFERRED]: {
-      text: 'Transferred',      
-      theme: 'SuccessMst'  
+      text: 'Transferred',
+      theme: 'SuccessMst'
     }
   };
 
   const { text, onClick, theme } = claimMilestoneStatusMap[status];
 
   return (
-    <Col
-      className="WrapperActions flex space-between"
-    >
+    <Col className="WrapperActions flex space-between">
       {type === 'status' && statusMilestone(text, onClick, progress, theme)}
       {type === 'edit' &&
         editMilestoneButtons(

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 import MilestoneRow from './MilestoneRow';
 import MilestoneCol from './MilestoneCol';
 import RowLabel from './RowLabel';
-import { Skeleton, Col } from 'antd';
 import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
@@ -57,36 +57,39 @@ const Milestone = ({
     <div>
       <MilestoneRow>
         <div className="header space-between">
-        <Col xs={8} lg={12}>
-        <h3>Milestone {index}</h3>
-      </Col>
-      <MilestoneActions
-        type={milestoneActionType}
-        milestoneId={milestone.id}
-        status={milestoneStatus}
-        progress={milestoneProgress}
-        onDelete={deleteMilestone}
-        onEdit={handleEditRow}
-        onClickCreateTask={() => setModalVisible(true)}
-        onClaimMilestone={onClaimMilestone}
-        showDelete={showMilestoneDelete}
-        showEdit={showMilestoneEdit}
-        showCreateTask={showCreateTask}
-        isEditing={editing}
-      />
-  </div>
-  <MilestoneCol className="flex" span={3}>
-
-           <img src="/static/images/calendarMilestone.svg" alt="chatimage" width="35px" />
-             <div className="vertical">
-          <RowLabel text="Quarter" />
-          <EditableInfo
-            value={milestone.quarter || "No data"}
+          <Col xs={8} lg={12}>
+            <h3>Milestone {index}</h3>
+          </Col>
+          <MilestoneActions
+            type={milestoneActionType}
+            milestoneId={milestone.id}
+            status={milestoneStatus}
+            progress={milestoneProgress}
+            onDelete={deleteMilestone}
+            onEdit={handleEditRow}
+            onClickCreateTask={() => setModalVisible(true)}
+            onClaimMilestone={onClaimMilestone}
+            showDelete={showMilestoneDelete}
+            showEdit={showMilestoneEdit}
+            showCreateTask={showCreateTask}
             isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, quarter: v })}
           />
+        </div>
+        <MilestoneCol className="flex" span={3}>
+          <img
+            src="/static/images/calendarMilestone.svg"
+            alt="chatimage"
+            width="35px"
+          />
+          <div className="vertical">
+            <RowLabel text="Quarter" />
+            <EditableInfo
+              value={milestone.quarter || 'No data'}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, quarter: v })}
+            />
           </div>
-</MilestoneCol>
+        </MilestoneCol>
         <MilestoneCol span={20}>
           <RowLabel text="Description" />
           <EditableInfo
