@@ -92,7 +92,8 @@ const CreateMilestonesFormContainer = ({
 
   useEffect(() => {
     if (milestones.length > 0) {
-      validateFields(2);
+      handleChange(undefined, 'milestoneFile', milestones);
+      validateFields(1);
       setProcessed(true);
     }
   }, [milestones]);
