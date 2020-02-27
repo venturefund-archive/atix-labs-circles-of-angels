@@ -75,6 +75,7 @@ export const tabsContent = ({
     title: 'Details',
     content: (
       <ProjectDetailsTab
+        proposal={project.proposal}
         mission={project.mission}
         problem={project.problemAddressed}
         progress={project.progress}
