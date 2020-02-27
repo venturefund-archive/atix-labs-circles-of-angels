@@ -20,7 +20,7 @@ const AvatarUser = ({ user }) => {
       {user.avatarImage ? (
         <Avatar src={user.avatarImage} alt={getInitials(fullName)} />
       ) : (
-        <Avatar style={{ color: '#0055FF', backgroundColor: '#B3CCFF' }}>
+        <Avatar style={{ color: '#0055FF', backgroundColor: '#e5e6e8' }}>
           {getInitials(fullName)}
         </Avatar>
       )}

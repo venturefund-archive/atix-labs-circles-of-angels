@@ -8,9 +8,9 @@ import { Col, Divider } from 'antd';
 const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
   <span>
     {showEdit && (
-      <Col span={24}>
+      <div>
         {isEditing ? (
-          <span>
+          <span className="isEditing">
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
@@ -23,13 +23,12 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             Edit
           </a>
         )}
-        <Divider type="vertical" />
         {showDelete && (
           <a className="redLink" onClick={onDelete}>
             Delete
           </a>
         )}
-      </Col>
+      </div>
     )}
     {showDelete && showEdit}
   </span>
@@ -59,10 +58,6 @@ const TaskActions = ({
 }) => (
   <Col
     className="WrapperActionsActivities"
-    xs={{ span: 24 }}
-    sm={{ span: 24 }}
-    md={24}
-    lg={{ span: 24 }}
   >
     {type === 'evidence' && evidenceTask(showAddEvidence, onNewEvidence)}
     {type === 'edit' &&

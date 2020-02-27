@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Progress } from 'antd';
+import { Tag } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const MilestoneClaimStatus = (
-  { text, color, onClick },
-  showClaimStatus,
-  progress
+  { text, onClick, color, theme },
+  showClaimStatus
 ) => (
   <div className="space-between w100">
+    <Tag color={color}>{text}</Tag>
     {onClick ? (
       <CustomButton
-        className="blueLink"
+        theme={theme}
         onClick={onClick}
-        buttonText={text}
+        buttonText="Claim now!"
         hidden={!showClaimStatus}
       />
     ) : (
-      <Tag color={color}>{text}</Tag>
+      ''
     )}
     {/* <div style={{ width: 120 }}>
       <Progress percent={progress} />
@@ -29,12 +29,14 @@ export default MilestoneClaimStatus;
 
 MilestoneClaimStatus.defaultProps = {
   text: undefined,
-  color: 'yellow',
+  theme: undefined,
+  color: undefined,
   onClick: () => undefined
 };
 
 MilestoneClaimStatus.propTypes = {
   text: PropTypes.string,
+  theme: PropTypes.string,
   color: PropTypes.string,
   onClick: PropTypes.func
 };
