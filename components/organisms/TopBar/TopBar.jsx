@@ -12,6 +12,7 @@ import { Row, Col, Divider } from 'antd';
 import { useHistory } from 'react-router';
 import './_style.scss';
 import ModalLogin from '../ModalLogin/ModalLogin';
+import ModalMigration from '../ModalMigration/ModalMigration';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const TopBar = ({ setVisibility, visibility }) => {
@@ -28,6 +29,9 @@ const TopBar = ({ setVisibility, visibility }) => {
         sm={{ span: 7, offset: 10 }}
         lg={{ span: 4, offset: 13 }}
       >
+      <ModalMigration/>
+              <Divider type="vertical" />
+
         <CustomButton
           buttonText="Register"
           theme="Secondary"
