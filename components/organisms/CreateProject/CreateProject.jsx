@@ -141,7 +141,7 @@ const CreateProject = ({
               title="Project Milestones"
               subtitle="Upload milestones and edit them"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
-              disabled={!id || status === projectStatuses.CONSENSUS}
+              disabled={!id}
               completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             />
           </Col>
