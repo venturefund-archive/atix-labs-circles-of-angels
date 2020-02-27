@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 import MilestoneRow from './MilestoneRow';
 import MilestoneCol from './MilestoneCol';
 import RowLabel from './RowLabel';
@@ -56,19 +57,43 @@ const Milestone = ({
   return (
     <div>
       <MilestoneRow>
-        <MilestoneCol span={4}>
-          <h3>Milestone {index}</h3>
-        </MilestoneCol>
-        <MilestoneCol className="vertical" span={4}>
-          <RowLabel text="Quarter" />
-          <EditableInfo
-            value={milestone.quarter}
+        <div className="header space-between">
+          <Col xs={8} lg={12}>
+            <h3>Milestone {index}</h3>
+          </Col>
+          <MilestoneActions
+            type={milestoneActionType}
+            milestoneId={milestone.id}
+            status={milestoneStatus}
+            progress={milestoneProgress}
+            onDelete={deleteMilestone}
+            onEdit={handleEditRow}
+            onClickCreateTask={() => setModalVisible(true)}
+            onClaimMilestone={onClaimMilestone}
+            showDelete={showMilestoneDelete}
+            showEdit={showMilestoneEdit}
+            showCreateTask={showCreateTask}
+            showClaimStatus={showClaimStatus}
             isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, quarter: v })}
           />
+        </div>
+        <MilestoneCol className="flex" span={3}>
+          <img
+            src="/static/images/calendarMilestone.svg"
+            alt="chatimage"
+            width="35px"
+          />
+          <div className="vertical">
+            <RowLabel text="Quarter" />
+            <EditableInfo
+              value={milestone.quarter || 'No data'}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, quarter: v })}
+            />
+          </div>
         </MilestoneCol>
-        <MilestoneCol span={9}>
-          <RowLabel text="Tasks" />
+        <MilestoneCol span={20}>
+          <RowLabel text="Description" />
           <EditableInfo
             value={milestone.description}
             isEditing={editing}
@@ -76,21 +101,6 @@ const Milestone = ({
           />
         </MilestoneCol>
       </MilestoneRow>
-      <MilestoneActions
-        type={milestoneActionType}
-        milestoneId={milestone.id}
-        status={milestoneStatus}
-        progress={milestoneProgress}
-        onDelete={deleteMilestone}
-        onEdit={handleEditRow}
-        onClickCreateTask={() => setModalVisible(true)}
-        onClaimMilestone={onClaimMilestone}
-        showDelete={showMilestoneDelete}
-        showEdit={showMilestoneEdit}
-        showCreateTask={showCreateTask}
-        showClaimStatus={showClaimStatus}
-        isEditing={editing}
-      />
       <MilestoneTasks
         tasks={milestone.tasks}
         onDelete={onTaskDelete}

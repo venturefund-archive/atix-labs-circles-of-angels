@@ -8,7 +8,7 @@ const MilestoneRow = ({ className, children }) => (
     xs={{ span: 24 }}
     sm={{ span: 24 }}
     md={18}
-    lg={{ span: 18 }}
+    lg={{ span: 24 }}
   >
     {children}
   </Col>

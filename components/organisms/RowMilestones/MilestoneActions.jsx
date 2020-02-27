@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Divider } from 'antd';
+import { Col } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
 import MilestoneClaimStatus from './MilestoneClaimStatus';
 
@@ -13,43 +16,42 @@ const editMilestoneButtons = (
   showCreateTask,
   isEditing
 ) => (
-  <Col span={24} className="flex">
-    <Col span={18} className="flex">
+  <div className="flex">
+    <div className="flex">
       {showEdit &&
         (isEditing ? (
-          <Col span={10}>
+          <div className="isEditing">
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
-            <Divider />
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <a className="redLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
-          </Col>
+          </div>
         ) : (
-          <Col span={10}>
+          <div>
             <a className="blueLink" onClick={() => onEdit(false)}>
               Edit
             </a>
-          </Col>
+          </div>
         ))}
       {showDelete && showEdit}
       {showCreateTask && (
-        <Col span={13}>
+        <div>
           <a className="blueLink" onClick={onClickCreateTask}>
             + New Task
           </a>
-        </Col>
+        </div>
       )}
-    </Col>
+    </div>
     {showDelete && (
-      <Col span={6}>
+      <div>
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
-      </Col>
+      </div>
     )}
-  </Col>
+  </div>
 );
 
 const MilestoneActions = ({
@@ -70,33 +72,31 @@ const MilestoneActions = ({
   const claimMilestoneStatusMap = {
     [claimMilestoneStatus.PENDING]: {
       text: 'Pending',
-      color: 'yellow'
+      theme: 'CancelMst',
+      color: 'orange'
     },
     [claimMilestoneStatus.CLAIMABLE]: {
       text: 'Claimable',
-      color: 'blue',
+      theme: 'SuccessMst',
+      color: 'green',
       onClick: () => onClaimMilestone(milestoneId)
     },
     [claimMilestoneStatus.CLAIMED]: {
       text: 'Claimed',
-      color: 'green'
+      theme: 'SuccessMst',
+      color: 'blue'
     },
     [claimMilestoneStatus.TRANSFERRED]: {
       text: 'Transferred',
-      color: 'gold'
+      theme: 'SuccessMst',
+      color: 'geekblue'
     }
   };
 
   const claimMilestoneProps = claimMilestoneStatusMap[status];
 
   return (
-    <Col
-      className="WrapperActions flex space-between"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={6}
-      lg={{ span: 6 }}
-    >
+    <Col className="WrapperActions flex space-between">
       {type === 'status' &&
         MilestoneClaimStatus(claimMilestoneProps, showClaimStatus, progress)}
       {type === 'edit' &&

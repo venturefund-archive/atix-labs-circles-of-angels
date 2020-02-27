@@ -41,8 +41,9 @@ const ProjectDetailHeader = ({
       img: './static/images/calendar-icon.svg'
     },
     {
-      label: 'Amount',
+      label: 'Goal Amount',
       value: goalAmount,
+      extra: 'USD',
       img: './static/images/amount-icon.svg'
     }
   ];
@@ -51,6 +52,7 @@ const ProjectDetailHeader = ({
     itemsData.push({
       label: 'Funded Amount',
       value: fundedAmount,
+      extra: 'USD',
       img: './static/images/amount-icon.svg'
     });
 

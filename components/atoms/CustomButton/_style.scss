@@ -42,6 +42,17 @@
     display: none;
   }
 }
+.ant-btn.SuccessMst,
+.ant-btn.SucceSuccessMstss:active .ant-btn.SuccessMst:focus {
+  background: $success-color;
+  height:auto;
+  span {
+    @include primary-text($button, $white, 600);
+  }
+  .anticon {
+    display: none;
+  }
+}
 /* FACEBOOK */
 .ant-btn.Facebook,
 .ant-btn.Facebook:active,
@@ -159,6 +170,27 @@
   color: $white;
 }
 .ant-btn.Cancel .anticon.none{
+  display: none;
+}
+/* CANCELMILESTONE */
+.ant-btn.CancelMst,
+.ant-btn.CancelMst:active,
+.ant-btn.CancelMst:focus,
+.ant-btn.CancelMst:hover {
+  background: $border;
+  height:auto;
+  span {
+    @include primary-text($button, $white, 600);
+  }
+  .anticon {
+    display: none;
+  }
+}
+.ant-btn.CancelMst .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.CancelMst .anticon.none{
   display: none;
 }
 
