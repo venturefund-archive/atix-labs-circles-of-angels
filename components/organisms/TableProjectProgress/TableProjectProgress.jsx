@@ -10,7 +10,7 @@ import React from 'react';
 import { Table, Tag, Badge, Icon, Progress } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
-import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
+import { claimMilestoneStatus } from '../../../constants/constants';
 import MilestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_tablestyle.scss';
@@ -131,13 +131,13 @@ const TableProjectProgress = ({
             </a>
           </span>
         ) : (
-          record.budgetStatus.id === MilestoneBudgetStatus.CLAIMABLE &&
+          record.budgetStatus.id === claimMilestoneStatus.CLAIMABLE &&
           isSocialEntrepreneur && (
             <CustomButton
               buttonText="CLAIM"
               theme="Primary"
               onClick={() =>
-                onBudgetStatusChange(record.id, MilestoneBudgetStatus.CLAIMED)
+                onBudgetStatusChange(record.id, claimMilestoneStatus.CLAIMED)
               }
             />
           )
