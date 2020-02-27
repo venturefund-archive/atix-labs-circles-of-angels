@@ -13,51 +13,50 @@ const editMilestoneButtons = (
   showCreateTask,
   isEditing
 ) => (
-  <Col span={24} className="flex">
-    <Col span={18} className="flex">
+  <div className="flex">
+    <div className="flex">
       {showEdit &&
         (isEditing ? (
-          <Col span={10}>
+          <div className="isEditing">
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
-            <Divider />
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <a className="redLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
-          </Col>
+          </div>
         ) : (
-          <Col span={10}>
+          <div>
             <a className="blueLink" onClick={() => onEdit(false)}>
               Edit
             </a>
-          </Col>
+          </div>
         ))}
       {showDelete && showEdit}
       {showCreateTask && (
-        <Col span={13}>
+        <div >
           <a className="blueLink" onClick={onClickCreateTask}>
             + New Task
-        </a>
-        </Col>
+          </a>
+        </div>
       )}
-    </Col>
+    </div>
     {showDelete && (
-      <Col span={6}>
+      <div >
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
-      </Col>
+      </div>
     )}
-  </Col>
+  </div>
 );
 
-const statusMilestone = (text, onClick, progress) => (
-  <div className="space-between w100">
-    <CustomButton className="blueLink" onClick={onClick} buttonText={text} />
+const statusMilestone = (text, onClick, progress, theme) => (
+  <div className="space-between">
     <div style={{ width: 120 }}>
       <Progress percent={progress} />
     </div>
+    <CustomButton theme={theme} onClick={onClick} buttonText={text} />
   </div>
 );
 
@@ -77,31 +76,31 @@ const MilestoneActions = ({
 }) => {
   const claimMilestoneStatusMap = {
     [claimMilestoneStatus.PENDING]: {
-      text: 'Pending'
+      text: 'Claimable!',
+      theme: 'CancelMst'
     },
     [claimMilestoneStatus.CLAIMABLE]: {
-      text: 'Claimable',
+      text: 'Claimable!',
+      theme: 'SuccessMst',     
       onClick: () => onClaimMilestone(milestoneId)
     },
     [claimMilestoneStatus.CLAIMED]: {
-      text: 'Claimed'
+      text: 'Claimed',      
+      theme: 'SuccessMst'  
     },
     [claimMilestoneStatus.TRANSFERRED]: {
-      text: 'Transferred'
+      text: 'Transferred',      
+      theme: 'SuccessMst'  
     }
   };
 
-  const { text, onClick } = claimMilestoneStatusMap[status];
+  const { text, onClick, theme } = claimMilestoneStatusMap[status];
 
   return (
     <Col
       className="WrapperActions flex space-between"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={6}
-      lg={{ span: 6 }}
     >
-      {type === 'status' && statusMilestone(text, onClick, progress)}
+      {type === 'status' && statusMilestone(text, onClick, progress, theme)}
       {type === 'edit' &&
         editMilestoneButtons(
           onEdit,

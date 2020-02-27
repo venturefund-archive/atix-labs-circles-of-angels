@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MilestoneRow from './MilestoneRow';
 import MilestoneCol from './MilestoneCol';
 import RowLabel from './RowLabel';
+import { Skeleton, Col } from 'antd';
 import MilestoneActions from './MilestoneActions';
 import MilestoneTasks from './MilestoneTasks';
 import EditableInfo from './EditableInfo';
@@ -55,26 +56,10 @@ const Milestone = ({
   return (
     <div>
       <MilestoneRow>
-        <MilestoneCol span={4}>
-          <h3>Milestone {index}</h3>
-        </MilestoneCol>
-        <MilestoneCol className="vertical" span={4}>
-          <RowLabel text="Quarter" />
-          <EditableInfo
-            value={milestone.quarter}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, quarter: v })}
-          />
-        </MilestoneCol>
-        <MilestoneCol span={9}>
-          <RowLabel text="Tasks" />
-          <EditableInfo
-            value={milestone.description}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, description: v })}
-          />
-        </MilestoneCol>
-      </MilestoneRow>
+        <div className="header space-between">
+        <Col xs={8} lg={12}>
+        <h3>Milestone {index}</h3>
+      </Col>
       <MilestoneActions
         type={milestoneActionType}
         milestoneId={milestone.id}
@@ -89,6 +74,29 @@ const Milestone = ({
         showCreateTask={showCreateTask}
         isEditing={editing}
       />
+  </div>
+  <MilestoneCol className="flex" span={3}>
+
+           <img src="/static/images/calendarMilestone.svg" alt="chatimage" width="35px" />
+             <div className="vertical">
+          <RowLabel text="Quarter" />
+          <EditableInfo
+            value={milestone.quarter || "No data"}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, quarter: v })}
+          />
+          </div>
+</MilestoneCol>
+        <MilestoneCol span={20}>
+          <RowLabel text="Description" />
+          <EditableInfo
+            value={milestone.description}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, description: v })}
+          />
+        </MilestoneCol>
+      </MilestoneRow>
+
       <MilestoneTasks
         tasks={milestone.tasks}
         onDelete={onTaskDelete}

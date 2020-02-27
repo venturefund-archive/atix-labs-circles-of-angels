@@ -7,7 +7,7 @@
   }
   .ProjectHeader {
     position: relative;
-    height: 35%;
+    height: 30%;
     overflow: hidden;
     border-bottom-left-radius: 30px;
     @include breakpoint(sm) {
@@ -258,13 +258,13 @@
       @include primary-text($medium, $on-surface, 400);
     }
     h3.bold {
-      @include primary-text($medium, $on-surface, 600);
+      @include primary-text($medium, $on-surface, 500);
     }
     .ant-avatar-image {
       margin-left: 0px;
     }
     .ant-avatar-string{
-        color: $primary-color;
+        color: #23252b85;
       }
     span {
       @include primary-text($body, $on-surface, 400);

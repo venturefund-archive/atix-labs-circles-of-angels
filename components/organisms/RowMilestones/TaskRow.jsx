@@ -67,15 +67,21 @@ const TaskRow = ({
         md={24}
         lg={{ span: 24 }}
       >
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={3}
-          lg={{ span: 3 }}
-        >
+        <div className="header space-between" >
           <h3>Activity {index}</h3>
-        </Col>
+                {(showDelete || showEdit || allowNewEvidence) && (
+        <TaskActions
+          onDelete={deleteTask}
+          onEdit={handleEditRow}
+          onNewEvidence={onShowModal}
+          showDelete={showDelete}
+          showEdit={showEdit}
+          isEditing={editing}
+          showAddEvidence={allowNewEvidence}
+          type={taskActionType}
+        />
+      )}
+        </div>
         {!hideOracleColumn && (
           <Col
             className="gutter-row vertical"
@@ -105,8 +111,8 @@ const TaskRow = ({
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
+          md={24}
+          lg={{ span: 24 }}
         >
           <RowLabel text="Task" />
           <EditableInfo
@@ -119,8 +125,8 @@ const TaskRow = ({
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
+          md={24}
+          lg={{ span: 24 }}
         >
           <RowLabel text="Social Impacts Targets" />
           <EditableInfo
@@ -133,8 +139,8 @@ const TaskRow = ({
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
+          md={24}
+          lg={{ span: 24 }}
         >
           <RowLabel text="Review Criterion" />
           <EditableInfo
@@ -146,18 +152,7 @@ const TaskRow = ({
           />
         </Col>
       </Col>
-      {(showDelete || showEdit || allowNewEvidence) && (
-        <TaskActions
-          onDelete={deleteTask}
-          onEdit={handleEditRow}
-          onNewEvidence={onShowModal}
-          showDelete={showDelete}
-          showEdit={showEdit}
-          isEditing={editing}
-          showAddEvidence={allowNewEvidence}
-          type={taskActionType}
-        />
-      )}
+
       <CustomFormModal
         title="Add new evidence"
         formItems={newTaskEvidenceFormItems}
