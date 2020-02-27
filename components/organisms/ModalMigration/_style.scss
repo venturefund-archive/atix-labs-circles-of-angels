@@ -1,7 +1,7 @@
 @import "../../../css/general_styling.scss";
 
 .WrapperModalMigration{
-  width: 76vw !important;
+  width: 80vw !important;
   border-radius: 20px;
   overflow: hidden;
   padding: 0;
@@ -14,6 +14,7 @@
     background: url(/static/images/bg-overlay.png);
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
   }
   .Container{
     height: 100%;
@@ -32,9 +33,32 @@
         @include primary-text($titlepage, $on-surface, 500);
       }
       h3{
-        @include primary-text($subtitle, $on-surface, 400);
+        @include primary-text(14px, $on-surface, 400);
         width: 65%;
         margin: 1em auto;
+      }
+      .BlockContainer{
+        margin-top: 4em;
+        .Card{
+          h1{
+            @include primary-text(16px, $on-surface, 500);
+            text-align: left;
+            padding-top: 0.5em;
+          }
+          .ImageCard{
+            height: 180px;
+            box-shadow: $shadow;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            img{
+              width:100%;
+              height: 100%;
+            }
+          }
+        }
       }
     }
     .Footer{
