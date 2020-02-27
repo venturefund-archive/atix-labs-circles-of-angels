@@ -28,14 +28,17 @@ const ProjectBrowser = ({
       )}
       {projects &&
         projects.length > 0 &&
-        projects.map(project => (
-          <CardProject
-            project={project}
-            tagClick={() => onTagClick(project.id)}
-            key={project.id}
-            onClick={() => onCardClick(project)}
-          />
-        ))}
+        projects.map(
+          project =>
+            project && (
+              <CardProject
+                project={project}
+                tagClick={() => onTagClick(project.id)}
+                key={project.id}
+                onClick={() => onCardClick(project)}
+              />
+            )
+        )}
     </Row>
   </div>
 );

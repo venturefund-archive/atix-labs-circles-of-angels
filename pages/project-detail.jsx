@@ -35,7 +35,12 @@ import {
 import { projectStatuses, publicProjectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
-import { isFunder, isSupporter } from '../helpers/utils';
+import {
+  isFunder,
+  isSupporter,
+  isOwner,
+  isEntrepreneur
+} from '../helpers/utils';
 import { getFundedAmount } from '../api/transferApi';
 
 const { TabPane } = Tabs;
@@ -96,6 +101,17 @@ const ProjectDetail = ({ user }) => {
     setExperiences(response.data);
   };
 
+  const fetchProject = async () => {
+    const response = await getProject(projectId);
+    if (response.errors) {
+      message.error('An error occurred while fetching the project');
+      history.goBack();
+      return;
+    }
+
+    setProject(response.data);
+  };
+
   const getTotalFundedAmount = async () => {
     const response = await getFundedAmount(project.id);
     if (response.errors) {
@@ -128,6 +144,11 @@ const ProjectDetail = ({ user }) => {
     }
   };
 
+  const onEditProject = () => {
+    const state = { projectId: project.id };
+    history.push(`/create-project?id=${project.id}`, state);
+  };
+
   const checkFollowing = async () => {
     try {
       const response = await isFollower(project.id);
@@ -136,6 +157,12 @@ const ProjectDetail = ({ user }) => {
       message.error(error);
     }
   };
+
+  const allowEditProject = () =>
+    project &&
+    project.status === projectStatuses.CONSENSUS &&
+    isOwner(project, user) &&
+    isEntrepreneur(user);
 
   const onApply = async role => {
     try {
@@ -156,17 +183,6 @@ const ProjectDetail = ({ user }) => {
     } catch (error) {
       message.error(error);
     }
-  };
-
-  const fetchProject = async () => {
-    const response = await getProject(projectId);
-    if (response.errors) {
-      message.error('An error occurred while fetching the project');
-      history.goBack();
-      return;
-    }
-
-    setProject(response.data);
   };
 
   const assignOracle = async (taskId, oracleId) => {
@@ -254,6 +270,8 @@ const ProjectDetail = ({ user }) => {
           fundedAmount={fundedAmount}
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
+          onEditProject={onEditProject}
+          allowEdit={allowEditProject()}
           isFollower={isFollowing}
         />
         <div className="BlockContent">
