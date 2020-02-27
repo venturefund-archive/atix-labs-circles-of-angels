@@ -64,15 +64,15 @@ const ProjectDetailHeader = ({
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
           <p>Organization Name</p>
-          <Col xs={24} md={21} lg={21} className="flex">
+          <Col xs={24} md={21} lg={18} className="flex">
             <h1>{projectName}</h1>
             {getTagStatus(status)}
           </Col>
           {allowEdit ? (
             <Col xs={24} md={3} lg={3}>
               <CustomButton
-                theme="Primary"
-                buttonText="Edit Project"
+                theme="Alternative"
+                buttonText="Edit"
                 icon="edit"
                 classNameIcon="iconDisplay"
                 onClick={onEditProject}

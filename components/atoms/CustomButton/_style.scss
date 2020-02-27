@@ -109,7 +109,7 @@
 .ant-btn.Alternative:active,
 .ant-btn.Alternative:focus,
 .ant-btn.Alternative:hover {
-  background:transparent;
+  background:$white;
   border:1px solid $primary-color;
   span {
     @include primary-text($button, $primary-color, 400);
