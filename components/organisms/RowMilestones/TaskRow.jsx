@@ -114,25 +114,11 @@ const TaskRow = ({
           md={24}
           lg={{ span: 24 }}
         >
-          <RowLabel text="Task" />
+          <RowLabel text="Description" />
           <EditableInfo
             value={task.description}
             isEditing={editing}
             updateValue={v => setEditFields({ ...editFields, description: v })}
-          />
-        </Col>
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={24}
-          lg={{ span: 24 }}
-        >
-          <RowLabel text="Social Impacts Targets" />
-          <EditableInfo
-            value={task.impact}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, impact: v })}
           />
         </Col>
         <Col
@@ -149,6 +135,48 @@ const TaskRow = ({
             updateValue={v =>
               setEditFields({ ...editFields, reviewCriteria: v })
             }
+          />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={24}
+          lg={{ span: 24 }}
+        >
+          <RowLabel text="Expenditure Category" />
+          <EditableInfo
+            value={task.category}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, category: v })}
+          />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={24}
+          lg={{ span: 24 }}
+        >
+          <RowLabel text="Key Personnel" />
+          <EditableInfo
+            value={task.keyPersonnel}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, keyPersonnel: v })}
+          />
+        </Col>
+        <Col
+          className="gutter-row "
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          md={24}
+          lg={{ span: 24 }}
+        >
+          <RowLabel text="Budget" />
+          <EditableInfo
+            value={task.budget}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, budget: v })}
           />
         </Col>
       </Col>

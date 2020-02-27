@@ -10,6 +10,7 @@ import EditableInfo from './EditableInfo';
 import { showModalConfirm } from '../../utils/Modals';
 import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
 import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
+import Info from './Info';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -40,6 +41,12 @@ const Milestone = ({
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const calculateMilestoneBudget = () =>
+    milestone.tasks.reduce((total, task) => {
+      if (!task.budget || Number.isNaN(Number(task.budget))) return total;
+      return total + Number(task.budget);
+    }, 0);
 
   const deleteMilestone = () =>
     showModalConfirm(
@@ -99,6 +106,18 @@ const Milestone = ({
             isEditing={editing}
             updateValue={v => setEditFields({ ...editFields, description: v })}
           />
+        </MilestoneCol>
+        <MilestoneCol span={20}>
+          <RowLabel text="Expenditure Category" />
+          <EditableInfo
+            value={milestone.category}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, category: v })}
+          />
+        </MilestoneCol>
+        <MilestoneCol span={20}>
+          <RowLabel text="Budget" />
+          <Info value={`${calculateMilestoneBudget()} USD`} />
         </MilestoneCol>
       </MilestoneRow>
       <MilestoneTasks
