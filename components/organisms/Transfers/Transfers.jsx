@@ -19,18 +19,16 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newFundFormItems } from '../../../helpers/createProjectFormFields';
 
-
 const blabla = (
   <Row className="Data">
     <Col span={12} className="flex">
-    <b>Alias</b> <p>CIRCLES OF ANGELS ALIAS</p>
+      <b>Alias</b> <p>CIRCLES OF ANGELS ALIAS</p>
     </Col>
     <Col span={12} className="flex">
-    <b>ID ACCOUNT</b> <p>0170347240000030652220</p>
+      <b>ID ACCOUNT</b> <p>0170347240000030652220</p>
     </Col>
   </Row>
 );
-
 
 const Transfers = ({ project, allowNewFund }) => {
   const [transfers, setTransfers] = useState([]);
@@ -77,7 +75,7 @@ const Transfers = ({ project, allowNewFund }) => {
         visible={visible}
         onConfirm={onNewFund}
         onClose={() => setVisible(false)}
-        // body = {blabla}
+        // body={blabla}
       />
       <TableTransfer transfers={transfers} />
     </Fragment>

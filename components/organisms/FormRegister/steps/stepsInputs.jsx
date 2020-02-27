@@ -15,7 +15,7 @@ export const step1Inputs = {
       {
         name: 'supporter',
         value: 'supporter',
-        usertype: 'Impact Funder',
+        usertype: 'Project Supporter',
         title: 'Fund or monitor a project'
       }
     ],

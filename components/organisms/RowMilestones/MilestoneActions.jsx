@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Progress } from 'antd';
+import { Col } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import MilestoneClaimStatus from './MilestoneClaimStatus';
 
 const editMilestoneButtons = (
   onEdit,
@@ -54,15 +54,6 @@ const editMilestoneButtons = (
   </div>
 );
 
-const statusMilestone = (text, onClick, progress, theme) => (
-  <div className="space-between">
-    <div style={{ width: 120 }}>
-      <Progress percent={progress} />
-    </div>
-    <CustomButton theme={theme} onClick={onClick} buttonText={text} />
-  </div>
-);
-
 const MilestoneActions = ({
   type,
   milestoneId,
@@ -73,35 +64,41 @@ const MilestoneActions = ({
   showEdit,
   showDelete,
   showCreateTask,
+  showClaimStatus,
   status,
   progress,
   isEditing
 }) => {
   const claimMilestoneStatusMap = {
     [claimMilestoneStatus.PENDING]: {
-      text: 'Claimable!',
-      theme: 'CancelMst'
+      text: 'Pending',
+      theme: 'CancelMst',
+      color: 'orange'
     },
     [claimMilestoneStatus.CLAIMABLE]: {
-      text: 'Claimable!',
+      text: 'Claimable',
       theme: 'SuccessMst',
+      color: 'green',
       onClick: () => onClaimMilestone(milestoneId)
     },
     [claimMilestoneStatus.CLAIMED]: {
       text: 'Claimed',
-      theme: 'SuccessMst'
+      theme: 'SuccessMst',
+      color: 'blue'
     },
     [claimMilestoneStatus.TRANSFERRED]: {
       text: 'Transferred',
-      theme: 'SuccessMst'
+      theme: 'SuccessMst',
+      color: 'geekblue'
     }
   };
 
-  const { text, onClick, theme } = claimMilestoneStatusMap[status];
+  const claimMilestoneProps = claimMilestoneStatusMap[status];
 
   return (
     <Col className="WrapperActions flex space-between">
-      {type === 'status' && statusMilestone(text, onClick, progress, theme)}
+      {type === 'status' &&
+        MilestoneClaimStatus(claimMilestoneProps, showClaimStatus, progress)}
       {type === 'edit' &&
         editMilestoneButtons(
           onEdit,
@@ -119,7 +116,8 @@ const MilestoneActions = ({
 export default MilestoneActions;
 
 MilestoneActions.defaultProps = {
-  onClaimMilestone: () => undefined
+  onClaimMilestone: () => undefined,
+  showClaimStatus: false
 };
 
 MilestoneActions.propTypes = {
@@ -133,6 +131,7 @@ MilestoneActions.propTypes = {
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
+  showClaimStatus: PropTypes.bool,
   type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   isEditing: PropTypes.bool.isRequired
 };

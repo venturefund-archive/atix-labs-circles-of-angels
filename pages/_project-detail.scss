@@ -94,8 +94,8 @@
         }
       }
       h1 {
-        @include primary-text($titlebig, $white, 600);
-        line-height: $titlebig;
+        @include primary-text($titlemedium, $white, 600);
+        line-height: $titlemedium;
         margin-right: 0.5em;
         @include breakpoint(sm) {
           @include primary-text($titlebig, $on-surface, 600);

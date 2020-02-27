@@ -17,6 +17,9 @@ const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
 const getFollowedProjects = async () =>
   apiCall('get', `${baseURL}/followed-projects`);
 
+const getAppliedProjects = async () =>
+  apiCall('get', `${baseURL}/applied-projects`);
+
 const loginUser = (email, pwd) =>
   apiCall('post', `${baseURL}/login`, { email, pwd });
 
@@ -74,5 +77,6 @@ export {
   recoverPassword,
   updatePassword,
   getMyProjects,
-  getFollowedProjects
+  getFollowedProjects,
+  getAppliedProjects
 };

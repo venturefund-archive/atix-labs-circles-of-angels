@@ -4,6 +4,7 @@ import { Col, Tag, Row } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
+import { publicProjectStatuses } from '../../../constants/constants';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -18,6 +19,7 @@ const ProjectDetailHeader = ({
   location,
   timeframe,
   goalAmount,
+  fundedAmount,
   projectName,
   faqLink,
   status,
@@ -37,11 +39,21 @@ const ProjectDetailHeader = ({
       img: './static/images/calendar-icon.svg'
     },
     {
-      label: 'Amount',
+      label: 'Goal Amount',
       value: goalAmount,
+      extra: 'USD',
       img: './static/images/amount-icon.svg'
     }
   ];
+
+  if (Object.values(publicProjectStatuses).includes(status))
+    itemsData.push({
+      label: 'Funded Amount',
+      value: fundedAmount,
+      extra: 'USD',
+      img: './static/images/amount-icon.svg'
+    });
+
   return (
     <div className="ProjectHeader">
       <img
@@ -60,20 +72,20 @@ const ProjectDetailHeader = ({
             <CustomButton
               theme={isFollower ? 'Primary' : 'Primary'}
               buttonText={isFollower ? 'Following' : 'Follow Project'}
-              icon='check'
+              icon="check"
               classNameIcon={isFollower ? 'iconDisplay' : 'none'}
               onClick={isFollower ? onUnfollowProject : onFollowProject}
             />
           </Col>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
-          <Col className="flex">
+          {/* <Col className="flex">
             <GeneralItem
               type="link"
               value={faqLink} // TODO: fix styles when link too long
               label="FAQ-Funders and SE´s Questions & Answers"
             />
-          </Col>
+          </Col> */}
           <Col className="flex">
             {itemsData.map(item => (
               <GeneralItem {...item} key={`data-${item.value}`} />
@@ -90,6 +102,7 @@ ProjectDetailHeader.defaultProps = {
   location: '-',
   timeframe: '-',
   goalAmount: 0,
+  fundedAmount: 0,
   projectName: '-',
   faqLink: '#',
   isFollower: false
@@ -100,6 +113,7 @@ ProjectDetailHeader.propTypes = {
   location: PropTypes.string,
   timeframe: PropTypes.string,
   goalAmount: PropTypes.number,
+  fundedAmount: PropTypes.number,
   projectName: PropTypes.string,
   faqLink: PropTypes.string,
   status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,

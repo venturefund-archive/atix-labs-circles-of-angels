@@ -23,25 +23,39 @@ export const PROJECT_FORM_NAMES = {
   MAIN: 'main'
 };
 
-export const projectStatuses = {
-  NEW: 'new',
-  TO_REVIEW: 'toreview',
-  REJECTED: 'rejected',
-  DELETED: 'deleted',
+export const publicProjectStatuses = {
   PUBLISHED: 'published',
   CONSENSUS: 'consensus',
   FUNDING: 'funding',
   EXECUTING: 'executing',
   CHANGING_SCOPE: 'changingscope',
   FINISHED: 'finished',
-  ABORTED: 'aborted',
+  ABORTED: 'aborted'
+};
+
+export const privateProjectStatuses = {
+  NEW: 'new',
+  TO_REVIEW: 'toreview',
+  REJECTED: 'rejected'
+};
+
+export const inactiveProjectStatuses = {
+  DELETED: 'deleted',
   ARCHIVED: 'archived',
   CANCELLED: 'cancelled'
+  // TODO this status might be a boolean field in project table
+  // SUSPENDED: 'suspended'
+};
+
+export const projectStatuses = {
+  ...privateProjectStatuses,
+  ...publicProjectStatuses,
+  ...inactiveProjectStatuses
 };
 
 export const supporterRoles = {
-  ORACLE: 'oracle',
-  FUNDER: 'funder'
+  ORACLES: 'oracles',
+  FUNDERS: 'funders'
 };
 
 export const claimMilestoneStatus = {

@@ -25,6 +25,7 @@ $border: #E5E6ED;
 // Typographic Scale
 $titlebanner: 90px;
 $titlebig: 40px;
+$titlemedium: 26px;
 $titlepage: 22px;
 $titlecard: 19px;
 $title: 20px;
@@ -56,7 +57,7 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
   @if $font-color {
     color: $font-color;
   }
-  font-family: 'Rubik', ;
+  font-family: 'Rubik', 'sans-serif';
 }
 
 // Container

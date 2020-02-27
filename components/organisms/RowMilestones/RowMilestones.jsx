@@ -21,6 +21,7 @@ const RowMilestones = ({
   showMilestoneDelete,
   showMilestoneEdit,
   showCreateTask,
+  showClaimStatus,
   taskActionType,
   oracles,
   hideOracleColumn,
@@ -52,6 +53,7 @@ const RowMilestones = ({
       onMilestoneEdit={handleEdit}
       showMilestoneDelete={showMilestoneDelete}
       showMilestoneEdit={showMilestoneEdit}
+      showClaimStatus={showClaimStatus}
       showCreateTask={showCreateTask}
       taskActionType={taskActionType}
       oracles={oracles}
@@ -81,6 +83,7 @@ RowMilestones.defaultProps = {
   showMilestoneDelete: false,
   showMilestoneEdit: false,
   showCreateTask: false,
+  showClaimStatus: false,
   canAssignOracle: false,
   taskActionType: 'none',
   hideOracleColumn: false,
@@ -104,6 +107,7 @@ RowMilestones.propTypes = {
   showMilestoneDelete: PropTypes.bool,
   showMilestoneEdit: PropTypes.bool,
   showCreateTask: PropTypes.bool,
+  showClaimStatus: PropTypes.bool,
   canAssignOracle: PropTypes.bool,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']),
   hideOracleColumn: PropTypes.bool,
