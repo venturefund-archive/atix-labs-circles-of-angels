@@ -124,14 +124,16 @@ const TaskRow = ({
               updateValue={v => setEditFields({ ...editFields, budget: v })}
             />
           </div>
-           <div className="BorderBox">
-                  <RowLabel text="Key Personnel" />
-                  <EditableInfo
-                    value={task.keyPersonnel}
-                    isEditing={editing}
-                    updateValue={v => setEditFields({ ...editFields, keyPersonnel: v })}
-                  />
-           </div>
+          <div className="BorderBox">
+            <RowLabel text="Key Personnel" />
+            <EditableInfo
+              value={task.keyPersonnel}
+              isEditing={editing}
+              updateValue={v =>
+                setEditFields({ ...editFields, keyPersonnel: v })
+              }
+            />
+          </div>
         </div>
         <Col
           className="gutter-row "
@@ -163,7 +165,6 @@ const TaskRow = ({
             }
           />
         </Col>
-
       </Col>
 
       <CustomFormModal

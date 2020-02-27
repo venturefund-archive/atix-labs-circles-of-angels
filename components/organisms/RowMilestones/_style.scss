@@ -1,21 +1,30 @@
 @import '../../../css/general_styling.scss';
 
-
 .WrapperTable {
   overflow: hidden;
   margin: 0 0 1em 0 !important;
   @include breakpoint(sm) {
     margin: 0 0 1em 0 !important;
   }
-.ant-input{
-  font-size:12px;
-      border: 1px solid $primary-color;
-      color: #728099;
-      margin-right: 0.5em;
-}
-.gutter-row{
-margin-right: 0.5em;
-}
+  .BorderBox {
+    padding-left: 1em;
+    border-left: 1px solid $border;
+  }
+  .Contentbox{
+    padding: 0.5em 0;
+    .Box {
+      padding-left: 1em;
+    }
+  }
+  .ant-input {
+    font-size: 12px;
+    border: 1px solid $primary-color;
+    color: #728099;
+    margin-right: 0.5em;
+  }
+  .gutter-row {
+    margin-right: 0.5em;
+  }
 
   .SubWrapperActivitiesActions {
     height: 100%;
@@ -25,9 +34,9 @@ margin-right: 0.5em;
   }
   .TableMilestones {
     border: 1px solid $border;
-    border-bottom:transparent;
+    border-bottom: transparent;
     padding: 0 1em 1em;
-    border-radius:4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
   }
   .ant-progress-show-info .ant-progress-outer {
     margin-right: calc(-2em - 8px);
@@ -45,7 +54,7 @@ margin-right: 0.5em;
   }
   .TableMilestones,
   .TableActivities {
-        padding: 0 1em 1em;
+    padding: 0 1em 1em;
     height: auto;
     @include breakpoint(sm) {
       flex-direction: column;
@@ -59,41 +68,37 @@ margin-right: 0.5em;
     label {
       @include primary-text(12.5px, $on-surface-medium, 400);
     }
-          .header{
-    display:flex;
-    border-bottom: 1px solid $border;
-    margin-bottom:1em;
-    padding: 0.5em 0;
-  }
+    .header {
+      display: flex;
+      border-bottom: 1px solid $border;
+      margin-bottom: 1em;
+      padding: 0.5em 0;
+    }
   }
   .TableActivities {
-    
-          h3 {
+    h3 {
       @include primary-text($h3, $on-surface, 500);
     }
-        .BorderBox{
-      padding-left: 1em;
-    border-left: 1px solid $border;
-    }
-    
+
     .gutter-row {
       margin-right: 1em;
       .ant-select {
         width: 90%;
         margin-top: 0.5em;
         .ant-select-selection {
-    border-radius: 2px;
-    border: transparent;
-    border-bottom: 2px solid $primary-color;
-    margin-bottom: 1em;
-}
+          border-radius: 2px;
+          border: transparent;
+          border-bottom: 2px solid $primary-color;
+          margin-bottom: 1em;
+        }
       }
     }
   }
-  .WrapperActionsActivities, .WrapperActions  {
-    .isEditing{
-      background: #E9F0FE;
-    border-radius: 4px;
+  .WrapperActionsActivities,
+  .WrapperActions {
+    .isEditing {
+      background: #e9f0fe;
+      border-radius: 4px;
     }
   }
   .WrapperActions {
@@ -130,7 +135,7 @@ margin-right: 0.5em;
         border-bottom: transparent;
       }
       .ant-collapse-header {
-        border-top:transparent;
+        border-top: transparent;
         padding: 0.5em 1.5em;
         border-radius: 0 0 4px 4px;
         border: 1px solid $border;
