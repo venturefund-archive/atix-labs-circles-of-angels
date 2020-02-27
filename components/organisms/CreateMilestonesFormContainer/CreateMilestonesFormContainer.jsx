@@ -85,6 +85,7 @@ const CreateMilestonesFormContainer = ({
   const [processed, setProcessed] = useState(false);
   const [processError, setProcessError] = useState();
   const [milestones, setMilestones] = useState([]);
+  const [cleanFile, setCleanFile] = useState(false);
 
   useEffect(() => {
     if (!project || !project.id) goBack();
@@ -93,9 +94,7 @@ const CreateMilestonesFormContainer = ({
 
   useEffect(() => {
     if (milestones.length > 0) {
-      handleChange(undefined, 'milestoneFile', milestones);
-      validateFields(1);
-      setProcessed(true);
+      validateFields(2);
     }
   }, [milestones]);
 
@@ -187,6 +186,7 @@ const CreateMilestonesFormContainer = ({
     if (response.data.projectId) {
       message.success('Milestones saved successfully');
       fetchMilestones();
+      setCleanFile(true);
       return true;
     }
 
@@ -216,6 +216,7 @@ const CreateMilestonesFormContainer = ({
         editTask={handleEditTask}
         deleteTask={handleDeleteTask}
         skipStep={skipProcessFileStep}
+        cleanFile={cleanFile}
       />
     );
   }
@@ -232,7 +233,7 @@ const CreateMilestonesFormContainer = ({
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? processed && errorList.length > 0 : false
+            currentStep === 1 ? milestones.length === 0 : false
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />
