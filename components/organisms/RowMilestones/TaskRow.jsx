@@ -58,6 +58,17 @@ const TaskRow = ({
 
   const onShowModal = () => setVisible(true);
 
+  const mapTaskStatus = isVerified =>
+    isVerified
+      ? {
+          text: 'Verified',
+          color: 'green'
+        }
+      : {
+          text: 'Pending',
+          color: 'orange'
+        };
+
   return (
     <Col span={24} key={task.id}>
       <Col
@@ -69,7 +80,7 @@ const TaskRow = ({
       >
         <div className="header space-between">
           <h3>Activity {index}</h3>
-          {(showDelete || showEdit || allowNewEvidence) && (
+          {(showDelete || showEdit || taskActionType === 'evidence') && (
             <TaskActions
               onDelete={deleteTask}
               onEdit={handleEditRow}
@@ -79,6 +90,7 @@ const TaskRow = ({
               isEditing={editing}
               showAddEvidence={allowNewEvidence}
               type={taskActionType}
+              taskStatusProps={mapTaskStatus(task.verified)}
             />
           )}
         </div>

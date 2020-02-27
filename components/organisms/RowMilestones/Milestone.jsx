@@ -35,7 +35,8 @@ const Milestone = ({
   taskActionType,
   oracles,
   hideOracleColumn,
-  allowNewEvidence
+  allowNewEvidence,
+  allowClaimMilestone
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -75,6 +76,7 @@ const Milestone = ({
             showCreateTask={showCreateTask}
             showClaimStatus={showClaimStatus}
             isEditing={editing}
+            allowClaimMilestone={allowClaimMilestone}
           />
         </div>
         <MilestoneCol className="flex" span={3}>
@@ -152,7 +154,8 @@ Milestone.propTypes = {
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
-  allowNewEvidence: PropTypes.func
+  allowNewEvidence: PropTypes.func,
+  allowClaimMilestone: PropTypes.bool.isRequired
 };
 
 export default Milestone;
