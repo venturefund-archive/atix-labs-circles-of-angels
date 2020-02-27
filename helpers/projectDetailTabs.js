@@ -7,6 +7,7 @@ import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
 import Transfers from '../components/organisms/Transfers/Transfers';
 import { projectStatuses } from '../constants/constants';
+import { isOracle, isOwner } from './utils';
 
 const SHOW_EXPERIENCES_STATUSES = [
   projectStatuses.CONSENSUS,
@@ -26,10 +27,6 @@ const SHOW_FUNDS_STATUSES = [
 ];
 
 const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
-
-const isOwner = (project, user) => project.owner === user.id;
-
-const isOracle = (task, user) => task.oracle === user.id;
 
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
@@ -66,7 +63,6 @@ const experienceTabTitle = project => (
 );
 
 // TODO: discussion tab
-// TODO: check project status and hide accordingly
 export const tabsContent = ({
   project,
   user,
