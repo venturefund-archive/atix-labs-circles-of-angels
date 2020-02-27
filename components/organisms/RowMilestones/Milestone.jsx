@@ -85,7 +85,7 @@ const Milestone = ({
           />
         </div>
         <div className="flex Contentbox">
-          <div className="flex Box">
+          {/* <div className="flex Box">
             <img
               src="/static/images/calendarMilestone.svg"
               alt="calendarMilestone"
@@ -99,7 +99,7 @@ const Milestone = ({
                 updateValue={v => setEditFields({ ...editFields, quarter: v })}
               />
             </div>
-          </div>
+          </div> */}
           <div className="flex Box">
             <img src="/static/images/budget.svg" alt="budget" width="30px" />
             <div className="vertical">
@@ -119,14 +119,14 @@ const Milestone = ({
             </div>
           </div>
         </div>
-          <MilestoneCol span={24}>
-            <RowLabel text="Description" />
-            <EditableInfo
-              value={milestone.description}
-              isEditing={editing}
-              updateValue={v => setEditFields({ ...editFields, description: v })}
-            />
-          </MilestoneCol>
+        <MilestoneCol span={24}>
+          <RowLabel text="Description" />
+          <EditableInfo
+            value={milestone.description}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, description: v })}
+          />
+        </MilestoneCol>
       </MilestoneRow>
       <MilestoneTasks
         tasks={milestone.tasks}
