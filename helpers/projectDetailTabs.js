@@ -26,8 +26,13 @@ const SHOW_FUNDS_STATUSES = [
   projectStatuses.ABORTED
 ];
 
+const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
+
+const showMilestoneClaimStatus = projectStatus =>
+  SHOW_CLAIM_STATUS.includes(projectStatus);
 
 const allowNewExperience = (project, user) =>
   [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
@@ -89,6 +94,7 @@ export const tabsContent = ({
         oracles={project.oracles}
         taskActionType="evidence"
         milestoneActionType="status"
+        showClaimStatus={showMilestoneClaimStatus(project && project.status)}
       />
     ),
     key: '2'

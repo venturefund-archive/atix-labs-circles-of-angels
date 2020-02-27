@@ -7,6 +7,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import UsersPanelCard from './UsersPanelCard';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import { supporterRoles, projectStatuses } from '../../../constants/constants';
+import { showModalConfirm } from '../../utils/Modals';
 
 const { PUBLISHED, CONSENSUS, FUNDING } = projectStatuses;
 
@@ -23,12 +24,27 @@ const ProjectUsersPanel = ({
   const [drawerVisible, setDrawerVisible] = useState(false);
   const allowAssignOracleStatuses = [PUBLISHED, CONSENSUS];
   const allowAssignFunderStatuses = [PUBLISHED, CONSENSUS, FUNDING];
+  const {
+    oracles: alreadyApplyAsOracle,
+    funders: alreadyApplyAsFunder
+  } = applied;
 
   const allowApplyOracle =
-    !applied && isSupporter && allowAssignOracleStatuses.includes(status);
+    !alreadyApplyAsOracle &&
+    isSupporter &&
+    allowAssignOracleStatuses.includes(status);
 
   const allowApplyFunder =
-    !applied && isSupporter && allowAssignFunderStatuses.includes(status);
+    !alreadyApplyAsFunder &&
+    isSupporter &&
+    allowAssignFunderStatuses.includes(status);
+
+  const askApplyConfirmation = role =>
+    showModalConfirm(
+      `Applying to ${role}`,
+      `Are you sure you want to apply to ${role} of this project?`,
+      () => onApply(role)
+    );
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -82,7 +98,7 @@ const ProjectUsersPanel = ({
             theme="Primary"
             buttonText="I want to be an Oracle"
             hidden={!allowApplyOracle}
-            onClick={() => onApply(supporterRoles.ORACLE)}
+            onClick={() => askApplyConfirmation(supporterRoles.ORACLES)}
           />
         </Col>
         <Col span={24}>
@@ -90,7 +106,7 @@ const ProjectUsersPanel = ({
             theme="Alternative"
             buttonText="I want to be a Funder"
             hidden={!allowApplyFunder}
-            onClick={() => onApply(supporterRoles.FUNDER)}
+            onClick={() => askApplyConfirmation(supporterRoles.FUNDERS)}
           />
         </Col>
       </Col>
@@ -102,7 +118,10 @@ ProjectUsersPanel.defaultProps = {
   funders: [],
   oracles: [],
   followers: [],
-  applied: true,
+  applied: {
+    oracles: true,
+    funders: true
+  },
   isSupporter: false
 };
 
@@ -112,7 +131,10 @@ ProjectUsersPanel.propTypes = {
   oracles: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   followers: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)),
   onApply: PropTypes.func.isRequired,
-  applied: PropTypes.bool,
+  applied: PropTypes.shape({
+    oracles: PropTypes.bool,
+    funders: PropTypes.bool
+  }),
   status: PropTypes.string.isRequired,
   isSupporter: PropTypes.bool
 };
