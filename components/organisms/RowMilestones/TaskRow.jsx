@@ -82,31 +82,57 @@ const TaskRow = ({
             />
           )}
         </div>
-        {!hideOracleColumn && (
-          <Col
-            className="gutter-row vertical"
-            xs={{ span: 24 }}
-            sm={{ span: 24 }}
-            md={3}
-            lg={{ span: 4 }}
-          >
-            <RowLabel text="Oracle" />
+        <div className="flex">
+          {!hideOracleColumn && (
+            <Col
+              className="gutter-row vertical"
+              xs={{ span: 24 }}
+              sm={{ span: 24 }}
+              md={3}
+              lg={{ span: 4 }}
+            >
+              <RowLabel text="Oracle" />
+              <EditableInfo
+                value={task.oracle}
+                isEditing={canAssignOracle}
+                updateValue={oracleId => onOracleAssign(task.id, oracleId)}
+                options={
+                  oracles &&
+                  oracles.map(oracle => ({
+                    value: oracle.id,
+                    text: `${oracle.firstName} ${oracle.lastName}`
+                  }))
+                }
+                selectable
+                placeholder="Assign an oracle"
+              />
+            </Col>
+          )}
+          <div className="BorderBox">
+            <RowLabel text="Expenditure Category" />
             <EditableInfo
-              value={task.oracle}
-              isEditing={canAssignOracle}
-              updateValue={oracleId => onOracleAssign(task.id, oracleId)}
-              options={
-                oracles &&
-                oracles.map(oracle => ({
-                  value: oracle.id,
-                  text: `${oracle.firstName} ${oracle.lastName}`
-                }))
-              }
-              selectable
-              placeholder="Assign an oracle"
+              value={task.category}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, category: v })}
             />
-          </Col>
-        )}
+          </div>
+          <div className="BorderBox">
+            <RowLabel text="Budget" />
+            <EditableInfo
+              value={task.budget}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, budget: v })}
+            />
+          </div>
+           <div className="BorderBox">
+                  <RowLabel text="Key Personnel" />
+                  <EditableInfo
+                    value={task.keyPersonnel}
+                    isEditing={editing}
+                    updateValue={v => setEditFields({ ...editFields, keyPersonnel: v })}
+                  />
+           </div>
+        </div>
         <Col
           className="gutter-row "
           xs={{ span: 24 }}
@@ -137,48 +163,7 @@ const TaskRow = ({
             }
           />
         </Col>
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={24}
-          lg={{ span: 24 }}
-        >
-          <RowLabel text="Expenditure Category" />
-          <EditableInfo
-            value={task.category}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, category: v })}
-          />
-        </Col>
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={24}
-          lg={{ span: 24 }}
-        >
-          <RowLabel text="Key Personnel" />
-          <EditableInfo
-            value={task.keyPersonnel}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, keyPersonnel: v })}
-          />
-        </Col>
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={24}
-          lg={{ span: 24 }}
-        >
-          <RowLabel text="Budget" />
-          <EditableInfo
-            value={task.budget}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, budget: v })}
-          />
-        </Col>
+
       </Col>
 
       <CustomFormModal

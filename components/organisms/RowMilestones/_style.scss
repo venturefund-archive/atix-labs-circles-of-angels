@@ -71,6 +71,10 @@ margin-right: 0.5em;
           h3 {
       @include primary-text($h3, $on-surface, 500);
     }
+        .BorderBox{
+      padding-left: 1em;
+    border-left: 1px solid $border;
+    }
     
     .gutter-row {
       margin-right: 1em;

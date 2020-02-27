@@ -87,7 +87,7 @@ const Milestone = ({
         <MilestoneCol className="flex" span={3}>
           <img
             src="/static/images/calendarMilestone.svg"
-            alt="chatimage"
+            alt="calendarMilestone"
             width="35px"
           />
           <div className="vertical">
@@ -99,6 +99,32 @@ const Milestone = ({
             />
           </div>
         </MilestoneCol>
+        <MilestoneCol className="flex" span={3}>
+                  <img
+            src="/static/images/budget.svg"
+            alt="budget"
+            width="30px"
+          />
+          <div className="vertical">
+            <RowLabel text="Budget" />
+            <Info value={`${calculateMilestoneBudget()} USD`} />
+          </div>
+        </MilestoneCol>
+                <MilestoneCol className="flex" span={10}>
+                                  <img
+            src="/static/images/category.svg"
+            alt="budget"
+            width="35px"
+          />
+           <div className="vertical">
+          <RowLabel text="Expenditure Category" />
+          <EditableInfo
+            value={milestone.category}
+            isEditing={editing}
+            updateValue={v => setEditFields({ ...editFields, category: v })}
+          />
+           </div>
+        </MilestoneCol>
         <MilestoneCol span={20}>
           <RowLabel text="Description" />
           <EditableInfo
@@ -107,14 +133,7 @@ const Milestone = ({
             updateValue={v => setEditFields({ ...editFields, description: v })}
           />
         </MilestoneCol>
-        <MilestoneCol span={20}>
-          <RowLabel text="Expenditure Category" />
-          <EditableInfo
-            value={milestone.category}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, category: v })}
-          />
-        </MilestoneCol>
+
         <MilestoneCol span={20}>
           <RowLabel text="Budget" />
           <Info value={`${calculateMilestoneBudget()} USD`} />

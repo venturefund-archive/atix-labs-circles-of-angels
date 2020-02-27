@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col } from 'antd';
 
 const RowLabel = ({ text }) => (
-  <Col className="gutter-row " span={24}>
+  <Col className="gutter-row ">
     <label>{text}</label>
   </Col>
 );
