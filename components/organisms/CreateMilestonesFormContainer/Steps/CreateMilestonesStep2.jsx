@@ -100,12 +100,17 @@ const CreateMilestonesStep2 = ({
           </Col>
           <CustomButton
             buttonText="Process Milestones"
-            theme={!fields.milestoneFile.value ? 'disabled' : 'Primary'}
+            theme={
+              !fields.milestoneFile.value ||
+              !(fields.milestoneFile.value[0] instanceof File)
+                ? 'disabled'
+                : 'Primary'
+            }
             icon="arrow-right"
             classNameIcon="iconDisplay"
             disabled={
               !fields.milestoneFile.value ||
-              fields.milestoneFile.value[0] instanceof File
+              !(fields.milestoneFile.value[0] instanceof File)
             }
             onClick={() =>
               handleProcessMilestones(
@@ -119,7 +124,7 @@ const CreateMilestonesStep2 = ({
             theme={processed ? 'disabled' : 'Primary'}
             icon="arrow-right"
             classNameIcon="iconDisplay"
-            disabled={processed}
+            hidden={processed}
             onClick={skipStep}
           />
         </Row>
