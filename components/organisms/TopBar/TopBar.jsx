@@ -37,6 +37,11 @@ const TopBar = ({ setVisibility, visibility }) => {
           onSubmit={closeModal}
           onCancel={closeModal}
         />
+        <CustomButton
+          buttonText="Go to the old platform"
+          theme="Secondary"
+          onClick={() => undefined} // TODO add redirection to previous version
+        />
         <Divider type="vertical" />
 
         <CustomButton
