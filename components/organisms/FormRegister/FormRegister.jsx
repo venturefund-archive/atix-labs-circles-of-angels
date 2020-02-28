@@ -23,6 +23,7 @@ function RegisterForm({ formFields, formSteps, initialStep, registerUser }) {
     steps,
     setNextStep,
     currentStep,
+    ,
     handleChange,
     getNextStepButton,
     getPrevStepButton
