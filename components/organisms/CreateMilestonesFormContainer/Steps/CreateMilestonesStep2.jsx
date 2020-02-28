@@ -116,29 +116,33 @@ const CreateMilestonesStep2 = ({
             <Col span={24}>
               <Divider />
             </Col>
-            <CustomButton
-              buttonText="Process Milestones"
-              theme={!canProcess ? 'disabled' : 'Primary'}
-              classNameIcon="iconDisplay"
-              disabled={!canProcess}
-              onClick={() =>
-                handleProcessMilestones(
-                  fields.milestoneFile.name,
-                  fields.milestoneFile.value
-                )
-              }
-            />
-            <CustomButton
-              buttonText={
-                processed && !processedWithErrors
-                  ? 'Edit Milestones'
-                  : 'Skip Step'
-              }
-              theme="Alternative"
-              icon="arrow-right"
-              classNameIcon="iconDisplay"
-              onClick={skipStep}
-            />
+            <Col span={7}>
+              <CustomButton
+                buttonText="Process Milestones"
+                theme={!canProcess ? 'disabled' : 'Primary'}
+                classNameIcon="iconDisplay"
+                disabled={!canProcess}
+                onClick={() =>
+                  handleProcessMilestones(
+                    fields.milestoneFile.name,
+                    fields.milestoneFile.value
+                  )
+                }
+              />
+            </Col>
+            <Col span={5}>
+              <CustomButton
+                buttonText={
+                  processed && !processedWithErrors
+                    ? 'Edit Milestones'
+                    : 'Skip Step'
+                }
+                theme="Alternative"
+                icon="arrow-right"
+                classNameIcon="iconDisplay"
+                onClick={skipStep}
+              />
+            </Col>
           </Row>
         </Col>
       </Row>
