@@ -40,7 +40,9 @@ const TopBar = ({ setVisibility, visibility }) => {
         <CustomButton
           buttonText="Go to the old platform"
           theme="Secondary"
-          onClick={() => undefined} // TODO add redirection to previous version
+          onClick={() =>
+            window.open('http://www.circlesofangels.org:3000', '_blank')
+          }
         />
         <Divider type="vertical" />
 

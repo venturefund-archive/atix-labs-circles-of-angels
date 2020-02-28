@@ -65,7 +65,9 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
           <CustomButton
             theme="Primary"
             buttonText="Yes, go to the old platform!"
-            onClick={() => undefined} // TODO add redirection to old platform
+            onClick={() =>
+              window.open('http://www.circlesofangels.org:3000', '_blank')
+            }
           />
         </div>
       </div>
