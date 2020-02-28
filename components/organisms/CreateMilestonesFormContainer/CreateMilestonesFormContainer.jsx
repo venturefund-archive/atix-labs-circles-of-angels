@@ -173,6 +173,7 @@ const CreateMilestonesFormContainer = ({
     });
 
     setProcessed(false);
+    setErrorList([]);
     const response = await processProjectMilestones(project.id, data);
 
     if (response.errors) {

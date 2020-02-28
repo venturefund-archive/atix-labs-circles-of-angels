@@ -24,6 +24,10 @@ const CreateMilestonesStep2 = ({
         fields.milestoneFile.value[0] instanceof File
     );
   }, [fields.milestoneFile]);
+
+  const processedWithErrors = processed && errorList.length > 0;
+  const canProcess = hasLoadedFile && (!processed || processedWithErrors);
+
   return (
     <Fragment>
       <TitlePage textTitle="Upload Project's Milestones" />
@@ -113,23 +117,27 @@ const CreateMilestonesStep2 = ({
               <Divider />
             </Col>
             <CustomButton
-              buttonText={
-                !hasLoadedFile && !processed
-                  ? 'Skip Step'
-                  : 'Process Milestones'
+              buttonText="Process Milestones"
+              theme={!canProcess ? 'disabled' : 'Primary'}
+              classNameIcon="iconDisplay"
+              disabled={!canProcess}
+              onClick={() =>
+                handleProcessMilestones(
+                  fields.milestoneFile.name,
+                  fields.milestoneFile.value
+                )
               }
-              theme={processed ? 'disabled' : 'Primary'}
+            />
+            <CustomButton
+              buttonText={
+                processed && !processedWithErrors
+                  ? 'Edit Milestones'
+                  : 'Skip Step'
+              }
+              theme="Alternative"
               icon="arrow-right"
               classNameIcon="iconDisplay"
-              disabled={processed}
-              onClick={() =>
-                hasLoadedFile
-                  ? handleProcessMilestones(
-                      fields.milestoneFile.name,
-                      fields.milestoneFile.value
-                    )
-                  : skipStep()
-              }
+              onClick={skipStep}
             />
           </Row>
         </Col>
