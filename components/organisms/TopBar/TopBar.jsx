@@ -30,7 +30,7 @@ const TopBar = ({ setVisibility, visibility }) => {
         className="gutter-row"
         xs={{ span: 13 }}
         sm={{ span: 7, offset: 10 }}
-        lg={{ span: 4, offset: 13 }}
+        lg={{ span: 7, offset: 10 }}
       >
         <ModalMigration
           visible={showModal}
@@ -38,7 +38,7 @@ const TopBar = ({ setVisibility, visibility }) => {
           onCancel={closeModal}
         />
         <CustomButton
-          buttonText="Go to the old platform"
+          buttonText="Go to the old platform!"
           theme="Secondary"
           onClick={() =>
             window.open('http://www.circlesofangels.org:3000', '_blank')
