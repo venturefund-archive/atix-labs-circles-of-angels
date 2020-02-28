@@ -67,7 +67,8 @@ const MilestoneActions = ({
   showClaimStatus,
   status,
   progress,
-  isEditing
+  isEditing,
+  allowClaimMilestone
 }) => {
   const claimMilestoneStatusMap = {
     [claimMilestoneStatus.PENDING]: {
@@ -98,7 +99,12 @@ const MilestoneActions = ({
   return (
     <Col className="WrapperActions flex space-between">
       {type === 'status' &&
-        MilestoneClaimStatus(claimMilestoneProps, showClaimStatus, progress)}
+        MilestoneClaimStatus(
+          claimMilestoneProps,
+          showClaimStatus,
+          progress,
+          allowClaimMilestone
+        )}
       {type === 'edit' &&
         editMilestoneButtons(
           onEdit,
@@ -133,5 +139,6 @@ MilestoneActions.propTypes = {
   showCreateTask: PropTypes.bool.isRequired,
   showClaimStatus: PropTypes.bool,
   type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
-  isEditing: PropTypes.bool.isRequired
+  isEditing: PropTypes.bool.isRequired,
+  allowClaimMilestone: PropTypes.bool.isRequired
 };

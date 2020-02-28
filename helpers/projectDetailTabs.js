@@ -27,6 +27,14 @@ const SHOW_FUNDS_STATUSES = [
 ];
 
 const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+const SHOW_TASK_EVIDENCE_ACTIONS = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED
+];
+const SHOW_MILESTONE_STATUS_ACTIONS = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED
+];
 
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
@@ -47,6 +55,20 @@ const showFundsTab = projectStatus =>
 
 const canAssignOracle = (project, user) =>
   project.status === projectStatuses.CONSENSUS && isOwner(project, user);
+
+const getMilestoneActionType = projectStatus => {
+  if (SHOW_MILESTONE_STATUS_ACTIONS.includes(projectStatus)) {
+    return 'status';
+  }
+  return 'none';
+};
+
+const getTaskActionType = projectStatus => {
+  if (SHOW_TASK_EVIDENCE_ACTIONS.includes(projectStatus)) {
+    return 'evidence';
+  }
+  return 'none';
+};
 
 const experienceTabTitle = project => (
   <div>
@@ -93,9 +115,10 @@ export const tabsContent = ({
         onClaimMilestone={onClaimMilestone}
         allowNewEvidence={task => allowNewEvidence(task, project, user)}
         oracles={project.oracles}
-        taskActionType="evidence"
-        milestoneActionType="status"
+        taskActionType={getTaskActionType(project.status)}
+        milestoneActionType={getMilestoneActionType(project.status)}
         showClaimStatus={showMilestoneClaimStatus(project && project.status)}
+        allowClaimMilestone={isOwner(project, user)}
       />
     ),
     key: '2'

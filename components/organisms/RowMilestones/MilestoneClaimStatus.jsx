@@ -5,16 +5,18 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const MilestoneClaimStatus = (
   { text, onClick, color, theme },
-  showClaimStatus
+  showClaimStatus,
+  progress,
+  allowClaimMilestone
 ) => (
   <div className="space-between w100">
-    <Tag color={color}>{text}</Tag>
+    {showClaimStatus && <Tag color={color}>{text}</Tag>}
     {onClick ? (
       <CustomButton
         theme={theme}
         onClick={onClick}
         buttonText="Claim now!"
-        hidden={!showClaimStatus}
+        hidden={!showClaimStatus || !allowClaimMilestone}
       />
     ) : (
       ''

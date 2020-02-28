@@ -115,3 +115,8 @@ export const projectPropTypes = {
   goalAmount: PropTypes.number,
   status: PropTypes.string
 };
+
+export const tagPropTypes = {
+  color: PropTypes.string,
+  text: PropTypes.string
+};
