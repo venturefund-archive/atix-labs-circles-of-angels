@@ -25,7 +25,8 @@ const RowMilestones = ({
   taskActionType,
   oracles,
   hideOracleColumn,
-  allowNewEvidence
+  allowNewEvidence,
+  allowClaimMilestone
 }) => {
   const handleTaskCreate = (milestoneId, taskData) =>
     onTaskCreate(milestoneId, taskData);
@@ -59,6 +60,7 @@ const RowMilestones = ({
       oracles={oracles}
       hideOracleColumn={hideOracleColumn}
       allowNewEvidence={allowNewEvidence}
+      allowClaimMilestone={allowClaimMilestone}
     />
   ));
   return (
@@ -88,7 +90,8 @@ RowMilestones.defaultProps = {
   taskActionType: 'none',
   hideOracleColumn: false,
   allowNewEvidence: () => undefined,
-  onClaimMilestone: () => undefined
+  onClaimMilestone: () => undefined,
+  allowClaimMilestone: false
 };
 
 RowMilestones.propTypes = {
@@ -111,7 +114,8 @@ RowMilestones.propTypes = {
   canAssignOracle: PropTypes.bool,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']),
   hideOracleColumn: PropTypes.bool,
-  allowNewEvidence: PropTypes.func
+  allowNewEvidence: PropTypes.func,
+  allowClaimMilestone: PropTypes.bool
 };
 
 export default RowMilestones;

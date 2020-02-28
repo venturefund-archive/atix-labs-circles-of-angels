@@ -25,6 +25,8 @@ const ProjectDetailHeader = ({
   status,
   onFollowProject,
   onUnfollowProject,
+  onEditProject,
+  allowEdit,
   isFollower
 }) => {
   const itemsData = [
@@ -39,8 +41,9 @@ const ProjectDetailHeader = ({
       img: './static/images/calendar-icon.svg'
     },
     {
-      label: 'Amount',
+      label: 'Goal Amount',
       value: goalAmount,
+      extra: 'USD',
       img: './static/images/amount-icon.svg'
     }
   ];
@@ -49,6 +52,7 @@ const ProjectDetailHeader = ({
     itemsData.push({
       label: 'Funded Amount',
       value: fundedAmount,
+      extra: 'USD',
       img: './static/images/amount-icon.svg'
     });
 
@@ -62,10 +66,23 @@ const ProjectDetailHeader = ({
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
           <p>Organization Name</p>
-          <Col xs={24} md={21} lg={21} className="flex">
+          <Col xs={24} md={21} lg={18} className="flex">
             <h1>{projectName}</h1>
             {getTagStatus(status)}
           </Col>
+          {allowEdit ? (
+            <Col xs={24} md={3} lg={3}>
+              <CustomButton
+                theme="Alternative"
+                buttonText="Edit"
+                icon="edit"
+                classNameIcon="iconDisplay"
+                onClick={onEditProject}
+              />
+            </Col>
+          ) : (
+            ''
+          )}
           <Col xs={24} md={3} lg={3}>
             <CustomButton
               theme={isFollower ? 'Primary' : 'Primary'}
@@ -103,7 +120,9 @@ ProjectDetailHeader.defaultProps = {
   fundedAmount: 0,
   projectName: '-',
   faqLink: '#',
-  isFollower: false
+  isFollower: false,
+  allowEdit: false,
+  onEditProject: () => undefined
 };
 
 ProjectDetailHeader.propTypes = {
@@ -117,6 +136,8 @@ ProjectDetailHeader.propTypes = {
   status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
   onFollowProject: PropTypes.func.isRequired,
   onUnfollowProject: PropTypes.func.isRequired,
+  onEditProject: PropTypes.func,
+  allowEdit: PropTypes.bool,
   isFollower: PropTypes.bool
 };
 

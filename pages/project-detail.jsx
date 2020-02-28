@@ -34,12 +34,16 @@ import {
 } from '../api/projectApi';
 import { projectStatuses, publicProjectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
-import RolesMap from '../constants/RolesMap';
 import { claimMilestone } from '../api/milestonesApi';
+import {
+  isFunder,
+  isSupporter,
+  isOwner,
+  isEntrepreneur
+} from '../helpers/utils';
 import { getFundedAmount } from '../api/transferApi';
 
 const { TabPane } = Tabs;
-const { CONSENSUS, FUNDING, EXECUTING } = projectStatuses;
 
 const ProjectDetail = ({ user }) => {
   const { id } = useQuery();
@@ -97,6 +101,17 @@ const ProjectDetail = ({ user }) => {
     setExperiences(response.data);
   };
 
+  const fetchProject = async () => {
+    const response = await getProject(projectId);
+    if (response.errors) {
+      message.error('An error occurred while fetching the project');
+      history.goBack();
+      return;
+    }
+
+    setProject(response.data);
+  };
+
   const getTotalFundedAmount = async () => {
     const response = await getFundedAmount(project.id);
     if (response.errors) {
@@ -129,6 +144,11 @@ const ProjectDetail = ({ user }) => {
     }
   };
 
+  const onEditProject = () => {
+    const state = { projectId: project.id };
+    history.push(`/create-project?id=${project.id}`, state);
+  };
+
   const checkFollowing = async () => {
     try {
       const response = await isFollower(project.id);
@@ -137,6 +157,12 @@ const ProjectDetail = ({ user }) => {
       message.error(error);
     }
   };
+
+  const allowEditProject = () =>
+    project &&
+    project.status === projectStatuses.CONSENSUS &&
+    isOwner(project, user) &&
+    isEntrepreneur(user);
 
   const onApply = async role => {
     try {
@@ -157,17 +183,6 @@ const ProjectDetail = ({ user }) => {
     } catch (error) {
       message.error(error);
     }
-  };
-
-  const fetchProject = async () => {
-    const response = await getProject(projectId);
-    if (response.errors) {
-      message.error('An error occurred while fetching the project');
-      history.goBack();
-      return;
-    }
-
-    setProject(response.data);
   };
 
   const assignOracle = async (taskId, oracleId) => {
@@ -201,13 +216,10 @@ const ProjectDetail = ({ user }) => {
     fetchMilestones();
   };
 
-  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
-
-  const isFunder = () =>
-    projectUsers.funders.find(funder => funder.id === user.id);
-
   const allowNewFund = () =>
-    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+    project.status === projectStatuses.FUNDING &&
+    isSupporter(user) &&
+    isFunder(user, projectUsers.funders);
 
   useEffect(() => {
     fetchProject();
@@ -258,6 +270,8 @@ const ProjectDetail = ({ user }) => {
           fundedAmount={fundedAmount}
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
+          onEditProject={onEditProject}
+          allowEdit={allowEditProject()}
           isFollower={isFollowing}
         />
         <div className="BlockContent">
@@ -282,7 +296,7 @@ const ProjectDetail = ({ user }) => {
           onApply={onApply}
           applied={alreadyApplied}
           status={project && project.status}
-          isSupporter={isSupporter()}
+          isSupporter={isSupporter(user)}
         />
       </Col>
     </Row>

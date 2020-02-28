@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 import MilestoneRow from './MilestoneRow';
 import MilestoneCol from './MilestoneCol';
 import RowLabel from './RowLabel';
@@ -9,6 +10,7 @@ import EditableInfo from './EditableInfo';
 import { showModalConfirm } from '../../utils/Modals';
 import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
 import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
+import Info from './Info';
 
 // TODO: define what milestone fields to show, schema changed
 const Milestone = ({
@@ -34,11 +36,18 @@ const Milestone = ({
   taskActionType,
   oracles,
   hideOracleColumn,
-  allowNewEvidence
+  allowNewEvidence,
+  allowClaimMilestone
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const calculateMilestoneBudget = () =>
+    milestone.tasks.reduce((total, task) => {
+      if (!task.budget || Number.isNaN(Number(task.budget))) return total;
+      return total + Number(task.budget);
+    }, 0);
 
   const deleteMilestone = () =>
     showModalConfirm(
@@ -56,19 +65,64 @@ const Milestone = ({
   return (
     <div>
       <MilestoneRow>
-        <MilestoneCol span={4}>
-          <h3>Milestone {index}</h3>
-        </MilestoneCol>
-        <MilestoneCol className="vertical" span={4}>
-          <RowLabel text="Quarter" />
-          <EditableInfo
-            value={milestone.quarter}
+        <div className="header space-between">
+          <Col xs={8} lg={12}>
+            <h3>Milestone {index}</h3>
+          </Col>
+          <MilestoneActions
+            type={milestoneActionType}
+            milestoneId={milestone.id}
+            status={milestoneStatus}
+            progress={milestoneProgress}
+            onDelete={deleteMilestone}
+            onEdit={handleEditRow}
+            onClickCreateTask={() => setModalVisible(true)}
+            onClaimMilestone={onClaimMilestone}
+            showDelete={showMilestoneDelete}
+            showEdit={showMilestoneEdit}
+            showCreateTask={showCreateTask}
+            showClaimStatus={showClaimStatus}
             isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, quarter: v })}
+            allowClaimMilestone={allowClaimMilestone}
           />
-        </MilestoneCol>
-        <MilestoneCol span={9}>
-          <RowLabel text="Tasks" />
+        </div>
+        <div className="flex Contentbox">
+          {/* <div className="flex Box">
+            <img
+              src="/static/images/calendarMilestone.svg"
+              alt="calendarMilestone"
+              width="35px"
+            />
+            <div className="vertical">
+              <RowLabel text="Quarter" />
+              <EditableInfo
+                value={milestone.quarter || 'No data'}
+                isEditing={editing}
+                updateValue={v => setEditFields({ ...editFields, quarter: v })}
+              />
+            </div>
+          </div> */}
+          <div className="flex Box">
+            <img src="/static/images/budget.svg" alt="budget" width="30px" />
+            <div className="vertical">
+              <RowLabel text="Budget" />
+              <Info value={`${calculateMilestoneBudget()} USD`} />
+            </div>
+          </div>
+          <div className="flex Box">
+            <img src="/static/images/category.svg" alt="budget" width="35px" />
+            <div className="vertical">
+              <RowLabel text="Expenditure Category" />
+              <EditableInfo
+                value={milestone.category}
+                isEditing={editing}
+                updateValue={v => setEditFields({ ...editFields, category: v })}
+              />
+            </div>
+          </div>
+        </div>
+        <MilestoneCol span={24}>
+          <RowLabel text="Description" />
           <EditableInfo
             value={milestone.description}
             isEditing={editing}
@@ -76,21 +130,6 @@ const Milestone = ({
           />
         </MilestoneCol>
       </MilestoneRow>
-      <MilestoneActions
-        type={milestoneActionType}
-        milestoneId={milestone.id}
-        status={milestoneStatus}
-        progress={milestoneProgress}
-        onDelete={deleteMilestone}
-        onEdit={handleEditRow}
-        onClickCreateTask={() => setModalVisible(true)}
-        onClaimMilestone={onClaimMilestone}
-        showDelete={showMilestoneDelete}
-        showEdit={showMilestoneEdit}
-        showCreateTask={showCreateTask}
-        showClaimStatus={showClaimStatus}
-        isEditing={editing}
-      />
       <MilestoneTasks
         tasks={milestone.tasks}
         onDelete={onTaskDelete}
@@ -142,7 +181,8 @@ Milestone.propTypes = {
   milestoneActionType: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
-  allowNewEvidence: PropTypes.func
+  allowNewEvidence: PropTypes.func,
+  allowClaimMilestone: PropTypes.bool.isRequired
 };
 
 export default Milestone;

@@ -58,6 +58,17 @@ const TaskRow = ({
 
   const onShowModal = () => setVisible(true);
 
+  const mapTaskStatus = isVerified =>
+    isVerified
+      ? {
+          text: 'Verified',
+          color: 'green'
+        }
+      : {
+          text: 'Pending',
+          color: 'orange'
+        };
+
   return (
     <Col span={24} key={task.id}>
       <Col
@@ -67,48 +78,83 @@ const TaskRow = ({
         md={24}
         lg={{ span: 24 }}
       >
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={3}
-          lg={{ span: 3 }}
-        >
+        <div className="header space-between">
           <h3>Activity {index}</h3>
-        </Col>
-        {!hideOracleColumn && (
-          <Col
-            className="gutter-row vertical"
-            xs={{ span: 24 }}
-            sm={{ span: 24 }}
-            md={3}
-            lg={{ span: 4 }}
-          >
-            <RowLabel text="Oracle" />
-            <EditableInfo
-              value={task.oracle}
-              isEditing={canAssignOracle}
-              updateValue={oracleId => onOracleAssign(task.id, oracleId)}
-              options={
-                oracles &&
-                oracles.map(oracle => ({
-                  value: oracle.id,
-                  text: `${oracle.firstName} ${oracle.lastName}`
-                }))
-              }
-              selectable
-              placeholder="Assign an oracle"
+          {(showDelete || showEdit || taskActionType === 'evidence') && (
+            <TaskActions
+              onDelete={deleteTask}
+              onEdit={handleEditRow}
+              onNewEvidence={onShowModal}
+              showDelete={showDelete}
+              showEdit={showEdit}
+              isEditing={editing}
+              showAddEvidence={allowNewEvidence}
+              type={taskActionType}
+              taskStatusProps={mapTaskStatus(task.verified)}
             />
-          </Col>
-        )}
+          )}
+        </div>
+        <div className="flex">
+          {!hideOracleColumn && (
+            <Col
+              className="gutter-row vertical"
+              xs={{ span: 24 }}
+              sm={{ span: 24 }}
+              md={3}
+              lg={{ span: 4 }}
+            >
+              <RowLabel text="Oracle" />
+              <EditableInfo
+                value={task.oracle}
+                isEditing={canAssignOracle}
+                updateValue={oracleId => onOracleAssign(task.id, oracleId)}
+                options={
+                  oracles &&
+                  oracles.map(oracle => ({
+                    value: oracle.id,
+                    text: `${oracle.firstName} ${oracle.lastName}`
+                  }))
+                }
+                selectable
+                placeholder="Assign an oracle"
+              />
+            </Col>
+          )}
+          <div className="BorderBox">
+            <RowLabel text="Expenditure Category" />
+            <EditableInfo
+              value={task.category}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, category: v })}
+            />
+          </div>
+          <div className="BorderBox">
+            <RowLabel text="Budget" />
+            <EditableInfo
+              value={task.budget}
+              isEditing={editing}
+              updateValue={v => setEditFields({ ...editFields, budget: v })}
+            />
+          </div>
+          <div className="BorderBox">
+            <RowLabel text="Key Personnel" />
+            <EditableInfo
+              value={task.keyPersonnel}
+              isEditing={editing}
+              updateValue={v =>
+                setEditFields({ ...editFields, keyPersonnel: v })
+              }
+            />
+          </div>
+        </div>
         <Col
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
+          md={24}
+          lg={{ span: 24 }}
         >
-          <RowLabel text="Task" />
+          <RowLabel text="Description" />
           <EditableInfo
             value={task.description}
             isEditing={editing}
@@ -119,22 +165,8 @@ const TaskRow = ({
           className="gutter-row "
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
-        >
-          <RowLabel text="Social Impacts Targets" />
-          <EditableInfo
-            value={task.impact}
-            isEditing={editing}
-            updateValue={v => setEditFields({ ...editFields, impact: v })}
-          />
-        </Col>
-        <Col
-          className="gutter-row "
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={9}
-          lg={{ span: 12 }}
+          md={24}
+          lg={{ span: 24 }}
         >
           <RowLabel text="Review Criterion" />
           <EditableInfo
@@ -146,18 +178,7 @@ const TaskRow = ({
           />
         </Col>
       </Col>
-      {(showDelete || showEdit || allowNewEvidence) && (
-        <TaskActions
-          onDelete={deleteTask}
-          onEdit={handleEditRow}
-          onNewEvidence={onShowModal}
-          showDelete={showDelete}
-          showEdit={showEdit}
-          isEditing={editing}
-          showAddEvidence={allowNewEvidence}
-          type={taskActionType}
-        />
-      )}
+
       <CustomFormModal
         title="Add new evidence"
         formItems={newTaskEvidenceFormItems}
