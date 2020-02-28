@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Divider } from 'antd';
 import { useHistory } from 'react-router';
@@ -17,6 +17,9 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const TopBar = ({ setVisibility, visibility }) => {
   const history = useHistory();
+  const [showModal, setShowModal] = useState(true);
+
+  const closeModal = () => setShowModal(false);
 
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
@@ -25,12 +28,16 @@ const TopBar = ({ setVisibility, visibility }) => {
       </Col>
       <Col
         className="gutter-row"
-        xs={{ span: 13}}
+        xs={{ span: 13 }}
         sm={{ span: 7, offset: 10 }}
         lg={{ span: 4, offset: 13 }}
       >
-      <ModalMigration/>
-              <Divider type="vertical" />
+        <ModalMigration
+          visible={showModal}
+          onSubmit={closeModal}
+          onCancel={closeModal}
+        />
+        <Divider type="vertical" />
 
         <CustomButton
           buttonText="Register"
