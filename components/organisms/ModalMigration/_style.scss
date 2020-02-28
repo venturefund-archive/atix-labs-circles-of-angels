@@ -1,0 +1,70 @@
+@import "../../../css/general_styling.scss";
+
+.WrapperModalMigration{
+  width: 80vw !important;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 0;
+  @include breakpoint(sm) {
+    width: 95vw !important;
+    border-radius: 10px;
+  }
+  .ant-modal-body{
+    height: 90vh;
+    background: url(/static/images/bg-overlay.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .Container{
+    height: 100%;
+    padding:2.5em;
+    display: flex;
+    flex-direction: column;
+    .Body{
+      flex:1;
+      h1,h2,h3{
+          text-align:center;
+      }
+      h1{
+        @include primary-text(36px, $primary-color, 600);
+      }
+      h2{
+        @include primary-text($titlepage, $on-surface, 500);
+      }
+      h3{
+        @include primary-text(14px, $on-surface, 400);
+        width: 65%;
+        margin: 1em auto;
+      }
+      .BlockContainer{
+        margin-top: 4em;
+        .Card{
+          h1{
+            @include primary-text(16px, $on-surface, 500);
+            text-align: left;
+            padding-top: 0.5em;
+          }
+          .ImageCard{
+            height: 180px;
+            box-shadow: $shadow;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            img{
+              width:100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+    .Footer{
+      .CustomButton.Primary{
+        margin: 0 auto;
+      }
+    }
+  }
+}
