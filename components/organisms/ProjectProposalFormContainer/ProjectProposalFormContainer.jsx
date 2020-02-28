@@ -42,6 +42,7 @@ const ProjectProposalFormContainer = ({
     ,
     ,
     currentStep,
+    ,
     handleChange,
     getNextStepButton,
     getPrevStepButton,
