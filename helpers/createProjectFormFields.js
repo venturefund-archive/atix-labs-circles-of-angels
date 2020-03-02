@@ -345,8 +345,8 @@ export const newFundFormItems = {
   },
   transferId: {
     name: 'transferId',
-    label: 'Tranfer ID',
-    placeholder: 'Tranfer ID',
+    label: 'Transfer ID',
+    placeholder: 'Transfer ID',
     rules: [
       {
         required: true,
@@ -363,7 +363,6 @@ export const newFundFormItems = {
     name: 'receiptPath',
     label: 'Click to upload',
     type: 'file',
-    multiple: true,
     rules: [
       {
         required: true,
