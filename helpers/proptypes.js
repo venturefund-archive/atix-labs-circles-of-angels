@@ -52,7 +52,7 @@ export const fieldPropType = {
   placeholder: PropTypes.string,
   rules: PropTypes.array,
   type: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
+  value: PropTypes.any,
   row: PropTypes.number
 };
 
