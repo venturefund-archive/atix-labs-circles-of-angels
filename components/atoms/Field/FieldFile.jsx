@@ -22,7 +22,7 @@ const FieldFile = ({
   };
 
   const removeFile = fileToRemove => {
-    const newFileList = fileList;
+    const newFileList = [...fileList];
     newFileList.splice(newFileList.indexOf(fileToRemove), 1);
 
     handleChange(undefined, name, newFileList);
@@ -30,9 +30,7 @@ const FieldFile = ({
   };
 
   const changeFile = ({ file }) => {
-    const newFileList = fileList;
-    newFileList.push(file);
-
+    const newFileList = multiple ? [...fileList, file] : [file];
     handleChange(undefined, name, newFileList);
     setFileList(newFileList);
   };
