@@ -36,9 +36,13 @@ const TableBOProjects = ({ data, onConfirm, onReject }) => {
       dataIndex: 'id',
       key: 'milestones',
       render: projectId => (
-        <CustomButton onClick={() => downloadMilestones(projectId)}>
-          <Icon type="download" />
-        </CustomButton>
+        <CustomButton
+          theme="Secondary"
+          icon="download"
+          buttonText="Download"
+          classNameIcon="iconDisplay"
+          onClick={() => downloadMilestones(projectId)}
+          />
       )
     },
     {
@@ -47,11 +51,12 @@ const TableBOProjects = ({ data, onConfirm, onReject }) => {
       key: 'details',
       render: projectId => (
         <CustomButton
-          className="ProjectAccess"
+          theme="Secondary"
+          icon="eye"
+          buttonText="View"
+          classNameIcon="iconDisplay"
           onClick={() => goToProjectDetail(projectId)}
-        >
-          <img alt="img" src="./static/images/icon-info.svg" />
-        </CustomButton>
+        />
       )
     },
     {

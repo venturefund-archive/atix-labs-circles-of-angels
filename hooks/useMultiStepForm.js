@@ -184,6 +184,7 @@ export default function useMultiStepForm(
     steps,
     setStep,
     currentStep,
+    setCurrentStep,
     handleChange,
     getNextStepButton,
     getPrevStepButton,

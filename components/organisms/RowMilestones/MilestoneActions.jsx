@@ -1,29 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Progress, Tag, Divider } from 'antd';
-import MilestoneBudgetStatus from '../../../constants/MilestoneBudgetStatus';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-
-// TODO: this is an example on how implement this with the old schema
-//       but the budget status property doesn't exist anymore
-const statusTagMap = {
-  [MilestoneBudgetStatus.CLAIMABLE]: {
-    tagColor: '#27AE60',
-    tagText: 'Claimable!'
-  },
-  [MilestoneBudgetStatus.CLAIMED]: {
-    tagColor: '#27AE60',
-    tagText: 'Claimed!'
-  },
-  [MilestoneBudgetStatus.FUNDED]: {
-    tagColor: '#27AE60',
-    tagText: 'Funded!'
-  },
-  [MilestoneBudgetStatus.BLOCKED]: {
-    tagColor: '#27AE60',
-    tagText: 'Blocked!'
-  }
-};
+import { Col } from 'antd';
+import { claimMilestoneStatus } from '../../../constants/constants';
+import MilestoneClaimStatus from './MilestoneClaimStatus';
 
 const editMilestoneButtons = (
   onEdit,
@@ -34,84 +16,95 @@ const editMilestoneButtons = (
   showCreateTask,
   isEditing
 ) => (
-  <Col span={24} className="flex">
-    <Col span={18} className="flex">
+  <div className="flex">
+    <div className="flex">
       {showEdit &&
         (isEditing ? (
-          <Col span={10}>
+          <div className="isEditing">
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
-            <Divider />
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <a className="redLink" onClick={() => onEdit(false)}>
               Cancel
             </a>
-          </Col>
+          </div>
         ) : (
-           <Col span={10}>
-          <a className="blueLink" onClick={() => onEdit(false)}>
-            Edit
-          </a>
-          </Col>
+          <div>
+            <a className="blueLink" onClick={() => onEdit(false)}>
+              Edit
+            </a>
+          </div>
         ))}
       {showDelete && showEdit}
-         {showCreateTask && (
-      <Col span={13}>
+      {showCreateTask && (
+        <div>
           <a className="blueLink" onClick={onClickCreateTask}>
             + New Task
           </a>
-      </Col>
-    )}
-
-    </Col>
-        {showDelete && (
-        <Col span={6}>
+        </div>
+      )}
+    </div>
+    {showDelete && (
+      <div>
         <a className="redLink" onClick={onDelete}>
           Delete
         </a>
-         </Col>
-      )}
-  </Col>
-);
-
-const statusMilestone = (tagColor, tagText, progress) => (
-  <div className="space-between w100">
-    {tagColor && tagText && <Tag color={tagColor}>{tagText}</Tag>}
-    <div style={{ width: 120 }}>
-      <Progress percent={progress} />
-    </div>
+      </div>
+    )}
   </div>
 );
 
 const MilestoneActions = ({
   type,
+  milestoneId,
   onEdit,
   onDelete,
   onClickCreateTask,
+  onClaimMilestone,
   showEdit,
   showDelete,
   showCreateTask,
+  showClaimStatus,
   status,
   progress,
-  isEditing
+  isEditing,
+  allowClaimMilestone
 }) => {
-  // any defaults? or just don't show the tag if no mapping defined?
-  const tagColor = statusTagMap[status]
-    ? statusTagMap[status].tagColor
-    : undefined;
-  const tagText = statusTagMap[status]
-    ? statusTagMap[status].tagText
-    : undefined;
+  const claimMilestoneStatusMap = {
+    [claimMilestoneStatus.PENDING]: {
+      text: 'Pending',
+      theme: 'CancelMst',
+      color: 'orange'
+    },
+    [claimMilestoneStatus.CLAIMABLE]: {
+      text: 'Claimable',
+      theme: 'SuccessMst',
+      color: 'green',
+      onClick: () => onClaimMilestone(milestoneId)
+    },
+    [claimMilestoneStatus.CLAIMED]: {
+      text: 'Claimed',
+      theme: 'SuccessMst',
+      color: 'blue'
+    },
+    [claimMilestoneStatus.TRANSFERRED]: {
+      text: 'Transferred',
+      theme: 'SuccessMst',
+      color: 'geekblue'
+    }
+  };
+
+  const claimMilestoneProps = claimMilestoneStatusMap[status];
 
   return (
-    <Col
-      className="WrapperActions flex space-between"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={6}
-      lg={{ span: 6 }}
-    >
-      {type === 'status' && statusMilestone(tagColor, tagText, progress)}
+    <Col className="WrapperActions flex space-between">
+      {type === 'status' &&
+        MilestoneClaimStatus(
+          claimMilestoneProps,
+          showClaimStatus,
+          progress,
+          allowClaimMilestone
+        )}
       {type === 'edit' &&
         editMilestoneButtons(
           onEdit,
@@ -126,17 +119,26 @@ const MilestoneActions = ({
   );
 };
 
+export default MilestoneActions;
+
+MilestoneActions.defaultProps = {
+  onClaimMilestone: () => undefined,
+  showClaimStatus: false
+};
+
 MilestoneActions.propTypes = {
+  milestoneId: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onClickCreateTask: PropTypes.func.isRequired,
+  onClaimMilestone: PropTypes.func,
   showDelete: PropTypes.bool.isRequired,
   showEdit: PropTypes.bool.isRequired,
   showCreateTask: PropTypes.bool.isRequired,
+  showClaimStatus: PropTypes.bool,
   type: PropTypes.oneOf(['status', 'edit', 'none']).isRequired,
-  isEditing: PropTypes.bool.isRequired
+  isEditing: PropTypes.bool.isRequired,
+  allowClaimMilestone: PropTypes.bool.isRequired
 };
-
-export default MilestoneActions;

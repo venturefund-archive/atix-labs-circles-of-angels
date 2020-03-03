@@ -10,12 +10,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-import { getMyProjects, getFollowedProjects } from '../api/userApi';
 import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { projectStatuses } from '../constants/constants';
+import {
+  getMyProjects,
+  getFollowedProjects,
+  getAppliedProjects
+} from '../api/userApi';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
@@ -24,9 +28,10 @@ const MyProjects = ({ user }) => {
   const fetchProjects = async () => {
     const myProjects = await fetchMyProjects();
     const followedProjects = await fetchFollowedProjects();
+    const appliedProjects = await fetchAppliedProjects();
 
     // TODO analize if is all projects will be together
-    setProjects(myProjects.concat(followedProjects));
+    setProjects(myProjects.concat(followedProjects, appliedProjects));
   };
 
   const fetchMyProjects = async () => {
@@ -46,6 +51,31 @@ const MyProjects = ({ user }) => {
       return (
         response && response.map(project => ({ ...project, following: true }))
       );
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const fetchAppliedProjects = async () => {
+    try {
+      const response = await getAppliedProjects();
+      const { funding, monitoring } = response || {};
+
+      const appliedProjects = funding.map(project => ({
+        ...project,
+        applied: true
+      }));
+
+      monitoring.forEach(project => {
+        if (!funding.some(({ id }) => id === project.id)) {
+          appliedProjects.push({
+            ...project,
+            applied: true
+          });
+        }
+      });
+
+      return appliedProjects;
     } catch (error) {
       message.error(error);
     }

@@ -9,7 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Divider, Row, Col, Icon} from 'antd';
+import { Tag, Divider, Row, Col, Icon } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
@@ -23,7 +23,8 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
     projectName,
     timeframe,
     status,
-    following
+    following,
+    applied
   } = project;
   return (
     <Col className="CardProject" span={8}>
@@ -48,6 +49,14 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
           ) : (
             ''
           )}
+          {applied ? (
+            <Tag className="Applied" color="#DF5BD2" align="right">
+              Applied
+              <Icon type="check" style={{ color: 'white' }} />
+            </Tag>
+          ) : (
+            ''
+          )}
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
@@ -61,7 +70,7 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
               title={location}
               iconInfoItem="environment"
             />
-            <Col span={1}  xs={0} >
+            <Col span={1} xs={0}>
               <Divider type="vertical" />
             </Col>
             <InfoItem
@@ -71,7 +80,7 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
               title={timeframe}
               iconInfoItem="clock-circle"
             />
-            <Col span={1} xs={0} >
+            <Col span={1} xs={0}>
               <Divider type="vertical" />
             </Col>
             <InfoItem
