@@ -52,7 +52,7 @@ export const fieldPropType = {
   placeholder: PropTypes.string,
   rules: PropTypes.array,
   type: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
+  value: PropTypes.any,
   row: PropTypes.number
 };
 
@@ -72,6 +72,7 @@ export const milestonePropType = {
   id: PropTypes.number,
   description: PropTypes.string,
   quarter: PropTypes.string,
+  category: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.shape(taskPropType))
 };
 
@@ -113,4 +114,9 @@ export const projectPropTypes = {
   milestonePath: PropTypes.string,
   goalAmount: PropTypes.number,
   status: PropTypes.string
+};
+
+export const tagPropTypes = {
+  color: PropTypes.string,
+  text: PropTypes.string
 };

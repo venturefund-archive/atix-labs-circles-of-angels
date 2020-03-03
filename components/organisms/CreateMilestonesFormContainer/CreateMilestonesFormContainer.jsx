@@ -64,6 +64,7 @@ const CreateMilestonesFormContainer = ({
     steps,
     setNextStep,
     currentStep,
+    setCurrentStep,
     handleChange,
     getNextStepButton,
     getPrevStepButton,
@@ -84,6 +85,7 @@ const CreateMilestonesFormContainer = ({
   const [processed, setProcessed] = useState(false);
   const [processError, setProcessError] = useState();
   const [milestones, setMilestones] = useState([]);
+  const [cleanFile, setCleanFile] = useState(false);
 
   useEffect(() => {
     if (!project || !project.id) goBack();
@@ -93,7 +95,6 @@ const CreateMilestonesFormContainer = ({
   useEffect(() => {
     if (milestones.length > 0) {
       validateFields(2);
-      setProcessed(true);
     }
   }, [milestones]);
 
@@ -172,6 +173,7 @@ const CreateMilestonesFormContainer = ({
     });
 
     setProcessed(false);
+    setErrorList([]);
     const response = await processProjectMilestones(project.id, data);
 
     if (response.errors) {
@@ -185,11 +187,14 @@ const CreateMilestonesFormContainer = ({
     if (response.data.projectId) {
       message.success('Milestones saved successfully');
       fetchMilestones();
+      setCleanFile(true);
       return true;
     }
 
     if (response.data.errors) setErrorList(response.data.errors);
   };
+
+  const skipProcessFileStep = () => setCurrentStep(2);
 
   function getStepComponent(current) {
     const Component = steps[current].component;
@@ -211,6 +216,8 @@ const CreateMilestonesFormContainer = ({
         createTask={handleCreateTask}
         editTask={handleEditTask}
         deleteTask={handleDeleteTask}
+        skipStep={skipProcessFileStep}
+        cleanFile={cleanFile}
       />
     );
   }
@@ -227,7 +234,7 @@ const CreateMilestonesFormContainer = ({
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? !processed || errorList.length > 0 : false
+            currentStep === 1 ? milestones.length === 0 : false
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />

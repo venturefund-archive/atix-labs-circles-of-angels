@@ -6,7 +6,25 @@
   @include breakpoint(sm) {
     margin: 0 0 1em 0 !important;
   }
-
+  .BorderBox {
+    padding-left: 1em;
+    border-left: 1px solid $border;
+  }
+  .Contentbox{
+    padding: 0.5em 0;
+    .Box {
+      padding-left: 1em;
+    }
+  }
+  .ant-input {
+    font-size: 12px;
+    border: 1px solid $primary-color;
+    color: #728099;
+    margin-right: 0.5em;
+  }
+  .gutter-row {
+    margin-right: 0.5em;
+  }
 
   .SubWrapperActivitiesActions {
     height: 100%;
@@ -15,9 +33,10 @@
     justify-content: space-around;
   }
   .TableMilestones {
-    background: $light-gray;
-    height: 96px;
-    border-radius: 6px 0 0 0;
+    border: 1px solid $border;
+    border-bottom: transparent;
+    padding: 0 1em 1em;
+    border-radius: 4px 4px 0 0;
   }
   .ant-progress-show-info .ant-progress-outer {
     margin-right: calc(-2em - 8px);
@@ -35,71 +54,65 @@
   }
   .TableMilestones,
   .TableActivities {
-    display: flex;
-    overflow-x: scroll;
-    align-items: flex-start;
-    padding: 0.8em 1em 0.5em;
+    padding: 0 1em 1em;
     height: auto;
-    border-bottom: 1px solid $border;
     @include breakpoint(sm) {
       flex-direction: column;
     }
     h3 {
-      @include primary-text($h3, $on-surface, 600);
-      margin-top: 1em;
+      @include primary-text(13px, $on-surface, 600);
     }
     p {
-      @include primary-text($body-2, $on-surface, 400);
+      @include primary-text(12.5px, $on-surface, 400);
     }
     label {
-      @include primary-text($body-2, $on-surface-medium, 400);
+      @include primary-text(12.5px, $on-surface-medium, 400);
     }
-  }
-  .TableMilestones {
-    height: 96px;
-    .gutter-row {
-      margin-right: 1em;
+    .header {
+      display: flex;
+      border-bottom: 1px solid $border;
+      margin-bottom: 1em;
+      padding: 0.5em 0;
     }
   }
   .TableActivities {
+    h3 {
+      @include primary-text($h3, $on-surface, 500);
+    }
+
     .gutter-row {
       margin-right: 1em;
       .ant-select {
         width: 90%;
         margin-top: 0.5em;
         .ant-select-selection {
-    border-radius: 2px;
-    border: transparent;
-    box-shadow: 0px 0px 6px 0px #cccccc7a;
-}
+          border-radius: 2px;
+          border: transparent;
+          border-bottom: 2px solid $primary-color;
+          margin-bottom: 1em;
+        }
       }
     }
   }
-  .WrapperActionsActivities {
-    background: $white;
-    text-align: end;
-    border-bottom: 1px solid $border;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    .ant-divider-horizontal {
-      margin: 0.2em 0;
+  .WrapperActionsActivities,
+  .WrapperActions {
+    .isEditing {
+      background: #e9f0fe;
+      border-radius: 4px;
     }
   }
   .WrapperActions {
-    height: 96px;
     text-align: center;
-    background: $light-gray;
-    border-radius: 0px 6px 0px 0px;
     @include breakpoint(sm) {
       border-radius: 0px;
+      transform: scale(0.8);
       justify-content: space-evenly;
     }
   }
   .SubWrapperActivities {
     position: relative;
     border: 1px solid $border;
+    background: $light-gray;
     overflow: hidden;
     @include breakpoint(sm) {
       height: auto;
@@ -107,9 +120,6 @@
   }
   .WrapperActions,
   .WrapperActionsActivities {
-    box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    padding: 0.5em 1em;
     a {
       font-size: $body-2;
     }
@@ -125,12 +135,11 @@
         border-bottom: transparent;
       }
       .ant-collapse-header {
+        border-top: transparent;
         padding: 0.5em 1.5em;
-        background: $light-gray;
-        border-top: 1px solid $border;
-        @include primary-text(11px, $primary-color, 600);
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        border-radius: 0 0 4px 4px;
+        border: 1px solid $border;
+        @include primary-text(12px, $primary-color, 400);
         .anticon.anticon-right.ant-collapse-arrow {
           padding-left: 7em;
         }

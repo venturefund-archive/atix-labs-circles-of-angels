@@ -8,6 +8,7 @@
 
 import api, { doGet } from './api';
 import apiCall from './apiCall';
+import questionsToText from '../helpers/questionsToText';
 
 const baseURL = '/users';
 
@@ -15,6 +16,9 @@ const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
 
 const getFollowedProjects = async () =>
   apiCall('get', `${baseURL}/followed-projects`);
+
+const getAppliedProjects = async () =>
+  apiCall('get', `${baseURL}/applied-projects`);
 
 const loginUser = (email, pwd) =>
   apiCall('post', `${baseURL}/login`, { email, pwd });
@@ -30,14 +34,15 @@ const getOracles = async () => {
 
 const getUsers = () => apiCall('get', `${baseURL}`);
 
-const getAllRoles = () => apiCall('get', `${baseURL}/roles`);
-
 const changeUserRegistrationStatus = (userId, registrationStatus) =>
   apiCall('put', `${baseURL}/${userId}`, {
     registrationStatus
   });
 
-const register = user => apiCall('post', `${baseURL}/signup`, user);
+const register = user => {
+  const answers = questionsToText(user);
+  return apiCall('post', `${baseURL}/signup`, { ...user, answers });
+};
 
 const recoverPassword = async email => {
   try {
@@ -67,11 +72,11 @@ export {
   getOracles,
   getUsers,
   changeUserRegistrationStatus,
-  getAllRoles,
   getCountries,
   register,
   recoverPassword,
   updatePassword,
   getMyProjects,
-  getFollowedProjects
+  getFollowedProjects,
+  getAppliedProjects
 };

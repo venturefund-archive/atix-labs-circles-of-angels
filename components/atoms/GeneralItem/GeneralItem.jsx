@@ -10,11 +10,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 
-const GeneralItem = ({ value, label, img, type }) => (
+const GeneralItem = ({ value, label, img, type, extra }) => (
   <div className="GeneralItem flex">
     {img && <img src={img} alt="imgItems" />}
     <div className="HeaderData vertical">
-      {type === 'info' && <p className="Label">{value}</p>}
+      {type === 'info' && (
+        <p className="Label">
+          {value} {extra}
+        </p>
+      )}
       {type === 'link' && (
         <a
           className="Label"
@@ -32,14 +36,16 @@ const GeneralItem = ({ value, label, img, type }) => (
 
 GeneralItem.defaultProps = {
   img: undefined,
-  type: 'info'
+  type: 'info',
+  extra: ''
 };
 
 GeneralItem.propTypes = {
   value: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   img: PropTypes.string,
-  type: PropTypes.oneOf(['info', 'link'])
+  type: PropTypes.oneOf(['info', 'link']),
+  extra: PropTypes.string
 };
 
 export default GeneralItem;

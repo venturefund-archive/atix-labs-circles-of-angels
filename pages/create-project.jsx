@@ -17,8 +17,14 @@ import ProjectProposalFormContainer from '../components/organisms/ProjectProposa
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, sendToReview } from '../api/projectApi';
+import {
+  getProject,
+  sendToReview,
+  deleteProject,
+  getProjectMilestones
+} from '../api/projectApi';
 import useQuery from '../hooks/useQuery';
+import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
   main: CreateProject,
@@ -60,19 +66,21 @@ const CreateProjectContainer = () => {
 
       submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
       setProject(data);
-      checkStepsStatus(data);
+      await checkStepsStatus(data);
     },
     [history]
   );
 
-  const checkStepsStatus = projectToCheck => {
-    const { projectName, mission, proposal, milestonePath } = projectToCheck;
+  const checkStepsStatus = async projectToCheck => {
+    const { id: projectId, projectName, mission, proposal } = projectToCheck;
+
+    const response = await getProjectMilestones(projectId);
 
     const stepsStatus = {
       thumbnails: !!projectName,
       details: !!mission,
       proposal: !!proposal,
-      milestones: !!milestonePath
+      milestones: !response.errors && response.data.length > 0
     };
 
     setCompletedSteps(stepsStatus);
@@ -109,6 +117,28 @@ const CreateProjectContainer = () => {
     }
   };
 
+  const askDeleteConfirmation = () => {
+    if (project && project.id) {
+      showModalConfirm(
+        'Warning!',
+        'Are you sure you want to delete your project?',
+        deleteCurrentProject
+      );
+    }
+  };
+
+  const deleteCurrentProject = async () => {
+    if (project && project.id) {
+      const response = await deleteProject(project.id);
+      if (response.errors) {
+        message.error(response.errors);
+        return;
+      }
+      message.success('Your project was successfully deleted!');
+      goToMyProjects(); // or to project detail?
+    }
+  };
+
   const goToMyProjects = () => history.push('/my-projects');
 
   useEffect(() => {
@@ -137,6 +167,7 @@ const CreateProjectContainer = () => {
           submitForm={submitForm}
           goToMyProjects={goToMyProjects}
           sendToReview={sendProjectToReview}
+          deleteProject={askDeleteConfirmation}
           {...props}
         />
       </div>

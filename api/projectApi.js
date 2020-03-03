@@ -8,7 +8,7 @@
 
 import { isEmpty } from 'lodash';
 import apiCall from './apiCall';
-import api, { doGet, doPost, doPut } from './api';
+import api, { doGet, doPost, doPut, doDelete } from './api';
 import ProjectStatus from '../constants/ProjectStatus';
 import { useGet } from '../hooks/useRequest';
 
@@ -69,6 +69,9 @@ export const addProjectExperience = (projectId, experienceData) => {
 
 export const getProjectExperiences = async projectId =>
   doGet(`${baseURL}/${projectId}/experiences`);
+
+export const deleteProject = async projectId =>
+  doDelete(`${baseURL}/${projectId}`);
 
 export const useGetProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects');

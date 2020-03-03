@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Divider } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import { Col, Tag } from 'antd';
+import { tagPropTypes } from '../../../helpers/proptypes';
 
 const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
   <span>
     {showEdit && (
-      <Col span={24}>
+      <div>
         {isEditing ? (
-          <span>
+          <span className="isEditing">
             <a className="blueLink" onClick={() => onEdit(true)}>
               Save
             </a>
@@ -21,28 +24,25 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
             Edit
           </a>
         )}
-         <Divider type="vertical"/>
-            {showDelete && (
-        <a className="redLink" onClick={onDelete}>
-          Delete
-        </a>
+        {showDelete && (
+          <a className="redLink" onClick={onDelete}>
+            Delete
+          </a>
+        )}
+      </div>
     )}
-      </Col>
-    )}
-  {showDelete && showEdit}
-
+    {showDelete && showEdit}
   </span>
 );
 
-const evidenceTask = showAddEvidence => (
+const evidenceTask = ({ color, text }, showAddEvidence, onNewEvidence) => (
   <Col span={24}>
-    <a className="blueLink" onClick={() => console.log('show evidences')}>
-      Evidences
-    </a>
+    {/* <a className="blueLink">Evidences</a> */}
+    <Tag color={color}>{text}</Tag>
     {showAddEvidence && (
-          <a className="blueLink" onClick={() => console.log('adding evidence')}>
-     +Add Evidence
-    </a>
+      <a className="blueLink" onClick={onNewEvidence}>
+        +Add Evidence
+      </a>
     )}
   </Col>
 );
@@ -53,25 +53,30 @@ const TaskActions = ({
   showDelete,
   onEdit,
   onDelete,
+  onNewEvidence,
   isEditing,
   showAddEvidence,
-  type
+  type,
+  taskStatusProps
 }) => (
-  <Col
-    className="WrapperActionsActivities"
-    xs={{ span: 24 }}
-    sm={{ span: 24 }}
-    md={24}
-    lg={{ span: 24 }}
-  >
-    {type === 'evidence' && evidenceTask(showAddEvidence)}
+  <Col className="WrapperActionsActivities">
+    {type === 'evidence' &&
+      evidenceTask(taskStatusProps, showAddEvidence, onNewEvidence)}
     {type === 'edit' &&
       editTaskButtons(onEdit, onDelete, showEdit, showDelete, isEditing)}
   </Col>
 );
 
+evidenceTask.defaultProps = {
+  text: undefined,
+  color: undefined
+};
+
+evidenceTask.propTypes = tagPropTypes;
+
 TaskActions.defaultProps = {
-  isEditing: false
+  isEditing: false,
+  taskStatusProps: {}
 };
 
 TaskActions.propTypes = {
@@ -80,8 +85,13 @@ TaskActions.propTypes = {
   showAddEvidence: PropTypes.bool.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onNewEvidence: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
-  isEditing: PropTypes.bool
+  isEditing: PropTypes.bool,
+  taskStatusProps: PropTypes.shape({
+    text: PropTypes.string,
+    color: PropTypes.string
+  })
 };
 
 export default TaskActions;

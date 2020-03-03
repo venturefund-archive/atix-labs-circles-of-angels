@@ -162,8 +162,8 @@ export const milestonesFormItems = {
       {
         required: false,
         message: 'Please upload the milestones information for your project!',
-        validator: (_rule, value) =>
-          value.length > 0 || (value.file && value.file instanceof File)
+        // validator: (_rule, value) =>
+        //   value.length > 0 || (value.file && value.file instanceof File)
       }
     ]
   }
@@ -266,6 +266,8 @@ export const newExperienceFormItems = {
   comment: {
     name: 'comment',
     placeholder: 'Share your experience here!',
+    type: 'textArea',
+    rows: 8,
     rules: [
       {
         required: true,
@@ -278,6 +280,7 @@ export const newExperienceFormItems = {
     name: 'photos',
     label: 'Click to upload',
     type: 'file',
+    multiple: true,
     rules: [
       {
         required: true,
@@ -342,8 +345,8 @@ export const newFundFormItems = {
   },
   transferId: {
     name: 'transferId',
-    label: 'Tranfer ID',
-    placeholder: 'Tranfer ID',
+    label: 'Transfer ID',
+    placeholder: 'Transfer ID',
     rules: [
       {
         required: true,
@@ -385,6 +388,56 @@ export const newTransferClaimFormItems = {
         required: true,
         message: 'Please input the rejection reason',
         whitespace: true
+      }
+    ]
+  }
+};
+
+export const newTaskEvidenceFormItems = {
+  description: {
+    name: 'description',
+    label: 'Claim description',
+    placeholder: 'Claim description',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the rejection reason',
+        whitespace: true
+      }
+    ]
+  },
+  status: {
+    name: 'status',
+    label: 'Claim status',
+    type: 'select',
+    placeholder: 'Select',
+    defaultValue: undefined,
+    options: [
+      { name: 'Approved', value: 'approve' },
+      { name: 'Disapproved', value: 'disapprove' }
+    ],
+    rules: [
+      {
+        required: true,
+        message: 'Please select the claim status',
+        whitespace: true
+      }
+    ]
+  },
+  proof: {
+    name: 'proof',
+    label: 'Click to upload',
+    type: 'file',
+    rules: [
+      {
+        required: true,
+        message: 'Please upload the proof',
+        validator: (_rule, value) => {
+          const checkValue = value || '';
+          if (checkValue.length > 0) return true;
+          if (checkValue.file && checkValue.file instanceof File) return true;
+          return false;
+        }
       }
     ]
   }

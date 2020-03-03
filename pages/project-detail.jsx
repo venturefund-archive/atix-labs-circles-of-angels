@@ -32,9 +32,16 @@ import {
   getProjectExperiences,
   addProjectExperience
 } from '../api/projectApi';
-import { projectStatuses } from '../constants/constants';
+import { projectStatuses, publicProjectStatuses } from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
-import RolesMap from '../constants/RolesMap';
+import { claimMilestone } from '../api/milestonesApi';
+import {
+  isFunder,
+  isSupporter,
+  isOwner,
+  isEntrepreneur
+} from '../helpers/utils';
+import { getFundedAmount } from '../api/transferApi';
 
 const { TabPane } = Tabs;
 
@@ -50,9 +57,14 @@ const ProjectDetail = ({ user }) => {
     funders: []
   });
   const [isFollowing, setIsFollowing] = useState(false);
-  const [alreadyApplied, setAlreadyApplied] = useState(false);
   const [milestones, setMilestones] = useState();
   const [experiences, setExperiences] = useState([]);
+  // TODO this is set to true initialy  to avoid show the button in the first render before fetch
+  const [alreadyApplied, setAlreadyApplied] = useState({
+    oracles: true,
+    funders: true
+  });
+  const [fundedAmount, setFundedAmount] = useState(0);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
@@ -89,10 +101,32 @@ const ProjectDetail = ({ user }) => {
     setExperiences(response.data);
   };
 
+  const fetchProject = async () => {
+    const response = await getProject(projectId);
+    if (response.errors) {
+      message.error('An error occurred while fetching the project');
+      history.goBack();
+      return;
+    }
+
+    setProject(response.data);
+  };
+
+  const getTotalFundedAmount = async () => {
+    const response = await getFundedAmount(project.id);
+    if (response.errors) {
+      setFundedAmount(0);
+      return;
+    }
+
+    setFundedAmount(response.data.fundedAmount);
+  };
+
   const onFollowProject = async () => {
     try {
       await followProject(project.id);
       setIsFollowing(true);
+      fetchProjectUsers();
       message.success('You are following this project now!');
     } catch (error) {
       message.error(error);
@@ -103,10 +137,16 @@ const ProjectDetail = ({ user }) => {
     try {
       await unfollowProject(project.id);
       setIsFollowing(false);
+      fetchProjectUsers();
       message.success('You have followed this project');
     } catch (error) {
       message.error(error);
     }
+  };
+
+  const onEditProject = () => {
+    const state = { projectId: project.id };
+    history.push(`/create-project?id=${project.id}`, state);
   };
 
   const checkFollowing = async () => {
@@ -118,11 +158,18 @@ const ProjectDetail = ({ user }) => {
     }
   };
 
+  const allowEditProject = () =>
+    project &&
+    project.status === projectStatuses.CONSENSUS &&
+    isOwner(project, user) &&
+    isEntrepreneur(user);
+
   const onApply = async role => {
     try {
       await applyToProject(project.id, role);
 
-      setAlreadyApplied(true);
+      setAlreadyApplied({ ...alreadyApplied, [role]: true });
+      fetchProjectUsers();
       message.success(`You have apply as possible ${role} for this project`);
     } catch (error) {
       message.error(error);
@@ -136,17 +183,6 @@ const ProjectDetail = ({ user }) => {
     } catch (error) {
       message.error(error);
     }
-  };
-
-  const fetchProject = async () => {
-    const response = await getProject(projectId);
-    if (response.errors) {
-      message.error('An error occurred while fetching the project');
-      history.goBack();
-      return;
-    }
-
-    setProject(response.data);
   };
 
   const assignOracle = async (taskId, oracleId) => {
@@ -169,13 +205,21 @@ const ProjectDetail = ({ user }) => {
     fetchExperiences();
   };
 
-  const isSupporter = () => user && user.role === RolesMap.PROJECT_SUPPORTER;
+  const onClaimMilestone = async milestoneId => {
+    const response = await claimMilestone(milestoneId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
 
-  const isFunder = () =>
-    projectUsers.funders.find(funder => funder.id === user.id);
+    message.success('Milestone claimed successfully!');
+    fetchMilestones();
+  };
 
   const allowNewFund = () =>
-    project.status === projectStatuses.FUNDING && isSupporter() && isFunder();
+    project.status === projectStatuses.FUNDING &&
+    isSupporter(user) &&
+    isFunder(user, projectUsers.funders);
 
   useEffect(() => {
     fetchProject();
@@ -187,9 +231,9 @@ const ProjectDetail = ({ user }) => {
       checkCandidate();
       fetchProjectUsers();
       fetchMilestones();
-      if (project.status === projectStatuses.CONSENSUS) {
-        fetchExperiences();
-      }
+      if (Object.values(publicProjectStatuses).includes(project.status))
+        getTotalFundedAmount();
+      if (project.status === projectStatuses.CONSENSUS) fetchExperiences();
     }
   }, [project]);
 
@@ -200,6 +244,7 @@ const ProjectDetail = ({ user }) => {
         user,
         assignOracle,
         onCreateExperience,
+        onClaimMilestone,
         allowNewFund: allowNewFund()
       })
     ).map(
@@ -222,8 +267,11 @@ const ProjectDetail = ({ user }) => {
       <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
+          fundedAmount={fundedAmount}
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
+          onEditProject={onEditProject}
+          allowEdit={allowEditProject()}
           isFollower={isFollowing}
         />
         <div className="BlockContent">
@@ -248,6 +296,7 @@ const ProjectDetail = ({ user }) => {
           onApply={onApply}
           applied={alreadyApplied}
           status={project && project.status}
+          isSupporter={isSupporter(user)}
         />
       </Col>
     </Row>

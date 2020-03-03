@@ -11,23 +11,27 @@ import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useForm from '../../../hooks/useForm';
-import { newFundFormItems } from '../../../helpers/createProjectFormFields';
 import './_style.scss';
-import NewFundForm from '../NewFundForm.jsx/NewFundForm';
+import CustomForm from '../CustomForm/CustomForm';
 
-const ModalInvest = ({ visible, onCreate, onClose }) => {
+const CustomFormModal = ({
+  title,
+  formItems,
+  visible,
+  onConfirm,
+  onClose,
+  body
+}) => {
   const [clean, setClean] = useState(false);
-  const [fields, setFields, handleChange, handleSubmit] = useForm(
-    newFundFormItems
-  );
+  const [fields, setFields, handleChange, handleSubmit] = useForm(formItems);
 
   const onSubmit = async data => {
-    await onCreate(data);
+    await onConfirm(data);
     cleanForm();
   };
 
   const cleanForm = () => {
-    setFields(newFundFormItems);
+    setFields(formItems);
     onClose();
   };
 
@@ -38,8 +42,9 @@ const ModalInvest = ({ visible, onCreate, onClose }) => {
   return (
     <div>
       <Modal
-        title="Fund Project"
-        className="ModalFund"
+        centered
+        title={title}
+        className="CustomFormModal"
         width="700px"
         visible={visible}
         onCancel={cleanForm}
@@ -52,26 +57,33 @@ const ModalInvest = ({ visible, onCreate, onClose }) => {
           />
         ]}
       >
-        <NewFundForm
-          fields={fields}
-          handleChange={handleChange}
-          cleanInputFile={clean}
-        />
+        <div>
+          {body}
+          <CustomForm
+            fields={fields}
+            handleChange={handleChange}
+            cleanInputFile={clean}
+          />
+        </div>
       </Modal>
     </div>
   );
 };
 
-ModalInvest.defaultProps = {
+CustomFormModal.defaultProps = {
+  title: undefined,
+  formItems: undefined,
   visible: false,
-  onCreate: undefined,
+  onConfirm: undefined,
   onClose: undefined
 };
 
-ModalInvest.propTypes = {
+CustomFormModal.propTypes = {
+  title: PropTypes.string,
+  formItems: PropTypes.shape({}),
   visible: PropTypes.bool,
-  onCreate: PropTypes.func,
+  onConfirm: PropTypes.func,
   onClose: PropTypes.func
 };
 
-export default ModalInvest;
+export default CustomFormModal;

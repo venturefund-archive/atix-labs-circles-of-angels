@@ -6,11 +6,11 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-const MilestoneBudgetStatus = {
-  CLAIMABLE: 1,
-  CLAIMED: 2,
-  FUNDED: 3,
-  BLOCKED: 4
+const claimMilestoneStatusMap = {
+  pending: { name: 'Pending', color: 'magenta' },
+  claimable: { name: 'Claimable', color: 'blue' },
+  claimed: { name: 'Claimed', color: 'purple' },
+  transferred: { name: 'Transferred', color: 'green' }
 };
 
-export default MilestoneBudgetStatus;
+export default claimMilestoneStatusMap;

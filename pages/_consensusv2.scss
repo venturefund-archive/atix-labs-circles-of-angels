@@ -67,7 +67,7 @@
         @include primary-text($medium, $on-surface, 400);
       }
       h3.bold {
-        @include primary-text($medium, $on-surface, 600);
+        @include primary-text($medium, $on-surface, 500);
       }
       .ant-avatar-image {
         margin-left: 0px;
