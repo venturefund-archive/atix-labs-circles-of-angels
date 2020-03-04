@@ -20,6 +20,8 @@ const TopBar = ({ setVisibility, visibility }) => {
   const [showModal, setShowModal] = useState(true);
 
   const closeModal = () => setShowModal(false);
+  const goToOldPlatform = () =>
+    window.open('http://www.circlesofangels.org:3000', '_blank');
 
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
@@ -34,15 +36,13 @@ const TopBar = ({ setVisibility, visibility }) => {
       >
         <ModalMigration
           visible={showModal}
-          onSubmit={closeModal}
-          onCancel={closeModal}
+          onClose={closeModal}
+          onRedirect={goToOldPlatform}
         />
         <CustomButton
           buttonText="Go to the old platform!"
           theme="Alternative"
-          onClick={() =>
-            window.open('http://www.circlesofangels.org:3000', '_blank')
-          }
+          onClick={goToOldPlatform}
         />
         <CustomButton
           buttonText="Register"

@@ -12,14 +12,13 @@ import { Modal, Col, Row } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-const ModalMigration = ({ visible, onSubmit, onCancel }) => (
+const ModalMigration = ({ visible, onClose, onRedirect }) => (
   <div>
     <Modal
       centered
       className="WrapperModalMigration"
       visible={visible}
-      onOk={onSubmit}
-      onCancel={onCancel}
+      onCancel={onClose}
       footer={null}
     >
       <div className="Container">
@@ -29,9 +28,9 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
             <h2>Are you looking for any of these projects?</h2>
             <h3>
               We are migrating to a new platform and some projects have not been
-              added yet! <br/> If your project is on this list, enter to the old
-              platform from the blue button to access them. <br/> Otherwise continue
-              to the landing page
+              added yet! <br /> If your project is on this list, enter to the
+              old platform from the blue button to access them. <br /> Otherwise
+              continue to the landing page
             </h3>
           </div>
           <Row className="BlockContainer" gutter={22}>
@@ -53,13 +52,12 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
           <CustomButton
             theme="Alternative"
             buttonText="No, I want to stay"
+            onClick={onClose}
           />
           <CustomButton
             theme="Primary"
             buttonText="Yes, go to the old platform!"
-            onClick={() =>
-              window.open('http://www.circlesofangels.org:3000', '_blank')
-            }
+            onClick={onRedirect}
           />
         </div>
       </div>
@@ -70,13 +68,11 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
 export default ModalMigration;
 
 ModalMigration.defaultProps = {
-  visible: false,
-  onSubmit: () => undefined,
-  onCancel: () => undefined
+  visible: false
 };
 
 ModalMigration.propTypes = {
   visible: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onCancel: PropTypes.func
+  onClose: PropTypes.func.isRequired,
+  onRedirect: PropTypes.func.isRequired
 };
