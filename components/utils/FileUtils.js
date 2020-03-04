@@ -17,3 +17,14 @@ export const toBuffer = file =>
       resolve(buffer);
     });
   });
+
+export const downloadFileFromPath = (filePath, filename) => {
+  const link = document.createElement('a');
+  link.href = filePath;
+  if (filename) {
+    link.setAttribute('download', filename);
+  }
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
