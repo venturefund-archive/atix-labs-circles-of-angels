@@ -2,11 +2,11 @@
 
 .TopBar {
   border-bottom: 1px solid $border;
-  height: 7%;
+  min-height: 7%;
   padding: 0 1em;
   @include breakpoint(sm) {
-    height: 10%;
-    padding: 0 1em;
+    height: auto;
+    padding: 1em;
     img {
       width: 100%;
     }

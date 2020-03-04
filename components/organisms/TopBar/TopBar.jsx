@@ -23,12 +23,12 @@ const TopBar = ({ setVisibility, visibility }) => {
 
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
-      <Col className="gutter-row" xs={11} sm={4} lg={4}>
+      <Col className="gutter-row" xs={16} sm={4} lg={4}>
         <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
       </Col>
       <Col
         className="gutter-row"
-        xs={{ span: 13 }}
+        xs={{ span: 24 }}
         sm={{ span: 7, offset: 10 }}
         lg={{ span: 7, offset: 10 }}
       >
@@ -39,13 +39,11 @@ const TopBar = ({ setVisibility, visibility }) => {
         />
         <CustomButton
           buttonText="Go to the old platform!"
-          theme="Secondary"
+          theme="Alternative"
           onClick={() =>
             window.open('http://www.circlesofangels.org:3000', '_blank')
           }
         />
-        <Divider type="vertical" />
-
         <CustomButton
           buttonText="Register"
           theme="Secondary"
