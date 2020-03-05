@@ -54,7 +54,7 @@ function Landing() {
             Enabling Purposeled companies to grow, flourish and <br /> impact
             local communities
           </h2>
-          <Col className="space-between" sm={24} md={6} lg={7}>
+          <Col className="BlockActions">
             <CustomButton
               onClick={() => history.push('/register?role=entrepreneur')}
               buttonText="I´ve got a project!"

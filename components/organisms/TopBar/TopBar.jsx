@@ -20,32 +20,30 @@ const TopBar = ({ setVisibility, visibility }) => {
   const [showModal, setShowModal] = useState(true);
 
   const closeModal = () => setShowModal(false);
+  const goToOldPlatform = () =>
+    window.open('http://www.circlesofangels.org:3000', '_blank');
 
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
-      <Col className="gutter-row" xs={11} sm={4} lg={4}>
+      <Col className="gutter-row" xs={16} sm={4} lg={4}>
         <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
       </Col>
       <Col
         className="gutter-row"
-        xs={{ span: 13 }}
+        xs={{ span: 24 }}
         sm={{ span: 7, offset: 10 }}
         lg={{ span: 7, offset: 10 }}
       >
         <ModalMigration
           visible={showModal}
-          onSubmit={closeModal}
-          onCancel={closeModal}
+          onClose={closeModal}
+          onRedirect={goToOldPlatform}
         />
         <CustomButton
           buttonText="Go to the old platform!"
-          theme="Secondary"
-          onClick={() =>
-            window.open('http://www.circlesofangels.org:3000', '_blank')
-          }
+          theme="Alternative"
+          onClick={goToOldPlatform}
         />
-        <Divider type="vertical" />
-
         <CustomButton
           buttonText="Register"
           theme="Secondary"

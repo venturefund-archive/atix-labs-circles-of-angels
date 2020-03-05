@@ -12,14 +12,13 @@ import { Modal, Col, Row } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-const ModalMigration = ({ visible, onSubmit, onCancel }) => (
+const ModalMigration = ({ visible, onClose, onRedirect }) => (
   <div>
     <Modal
       centered
       className="WrapperModalMigration"
       visible={visible}
-      onOk={onSubmit}
-      onCancel={onCancel}
+      onCancel={onClose}
       footer={null}
     >
       <div className="Container">
@@ -29,31 +28,19 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
             <h2>Are you looking for any of these projects?</h2>
             <h3>
               We are migrating to a new platform and some projects have not been
-              added yet! If your project is on this list, enter to the previous
-              platform from the button to access them Otherwise continue to the
-              landing page
+              added yet! <br /> If your project is on this list, enter to the
+              old platform from the blue button to access them. <br /> Otherwise
+              continue to the landing page
             </h3>
           </div>
-          <Row className="BlockContainer" gutter={16}>
-            <Col span={6} className="Card">
-              <div className="ImageCard">
-                <img src="/static/images/sehatkahani.jpg" alt="img" />
-              </div>
-              <h1>Sehat Kahani</h1>
-            </Col>
-            <Col span={6} className="Card">
-              <div span={24} className="ImageCard">
-                <img src="/static/images/dengue.jpg" alt="img" />
-              </div>
-              <h1>Dengue Prognostic Test</h1>
-            </Col>
-            <Col span={6} className="Card">
+          <Row className="BlockContainer" gutter={22}>
+            <Col lg={8} md={8} xs={24} className="Card">
               <div span={24} className="ImageCard">
                 <img src="/static/images/wedu.jpg" alt="img" />
               </div>
               <h1>Wedu Global Fisa</h1>
             </Col>
-            <Col span={6} className="Card">
+            <Col lg={8} md={8} xs={24} className="Card">
               <div span={24} className="ImageCard">
                 <img src="/static/images/hammock.jpg" alt="img" />
               </div>
@@ -61,13 +48,16 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
             </Col>
           </Row>
         </div>
-        <div className="Footer">
+        <div className="Footer flex">
+          <CustomButton
+            theme="Alternative"
+            buttonText="No, I want to stay"
+            onClick={onClose}
+          />
           <CustomButton
             theme="Primary"
             buttonText="Yes, go to the old platform!"
-            onClick={() =>
-              window.open('http://www.circlesofangels.org:3000', '_blank')
-            }
+            onClick={onRedirect}
           />
         </div>
       </div>
@@ -78,13 +68,11 @@ const ModalMigration = ({ visible, onSubmit, onCancel }) => (
 export default ModalMigration;
 
 ModalMigration.defaultProps = {
-  visible: false,
-  onSubmit: () => undefined,
-  onCancel: () => undefined
+  visible: false
 };
 
 ModalMigration.propTypes = {
   visible: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onCancel: PropTypes.func
+  onClose: PropTypes.func.isRequired,
+  onRedirect: PropTypes.func.isRequired
 };
