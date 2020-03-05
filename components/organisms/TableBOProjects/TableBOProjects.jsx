@@ -9,13 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Icon, message } from 'antd';
+import { Table, Tag } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
-import { downloadProjectMilestonesFile } from '../../../api/projectApi';
-import formatError from '../../../helpers/errorFormatter';
 import { projectStatuses } from '../../../constants/constants';
+import { downloadFileFromPath } from '../../utils/FileUtils';
 
 const TableBOProjects = ({ data, onConfirm, onReject }) => {
   const history = useHistory();
@@ -33,17 +32,20 @@ const TableBOProjects = ({ data, onConfirm, onReject }) => {
     },
     {
       title: 'Milestones',
-      dataIndex: 'id',
+      dataIndex: 'milestonePath',
       key: 'milestones',
-      render: projectId => (
-        <CustomButton
-          theme="Secondary"
-          icon="download"
-          buttonText="Download"
-          classNameIcon="iconDisplay"
-          onClick={() => downloadMilestones(projectId)}
+      render: milestonePath =>
+        milestonePath && (
+          <CustomButton
+            theme="Secondary"
+            icon="download"
+            buttonText="Download"
+            classNameIcon="iconDisplay"
+            onClick={() =>
+              downloadFileFromPath(milestonePath, 'milestones.xlsx')
+            }
           />
-      )
+        ) // TODO: show something else if !milestonePath?
     },
     {
       title: 'Details',
@@ -92,16 +94,6 @@ const TableBOProjects = ({ data, onConfirm, onReject }) => {
       )
     }
   ];
-
-  const downloadMilestones = async projectId => {
-    try {
-      // TODO endpoint still not created
-      const response = await downloadProjectMilestonesFile(projectId);
-      return response;
-    } catch (error) {
-      message.error(formatError(error));
-    }
-  };
 
   const goToProjectDetail = projectId =>
     history.push(`/project-detail?id=${projectId}`);
