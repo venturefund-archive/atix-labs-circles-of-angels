@@ -132,6 +132,42 @@ export const detailsFormInputs = {
         }
       }
     ]
+  },
+  agreementFile: {
+    name: 'agreementFile',
+    label: 'Click to upload',
+    type: 'file',
+    valid: true,
+    rules: [
+      {
+        required: false,
+        message: 'Please upload a valid agreement file!',
+        validator: (rule, value) => {
+          if (!value || value.length === 0) return !rule.required;
+          if (value.length > 0) return true;
+          if (value.file && value.file instanceof File) return true;
+          return false;
+        }
+      }
+    ]
+  },
+  proposalFile: {
+    name: 'proposalFile',
+    label: 'Click to upload',
+    type: 'file',
+    valid: true,
+    rules: [
+      {
+        required: false,
+        message: 'Please upload a valid proposal file!',
+        validator: (rule, value) => {
+          if (!value || value.length === 0) return !rule.required;
+          if (value.length > 0) return true;
+          if (value.file && value.file instanceof File) return true;
+          return false;
+        }
+      }
+    ]
   }
 };
 
