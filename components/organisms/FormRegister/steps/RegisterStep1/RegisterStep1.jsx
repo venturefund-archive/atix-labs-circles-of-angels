@@ -37,10 +37,7 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
       <div className="InfoStep">
         <img src="./static/images/icon-users.svg" alt="platformusers" />
         <h2>Platform User</h2>
-        <h4>
-          Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit
-          amet..
-        </h4>
+        <h4>Please select a role</h4>
       </div>
       <div className="StepPersonalInformation h100">
         <TitlePage textTitle="What do you want to do?" />
