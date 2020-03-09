@@ -99,6 +99,7 @@ export default function useForm(formFields, submitCallback) {
     return Object.values(validatedFields).every(i => i.valid);
   };
 
+  // FIXME: this doesn't take into account optional fields
   const isFormValid = () => Object.values(fields).every(field => field.valid);
 
   const handleSubmit = async onSubmit => {
@@ -121,11 +122,17 @@ export default function useForm(formFields, submitCallback) {
         }
       }
     });
-
     const result = await onSubmit(data);
     setSubmitting(false);
     return result;
   };
 
-  return [fields, setFields, handleChange, handleSubmit, submitting];
+  return [
+    fields,
+    setFields,
+    handleChange,
+    handleSubmit,
+    submitting,
+    isFormValid
+  ];
 }
