@@ -66,32 +66,33 @@ const ProjectDetailHeader = ({
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
           <p>Organization Name</p>
-          <Col xs={24} md={21} lg={18} className="flex">
-            <h1>{projectName}</h1>
-            {getTagStatus(status)}
-          </Col>
-          {allowEdit ? (
-            <Col xs={24} md={3} lg={3}>
+          <div className="space-between blockverticalrsp">
+            <Col className="flex">
+              <h1>{projectName}</h1>
+              {getTagStatus(status)}
+            </Col>
+            <Col className="flex">
+            {allowEdit ? (
+                <CustomButton
+                  theme="Alternative"
+                  buttonText="Edit"
+                  icon="edit"
+                  classNameIcon="iconDisplay"
+                  onClick={onEditProject}
+                />
+            ) : (
+              ''
+            )}
+
               <CustomButton
-                theme="Alternative"
-                buttonText="Edit"
-                icon="edit"
-                classNameIcon="iconDisplay"
-                onClick={onEditProject}
+                theme={isFollower ? 'Primary' : 'Primary'}
+                buttonText={isFollower ? 'Following' : 'Follow Project'}
+                icon="check"
+                classNameIcon={isFollower ? 'iconDisplay' : 'none'}
+                onClick={isFollower ? onUnfollowProject : onFollowProject}
               />
             </Col>
-          ) : (
-            ''
-          )}
-          <Col xs={24} md={3} lg={3}>
-            <CustomButton
-              theme={isFollower ? 'Primary' : 'Primary'}
-              buttonText={isFollower ? 'Following' : 'Follow Project'}
-              icon="check"
-              classNameIcon={isFollower ? 'iconDisplay' : 'none'}
-              onClick={isFollower ? onUnfollowProject : onFollowProject}
-            />
-          </Col>
+          </div>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
           {/* <Col className="flex">
