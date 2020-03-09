@@ -71,7 +71,6 @@ const ProjectUsersPanel = ({
 
   return (
     <Fragment>
-    <div>
       <h3>Related users</h3>
       {followerList()}
       <UsersPanelCard
@@ -93,8 +92,6 @@ const ProjectUsersPanel = ({
         userRole="Oracles"
         users={oracles}
       />
-    </div>
-     <div>
       <Col span={24} className="BlockActions">
         <Col span={24}>
           <CustomButton
@@ -113,7 +110,6 @@ const ProjectUsersPanel = ({
           />
         </Col>
       </Col>
-      </div>
     </Fragment>
   );
 };
