@@ -77,7 +77,7 @@ const ProjectDetailFormContainer = ({
     const data = new FormData();
     Object.values(values).forEach(field => {
       if (field.value) {
-        if (field.type === 'file') {
+        if (field.type === 'file' && Array.isArray(field.value)) {
           field.value.forEach(file => data.append(field.name, file));
         } else if (field.type !== 'file') {
           data.set(field.name, field.value);
@@ -89,12 +89,11 @@ const ProjectDetailFormContainer = ({
     data.forEach((value, key) => {
       formData[key] = value;
     });
-    console.log('formData: ', formData);
     try {
       if (project && project.id) {
         const response = await updateProjectDetail(project.id, data);
         if (response.errors) {
-          return onError();
+          return onError(response.errors);
         }
         onSuccess(response.data);
         goBack();
