@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
 import { recoverPassword } from '../api/userApi';
-
+import './_style.scss';
 import './_login.scss';
 import DynamicFormRecovery from '../components/organisms/FormLogin/FormRecovery';
 
