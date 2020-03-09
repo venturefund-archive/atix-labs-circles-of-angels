@@ -7,7 +7,6 @@
   }
   .ProjectHeader {
     position: relative;
-    height: 30%;
     overflow: hidden;
     border-bottom-left-radius: 30px;
     @include breakpoint(sm) {
@@ -17,7 +16,6 @@
     }
     .Banner {
       width: 100%;
-      height: 100%;
       @include breakpoint(sm) {
         width: 100%;
         height: 26%;
@@ -70,7 +68,7 @@
       background: transparent;
     }
     .BlockTop {
-      height: 60%;
+      height: 75%;
       padding: 2em 3em;
       @include breakpoint(sm) {
         height: auto;
@@ -95,7 +93,7 @@
       }
       h1 {
         @include primary-text($titlemedium, $white, 600);
-        line-height: $titlemedium;
+        line-height: 36px;
         margin-right: 0.5em;
         @include breakpoint(sm) {
           @include primary-text($titlebig, $on-surface, 600);
@@ -115,9 +113,9 @@
       }
     }
     .BlockBottom {
-      height: 40%;
+      height: 25%;
       border-top: 1px solid #e5e6ed40;
-      padding: 2em 3em;
+      padding: 0 3em;
       @include breakpoint(sm) {
         border-top: 1px solid #72809926;
         height: auto;
