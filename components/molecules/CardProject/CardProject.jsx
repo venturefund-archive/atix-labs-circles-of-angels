@@ -41,21 +41,17 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
               {projectStatusMap[status].name}
             </Tag>
           )}
-          {following ? (
+          {following && (
             <Tag className="Follow" color="#4C7FF7" align="right">
               Following
               <Icon type="check" style={{ color: 'white' }} />
             </Tag>
-          ) : (
-            ''
           )}
-          {applied ? (
+          {applied && (
             <Tag className="Applied" color="#DF5BD2" align="right">
               Applied
               <Icon type="check" style={{ color: 'white' }} />
             </Tag>
-          ) : (
-            ''
           )}
         </div>
         <Row className="ProjectSummery">
