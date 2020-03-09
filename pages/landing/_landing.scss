@@ -32,6 +32,9 @@
         rgba(0, 0, 0, 0.052) 100%
       ),
       url(/static/images/background-banner.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
     h1 {
       @include primary-text($titlebanner, $white, 600);
       line-height: 96px;
