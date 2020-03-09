@@ -8,19 +8,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Row, Col, Checkbox } from 'antd';
+import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
-import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 import Field from '../../../../atoms/Field/Field';
 
 const RegisterStep2 = ({ fields, handleChange }) => (
   <div className="h100 Register2">
     <div className="InfoStep">
       <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
-      <h2> Personal Information</h2>
-      <h4>
-        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
-      </h4>
+      <h2>Personal Information</h2>
+      <h4>Complete the form with your personal information</h4>
     </div>
     <div className="StepPersonalInformation h100">
       <TitlePage textTitle="Register" />
