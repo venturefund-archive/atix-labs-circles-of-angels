@@ -8,6 +8,7 @@
   .ProjectHeader {
     position: relative;
     overflow: hidden;
+    min-height: 250px;
     border-bottom-left-radius: 30px;
     @include breakpoint(sm) {
       height: auto;
@@ -79,11 +80,17 @@
             font-size: 14px;
           }
         }
+        .blockverticalrsp{
+          flex-direction:column;
+        }
       }
       .ant-btn.Alternative .anticon, .ant-btn.Alternative:active .anticon, .ant-btn.Alternative:focus .anticon, .ant-btn.Alternative:hover .anticon {
         display: block;
         color: $primary-color;
     }
+    .ant-btn.Alternative {
+margin-right:1em;
+  }
       .ant-tag{
         @include breakpoint(sm) {
           position: absolute;
@@ -120,9 +127,14 @@
         border-top: 1px solid #72809926;
         height: auto;
         border-bottom: 1px solid #72809926;
-        padding: 2em 0em;
+        padding: 0.5em 0em;
+        .flex{
+          flex-wrap: wrap;
+        }
         .GeneralItem{
           margin-top: 0.5em;
+          width: 50%;
+          margin-right: 0;
         }
         .GeneralItem img{
           width: 20px;
@@ -216,8 +228,10 @@
 
 .Right {
   height: 100%;
-  padding: 2em 2em 2em 1.5em;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 2em;
   border-left: 1px solid $border;
   @include breakpoint(sm) {
     padding: 1em;
@@ -238,11 +252,9 @@
     padding: 0;
   }
   .BlockActions {
-    position: absolute;
-    bottom: 1em;
-    left: 0;
     .CustomButton{
       margin-top: 1em;
+      width: 100%;
     }
   }
   .Cards {
