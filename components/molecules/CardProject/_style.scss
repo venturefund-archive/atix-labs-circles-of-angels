@@ -4,26 +4,7 @@
   margin-bottom: 2em;
   cursor: pointer;
   position: relative;
-  .ant-tag{
-    position: absolute;
-    top: 1em;
-    left: 1.5em;
-    z-index: 9;
-    cursor: pointer;
-    .anticon{
-      margin-left:0.5em;
-    }
-  }
-  .ant-tag.Follow{
-    left: 9em;
-  }
-  .ant-tag.Applied {
-      left: 9em;
-  }
-  .ant-tag:hover{
-    transform: scale(1.1);
-    opacity: 1;
-  }
+
   .ant-col-1{
     margin: 0 0.5em;
   }
@@ -42,6 +23,20 @@
       border-radius: 5px;
       height: 100%;
       width: 100%;
+    }
+    .BlockTags{
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 1em;
+      left:1em;
+      z-index: 9;
+      .ant-tag{
+        cursor: pointer;
+        .anticon{
+          margin-left:0.5em;
+        }
+      }
     }
   }
   .ProjectSummery {

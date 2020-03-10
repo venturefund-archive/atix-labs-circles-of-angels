@@ -36,23 +36,25 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
       <div onClick={onClick}>
         <div className="ProjectDescription">
           <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
-          {status && (
-            <Tag color={projectStatusMap[status].color}>
-              {projectStatusMap[status].name}
-            </Tag>
-          )}
-          {following && (
-            <Tag className="Follow" color="#4C7FF7" align="right">
-              Following
-              <Icon type="check" style={{ color: 'white' }} />
-            </Tag>
-          )}
-          {applied && (
-            <Tag className="Applied" color="#DF5BD2" align="right">
-              Applied
-              <Icon type="check" style={{ color: 'white' }} />
-            </Tag>
-          )}
+          <div className="BlockTags">       
+            {status && (
+              <Tag color={projectStatusMap[status].color}>
+                {projectStatusMap[status].name}
+              </Tag>
+            )}
+            {following && (
+              <Tag className="Follow" color="#4C7FF7" align="right">
+                Following
+                <Icon type="check" style={{ color: 'white' }} />
+              </Tag>
+            )}
+            {applied && (
+              <Tag className="Applied" color="#DF5BD2" align="right">
+                Applied
+                <Icon type="check" style={{ color: 'white' }} />
+              </Tag>
+            )}
+           </div>
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
