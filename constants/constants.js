@@ -64,3 +64,33 @@ export const claimMilestoneStatus = {
   CLAIMED: 'claimed',
   TRANSFERRED: 'transferred'
 };
+
+export const SHOW_EXPERIENCES_STATUSES = [
+  projectStatuses.CONSENSUS,
+  projectStatuses.EXECUTING,
+  projectStatuses.FUNDING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];
+
+export const SHOW_FUNDS_STATUSES = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FUNDING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];
+
+export const SHOW_CLAIM_STATUS = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED
+];
+export const SHOW_TASK_EVIDENCE_ACTIONS = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED
+];
+export const SHOW_MILESTONE_STATUS_ACTIONS = [
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED
+];

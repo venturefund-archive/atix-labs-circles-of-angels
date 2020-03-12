@@ -32,7 +32,11 @@ import {
   getProjectExperiences,
   addProjectExperience
 } from '../api/projectApi';
-import { projectStatuses, publicProjectStatuses } from '../constants/constants';
+import {
+  projectStatuses,
+  publicProjectStatuses,
+  SHOW_EXPERIENCES_STATUSES
+} from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
 import {
@@ -233,7 +237,8 @@ const ProjectDetail = ({ user }) => {
       fetchMilestones();
       if (Object.values(publicProjectStatuses).includes(project.status))
         getTotalFundedAmount();
-      if (project.status === projectStatuses.CONSENSUS) fetchExperiences();
+      if (SHOW_EXPERIENCES_STATUSES.includes(project.status))
+        fetchExperiences();
     }
   }, [project]);
 
