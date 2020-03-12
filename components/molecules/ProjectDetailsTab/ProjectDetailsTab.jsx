@@ -4,9 +4,22 @@ import { Divider, Col, Row } from 'antd';
 import ProjectMilestonesProgress from '../ProjectMilestonesProgress/ProjectMilestonesProgress';
 import ProjectMission from '../ProjectMission/ProjectMission';
 
-const ProjectDetailsTab = ({ proposal, mission, problem, progress }) => (
+const ProjectDetailsTab = ({
+  proposal,
+  proposalFile,
+  agreementFile,
+  mission,
+  problem,
+  progress
+}) => (
   <Row className="ProjectContent">
-    <ProjectMission mission={mission} problem={problem} proposal={proposal} />
+    <ProjectMission
+      mission={mission}
+      problem={problem}
+      proposal={proposal}
+      proposalFile={proposalFile}
+      agreementFile={agreementFile}
+    />
     <Col span={1}>
       <Divider />
     </Col>
@@ -18,10 +31,14 @@ ProjectDetailsTab.defaultProps = {
   mission: '-',
   problem: '-',
   proposal: undefined,
-  progress: 0
+  progress: 0,
+  proposalFile: undefined,
+  agreementFile: undefined
 };
 
 ProjectDetailsTab.propTypes = {
+  proposalFile: PropTypes.string,
+  agreementFile: PropTypes.string,
   mission: PropTypes.string,
   problem: PropTypes.string,
   proposal: PropTypes.string,

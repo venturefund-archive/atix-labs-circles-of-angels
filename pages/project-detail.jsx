@@ -127,7 +127,6 @@ const ProjectDetail = ({ user }) => {
       await followProject(project.id);
       setIsFollowing(true);
       fetchProjectUsers();
-      message.success('You are following this project now!');
     } catch (error) {
       message.error(error);
     }
@@ -138,7 +137,6 @@ const ProjectDetail = ({ user }) => {
       await unfollowProject(project.id);
       setIsFollowing(false);
       fetchProjectUsers();
-      message.success('You have followed this project');
     } catch (error) {
       message.error(error);
     }
