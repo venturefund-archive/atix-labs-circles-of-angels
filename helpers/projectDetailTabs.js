@@ -97,8 +97,6 @@ export const tabsContent = ({
     title: 'Details',
     content: (
       <ProjectDetailsTab
-        agreementFile={project.agreementFilePath}
-        proposalFile={project.proposalFilePath}
         proposal={project.proposal}
         mission={project.mission}
         problem={project.problemAddressed}

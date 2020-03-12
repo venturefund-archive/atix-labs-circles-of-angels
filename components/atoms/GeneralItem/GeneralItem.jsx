@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 
-const GeneralItem = ({ value, label, img, type, extra }) => (
+const GeneralItem = ({ value, label, img, type, extra, url }) => (
   <div className="GeneralItem flex">
     {img && <img src={img} alt="imgItems" />}
     <div className="HeaderData vertical">
@@ -22,7 +22,7 @@ const GeneralItem = ({ value, label, img, type, extra }) => (
       {type === 'link' && (
         <a
           className="Label"
-          href={value}
+          href={url || value}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -37,7 +37,8 @@ const GeneralItem = ({ value, label, img, type, extra }) => (
 GeneralItem.defaultProps = {
   img: undefined,
   type: 'info',
-  extra: ''
+  extra: '',
+  url: undefined
 };
 
 GeneralItem.propTypes = {
@@ -45,7 +46,8 @@ GeneralItem.propTypes = {
   label: PropTypes.string.isRequired,
   img: PropTypes.string,
   type: PropTypes.oneOf(['info', 'link']),
-  extra: PropTypes.string
+  extra: PropTypes.string,
+  url: PropTypes.string
 };
 
 export default GeneralItem;
