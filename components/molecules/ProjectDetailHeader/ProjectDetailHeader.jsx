@@ -6,8 +6,18 @@ import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
 
-const LegalAgreement = (<div><Icon type="download" />Download Legal Agreement</div>); 
-const ProjectProposal = (<div className="Separate"><Icon type="download" />Download Project Proposal</div>); 
+const LegalAgreement = (
+  <div>
+    <Icon type="download" />
+    Download Legal Agreement
+  </div>
+);
+const ProjectProposal = (
+  <div className="Separate">
+    <Icon type="download" />
+    Download Project Proposal
+  </div>
+);
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>

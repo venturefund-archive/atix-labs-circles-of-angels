@@ -29,7 +29,7 @@ const GeneralItem = ({ value, label, img, type, extra, url }) => (
           {value}
         </a>
       )}
-      <h2 className="Info">{label}</h2>
+      {label && <h2 className="Info">{label}</h2>}
     </div>
   </div>
 );
@@ -38,12 +38,13 @@ GeneralItem.defaultProps = {
   img: undefined,
   type: 'info',
   extra: '',
-  url: undefined
+  url: undefined,
+  label: undefined
 };
 
 GeneralItem.propTypes = {
   value: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   img: PropTypes.string,
   type: PropTypes.oneOf(['info', 'link']),
   extra: PropTypes.string,
