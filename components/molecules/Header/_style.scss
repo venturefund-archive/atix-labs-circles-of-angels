@@ -2,12 +2,20 @@
 
 .HeaderContainer {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;  
-  padding: 0.5em 2em;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 2em 0.5em 0.5em;
   border-bottom: 1px solid $border;
   background-color: $white;
   height: 8vh;
+  @include breakpoint(sm) {
+    justify-content: flex-end;
+  }
+  .Logo {
+    @include breakpoint(sm) {
+      display:none
+    }
+  } 
   .RightSide {
     display: flex;
     justify-content: flex-end;
@@ -18,13 +26,17 @@
 @media screen and (max-width: 1024px) {
   .HeaderContainer {
     width: 93vw;
-
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    @include breakpoint(sm) {
+      justify-content: flex-end;
+    }
     .RightSide {
       width: 45%;
     }
   }
 }
-
 @media screen and (max-width: 770px) {
   .HeaderContainer {
     width: 100vw;
@@ -34,7 +46,6 @@
     }
   }
 }
-
 @media screen and (max-width: 450px) {
   .HeaderContainer {
 
