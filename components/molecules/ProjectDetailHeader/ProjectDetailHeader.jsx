@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Tag, Row } from 'antd';
+import { Col, Tag, Row, Icon } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
+
+const LegalAgreement = (<div><Icon type="download" />Download Legal Agreement</div>); 
+const ProjectProposal = (<div className="Separate"><Icon type="download" />Download Project Proposal</div>); 
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -51,15 +54,13 @@ const ProjectDetailHeader = ({
     {
       type: 'link',
       url: proposalFilePath,
-      label: 'Project Proposal',
-      value: 'Download',
+      value: ProjectProposal,
       hide: !proposalFilePath
     },
     {
       type: 'link',
       url: agreementFilePath,
-      label: 'Legal Agreement',
-      value: 'Download',
+      value: LegalAgreement,
       hide: !agreementFilePath
     }
   ];
