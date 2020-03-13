@@ -99,7 +99,7 @@ const ProjectDetailHeader = ({
               {getTagStatus(status)}
             </Col>
             <Col className="flex">
-              {allowEdit ? (
+              {allowEdit && (
                 <CustomButton
                   theme="Alternative"
                   buttonText="Edit"
@@ -107,8 +107,6 @@ const ProjectDetailHeader = ({
                   classNameIcon="iconDisplay"
                   onClick={onEditProject}
                 />
-              ) : (
-                ''
               )}
 
               <CustomButton
