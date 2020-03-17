@@ -21,6 +21,8 @@ export const toBuffer = file =>
 export const downloadFileFromPath = (filePath, filename) => {
   const link = document.createElement('a');
   link.href = filePath;
+  link.rel = 'noopener noreferrer';
+  link.target = '_blank';
   if (filename) {
     link.setAttribute('download', filename);
   }

@@ -32,7 +32,11 @@ import {
   getProjectExperiences,
   addProjectExperience
 } from '../api/projectApi';
-import { projectStatuses, publicProjectStatuses } from '../constants/constants';
+import {
+  projectStatuses,
+  publicProjectStatuses,
+  SHOW_EXPERIENCES_STATUSES
+} from '../constants/constants';
 import { assignOracleToActivity } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
 import {
@@ -127,7 +131,6 @@ const ProjectDetail = ({ user }) => {
       await followProject(project.id);
       setIsFollowing(true);
       fetchProjectUsers();
-      message.success('You are following this project now!');
     } catch (error) {
       message.error(error);
     }
@@ -138,7 +141,6 @@ const ProjectDetail = ({ user }) => {
       await unfollowProject(project.id);
       setIsFollowing(false);
       fetchProjectUsers();
-      message.success('You have followed this project');
     } catch (error) {
       message.error(error);
     }
@@ -233,7 +235,8 @@ const ProjectDetail = ({ user }) => {
       fetchMilestones();
       if (Object.values(publicProjectStatuses).includes(project.status))
         getTotalFundedAmount();
-      if (project.status === projectStatuses.CONSENSUS) fetchExperiences();
+      if (SHOW_EXPERIENCES_STATUSES.includes(project.status))
+        fetchExperiences();
     }
   }, [project]);
 
