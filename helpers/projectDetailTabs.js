@@ -6,35 +6,15 @@ import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscus
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
 import Transfers from '../components/organisms/Transfers/Transfers';
-import { projectStatuses } from '../constants/constants';
+import {
+  projectStatuses,
+  SHOW_EXPERIENCES_STATUSES,
+  SHOW_FUNDS_STATUSES,
+  SHOW_CLAIM_STATUS,
+  SHOW_MILESTONE_STATUS_ACTIONS,
+  SHOW_TASK_EVIDENCE_ACTIONS
+} from '../constants/constants';
 import { isOracle, isOwner } from './utils';
-
-const SHOW_EXPERIENCES_STATUSES = [
-  projectStatuses.CONSENSUS,
-  projectStatuses.EXECUTING,
-  projectStatuses.FUNDING,
-  projectStatuses.FINISHED,
-  projectStatuses.CHANGING_SCOPE,
-  projectStatuses.ABORTED
-];
-
-const SHOW_FUNDS_STATUSES = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FUNDING,
-  projectStatuses.FINISHED,
-  projectStatuses.CHANGING_SCOPE,
-  projectStatuses.ABORTED
-];
-
-const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
-const SHOW_TASK_EVIDENCE_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
-const SHOW_MILESTONE_STATUS_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
 
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);

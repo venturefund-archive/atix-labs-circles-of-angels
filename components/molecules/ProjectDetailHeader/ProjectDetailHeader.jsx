@@ -5,6 +5,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
+import LinkButton from '../../atoms/LinkButton/LinkButton';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -21,6 +22,8 @@ const ProjectDetailHeader = ({
   goalAmount,
   fundedAmount,
   projectName,
+  proposalFilePath,
+  agreementFilePath,
   faqLink,
   status,
   onFollowProject,
@@ -45,6 +48,20 @@ const ProjectDetailHeader = ({
       value: goalAmount,
       extra: 'USD',
       img: './static/images/amount-icon.svg'
+    },
+    {
+      type: 'link',
+      url: proposalFilePath,
+      value: (
+        <LinkButton text="Download Project Proposal" className="Separate" />
+      ),
+      hide: !proposalFilePath
+    },
+    {
+      type: 'link',
+      url: agreementFilePath,
+      value: <LinkButton text="Download Legal Agreement" />,
+      hide: !agreementFilePath
     }
   ];
 
@@ -72,7 +89,7 @@ const ProjectDetailHeader = ({
               {getTagStatus(status)}
             </Col>
             <Col className="flex">
-            {allowEdit ? (
+              {allowEdit && (
                 <CustomButton
                   theme="Alternative"
                   buttonText="Edit"
@@ -80,9 +97,7 @@ const ProjectDetailHeader = ({
                   classNameIcon="iconDisplay"
                   onClick={onEditProject}
                 />
-            ) : (
-              ''
-            )}
+              )}
 
               <CustomButton
                 theme={isFollower ? 'Primary' : 'Primary'}
@@ -103,9 +118,12 @@ const ProjectDetailHeader = ({
             />
           </Col> */}
           <Col className="flex">
-            {itemsData.map(item => (
-              <GeneralItem {...item} key={`data-${item.value}`} />
-            ))}
+            {itemsData.map(
+              item =>
+                !item.hide && (
+                  <GeneralItem {...item} key={`data-${item.value}`} />
+                )
+            )}
           </Col>
         </Row>
       </div>
@@ -123,7 +141,9 @@ ProjectDetailHeader.defaultProps = {
   faqLink: '#',
   isFollower: false,
   allowEdit: false,
-  onEditProject: () => undefined
+  onEditProject: () => undefined,
+  agreementFilePath: undefined,
+  proposalFilePath: undefined
 };
 
 ProjectDetailHeader.propTypes = {
@@ -139,7 +159,9 @@ ProjectDetailHeader.propTypes = {
   onUnfollowProject: PropTypes.func.isRequired,
   onEditProject: PropTypes.func,
   allowEdit: PropTypes.bool,
-  isFollower: PropTypes.bool
+  isFollower: PropTypes.bool,
+  agreementFilePath: PropTypes.string,
+  proposalFilePath: PropTypes.string
 };
 
 export default ProjectDetailHeader;
