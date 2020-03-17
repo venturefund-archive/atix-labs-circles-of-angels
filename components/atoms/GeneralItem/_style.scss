@@ -3,11 +3,12 @@
 .GeneralItem{
     margin-right:1.5em;
     img{
-      margin-right:1.5em;
-      opacity:1;
+      margin-right: 1em;
+      opacity: 0.7;
+      width: 20px;
     }
     .Info{
-        @include primary-text($h3, $white, 400);
+        @include primary-text($body, $white, 400);
         opacity: 0.7;
         line-height: 19px;
     }
@@ -16,19 +17,26 @@
             margin-right: 0.5em;
         }
         .Label{
-            @include primary-text($medium,$white, 600);
+            @include primary-text($body,$white, 600);
             line-height: 19px;
             opacity:1;
         } 
-                a{
-                    width: 260px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: $primary-color;
-        @include breakpoint(sm) {
-            width: 90vw;
-          }
+                a.Label{
+                    @include primary-text($body,$white, 400);
+                    opacity: 0.7;
+                    line-height: 19px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                &:hover{
+                    opacity: 1;
+                    }
+                    @include breakpoint(sm) {
+                    width: 90vw;
+                    }
+                    .Separate{
+                        margin-left: 2em;
+                    }
                 }
     }
 }

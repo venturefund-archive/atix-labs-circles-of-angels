@@ -22,10 +22,12 @@ const ProjectMission = ({ mission, problem, proposal }) => (
       <h1 className="title">Problem Addressed</h1>
       <p>{problem}</p>
     </div>
-    <div className="block">
-      <h1 className="title">Proposal</h1>
-      <div dangerouslySetInnerHTML={{ __html: proposal }} />
-    </div>
+    {proposal && (
+      <div className="block">
+        <h1 className="title">Proposal</h1>
+        <div dangerouslySetInnerHTML={{ __html: proposal }} />
+      </div>
+    )}
   </Col>
 );
 
