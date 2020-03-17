@@ -5,19 +5,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
-
-const LegalAgreement = (
-  <div>
-    <Icon type="download" />
-    Download Legal Agreement
-  </div>
-);
-const ProjectProposal = (
-  <div className="Separate">
-    <Icon type="download" />
-    Download Project Proposal
-  </div>
-);
+import LinkButton from '../../atoms/LinkButton/LinkButton';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -64,13 +52,15 @@ const ProjectDetailHeader = ({
     {
       type: 'link',
       url: proposalFilePath,
-      value: ProjectProposal,
+      value: (
+        <LinkButton text="Download Project Proposal" className="Separate" />
+      ),
       hide: !proposalFilePath
     },
     {
       type: 'link',
       url: agreementFilePath,
-      value: LegalAgreement,
+      value: <LinkButton text="Download Legal Agreement" />,
       hide: !agreementFilePath
     }
   ];
