@@ -23,7 +23,14 @@ const CustomFormModal = ({
   body
 }) => {
   const [clean, setClean] = useState(false);
-  const [fields, setFields, handleChange, handleSubmit] = useForm(formItems);
+  const [
+    fields,
+    setFields,
+    handleChange,
+    handleSubmit,
+    ,
+    isFormValid
+  ] = useForm(formItems);
 
   const onSubmit = async data => {
     await onConfirm(data);
@@ -50,10 +57,11 @@ const CustomFormModal = ({
         onCancel={cleanForm}
         footer={[
           <CustomButton
-            theme="Primary"
+            theme={isFormValid() ? 'Primary' : 'disabled'}
             key="back"
             buttonText="Confirm"
             onClick={() => handleSubmit(onSubmit)}
+            disabled={!isFormValid()}
           />
         ]}
       >

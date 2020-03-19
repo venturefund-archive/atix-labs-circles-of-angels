@@ -23,8 +23,10 @@ export const createMilestone = (projectId, saveData) =>
 export const claimMilestone = milestoneId =>
   doPost(`${baseURL}/${milestoneId}/claim`);
 
-export const transferredMilestone = milestoneId =>
-  doPost(`${baseURL}/${milestoneId}/transferred`);
+export const transferredMilestone = (milestoneId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${milestoneId}/transferred`, saveData, config);
+};
 
 // TODO: delete, used in old consensus page
 export const deleteActivity = async activityId => {

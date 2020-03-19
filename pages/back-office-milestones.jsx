@@ -13,9 +13,18 @@ import { message } from 'antd';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
 import { getMilestones, transferredMilestone } from '../api/milestonesApi';
 import { claimMilestoneStatus } from '../constants/constants';
+import CustomFormModal from '../components/organisms/CustomFormModal/CustomFormModal';
+import { transferMilestoneFormItems } from '../helpers/milestoneTransferFormFields';
 
 const BackOfficeMilestones = () => {
   const [milestones, setMilestones] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMilestone, setSelectedMilestone] = useState(undefined);
+
+  const closeReceiptModal = () => {
+    setModalVisible(false);
+    setSelectedMilestone(undefined);
+  };
 
   const fetchMilestones = async () => {
     // TODO filters should be defined and added
@@ -34,14 +43,14 @@ const BackOfficeMilestones = () => {
     setMilestones(response.data);
   };
 
-  const onFundsTransferred = async milestoneId => {
-    const response = await transferredMilestone(milestoneId);
-
+  const onFundsTransferred = async formData => {
+    if (!selectedMilestone) return;
+    const response = await transferredMilestone(selectedMilestone, formData);
+    setSelectedMilestone(undefined);
     if (response.errors) {
-      message.error(response.errors);
+      message.error('An error has occurred');
       return;
     }
-
     fetchMilestones();
   };
 
@@ -49,12 +58,23 @@ const BackOfficeMilestones = () => {
     fetchMilestones();
   }, []);
 
+  useEffect(() => {
+    if (selectedMilestone) setModalVisible(true);
+  }, [selectedMilestone]);
+
   return (
     <div className="TableContainer">
       <h1>Milestones Administration</h1>
       <TableBOMilestones
         data={milestones}
-        onFundsTransferred={onFundsTransferred}
+        onFundsTransferred={setSelectedMilestone}
+      />
+      <CustomFormModal
+        title="Upload Transfer Receipt"
+        onConfirm={onFundsTransferred}
+        onClose={closeReceiptModal}
+        visible={modalVisible}
+        formItems={transferMilestoneFormItems}
       />
     </div>
   );
