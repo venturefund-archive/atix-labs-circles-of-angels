@@ -5,7 +5,7 @@ import { Col, Progress } from 'antd';
 const ProjectMilestonesProgress = ({ projectProgress }) => (
   <Col className="ProjectProgress" span={24}>
     <div className="block">
-      <h1 className="title">Progress of funding</h1>
+      <h1 className="title">Milestones Progress</h1>
     </div>
     <Col span={12}>
       <h4>
@@ -17,12 +17,12 @@ const ProjectMilestonesProgress = ({ projectProgress }) => (
         Project <strong>Finished!</strong>
       </h4>
     </Col>
-    <Col xs={2} lg={2}>
+    <Col xs={2} lg={1}>
       <h4>
-        <strong>0 USD</strong>
+        <strong>0%</strong>
       </h4>
     </Col>
-    <Col  xs={19} lg={20}>
+    <Col  xs={19} lg={21}>
       <Progress
         strokeColor="#6FCF97"
         percent={projectProgress}
@@ -32,7 +32,7 @@ const ProjectMilestonesProgress = ({ projectProgress }) => (
     <Col className="txtright" xs={3}
     lg={2}>
       <h4>
-        <strong>100 USD</strong>
+        <strong>100%</strong>
       </h4>
     </Col>
   </Col>

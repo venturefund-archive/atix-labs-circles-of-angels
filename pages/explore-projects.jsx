@@ -12,8 +12,9 @@ import { useGetPublicProjects } from '../api/projectApi';
 import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
+import Roles from '../constants/RolesMap';
 
-export default function ExploreProjects() {
+export default function ExploreProjects({ user }) {
   const history = useHistory();
   const [projects] = useGetPublicProjects();
 
@@ -32,9 +33,15 @@ export default function ExploreProjects() {
     // Routing.toProjectProgress({ projectId });
   };
 
+  const getTitle = () => {
+    if (user && user.role === Roles.PROJECT_SUPPORTER)
+      return 'Explore Projects You Can Support';
+    return 'Explore Projects';
+  };
+
   return (
     <ProjectBrowser
-      title="Explore Projects You Can Support"
+      title={getTitle()}
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}
