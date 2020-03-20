@@ -326,6 +326,20 @@ border: 1px solid $border;
       white-space: normal;
     }
   }
+  .LabelDescriptionIF{
+    text-align: left;
+    position: relative;
+    top: 0px;
+    line-height: 14px;
+    span {
+      display: block;
+      line-height: normal;
+      white-space: normal;
+    }
+    @include breakpoint(sm) {
+      line-height: 20px;
+    }
+  }
 }
 .ant-form-item{
   margin-bottom: 1em;
