@@ -11,6 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
 import './_style.scss';
+import ProjectMilestonesProgress from '../ProjectMilestonesProgress/ProjectMilestonesProgress.jsx';
 
 const ProjectMission = ({ mission, problem, proposal }) => (
   <Col className="ProjectMission" span={24}>
@@ -28,6 +29,7 @@ const ProjectMission = ({ mission, problem, proposal }) => (
         <div dangerouslySetInnerHTML={{ __html: proposal }} />
       </div>
     )}
+    <ProjectMilestonesProgress projectProgress="100"/>
   </Col>
 );
 

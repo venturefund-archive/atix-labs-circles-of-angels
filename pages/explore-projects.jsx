@@ -34,7 +34,7 @@ export default function ExploreProjects() {
 
   return (
     <ProjectBrowser
-      title="Explore Projects"
+      title="Explore Projects You Can Support"
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}

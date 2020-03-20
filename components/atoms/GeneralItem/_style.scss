@@ -36,8 +36,19 @@
                     }
                     .Separate{
                         margin-left: 2em;
+                        @include breakpoint(sm) {
+                        margin-left: 0;
+                        }
                     }
+
                 }
+                a.Label .link
+                {
+                        @include breakpoint(sm) {
+                            color: $primary-color;
+                            opacity:1
+                        }
+                    }
     }
 }
 .GeneralItem:last-child {
