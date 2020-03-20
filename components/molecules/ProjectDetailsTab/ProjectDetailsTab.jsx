@@ -10,7 +10,7 @@ const ProjectDetailsTab = ({ proposal, mission, problem, progress }) => (
     <Col span={1}>
       <Divider />
     </Col>
-    {/* <ProjectMilestonesProgress projectProgress={progress} /> */}
+    <ProjectMilestonesProgress projectProgress={progress} />
   </Row>
 );
 
