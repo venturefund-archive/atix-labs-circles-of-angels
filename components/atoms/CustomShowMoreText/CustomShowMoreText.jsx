@@ -11,10 +11,12 @@ import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 
 export default function CustomShowMoreText(props) {
-  const { text, lines } = props;
+  const { text, lines, updateClass } = props;
   const [isExpanded, setIsExpanded] = useState(false);
 
   function executeOnClick() {
+    if(updateClass)
+      updateClass(!isExpanded ? 'cardExperienceExpanded' : 'cardExperience')
     setIsExpanded(!isExpanded);
   }
 

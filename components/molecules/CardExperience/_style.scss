@@ -1,36 +1,52 @@
 @import "../../../css/general_styling.scss";
 
+
+
 .cardExperience,
 .cardExperienceText {
   margin-bottom: 0.5em;
   border-radius: 4px;
   border: 1px solid $border;
-  min-height: 230px;
+}
+
+.cardExperienceExpanded {
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+  border: 1px solid $border;
+  background: red;
+  position: absolute;
+  width: 96%;
+  background: white;
+  z-index: 999;
+  box-shadow: 0px 9px 15px 0px #e4e5e6;
 }
 .cardExperience,
-.cardExperienceText {
+.cardExperienceText,
+.cardExperienceExpanded {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 2em 1.5em 1.5em;
+  justify-content: space-around;
+  padding: 2em 1em 1em;
+  min-height: 230px;
   .CustomShowMoreText {
+    transition: all 0.1s linear;
+    transition-delay: 0.1s;
     position: relative;
     span {
       @include primary-text($body-2, $on-surface, 400);
     }
     text-align: center;
-    width: 75%;
+    width: 90%;
     margin: 0 auto;
     &:before {
-      content: open-quote;
-      top: 2rem;
-      left: 0;
+      content: '"';
+      top: 30px;
+      left: -15px;
     }
     &:after {
-      content: close-quote;
-      content: close-quote;
-      bottom: 0;
-      right: 0;
+      content: '"';
+      bottom: -15px;
+      right: -8px;
     }
     &:after,
     &:before {
@@ -57,6 +73,7 @@
       align-items: center;
       overflow: hidden;
       border-radius: 4px;
+      background:$border; 
       img {
         height: 100%;
       }

@@ -53,14 +53,14 @@ const ProjectDetailHeader = ({
       type: 'link',
       url: proposalFilePath,
       value: (
-        <LinkButton text="Download Project Proposal" className="Separate" />
+        <LinkButton text="Download Project Proposal" className="Separate link" />
       ),
       hide: !proposalFilePath
     },
     {
       type: 'link',
       url: agreementFilePath,
-      value: <LinkButton text="Download Legal Agreement" />,
+      value: <LinkButton text="Download Legal Agreement" className="link" />,
       hide: !agreementFilePath
     }
   ];
@@ -77,7 +77,8 @@ const ProjectDetailHeader = ({
     <div className="ProjectHeader">
       <img
         className="Banner"
-        src={coverPhotoPath || './static/images/imgcard.png'}
+        // {coverPhotoPath || './static/images/imgcard.png'}
+        src='./static/images/cover-project.jpg'
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
