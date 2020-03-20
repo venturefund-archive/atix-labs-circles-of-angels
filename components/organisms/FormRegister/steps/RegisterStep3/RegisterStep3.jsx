@@ -173,7 +173,7 @@ export const questionsByRole = {
       name: 'goals',
       type: 'select',
       label: (
-        <div className="LabelDescription">
+        <div className="LabelDescriptionIF">
           Are you currently an advocate/ volunteer or donor for a social cause?
           <span>What are the impact areas you focus on?</span>
         </div>
