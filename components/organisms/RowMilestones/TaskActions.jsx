@@ -39,7 +39,8 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
 const evidenceTask = ({ color, text }, showAddEvidence, onNewEvidence) => (
   <Col span={24}>
     <Tag color={color}>{text}</Tag>
-    <ModalEvidences />
+    {/* TODO: uncomment when it is working */}
+    {/* <ModalEvidences /> */}
     {showAddEvidence && (
       <a className="blueLink" onClick={onNewEvidence}>
         +Add Evidence
