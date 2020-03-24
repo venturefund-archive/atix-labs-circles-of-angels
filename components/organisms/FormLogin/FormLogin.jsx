@@ -126,7 +126,6 @@ const FormLogin = ({ form, onSubmit }) => {
           htmlType="submit"
         />
       </Form.Item>
-
     </Form>
   );
 };

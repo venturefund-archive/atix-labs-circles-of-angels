@@ -59,10 +59,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
             </div>
           </>
         )}
-        <DynamicForm onSubmit={onLoginSubmit} /> 
-        <div className="flex link">
-          <ModalRecovery /> 
-        </div>
+        <DynamicForm onSubmit={onLoginSubmit} />
+        {/* uncomment when it is working */}
+        {/* <div className="flex link">
+          <ModalRecovery />
+        </div> */}
       </Modal>
     </div>
   );
