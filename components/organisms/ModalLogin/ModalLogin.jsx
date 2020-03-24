@@ -15,6 +15,7 @@ import { useUserContext } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
+import ModalRecovery from '../ModalRecovery/ModalRecovery';
 import { loginUser } from '../../../api/userApi';
 import { defaultRouteByRole } from '../../../constants/DefaultRouteByRole';
 
@@ -59,6 +60,10 @@ const ModalLogin = ({ setVisibility, visibility }) => {
           </>
         )}
         <DynamicForm onSubmit={onLoginSubmit} />
+        {/* uncomment when it is working */}
+        {/* <div className="flex link">
+          <ModalRecovery />
+        </div> */}
       </Modal>
     </div>
   );
