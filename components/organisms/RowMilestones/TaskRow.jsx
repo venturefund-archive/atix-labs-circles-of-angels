@@ -79,7 +79,7 @@ const TaskRow = ({
         lg={{ span: 24 }}
       >
         <div className="header space-between">
-          <h3>Activity {index}</h3>
+          <h3>Activity {index + 1}</h3>
           {(showDelete || showEdit || taskActionType === 'evidence') && (
             <TaskActions
               onDelete={deleteTask}
