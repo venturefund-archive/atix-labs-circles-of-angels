@@ -126,13 +126,6 @@ const FormLogin = ({ form, onSubmit }) => {
           htmlType="submit"
         />
       </Form.Item>
-      {/* <Form.Item>
-        <div className="FormControls flex link">
-          <a href="/passwordRecovery" className="login-form-forgot">
-            Forgot your password?
-          </a>
-        </div>
-      </Form.Item> */}
     </Form>
   );
 };
