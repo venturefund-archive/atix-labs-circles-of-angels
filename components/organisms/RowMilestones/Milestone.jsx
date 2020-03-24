@@ -67,7 +67,7 @@ const Milestone = ({
       <MilestoneRow>
         <div className="header space-between">
           <Col xs={8} lg={12}>
-            <h3>Milestone {index}</h3>
+            <h3>Milestone {index + 1}</h3>
           </Col>
           <MilestoneActions
             type={milestoneActionType}
