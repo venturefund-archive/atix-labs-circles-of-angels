@@ -354,15 +354,10 @@ export const newFundFormItems = {
     label: 'Destination Account',
     placeholder: 'Destination Account',
     rules: [
-      // TODO check account number length?
       {
         required: true,
         message: 'Please input the destination account',
         whitespace: true
-      },
-      {
-        validator: (_, value) => !Number.isNaN(Number(value)),
-        message: 'Destination account should be a number'
       }
     ]
   },
@@ -386,12 +381,8 @@ export const newFundFormItems = {
     rules: [
       {
         required: true,
-        message: 'Please input the amount',
+        message: 'Please input the transfer ID',
         whitespace: true
-      },
-      {
-        validator: (_, value) => !Number.isNaN(Number(value)),
-        message: 'The amount should be a number'
       }
     ]
   },
