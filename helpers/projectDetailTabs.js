@@ -71,7 +71,8 @@ export const tabsContent = ({
   assignOracle,
   onCreateExperience,
   onClaimMilestone,
-  allowNewFund
+  allowNewFund,
+  fetchEvidences
 }) => ({
   details: {
     title: 'Details',
@@ -99,6 +100,7 @@ export const tabsContent = ({
         milestoneActionType={getMilestoneActionType(project.status)}
         showClaimStatus={showMilestoneClaimStatus(project && project.status)}
         allowClaimMilestone={isOwner(project, user)}
+        fetchEvidences={fetchEvidences}
       />
     ),
     key: '2'
