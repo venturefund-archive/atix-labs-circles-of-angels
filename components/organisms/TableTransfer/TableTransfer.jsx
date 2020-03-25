@@ -60,7 +60,21 @@ const TableTransfer = ({ transfers }) => {
   ];
 
   return (
-    <Table className="TableTransfer" columns={columns} dataSource={transfers} />
+    <Table
+      className="TableTransfer"
+      columns={columns}
+      dataSource={transfers}
+      locale={{
+        emptyText: (
+          <p>
+            No fund transfers have been received yet.
+            <br />
+            All transfers made to the project by the funders will be listed
+            here.
+          </p>
+        )
+      }}
+    />
   );
 };
 
