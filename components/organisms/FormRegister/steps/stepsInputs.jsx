@@ -9,14 +9,16 @@ export const step1Inputs = {
         name: 'entrepreneur',
         value: 'entrepreneur',
         usertype: 'Social Entrepreneur',
-        title: 'Create a project'
+        title: 'Create a project',
+        image: "./static/images/create-project.svg"
       },
       // TODO define wording for each role
       {
         name: 'supporter',
         value: 'supporter',
         usertype: 'Project Supporter',
-        title: 'Fund or monitor a project'
+        title: 'Fund or monitor a project',
+        image: "./static/images/fund-project.svg"
       }
     ],
     rules: [
