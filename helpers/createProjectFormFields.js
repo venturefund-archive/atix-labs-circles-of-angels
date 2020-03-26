@@ -43,12 +43,7 @@ export const thumbnailsFormInputs = {
     placeholder: 'Goal Amount',
     rules: [
       {
-        required: true,
-        message: 'Please input the goal amount!'
-      },
-      {
-        validator: (_, value) => !Number.isNaN(Number(value)),
-        message: 'The goal amount should be a number'
+        required: false
       }
     ]
   },
@@ -197,7 +192,7 @@ export const milestonesFormItems = {
     rules: [
       {
         required: false,
-        message: 'Please upload the milestones information for your project!',
+        message: 'Please upload the milestones information for your project!'
         // validator: (_rule, value) =>
         //   value.length > 0 || (value.file && value.file instanceof File)
       }
