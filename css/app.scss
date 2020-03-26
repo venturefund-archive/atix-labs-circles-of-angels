@@ -52,3 +52,69 @@ border: 1px solid $border;
 button.ant-btn {
   border-radius: 50px;
 }
+// GENERAL CLASSES
+
+.w100{
+  width: 100%
+}
+.h100{
+  height: 100%
+}
+.scrollY{
+overflow-y:scroll;
+
+}
+.flex {
+  display: flex;
+  align-items: center;
+}
+.AlignCenter{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5em 0;
+}
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+}
+.relative {
+  position: relative;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.TextRed{
+ color:$danger-color;
+}
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.vertical {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.opacity {
+  opacity: 0.7;
+}
+.txtright{
+text-align: right;
+}
+.ant-breadcrumb {
+  padding: 1em 0 0 0;
+}
