@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPut, doDelete, doPost } from './api';
+import api, { doPut, doDelete, doPost, doGet } from './api';
 import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const baseURL = '/activities';
@@ -26,6 +26,8 @@ export const uploadEvidence = (taskId, data, status) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPost(`${baseURL}/${taskId}/claim/${status}`, data, config);
 };
+
+export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 
 const updateActivity = async ({
   budget,
