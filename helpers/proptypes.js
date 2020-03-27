@@ -120,3 +120,12 @@ export const tagPropTypes = {
   color: PropTypes.string,
   text: PropTypes.string
 };
+
+export const evidencePropTypes = {
+  id: PropTypes.number,
+  approved: PropTypes.bool,
+  createdAt: PropTypes.string,
+  description: PropTypes.string,
+  proof: PropTypes.string,
+  txLink: PropTypes.string
+};

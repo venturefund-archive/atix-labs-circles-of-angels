@@ -37,7 +37,7 @@ import {
   publicProjectStatuses,
   SHOW_EXPERIENCES_STATUSES
 } from '../constants/constants';
-import { assignOracleToActivity } from '../api/activityApi';
+import { assignOracleToActivity, getEvidences } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
 import {
   isFunder,
@@ -115,6 +115,15 @@ const ProjectDetail = ({ user }) => {
     }
 
     setProject(response.data);
+  };
+
+  const fetchEvidences = async taskId => {
+    const response = await getEvidences(taskId);
+    if (response.errors) {
+      message.error('An error occurred while fetching the evidences');
+      return [];
+    }
+    return response.data || [];
   };
 
   const getTotalFundedAmount = async () => {
@@ -272,7 +281,8 @@ const ProjectDetail = ({ user }) => {
         assignOracle,
         onCreateExperience,
         onClaimMilestone,
-        allowNewFund: allowNewFund()
+        allowNewFund: allowNewFund(),
+        fetchEvidences
       })
     ).map(
       tab =>

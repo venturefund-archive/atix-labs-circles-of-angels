@@ -12,7 +12,6 @@ import CreateActivityContainer from '../CreateActivityContainer/CreateActivityCo
 import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
 import Info from './Info';
 
-// TODO: define what milestone fields to show, schema changed
 const Milestone = ({
   milestone,
   index,
@@ -37,7 +36,8 @@ const Milestone = ({
   oracles,
   hideOracleColumn,
   allowNewEvidence,
-  allowClaimMilestone
+  allowClaimMilestone,
+  fetchEvidences
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -142,6 +142,7 @@ const Milestone = ({
         oracles={oracles}
         hideOracleColumn={hideOracleColumn}
         allowNewEvidence={allowNewEvidence}
+        fetchEvidences={fetchEvidences}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -155,7 +156,8 @@ const Milestone = ({
 Milestone.defaultProps = {
   allowNewEvidence: () => undefined,
   onClaimMilestone: () => undefined,
-  showClaimStatus: false
+  showClaimStatus: false,
+  fetchEvidences: undefined
 };
 
 Milestone.propTypes = {
@@ -182,7 +184,8 @@ Milestone.propTypes = {
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.func,
-  allowClaimMilestone: PropTypes.bool.isRequired
+  allowClaimMilestone: PropTypes.bool.isRequired,
+  fetchEvidences: PropTypes.func
 };
 
 export default Milestone;
