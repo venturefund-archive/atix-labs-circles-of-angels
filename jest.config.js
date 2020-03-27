@@ -1,6 +1,6 @@
 module.exports = {
   testMatch: ['<rootDir>/test/**/*.js'],
-  testPathIgnorePatterns: ['/node_modules/', '/test/helpers/', '/test/mocks/'],
+  testPathIgnorePatterns: ['/node_modules/', '/test/mocks/'],
   moduleDirectories: ['node_modules', __dirname],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
