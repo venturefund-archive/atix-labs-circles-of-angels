@@ -23,7 +23,7 @@
     }
   }
   .ant-form-item-label label {
-    @include primary-text($labels, $on-surface, 600);
+    @include primary-text($labels, $on-surface, 500);
   }  
   .CardExample {
     @include breakpoint(sm) {
@@ -75,5 +75,28 @@
       height: 35px;
     }
   }
-  
+  .InputAlert{
+    h3{
+     line-height: 39.9999px;
+    }
+    .Alert{
+      padding: 0.5em 1em;
+      background: #FFF2EC;
+      display:flex;
+      align-items:center;
+      border-radius: 4px;
+      img{
+        margin-right: 0.7em;
+        width:21px;
+      }
+      span{
+        flex: 1;
+        @include primary-text(12px, $alert-bg, 400);
+        line-height:16px;
+      }
+      b{
+        @include primary-text(12px, $alert-bg, 500);
+      }
+    }
+  }
 }

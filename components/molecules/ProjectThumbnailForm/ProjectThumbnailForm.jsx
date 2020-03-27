@@ -12,7 +12,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
 
   const amount =
     fields.goalAmount.value === undefined ? (
-      <Skeleton paragraph={{ rows: 1 }} title={false} />
+      "--"
     ) : (
       `$${fields.goalAmount.value}`
     );
@@ -115,21 +115,27 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
               <Col sm={24} md={24} lg={12}>
                 <Field {...fields.timeframe} handleChange={handleChange} />
               </Col>
-              <Col sm={24} md={24} lg={24}>
-                <Col sm={24} md={24} lg={12}>
+              <Col sm={24} md={24} lg={12} className="InputAlert">
+                <Col sm={24} md={24} lg={24}>
                   <h3>{fields.goalAmount.label}</h3>
                 </Col>
-                <Col sm={24} md={24} lg={12}>
+                <Col sm={24} md={24} lg={24}>
                   {
                     <span>
                       {fields.goalAmount.value === undefined
-                        ? 'The goal amount will be calculated from the milestones budget'
+                        ? 
+                        <div className="Alert">
+                         <img src="/static/images/alert.svg" alt="alertsign" />
+                         <span>
+                         The goal amount will be calculated from the <b>milestones budget</b>
+                         </span>
+                        </div>
                         : `$${fields.goalAmount.value}`}
                     </span>
                   }
+
                 </Col>
               </Col>
-              <Col sm={24} md={24} lg={24}>
                 <Col sm={24} md={24} lg={18}>
                   <h3>Thumbnail Image</h3>
                   <span>
@@ -143,7 +149,6 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                     showUploadList={false}
                   />
                 </Col>
-              </Col>
             </Form>
           </Row>
         </Col>
