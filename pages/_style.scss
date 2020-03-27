@@ -442,10 +442,40 @@ border: 1px solid $border;
 .ant-tag {
   border-radius: 20px;
   border-color: transparent;
+  font-size: 12.5px;
+  border-radius: 30px;
+  padding: 0 0.8em;
+  height: 27px;
+  line-height: 23px;
+  font-weight: 400;
+  b{
+    color: inherit;
+    font-weight: 500;
+  }
 }
 .ant-tag-cyan{
-      color: $cyan;
+    color: $cyan;
     background: $cyanbg;
+}
+.ant-tag-green {
+    color: #20BAC3;
+    background: #ADF8FD;
+}
+.ant-tag-red {
+    color: #FF6F6F;
+    background: #FFE2E2;
+}
+.ant-tag-gold {
+    color: #FE9F3B;
+    background: #FFECD5;
+}
+.ant-tag-blue {
+    color: #6F52ED;
+    background: #EAE8FD;
+}
+.ant-tag.Follow {
+  color: $primary-color;
+  background: rgba(76, 127, 247, 0.23);
 }
 
 

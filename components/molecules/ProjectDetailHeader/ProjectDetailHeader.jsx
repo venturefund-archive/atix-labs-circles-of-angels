@@ -12,6 +12,7 @@ const getTagStatus = status =>
   Object.keys(projectStatusMap).includes(status) && (
     <Tag color={projectStatusMap[status].color}>
       {projectStatusMap[status].name}
+      <b>- 10 days left</b>
     </Tag>
   );
 
