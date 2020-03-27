@@ -11,7 +11,8 @@ export default function FieldInput(props) {
     valid,
     errorMessage,
     handleChange,
-    type
+    type,
+    disabled
   } = props;
 
   return (
@@ -27,6 +28,7 @@ export default function FieldInput(props) {
         value={value}
         size="large"
         onChange={handleChange}
+        disabled={disabled}
       />
     </Form.Item>
   );

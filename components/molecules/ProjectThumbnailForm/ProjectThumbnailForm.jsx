@@ -11,11 +11,9 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
   const [photoPreview, setPhotoPreview] = useState();
 
   const amount =
-    fields.goalAmount.value === undefined ? (
-      "--"
-    ) : (
-      `$${fields.goalAmount.value}`
-    );
+    fields.goalAmount.value === undefined
+      ? '--'
+      : `$${fields.goalAmount.value}`;
 
   useEffect(() => {
     const loadPhotoPreview = async () => {
@@ -117,38 +115,41 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
               </Col>
               <Col sm={24} md={24} lg={12} className="InputAlert">
                 <Col sm={24} md={24} lg={24}>
-                  <h3>{fields.goalAmount.label}</h3>
-                </Col>
-                <Col sm={24} md={24} lg={24}>
-                  {
-                    <span>
-                      {fields.goalAmount.value === undefined
-                        ? 
-                        <div className="Alert">
-                         <img src="/static/images/alert.svg" alt="alertsign" />
-                         <span>
-                         The goal amount will be calculated from the <b>milestones budget</b>
-                         </span>
-                        </div>
-                        : `$${fields.goalAmount.value}`}
-                    </span>
-                  }
-
+                  {fields.goalAmount.value === undefined ? (
+                    <>
+                      <Col sm={24} md={24} lg={24}>
+                        <h3>{fields.goalAmount.label}</h3>
+                      </Col>
+                      <div className="Alert">
+                        <img src="/static/images/alert.svg" alt="alertsign" />
+                        <span>
+                          The goal amount will be calculated from the{' '}
+                          <b>milestones budget</b>
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <Field
+                      {...fields.goalAmount}
+                      value={`$${fields.goalAmount.value}`}
+                      disabled
+                    />
+                  )}
                 </Col>
               </Col>
-                <Col sm={24} md={24} lg={18}>
-                  <h3>Thumbnail Image</h3>
-                  <span>
-                    Recomended Image Size: 1400x400px. Format: PNG or JPG.
-                  </span>
-                </Col>
-                <Col sm={24} md={24} lg={6}>
-                  <Field
-                    {...fields.cardPhotoPath}
-                    handleChange={handleChange}
-                    showUploadList={false}
-                  />
-                </Col>
+              <Col sm={24} md={24} lg={18}>
+                <h3>Thumbnail Image</h3>
+                <span>
+                  Recomended Image Size: 1400x400px. Format: PNG or JPG.
+                </span>
+              </Col>
+              <Col sm={24} md={24} lg={6}>
+                <Field
+                  {...fields.cardPhotoPath}
+                  handleChange={handleChange}
+                  showUploadList={false}
+                />
+              </Col>
             </Form>
           </Row>
         </Col>
