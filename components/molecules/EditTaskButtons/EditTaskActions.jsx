@@ -37,7 +37,6 @@ const EditTaskActions = ({
         )}
       </div>
     )}
-    {showDelete && showEdit}
   </span>
 );
 
