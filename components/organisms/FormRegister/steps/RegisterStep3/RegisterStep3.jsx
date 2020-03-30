@@ -238,7 +238,7 @@ export const questionsByRole = {
 const RegisterStep3 = ({ fields, handleChange }) => (
   <div>
     <div className="InfoStep">
-      <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
+      <img src="./static/images/adicional-info.svg" alt="Circles of Angels" />
       <h2>Additional Information</h2>
       <h4>Please answer these questions</h4>
     </div>
