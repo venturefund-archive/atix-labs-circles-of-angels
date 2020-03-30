@@ -60,7 +60,7 @@
       flex-direction: column;
     }
     h3 {
-      @include primary-text(13px, $on-surface, 600);
+      @include primary-text(13px, $on-surface, 500);
     }
     p {
       @include primary-text(12.5px, $on-surface, 400);
