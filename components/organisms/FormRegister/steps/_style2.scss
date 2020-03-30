@@ -15,8 +15,8 @@
   cursor:pointer;
   transition: all 0.5s ease;
   @include breakpoint(sm) {
-    padding: 1em;
-    margin-bottom:1em;
+    padding: 2em 1em;
+    margin-bottom:1.5em;
     }
   &:hover{
     border: 1px solid $primary-color;

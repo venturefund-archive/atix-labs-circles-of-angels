@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
 
-const RoleOption = ({ onSelect, title, usertype, value, selected }) => {
+const RoleOption = ({ onSelect, title, usertype, value, selected, image }) => {
   const selectedClass = selected ? 'selectedOption' : '';
 
   return (
@@ -14,7 +14,7 @@ const RoleOption = ({ onSelect, title, usertype, value, selected }) => {
         selected={selected}
       >
         <div>
-          <img src="./static/images/icon-users-small.svg" alt="platformusers" />
+          <img src={image} alt="platformusers" />
           <h1>{title}</h1>
           <p>{usertype}</p>
         </div>
