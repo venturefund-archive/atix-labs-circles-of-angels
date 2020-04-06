@@ -12,6 +12,8 @@ const getTagStatus = status =>
   Object.keys(projectStatusMap).includes(status) && (
     <Tag color={projectStatusMap[status].color}>
       {projectStatusMap[status].name}
+      {/* TODO: receive props  */}
+      {/* <b>- 10 days left</b> */}
     </Tag>
   );
 
@@ -53,7 +55,10 @@ const ProjectDetailHeader = ({
       type: 'link',
       url: proposalFilePath,
       value: (
-        <LinkButton text="Download Project Proposal" className="Separate link" />
+        <LinkButton
+          text="Download Project Proposal"
+          className="Separate link"
+        />
       ),
       hide: !proposalFilePath
     },
@@ -78,7 +83,7 @@ const ProjectDetailHeader = ({
       <img
         className="Banner"
         // {coverPhotoPath || './static/images/imgcard.png'}
-        src='./static/images/cover-project.jpg'
+        src="./static/images/cover-project.jpg"
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
