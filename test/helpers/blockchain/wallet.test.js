@@ -1,9 +1,11 @@
 import { Wallet } from 'ethers';
+import { isHexString } from 'ethers/utils';
 import {
   createNewWallet,
   encryptWallet,
   decryptJsonWallet,
-  generateWalletFromMnemonic
+  generateWalletFromMnemonic,
+  signTransaction
 } from '../../../helpers/blockchain/wallet';
 
 describe('Testing wallet methods', () => {
@@ -95,6 +97,52 @@ describe('Testing wallet methods', () => {
       expect(() => generateWalletFromMnemonic()).toThrow(
         'a mnemonic is required to generate the wallet'
       );
+    });
+  });
+
+  describe('Sign transaction', () => {
+    const transaction = {
+      to: '0x0EaA277c373E72B9f86B2F851e94aa227a6ADd00',
+      gasLimit: Number('0x52445'),
+      data:
+        '0x0472aa82000000000000000000000000ea51cfb26e6547725835' +
+        'b4138ba96c0b5de9e54ac19c3cbd0f7adaa241f1098d4459cc3510' +
+        '3836927ecb48d2fa7432911f3945f82f85fdd8a32c7d3fa08c5d63' +
+        'fba190211aff23145dcaeb10c37730b22376fff800000000000000' +
+        '000000000000000000000000000000000000000000000000010000' +
+        '000000000000000000000000000000000000000000000000000000000118'
+    };
+    const walletPass = 'password';
+    let encryptedWallet;
+    beforeAll(async () => {
+      ({ encryptedWallet } = await createNewWallet(walletPass));
+    });
+    it(
+      'should sign the transaction with the wallet ' +
+        'if the password is correct',
+      async () => {
+        const signedTx = await signTransaction(
+          encryptedWallet,
+          transaction,
+          walletPass
+        );
+        expect(isHexString(signedTx)).toEqual(true);
+      }
+    );
+    it('should throw an error if the password is invalid', async () => {
+      await expect(
+        signTransaction(encryptedWallet, transaction, 'wrong')
+      ).rejects.toThrow('invalid password');
+    });
+    it('should throw an error is the password is not provided', async () => {
+      await expect(
+        signTransaction(encryptedWallet, transaction)
+      ).rejects.toThrow('a password is required to decrypt a wallet');
+    });
+    it('should throw an error is the tx is not provided', async () => {
+      await expect(
+        signTransaction(encryptedWallet, undefined, walletPass)
+      ).rejects.toThrow('a transaction is required');
     });
   });
 });

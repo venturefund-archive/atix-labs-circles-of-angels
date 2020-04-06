@@ -6,9 +6,13 @@ import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
 import { showModalConfirm } from '../../utils/Modals';
 import { taskPropType, userPropTypes } from '../../../helpers/proptypes';
+import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newTaskEvidenceFormItems } from '../../../helpers/createProjectFormFields';
-import { uploadEvidence } from '../../../api/activityApi';
+import {
+  uploadEvidenceGetTransaction,
+  uploadEvidenceSendTransaction
+} from '../../../api/activityApi';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({
@@ -43,14 +47,55 @@ const TaskRow = ({
     return save === true ? onEdit(editFields, index) : undefined;
   };
 
+  const showPasswordModal = () => {
+    // TODO: show modal to enter password
+    return 'password';
+  };
+
+  const getEvidenceTx = async (data, status) => {
+    const response = await uploadEvidenceGetTransaction(task.id, data, status);
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const signEvidenceTx = async txData => {
+    const password = showPasswordModal();
+    const { tx: unsignedTx, encryptedWallet } = txData;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return signedTransaction;
+  };
+
+  const sendEvidenceTx = async (evidenceData, status, signedTransaction) => {
+    evidenceData.set('signedTransaction', signedTransaction);
+    const response = await uploadEvidenceSendTransaction(
+      task.id,
+      evidenceData,
+      status
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
   const onNewEvidence = async data => {
     const status = data.get('status');
     data.delete('status');
 
-    const response = await uploadEvidence(task.id, data, status);
-
-    if (response.errors) {
-      message.error(response.errors);
+    try {
+      const txData = await getEvidenceTx(data, status);
+      const signedTransaction = await signEvidenceTx(txData);
+      await sendEvidenceTx(data, status, signedTransaction);
+    } catch (error) {
+      message.error(error.message);
       return;
     }
 

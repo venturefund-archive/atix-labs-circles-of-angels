@@ -28,3 +28,9 @@ export const createNewWallet = async password => {
     encryptedWallet
   };
 };
+
+export const signTransaction = async (jsonWallet, transaction, password) => {
+  if (!transaction) throw new Error('a transaction is required');
+  const wallet = await decryptJsonWallet(jsonWallet, password);
+  return wallet.sign(transaction);
+};

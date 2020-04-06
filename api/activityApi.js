@@ -22,9 +22,22 @@ export const createTask = (milestoneId, taskData) =>
 export const assignOracleToActivity = (taskId, oracleId) =>
   doPut(`${baseURL}/${taskId}/assign-oracle`, { oracleId });
 
-export const uploadEvidence = (taskId, data, status) => {
+export const uploadEvidenceGetTransaction = (taskId, data, status) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(`${baseURL}/${taskId}/claim/${status}`, data, config);
+  return doPost(
+    `${baseURL}/${taskId}/claim/${status}/get-transaction`,
+    data,
+    config
+  );
+};
+
+export const uploadEvidenceSendTransaction = (taskId, data, status) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPost(
+    `${baseURL}/${taskId}/claim/${status}/send-transaction`,
+    data,
+    config
+  );
 };
 
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
