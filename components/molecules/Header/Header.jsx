@@ -9,7 +9,6 @@
 import React from 'react';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { useUserContext } from '../../utils/UserContext';
-import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest.jsx'
 
 import './_style.scss';
 
@@ -23,7 +22,6 @@ const Header = () => {
         src="/static/images/logotipo.svg"
         alt="circlesoofangelslogo"
       />
-      <ModalPasswordRequest/>
       <div className="RightSide">
         {user && user.role ? <UserAvatar user={user} /> : ''}
       </div>
