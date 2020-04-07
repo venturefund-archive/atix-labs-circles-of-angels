@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useForm from '../../../hooks/useForm';
 import './_style.scss';
@@ -20,9 +20,11 @@ const CustomFormModal = ({
   visible,
   onConfirm,
   onClose,
-  body
+  body,
+  width
 }) => {
   const [clean, setClean] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [
     fields,
     setFields,
@@ -33,8 +35,10 @@ const CustomFormModal = ({
   ] = useForm(formItems);
 
   const onSubmit = async data => {
+    setSubmitting(true);
     await onConfirm(data);
     cleanForm();
+    setSubmitting(false);
   };
 
   const cleanForm = () => {
@@ -46,33 +50,37 @@ const CustomFormModal = ({
     setClean(!visible);
   }, [visible]);
 
+  const isButtonDisabled = () => submitting || !isFormValid();
+
   return (
     <div>
       <Modal
         centered
         title={title}
         className="CustomFormModal"
-        width="700px"
+        width={width}
         visible={visible}
         onCancel={cleanForm}
         footer={[
           <CustomButton
-            theme={isFormValid() ? 'Primary' : 'disabled'}
+            theme={!isButtonDisabled() ? 'Primary' : 'disabled'}
             key="back"
             buttonText="Confirm"
             onClick={() => handleSubmit(onSubmit)}
-            disabled={!isFormValid()}
+            disabled={isButtonDisabled()}
           />
         ]}
       >
-        <div>
-          {body}
-          <CustomForm
-            fields={fields}
-            handleChange={handleChange}
-            cleanInputFile={clean}
-          />
-        </div>
+        <Spin spinning={submitting}>
+          <div>
+            {body}
+            <CustomForm
+              fields={fields}
+              handleChange={handleChange}
+              cleanInputFile={clean}
+            />
+          </div>
+        </Spin>
       </Modal>
     </div>
   );
@@ -83,7 +91,9 @@ CustomFormModal.defaultProps = {
   formItems: undefined,
   visible: false,
   onConfirm: undefined,
-  onClose: undefined
+  onClose: undefined,
+  body: null,
+  width: 700
 };
 
 CustomFormModal.propTypes = {
@@ -91,7 +101,9 @@ CustomFormModal.propTypes = {
   formItems: PropTypes.shape({}),
   visible: PropTypes.bool,
   onConfirm: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  body: PropTypes.element,
+  width: PropTypes.number
 };
 
 export default CustomFormModal;
