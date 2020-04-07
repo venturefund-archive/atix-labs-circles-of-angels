@@ -26,7 +26,7 @@
     }
   }
   .ant-form-item-label label {
-    @include primary-text($labels, $on-surface, 600);
+    @include primary-text($labels, $on-surface, 500);
   }
 }
 .DetailWrapper {
@@ -46,7 +46,7 @@
     .Details{
 
       h4 {
-        @include primary-text($body-2, $on-surface-medium, 600);
+        @include primary-text($body-2, $on-surface-medium, 500);
         margin: 0.5em 0;
       }
       .Mission{
@@ -74,7 +74,7 @@
         height: auto;
       }
       h1 {
-        @include primary-text($titlecard, $white, 600);
+        @include primary-text($titlecard, $white, 500);
         margin-bottom: 1em;
       }
       h5 {
@@ -112,7 +112,7 @@
       p {
         color: $white;
         opacity: 0.65;
-        font-weight: 600;
+        font-weight: 500;
       }
       h2 {
         color: $white;

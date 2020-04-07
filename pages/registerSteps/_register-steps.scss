@@ -103,7 +103,7 @@
           font-size: 16px;
         } 
         .ant-form-item-label label {
-          @include primary-text($labels-bigger, $on-surface-medium, 600);
+          @include primary-text($labels-bigger, $on-surface-medium, 500);
         }
         .InputTwoLabel {
           position: relative;

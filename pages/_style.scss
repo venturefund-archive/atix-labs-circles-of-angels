@@ -14,6 +14,7 @@
   @include breakpoint(sm) {
     width: 100vw;
   }
+  scrollbar-width: thin;
 }
 .Content {
   @include Content;
@@ -91,18 +92,21 @@ p {
   border-radius: 20px;
 }
 ::-moz-scrollbar {
-  width:6px;
-  height: 6px;
+  width:4px;
+  height: 4px;
   display:block;
+  background: #bfc5ccad;
 }
 ::-moz-scrollbar-track {
   box-shadow: inset 0 0 5px #fff;
   border-radius: 20px;
+  background: #bfc5ccad;
 }
 ::-moz-scrollbar-thumb {
   background: #bfc5ccad;
   border-radius: 10px;
 }
+
 
 .spacedivider {
   margin: 0.5em 0;
@@ -355,10 +359,10 @@ border: 1px solid $border;
   letter-spacing: 1.8px;
   padding: 1em 2em 1.5em 0;
   margin-right: 4em !important;
-  @include primary-text($tabs, $on-surface-medium, 600);
+  @include primary-text($tabs, $on-surface-medium, 500);
 }
 .ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab {
-  @include primary-text($tabs, $on-surface, 600);
+  @include primary-text($tabs, $on-surface, 500);
   margin-right: 4em !important;
 }
 .ant-tabs-ink-bar {
@@ -481,13 +485,14 @@ border: 1px solid $border;
 //MODALS
 
 .ant-modal-content {
+  border-radius:20px;
   .ant-modal-header{
   padding:1em;
   img{
     margin-right: 0.5em;
   }
   .ant-modal-title {
- @include primary-text($labelbig, $on-surface, 600);
+ @include primary-text($labelbig, $on-surface, 500);
   }
   }
   .ant-modal-body{
@@ -496,5 +501,5 @@ border: 1px solid $border;
  }
  
  .ant-modal-mask {
-  background-color: #30303466;
+  background-color: #000000a3;
 }

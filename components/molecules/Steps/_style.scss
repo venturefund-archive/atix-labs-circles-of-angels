@@ -19,7 +19,7 @@
     .LabelSteps {
       margin-top: 0;
       color: #1479e261;
-      font-weight: 600;
+      font-weight: 500;
     }
     h3 {
       margin: 0;
@@ -29,7 +29,7 @@
     }
   }
   h1 {
-    @include primary-text($h1, $secondary-color, 600);
+    @include primary-text($h1, $secondary-color, 500);
   }
 
   .ProjectDataContainer {

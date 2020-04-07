@@ -87,7 +87,7 @@
     justify-content: start;
     width: 100%;
     p {
-      @include primary-text($body-2, $on-surface, 600);
+      @include primary-text($body-2, $on-surface, 500);
     }
     span {
       @include primary-text($label, $on-surface, 400);

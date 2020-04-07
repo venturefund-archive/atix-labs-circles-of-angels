@@ -38,13 +38,13 @@
       width: 100% !important;
     }
     h1 {
-      @include primary-text($titlecard, $on-surface, 600);
+      @include primary-text($titlecard, $on-surface, 500);
     }
     h2{
       width: 100%;
     }
     h3 {
-      @include primary-text($labels, $on-surface-medium, 600);
+      @include primary-text($labels, $on-surface-medium, 500);
       margin: 0.5em 0 0.9em;
       @include breakpoint(sm) {
         margin: 1em 0;

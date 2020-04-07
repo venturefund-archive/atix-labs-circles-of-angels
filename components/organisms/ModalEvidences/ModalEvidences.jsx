@@ -27,7 +27,6 @@ const ModalEvidences = ({ visible, onClose, evidences }) => (
       {evidences.map(evidence => (
         <>
           <EvidenceItem {...evidence} key={evidence.id} />
-          <Divider />
         </>
       ))}
     </Modal>
