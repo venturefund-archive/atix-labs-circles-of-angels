@@ -7,7 +7,7 @@
   }
   p {
     @include primary-text($body, $on-surface, 400);
-    line-height: 18px;
+    line-height: 20px;
   }
   .ant-steps {
     height: 55px;

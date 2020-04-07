@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tag, Row } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain.jsx';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
@@ -53,7 +54,10 @@ const ProjectDetailHeader = ({
       type: 'link',
       url: proposalFilePath,
       value: (
-        <LinkButton text="Download Project Proposal" className="Separate link" />
+        <LinkButton
+          text="Download Project Proposal"
+          className="Separate link"
+        />
       ),
       hide: !proposalFilePath
     },
@@ -78,16 +82,16 @@ const ProjectDetailHeader = ({
       <img
         className="Banner"
         // {coverPhotoPath || './static/images/imgcard.png'}
-        src='./static/images/cover-project.jpg'
+        src="./static/images/cover-project.jpg"
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
-          <p>Organization Name</p>
+          {getTagStatus(status)}
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>
-              {getTagStatus(status)}
+              <DrawerBlockchain />
             </Col>
             <Col className="flex">
               {allowEdit && (

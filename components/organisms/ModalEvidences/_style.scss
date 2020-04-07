@@ -1,29 +1,40 @@
 @import "../../../css/general_styling.scss";
 
 .ModalEvidences{
-  width: 80vw !important;
+  width: 65vw !important;
   .ant-modal-content{
     padding: 1em 1em 2em;
   }
   .ant-modal-body{
-      height: 80vh;
+      height: 85vh;
       overflow-y: scroll;
   }
   .EvidenceItem{
-    p{
-       @include primary-text($body, $on-surface, 400);
+    .Description{
+    h1{
+       @include primary-text($body, $on-surface, 500);
+    }
+    p {
+       @include primary-text($body, $on-surface,300);
        margin-top: 0.5em;
+       line-height: 20px;
+       text-align: justify;   
+    }
+    span{
+      @include primary-text($body, $on-surface-medium ,300);
     }
     a{
       @include primary-text($body, $primary-color, 400);
+    }
     }
     .BlockImages{
       display:flex;
       margin-top:1em;
       .ImageContainer{
         border-radius: 6px;
-        height:80px;
-        width: 80px;
+        height:50px;
+        width: 50px;
+        background: $light-gray;
         overflow: hidden;
         margin-right: 0.5em;
         padding: 0;
@@ -33,5 +44,67 @@
         }
       }
     }
+
+    .IconClosed, .IconOpen{
+      position:relative;
+      height: 32px;
+      width: 32px;
+      margin-left: 0.3em;
+      .BlockGray,.BlockBlue{
+        top: 2px;
+        left: 2px;
+        transition: .5s ease;
+        position: absolute;
+      }
+    }
+    .IconClosed {
+      .BlockBlue{
+        opacity: 0;
+      }
+    }
+    .IconOpen {
+      .BlockBlue{
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+        
+        .panel-group {
+          margin-top: 30px;
+        }
+        .panel-collapse {
+          max-height: 500px;
+          transition: max-height .8s ease;
+          background: $primary-color-light;
+          margin-top: 1.5em;
+          border-radius: 13px;
+          overflow:hidden;
+            .Container{
+            padding: 1em 1.5em 0em;
+            border: 1px solid $light-gray;
+            }
+            .Items{
+            margin: 0 1.5em 1.5em 0;
+            min-width: 125px;
+            max-width: 160px;
+            }
+            .Header{
+              display:flex;
+              justify-content: space-between;
+              align-items:center;
+              border-bottom: 1px solid $border;
+              margin-bottom: 1em;
+              padding-bottom:0.5em;
+              h1{
+                @include primary-text($body, $on-surface, 300);
+                b{
+                  @include primary-text($body, $on-surface, 500);
+                }
+              }
+            }
+        }
+        .panel-close {
+          max-height: 0;
+        }
   }
 }
