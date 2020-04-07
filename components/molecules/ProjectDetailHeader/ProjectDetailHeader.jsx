@@ -13,6 +13,8 @@ const getTagStatus = status =>
   Object.keys(projectStatusMap).includes(status) && (
     <Tag color={projectStatusMap[status].color}>
       {projectStatusMap[status].name}
+      {/* TODO: receive props  */}
+      {/* <b>- 10 days left</b> */}
     </Tag>
   );
 
