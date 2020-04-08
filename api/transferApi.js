@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doGet, doPost } from './api';
+import api, { doGet, doPost, doPut } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/transfers';
@@ -55,34 +55,35 @@ const getTransferStatus = async ({ userId, projectId }) => {
   } catch (error) { }
 };
 
-const getTransferListOfProject = projectId =>
+export const getTransferListOfProject = projectId =>
   apiCall('get', `/projects/${projectId}${baseURL}`);
 
-const getFundedAmount = projectId =>
+export const getFundedAmount = projectId =>
   doGet(`/projects/${projectId}${baseURL}/funded-amount`);
 
-const createTransfer = (projectId, transfer) => {
+export const createTransfer = (projectId, transfer) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPost(`/projects/${projectId}${baseURL}`, transfer, config);
 };
 
-const updateStateOfTransference = (transferId, state) =>
+export const updateStateOfTransference = (transferId, state) =>
   apiCall('put', `${baseURL}/${transferId}`, { state });
 
-const addApprovedTransferClaim = transferId =>
-  doPost(`${baseURL}/${transferId}/claim/approved`);
+export const addTransferClaimGetTransaction = (transferId, approved) =>
+  approved
+    ? doGet(`${baseURL}/${transferId}/claim/approved/get-transaction`)
+    : doGet(`${baseURL}/${transferId}/claim/disapproved/get-transaction`);
 
-const addDisapprovedTransferClaim = (transferId, data) =>
-  doPost(`${baseURL}/${transferId}/claim/disapproved`, { ...data });
+export const addTransferClaimSendTransaction = (transferId, approved, data) =>
+  approved
+    ? doPut(`${baseURL}/${transferId}/claim/approved/send-transaction`, data)
+    : doPut(
+        `${baseURL}/${transferId}/claim/disapproved/send-transaction`,
+        data
+      );
 
 export {
   sendTransferInformation,
   getTransferDestinationInfo,
-  getTransferStatus,
-  getTransferListOfProject,
-  getFundedAmount,
-  updateStateOfTransference,
-  createTransfer,
-  addApprovedTransferClaim,
-  addDisapprovedTransferClaim
+  getTransferStatus
 };

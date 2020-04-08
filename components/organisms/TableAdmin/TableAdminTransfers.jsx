@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message } from 'antd';
@@ -16,14 +16,28 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newTransferClaimFormItems } from '../../../helpers/createProjectFormFields';
 import {
-  addApprovedTransferClaim,
-  addDisapprovedTransferClaim
+  addTransferClaimSendTransaction,
+  addTransferClaimGetTransaction
 } from '../../../api/transferApi';
+import ModalPasswordRequest from '../ModalPasswordRequest/ModalPasswordRequest';
+import { signTransaction } from '../../../helpers/blockchain/wallet';
 
 const TableAdminTransfers = ({ projectId, getTransfers }) => {
   const [transfers, setTransfers] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [modalRejectVisible, setModalRejectVisible] = useState(false);
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [transferSelected, setTransferSelected] = useState(undefined);
+  const [txData, setTxData] = useState();
+  const [claimData, setClaimData] = useState({});
+  const [claimApproved, setClaimApproved] = useState();
+
+  const signAndSendTransaction = useCallback(
+    async userPassword => {
+      const signedTransaction = await signClaimTx(txData, userPassword);
+      await sendClaimTx(claimData, claimApproved, signedTransaction);
+    },
+    [txData, claimData, claimApproved]
+  );
 
   const columns = [
     {
@@ -110,15 +124,62 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     setTransfers(data);
   };
 
-  const onApprovedTransfer = async transferId => {
-    const response = await addApprovedTransferClaim(transferId);
-    if (response.errors) {
-      message.error(response.errors);
+  const inputPasswordHandler = async data => {
+    // TODO: add support for mnemonic
+    const password = data.get('password');
+    try {
+      await signAndSendTransaction(password);
+    } catch (error) {
+      message.error(error.message);
       return;
+    } finally {
+      hideModalPassword();
     }
-
-    message.success('Transfer approved successfully!');
+    message.success('Transfer updated successfully!');
     fetchTransfers();
+  };
+
+  const getClaimTx = async (transferId, approved) => {
+    const response = await addTransferClaimGetTransaction(transferId, approved);
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const signClaimTx = async (tx, password) => {
+    const { tx: unsignedTx, encryptedWallet } = tx;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return signedTransaction;
+  };
+
+  const sendClaimTx = async (data, approved, signedTransaction) => {
+    const body = { ...data, signedTransaction };
+    delete body.transferId;
+    const response = await addTransferClaimSendTransaction(
+      data.transferId,
+      approved,
+      body
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const onApprovedTransfer = async transferId => {
+    try {
+      const tx = await getClaimTx(transferId, true);
+      showPasswordModal(tx, true, { transferId });
+    } catch (error) {
+      message.error(error.message);
+    }
   };
 
   const onRejectTransfer = async data => {
@@ -129,22 +190,34 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       formData[key] = value;
     });
 
-    const response = await addDisapprovedTransferClaim(
-      transferSelected,
-      formData
-    );
-    if (response.errors) {
-      message.error(response.errors);
-      return;
+    try {
+      const tx = await getClaimTx(transferSelected, false);
+      showPasswordModal(tx, false, {
+        transferId: transferSelected,
+        ...formData
+      });
+    } catch (error) {
+      message.error(error.message);
     }
-
-    message.success('Transfer rejected successfully!');
-    fetchTransfers();
-    setVisible(false);
-    setTransferSelected(undefined);
   };
 
-  const onShowModal = () => setVisible(true);
+  const showPasswordModal = (tx, approved, data) => {
+    setClaimData(data);
+    setClaimApproved(approved);
+    setTxData(tx);
+    setModalPasswordVisible(true);
+  };
+
+  const hideModalPassword = () => {
+    setClaimData({});
+    setClaimApproved(undefined);
+    setTxData(undefined);
+    setModalPasswordVisible(false);
+    setTransferSelected(undefined);
+    setModalRejectVisible(false);
+  };
+
+  const onShowRejectModal = () => setModalRejectVisible(true);
 
   useEffect(() => {
     fetchTransfers();
@@ -152,7 +225,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     if (!transferSelected) return;
-    onShowModal();
+    onShowRejectModal();
   }, [transferSelected]);
 
   return (
@@ -167,9 +240,14 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       <CustomFormModal
         title="Reject transfer"
         formItems={newTransferClaimFormItems}
-        visible={visible}
+        visible={modalRejectVisible}
         onConfirm={onRejectTransfer}
-        onClose={() => setVisible(false)}
+        onClose={() => setModalRejectVisible(false)}
+      />
+      <ModalPasswordRequest
+        onConfirm={inputPasswordHandler}
+        onClose={hideModalPassword}
+        visible={modalPasswordVisible}
       />
     </Fragment>
   );
