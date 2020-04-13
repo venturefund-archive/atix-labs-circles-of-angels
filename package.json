@@ -20,6 +20,7 @@
     "blob-to-buffer": "1.2.8",
     "conf": "2.2.0",
     "dotenv": "8.2.0",
+    "ethers": "git+https://github.com/atixlabs/ethers.js.git#v4.0.45",
     "js-cookie": "2.2.0",
     "linkifyjs": "2.1.8",
     "lodash": "4.17.11",

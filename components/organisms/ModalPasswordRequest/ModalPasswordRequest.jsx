@@ -8,79 +8,43 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, message, Form, Input, Divider, Icon  } from 'antd';
-import { useHistory } from 'react-router';
-import { useUserContext } from '../../utils/UserContext';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
-import DynamicForm from '../FormLogin/FormLogin';
-import ModalRecovery from '../ModalRecovery/ModalRecovery';
-import { loginUser } from '../../../api/userApi';
-import { defaultRouteByRole } from '../../../constants/DefaultRouteByRole';
+import { Divider } from 'antd';
 import './_style.scss';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { walletPasswordFormItems } from '../../../helpers/walletPasswordFormFields';
 
-const { TextArea } = Input;
-
-class ModalPasswordRequest extends React.Component {
-  state = { visible: false };
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  render() {
-    return (
+const Title = () => (
+  <div className="ModalPasswordRequest">
+    <div className="flex Title">
+      <img src="./static/images/password-lock.svg" alt="passwordlock" />
       <div>
-        <CustomButton theme="Primary" buttonText="Pass request" onClick={this.showModal}/>
-        <Modal
-          centered
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={null}
-          className="ModalPasswordRequest"
-        >          
-          <div className="flex Title">
-            <img src='./static/images/password-lock.svg' alt="passwordlock" />
-            <div>
-              <h1>Password required</h1>
-              <h3>Enter your password and your 12 words to authorize this operation</h3>
-            </div>
-          </div>
-            <Divider />
-           <div className="Body">
-            <Form className="login-form">
-              <Form.Item label="Write your password" name="Password">
-                <Input.Password size="large" placeholder="Confirm Password" />
-              </Form.Item>
-              <Form.Item label="Write the 12 words in the order that they were sent to you" name="seed">
-                <TextArea rows={6} />
-              </Form.Item>
-              <Form.Item>
-                <CustomButton theme="Primary" buttonText="Submit" />
-              </Form.Item>
-            </Form>
-           </div>
-        </Modal>
+        <h1>Password required</h1>
+        <h3>Enter your password to authorize this operation</h3>
       </div>
-    );
-  }
-}
+    </div>
+    <Divider />
+  </div>
+);
+
+const ModalPasswordRequest = ({ visible, onConfirm, onClose }) => (
+  <CustomFormModal
+    body={<Title />}
+    formItems={walletPasswordFormItems}
+    visible={visible}
+    onClose={onClose}
+    onConfirm={onConfirm}
+    width={520}
+  />
+);
+
+ModalPasswordRequest.defaultProps = {
+  visible: false
+};
+
+ModalPasswordRequest.propTypes = {
+  visible: PropTypes.bool,
+  onConfirm: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
+};
 
 export default ModalPasswordRequest;
