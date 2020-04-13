@@ -21,8 +21,7 @@
     .Banner {
       width: 100%;
       @include breakpoint(sm) {
-        width: 100%;
-        height: 26%;
+        display:none
       }
     }
   }
@@ -97,17 +96,19 @@
       .ant-tag{
         @include breakpoint(sm) {
           position: absolute;
-          top: 0;
-          left: 0;
+          top: 2em;
           right: auto;
+          left: 25%;
+          width: 50%;
+          text-align: center;
         }
       }
       h1 {
-        @include primary-text($titlemedium, $white, 600);
+        @include primary-text($titlemedium, $white, 500);
         line-height: 36px;
         margin-right: 0.5em;
         @include breakpoint(sm) {
-          @include primary-text($titlebig, $on-surface, 600);
+          @include primary-text($titlemedium, $on-surface, 500);
           margin-right: 0em;
           text-align: center;
           padding: 0 0 0.5em 0;
@@ -128,17 +129,20 @@
       border-top: 1px solid #e5e6ed40;
       padding: 0 1em;
       @include breakpoint(sm) {
-        border-top: 1px solid #72809926;
         height: auto;
-        border-bottom: 1px solid #72809926;
-        padding: 0.5em 0em;
+        padding: 0 0 0.5em 0;
         .flex{
           flex-wrap: wrap;
+        }
+        .GeneralItem:first-child{
+          border-top: none;
         }
         .GeneralItem{
           margin-top: 0.5em;
           width: 100%;
           margin-right: 0;
+          border-top: 1px solid #eff1f4;
+          padding-top: 0.5em;
         }
         .GeneralItem img{
           width: 20px;
@@ -197,7 +201,7 @@
     justify-content: center;
     min-height: 229px;
     padding: 0;
-    @include primary-text($labelbig, $on-surface, 600);
+    @include primary-text($labelbig, $on-surface, 500);
   }
 }
 
@@ -282,6 +286,7 @@
       }
     span {
       @include primary-text($body, $on-surface, 400);
+      margin-bottom: 3px;
     }
   }
   .Orange {

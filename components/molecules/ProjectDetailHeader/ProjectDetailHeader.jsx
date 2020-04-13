@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tag, Row } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
+import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
@@ -88,11 +89,12 @@ const ProjectDetailHeader = ({
       />
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
-          <p>Organization Name</p>
+          {getTagStatus(status)}
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>
-              {getTagStatus(status)}
+              {/* TODO: get blockchain info from API */}
+              {/* <DrawerBlockchain /> */}
             </Col>
             <Col className="flex">
               {allowEdit && (

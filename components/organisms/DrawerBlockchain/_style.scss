@@ -1,0 +1,60 @@
+@import '../css/general_styling.scss';
+.DrawerBlockchain {
+  .ant-drawer-mask {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .ant-drawer-content {
+    border-radius: 20px 0 0 20px;
+  }
+  .ant-drawer-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+  }
+  .TitleImage {
+    margin: 1em auto;
+    display: block;
+  }
+  h1 {
+    @include primary-text($labels-bigger, $on-surface, 300);
+    b {
+      @include primary-text($labels-bigger, $on-surface, 500);
+    }
+    width: 90%;
+    text-align: center;
+    margin: 0 auto 2em auto;
+  }
+  .BlockContainer {
+    background: $primary-color-light;
+    padding: 1.2em;
+  }
+}
+.ButtonMobile {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  left: -1em;
+  background: $primary-color-light;
+  color: $primary-color;
+  display: none;
+  padding: 0.3em 0;
+  font-size: 13px;
+  button {
+    display: flex;
+    align-items: center;
+  }
+  @include breakpoint(sm) {
+    display: block;
+  }
+}
+.ButtonDesktop{
+  @include breakpoint(sm) {
+    display: none;
+  } 
+}
+
+.ant-drawer-right.ant-drawer-open.DrawerBlockchain .ant-drawer-content-wrapper {
+  border-radius: 20px 0 0 20px;
+}

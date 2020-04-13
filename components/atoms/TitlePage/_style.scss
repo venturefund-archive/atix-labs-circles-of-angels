@@ -2,7 +2,7 @@
 
 .TitlePage{
   h1 {
-    @include primary-text($titlepage, $on-surface, 600);
+    @include primary-text($titlepage, $on-surface, 500);
     position: relative;
     margin-bottom: 1em;
     &::after {
