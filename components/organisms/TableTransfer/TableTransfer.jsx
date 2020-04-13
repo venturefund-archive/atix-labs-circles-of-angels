@@ -14,6 +14,15 @@ import { transferPropType } from '../../../helpers/proptypes';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import '../TableProjectProgress/_tablestyle.scss';
 import './_style.scss';
+import DrawerBlockchain from '../DrawerBlockchain/DrawerBlockchain';
+import { buildTransferBlockchainData } from '../../../helpers/blockchainData';
+
+const blockchainDrawerTitle = (
+  <p>
+    This fund transfer was saved on the
+    <b> Blockchain</b>
+  </p>
+);
 
 const TableTransfer = ({ transfers }) => {
   // TODO check which fields will be showed
@@ -55,6 +64,14 @@ const TableTransfer = ({ transfers }) => {
             {transferStatusesMap[status].name}
           </Tag>
         </span>
+      )
+    },
+    {
+      render: row => (
+        <DrawerBlockchain
+          data={buildTransferBlockchainData(row)}
+          title={blockchainDrawerTitle}
+        />
       )
     }
   ];

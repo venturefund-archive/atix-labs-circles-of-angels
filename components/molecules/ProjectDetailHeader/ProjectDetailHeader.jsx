@@ -7,6 +7,7 @@ import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
+import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -17,6 +18,13 @@ const getTagStatus = status =>
       {/* <b>- 10 days left</b> */}
     </Tag>
   );
+
+const blockchainDrawerTitle = (
+  <p>
+    This project was saved on the
+    <b> Blockchain</b>
+  </p>
+);
 
 const ProjectDetailHeader = ({
   coverPhotoPath,
@@ -83,8 +91,7 @@ const ProjectDetailHeader = ({
     <div className="ProjectHeader">
       <img
         className="Banner"
-        // {coverPhotoPath || './static/images/imgcard.png'}
-        src="./static/images/cover-project.jpg"
+        src={coverPhotoPath || './static/images/cover-project.jpg'}
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
@@ -94,7 +101,10 @@ const ProjectDetailHeader = ({
             <Col className="flex">
               <h1>{projectName}</h1>
               {/* TODO: get blockchain info from API */}
-              {/* <DrawerBlockchain /> */}
+              <DrawerBlockchain
+                data={buildProjectBlockchainData({})}
+                title={blockchainDrawerTitle}
+              />
             </Col>
             <Col className="flex">
               {allowEdit && (
