@@ -47,7 +47,7 @@
   background: $success-color;
   height:auto;
   span {
-    @include primary-text($button, $white, 600);
+    @include primary-text($button, $white, 500);
   }
   .anticon {
     display: none;
@@ -180,7 +180,7 @@
   background: $border;
   height:auto;
   span {
-    @include primary-text($button, $white, 600);
+    @include primary-text($button, $white, 500);
   }
   .anticon {
     display: none;

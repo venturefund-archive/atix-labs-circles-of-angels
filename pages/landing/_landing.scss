@@ -33,14 +33,14 @@
       ),
       url(/static/images/background-banner.png);
     h1 {
-      @include primary-text($titlebanner, $white, 600);
+      @include primary-text($titlebanner, $white, 500);
       line-height: 96px;
       @include breakpoint(md) {
-        @include primary-text($titlebig, $white, 600);
+        @include primary-text($titlebig, $white, 500);
         line-height: normal;
       }
       @include breakpoint(sm) {
-        @include primary-text($titlebig, $white, 600);
+        @include primary-text($titlebig, $white, 500);
         line-height: normal;
       }
     }

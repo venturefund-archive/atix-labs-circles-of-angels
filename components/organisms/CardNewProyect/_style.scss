@@ -21,7 +21,7 @@ overflow: visible;
     margin-bottom: 1em;
   }
   h1 {
-    @include primary-text($labelbig, $on-surface-medium, 600);
+    @include primary-text($labelbig, $on-surface-medium, 500);
   }
  button{
   box-shadow: $shadow;

@@ -24,7 +24,7 @@ body {
   @include primary-text($body,$on-surface ,400)
  }
  b{
-  @include primary-text($body,$on-surface ,600)
+  @include primary-text($body,$on-surface ,500)
  }
  span{
     @include primary-text($body,$on-surface-medium ,400)

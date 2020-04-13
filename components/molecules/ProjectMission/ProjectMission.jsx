@@ -25,7 +25,7 @@ const ProjectMission = ({ mission, problem, proposal }) => (
     {proposal && (
       <div className="block">
         <h1 className="title">Proposal</h1>
-        <div dangerouslySetInnerHTML={{ __html: proposal }} />
+        <p dangerouslySetInnerHTML={{ __html: proposal }} />
       </div>
     )}
   </Col>

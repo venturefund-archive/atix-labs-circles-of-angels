@@ -44,7 +44,7 @@
       border: 1px solid $primary-color;
       span {
         color: $primary-color;
-        font-weight: 600;
+        font-weight: 500;
       }
     }
   }
@@ -62,7 +62,7 @@
   .BlockDownload {
     text-align: center;
     h1 {
-      @include primary-text($titlecard, $on-surface, 600);
+      @include primary-text($titlecard, $on-surface, 500);
     }
     p {
       @include primary-text($body, $on-surface-medium, 500);
