@@ -68,9 +68,9 @@ const TaskRow = ({
   };
 
   const hideModalPassword = () => {
-    setEvidenceData();
-    setTxData();
-    setEvidenceStatus();
+    setEvidenceData(undefined);
+    setTxData(undefined);
+    setEvidenceStatus(undefined);
     setModalPasswordVisible(false);
   };
 
