@@ -72,10 +72,10 @@ export const makeApiRequest = async (method, url, body, config) => {
 export const doGet = async (url, data, config) =>
   makeApiRequest('get', url, data, config);
 
-export const doPost = async (url, data, config) =>
+export const doPost = async (url, data = {}, config) =>
   makeApiRequest('post', url, data, config);
 
-export const doPut = async (url, data, config) =>
+export const doPut = async (url, data = {}, config) =>
   makeApiRequest('put', url, data, config);
 
 export const doDelete = async url => makeApiRequest('delete', url);
