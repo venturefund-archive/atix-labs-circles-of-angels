@@ -83,8 +83,7 @@ const ProjectDetailHeader = ({
     <div className="ProjectHeader">
       <img
         className="Banner"
-        // {coverPhotoPath || './static/images/imgcard.png'}
-        src="./static/images/cover-project.jpg"
+        src={coverPhotoPath || './static/images/cover-project.jpg'}
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
