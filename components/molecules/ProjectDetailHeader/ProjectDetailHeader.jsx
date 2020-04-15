@@ -5,8 +5,12 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
-import { publicProjectStatuses } from '../../../constants/constants';
+import {
+  publicProjectStatuses,
+  SHOW_BLOCKCHAIN_INFO_STATUS
+} from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
+import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -17,6 +21,13 @@ const getTagStatus = status =>
       {/* <b>- 10 days left</b> */}
     </Tag>
   );
+
+const blockchainDrawerTitle = (
+  <p>
+    This project was saved on the
+    <b> Blockchain</b>
+  </p>
+);
 
 const ProjectDetailHeader = ({
   coverPhotoPath,
@@ -97,8 +108,13 @@ const ProjectDetailHeader = ({
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>
-              {/* TODO: get blockchain info from API */}
-              {/* <DrawerBlockchain /> */}
+              {SHOW_BLOCKCHAIN_INFO_STATUS.includes(status) && (
+                // TODO: get blockchain info from API
+                <DrawerBlockchain
+                  data={buildProjectBlockchainData({})}
+                  title={blockchainDrawerTitle}
+                />
+              )}
             </Col>
             <Col className="flex">
               {allowEdit && (
