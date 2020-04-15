@@ -94,3 +94,10 @@ export const SHOW_MILESTONE_STATUS_ACTIONS = [
   projectStatuses.EXECUTING,
   projectStatuses.FINISHED
 ];
+export const SHOW_BLOCKCHAIN_INFO_STATUS = [
+  projectStatuses.FUNDING,
+  projectStatuses.EXECUTING,
+  projectStatuses.FINISHED,
+  projectStatuses.CHANGING_SCOPE,
+  projectStatuses.ABORTED
+];

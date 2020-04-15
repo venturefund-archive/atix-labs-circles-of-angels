@@ -5,8 +5,12 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
-import { publicProjectStatuses } from '../../../constants/constants';
+import {
+  publicProjectStatuses,
+  SHOW_BLOCKCHAIN_INFO_STATUS
+} from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
+import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -17,6 +21,13 @@ const getTagStatus = status =>
       {/* <b>- 10 days left</b> */}
     </Tag>
   );
+
+const blockchainDrawerTitle = (
+  <p>
+    This project was saved on the
+    <b> Blockchain</b>
+  </p>
+);
 
 const ProjectDetailHeader = ({
   coverPhotoPath,
@@ -37,54 +48,52 @@ const ProjectDetailHeader = ({
 }) => {
   const itemsData = [
     {
+      key: 1,
       label: 'Country of Impact',
       value: location,
       img: './static/images/world-icon.svg'
     },
     {
+      key: 2,
       label: 'Timeframe',
       value: timeframe,
       img: './static/images/calendar-icon.svg'
     },
     {
+      key: 3,
       label: 'Goal Amount',
       value: goalAmount,
       extra: 'USD',
       img: './static/images/amount-icon.svg'
     },
     {
-      type: 'link',
-      url: proposalFilePath,
-      value: (
-        <LinkButton
-          text="Download Project Proposal"
-          className="Separate link"
-        />
-      ),
-      hide: !proposalFilePath
-    },
-    {
-      type: 'link',
-      url: agreementFilePath,
-      value: <LinkButton text="Download Legal Agreement" className="link" />,
-      hide: !agreementFilePath
-    }
-  ];
-
-  if (Object.values(publicProjectStatuses).includes(status))
-    itemsData.push({
+      key: 4,
       label: 'Funded Amount',
       value: fundedAmount,
       extra: 'USD',
-      img: './static/images/amount-icon.svg'
-    });
+      hide: !Object.values(publicProjectStatuses).includes(status)
+    },
+    {
+      key: 5,
+      type: 'link',
+      url: proposalFilePath,
+      value: <LinkButton text="Project Proposal" className="Separate link" />,
+      hide: !proposalFilePath
+    },
+    {
+      key: 6,
+      type: 'link',
+      url: agreementFilePath,
+      value: <LinkButton text="Legal Agreement" className="link" />,
+      hide: !agreementFilePath
+    }
+  ];
 
   return (
     <div className="ProjectHeader">
       <img
         className="Banner"
-        // {coverPhotoPath || './static/images/imgcard.png'}
-        src="./static/images/cover-project.jpg"
+        src={coverPhotoPath || './static/images/cover-project.jpg'}
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">
@@ -93,8 +102,13 @@ const ProjectDetailHeader = ({
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>
-              {/* TODO: get blockchain info from API */}
-              {/* <DrawerBlockchain /> */}
+              {SHOW_BLOCKCHAIN_INFO_STATUS.includes(status) && (
+                // TODO: get blockchain info from API
+                <DrawerBlockchain
+                  data={buildProjectBlockchainData({})}
+                  title={blockchainDrawerTitle}
+                />
+              )}
             </Col>
             <Col className="flex">
               {allowEdit && (
@@ -126,12 +140,7 @@ const ProjectDetailHeader = ({
             />
           </Col> */}
           <Col className="flex">
-            {itemsData.map(
-              item =>
-                !item.hide && (
-                  <GeneralItem {...item} key={`data-${item.value}`} />
-                )
-            )}
+            {itemsData.map(item => !item.hide && <GeneralItem {...item} />)}
           </Col>
         </Row>
       </div>
