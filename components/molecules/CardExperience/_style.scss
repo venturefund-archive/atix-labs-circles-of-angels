@@ -60,25 +60,7 @@
     }
   }
 
-  .ExpPhotosWrapper {
-    display: flex;
-    display: flex;
-    flex-wrap: nowrap;
-    margin-top: 2em;
-    overflow-x: scroll;
-    .ImgSubWrapper {
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      border-radius: 4px;
-      background:$border; 
-      img {
-        height: 100%;
-      }
-    }
-  }
+
 }
 .cardExperienceText {
   height: 230px;
