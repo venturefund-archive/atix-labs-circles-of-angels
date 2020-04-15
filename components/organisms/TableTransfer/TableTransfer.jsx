@@ -69,7 +69,9 @@ const TableTransfer = ({ transfers }) => {
     },
     {
       render: transfer =>
-        transfer.status === TransferStatuses.VERIFIED && (
+        [TransferStatuses.VERIFIED, TransferStatuses.CANCELLED].includes(
+          transfer.status
+        ) && (
           // TODO: get blockchain info from api
           <DrawerBlockchain
             data={buildTransferBlockchainData({
