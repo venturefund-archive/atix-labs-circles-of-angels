@@ -1,64 +1,65 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import { Col } from 'antd';
 import './_style.scss';
+import { photoPropType } from '../../../helpers/proptypes';
 
-class ImageExperience extends React.Component {
-  constructor(props) {
-    super(props);
+const ImageExperience = ({ images, imageTitle }) => {
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
-    this.state = {
-      photoIndex: 0,
-      isOpen: false
-    };
-  }
-
-  openImage = index => {
-    this.setState({ isOpen: true, photoIndex: index });
+  const openImage = index => {
+    setPhotoIndex(index);
+    setIsOpen(true);
   };
 
-  render() {
-    const { photoIndex, isOpen } = this.state;
-    const { images, imageTitle } = this.props;
+  return (
+    <div className="ExpPhotosWrapper">
+      {images.map(
+        (photo, index) =>
+          photo.path && (
+            <Col xs={8} lg={9} key={photo.id}>
+              <div className="ImgSubWrapper">
+                <img
+                  src={photo.path}
+                  alt="experience"
+                  onClick={() => openImage(index)}
+                />
+              </div>
+            </Col>
+          )
+      )}
+      {isOpen && (
+        <Lightbox
+          imageCaption={imageTitle}
+          mainSrc={images[photoIndex].path}
+          nextSrc={images[(photoIndex + 1) % images.length]}
+          prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+          onCloseRequest={() => setIsOpen(false)}
+          onMovePrevRequest={() =>
+            setPhotoIndex((photoIndex + images.length - 1) % images.length)
+          }
+          onMoveNextRequest={() =>
+            setPhotoIndex((photoIndex + 1) % images.length)
+          }
+        />
+      )}
+    </div>
+  );
+};
 
-    return (
-      <div className="ExpPhotosWrapper">
-        {images.map(
-          (photo, index) =>
-            photo.path && (
-              <Col xs={8} lg={9} key={photo.id}>
-                <div className="ImgSubWrapper">
-                  <img
-                    src={photo.path}
-                    alt="experience"
-                    onClick={() => this.openImage(index)}
-                  />
-                </div>
-              </Col>
-            )
-        )}
-        {isOpen && (
-          <Lightbox
-            imageCaption={imageTitle}
-            mainSrc={images[photoIndex].path}
-            nextSrc={images[(photoIndex + 1) % images.length]}
-            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-            onCloseRequest={() => this.setState({ isOpen: false })}
-            onMovePrevRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + images.length - 1) % images.length
-              })
-            }
-            onMoveNextRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + 1) % images.length
-              })
-            }
-          />
-        )}
-      </div>
-    );
-  }
-}
+ImageExperience.defaultProps = {
+  images: [],
+  imageTitle: ''
+};
+
+ImageExperience.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.shape(photoPropType)),
+  imageTitle: PropTypes.string
+};
+
 export default ImageExperience;

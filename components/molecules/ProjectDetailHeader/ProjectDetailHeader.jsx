@@ -72,17 +72,12 @@ const ProjectDetailHeader = ({
       value: fundedAmount,
       extra: 'USD',
       hide: !Object.values(publicProjectStatuses).includes(status)
-},
+    },
     {
       key: 5,
       type: 'link',
       url: proposalFilePath,
-      value: (
-        <LinkButton
-          text="Project Proposal"
-          className="Separate link"
-        />
-      ),
+      value: <LinkButton text="Project Proposal" className="Separate link" />,
       hide: !proposalFilePath
     },
     {
@@ -93,7 +88,6 @@ const ProjectDetailHeader = ({
       hide: !agreementFilePath
     }
   ];
-
 
   return (
     <div className="ProjectHeader">
@@ -135,7 +129,6 @@ const ProjectDetailHeader = ({
                 onClick={isFollower ? onUnfollowProject : onFollowProject}
               />
             </Col>
-
           </div>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
@@ -147,12 +140,7 @@ const ProjectDetailHeader = ({
             />
           </Col> */}
           <Col className="flex">
-            {itemsData.map(
-              item =>
-                !item.hide && (
-                  <GeneralItem {...item} />
-                )
-            )}
+            {itemsData.map(item => !item.hide && <GeneralItem {...item} />)}
           </Col>
         </Row>
       </div>
