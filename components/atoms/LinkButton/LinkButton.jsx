@@ -4,7 +4,8 @@ import { Icon } from 'antd';
 
 const LinkButton = ({ className, iconType, text }) => (
   <div className={className}>
-    <Icon type={iconType} />
+    <img src='./static/images/download-file.svg' alt="download"/>
+    <a className="download">Download</a>
     {text}
   </div>
 );

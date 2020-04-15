@@ -48,47 +48,52 @@ const ProjectDetailHeader = ({
 }) => {
   const itemsData = [
     {
+      key: 1,
       label: 'Country of Impact',
       value: location,
       img: './static/images/world-icon.svg'
     },
     {
+      key: 2,
       label: 'Timeframe',
       value: timeframe,
       img: './static/images/calendar-icon.svg'
     },
     {
+      key: 3,
       label: 'Goal Amount',
       value: goalAmount,
       extra: 'USD',
       img: './static/images/amount-icon.svg'
     },
     {
+      key: 4,
+      label: 'Funded Amount',
+      value: fundedAmount,
+      extra: 'USD',
+      hide: !Object.values(publicProjectStatuses).includes(status)
+},
+    {
+      key: 5,
       type: 'link',
       url: proposalFilePath,
       value: (
         <LinkButton
-          text="Download Project Proposal"
+          text="Project Proposal"
           className="Separate link"
         />
       ),
       hide: !proposalFilePath
     },
     {
+      key: 6,
       type: 'link',
       url: agreementFilePath,
-      value: <LinkButton text="Download Legal Agreement" className="link" />,
+      value: <LinkButton text="Legal Agreement" className="link" />,
       hide: !agreementFilePath
     }
   ];
 
-  if (Object.values(publicProjectStatuses).includes(status))
-    itemsData.push({
-      label: 'Funded Amount',
-      value: fundedAmount,
-      extra: 'USD',
-      img: './static/images/amount-icon.svg'
-    });
 
   return (
     <div className="ProjectHeader">
@@ -130,6 +135,7 @@ const ProjectDetailHeader = ({
                 onClick={isFollower ? onUnfollowProject : onFollowProject}
               />
             </Col>
+
           </div>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
@@ -144,7 +150,7 @@ const ProjectDetailHeader = ({
             {itemsData.map(
               item =>
                 !item.hide && (
-                  <GeneralItem {...item} key={`data-${item.value}`} />
+                  <GeneralItem {...item} />
                 )
             )}
           </Col>
