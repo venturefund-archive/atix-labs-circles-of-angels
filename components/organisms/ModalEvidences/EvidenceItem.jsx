@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Tag, Icon } from 'antd';
-import ItemBlockchain from '../../atoms/ItemBlockchain/ItemBlockchain';
+import { Tag } from 'antd';
 import './_style.scss';
+import {
+  buildOracleBlockchainData,
+  buildEvidenceBlockchainData
+} from '../../../helpers/blockchainData';
+import EvidenceBlockchainInfo from './EvidenceBlockchainInfo';
 
 const getApprovedTag = approved =>
   approved ? (
@@ -11,52 +15,6 @@ const getApprovedTag = approved =>
   ) : (
     <Tag color="#DF5BD2">Not Approved</Tag>
   );
-
-const BlockchainInfo = ({ approved }) => (
-  <div className="Container">
-    <div className="Header">
-      <h1>
-        What´s saved on the <b>Blockchain ?</b>
-      </h1>
-      <img src="/static/images/rsk-small.svg" alt="rsk-logo" />
-    </div>
-    <div className="flex Rows">
-      <ItemBlockchain
-        image="/static/images/icon-user.svg"
-        label="Oracle´s Name"
-        info="John Doe"
-      />
-      <ItemBlockchain
-        image="/static/images/icon-date.svg"
-        label="Oracle´s Address"
-        link="0x8e19747326a8a..."
-      />
-    </div>
-    <div className="flex Rows">
-      <ItemBlockchain
-        image="/static/images/icon-date.svg"
-        label="Date"
-        info="14/03/2020"
-      />
-      <ItemBlockchain
-        image="/static/images/icon-block.svg"
-        label="Block Number"
-        link="69,818"
-      />
-      <ItemBlockchain
-        image="/static/images/icon-transaction.svg"
-        label="Transaction Númber"
-        link="0x8e19747326a8f0a..."
-      />
-      <ItemBlockchain
-        image="/static/images/icon-link.svg"
-        label="IPFS Link"
-        link="Imageslink"
-      />
-      <ItemBlockchain label="Status" link={getApprovedTag(approved)} />
-    </div>
-  </div>
-);
 
 const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,10 +24,10 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
         <div className="space-between Data">
           <div className="flex Title">
             <h1>Name of the evidence</h1>
-            <a
-              href="#"
+            <button
               onClick={() => setIsOpen(!isOpen)}
               className={isOpen ? 'IconOpen' : 'IconClosed'}
+              type="button"
             >
               <img
                 className="BlockGray"
@@ -81,7 +39,7 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
                 src="/static/images/block-blue.svg"
                 alt="blockchainicon"
               />
-            </a>
+            </button>
           </div>
           <span>{moment(createdAt).format('MMMM, Do YYYY - HH:mm')}</span>
         </div>
@@ -94,7 +52,12 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
       </div>
       <div className={isOpen ? 'panel-collapse' : 'panel-collapse panel-close'}>
         {/* TODO: get blockchain info from API */}
-        {/* <BlockchainInfo approved={approved} /> */}
+        <EvidenceBlockchainInfo
+          oracleInfo={buildOracleBlockchainData({})}
+          evidenceInfo={buildEvidenceBlockchainData({
+            status: getApprovedTag(approved)
+          })}
+        />
       </div>
     </div>
   );

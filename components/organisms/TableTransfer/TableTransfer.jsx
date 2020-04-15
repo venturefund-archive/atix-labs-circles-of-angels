@@ -12,8 +12,24 @@ import PropTypes from 'prop-types';
 import { Table, Tag } from 'antd';
 import { transferPropType } from '../../../helpers/proptypes';
 import transferStatusesMap from '../../../model/transferStatusesMap';
+import TransferStatuses from '../../../constants/TransferStatuses';
 import '../TableProjectProgress/_tablestyle.scss';
 import './_style.scss';
+import DrawerBlockchain from '../DrawerBlockchain/DrawerBlockchain';
+import { buildTransferBlockchainData } from '../../../helpers/blockchainData';
+
+const transferStatusTag = status => (
+  <Tag color={transferStatusesMap[status].color} key={status}>
+    {transferStatusesMap[status].name}
+  </Tag>
+);
+
+const blockchainDrawerTitle = (
+  <p>
+    This fund transfer was saved on the
+    <b> Blockchain</b>
+  </p>
+);
 
 const TableTransfer = ({ transfers }) => {
   // TODO check which fields will be showed
@@ -49,13 +65,20 @@ const TableTransfer = ({ transfers }) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: status => (
-        <span>
-          <Tag color={transferStatusesMap[status].color} key={status}>
-            {transferStatusesMap[status].name}
-          </Tag>
-        </span>
-      )
+      render: status => <span>{transferStatusTag(status)}</span>
+    },
+    {
+      render: transfer =>
+        transfer.status === TransferStatuses.VERIFIED && (
+          // TODO: get blockchain info from api
+          <DrawerBlockchain
+            data={buildTransferBlockchainData({
+              status: transferStatusTag(transfer.status),
+              receipt: transfer.receiptPath
+            })}
+            title={blockchainDrawerTitle}
+          />
+        )
     }
   ];
 

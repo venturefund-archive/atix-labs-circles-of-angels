@@ -129,3 +129,15 @@ export const evidencePropTypes = {
   proof: PropTypes.string,
   txLink: PropTypes.string
 };
+
+export const linkPropTypes = {
+  url: PropTypes.string,
+  text: PropTypes.string
+};
+
+export const blockchainInfoPropTypes = {
+  label: PropTypes.string,
+  image: PropTypes.string,
+  link: PropTypes.shape(linkPropTypes),
+  info: PropTypes.oneOfType([PropTypes.string], [PropTypes.element])
+};

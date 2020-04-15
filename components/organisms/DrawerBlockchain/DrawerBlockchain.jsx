@@ -1,111 +1,61 @@
-import React from 'react';
-import { Drawer, Button, Tooltip } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Drawer } from 'antd';
 import ItemBlockchain from '../../atoms/ItemBlockchain/ItemBlockchain';
-import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import './_style.scss';
+import ToggleDrawer from './ToggleDrawer';
+import { blockchainInfoPropTypes } from '../../../helpers/proptypes';
 
-class DrawerBlockchain extends React.Component {
-  state = { visible: false };
+const DrawerBlockchain = ({ title, data }) => {
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
-  showDrawer = () => {
-    this.setState({
-      visible: true
-    });
-  };
+  const showDrawer = () => setIsDrawerVisible(true);
+  const closeDrawer = () => setIsDrawerVisible(false);
 
-  onClose = () => {
-    this.setState({
-      visible: false
-    });
-  };
-
-  render() {
-    return (
-      <div>
-      <Tooltip placement="top" title="Blockchain details">
-        <div className="ButtonDesktop">
-            <button
-              type="button"
-              href="#"
-              onClick={this.showDrawer}
-            >
-            <img
-              className="BlockGray"
-              src="/static/images/buttondrawer.svg"
-              alt="blockchainIcon"
-            />
-          </button>
-        </div>
-        </Tooltip>
-        <div className="ButtonMobile">
-          <button
-            type="button"
-            href="#"
-            onClick={this.showDrawer}
-            className="classNaame"
-          >
-            <img
-              className="BlockGray"
-              src="/static/images/miniblock.svg"
-              alt="blockchainIcon"
-            />
-            Blockchain Details >
-          </button>
-        </div>
-        <Drawer
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-          className="DrawerBlockchain"
-          width="350"
-        >
-          <div>
-            <img
-              className="TitleImage"
-              src="/static/images/blockchain.svg"
-              alt="blockchain"
-            />
-            <h1>
-              This project was saved on the
-              <b>Blockchain</b>
-            </h1>
-            <div className="BlockContainer">
-              <ItemBlockchain
-                image="/static/images/icon-date.svg"
-                label="Creation Date"
-                info="14/03/2020"
-              />
-              <ItemBlockchain
-                image="/static/images/icon-block.svg"
-                label="Block Number"
-                link="69,818"
-              />
-              <ItemBlockchain
-                image="/static/images/icon-number.svg"
-                label="Project Address"
-                link="0x8e19747326a8f0b46056a09330a..."
-              />
-              <ItemBlockchain
-                image="/static/images/icon-transaction.svg"
-                label="Transaction Númber"
-                link="0x8e19747326a8f0b0a09330a..."
-              />
-              <ItemBlockchain
-                image="/static/images/icon-agreement.svg"
-                label="Agreement"
-                info="Los acuerdos sobre los hitos, actividades y montos acordados
-                quedaron registrados de manera inalterable y pueden ser auditados desde este enlace"
-                link="AgreementLink"
-              />
-            </div>
+  return (
+    <div>
+      <ToggleDrawer onClick={showDrawer} />
+      <Drawer
+        placement="right"
+        closable={false}
+        onClose={closeDrawer}
+        visible={isDrawerVisible}
+        className="DrawerBlockchain"
+        width="350"
+      >
+        <div>
+          <img
+            className="TitleImage"
+            src="/static/images/blockchain.svg"
+            alt="blockchain"
+          />
+          <h1>{title}</h1>
+          <div className="BlockContainer">
+            {data &&
+              data.map(({ image, label, link, info }) => (
+                <ItemBlockchain
+                  image={image}
+                  label={label}
+                  link={link}
+                  info={info}
+                />
+              ))}
           </div>
-          <img src="/static/images/rsk.svg" />
-        </Drawer>
-      </div>
-    );
-  }
-}
+        </div>
+        <img src="/static/images/rsk.svg" alt="certified" />
+      </Drawer>
+    </div>
+  );
+};
+
+DrawerBlockchain.defaultProps = {
+  title: undefined,
+  data: []
+};
+
+DrawerBlockchain.propTypes = {
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  data: PropTypes.arrayOf(PropTypes.shape(blockchainInfoPropTypes))
+};
 
 export default DrawerBlockchain;
