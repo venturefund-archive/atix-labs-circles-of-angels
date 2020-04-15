@@ -5,7 +5,10 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
-import { publicProjectStatuses } from '../../../constants/constants';
+import {
+  publicProjectStatuses,
+  SHOW_BLOCKCHAIN_INFO_STATUS
+} from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 
@@ -100,11 +103,13 @@ const ProjectDetailHeader = ({
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>
-              {/* TODO: get blockchain info from API */}
-              <DrawerBlockchain
-                data={buildProjectBlockchainData({})}
-                title={blockchainDrawerTitle}
-              />
+              {SHOW_BLOCKCHAIN_INFO_STATUS.includes(status) && (
+                // TODO: get blockchain info from API
+                <DrawerBlockchain
+                  data={buildProjectBlockchainData({})}
+                  title={blockchainDrawerTitle}
+                />
+              )}
             </Col>
             <Col className="flex">
               {allowEdit && (

@@ -1,3 +1,5 @@
+// TODO: delete mock data
+
 export const buildProjectBlockchainData = ({
   address,
   creationDate,
@@ -8,22 +10,22 @@ export const buildProjectBlockchainData = ({
   {
     image: '/static/images/icon-number.svg',
     label: 'Project Address',
-    link: { url: '#', text: '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: '#', text: address || '0x8e19747326a8f0b46056a09330a...' }
   },
   {
     image: '/static/images/icon-date.svg',
     label: 'Creation Date',
-    info: '14/03/2020'
+    info: creationDate || '14/03/2020'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: '69,818' }
+    link: { url: '#', text: blockNumber || '69,818' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
   },
   {
     image: '/static/images/icon-agreement.svg',
@@ -32,7 +34,7 @@ export const buildProjectBlockchainData = ({
       'The agreement on milestones, tasks and funds were saved ' +
       'and cannot be altered by any means. ' +
       'This file can be audited from the following link',
-    link: { url: '#', text: 'Go to Agreement' }
+    link: { url: agreement || '#', text: 'Go to Agreement' }
   }
 ];
 
@@ -47,31 +49,34 @@ export const buildTransferBlockchainData = ({
   {
     image: '/static/images/icon-number.svg',
     label: "Validator's Address",
-    link: { url: '#', text: '0x8e19747326a8f0b46056a09330a...' }
+    link: {
+      url: '#',
+      text: validatorAddress || '0x8e19747326a8f0b46056a09330a...'
+    }
   },
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: '14/03/2020'
+    info: creationDate || '14/03/2020'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: '69,818' }
+    link: { url: '#', text: blockNumber || '69,818' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
   },
   {
     image: '/static/images/icon-link.svg',
     label: 'Transfer Receipt',
-    link: { url: '#', text: 'View Receipt' }
+    link: { url: receipt || '#', text: 'View Receipt' }
   },
   {
     label: 'Status',
-    info: 'Approved'
+    info: status || 'Verified'
   }
 ];
 
@@ -79,12 +84,12 @@ export const buildOracleBlockchainData = ({ oracleName, oracleAddress }) => [
   {
     image: '/static/images/icon-user.svg',
     label: "Oracle's Name",
-    info: 'John Doe'
+    info: oracleName || 'John Doe'
   },
   {
     image: '/static/images/icon-number.svg',
     label: "Oracle's Address",
-    link: { url: '#', text: '0x8e19747326a8a...' }
+    link: { url: '#', text: oracleAddress || '0x8e19747326a8a...' }
   }
 ];
 
@@ -98,25 +103,25 @@ export const buildEvidenceBlockchainData = ({
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: '14/03/2020'
+    info: creationDate || '14/03/2020'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: '69,818' }
+    link: { url: '#', text: blockNumber || '69,818' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
   },
   {
     image: '/static/images/icon-link.svg',
     label: 'Proof',
-    link: { url: '#', text: 'View Proof' }
+    link: { url: proof || '#', text: 'View Proof' }
   },
   {
     label: 'Status',
-    info: status
+    info: status || 'Approved'
   }
 ];
