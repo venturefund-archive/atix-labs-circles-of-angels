@@ -8,6 +8,7 @@ import {
   buildEvidenceBlockchainData
 } from '../../../helpers/blockchainData';
 import EvidenceBlockchainInfo from './EvidenceBlockchainInfo';
+import ImageBox from '../../molecules/ImageBox/ImageBox';
 
 const getApprovedTag = approved =>
   approved ? (
@@ -47,7 +48,7 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
       </div>
       <div className="BlockImages">
         <div className="ImageContainer">
-          <img src={proof} alt="evidences" />
+          <ImageBox imagePath={proof} imageTitle={description} />
         </div>
       </div>
       <div className={isOpen ? 'panel-collapse' : 'panel-collapse panel-close'}>
