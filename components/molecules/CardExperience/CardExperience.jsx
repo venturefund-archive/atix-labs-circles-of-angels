@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import { Col } from 'antd';
 import CustomShowMoreText from '../../atoms/CustomShowMoreText/CustomShowMoreText';
 import { experiencePropType } from '../../../helpers/proptypes';
+import ImageExperience from '../ImageExperience/ImageExperience.jsx'; 
 import './_style.scss';
 
 const CardExperience = ({ experience }) => { 
@@ -15,16 +16,8 @@ const CardExperience = ({ experience }) => {
         <Col className="ExpPhotosWrapper" gutter={8}>
           {experience.photos &&
             !isEmpty(experience.photos) &&
-            experience.photos.map(
-              photo =>
-                photo.path && (
-                  <Col xs={8} lg={9} key={photo.id}>
-                    <div className="ImgSubWrapper">
-                      <img src={photo.path} alt="experience" />
-                    </div>
-                  </Col>
-                )
-            )}
+            <ImageExperience images={experience.photos} imageTitle={experience.comment} />
+            }
         </Col>
       </Col>
     </Col>
