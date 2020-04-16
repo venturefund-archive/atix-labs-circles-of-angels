@@ -3,7 +3,7 @@
 .GeneralItem{
     margin-right:1.5em;
     img{
-      margin-right: 1em;
+      margin-right: 0.8em;
       opacity: 0.7;
       width: 20px;
     }
@@ -20,6 +20,10 @@
             @include primary-text($body,$white, 500);
             line-height: 19px;
             opacity:1;
+            max-width:250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         } 
                 a.Label{
                     @include primary-text($body,$white, 400);
@@ -28,27 +32,45 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                &:hover{
-                    opacity: 1;
+                    &:hover{
+                        opacity: 1;
                     }
-                    @include breakpoint(sm) {
-                    width: 90vw;
+                     @include breakpoint(sm) {
+                     width: 90vw;
                     }
                     .Separate{
-                        margin-left: 2em;
+                        margin-left: 0em;
                         @include breakpoint(sm) {
                         margin-left: 0;
                         }
-                    }
-
-                }
-                a.Label .link
-                {
-                        @include breakpoint(sm) {
-                            color: $primary-color;
-                            opacity:1
+                        img:hover{
+                            opacity:1;
                         }
                     }
+                }
+                a.Label .link {   
+                    margin-left: 0em;
+                    padding: 0.5em 1em;
+                    border: 1px solid white;
+                    border-radius: 50px;
+                    .download{
+                        display:none
+                    }
+                    @include breakpoint(sm) {
+                    color: $primary-color;
+                    opacity:1;
+                    padding: 1em 0;
+                    .download{
+                        display:block
+                    }
+                    }
+                    img{
+                        width: 10px;
+                     &:hover{
+                        opacity: 1;
+                    }
+                    }
+                }
     }
 }
 .GeneralItem:last-child {

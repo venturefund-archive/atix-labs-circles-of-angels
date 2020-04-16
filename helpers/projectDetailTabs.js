@@ -22,10 +22,16 @@ const showExperienceTab = projectStatus =>
 const showMilestoneClaimStatus = projectStatus =>
   SHOW_CLAIM_STATUS.includes(projectStatus);
 
-const allowNewExperience = (project, user) =>
-  [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
-    project.status
-  ) && isOwner(project, user);
+const allowNewExperience = (project, user) => {
+  if (
+    [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
+      project.status
+    )
+  ) {
+    return isOwner(project, user);
+  }
+  return project.status === projectStatuses.EXECUTING;
+};
 
 const allowNewEvidence = (task, project, user) =>
   project.status === projectStatuses.EXECUTING && isOracle(task, user);

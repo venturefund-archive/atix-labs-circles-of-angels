@@ -6,19 +6,39 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { linkPropTypes } from '../../../helpers/proptypes';
 
-const ItemBlockchain = ({image, label, info, link}) => (
+const ItemBlockchain = ({ image, label, info, link }) => (
   <div className="Items">
-  <img src={image} />
-  <div className="Data">
-    <label>{label}</label>
-    <p>{info}</p>
-    <a>{link}</a>
+    {image && <img src={image} alt={label} />}
+    <div className="Data">
+      {label && <label>{label}</label>}
+      {info && <p>{info}</p>}
+      {link && (
+        <a href={link.url} target="_blank" rel="noopener noreferrer">
+          {link.text}
+        </a>
+      )}
+    </div>
   </div>
-</div>
 );
+
+ItemBlockchain.defaultProps = {
+  image: undefined,
+  label: undefined,
+  info: undefined,
+  link: undefined
+};
+
+ItemBlockchain.propTypes = {
+  image: PropTypes.string,
+  label: PropTypes.string,
+  info: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  link: PropTypes.shape(linkPropTypes)
+};
 
 export default ItemBlockchain;

@@ -8,8 +8,8 @@
   .ant-modal-content {
     padding: 1em 1em 2em;
   }
-  .ant-modal-body {
-    height: 85vh;
+  .ant-modal-body  {
+    height: auto;
     overflow-y: scroll;
   }
   .EvidenceItem {
@@ -47,8 +47,8 @@
       margin-top: 1em;
       .ImageContainer {
         border-radius: 6px;
-        height: 50px;
-        width: 50px;
+        height: 120px;
+        width: 120px;
         background: $light-gray;
         overflow: hidden;
         margin-right: 0.5em;
