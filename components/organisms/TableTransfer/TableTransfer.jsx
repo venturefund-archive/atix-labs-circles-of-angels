@@ -73,13 +73,7 @@ const TableTransfer = ({ transfers }) => {
           transfer.status
         ) && (
           // TODO: get blockchain info from api
-          <DrawerBlockchain
-            data={buildTransferBlockchainData({
-              status: transferStatusTag(transfer.status),
-              receipt: transfer.receiptPath
-            })}
-            title={blockchainDrawerTitle}
-          />
+          <DrawerBlockchain title={blockchainDrawerTitle} />
         )
     }
   ];

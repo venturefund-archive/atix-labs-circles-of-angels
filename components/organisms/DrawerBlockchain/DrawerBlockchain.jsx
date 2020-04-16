@@ -1,16 +1,32 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Drawer } from 'antd';
+import { Drawer, Spin } from 'antd';
 import ItemBlockchain from '../../atoms/ItemBlockchain/ItemBlockchain';
 import './_style.scss';
 import ToggleDrawer from './ToggleDrawer';
-import { blockchainInfoPropTypes } from '../../../helpers/proptypes';
+import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 
-const DrawerBlockchain = ({ title, data }) => {
+const DrawerBlockchain = ({ title, onLoad, noDataMessage }) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [blockchainData, setBlockchainData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const showDrawer = () => setIsDrawerVisible(true);
+  const showDrawer = async () => {
+    setLoading(true);
+    setIsDrawerVisible(true);
+    try {
+      await loadData();
+    } catch (e) {
+      setBlockchainData([]);
+    }
+    setLoading(false);
+  };
   const closeDrawer = () => setIsDrawerVisible(false);
+
+  const loadData = async () => {
+    const info = await onLoad();
+    setBlockchainData(buildProjectBlockchainData(info));
+  };
 
   return (
     <div>
@@ -23,25 +39,32 @@ const DrawerBlockchain = ({ title, data }) => {
         className="DrawerBlockchain"
         width="350"
       >
-        <div>
-          <img
-            className="TitleImage"
-            src="/static/images/blockchain.svg"
-            alt="blockchain"
-          />
-          <h1>{title}</h1>
-          <div className="BlockContainer">
-            {data &&
-              data.map(({ image, label, link, info }) => (
-                <ItemBlockchain
-                  image={image}
-                  label={label}
-                  link={link}
-                  info={info}
-                />
-              ))}
+        {blockchainData && blockchainData.length > 0 ? (
+          <div>
+            <img
+              className="TitleImage"
+              src="/static/images/blockchain.svg"
+              alt="blockchain"
+            />
+            <h1>{title}</h1>
+            <Spin spinning={loading}>
+              <div className="BlockContainer">
+                {blockchainData.map(({ image, label, link, info }) => (
+                  <ItemBlockchain
+                    image={image}
+                    label={label}
+                    link={link}
+                    info={info}
+                  />
+                ))}
+              </div>
+            </Spin>
           </div>
-        </div>
+        ) : (
+          <div className="NoData">
+            <h1>{noDataMessage}</h1>
+          </div>
+        )}
         <img src="/static/images/rsk.svg" alt="certified" />
       </Drawer>
     </div>
@@ -50,12 +73,13 @@ const DrawerBlockchain = ({ title, data }) => {
 
 DrawerBlockchain.defaultProps = {
   title: undefined,
-  data: []
+  noDataMessage: 'The blockchain information could not be fetched'
 };
 
 DrawerBlockchain.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  data: PropTypes.arrayOf(PropTypes.shape(blockchainInfoPropTypes))
+  onLoad: PropTypes.func.isRequired,
+  noDataMessage: PropTypes.string
 };
 
 export default DrawerBlockchain;

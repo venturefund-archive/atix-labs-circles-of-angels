@@ -44,7 +44,8 @@ const ProjectDetailHeader = ({
   onUnfollowProject,
   onEditProject,
   allowEdit,
-  isFollower
+  isFollower,
+  fetchBlockchainData
 }) => {
   const itemsData = [
     {
@@ -105,8 +106,9 @@ const ProjectDetailHeader = ({
               {SHOW_BLOCKCHAIN_INFO_STATUS.includes(status) && (
                 // TODO: get blockchain info from API
                 <DrawerBlockchain
-                  data={buildProjectBlockchainData({})}
                   title={blockchainDrawerTitle}
+                  onLoad={fetchBlockchainData}
+                  noDataMessage="Could not fetch the blockchain information for this project"
                 />
               )}
             </Col>
@@ -178,7 +180,8 @@ ProjectDetailHeader.propTypes = {
   allowEdit: PropTypes.bool,
   isFollower: PropTypes.bool,
   agreementFilePath: PropTypes.string,
-  proposalFilePath: PropTypes.string
+  proposalFilePath: PropTypes.string,
+  fetchBlockchainData: PropTypes.func.isRequired
 };
 
 export default ProjectDetailHeader;

@@ -1,31 +1,38 @@
+import moment from 'moment';
+
 // TODO: delete mock data
 
 export const buildProjectBlockchainData = ({
   address,
+  addressUrl,
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   agreement
 }) => [
   {
     image: '/static/images/icon-number.svg',
     label: 'Project Address',
-    link: { url: '#', text: address || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: addressUrl, text: address || 'Not Found' }
   },
   {
     image: '/static/images/icon-date.svg',
     label: 'Creation Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
     image: '/static/images/icon-agreement.svg',
@@ -34,7 +41,10 @@ export const buildProjectBlockchainData = ({
       'The agreement on milestones, tasks and funds were saved ' +
       'and cannot be altered by any means. ' +
       'This file can be audited from the following link',
-    link: { url: agreement || '#', text: 'Go to Agreement' }
+    link: {
+      url: agreement,
+      text: agreement ? 'View Agreement' : 'Not Found'
+    }
   }
 ];
 

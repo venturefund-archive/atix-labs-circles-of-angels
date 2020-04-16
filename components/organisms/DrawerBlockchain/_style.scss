@@ -30,6 +30,9 @@
     background: $primary-color-light;
     padding: 1.2em;
   }
+  .NoData {
+    margin: auto;
+  }
 }
 .ButtonMobile {
   position: absolute;
@@ -49,12 +52,11 @@
     display: block;
   }
 }
-.ButtonDesktop{
+.ButtonDesktop {
   @include breakpoint(sm) {
     display: none;
-  } 
+  }
 }
-
 .ant-drawer-right.ant-drawer-open.DrawerBlockchain .ant-drawer-content-wrapper {
   border-radius: 20px 0 0 20px;
 }
