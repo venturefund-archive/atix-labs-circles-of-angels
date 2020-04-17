@@ -50,9 +50,12 @@ export const buildProjectBlockchainData = ({
 
 export const buildTransferBlockchainData = ({
   validatorAddress,
+  validatorAddressUrl,
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   receipt,
   status
 }) => [
@@ -60,33 +63,33 @@ export const buildTransferBlockchainData = ({
     image: '/static/images/icon-number.svg',
     label: "Validator's Address",
     link: {
-      url: '#',
-      text: validatorAddress || '0x8e19747326a8f0b46056a09330a...'
+      url: validatorAddressUrl,
+      text: validatorAddress || 'Not Found'
     }
   },
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate || 'Not Found'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
     image: '/static/images/icon-link.svg',
     label: 'Transfer Receipt',
-    link: { url: receipt || '#', text: 'View Receipt' }
+    link: { url: receipt, text: receipt ? 'View Receipt' : 'Not Found' }
   },
   {
     label: 'Status',
-    info: status || 'Verified'
+    info: status || 'Not Found'
   }
 ];
 

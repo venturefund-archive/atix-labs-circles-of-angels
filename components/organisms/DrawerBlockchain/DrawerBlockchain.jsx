@@ -4,9 +4,15 @@ import { Drawer, Spin } from 'antd';
 import ItemBlockchain from '../../atoms/ItemBlockchain/ItemBlockchain';
 import './_style.scss';
 import ToggleDrawer from './ToggleDrawer';
-import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
+import { blockchainInfoPropTypes } from '../../../helpers/proptypes';
 
-const DrawerBlockchain = ({ title, onLoad, noDataMessage }) => {
+const DrawerBlockchain = ({
+  title,
+  onLoad,
+  noDataMessage,
+  dataBuilder,
+  extraData
+}) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [blockchainData, setBlockchainData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,7 +31,7 @@ const DrawerBlockchain = ({ title, onLoad, noDataMessage }) => {
 
   const loadData = async () => {
     const info = await onLoad();
-    setBlockchainData(buildProjectBlockchainData(info));
+    setBlockchainData(dataBuilder({ ...info, ...extraData }));
   };
 
   return (
@@ -73,13 +79,16 @@ const DrawerBlockchain = ({ title, onLoad, noDataMessage }) => {
 
 DrawerBlockchain.defaultProps = {
   title: undefined,
-  noDataMessage: 'The blockchain information could not be fetched'
+  noDataMessage: 'The blockchain information could not be fetched',
+  extraData: {}
 };
 
 DrawerBlockchain.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   onLoad: PropTypes.func.isRequired,
-  noDataMessage: PropTypes.string
+  noDataMessage: PropTypes.string,
+  dataBuilder: PropTypes.func.isRequired,
+  extraData: PropTypes.shape(blockchainInfoPropTypes)
 };
 
 export default DrawerBlockchain;

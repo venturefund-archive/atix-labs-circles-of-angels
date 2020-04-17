@@ -104,11 +104,11 @@ const ProjectDetailHeader = ({
             <Col className="flex">
               <h1>{projectName}</h1>
               {SHOW_BLOCKCHAIN_INFO_STATUS.includes(status) && (
-                // TODO: get blockchain info from API
                 <DrawerBlockchain
                   title={blockchainDrawerTitle}
                   onLoad={fetchBlockchainData}
                   noDataMessage="Could not fetch the blockchain information for this project"
+                  dataBuilder={buildProjectBlockchainData}
                 />
               )}
             </Col>

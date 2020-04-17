@@ -31,8 +31,7 @@ const blockchainDrawerTitle = (
   </p>
 );
 
-const TableTransfer = ({ transfers }) => {
-  // TODO check which fields will be showed
+const TableTransfer = ({ transfers, fetchBlockchainData }) => {
   const columns = [
     {
       title: 'Transfer Id',
@@ -72,8 +71,13 @@ const TableTransfer = ({ transfers }) => {
         [TransferStatuses.VERIFIED, TransferStatuses.CANCELLED].includes(
           transfer.status
         ) && (
-          // TODO: get blockchain info from api
-          <DrawerBlockchain title={blockchainDrawerTitle} />
+          <DrawerBlockchain
+            title={blockchainDrawerTitle}
+            onLoad={() => fetchBlockchainData(transfer.id)}
+            noDataMessage="Could not fetch the blockchain information for this fund transfer"
+            dataBuilder={buildTransferBlockchainData}
+            extraData={{ status: transferStatusTag(transfer.status) }}
+          />
         )
     }
   ];
@@ -104,5 +108,6 @@ TableTransfer.defaultProps = {
 };
 
 TableTransfer.propTypes = {
-  transfers: PropTypes.arrayOf(transferPropType)
+  transfers: PropTypes.arrayOf(transferPropType),
+  fetchBlockchainData: PropTypes.func.isRequired
 };
