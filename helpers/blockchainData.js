@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-// TODO: delete mock data
-
 export const buildProjectBlockchainData = ({
   address,
   addressUrl,
@@ -93,48 +91,54 @@ export const buildTransferBlockchainData = ({
   }
 ];
 
-export const buildOracleBlockchainData = ({ oracleName, oracleAddress }) => [
+export const buildOracleBlockchainData = ({
+  oracleName,
+  oracleAddress,
+  oracleAddressUrl
+}) => [
   {
     image: '/static/images/icon-user.svg',
     label: "Oracle's Name",
-    info: oracleName || 'John Doe'
+    info: oracleName || 'Not Found'
   },
   {
     image: '/static/images/icon-number.svg',
     label: "Oracle's Address",
-    link: { url: '#', text: oracleAddress || '0x8e19747326a8a...' }
+    link: { url: oracleAddressUrl, text: oracleAddress || 'Not Found' }
   }
 ];
 
 export const buildEvidenceBlockchainData = ({
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   proof,
   status
 }) => [
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate || 'Not Found'
   },
   {
     image: '/static/images/icon-block.svg',
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
     image: '/static/images/icon-transaction.svg',
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
     image: '/static/images/icon-link.svg',
     label: 'Proof',
-    link: { url: proof || '#', text: 'View Proof' }
+    link: { url: proof, text: proof ? 'View Proof' : 'Not Found' }
   },
   {
     label: 'Status',
-    info: status || 'Approved'
+    info: status || 'Not Found'
   }
 ];

@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Tag } from 'antd';
 import './_style.scss';
-import {
-  buildOracleBlockchainData,
-  buildEvidenceBlockchainData
-} from '../../../helpers/blockchainData';
 import EvidenceBlockchainInfo from './EvidenceBlockchainInfo';
 import ImageBox from '../../molecules/ImageBox/ImageBox';
+import { getEvidenceBlockchainData } from '../../../api/activityApi';
 
 const getApprovedTag = approved =>
   approved ? (
@@ -17,14 +14,22 @@ const getApprovedTag = approved =>
     <Tag color="#DF5BD2">Not Approved</Tag>
   );
 
-const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
+const fetchBlockchainData = async evidenceId => {
+  const response = await getEvidenceBlockchainData(evidenceId);
+  if (response.errors) {
+    throw new Error(response.errors);
+  }
+  return response.data;
+};
+
+const EvidenceItem = ({ id, approved, createdAt, description, proof }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="EvidenceItem">
       <div className="Description">
         <div className="space-between Data">
           <div className="flex Title">
-            <h1>Name of the evidence</h1>
+            <span>{moment(createdAt).format('MMMM, Do YYYY - HH:mm')}</span>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={isOpen ? 'IconOpen' : 'IconClosed'}
@@ -42,7 +47,6 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
               />
             </button>
           </div>
-          <span>{moment(createdAt).format('MMMM, Do YYYY - HH:mm')}</span>
         </div>
         <p>{description}</p>
       </div>
@@ -52,12 +56,12 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
         </div>
       </div>
       <div className={isOpen ? 'panel-collapse' : 'panel-collapse panel-close'}>
-        {/* TODO: get blockchain info from API */}
         <EvidenceBlockchainInfo
-          oracleInfo={buildOracleBlockchainData({})}
-          evidenceInfo={buildEvidenceBlockchainData({
+          onLoad={() => fetchBlockchainData(id)}
+          extraData={{
             status: getApprovedTag(approved)
-          })}
+          }}
+          noDataMessage="Could not fetch the blockchain information for this evidence"
         />
       </div>
     </div>
@@ -65,8 +69,7 @@ const EvidenceItem = ({ approved, createdAt, description, proof, txLink }) => {
 };
 
 EvidenceItem.defaultProps = {
-  approved: false,
-  txLink: undefined
+  approved: false
 };
 
 EvidenceItem.propTypes = {
@@ -74,7 +77,7 @@ EvidenceItem.propTypes = {
   createdAt: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   proof: PropTypes.string.isRequired,
-  txLink: PropTypes.string
+  id: PropTypes.number.isRequired
 };
 
 export default EvidenceItem;
