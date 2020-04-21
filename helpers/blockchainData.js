@@ -1,5 +1,13 @@
 import moment from 'moment';
 
+const ADDRESS_ICON = '/static/images/icon-number.svg';
+const DATE_ICON = '/static/images/icon-date.svg';
+const BLOCK_ICON = '/static/images/icon-block.svg';
+const TX_ICON = '/static/images/icon-transaction.svg';
+const AGREEMENT_ICON = '/static/images/icon-agreement.svg';
+const LINK_ICON = '/static/images/icon-link.svg';
+const USER_ICON = '/static/images/icon-user.svg';
+
 export const buildProjectBlockchainData = ({
   address,
   addressUrl,
@@ -11,29 +19,29 @@ export const buildProjectBlockchainData = ({
   agreement
 }) => [
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: 'Project Address',
     link: { url: addressUrl, text: address || 'Not Found' }
   },
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Creation Date',
     info: creationDate
       ? moment(creationDate).format('MMMM, Do YYYY')
       : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
     link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
     link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-agreement.svg',
+    image: AGREEMENT_ICON,
     label: 'Agreement',
     info:
       'The agreement on milestones, tasks and funds were saved ' +
@@ -58,32 +66,32 @@ export const buildTransferBlockchainData = ({
   status
 }) => [
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: "Validator's Address",
     link: {
       url: validatorAddressUrl,
-      text: validatorAddress || 'Not Found'
+      text: validatorAddress
     }
   },
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Date',
     info: creationDate
       ? moment(creationDate).format('MMMM, Do YYYY')
       : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
     link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
     link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-link.svg',
+    image: LINK_ICON,
     label: 'Transfer Receipt',
     link: { url: receipt, text: receipt ? 'View Receipt' : 'Not Found' }
   },
@@ -99,12 +107,12 @@ export const buildOracleBlockchainData = ({
   oracleAddressUrl
 }) => [
   {
-    image: '/static/images/icon-user.svg',
+    image: USER_ICON,
     label: "Oracle's Name",
     info: oracleName || 'Not Found'
   },
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: "Oracle's Address",
     link: { url: oracleAddressUrl, text: oracleAddress || 'Not Found' }
   }
@@ -120,24 +128,24 @@ export const buildEvidenceBlockchainData = ({
   status
 }) => [
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Date',
     info: creationDate
       ? moment(creationDate).format('MMMM, Do YYYY')
       : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
     link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
     link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-link.svg',
+    image: LINK_ICON,
     label: 'Proof',
     link: { url: proof, text: proof ? 'View Proof' : 'Not Found' }
   },
