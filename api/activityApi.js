@@ -42,6 +42,9 @@ export const uploadEvidenceSendTransaction = (taskId, data, status) => {
 
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 
+export const getEvidenceBlockchainData = evidenceId =>
+  doGet(`/evidences/${evidenceId}/blockchain-data`);
+
 const updateActivity = async ({
   budget,
   category,

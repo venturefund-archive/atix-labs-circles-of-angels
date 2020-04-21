@@ -1,127 +1,156 @@
-// TODO: delete mock data
+import moment from 'moment';
+
+const ADDRESS_ICON = '/static/images/icon-number.svg';
+const DATE_ICON = '/static/images/icon-date.svg';
+const BLOCK_ICON = '/static/images/icon-block.svg';
+const TX_ICON = '/static/images/icon-transaction.svg';
+const AGREEMENT_ICON = '/static/images/icon-agreement.svg';
+const LINK_ICON = '/static/images/icon-link.svg';
+const USER_ICON = '/static/images/icon-user.svg';
 
 export const buildProjectBlockchainData = ({
   address,
+  addressUrl,
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   agreement
 }) => [
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: 'Project Address',
-    link: { url: '#', text: address || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: addressUrl, text: address || 'Not Found' }
   },
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Creation Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-agreement.svg',
+    image: AGREEMENT_ICON,
     label: 'Agreement',
     info:
       'The agreement on milestones, tasks and funds were saved ' +
       'and cannot be altered by any means. ' +
       'This file can be audited from the following link',
-    link: { url: agreement || '#', text: 'Go to Agreement' }
+    link: {
+      url: agreement,
+      text: agreement ? 'View Agreement' : 'Not Found'
+    }
   }
 ];
 
 export const buildTransferBlockchainData = ({
   validatorAddress,
+  validatorAddressUrl,
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   receipt,
   status
 }) => [
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: "Validator's Address",
     link: {
-      url: '#',
-      text: validatorAddress || '0x8e19747326a8f0b46056a09330a...'
+      url: validatorAddressUrl,
+      text: validatorAddress
     }
   },
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-link.svg',
+    image: LINK_ICON,
     label: 'Transfer Receipt',
-    link: { url: receipt || '#', text: 'View Receipt' }
+    link: { url: receipt, text: receipt ? 'View Receipt' : 'Not Found' }
   },
   {
     label: 'Status',
-    info: status || 'Verified'
+    info: status || 'Not Found'
   }
 ];
 
-export const buildOracleBlockchainData = ({ oracleName, oracleAddress }) => [
+export const buildOracleBlockchainData = ({
+  oracleName,
+  oracleAddress,
+  oracleAddressUrl
+}) => [
   {
-    image: '/static/images/icon-user.svg',
+    image: USER_ICON,
     label: "Oracle's Name",
-    info: oracleName || 'John Doe'
+    info: oracleName || 'Not Found'
   },
   {
-    image: '/static/images/icon-number.svg',
+    image: ADDRESS_ICON,
     label: "Oracle's Address",
-    link: { url: '#', text: oracleAddress || '0x8e19747326a8a...' }
+    link: { url: oracleAddressUrl, text: oracleAddress || 'Not Found' }
   }
 ];
 
 export const buildEvidenceBlockchainData = ({
   creationDate,
   blockNumber,
+  blockNumberUrl,
   txHash,
+  txHashUrl,
   proof,
   status
 }) => [
   {
-    image: '/static/images/icon-date.svg',
+    image: DATE_ICON,
     label: 'Date',
-    info: creationDate || '14/03/2020'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
-    image: '/static/images/icon-block.svg',
+    image: BLOCK_ICON,
     label: 'Block Number',
-    link: { url: '#', text: blockNumber || '69,818' }
+    link: { url: blockNumberUrl, text: blockNumber || 'Not Found' }
   },
   {
-    image: '/static/images/icon-transaction.svg',
+    image: TX_ICON,
     label: 'Transaction Hash',
-    link: { url: '#', text: txHash || '0x8e19747326a8f0b46056a09330a...' }
+    link: { url: txHashUrl, text: txHash || 'Not Found' }
   },
   {
-    image: '/static/images/icon-link.svg',
+    image: LINK_ICON,
     label: 'Proof',
-    link: { url: proof || '#', text: 'View Proof' }
+    link: { url: proof, text: proof ? 'View Proof' : 'Not Found' }
   },
   {
     label: 'Status',
-    info: status || 'Approved'
+    info: status || 'Not Found'
   }
 ];

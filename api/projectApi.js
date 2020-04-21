@@ -78,6 +78,9 @@ export const useGetProjects = () => {
   return [data, isLoading, isError];
 };
 
+export const getProjectBlockchainData = projectId =>
+  doGet(`${baseURL}/${projectId}/blockchain-data`);
+
 const getActiveProjects = async () => {
   try {
     const response = await api.get(`${baseURL}/active`);
