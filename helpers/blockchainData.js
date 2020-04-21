@@ -68,7 +68,9 @@ export const buildTransferBlockchainData = ({
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: creationDate || 'Not Found'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
     image: '/static/images/icon-block.svg',
@@ -120,7 +122,9 @@ export const buildEvidenceBlockchainData = ({
   {
     image: '/static/images/icon-date.svg',
     label: 'Date',
-    info: creationDate || 'Not Found'
+    info: creationDate
+      ? moment(creationDate).format('MMMM, Do YYYY')
+      : 'Not Found'
   },
   {
     image: '/static/images/icon-block.svg',
