@@ -30,7 +30,8 @@ import {
   getProjectUsers,
   getProjectMilestones,
   getProjectExperiences,
-  addProjectExperience
+  addProjectExperience,
+  getProjectBlockchainData
 } from '../api/projectApi';
 import {
   projectStatuses,
@@ -124,6 +125,14 @@ const ProjectDetail = ({ user }) => {
       return [];
     }
     return response.data || [];
+  };
+
+  const fetchProjectBlockchainData = async () => {
+    const response = await getProjectBlockchainData(projectId);
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
   };
 
   const getTotalFundedAmount = async () => {
@@ -313,6 +322,7 @@ const ProjectDetail = ({ user }) => {
           onEditProject={onEditProject}
           allowEdit={allowEditProject()}
           isFollower={isFollowing}
+          fetchBlockchainData={fetchProjectBlockchainData}
         />
         <div className="BlockContent">
           <Tabs defaultActiveKey="1">

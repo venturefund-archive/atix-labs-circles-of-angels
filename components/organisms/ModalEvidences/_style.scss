@@ -136,6 +136,24 @@
           }
         }
       }
+      .NoData {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1em;
+        @include breakpoint(sm) {
+          flex-wrap: wrap;
+          flex-direction: column-reverse;
+          align-items: flex-start;
+        }
+
+        h1 {
+          @include primary-text($body, $on-surface, 300);
+          b {
+            @include primary-text($body, $on-surface, 500);
+          }
+        }
+      }
       .Rows{
         @include breakpoint(sm) {
           display:flex;
