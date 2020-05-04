@@ -11,6 +11,7 @@ import { showModalConfirm } from '../../utils/Modals';
 import CreateActivityContainer from '../CreateActivityContainer/CreateActivityContainer';
 import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
 import Info from './Info';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const Milestone = ({
   milestone,
@@ -102,14 +103,14 @@ const Milestone = ({
               />
             </div>
           </div> */}
-          <div className="flex Box">
+          <div className="flex Box Width1">
             <img src="/static/images/budget.svg" alt="budget" width="30px" />
             <div className="vertical">
               <RowLabel text="Budget" />
               <Info value={`${calculateMilestoneBudget()} USD`} />
             </div>
           </div>
-          <div className="flex Box">
+          <div className="flex Box Width1">
             <img src="/static/images/category.svg" alt="budget" width="35px" />
             <div className="vertical">
               <RowLabel text="Expenditure Category" />
@@ -119,6 +120,13 @@ const Milestone = ({
                 updateValue={v => setEditFields({ ...editFields, category: v })}
               />
             </div>
+          </div>
+          <div className="StateButton flex Box">
+            <CustomButton
+              theme="Primary"
+              buttonText="Change to Next State"
+              classNameIcon="iconDisplay"
+            />
           </div>
         </div>
         <MilestoneCol span={24}>

@@ -12,6 +12,7 @@
   }
   .Contentbox{
     padding: 0.5em 0;
+    justify-content: space-between;
     .Box {
       padding-right: 1em;
     }
@@ -159,5 +160,29 @@
     height: 2em;
     margin: 0 0.5em;
     background: $border;
+  }
+}
+
+// State Button Milestone
+
+.StateButton{
+  justify-content: flex-end;
+}
+
+.Width1{
+  width: 40%;
+}
+
+@media only screen and (max-width: 500px) {
+  .Contentbox {
+    flex-direction: column;
+  }
+  .StateButton{
+    justify-content: center;
+  }
+  
+  .Width1{
+    width: 100%;
+    margin:1em 0;
   }
 }
