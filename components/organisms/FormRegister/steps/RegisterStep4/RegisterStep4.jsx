@@ -40,6 +40,7 @@ export default function RegisterStep4(props) {
               time
             </p>
             <SecurityKey />
+            <p className="copy">Copy security Key</p>
           </Col>
         </Row>
       </div>
