@@ -11,12 +11,17 @@ import SecurityKey from '../../atoms/SecurityKey/SecurityKey';
 import './_style.scss';
 
 const SecurityKeySection = ({}) => (
-  <div>
-      <SecurityKey />
-      <SecurityKey />
-      <SecurityKey />
-      <SecurityKey />
-    </div>
+  <div className="SecurityKeySection">
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+    <SecurityKey />
+  </div>
 );
 
 export default SecurityKeySection;

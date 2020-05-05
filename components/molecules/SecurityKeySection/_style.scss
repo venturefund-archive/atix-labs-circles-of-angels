@@ -2,6 +2,11 @@
 
 .SecurityKeySection{
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  margin-top:0.5em;
+  margin:1em 1em;
+  justify-content: center;
+  @include breakpoint(sm) {
+    margin: 1em 0;
+    }
 }

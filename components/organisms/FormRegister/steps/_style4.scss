@@ -5,6 +5,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    .InfoStep {
+      img {
+        margin-bottom: 1em;
+        width: 150px;
+      }
+    }
   .BlockCongrats {
     text-align: center;
     h1 {
@@ -33,6 +39,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: left;
       h2 {
         color: $secondary-color;
         margin-left: 1em;

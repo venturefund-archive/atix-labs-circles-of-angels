@@ -9,10 +9,6 @@
 import React from 'react';
 import './_style.scss';
 
-const SecurityKey = ({}) => (
-  <div className="SecurityKeySection">
-    <p className="SecurityWord">Coffe</p>
-  </div>
-);
+const SecurityKey = ({}) => <p className="SecurityWord">Coffe</p>;
 
 export default SecurityKey;
