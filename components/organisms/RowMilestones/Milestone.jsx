@@ -87,7 +87,7 @@ const Milestone = ({
             allowClaimMilestone={allowClaimMilestone}
           />
         </div>
-        <div className="flex Contentbox">
+        <div className="space-between flexDirectionColumn">
           {/* <div className="flex Box">
             <img
               src="/static/images/calendarMilestone.svg"
@@ -103,25 +103,35 @@ const Milestone = ({
               />
             </div>
           </div> */}
-          <div className="flex Box Width1">
-            <img src="/static/images/budget.svg" alt="budget" width="30px" />
-            <div className="vertical">
-              <RowLabel text="Budget" />
-              <Info value={`${calculateMilestoneBudget()} USD`} />
+
+          <div className="flex ContentBox">
+            <div className="flex Box">
+              <img src="/static/images/budget.svg" alt="budget" width="30px" />
+              <div className="vertical">
+                <RowLabel text="Budget" />
+                <Info value={`${calculateMilestoneBudget()} USD`} />
+              </div>
             </div>
-          </div>
-          <div className="flex Box Width1">
-            <img src="/static/images/category.svg" alt="budget" width="35px" />
-            <div className="vertical">
-              <RowLabel text="Expenditure Category" />
-              <EditableInfo
-                value={milestone.category}
-                isEditing={editing}
-                updateValue={v => setEditFields({ ...editFields, category: v })}
+            <div className="flex Box">
+              <img
+                src="/static/images/category.svg"
+                alt="budget"
+                width="35px"
               />
+              <div className="vertical">
+                <RowLabel text="Expenditure Category" />
+                <EditableInfo
+                  value={milestone.category}
+                  isEditing={editing}
+                  updateValue={v =>
+                    setEditFields({ ...editFields, category: v })
+                  }
+                />
+              </div>
             </div>
           </div>
-          <div className="StateButton flex Box">
+
+          <div className="flex Box marginTop">
             <CustomButton
               theme="Primary"
               buttonText="Change to Next State"

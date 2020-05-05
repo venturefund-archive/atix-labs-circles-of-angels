@@ -163,26 +163,13 @@
   }
 }
 
-// State Button Milestone
+// ana
 
-.StateButton{
-  justify-content: flex-end;
-}
-
-.Width1{
-  width: 40%;
-}
-
-@media only screen and (max-width: 500px) {
-  .Contentbox {
-    flex-direction: column;
-  }
-  .StateButton{
-    justify-content: center;
-  }
-  
-  .Width1{
-    width: 100%;
-    margin:1em 0;
-  }
+.flexDirectionColumn {
+  @include breakpoint(sm) {
+    flex-direction:column!important;
+   }
+   .marginTop {
+     margin:1em!important;
+   }
 }
