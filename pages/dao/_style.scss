@@ -1,0 +1,57 @@
+@import '../../css/general_styling';
+
+.DaoContainer {
+  padding: 2em 3em;
+  display: flex;
+  flex-direction: column;
+  .LabelSteps {
+    color: #1479e261;
+  }
+
+  .TransferBankInfo {
+    margin-bottom: 1em;
+    h3 {
+      @include primary-text($body, $primary-color, 400);
+      margin-top: 1em;
+    }
+    h4 {
+      @include primary-text($body, $secondary-color, 300);
+      margin: 0;
+    }
+  }
+
+  .ant-skeleton-title {
+    display: none;
+  }
+  .ant-skeleton-paragraph {
+    padding-left: 0;
+  }
+  .BoxContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+  .DaoContainer {
+    .BoxContainer{
+      justify-content:center;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .DaoContainer {
+    .titleSection{
+      justify-content:flex-start;
+      flex-direction:column;
+      .column {
+        width: 100%;
+      }
+    }
+  }
+}
