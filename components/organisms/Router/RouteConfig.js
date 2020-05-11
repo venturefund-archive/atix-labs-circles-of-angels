@@ -7,6 +7,7 @@ import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
+import Dao from '../../../pages/dao/dao';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
@@ -119,5 +120,12 @@ export const routesConfig = [
       required: true,
       roles: [BANK_OPERATOR]
     }
+  },
+  {
+    path: '/dao',
+    component: Dao,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
   }
 ];

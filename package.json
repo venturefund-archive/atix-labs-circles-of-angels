@@ -13,6 +13,7 @@
     "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
+    "@ant-design/icons": "4.1.0",
     "@rsksmart/rif-storage": "0.1.0",
     "@zeit/next-sass": "1.0.1",
     "antd": "3.13.6",
@@ -27,7 +28,7 @@
     "moment": "2.24.0",
     "next": "8.1.0",
     "node-css": "0.1.0",
-    "node-sass": "4.13.1",
+    "node-sass": "^4.13.1",
     "prop-types": "15.7.2",
     "query-string": "6.9.0",
     "react": "16.11.0",
