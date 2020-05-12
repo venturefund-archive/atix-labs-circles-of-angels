@@ -8,6 +8,7 @@ import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
 import Dao from '../../../pages/dao/dao';
+import DaoDetail from '../../../pages/dao/dao-detail';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
@@ -124,6 +125,13 @@ export const routesConfig = [
   {
     path: '/dao',
     component: Dao,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
+    path: '/dao/dao-detail',
+    component: DaoDetail,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false

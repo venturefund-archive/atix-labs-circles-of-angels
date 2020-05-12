@@ -7,8 +7,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
+import { message, Input, Icon, Select } from 'antd';
+import { LeftOutlined, SearchOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import '../_style.scss';
 import './_style.scss';
@@ -20,7 +20,13 @@ import SideBar from '../../components/organisms/SideBar/SideBar';
 import CardDao from '../../components/molecules/CardDao/CardDao';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
-function Dao() {
+const { Option } = Select;
+
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
+
+function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const history = useHistory();
@@ -50,14 +56,43 @@ function Dao() {
       <div className="MainContent">
         <Header />
         <div className="DaoContainer">
-          <div className="flex space-between titleSection">
+          <div className="flex space-between titleSection daoDetail borderBottom">
             <div className="column">
               <p className="LabelSteps">
-                <LeftOutlined /> Back
+                <LeftOutlined /> Back to DAOS
               </p>
-              <TitlePage textTitle="Listar Daos" />
+              <div className="flex flex-start detailDaoTitleContainer">
+                <TitlePage textTitle="Name of Dao 1" />
+                <a>Proposals (2)</a>
+                <a>Members (36)</a>
+              </div>
             </div>
-            <CustomButton theme="Primary" buttonText="+ Create new DAO" />
+            <CustomButton theme="Primary" buttonText="+ New Proposal" />
+          </div>
+          <div className="flex daoSearch">
+            <Input
+              placeholder="Search by name"
+              prefix={<SearchOutlined />}
+              style={{ width: 120 }}
+            />
+            <Select
+              defaultValue="status1"
+              style={{ width: 120 }}
+              onChange={handleChange}
+            >
+              <Option value="status1">Status 1</Option>
+              <Option value="status2">Status 2</Option>
+              <Option value="status3">Status 3</Option>
+            </Select>
+            <Select
+              defaultValue="Category1"
+              style={{ width: 120 }}
+              onChange={handleChange}
+            >
+              <Option value="Category1">Category 1</Option>
+              <Option value="Category2">Category 2</Option>
+              <Option value="Category3">Category 3</Option>
+            </Select>
           </div>
           <div className="BoxContainer">
             <CardDao />
@@ -70,7 +105,7 @@ function Dao() {
   );
 }
 
-export default Dao;
+export default DaoDetail;
 
 /*
 
