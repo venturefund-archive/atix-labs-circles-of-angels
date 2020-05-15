@@ -17,7 +17,7 @@ import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import Header from '../../components/molecules/Header/Header';
 import SideBar from '../../components/organisms/SideBar/SideBar';
 // import { getFeaturedProjects } from '../../api/projectApi';
-import CardDao from '../../components/molecules/CardDao/CardDao';
+import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
 const { Option } = Select;
@@ -73,11 +73,11 @@ function DaoDetail() {
             <Input
               placeholder="Search by name"
               prefix={<SearchOutlined />}
-              style={{ width: 120 }}
+              style={{ width: 200 }}
             />
             <Select
               defaultValue="status1"
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               onChange={handleChange}
             >
               <Option value="status1">Status 1</Option>
@@ -86,7 +86,7 @@ function DaoDetail() {
             </Select>
             <Select
               defaultValue="Category1"
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               onChange={handleChange}
             >
               <Option value="Category1">Category 1</Option>
@@ -94,10 +94,14 @@ function DaoDetail() {
               <Option value="Category3">Category 3</Option>
             </Select>
           </div>
+          <div className="flex alignItems linkSection">
+            <div className="dot"></div>
+            <p>Voting period (3)</p>
+          </div>
           <div className="BoxContainer">
-            <CardDao />
-            <CardDao />
-            <CardDao />
+            <CardDaoDetail />
+            <CardDaoDetail />
+            <CardDaoDetail />
           </div>
         </div>
       </div>

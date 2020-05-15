@@ -7,7 +7,7 @@ import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
-import Dao from '../../../pages/dao/dao';
+import Dao from '../../../pages/dao/dao-list';
 import DaoDetail from '../../../pages/dao/dao-detail';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
@@ -123,7 +123,7 @@ export const routesConfig = [
     }
   },
   {
-    path: '/dao',
+    path: '/dao/dao-list',
     component: Dao,
     authentication: { required: false },
     withHeader: false,
