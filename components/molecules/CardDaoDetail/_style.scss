@@ -1,17 +1,5 @@
 @import "../../../css/general_styling.scss";
 
-.ant-progress-inner{
-  width: 56px!important;
-  height: 56px!important;
-  .ant-progress-text {
-    display: none;
-  }
-}
-
-.ant-progress-circle-path {
-  stroke: $cyanbg!important;
-}
-
 // 
 .flex {
   display: flex;
@@ -50,9 +38,10 @@
     padding:2em;
     box-shadow: $shadow;
     min-height: 351px;
-    width: 400px;
+    width: 30%;
+    min-width: 400px;
     border-radius: 10px;
-    margin: 1em 0.5em;
+    margin: 1em 1%;
     &:hover {
       border:1px solid $primary-color;
       box-shadow: 0px 26px 14px -20px rgba(0,4,121,0.27);
@@ -73,6 +62,7 @@
         border-radius: 5em;
         padding: 0.3em 1em;
         color:$grey;
+        font-size: $body-2;
       }
     }
     .middleSection{
@@ -81,16 +71,28 @@
       left:0;
       width: 100%;
       .percent {
+
+        //progress ant
+        .ant-progress-inner{
+          width: 56px!important;
+          height: 56px!important;
+          position: relative!important;
+          .ant-progress-text {
+            display: none;
+          }
+        }
+        
+        .ant-progress-circle-path {
+          stroke: $cyanbg!important;
+        }
+        // progress ant
         display: flex;
         justify-content: center;
         width: 30%;
-        .ant-progress-circle-path {
-          position: relative;
-        }
           img {
             position: absolute;
             top:15px;
-            left: 47px;
+            left: 12%;
           }
       }
       .voteBox {
@@ -152,27 +154,6 @@
           margin-right: -0.5px!important;
           border:2px solid white;
           z-index: 1;
-        }
-      }
-    }
-  }
-
-
-  @media only screen and (max-width: 400px) {
-    .Box1 {
-      height: 300px;
-      .BottomBoxSection {
-        height: 190px;
-        flex-direction: column;
-        .subBox {
-          width: 100%;
-          margin-bottom: 1em;
-          .detailText {
-            justify-content: flex-start;
-            h2 {
-              margin-right: 0.5em;
-            }
-          }
         }
       }
     }
