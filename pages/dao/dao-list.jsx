@@ -55,7 +55,7 @@ function Dao() {
               <p className="LabelSteps">
                 <LeftOutlined /> Back
               </p>
-              <TitlePage textTitle="Listar Daos" />
+              <TitlePage textTitle="DAOs" />
             </div>
             <CustomButton theme="Primary" buttonText="+ Create new DAO" />
           </div>

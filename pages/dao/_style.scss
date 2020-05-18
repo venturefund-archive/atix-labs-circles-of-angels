@@ -1,21 +1,57 @@
 @import '../../css/general_styling';
 
+// ant style
+
+.anticon-copy {
+  color: $grey;
+}
+
+// general style
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  width: 50%;
+  padding: 0 2em 0 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.margin {
+  margin: 1em;
+}
+
 .flex {
   display: flex;
 }
 
-.alignItems{
+.alignItems {
   align-items: center;
 }
 
 .borderBottom {
-  border-bottom:1px solid $light-gray;
+  border-bottom: 1px solid $light-gray;
+}
+
+.marginRight {
+  margin-right: 1em;
+}
+
+.marginBottom {
+  margin-bottom: 1em;
 }
 
 .DaoContainer {
   padding: 2em 3em;
   display: flex;
   flex-direction: column;
+  .titleSection {
+    width: 100%;
+  }
   .LabelSteps {
     color: #1479e261;
   }
@@ -45,58 +81,153 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-top: 1em;
-    }
+  }
 
-    // Dao Detail
+  // Dao Detail
 
-    .daoDetail {
-      .detailDaoTitleContainer {
-        h1 {
-          margin-right: 1em;
-        }
-        a {
-          margin:0 1em;
-          color: $secondary-color;
-          margin-bottom: 1em;
-        }
-        a:hover {
-          color: $grey;
-        }
-      }
-    }
-    .daoSearch {
-      padding:1em 0;
-      .ant-select {
-        margin:0 1em;
-      }
-      .ant-input {
+  .daoDetail {
+    .detailDaoTitleContainer {
+      h1 {
         margin-right: 1em;
       }
+      a {
+        margin: 0 1em;
+        color: $secondary-color;
+        margin-bottom: 1em;
+      }
+      a:hover {
+        color: $grey;
+      }
     }
-    .linkSection {
+  }
+  .daoSearch {
+    padding: 1em 0;
+    .ant-select {
+      margin: 0 1em;
+    }
+    .ant-input {
+      margin-right: 1em;
+    }
+  }
+  .linkSection {
     .dot {
       height: 10px;
       width: 10px;
       background-color: $primary-color;
       border-radius: 5em;
-      margin-right:1em;
+      margin-right: 1em;
     }
+  }
+  .ProposalContainer {
+    color: $on-surface;
+    flex-wrap: wrap;
+    .proposalTitle {
+      @include primary-text($titlemedium, $on-surface, 400);
+    }
+    .ProposerBox {
+      width: 100%;
+      margin: 1em 0;
+      .ProposerSubBox {
+        width: 30%;
+        margin-right: 1em;
+      }
+      .flex {
+        h2 {
+          @include primary-text($h2, $on-surface, 400);
+          margin-bottom: 1em;
+        }
+      }
+    }
+    .disclaimer {
+      h2 {
+        @include primary-text($h2, $on-surface, 400);
+        margin-bottom: 1em;
+      }
+      p {
+        padding: 1em;
+        @include primary-text($body, $on-surface, 100);
+        border: 1px solid $light-gray;
+      }
+    }
+    // second column
+
+    .VoteProgressBox {
+      width: 80%;
+      padding:2em 1em;
+      box-shadow: $shadow;
+      border-radius: 10px;
+      .flex {
+        .voteBox {
+          width: 40%;
+          .imgVote {
+            img {
+              margin: 0.5em;
+            }
+          }
+        }
+        .column {
+          .voteBold {
+            @include primary-text($titlemedium, $on-surface, 400);
+          }
+        }
+      }
+
+      .subBox {
+        flex-direction: column;
+        h3 {
+          color: $grey;
+        }
+        width: 100%;
+      }
+      .detail {
+        width: 100%;
+        .ant-avatar {
+          background: $primary-color;
+        }
+        .ant-avatar-string {
+          color: white;
+        }
+        .plusSign {
+          display: flex;
+          align-items: center;
+          h2,
+          p {
+            color: $primary-color;
+            margin: 0;
+          }
+        }
+        .avatarBox {
+          .avatar {
+            border: 2px solid white;
+            margin-left: -9px !important;
+            z-index: 2;
+          }
+          .avatar-overlap {
+            margin-right: -0.5px !important;
+            border: 2px solid white;
+            z-index: 1;
+          }
+        }
+      }
+    }
+
+    // second column
   }
 }
 
 @media only screen and (max-width: 960px) {
   .DaoContainer {
-    .BoxContainer{
-      justify-content:center;
+    .BoxContainer {
+      justify-content: center;
     }
   }
 }
 
 @media only screen and (max-width: 400px) {
   .DaoContainer {
-    .titleSection{
-      justify-content:flex-start;
-      flex-direction:column;
+    .titleSection {
+      justify-content: flex-start;
+      flex-direction: column;
       .column {
         width: 100%;
       }
