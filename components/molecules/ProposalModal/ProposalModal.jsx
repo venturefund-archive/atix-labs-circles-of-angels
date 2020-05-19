@@ -74,7 +74,7 @@ function ProposalModal() {
               </div>
             </div>
 
-            <ModalMemberSelection />
+            {/* <ModalMemberSelection /> */}
 
             <p className="CollapseInnerTitle">New Rol</p>
             <div className="daoRoleContainer flex">
@@ -126,7 +126,7 @@ function ProposalModal() {
         </div>
         <div className="flex space-between border-top margin-top padding-top">
         <CustomButton theme="Alternative" buttonText="Cancel" />
-          <CustomButton theme="Primary" buttonText="Ok" />
+          <CustomButton theme="Primary" buttonText="Create Proposal" />
         </div>
       </Modal>
     </div>
