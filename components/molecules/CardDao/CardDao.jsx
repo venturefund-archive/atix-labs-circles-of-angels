@@ -8,12 +8,15 @@
 
 import React from 'react';
 import { Avatar } from 'antd';
+import PropTypes from 'prop-types';
 import './_style.scss';
+import { daoCardPropTypes } from '../../../helpers/proptypes';
 
-function CardDao() {
+const CardDao = ({ onClick, dao }) => {
+  const { name, address, proposalsAmount } = dao;
   return (
-    <div className="Box1 column">
-      <h2>Hello - This is the name of the Dao</h2>
+    <div onClick={onClick} className="Box1 column">
+      <h2>{name}</h2>
       <div className="BottomBoxSection flex space-between">
         <div className="subBox">
           <h3>Members</h3>
@@ -32,7 +35,7 @@ function CardDao() {
           <h3>Proposal</h3>
           <div className="detail space-between">
             <div className="detailText space-between">
-              <h2>42</h2>
+              <h2>{proposalsAmount}</h2>
               <p>Total</p>
             </div>
             <div className="detailText green space-between">
@@ -45,5 +48,14 @@ function CardDao() {
     </div>
   );
 }
+
+CardDao.defaultProps = {
+  onClick: () => null,
+};
+
+CardDao.propTypes = {
+  dao: PropTypes.shape(daoCardPropTypes).isRequired,
+  onClick: PropTypes.func,
+};
 
 export default CardDao;

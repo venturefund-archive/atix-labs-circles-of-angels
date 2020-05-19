@@ -16,9 +16,9 @@ import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import Header from '../../components/molecules/Header/Header';
 import SideBar from '../../components/organisms/SideBar/SideBar';
-import { getDaos } from '../../api/daoApi';
 import CardDao from '../../components/molecules/CardDao/CardDao';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
+import { getDaos } from '../../api/daoApi';
 
 function Dao() {
   const [visibility, setVisibility] = useState(false);
@@ -27,8 +27,9 @@ function Dao() {
 
   const fetchDaos = async () => {
     try {
+      console.log('esto se llama?');
       const response = await getDaos();
-      // console.log(response)
+      console.log('ACA ', response);
       setDaos(response);
     } catch (error) {
       message.error(error);
@@ -46,20 +47,29 @@ function Dao() {
   }, []);
 
   return (
-    <div className="DaoContainer">
-      <div className="flex space-between titleSection">
-        <div className="column">
-          <p className="LabelSteps">
-            <LeftOutlined /> Back
-          </p>
-          <TitlePage textTitle="DAOs" />
+    <div className="AppContainer">
+      <SideBar />
+      <div className="MainContent">
+        <Header />
+        <div className="DaoContainer">
+          <div className="flex space-between titleSection">
+            <div className="column">
+              <p className="LabelSteps">
+                <LeftOutlined /> Back
+              </p>
+              <TitlePage textTitle="Listar Daos" />
+            </div>
+            <CustomButton theme="Primary" buttonText="+ Create new DAO" />
+          </div>
+          <div className="BoxContainer">
+            {/* {daos.map(dao => (
+            <CardDao project={project} />
+          ))} */}
+            <CardDao />
+            <CardDao />
+            <CardDao />
+          </div>
         </div>
-        <CustomButton theme="Primary" buttonText="+ Create new DAO" />
-      </div>
-      <div className="BoxContainer">
-        {daos.map(dao => (
-          <CardDao dao={dao} />
-        ))}
       </div>
     </div>
   );
