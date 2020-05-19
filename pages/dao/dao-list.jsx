@@ -35,11 +35,10 @@ function Dao() {
     }
   };
 
-  // TODO for the moment cards without redirection
-  // const goToProjectDetail = project => {
-  //   const state = { projectId: project.id };
-  //   history.push(`/project-detail?id=${project.id}`, state);
-  // };
+  const goToDaoDetail = dao => {
+    const state = { daoId: dao.id };
+    history.push(`/dao-detail?id=${dao.id}`, state);
+  };
 
   useEffect(() => {
     fetchDaos();
@@ -58,7 +57,7 @@ function Dao() {
       </div>
       <div className="BoxContainer">
         {daos.map(dao => (
-          <CardDao dao={dao} />
+          <CardDao dao={dao} onClick={() => goToDaoDetail(dao)} />
         ))}
       </div>
     </div>

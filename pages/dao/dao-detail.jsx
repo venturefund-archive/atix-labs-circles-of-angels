@@ -51,59 +51,53 @@ function DaoDetail() {
   }, []);
 
   return (
-    <div className="AppContainer">
-      <SideBar />
-      <div className="MainContent">
-        <Header />
-        <div className="DaoContainer">
-          <div className="flex space-between titleSection daoDetail borderBottom">
-            <div className="column">
-              <p className="LabelSteps">
-                <LeftOutlined /> Back to DAOS
-              </p>
-              <div className="flex flex-start detailDaoTitleContainer">
-                <TitlePage textTitle="Name of Dao 1" />
-                <a>Proposals (2)</a>
-                <a>Members (36)</a>
-              </div>
-            </div>
-            <CustomButton theme="Primary" buttonText="+ New Proposal" />
-          </div>
-          <div className="flex daoSearch">
-            <Input
-              placeholder="Search by name"
-              prefix={<SearchOutlined />}
-              style={{ width: 200 }}
-            />
-            <Select
-              defaultValue="status1"
-              style={{ width: 200 }}
-              onChange={handleChange}
-            >
-              <Option value="status1">Status 1</Option>
-              <Option value="status2">Status 2</Option>
-              <Option value="status3">Status 3</Option>
-            </Select>
-            <Select
-              defaultValue="Category1"
-              style={{ width: 200 }}
-              onChange={handleChange}
-            >
-              <Option value="Category1">Category 1</Option>
-              <Option value="Category2">Category 2</Option>
-              <Option value="Category3">Category 3</Option>
-            </Select>
-          </div>
-          <div className="flex alignItems linkSection">
-            <div className="dot"></div>
-            <p>Voting period (3)</p>
-          </div>
-          <div className="BoxContainer">
-            <CardDaoDetail />
-            <CardDaoDetail />
-            <CardDaoDetail />
+    <div className="DaoContainer">
+      <div className="flex space-between titleSection daoDetail borderBottom">
+        <div className="column">
+          <p className="LabelSteps">
+            <LeftOutlined /> Back to DAOS
+          </p>
+          <div className="flex flex-start detailDaoTitleContainer">
+            <TitlePage textTitle="Name of Dao 1" />
+            <a>Proposals (2)</a>
+            <a>Members (36)</a>
           </div>
         </div>
+        <CustomButton theme="Primary" buttonText="+ New Proposal" />
+      </div>
+      <div className="flex daoSearch">
+        <Input
+          placeholder="Search by name"
+          prefix={<SearchOutlined />}
+          style={{ width: 200 }}
+        />
+        <Select
+          defaultValue="status1"
+          style={{ width: 200 }}
+          onChange={handleChange}
+        >
+          <Option value="status1">Status 1</Option>
+          <Option value="status2">Status 2</Option>
+          <Option value="status3">Status 3</Option>
+        </Select>
+        <Select
+          defaultValue="Category1"
+          style={{ width: 200 }}
+          onChange={handleChange}
+        >
+          <Option value="Category1">Category 1</Option>
+          <Option value="Category2">Category 2</Option>
+          <Option value="Category3">Category 3</Option>
+        </Select>
+      </div>
+      <div className="flex alignItems linkSection">
+        <div className="dot"></div>
+        <p>Voting period (3)</p>
+      </div>
+      <div className="BoxContainer">
+        <CardDaoDetail />
+        <CardDaoDetail />
+        <CardDaoDetail />
       </div>
     </div>
   );
