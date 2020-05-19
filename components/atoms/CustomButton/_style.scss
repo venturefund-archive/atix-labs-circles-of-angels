@@ -287,3 +287,27 @@
 .ant-btn.VoteNo .anticon.none{
   display: none;
 }
+
+/* CATEGORY */
+.ant-btn.Category,
+.ant-btn.Category:active,
+.ant-btn.Category:focus,
+.ant-btn.Category:hover {
+  background:$white;
+  box-shadow: $shadow;
+  padding:0.5em 1em;
+  span {
+    @include primary-text($button, $primary-color, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+
+.ant-btn.Category .anticon.iconDisplay{
+  display:block;
+  color: $primary-color;
+}
+.ant-btn.Category .anticon.none{
+  display: none;
+}

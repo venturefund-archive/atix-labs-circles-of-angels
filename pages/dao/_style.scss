@@ -6,6 +6,10 @@
   color: $grey;
 }
 
+.ant-progress-success-bg, .ant-progress-bg {
+  background-color: $cyanbg!important;
+}
+
 // general style
 .wrap {
   display: flex;
@@ -150,9 +154,6 @@
       }
     }
     // second column
-    .progress-bg {
-      background-color: $cyanbg!important;
-    }
 h3 {
   color:$grey;
 }
