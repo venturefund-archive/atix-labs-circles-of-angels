@@ -17,7 +17,7 @@ import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import Header from '../../components/molecules/Header/Header';
 import SideBar from '../../components/organisms/SideBar/SideBar';
 // import { getFeaturedProjects } from '../../api/projectApi';
-import CardDao from '../../components/molecules/CardDao/CardDao';
+import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
 function DaoProposalDetail() {
@@ -57,9 +57,9 @@ function DaoProposalDetail() {
               </p>
               <TitlePage textTitle="Name of the DAO 1" />
             </div>
-            <CustomButton theme="Primary" buttonText="+ New Proposal" />
+            <ProposalModal />
           </div>
-          <div className="ProposalContainer flex">
+          <div className="ProposalContainer flex space-between">
             {/* First Column */}
             <div className="column col">
               <div className="flex marginBottom">
@@ -146,7 +146,7 @@ function DaoProposalDetail() {
                 <div className="flex space-between">
                   <div className="flex voteBox">
                     <div className="imgVote">
-                      <img alt="img" src="../static/images/icon-yes-vote.png" />
+                      <img alt="img" src="../static/images/yes.svg" />
                     </div>
                     <div className="column">
                       <p className="voteBold">366 - 75%</p>
@@ -155,7 +155,7 @@ function DaoProposalDetail() {
                   </div>
                   <div className="flex voteBox">
                     <div className="imgVote">
-                      <img alt="img" src="../static/images/icon-no-vote.png" />
+                      <img alt="img" src="../static/images/no.svg" />
                     </div>
                     <div className="column">
                       <p className="voteBold">366 - 75%</p>
@@ -181,6 +181,13 @@ function DaoProposalDetail() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* buttons section */}
+
+            <div className="flex VoteButton">
+              <CustomButton theme="VoteYes" buttonText="Vote Yes" />
+              <CustomButton theme="VoteNo" buttonText="Vote No" />
             </div>
           </div>
         </div>

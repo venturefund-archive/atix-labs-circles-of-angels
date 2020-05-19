@@ -37,7 +37,7 @@ function CardDao() {
             </div>
             <div className="detailText green space-between">
               <h2>42</h2>
-              <p>Total</p>
+              <p>Open</p>
             </div>
           </div>
         </div>

@@ -1,0 +1,38 @@
+@import "../../../css/general_styling.scss";
+
+.column {
+  display:flex;
+  flex-direction:column;
+}
+
+#rcDialogTitle0 {
+  display:none;
+}
+
+.ant-modal-header, .anticon-close, .ant-modal-close-icon {
+  display:none;
+}
+
+.ant-input {
+  border:none;
+}
+
+.ant-input:focus {
+  box-shadow: 0 0 0 0px transparent;
+}
+
+.ant-input::placeholder {
+  @include primary-text($titlemedium, $light-gray, 400);
+}
+
+.ant-modal-content .ant-modal-body {
+  padding:2em;
+  textarea {
+    margin-top:1em;
+    border-radius: 4px;
+    background: $light-gray;
+  }
+  textarea::placeholder {
+    color:$grey;
+  }
+}
