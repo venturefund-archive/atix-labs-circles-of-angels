@@ -243,3 +243,71 @@
     margin-left: 0.5em;
   }
 }
+
+//VOTEYES
+
+/* VOTE YES */
+.ant-btn.VoteYes,
+.ant-btn.VoteYes:active,
+.ant-btn.VoteYes:focus,
+.ant-btn.VoteYes:hover {
+  background: $danger-color;
+  span {
+    @include primary-text($button, $white, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+.ant-btn.VoteYes .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.VoteYes .anticon.none{
+  display: none;
+}
+
+/* VOTE NO */
+.ant-btn.VoteNo,
+.ant-btn.VoteNo:active,
+.ant-btn.VoteNo:focus,
+.ant-btn.VoteNo:hover {
+  background: $success-color;
+  span {
+    @include primary-text($button, $white, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+.ant-btn.VoteNo .anticon.iconDisplay{
+  display:block;
+  color: $white;
+}
+.ant-btn.VoteNo .anticon.none{
+  display: none;
+}
+
+/* CATEGORY */
+.ant-btn.Category,
+.ant-btn.Category:active,
+.ant-btn.Category:focus,
+.ant-btn.Category:hover {
+  background:$white;
+  box-shadow: $shadow;
+  padding:0.5em 1em;
+  span {
+    @include primary-text($button, $primary-color, 400);
+  }
+  .anticon {
+    display: none;
+  }
+}
+
+.ant-btn.Category .anticon.iconDisplay{
+  display:block;
+  color: $primary-color;
+}
+.ant-btn.Category .anticon.none{
+  display: none;
+}
