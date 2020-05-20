@@ -98,7 +98,7 @@ function ProposalModal() {
             </div>
           </Panel>
         </Collapse>
-        <div className="flex space-between">
+        <div className="flex space-between margin-top">
           <div className="column">
             <p>
               <strong>Set deadline</strong>
@@ -120,12 +120,11 @@ function ProposalModal() {
                 <p>Due date: 7 days</p>
               </div>
             </Popconfirm>
-            ,
             <img src="../static/images/icon-pencil.png" />
           </div>
         </div>
         <div className="flex space-between border-top margin-top padding-top">
-        <CustomButton theme="Alternative" buttonText="Cancel" />
+          <CustomButton theme="Alternative" buttonText="Cancel" />
           <CustomButton theme="Primary" buttonText="Create Proposal" />
         </div>
       </Modal>

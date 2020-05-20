@@ -82,7 +82,9 @@
   border:none;
 }
 
-
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px;
+}
 
 // modal content
 
