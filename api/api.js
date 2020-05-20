@@ -23,7 +23,6 @@ require('dotenv').config();
 const { NODE_ENV } = process.env;
 
 export const getBaseURL = () => {
-  // return 'http://45.79.113.200:3001';
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
