@@ -50,12 +50,12 @@ const CardDao = ({ onClick, dao }) => {
 }
 
 CardDao.defaultProps = {
-  onClick: () => null,
+  onClick: () => null
 };
 
 CardDao.propTypes = {
   dao: PropTypes.shape(daoCardPropTypes).isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default CardDao;
