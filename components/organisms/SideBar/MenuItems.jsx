@@ -26,6 +26,14 @@ const menuItems = [
     allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
   },
   {
+    route: '/dao-list',
+    key: 'dao-list',
+    content: (
+      <img src="./static/images/dashboard-icon-navbar.svg" alt="daolist" />
+    ),
+    allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.PROJECT_CURATOR]
+  },
+  {
     route: '/back-office-projects',
     key: 'back-office-projects',
     content: (

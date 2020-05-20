@@ -16,19 +16,23 @@ import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import Header from '../../components/molecules/Header/Header';
 import SideBar from '../../components/organisms/SideBar/SideBar';
-// import { getFeaturedProjects } from '../../api/projectApi';
+import { getDaos } from '../../api/daoApi';
 import CardDao from '../../components/molecules/CardDao/CardDao';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
 function Dao() {
   const [visibility, setVisibility] = useState(false);
-  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [daos, setDaos] = useState([]);
   const history = useHistory();
 
-  const fecthFeaturedProjects = async () => {
+  const fetchDaos = async () => {
     try {
-      const response = await getFeaturedProjects();
-      setFeaturedProjects(response);
+      const response = await getDaos();
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Daos');
+        return [];
+      }
+      setDaos(response.data);
     } catch (error) {
       message.error(error);
     }
@@ -41,30 +45,24 @@ function Dao() {
   // };
 
   useEffect(() => {
-    fecthFeaturedProjects();
+    fetchDaos();
   }, []);
 
   return (
-    <div className="AppContainer">
-      <SideBar />
-      <div className="MainContent">
-        <Header />
-        <div className="DaoContainer">
-          <div className="flex space-between titleSection">
-            <div className="column">
-              <p className="LabelSteps">
-                <LeftOutlined /> Back
-              </p>
-              <TitlePage textTitle="DAOs" />
-            </div>
-            <CustomButton theme="Primary" buttonText="+ Create new DAO" />
-          </div>
-          <div className="BoxContainer">
-            <CardDao />
-            <CardDao />
-            <CardDao />
-          </div>
+    <div className="DaoContainer">
+      <div className="flex space-between titleSection">
+        <div className="column">
+          <p className="LabelSteps">
+            <LeftOutlined /> Back
+          </p>
+          <TitlePage textTitle="DAOs" />
         </div>
+        <CustomButton theme="Primary" buttonText="+ Create new DAO" />
+      </div>
+      <div className="BoxContainer">
+        {daos.map(dao => (
+          <CardDao dao={dao} />
+        ))}
       </div>
     </div>
   );
