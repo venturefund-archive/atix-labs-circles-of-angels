@@ -7,10 +7,10 @@
  */
 
 // import api, { doGet } from './api';
-import apiCall from './apiCall';
+import { doGet } from './api';
 
 const baseURL = '/daos';
 
-const getDaos = () => apiCall('get', `${baseURL}`);
+const getDaos = () => doGet(`${baseURL}`);
 
 export { getDaos };

@@ -28,8 +28,11 @@ function Dao() {
   const fetchDaos = async () => {
     try {
       const response = await getDaos();
-      // console.log(response)
-      setDaos(response);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Daos');
+        return [];
+      }
+      setDaos(response.data);
     } catch (error) {
       message.error(error);
     }
