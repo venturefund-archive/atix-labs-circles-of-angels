@@ -13,6 +13,7 @@
     "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
+    "@ant-design/icons": "4.1.0",
     "@rsksmart/rif-storage": "0.1.0",
     "@zeit/next-sass": "1.0.1",
     "antd": "3.13.6",
