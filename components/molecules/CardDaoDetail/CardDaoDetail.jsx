@@ -8,9 +8,12 @@
 
 import React from 'react';
 import { Avatar, Progress } from 'antd';
+import PropTypes from 'prop-types';
 import './_style.scss';
+import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 
-function CardDaoDetail() {
+const CardDaoDetail = ({ proposal }) => {
+  // const { description } = proposal;
   return (
     <div className="Box2 column">
       <div className="topSection">
@@ -77,6 +80,10 @@ function CardDaoDetail() {
       </div>
     </div>
   );
-}
+};
+
+CardDaoDetail.propTypes = {
+  proposal: PropTypes.shape(daoCardDetailPropTypes).isRequired
+};
 
 export default CardDaoDetail;
