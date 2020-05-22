@@ -59,7 +59,7 @@ function DaoDetail() {
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
             <TitlePage textTitle="Name of Dao 1" />
-            <a>Proposals (2)</a>
+            <a>Proposals ({proposals.length})</a>
             <a>Members (36)</a>
           </div>
         </div>

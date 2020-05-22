@@ -23,6 +23,13 @@ export const PROJECT_FORM_NAMES = {
   MAIN: 'main'
 };
 
+export const proposalTypeEnum = {
+  NEW_MEMBER: 'New Member',
+  NEW_DAO: 'New DAO',
+  ASSIGN_BANK: 'Assign New Role',
+  ASSIGN_CURATOR: 'Assign New Role'
+};
+
 export const publicProjectStatuses = {
   PUBLISHED: 'published',
   CONSENSUS: 'consensus',
