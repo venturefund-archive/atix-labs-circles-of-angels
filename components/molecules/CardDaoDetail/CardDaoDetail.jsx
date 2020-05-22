@@ -45,9 +45,7 @@ const CardDaoDetail = ({ proposal }) => {
             />
             <p className="text">01 d : 21 h :09 m</p>
           </div>
-          <a href="http://google.com" className="newMember">
-            {parseType(proposalType)}
-          </a>
+          <a className="newMember"> {parseType(proposalType)} </a>
         </div>
         <h2>ProgPoW Signaling Vote (EIP-1057)</h2>
         <p className="text">{description}</p>
