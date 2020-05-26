@@ -21,14 +21,7 @@
 
 .memberSelection {
   padding:1em;
-  .input {
-    border:1px solid $light-gray;
-    margin-top: 0.5em;
-    padding:0.5em;
-    width:100%;
-    min-height:31px;
-    img {
-      margin-right:0.5em;
-    }
+  p {
+    margin: 1em 0;
   }
 }

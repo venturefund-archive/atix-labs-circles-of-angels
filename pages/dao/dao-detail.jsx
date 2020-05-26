@@ -19,6 +19,7 @@ import SideBar from '../../components/organisms/SideBar/SideBar';
 // import { getFeaturedProjects } from '../../api/projectApi';
 import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
+import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
 
 const { Option } = Select;
 
@@ -52,7 +53,7 @@ function DaoDetail() {
 
   return (
     <div className="DaoContainer">
-      <div className="flex space-between titleSection daoDetail borderBottom">
+      <div className="flex space-between titleSection daoDetail borderBottom marginBottom">
         <div className="column">
           <p className="LabelSteps">
             <LeftOutlined /> Back to DAOS
@@ -63,41 +64,31 @@ function DaoDetail() {
             <a>Members (36)</a>
           </div>
         </div>
-        <CustomButton theme="Primary" buttonText="+ New Proposal" />
+        <ProposalModal />
+        {/* <CustomButton theme="Primary" buttonText="+ New Proposal" /> */}
       </div>
-      <div className="flex daoSearch">
-        <Input
-          placeholder="Search by name"
-          prefix={<SearchOutlined />}
-          style={{ width: 200 }}
-        />
-        <Select
-          defaultValue="status1"
-          style={{ width: 200 }}
-          onChange={handleChange}
-        >
-          <Option value="status1">Status 1</Option>
-          <Option value="status2">Status 2</Option>
-          <Option value="status3">Status 3</Option>
-        </Select>
-        <Select
-          defaultValue="Category1"
-          style={{ width: 200 }}
-          onChange={handleChange}
-        >
-          <Option value="Category1">Category 1</Option>
-          <Option value="Category2">Category 2</Option>
-          <Option value="Category3">Category 3</Option>
-        </Select>
+
+      <div className="column marginBottom">
+        <div className="flex alignItems linkSection">
+          <div className="dot" />
+          <p>Voting period (3)</p>
+        </div>
+        <div className="BoxContainer">
+          <CardDaoDetail />
+          <CardDaoDetail />
+          <CardDaoDetail />
+        </div>
       </div>
-      <div className="flex alignItems linkSection">
-        <div className="dot"></div>
-        <p>Voting period (3)</p>
-      </div>
-      <div className="BoxContainer">
-        <CardDaoDetail />
-        <CardDaoDetail />
-        <CardDaoDetail />
+      <div className="column">
+        <div className="flex alignItems linkSection">
+          <div className="dot-completed" />
+          <p>Completed (3)</p>
+        </div>
+        <div className="BoxContainer">
+          <CardDaoDetail />
+          <CardDaoDetail />
+          <CardDaoDetail />
+        </div>
       </div>
     </div>
   );

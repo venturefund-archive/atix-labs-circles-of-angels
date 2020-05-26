@@ -7,19 +7,24 @@
  */
 
 import React from 'react';
+import { Input, Select } from 'antd';
 import './_style.scss';
+
+const { Option } = Select;
+const { TextArea } = Input;
 
 function ModalMemberSelection() {
   return (
     <div className="memberSelection column">
       <p>Aplicant</p>
-      <div className="flex input">
-        <img src="../static/images/proposer1.png" />
-        <div className="column">
-          <p><strong>Enric Conner</strong></p>
-          <p>0x864253f40x864253f4864253f404253f4864253</p>
-        </div>
-      </div>
+      <Input placeholder="Paste aplicant info" />
+      <p>Rol</p>
+      <Select defaultValue="Option1">
+        <Option value="Option1">Option1</Option>
+        <Option value="Option2">Option2</Option>
+      </Select>
+      <p>Description</p>
+      <TextArea rows={4} placeholder="Type description" />
     </div>
   );
 }

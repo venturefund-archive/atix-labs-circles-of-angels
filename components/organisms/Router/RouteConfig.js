@@ -8,7 +8,7 @@ import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
 import Dao from '../../../pages/dao/dao-list';
-// import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
+import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
 import DaoDetail from '../../../pages/dao/dao-detail';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
@@ -138,12 +138,12 @@ export const routesConfig = [
       required: true,
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
     }
+  },
+  {
+    path: '/dao/dao-proposal-detail',
+    component: DaoProposalDetail,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
   }
-  // {
-  //   path: '/dao/dao-proposal-detail',
-  //   component: DaoProposalDetail,
-  //   authentication: { required: false },
-  //   withHeader: false,
-  //   withSideBar: false
-  // }
 ];
