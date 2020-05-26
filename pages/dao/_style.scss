@@ -104,22 +104,19 @@
       }
     }
   }
-  .daoSearch {
-    padding: 1em 0;
-    .ant-select {
-      margin: 0 1em;
-    }
-    .ant-input {
-      margin-right: 1em;
-    }
-  }
+  
   .linkSection {
-    .dot {
+    .dot, .dot-completed {
       height: 10px;
       width: 10px;
-      background-color: $primary-color;
       border-radius: 5em;
       margin-right: 1em;
+    }
+    .dot {
+      background-color: $primary-color;
+    }
+    .dot-completed {
+      background-color: orange;
     }
   }
   .ProposalContainer {

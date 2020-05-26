@@ -14,11 +14,8 @@ import '../_style.scss';
 import './_style.scss';
 import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import Header from '../../components/molecules/Header/Header';
-import SideBar from '../../components/organisms/SideBar/SideBar';
 import { getDaos } from '../../api/daoApi';
 import CardDao from '../../components/molecules/CardDao/CardDao';
-import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
 function Dao() {
   const [visibility, setVisibility] = useState(false);
@@ -49,14 +46,13 @@ function Dao() {
 
   return (
     <div className="DaoContainer">
-      <div className="flex space-between titleSection">
+      <div className="flex space-between titleSection marginBottom">
         <div className="column">
           <p className="LabelSteps">
             <LeftOutlined /> Back
           </p>
           <TitlePage textTitle="DAOs" />
         </div>
-        <CustomButton theme="Primary" buttonText="+ Create new DAO" />
       </div>
       <div className="BoxContainer">
         {daos.map(dao => (
