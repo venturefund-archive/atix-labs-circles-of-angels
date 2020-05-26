@@ -14,9 +14,8 @@ import '../_style.scss';
 import './_style.scss';
 import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import Header from '../../components/molecules/Header/Header';
-import SideBar from '../../components/organisms/SideBar/SideBar';
-// import { getFeaturedProjects } from '../../api/projectApi';
+import useQuery from '../../hooks/useQuery';
+import { getProposalsByDaoId } from '../../api/daoApi';
 import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
@@ -28,26 +27,27 @@ function handleChange(value) {
 
 function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
-  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const history = useHistory();
 
-  const fecthFeaturedProjects = async () => {
+  const { id } = useQuery();
+  const daoId = id;
+
+  const fecthDaoProposals = async () => {
     try {
-      const response = await getFeaturedProjects();
-      setFeaturedProjects(response);
+      const response = await getProposalsByDaoId(daoId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Proposals');
+        return [];
+      }
+      setProposals(response.data);
     } catch (error) {
       message.error(error);
     }
   };
 
-  // TODO for the moment cards without redirection
-  // const goToProjectDetail = project => {
-  //   const state = { projectId: project.id };
-  //   history.push(`/project-detail?id=${project.id}`, state);
-  // };
-
   useEffect(() => {
-    fecthFeaturedProjects();
+    fecthDaoProposals();
   }, []);
 
   return (
@@ -59,7 +59,7 @@ function DaoDetail() {
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
             <TitlePage textTitle="Name of Dao 1" />
-            <a>Proposals (2)</a>
+            <a>Proposals ({proposals.length})</a>
             <a>Members (36)</a>
           </div>
         </div>
@@ -95,9 +95,9 @@ function DaoDetail() {
         <p>Voting period (3)</p>
       </div>
       <div className="BoxContainer">
-        <CardDaoDetail />
-        <CardDaoDetail />
-        <CardDaoDetail />
+        {proposals.map(proposal => (
+          <CardDaoDetail proposal={proposal} />
+        ))}
       </div>
     </div>
   );

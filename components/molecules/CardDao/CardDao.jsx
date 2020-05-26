@@ -39,7 +39,7 @@ const CardDao = ({ onClick, dao }) => {
               <p>Total</p>
             </div>
             <div className="detailText green space-between">
-              <h2>42</h2>
+              <h2>{proposalsAmount}</h2>
               <p>Open</p>
             </div>
           </div>
