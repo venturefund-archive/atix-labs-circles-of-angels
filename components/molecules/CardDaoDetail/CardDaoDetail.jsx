@@ -10,10 +10,29 @@ import React from 'react';
 import { Avatar, Progress } from 'antd';
 import PropTypes from 'prop-types';
 import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
+import { proposalTypeEnum } from '../../../constants/constants';
 import './_style.scss';
 
 const CardDaoDetail = ({ proposal }) => {
-    // const { description } = proposal;  
+  const { description, yesVotes, noVotes, proposalType, didPass, processed } = proposal;
+
+  const votesPercentage = votes => {
+    const totalVotes = yesVotes + noVotes;
+    if (totalVotes <= 0) return 0;
+    const percentage = (votes / totalVotes) * 100;
+    return percentage;
+  };
+
+  const parseType = type => {
+    const proposalTypes = [
+      proposalTypeEnum.NEW_MEMBER,
+      proposalTypeEnum.NEW_DAO,
+      proposalTypeEnum.ASSIGN_BANK,
+      proposalTypeEnum.ASSIGN_CURATOR
+    ];
+    return proposalTypes[type];
+  };
+
   return (
     <div className="Box2 column">
       <div className="topSection">
@@ -36,11 +55,8 @@ const CardDaoDetail = ({ proposal }) => {
             <p className="text">Status: Passed</p>
           </div>
         </div>
-        <h2>ProgPoW Signaling Vote (EIP-1057)</h2>
-        <p className="text">
-          Magna voluptate et est ad adipisicing amet occaecat exercitation
-          officiar...
-        </p>
+        <h2>{parseType(proposalType)}</h2>
+        <p className="text">{description}</p>
       </div>
       <div className="flex middleSection">
         <div className="flex voteBox">
@@ -49,7 +65,9 @@ const CardDaoDetail = ({ proposal }) => {
           </div>
           <div className="column">
             <p className="text">Yes Votes</p>
-            <p className="voteBold">366 - 75%</p>
+            <p className="voteBold">
+              {yesVotes} - {votesPercentage(yesVotes)}%
+            </p>
           </div>
         </div>
         <div className="flex voteBox">
@@ -58,7 +76,9 @@ const CardDaoDetail = ({ proposal }) => {
           </div>
           <div className="column">
             <p className="text">Yes Votes</p>
-            <p className="voteBold">366 - 75%</p>
+            <p className="voteBold">
+              {noVotes} - {votesPercentage(noVotes)}%
+            </p>
           </div>
         </div>
       </div>

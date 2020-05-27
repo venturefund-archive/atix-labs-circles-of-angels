@@ -61,7 +61,7 @@ function DaoDetail() {
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
             <TitlePage textTitle="Name of Dao 1" />
-            <a>Proposals (2)</a>
+            <a>Proposals ({proposals.length})</a>
             <a>Members (36)</a>
           </div>
         </div>
@@ -72,7 +72,7 @@ function DaoDetail() {
       <div className="column marginBottom">
         <div className="flex alignItems linkSection">
           <div className="dot" />
-          <p>Voting period (3)</p>
+          <p>Voting period ({proposals.length})</p>
         </div>
         <div className="BoxContainer">
           {proposals.map(proposal => (
@@ -85,11 +85,7 @@ function DaoDetail() {
           <div className="dot-completed" />
           <p>Completed (3)</p>
         </div>
-        <div className="BoxContainer">
-          <CardDaoDetail />
-          <CardDaoDetail />
-          <CardDaoDetail />
-        </div>
+        <div className="BoxContainer"></div>
       </div>
     </div>
   );

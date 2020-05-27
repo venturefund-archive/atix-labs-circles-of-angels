@@ -149,5 +149,10 @@ export const daoCardPropTypes = {
 };
 
 export const daoCardDetailPropTypes = {
-  description: PropTypes.string
+  description: PropTypes.string,
+  noVotes: PropTypes.number,
+  yesVotes: PropTypes.number,
+  proposalType: PropTypes.number,
+  didPass: PropTypes.bool,
+  processed: PropTypes.bool
 };
