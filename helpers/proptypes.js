@@ -147,3 +147,7 @@ export const daoCardPropTypes = {
   address: PropTypes.string,
   proposals_amount: PropTypes.number
 };
+
+export const daoCardDetailPropTypes = {
+  description: PropTypes.string
+};

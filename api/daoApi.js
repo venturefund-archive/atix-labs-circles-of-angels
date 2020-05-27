@@ -13,4 +13,6 @@ const baseURL = '/daos';
 
 const getDaos = () => doGet(`${baseURL}`);
 
-export { getDaos };
+const getProposalsByDaoId = daoId => doGet(`${baseURL}/${daoId}/proposals`);
+
+export { getDaos, getProposalsByDaoId };
