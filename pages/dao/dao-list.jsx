@@ -36,7 +36,7 @@ function Dao() {
   };
 
   const goToDaoDetail = dao => {
-    const state = { daoId: dao.id };
+    const state = { daoId: dao.id, daoName: dao.name };
     history.push(`/dao-detail?id=${dao.id}`, state);
   };
 

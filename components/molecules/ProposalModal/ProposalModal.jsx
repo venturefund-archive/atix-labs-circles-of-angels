@@ -18,6 +18,16 @@ function callback(key) {
 
 function ProposalModal() {
   const [visible, setVisible] = useState(false);
+  const [applicant, setApplicant] = useState('');
+  const [description, setDescription] = useState('');
+
+  const submitMemberProposal = () => {
+    const proposal = {
+      Applicant: applicant,
+      Description: description
+    };
+    console.log('The proposal', proposal);
+  };
 
   const showModal = () => {
     setVisible(true);
@@ -47,7 +57,7 @@ function ProposalModal() {
         onCancel={handleCancel}
         width={700}
       >
-        <h1>Create a New Porposal</h1>
+        <h1>Create a New Proposal</h1>
         <p className="subtitle">
           Select the type of proposal form the following options
         </p>
@@ -64,7 +74,7 @@ function ProposalModal() {
           <div className="daoRoleContainer flex">
             <img src="../static/images/icon-modal-02.png" />
             <p>
-              <strong>NEW ROL</strong>
+              <strong>NEW ROLE</strong>
             </p>
           </div>
 
@@ -77,37 +87,12 @@ function ProposalModal() {
           </div>
         </div>
 
-        <ModalMemberSelection />
-
-        <div className="flex space-between margin-top">
-          <div className="column">
-            <p>
-              <strong>Set deadline</strong>
-            </p>
-            <p>How soon are you looking for responses?</p>
-          </div>
-          <div className="space-between">
-            <Popconfirm
-              title={(
-<div className="column">
-                  <p>Today (2 hours)</p>
-                  <p>Tomorroy (24 hours)</p>
-                  <p>This Week (7 days)</p>
-                </div>
-)}
-            >
-              <div className="flex date">
-                <img src="../static/images/icon-time-orange.png" />
-                <p>Due date: 7 days</p>
-              </div>
-            </Popconfirm>
-            <img src="../static/images/icon-pencil.png" />
-          </div>
-        </div>
-        <div className="flex space-between border-top margin-top padding-top">
-          <CustomButton theme="Alternative" buttonText="Cancel" />
-          <CustomButton theme="Primary" buttonText="Create Proposal" />
-        </div>
+        <ModalMemberSelection
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          submitMemberProposal={submitMemberProposal}
+          onCancel={handleCancel}
+        />
       </Modal>
     </div>
   );

@@ -7,7 +7,7 @@
  */
 
 // import api, { doGet } from './api';
-import { doGet } from './api';
+import { doGet, doPost } from './api';
 
 const baseURL = '/daos';
 
@@ -15,4 +15,7 @@ const getDaos = () => doGet(`${baseURL}`);
 
 const getProposalsByDaoId = daoId => doGet(`${baseURL}/${daoId}/proposals`);
 
-export { getDaos, getProposalsByDaoId };
+const createNewMemberProposal = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/proposals/member`, data);
+
+export { getDaos, getProposalsByDaoId, createNewMemberProposal };

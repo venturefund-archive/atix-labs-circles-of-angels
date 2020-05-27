@@ -32,7 +32,6 @@ function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
   const [proposals, setProposals] = useState([]);
   const history = useHistory();
-
   const { id: daoId } = useQuery();
 
   const fecthDaoProposals = async () => {
@@ -60,7 +59,13 @@ function DaoDetail() {
             <LeftOutlined /> Back to DAOS
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
-            <TitlePage textTitle="Name of Dao 1" />
+            <TitlePage
+              textTitle={
+                history.location.state
+                  ? history.location.state.daoName
+                  : `Name of Dao ${daoId}`
+              }
+            />
             <a>Proposals ({proposals.length})</a>
             <a>Members (36)</a>
           </div>
