@@ -7,9 +7,9 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, Input, Collapse, Popconfirm, message } from 'antd';
+import { Modal, Input, Popconfirm } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import ModalMemberSelection from '../../molecules/ModalMemberSelection/ModalMemberSelection';
+import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import './_style.scss';
 
 function callback(key) {
@@ -33,10 +33,6 @@ function ProposalModal() {
     setVisible(false);
   };
 
-  const { TextArea } = Input;
-
-  const { Panel } = Collapse;
-
   return (
     <div>
       <CustomButton
@@ -49,55 +45,40 @@ function ProposalModal() {
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={700}
       >
-        <Input className="inputPriary" placeholder="Add a description" />
-        <TextArea rows={4} />
-        <Collapse onChange={callback}>
-          <Panel
-            header={
-              <div className="flex categoryCollapseHeader">
-                <p>Category</p>
-                <p className="categorySelected">-None</p>{' '}
-                <CustomButton theme="Category" buttonText="Select Type" />
-              </div>
-            }
-            key="1"
-          >
-            <p className="CollapseInnerTitle">New Member</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-01.png" />
-              <div className="column">
-                <p>
-                  <strong>NEW MEMBER</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
+        <h1>Create a New Porposal</h1>
+        <p className="subtitle">
+          Select the type of proposal form the following options
+        </p>
 
-            {/* <ModalMemberSelection /> */}
+        <div className="flex space-between margin-top">
+          <div className="daoRoleContainer flex">
+            <img src="../static/images/icon-modal-01.png" />
 
-            <p className="CollapseInnerTitle">New Rol</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-02.png" />
-              <div className="column">
-                <p>
-                  <strong>NEW ROL</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
-            <p className="CollapseInnerTitle">Create DAO</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-03.png" />
-              <div className="column">
-                <p>
-                  <strong>CREATE DAO</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
-          </Panel>
-        </Collapse>
+            <p>
+              <strong>NEW MEMBER</strong>
+            </p>
+          </div>
+
+          <div className="daoRoleContainer flex">
+            <img src="../static/images/icon-modal-02.png" />
+            <p>
+              <strong>NEW ROL</strong>
+            </p>
+          </div>
+
+          <div className="daoRoleContainer flex">
+            <img src="../static/images/icon-modal-03.png" />
+
+            <p>
+              <strong>CREATE DAO</strong>
+            </p>
+          </div>
+        </div>
+
+        <ModalMemberSelection />
+
         <div className="flex space-between margin-top">
           <div className="column">
             <p>
@@ -107,13 +88,13 @@ function ProposalModal() {
           </div>
           <div className="space-between">
             <Popconfirm
-              title={
-                <div className="column">
+              title={(
+<div className="column">
                   <p>Today (2 hours)</p>
                   <p>Tomorroy (24 hours)</p>
                   <p>This Week (7 days)</p>
                 </div>
-              }
+)}
             >
               <div className="flex date">
                 <img src="../static/images/icon-time-orange.png" />
