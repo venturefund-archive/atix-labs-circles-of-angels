@@ -72,7 +72,7 @@ function DaoDetail() {
               }
             />
             <a>Proposals ({proposals.length})</a>
-            <a>Members (36)</a>
+            {/* <a>Members (36)</a> */}
           </div>
         </div>
         <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />

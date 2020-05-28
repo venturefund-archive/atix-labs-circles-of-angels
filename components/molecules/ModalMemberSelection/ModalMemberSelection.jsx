@@ -49,7 +49,7 @@ const ModalMemberSelection = ({ setApplicant, setDescription, submitMemberPropos
           <p>How soon are you looking for responses?</p>
         </div>
         <div className="space-between">
-          <Popconfirm
+          {/* <Popconfirm
             title={(
               <div className="column">
                 <p>Today (2 hours)</p>
@@ -57,17 +57,17 @@ const ModalMemberSelection = ({ setApplicant, setDescription, submitMemberPropos
                 <p>This Week (7 days)</p>
               </div>
             )}
-          >
+          > */}
             <div className="flex date">
               <img src="../static/images/icon-time-orange.png" />
-              <p>Due date: 7 days</p>
+              <p>Due date: 1 hour</p>
             </div>
-          </Popconfirm>
-          <img src="../static/images/icon-pencil.png" />
+          {/* </Popconfirm> */}
+          {/* <img src="../static/images/icon-pencil.png" /> */}
         </div>
       </div>
       <div className="flex space-between border-top margin-top padding-top">
-        <CustomButton 
+        <CustomButton
           theme="Alternative"
           buttonText="Cancel"
           onClick={onCancel}
