@@ -13,7 +13,7 @@ import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 import { proposalTypeEnum } from '../../../constants/constants';
 import './_style.scss';
 
-const CardDaoDetail = ({ proposal }) => {
+const CardDaoDetail = ({ proposal, showStatus }) => {
   const { description, yesVotes, noVotes, proposalType, didPass, processed } = proposal;
 
   const votesPercentage = votes => {
@@ -33,6 +33,24 @@ const CardDaoDetail = ({ proposal }) => {
     return proposalTypes[type];
   };
 
+  const renderStatusTag = () => {
+    // Missing: red icon when proposal didnt pass
+    const notPassedMessage = "Status: Didn't Pass";
+    const passedMessage = 'Status: Passed';
+    if (showStatus) {
+      return (
+        <div className="flex passed">
+          <img
+            className="marginRight"
+            src="../static/images/icon-vote-green.png"
+            alt="img"
+          />
+          <p className="text">{didPass ? passedMessage : notPassedMessage}</p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="Box2 column">
       <div className="topSection">
@@ -45,15 +63,15 @@ const CardDaoDetail = ({ proposal }) => {
             />
             <p className="text">01 d : 21 h :09 m</p>
           </div>
-          {/* STATUS PASSED */}
-          <div className="flex passed">
+          {/* <div className="flex passed">
             <img
               className="marginRight"
               src="../static/images/icon-vote-green.png"
               alt="img"
             />
             <p className="text">Status: Passed</p>
-          </div>
+          </div> */}
+          {renderStatusTag()}
         </div>
         <h2>{parseType(proposalType)}</h2>
         <p className="text">{description}</p>

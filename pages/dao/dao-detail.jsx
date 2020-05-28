@@ -30,7 +30,8 @@ function handleChange(value) {
 
 function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
-  const [proposals, setProposals] = useState([]);
+  const [currentProposals, setCurrentProposals] = useState([]);
+  const [completedProposals, setCompletedProposals] = useState([]);
   const [creationSuccess, setCreationSuccess] = useState(false);
   const history = useHistory();
   const { id: daoId } = useQuery();
@@ -42,15 +43,14 @@ function DaoDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
-      setProposals(response.data);
+      const current = response.data.filter(proposal => !proposal.processed);
+      const completed = response.data.filter(proposal => proposal.processed);
+      setCurrentProposals(current);
+      setCompletedProposals(completed);
     } catch (error) {
       message.error(error);
     }
   };
-
-  useEffect(() => {
-    fecthDaoProposals();
-  });
 
   useEffect(() => {
     fecthDaoProposals();
@@ -71,7 +71,7 @@ function DaoDetail() {
                   : `Name of Dao ${daoId}`
               }
             />
-            <a>Proposals ({proposals.length})</a>
+            <a>Proposals ({currentProposals.length})</a>
             {/* <a>Members (36)</a> */}
           </div>
         </div>
@@ -82,20 +82,24 @@ function DaoDetail() {
       <div className="column marginBottom">
         <div className="flex alignItems linkSection">
           <div className="dot" />
-          <p>Voting period ({proposals.length})</p>
+          <p>Voting period ({currentProposals.length})</p>
         </div>
         <div className="BoxContainer">
-          {proposals.map(proposal => (
-            <CardDaoDetail proposal={proposal} />
+          {currentProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus={false} />
           ))}
         </div>
       </div>
       <div className="column">
         <div className="flex alignItems linkSection">
           <div className="dot-completed" />
-          <p>Completed (3)</p>
+          <p>Completed ({completedProposals.length})</p>
         </div>
-        <div className="BoxContainer"></div>
+        <div className="BoxContainer">
+          {completedProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus />
+          ))}
+        </div>
       </div>
     </div>
   );
