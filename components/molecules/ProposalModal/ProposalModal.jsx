@@ -79,15 +79,16 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         onCancel={handleCancel}
         width={700}
       >
-        <h1>Create a New Proposal</h1>
+        {/* This should change dinamically */}
+        {/* <h1>Create a New Proposal</h1> */}
+        <h1>Create a New Member</h1>
         <p className="subtitle">
           Select the type of proposal form the following options
         </p>
 
         <div className="flex space-between margin-top">
-          <div className="daoRoleContainer flex">
+          <div className="daoMemberContainer flex">
             <img src="../static/images/icon-modal-01.png" />
-
             <p>
               <strong>NEW MEMBER</strong>
             </p>
@@ -102,7 +103,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
           <div className="daoRoleContainer flex">
             <img src="../static/images/icon-modal-03.png" />
-
             <p>
               <strong>CREATE DAO</strong>
             </p>
