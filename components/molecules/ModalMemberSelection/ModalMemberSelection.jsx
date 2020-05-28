@@ -15,11 +15,6 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const ModalMemberSelection = ({ setApplicant, setDescription, submitMemberProposal, onCancel }) => {
-
-  // const onFinish = values => {
-  //   console.log(values);
-  // };
-
   return (
     <Form onSubmit={submitMemberProposal}>
       <div className="memberSelection column">

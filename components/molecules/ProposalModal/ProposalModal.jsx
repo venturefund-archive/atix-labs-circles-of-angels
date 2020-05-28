@@ -8,25 +8,48 @@
 
 import React, { useState } from 'react';
 import { Modal, Input, Popconfirm } from 'antd';
+import { createNewMemberProposal } from '../../../api/daoApi';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
+import {
+  showModalSuccess,
+  showModalError,
+  showModalConfirm
+} from '../../utils/Modals';
 import './_style.scss';
 
 function callback(key) {
   console.log(key);
 }
 
-function ProposalModal() {
+const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
+  setCreationSuccess(false);
 
-  const submitMemberProposal = () => {
+  const submitMemberProposal = async () => {
+    if (!applicant || !description) {
+      showModalError('Error!', 'Please complete both fields');
+      return false;
+    }
+
     const proposal = {
-      Applicant: applicant,
-      Description: description
+      applicant,
+      description
     };
-    console.log('The proposal', proposal);
+    const response = await createNewMemberProposal(daoId, proposal);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error submitting the proposal.';
+      showModalError(title, content);
+    } else {
+      showModalSuccess('Success', 'Proposal created correctly!');
+      setVisible(false);
+      setCreationSuccess(true);
+    }
   };
 
   const showModal = () => {

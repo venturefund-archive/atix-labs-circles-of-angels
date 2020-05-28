@@ -48,9 +48,6 @@ function Dao() {
     <div className="DaoContainer">
       <div className="flex space-between titleSection marginBottom">
         <div className="column">
-          <p className="LabelSteps">
-            <LeftOutlined /> Back
-          </p>
           <TitlePage textTitle="DAOs" />
         </div>
       </div>

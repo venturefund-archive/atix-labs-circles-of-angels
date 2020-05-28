@@ -31,6 +31,7 @@ function handleChange(value) {
 function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
   const [proposals, setProposals] = useState([]);
+  const [creationSuccess, setCreationSuccess] = useState(false);
   const history = useHistory();
   const { id: daoId } = useQuery();
 
@@ -49,7 +50,7 @@ function DaoDetail() {
 
   useEffect(() => {
     fecthDaoProposals();
-  }, []);
+  }, [creationSuccess]);
 
   return (
     <div className="DaoContainer">
@@ -70,7 +71,7 @@ function DaoDetail() {
             <a>Members (36)</a>
           </div>
         </div>
-        <ProposalModal />
+        <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
         {/* <CustomButton theme="Primary" buttonText="+ New Proposal" /> */}
       </div>
 
