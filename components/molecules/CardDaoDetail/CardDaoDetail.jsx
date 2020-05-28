@@ -63,14 +63,6 @@ const CardDaoDetail = ({ proposal, showStatus }) => {
             />
             <p className="text">01 d : 21 h :09 m</p>
           </div>
-          {/* <div className="flex passed">
-            <img
-              className="marginRight"
-              src="../static/images/icon-vote-green.png"
-              alt="img"
-            />
-            <p className="text">Status: Passed</p>
-          </div> */}
           {renderStatusTag()}
         </div>
         <h2>{parseType(proposalType)}</h2>
