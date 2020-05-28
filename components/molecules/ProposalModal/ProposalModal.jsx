@@ -26,7 +26,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
-  setCreationSuccess(false);
 
   const submitMemberProposal = async () => {
     if (!applicant || !description) {

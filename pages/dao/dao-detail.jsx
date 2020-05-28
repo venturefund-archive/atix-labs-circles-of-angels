@@ -50,6 +50,10 @@ function DaoDetail() {
 
   useEffect(() => {
     fecthDaoProposals();
+  });
+
+  useEffect(() => {
+    fecthDaoProposals();
   }, [creationSuccess]);
 
   return (
