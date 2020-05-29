@@ -30,9 +30,10 @@ function handleChange(value) {
 
 function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
-  const [proposals, setProposals] = useState([]);
+  const [currentProposals, setCurrentProposals] = useState([]);
+  const [completedProposals, setCompletedProposals] = useState([]);
+  const [creationSuccess, setCreationSuccess] = useState(false);
   const history = useHistory();
-
   const { id: daoId } = useQuery();
 
   const fecthDaoProposals = async () => {
@@ -42,7 +43,10 @@ function DaoDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
-      setProposals(response.data);
+      const current = response.data.filter(proposal => !proposal.processed);
+      const completed = response.data.filter(proposal => proposal.processed);
+      setCurrentProposals(current);
+      setCompletedProposals(completed);
     } catch (error) {
       message.error(error);
     }
@@ -50,42 +54,51 @@ function DaoDetail() {
 
   useEffect(() => {
     fecthDaoProposals();
-  }, []);
+  }, [creationSuccess]);
 
   return (
     <div className="DaoContainer">
       <div className="flex space-between titleSection daoDetail borderBottom marginBottom">
         <div className="column">
           <p className="LabelSteps">
-            <LeftOutlined /> Back to DAOS
+            <LeftOutlined />
+            <a onClick={() => history.goBack()}>Back to DAOS</a>
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
-            <TitlePage textTitle="Name of Dao 1" />
-            <a>Proposals ({proposals.length})</a>
-            <a>Members (36)</a>
+            <TitlePage
+              textTitle={
+                history.location.state
+                  ? history.location.state.daoName
+                  : `Name of Dao ${daoId}`
+              }
+            />
+            <a>Proposals ({currentProposals.length})</a>
           </div>
         </div>
-        <ProposalModal />
-        {/* <CustomButton theme="Primary" buttonText="+ New Proposal" /> */}
+        <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
       </div>
 
       <div className="column marginBottom">
         <div className="flex alignItems linkSection">
           <div className="dot" />
-          <p>Voting period ({proposals.length})</p>
+          <p>Voting period ({currentProposals.length})</p>
         </div>
         <div className="BoxContainer">
-          {proposals.map(proposal => (
-            <CardDaoDetail proposal={proposal} />
+          {currentProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus={false} />
           ))}
         </div>
       </div>
       <div className="column">
         <div className="flex alignItems linkSection">
           <div className="dot-completed" />
-          <p>Completed (3)</p>
+          <p>Completed ({completedProposals.length})</p>
         </div>
-        <div className="BoxContainer"></div>
+        <div className="BoxContainer">
+          {completedProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus />
+          ))}
+        </div>
       </div>
     </div>
   );
