@@ -34,15 +34,18 @@ const CardDaoDetail = ({ proposal, showStatus }) => {
   };
 
   const renderStatusTag = () => {
-    // Missing: red icon when proposal didnt pass
     const notPassedMessage = "Status: Didn't Pass";
     const passedMessage = 'Status: Passed';
+    const passedIcon = '../static/images/icon-vote-green.png';
+    const notPassedIcon = '../static/images/icon-vote-red.png';
+    const passedClass = 'flex passed';
+    const notPassedClass = 'flex notPassed';
     if (showStatus) {
       return (
-        <div className="flex passed">
+        <div className={didPass ? passedClass : notPassedClass}>
           <img
             className="marginRight"
-            src="../static/images/icon-vote-green.png"
+            src={didPass ? passedIcon : notPassedIcon}
             alt="img"
           />
           <p className="text">{didPass ? passedMessage : notPassedMessage}</p>
