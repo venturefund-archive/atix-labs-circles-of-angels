@@ -1,13 +1,13 @@
 @import '../css/general_styling.scss';
 
-.ProjectMission {
-  width: 70%;
-  padding: 0 1.5em;
+.ProjectMission, .ProjectProgress {
+  h1.title {
+    @include primary-text($labelbig, $black, 400);
+    margin: 0.5em 0;
+  }
   p {
     @include primary-text($body, $on-surface, 400);
-  }
-  .title {
-    @include primary-text($h1, $secondary-color, 600);
+    line-height: 20px;
   }
   .ant-steps {
     height: 55px;

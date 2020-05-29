@@ -1,0 +1,97 @@
+@import "../../../css/general_styling.scss";
+
+// 
+.flex {
+  display: flex;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.marginBottom {
+  margin-bottom: 1em;
+}
+
+.marginRight {
+  margin-right: 0.5em;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  @include primary-text($body-2, $on-surface-medium, 400);
+}
+
+.passed {
+  padding:0.5em 1em;
+  background: $light-green;
+  border-radius: 7em;
+}
+
+.notPassed {
+  padding:0.5em 1em;
+  background: #FFD4D4;
+  border-radius: 7em;
+}
+
+  .Box2 {
+    position: relative;
+    overflow: visible;
+    padding:2em;
+    box-shadow: $shadow;
+    min-height: 251px;
+    width: 30%;
+    min-width: 400px;
+    border-radius: 10px;
+    margin: 1em 1%;
+    &:hover {
+      border:1px solid $primary-color;
+      box-shadow: 0px 26px 14px -20px rgba(0,4,121,0.27);
+      box-sizing: border-box;
+    }
+    .topSection {
+      padding:0 0 1em 0;
+      h2 {
+        @include primary-text($title, $secondary-color, 400);
+        margin: 0;
+      }
+      border-bottom: 1px solid $light-gray;
+      .newMember{
+        background: $light-gray;
+        border-radius: 5em;
+        padding: 0.3em 1em;
+        color:$grey;
+        font-size: $body-2;
+      }
+    }
+    .middleSection{
+      padding:1em 0;
+      width: 100%;
+      .voteBox {
+        width: 50%;
+        justify-content: center;
+        .imgVote {
+          img {
+            margin:0.5em;
+          }
+        }
+      }
+      .column {
+        .voteBold {
+            font-size:1em;
+            font-weight:medium;
+            color:$on-surface-medium;
+        }
+      }
+    }
+  }

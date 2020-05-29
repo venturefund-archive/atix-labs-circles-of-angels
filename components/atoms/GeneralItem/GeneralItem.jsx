@@ -7,17 +7,48 @@
  */
 
 import React from 'react';
-import { Icon } from 'antd';
+import PropTypes from 'prop-types';
 import './_style.scss';
 
-const GeneralItem = ({ subtitle, title, iconItem }) => (
-  <div className="GeneralItem">
-    <div className="HeaderData">
-      <Icon type={iconItem} style={{ color: '#8b91a4' }} />
-      <p>{subtitle}</p>
+const GeneralItem = ({ value, label, img, type, extra, url }) => (
+  <div className="GeneralItem flex">
+    {img && <img src={img} alt="imgItems" />}
+    <div className="HeaderData vertical">
+      {type === 'info' && (
+        <p className="Label">
+          {value} {extra}
+        </p>
+      )}
+      {type === 'link' && (
+        <a
+          className="Label"
+          href={url || value}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {value}
+        </a>
+      )}
+      {label && <h2 className="Info">{label}</h2>}
     </div>
-    <h2>{title}</h2>
   </div>
 );
+
+GeneralItem.defaultProps = {
+  img: undefined,
+  type: 'info',
+  extra: '',
+  url: undefined,
+  label: undefined
+};
+
+GeneralItem.propTypes = {
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  img: PropTypes.string,
+  type: PropTypes.oneOf(['info', 'link']),
+  extra: PropTypes.string,
+  url: PropTypes.string
+};
 
 export default GeneralItem;

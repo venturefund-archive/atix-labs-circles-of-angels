@@ -1,0 +1,282 @@
+@import '../../css/general_styling';
+
+// ant style
+
+.anticon-copy {
+  color: $grey;
+}
+
+.ant-progress-success-bg, .ant-progress-bg {
+  background-color: $cyanbg!important;
+}
+
+// general style
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  width: 49%;
+  padding: 0 2em 0 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.margin {
+  margin: 1em;
+}
+
+.flex {
+  display: flex;
+}
+
+.alignItems {
+  align-items: center;
+}
+
+.borderBottom {
+  border-bottom: 1px solid $light-gray;
+}
+
+.marginRight {
+  margin-right: 1em;
+}
+
+.marginBottom {
+  margin-bottom: 1em;
+}
+
+.DaoContainer {
+  padding: 2em 3em;
+  display: flex;
+  flex-direction: column;
+  .titleSection {
+    width: 100%;
+  }
+  .LabelSteps {
+    color: #1479e261;
+    margin-bottom: .5em;
+  }
+
+  .TransferBankInfo {
+    margin-bottom: 1em;
+    h3 {
+      @include primary-text($body, $primary-color, 400);
+      margin-top: 1em;
+    }
+    h4 {
+      @include primary-text($body, $secondary-color, 300);
+      margin: 0;
+    }
+  }
+
+  .ant-skeleton-title {
+    display: none;
+  }
+  .ant-skeleton-paragraph {
+    padding-left: 0;
+  }
+  .BoxContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 1em;
+  }
+
+  // Dao Detail
+
+  .daoDetail {
+    .detailDaoTitleContainer {
+      h1 {
+        margin-right: 1em;
+      }
+      a {
+        margin: 0 1em;
+        color: $secondary-color;
+        margin-bottom: 1em;
+      }
+      a:hover {
+        color: $grey;
+      }
+    }
+  }
+  
+  .linkSection {
+    .dot, .dot-completed {
+      height: 10px;
+      width: 10px;
+      border-radius: 5em;
+      margin-right: 1em;
+    }
+    .dot {
+      background-color: $primary-color;
+    }
+    .dot-completed {
+      background-color: orange;
+    }
+  }
+  .ProposalContainer {
+    color: $on-surface;
+    flex-wrap: wrap;
+    .proposalTitle {
+      @include primary-text($titlemedium, $on-surface, 400);
+    }
+    .ProposerBox {
+      width: 100%;
+      margin: 1em 0;
+      .ProposerSubBox {
+        width: 30%;
+        margin-right: 1em;
+      }
+      .flex {
+        h2 {
+          @include primary-text($h2, $on-surface, 400);
+          margin-bottom: 1em;
+        }
+      }
+    }
+    .disclaimer {
+      h2 {
+        @include primary-text($h2, $on-surface, 400);
+        margin-bottom: 1em;
+      }
+      p {
+        padding: 1em;
+        @include primary-text($body, $on-surface, 100);
+        border: 1px solid $light-gray;
+      }
+    }
+    // second column
+h3 {
+  color:$grey;
+}
+.categoryTag {
+  border-radius: 10px;
+  background: $light-gray;
+  width: 185px;
+  padding:0.5em 1em;
+  justify-content: center;
+  margin:1em 0;
+  img {
+    margin-right: 0.5em;
+  }
+}
+    .VoteProgressBox {
+      width: 90%;
+      padding:2em;
+      box-shadow: $shadow;
+      border-radius: 10px;
+      margin:1em 0;
+      .flex {
+        .voteBox {
+          justify-content: center;
+          width: 50%;
+          margin-bottom: 1em;
+          .imgVote {
+            img {
+              margin: 0.5em;
+            }
+          }
+        }
+        .column {
+          .voteBold {
+            @include primary-text($titlepage, $on-surface, 400);
+          }
+        }
+      }
+
+      .subBox {
+        margin-top:1em;
+        flex-direction: column;
+        h3 {
+          color: $grey;
+        }
+        width: 100%;
+      }
+      .detail {
+        width: 100%;
+        .ant-avatar {
+          background: $primary-color;
+        }
+        .ant-avatar-string {
+          color: white;
+        }
+        .plusSign {
+          display: flex;
+          align-items: center;
+          h2,
+          p {
+            color: $primary-color;
+            margin: 0;
+          }
+        }
+        .avatarBox {
+          .avatar {
+            border: 2px solid white;
+            margin-left: -9px !important;
+            z-index: 2;
+          }
+          .avatar-overlap {
+            margin-right: -0.5px !important;
+            border: 2px solid white;
+            z-index: 1;
+          }
+        }
+      }
+    }
+
+    // second column
+  }
+  .VoteButton {
+    margin-top:4em;
+    width: 100%;
+    padding:2em 0;
+    justify-content:center;
+    border-top:1px solid $light-gray;
+    button {
+      margin: 0 1em;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .DaoContainer {
+    .BoxContainer {
+      justify-content: center;
+    }
+  }
+  .ProposalContainer {
+    flex-direction: column;
+    justify-content: center;
+    .col {
+      h3 {
+        margin:1em auto;
+      }
+      width: 100%;
+      padding:1em 0;
+      .categoryTag {
+        margin:0 auto;
+      }
+      .VoteProgressBox {
+        margin:0 auto;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .DaoContainer {
+    .titleSection {
+      justify-content: flex-start;
+      flex-direction: column;
+      .column {
+        width: 100%;
+      }
+    }
+  }
+}

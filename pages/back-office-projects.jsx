@@ -6,76 +6,57 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import Routing from '../components/utils/Routes';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import { getProjects } from '../api/projectApi';
-import { changeBudgetStatus } from '../api/milestonesApi';
-import { withUser } from '../components/utils/UserContext';
-
+import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
+import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
+import { getProjects, updateProjectStatus, publish } from '../api/projectApi';
+import { projectStatuses } from '../constants/constants';
 
-class BackOfficeProjects extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
-  }
+const BackOfficeProjects = () => {
+  const [projects, setProjects] = useState([]);
 
-  componentDidMount = async () => {
-    const projects = (await getProjects()).data;
-    this.setState({ projects });
-  };
-
-  changeBudgetStatus = async (milestoneId, budgetStatusId, index) => {
-    const response = await changeBudgetStatus(milestoneId, budgetStatusId);
-    if (!response || response.error) {
-      const { error } = response;
-      const title = error.response
-        ? 'Error Changing Transfer Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-    } else {
-      showModalSuccess('Success!', response.data.success);
+  const fetchProjects = async () => {
+    try {
+      const response = await getProjects();
+      setProjects(response);
+    } catch (error) {
+      message.error(error);
     }
-
-    Routing.toBackOffice();
-    return response;
   };
 
-  updateProject = (index, project) => {
-    const { projects } = this.state;
-    projects[index] = project;
-    this.setState({ projects });
+  const handleReject = async projectId => {
+    try {
+      await updateProjectStatus(projectId, projectStatuses.REJECTED);
+      fetchProjects();
+      message.success('Project status changed correctly');
+    } catch (error) {
+      message.error(error);
+    }
   };
 
-  render() {
-    const { projects } = this.state;
-    return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="TableContainer">
-            <h1>Projects Administration</h1>
-            <TableBOProjects
-              dataSource={projects}
-              onStateChange={this.updateProject}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  const handleConfirm = async projectId => {
+    const response = await publish(projectId);
+    if (response.errors) return message.error(response.errors);
+    fetchProjects();
+    message.success('Project status changed correctly');
+  };
 
-export default withUser(BackOfficeProjects);
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  return (
+    <div className="TableContainer">
+      <h1>Projects Administration</h1>
+      <TableBOProjects
+        data={projects}
+        onConfirm={projectId => handleConfirm(projectId)}
+        onReject={projectId => handleReject(projectId)}
+      />
+    </div>
+  );
+};
+
+export default BackOfficeProjects;

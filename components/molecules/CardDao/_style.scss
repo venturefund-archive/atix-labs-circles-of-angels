@@ -1,0 +1,127 @@
+@import "../../../css/general_styling.scss";
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+  .Box1 {
+    position: relative;
+    overflow: visible;
+    padding:2em;
+    box-shadow: $shadow;
+    min-height: 182px;
+    min-width: 334px;
+    width:25%;
+    border-radius: 10px;
+    margin: 1em 0.5em;
+    &:hover {
+      border:1px solid $primary-color;
+      box-shadow: 0px 26px 14px -20px rgba(0,4,121,0.27);
+      box-sizing: border-box;
+    }
+    h2 {
+      @include primary-text($title, $secondary-color, 400);
+      margin: 0;
+    }
+    .BottomBoxSection {
+      padding:2em;
+      border-top: 1px solid $light-gray;
+      height: 79px;
+      overflow: hidden;
+      position: absolute;
+      bottom:0;
+      left:0;
+      width: 100%;
+    }
+    .subBox {
+      flex-direction:column;
+      h3 {
+        color:$grey;
+      }
+      width: 50%;
+    }
+    .detail {
+      width: 100%;
+      .ant-avatar {
+        background: $primary-color;
+      }
+      .ant-avatar-string {
+        color:white;
+      }
+      .plusSign {
+        display: flex;
+        align-items: center;
+        h2, p {
+          color:$primary-color;
+        }
+      }
+      .avatarBox {
+        .avatar  {
+          border:2px solid white;
+        }
+        .avatar-overlap {
+          margin-right: -5px!important;
+          border:2px solid white;
+          z-index: 1;
+        }
+      }
+      .detailText {
+        align-items: center;
+        width: 50%;
+        padding:0 1em 0 0;
+      }
+      .green {
+        background: $light-green;
+        border-radius: 5px;
+        padding:0;
+        text-align: center;
+        justify-content: center;
+        h2, p {
+          color: $cyanbg;
+          opacity: 1;
+        }
+        h2 {
+          padding-right: 0.2em;
+        }
+      }
+    }
+  }
+
+
+  @media only screen and (max-width: 400px) {
+    .Box1 {
+      height: 300px;
+      .BottomBoxSection {
+        height: 190px;
+        flex-direction: column;
+        .subBox {
+          width: 100%;
+          margin-bottom: 1em;
+          .detailText {
+            justify-content: flex-start;
+            h2 {
+              margin-right: 0.5em;
+            }
+          }
+          .green {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }

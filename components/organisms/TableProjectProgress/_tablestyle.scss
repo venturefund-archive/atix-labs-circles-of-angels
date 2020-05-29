@@ -18,13 +18,13 @@
   
 }
 .ant-table-title {    
-  @include primary-text($h2, $secondary-color, 600);
+  @include primary-text($h2, $secondary-color, 500);
   margin-bottom: 0;
   padding: 1em 1em;
   .milestoneStatus{
     display: flex;
       width: 20%;
-      color: $sucess-color;
+      color: $success-color;
       background: $success-color-light;
       padding: 0.5em;
       border-radius: 4px;
@@ -54,7 +54,7 @@
 }
 
 .ant-table-tbody > tr > td:first-child {
-  font-weight: 600;
+  font-weight: 500;
   color: $secondary-color;
 }
 

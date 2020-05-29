@@ -1,0 +1,109 @@
+@import "../../../css/general_styling.scss";
+
+.border-top {
+  border-top:1px solid $light-gray;
+}
+
+.margin-top {
+  margin-top:1em;
+}
+
+.padding-top {
+  padding-top:1em;
+}
+
+.column {
+  display:flex;
+  flex-direction:column;
+}
+
+#rcDialogTitle0 {
+  display:none;
+}
+
+//
+
+
+.ant-modal-header, .anticon-close, .ant-modal-close-icon {
+  display:none;
+}
+
+
+.ant-modal-footer {
+  display:flex;
+  justify-content: space-between;
+}
+
+.ant-popover-buttons {
+  display: none;
+}
+
+.anticon-exclamation-circle {
+  display: none;
+}
+
+.ant-popover-message-title {
+  padding-left: 0;
+}
+
+.ant-modal-footer {
+  display: none;
+}
+
+.ant-collapse-content {
+  border:none;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px;
+}
+
+// modal content
+
+
+.ant-modal-content .ant-modal-body {
+  padding:2em;
+  h1 {
+    @include primary-text($titlemedium, $secondary-color, 400);
+  }
+  .subtitle {
+    @include primary-text($body, $secondary-color, 300);
+  }
+  .date {
+    background: rgba(254, 159, 48, 0.25);
+    padding:0.3em 1em;
+    border-radius: 5em;
+    margin-right: 1em;
+    p {
+      font-size:$label;
+    }
+    img {
+      margin-right: 0.5em;
+    }
+  }
+    .daoRoleContainer {
+      width: 200px;
+      background:$white;
+      padding:1em;
+      border-radius: 10px;
+      border:1px solid $light-gray;
+      img {
+        margin-right:1em;
+      }
+    }
+
+    .daoMemberContainer {
+      width: 200px;
+      background:$white;
+      padding:1em;
+      border-radius: 10px;
+      border:1px solid $primary-color;
+      img {
+        margin-right:1em;
+      }
+    }
+
+    .daoRoleContainer:hover {
+      border:1px solid $primary-color;
+    }
+}

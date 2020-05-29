@@ -1,0 +1,168 @@
+@import '../../../css/general_styling.scss';
+
+.ModalEvidences {
+  width: 65vw !important;
+    @include breakpoint(sm) {
+      width: 95vw !important;
+    }
+  .ant-modal-content {
+    padding: 1em 1em 2em;
+  }
+  .ant-modal-body  {
+    height: auto;
+    overflow-y: scroll;
+  }
+  .EvidenceItem {
+    margin-bottom:1em;
+    .Description {
+      .Data{
+        @include breakpoint(sm) {
+          display: flex;
+          flex-wrap: wrap;
+          .Title{
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+          }
+        }
+      }
+      h1 {
+        @include primary-text($body, $on-surface, 500);
+      }
+      p {
+        @include primary-text($body, $on-surface, 300);
+        margin-top: 0.5em;
+        line-height: 20px;
+        text-align: justify;
+      }
+      span {
+        @include primary-text($body, $on-surface-medium, 300);
+      }
+      a {
+        @include primary-text($body, $primary-color, 400);
+      }
+    }
+    .BlockImages {
+      display: flex;
+      margin-top: 1em;
+      .ImageContainer {
+        border-radius: 6px;
+        height: 120px;
+        width: 120px;
+        background: $light-gray;
+        overflow: hidden;
+        margin-right: 0.5em;
+        padding: 0;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    .IconClosed,
+    .IconOpen {
+      position: relative;
+      height: 32px;
+      width: 32px;
+      margin-left: 0.3em;
+      .BlockGray,
+      .BlockBlue {
+        top: 2px;
+        left: 2px;
+        transition: 0.8s ease;
+        position: absolute;
+      }
+    }
+    .IconClosed {
+      .BlockBlue {
+        opacity: 0;
+      }
+    }
+    .IconOpen {
+      .BlockBlue {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    .panel-group {
+      margin-top: 30px;
+    }
+    .panel-collapse {
+      max-height: 500px;
+      transition: 0.8s ease;
+      background: $primary-color-light;
+      margin-top: 1.5em;
+      border-radius: 13px;
+      overflow: hidden;
+      .Container {
+        padding: 1em 1.5em 0em;
+        border: 1px solid $light-gray;
+        @include breakpoint(sm) {
+          padding: 1.5em;
+        }
+      }
+      .Items {
+        margin: 0 1.5em 1.5em 0;
+        min-width: 125px;
+        max-width: 160px;
+        display: ruby;
+        @include breakpoint(sm) {
+          margin: 0 0 0.5em;
+          min-width: 100%;
+          max-width: 100%;
+          display: ruby;
+          width: 100%;
+        }
+      }
+      .Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $border;
+        margin-bottom: 1em;
+        padding-bottom: 0.5em;
+        @include breakpoint(sm) {
+          flex-wrap: wrap;
+          flex-direction: column-reverse;
+          align-items: flex-start;
+        }
+
+        h1 {
+          @include primary-text($body, $on-surface, 300);
+          b {
+            @include primary-text($body, $on-surface, 500);
+          }
+        }
+      }
+      .NoData {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1em;
+        @include breakpoint(sm) {
+          flex-wrap: wrap;
+          flex-direction: column-reverse;
+          align-items: flex-start;
+        }
+
+        h1 {
+          @include primary-text($body, $on-surface, 300);
+          b {
+            @include primary-text($body, $on-surface, 500);
+          }
+        }
+      }
+      .Rows{
+        @include breakpoint(sm) {
+          display:flex;
+          flex-direction:column;
+        }
+      }
+    }
+    .panel-close {
+      max-height: 0;
+    }
+  }
+}

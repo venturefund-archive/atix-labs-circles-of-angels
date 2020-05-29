@@ -8,7 +8,7 @@
   border-left: 3px solid #e0e4e8;
   justify-content: space-between;
   .Title {
-    @include primary-text($body, $secondary-color, 600);
+    @include primary-text($body, $secondary-color, 500);
     margin-bottom: 0;
   }
   p {

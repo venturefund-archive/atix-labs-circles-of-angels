@@ -7,28 +7,23 @@
  */
 
 import React from 'react';
-import { Table, Tag, Button, Icon } from 'antd';
+import PropTypes from 'prop-types';
 import './_style.scss';
+import { Table, Tag } from 'antd';
+import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
-import Routing from '../../utils/Routes';
-import { showModalError, showModalSuccess } from '../../utils/Modals';
-import {
-  confirmProject,
-  rejectProject,
-  downloadProjectMilestonesFile
-} from '../../../api/projectApi';
+import { projectStatuses } from '../../../constants/constants';
+import { downloadFileFromPath } from '../../utils/FileUtils';
 
-const projectDetailPage = projectId => {
-  Routing.toBackofficeProjectDetails({ projectId });
-};
+const TableBOProjects = ({ data, onConfirm, onReject }) => {
+  const history = useHistory();
 
-const TableBOProjects = ({ dataSource, onStateChange }) => {
   const columns = [
     {
       title: 'User',
-      dataIndex: 'ownerName',
-      key: 'ownerName'
+      dataIndex: 'owner.firstName',
+      key: 'firstName'
     },
     {
       title: 'Project',
@@ -37,24 +32,32 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
     },
     {
       title: 'Milestones',
-      dataIndex: 'id',
+      dataIndex: 'milestonePath',
       key: 'milestones',
-      render: projectId => (
-        <Button onClick={() => downloadMilestones(projectId)}>
-          Download Excel File <Icon type="download" />
-        </Button>
-      )
+      render: milestonePath =>
+        milestonePath && (
+          <CustomButton
+            theme="Secondary"
+            icon="download"
+            buttonText="Download"
+            classNameIcon="iconDisplay"
+            onClick={() =>
+              downloadFileFromPath(milestonePath, 'milestones.xlsx')
+            }
+          />
+        ) // TODO: show something else if !milestonePath?
     },
     {
       title: 'Details',
       dataIndex: 'id',
       key: 'details',
       render: projectId => (
-        <img
-          alt="img"
-          className="ProjectAccess"
-          src="./static/images/icon-info.svg"
-          onClick={() => projectDetailPage(projectId)}
+        <CustomButton
+          theme="Secondary"
+          icon="eye"
+          buttonText="View"
+          classNameIcon="iconDisplay"
+          onClick={() => goToProjectDetail(projectId)}
         />
       )
     },
@@ -72,73 +75,32 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
     },
     {
       title: 'Actions',
-      dataIndex: 'id',
       key: 'action',
-      render: (projectId, collection, index) => (
+      render: ({ id, status }) => (
         <div className="ActionButtons">
           <CustomButton
             theme="Primary"
             buttonText="Confirm"
-            onClick={async () =>
-              handleConfirm(confirmProject, projectId, collection, index)
-            }
+            hidden={status !== projectStatuses.TO_REVIEW}
+            onClick={() => onConfirm(id)}
           />
           <CustomButton
             theme="Cancel"
             buttonText="Reject"
-            onClick={async () =>
-              handleConfirm(rejectProject, projectId, collection, index)
-            }
+            hidden={status !== projectStatuses.TO_REVIEW}
+            onClick={() => onReject(id)}
           />
         </div>
       )
     }
   ];
 
-  const downloadMilestones = async projectId => {
-    const response = await downloadProjectMilestonesFile(projectId);
-
-    if (response.error) {
-      const { error } = response;
-      if (error.response) {
-        error.response.data.error =
-          // eslint-disable-next-line prettier/prettier
-          "This project doesn't have a Milestones file uploaded";
-      }
-      const title = error.response
-        ? `${error.response.status} - ${error.response.statusText}`
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-    }
-    return response;
-  };
-
-  const handleConfirm = async (action, projectId, collection, index) => {
-    const response = await action(projectId);
-    if (!response || response.error) {
-      const { error } = response;
-      const title = error.response
-        ? 'Error Changing Project Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-      return response;
-    }
-
-    showModalSuccess('Success!', 'Status changed correctly');
-
-    collection.status = response.data.status;
-    onStateChange(collection, index);
-  };
+  const goToProjectDetail = projectId =>
+    history.push(`/project-detail?id=${projectId}`);
 
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={data}
       columns={columns}
       size="middle"
       className="TableBOProjects"
@@ -147,3 +109,13 @@ const TableBOProjects = ({ dataSource, onStateChange }) => {
 };
 
 export default TableBOProjects;
+
+TableBOProjects.defaultProps = {
+  data: []
+};
+
+TableBOProjects.propTypes = {
+  data: PropTypes.arrayOf({}),
+  onConfirm: PropTypes.func.isRequired,
+  onReject: PropTypes.func.isRequired
+};

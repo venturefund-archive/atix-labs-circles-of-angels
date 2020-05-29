@@ -1,28 +1,23 @@
 @import "../../../css/general_styling.scss";
 
 .InfoItem{
-    width: 22%;
     text-align: left;
     img{
-        width: 25px;
-        height: 25px;
+        margin-bottom:0.5em;
     }
     .anticon {
     margin-top: 5px;}
 
     .InfoItemData{
         display: flex;
-    flex-flow: column-reverse;
+        flex-flow: column-reverse;
+        align-items: flex-start;
         p{
-            @include primary-text($body, $grey, 400);
+            @include primary-text($body-2, $on-surface-medium, 400);
         }
         h2{
             line-height: 16px;
-            @include primary-text($body, $on-surface, 600);
+            @include primary-text($body, $on-surface, 500);
         }
     }
-}
-
-.InfoItem:first-child{
-    width:33%;
 }

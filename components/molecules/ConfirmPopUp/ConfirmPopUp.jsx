@@ -41,7 +41,11 @@ class ConfirmPopUp extends React.Component {
     const { handleOk } = this.props;
     return (
       <div>
-        <CustomButton theme="Primary" buttonText="Sign" onClick={this.showModal} />
+        <CustomButton
+          theme="Primary"
+          buttonText="Sign"
+          onClick={this.showModal}
+        />
         <Modal
           title="Confirmation"
           visible={visible}

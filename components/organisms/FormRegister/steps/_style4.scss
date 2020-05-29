@@ -1,0 +1,31 @@
+@import '../../../../css/general_styling.scss';
+
+.RegisterStep4 {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  .BlockCongrats {
+    text-align: center;
+    h1 {
+      @include primary-text($subtitle, $on-surface, 500);
+    }
+    h2 {
+      @include primary-text($subtitle, $primary-color, 500);
+    }
+    p {
+      @include primary-text($body, $on-surface-medium, 500);
+      margin-top: 2em;
+      &::before {
+        background: $border;
+        content: '';
+        display: block;
+        height: 3px;
+        position: absolute;
+        width: 10%;
+        top: 4.5em;
+        left: 46%;
+      }
+    }
+  }
+}
