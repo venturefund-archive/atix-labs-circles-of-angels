@@ -91,6 +91,18 @@
         margin-right:1em;
       }
     }
+
+    .daoMemberContainer {
+      width: 200px;
+      background:$white;
+      padding:1em;
+      border-radius: 10px;
+      border:1px solid $primary-color;
+      img {
+        margin-right:1em;
+      }
+    }
+
     .daoRoleContainer:hover {
       border:1px solid $primary-color;
     }
