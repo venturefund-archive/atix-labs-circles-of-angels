@@ -61,7 +61,8 @@ function DaoDetail() {
       <div className="flex space-between titleSection daoDetail borderBottom marginBottom">
         <div className="column">
           <p className="LabelSteps">
-            <LeftOutlined /> Back to DAOS
+            <LeftOutlined />
+            <a onClick={() => history.goBack()}>Back to DAOS</a>
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
             <TitlePage
@@ -72,11 +73,9 @@ function DaoDetail() {
               }
             />
             <a>Proposals ({currentProposals.length})</a>
-            {/* <a>Members (36)</a> */}
           </div>
         </div>
         <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
-        {/* <CustomButton theme="Primary" buttonText="+ New Proposal" /> */}
       </div>
 
       <div className="column marginBottom">

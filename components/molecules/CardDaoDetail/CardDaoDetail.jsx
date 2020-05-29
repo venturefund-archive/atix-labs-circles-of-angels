@@ -37,7 +37,7 @@ const CardDaoDetail = ({ proposal, showStatus }) => {
     const notPassedMessage = "Status: Didn't Pass";
     const passedMessage = 'Status: Passed';
     const passedIcon = '../static/images/icon-vote-green.png';
-    const notPassedIcon = '../static/images/icon-vote-red.png';
+    const notPassedIcon = '../static/images/icon-vote-red.svg';
     const passedClass = 'flex passed';
     const notPassedClass = 'flex notPassed';
     if (showStatus) {

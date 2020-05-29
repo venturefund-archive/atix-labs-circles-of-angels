@@ -61,26 +61,3 @@ function Dao() {
 }
 
 export default Dao;
-
-/*
-
-
-          <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place
-            for everyone
-          </h3>
-          <p className="LabelSteps">Project Name</p>
-          <h1>Lorem Ipsum</h1>
-          <div className="TransferContent">
-            <h2>Circles of Angels Bank Account Information</h2>
-            <div className="TransferBankInfo">
-              <h3>Singapore Bank</h3>
-              <h4> Account #: 0012345678</h4>
-              <h4> Account owner: CirclesOfAngels</h4>
-            </div>
-          </div>
-          <div className="ControlSteps">
-            <CustomButton theme="Cancel" buttonText="Cancel" />
-          </div>
-
-*/
