@@ -7,33 +7,37 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { message, Input, Icon, Select } from 'antd';
-import { LeftOutlined, SearchOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router';
 import '../_style.scss';
 import './_style.scss';
+import { LeftOutlined } from '@ant-design/icons';
+import CardMember from '../../components/molecules/CardMember/CardMember';
 import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import Header from '../../components/molecules/Header/Header';
-import SideBar from '../../components/organisms/SideBar/SideBar';
-import useQuery from '../../hooks/useQuery';
-import { getProposalsByDaoId } from '../../api/daoApi';
-import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
-import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
-
-const { Option } = Select;
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 function DaoMembers() {
   return (
-<div className="DaoContainer">
-  hola
-  </div>
-);
+    <div className="DaoContainer">
+      <div className="flex space-between titleSection borderBottom marginBottom">
+        <div className="column marginBottom">
+          <p className="LabelSteps">
+            <LeftOutlined /> Back to proposal
+          </p>
+          <TitlePage textTitle="Name of the DAO 1" />
+        </div>
+        <ProposalModal />
+      </div>
+      <div className="BoxContainer">
+        <CardMember />
+        <CardMember />
+        <CardMember />
+        <CardMember />
+        <CardMember />
+        <CardMember />
+        <CardMember />
+      </div>
+    </div>
+  );
 }
 
 export default DaoMembers;
