@@ -14,8 +14,6 @@ import '../_style.scss';
 import './_style.scss';
 import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import Header from '../../components/molecules/Header/Header';
-import SideBar from '../../components/organisms/SideBar/SideBar';
 import useQuery from '../../hooks/useQuery';
 import { getProposalsByDaoId } from '../../api/daoApi';
 import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
@@ -36,7 +34,7 @@ function DaoDetail() {
   const history = useHistory();
   const { id: daoId } = useQuery();
 
-  const fecthDaoProposals = async () => {
+  const fetchDaoProposals = async () => {
     try {
       const response = await getProposalsByDaoId(daoId);
       if (response.errors || !response.data) {
@@ -52,8 +50,19 @@ function DaoDetail() {
     }
   };
 
+  const goToProposalDetail = proposalId => {
+    let daoName;
+    if (history.location.state) daoName = history.location.state.daoName;
+    else daoName = `Name of Dao ${daoId}`;
+    const state = { daoId, proposalId, daoName };
+    history.push(
+      `/dao-proposal-detail?daoId=${daoId}&proposalId=${proposalId}`,
+      state
+    );
+  };
+
   useEffect(() => {
-    fecthDaoProposals();
+    fetchDaoProposals();
   }, [creationSuccess]);
 
   return (
@@ -85,7 +94,11 @@ function DaoDetail() {
         </div>
         <div className="BoxContainer">
           {currentProposals.map(proposal => (
-            <CardDaoDetail proposal={proposal} showStatus={false} />
+            <CardDaoDetail
+              proposal={proposal}
+              showStatus={false}
+              onClick={() => goToProposalDetail(proposal.id)}
+            />
           ))}
         </div>
       </div>
@@ -96,7 +109,11 @@ function DaoDetail() {
         </div>
         <div className="BoxContainer">
           {completedProposals.map(proposal => (
-            <CardDaoDetail proposal={proposal} showStatus />
+            <CardDaoDetail
+              proposal={proposal}
+              showStatus
+              onClick={() => goToProposalDetail(proposal.id)}
+            />
           ))}
         </div>
       </div>

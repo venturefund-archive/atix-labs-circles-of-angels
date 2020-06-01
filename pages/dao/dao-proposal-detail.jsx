@@ -10,183 +10,218 @@ import React, { useState, useEffect } from 'react';
 import { message, Progress, Avatar } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
+import {
+  showModalError,
+  showModalSuccess
+} from '../../components/utils/Modals';
 import '../_style.scss';
 import './_style.scss';
 import '../_transfer-funds.scss';
+import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import Header from '../../components/molecules/Header/Header';
-import SideBar from '../../components/organisms/SideBar/SideBar';
-// import { getFeaturedProjects } from '../../api/projectApi';
-import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
+import { getProposalsByDaoId, voteProposal } from '../../api/daoApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
+import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
 function DaoProposalDetail() {
   const [visibility, setVisibility] = useState(false);
-  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [currentProposal, setCurrentProposal] = useState({});
+  const [voteSuccess, setVoteSuccess] = useState(false);
   const history = useHistory();
+  const { daoId, proposalId } = useQuery();
 
-  const fecthFeaturedProjects = async () => {
+  const fetchCurrentProposal = async () => {
     try {
-      const response = await getFeaturedProjects();
-      setFeaturedProjects(response);
+      const response = await getProposalsByDaoId(daoId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Proposals');
+        return [];
+      }
+      // FIXME: This page may be refactored to a single page
+      // with the dao-detail one making a conditional rendering
+      const found = response.data.find(proposal => proposal.id === proposalId);
+      if (!found) {
+        message.error('The proposal does not exist on this DAO');
+        return;
+      }
+      setCurrentProposal(found);
     } catch (error) {
       message.error(error);
     }
   };
 
-  // TODO for the moment cards without redirection
-  // const goToProjectDetail = project => {
-  //   const state = { projectId: project.id };
-  //   history.push(`/project-detail?id=${project.id}`, state);
-  // };
+  const submitVoteProposal = async vote => {
+    const data = { vote };
+    const response = await voteProposal(daoId, proposalId, data);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error submitting the vote.';
+      showModalError(title, content);
+    } else {
+      showModalSuccess('Success', 'Vote submitted correctly!');
+      setVoteSuccess(true);
+    }
+  };
 
   useEffect(() => {
-    fecthFeaturedProjects();
-  }, []);
+    fetchCurrentProposal();
+  }, [voteSuccess]);
+
+  const votesPercentage = votes => {
+    const totalVotes = currentProposal.yesVotes + currentProposal.noVotes;
+    if (totalVotes <= 0) return 0;
+    const percentage = (votes / totalVotes) * 100;
+    return percentage;
+  };
+
+  const parseAddress = address => {
+    const addressLength = 12;
+    if (!address) return;
+    return address.substring(0, addressLength);
+  };
+
+  const parseType = type => {
+    const proposalTypes = [
+      proposalTypeEnum.NEW_MEMBER,
+      proposalTypeEnum.NEW_DAO,
+      proposalTypeEnum.ASSIGN_BANK,
+      proposalTypeEnum.ASSIGN_CURATOR
+    ];
+    return proposalTypes[type];
+  };
 
   return (
-    <div className="AppContainer">
-      <SideBar />
-      <div className="MainContent">
-        <Header />
-        <div className="DaoContainer">
-          <div className="flex space-between titleSection borderBottom marginBottom">
-            <div className="column marginBottom">
-              <p className="LabelSteps">
-                <LeftOutlined /> Back to proposal
-              </p>
-              <TitlePage textTitle="Name of the DAO 1" />
+    <div className="DaoContainer">
+      <div className="flex space-between titleSection borderBottom marginBottom">
+        <div className="column marginBottom">
+          <p className="LabelSteps">
+            <LeftOutlined />
+            <a onClick={() => history.goBack()}>Back to proposal</a>
+          </p>
+          <TitlePage
+            textTitle={
+              history.location.state
+                ? history.location.state.daoName
+                : `Name of Dao ${daoId}`
+            }
+          />
+        </div>
+      </div>
+      <div className="ProposalContainer flex space-between">
+        {/* First Column */}
+        <div className="column col">
+          <div className="flex marginBottom">
+            <div className="flex marginRight">
+              <img
+                className="marginRight"
+                src="../static/images/icon-date.svg"
+                alt="img"
+              />
+              <p className="text">01 d : 21 h :09 m</p>
             </div>
-            <ProposalModal />
-          </div>
-          <div className="ProposalContainer flex space-between">
-            {/* First Column */}
-            <div className="column col">
-              <div className="flex marginBottom">
-                <div className="flex marginRight">
-                  <img
-                    className="marginRight"
-                    src="../static/images/icon-date.svg"
-                    alt="img"
-                  />
-                  <p className="text">01 d : 21 h :09 m</p>
-                </div>
-                <div className="flex">
-                  <img
-                    className="marginRight"
-                    src="../static/images/icon-time.png"
-                    alt="img"
-                  />
-                  <p className="text">Due date: 13 days</p>
-                </div>
-              </div>
-              <h2 className="proposalTitle">
-                ProgPoW Signaling Vote (EIP-1057)
-              </h2>
-              <p className="text">
-                Magna voluptate et est ad adipisicing amet occaecat exercitation
-                officia consectetur commodo excepteur non do mollit culpa
-                excepteur mollit excepteur reprehenderit culpa velit id nostrud
-                nulla anim eu magna.
-              </p>
-              <div className="flex ProposerBox">
-                <div className="ProposerSubBox">
-                  <div className="flex">
-                    <h2>Proposer</h2>
-                  </div>
-                  <div className="flex maragin">
-                    <div className="marginRight">
-                      <img src="../static/images/proposer1.png" />
-                    </div>
-                    <div>
-                      <p className="bold">Matt Grindor</p>
-                      <p>
-                        0x2625f1c11... <CopyFilled />
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ProposerSubBox">
-                  <div className="flex">
-                    <h2>Applicant</h2>
-                  </div>
-                  <div className="flex maragin">
-                    <div className="marginRight">
-                      <img src="../static/images/proposer2.png" />
-                    </div>
-                    <div>
-                      <p className="bold">Eric Conner</p>
-                      <p>
-                        0x2625f1c11... <CopyFilled />
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="margin column disclaimer">
-                <h2>Disclaimer</h2>
-                <p>
-                  This is a vote for COADAO members to signal their support or
-                  dissent for <strong>“Name of the proposal”. Yes means</strong>
-                  you would like to see it implemented and released in core
-                  clients by the core developers, <strong>no means</strong> you
-                  would not.
-                </p>
-              </div>
-            </div>
-            {/* Second Column */}
-            <div className="column col">
-              <h3>CATEGORY</h3>
-
-              <h3>PROGRESS</h3>
-              <div className="columnn VoteProgressBox">
-                <div className="flex space-between">
-                  <div className="flex voteBox">
-                    <div className="imgVote">
-                      <img alt="img" src="../static/images/yes.svg" />
-                    </div>
-                    <div className="column">
-                      <p className="voteBold">366 - 75%</p>
-                      <p className="text">YES VOTES</p>
-                    </div>
-                  </div>
-                  <div className="flex voteBox">
-                    <div className="imgVote">
-                      <img alt="img" src="../static/images/no.svg" />
-                    </div>
-                    <div className="column">
-                      <p className="voteBold">366 - 75%</p>
-                      <p className="text">NO VOTES</p>
-                    </div>
-                  </div>
-                </div>
-                <Progress percent={30} />
-                <div className="subBox">
-                  <h3>Participants</h3>
-                  <div className="detail flex">
-                    <div className="avatarBox flex">
-                      <Avatar className="avatar-overlap">U</Avatar>
-                      <Avatar className="avatar">A</Avatar>
-                      <Avatar className="avatar">R</Avatar>
-                      <Avatar className="avatar">S</Avatar>
-                      <Avatar className="avatar">P</Avatar>
-                    </div>
-                    <div className="plusSign flex-start">
-                      <h2>+</h2>
-                      <p>334</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* buttons section */}
-
-            <div className="flex VoteButton">
-              <CustomButton theme="VoteYes" buttonText="Vote Yes" />
-              <CustomButton theme="VoteNo" buttonText="Vote No" />
+            <div className="flex">
+              <img
+                className="marginRight"
+                src="../static/images/icon-time.png"
+                alt="img"
+              />
+              <p className="text">Due date: 13 days</p>
             </div>
           </div>
+          <h2 className="proposalTitle">
+            {parseType(currentProposal.proposalType)}
+          </h2>
+          <p className="text">{currentProposal.description}</p>
+          <div className="flex ProposerBox">
+            <div className="ProposerSubBox">
+              <div className="flex">
+                <h2>Proposer</h2>
+              </div>
+              <div className="flex maragin">
+                <div>
+                  <p className="bold">Matt Grindor</p>
+                  <p>
+                    {parseAddress(currentProposal.proposer)} ... <CopyFilled />
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="ProposerSubBox">
+              <div className="flex">
+                <h2>Applicant</h2>
+              </div>
+              <div className="flex maragin">
+                <div>
+                  <p className="bold">Eric Conner</p>
+                  <p>
+                    {parseAddress(currentProposal.applicant)} ... <CopyFilled />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="column col">
+          <div className="columnn VoteProgressBox">
+            <div className="flex space-between">
+              <div className="flex voteBox">
+                <div className="imgVote">
+                  <img alt="img" src="../static/images/yes.svg" />
+                </div>
+                <div className="column">
+                  <p className="voteBold">
+                    {currentProposal.yesVotes} -{' '}
+                    {votesPercentage(currentProposal.yesVotes)}%
+                  </p>
+                  <p className="text">YES VOTES</p>
+                </div>
+              </div>
+              <div className="flex voteBox">
+                <div className="imgVote">
+                  <img alt="img" src="../static/images/no.svg" />
+                </div>
+                <div className="column">
+                  <p className="voteBold">
+                    {currentProposal.noVotes} -{' '}
+                    {votesPercentage(currentProposal.noVotes)}%
+                  </p>
+                  <p className="text">NO VOTES</p>
+                </div>
+              </div>
+            </div>
+            <Progress percent={votesPercentage(currentProposal.yesVotes)} />
+            {/* <div className="subBox">
+              <h3>Participants</h3>
+              <div className="detail flex">
+                <div className="avatarBox flex">
+                  <Avatar className="avatar-overlap">U</Avatar>
+                  <Avatar className="avatar">A</Avatar>
+                  <Avatar className="avatar">R</Avatar>
+                  <Avatar className="avatar">S</Avatar>
+                  <Avatar className="avatar">P</Avatar>
+                </div>
+                <div className="plusSign flex-start">
+                  <h2>+</h2>
+                  <p>334</p>
+                </div>
+              </div>
+            </div> */}
+          </div>
+        </div>
+
+        <div className="flex VoteButton">
+          <CustomButton
+            onClick={() => submitVoteProposal(voteEnum.YES)}
+            theme="VoteYes"
+            buttonText="Vote Yes"
+          />
+          <CustomButton
+            onClick={() => submitVoteProposal(voteEnum.NO)}
+            theme="VoteNo"
+            buttonText="Vote No"
+          />
         </div>
       </div>
     </div>
@@ -194,26 +229,3 @@ function DaoProposalDetail() {
 }
 
 export default DaoProposalDetail;
-
-/*
-
-
-          <h3 className="StepDescription">
-            Transfer your pledged funds, help the world become a better place
-            for everyone
-          </h3>
-          <p className="LabelSteps">Project Name</p>
-          <h1>Lorem Ipsum</h1>
-          <div className="TransferContent">
-            <h2>Circles of Angels Bank Account Information</h2>
-            <div className="TransferBankInfo">
-              <h3>Singapore Bank</h3>
-              <h4> Account #: 0012345678</h4>
-              <h4> Account owner: CirclesOfAngels</h4>
-            </div>
-          </div>
-          <div className="ControlSteps">
-            <CustomButton theme="Cancel" buttonText="Cancel" />
-          </div>
-
-*/

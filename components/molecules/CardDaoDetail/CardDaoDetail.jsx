@@ -13,7 +13,7 @@ import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 import { proposalTypeEnum } from '../../../constants/constants';
 import './_style.scss';
 
-const CardDaoDetail = ({ proposal, showStatus }) => {
+const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   const { description, yesVotes, noVotes, proposalType, didPass, processed } = proposal;
 
   const votesPercentage = votes => {
@@ -55,7 +55,7 @@ const CardDaoDetail = ({ proposal, showStatus }) => {
   };
 
   return (
-    <div className="Box2 column">
+    <div onClick={onClick} className="Box2 column">
       <div className="topSection">
         <div className="flex space-between marginBottom">
           <div className="flex">
