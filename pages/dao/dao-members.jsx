@@ -19,11 +19,17 @@ function DaoMembers() {
   return (
     <div className="DaoContainer">
       <div className="flex space-between titleSection borderBottom marginBottom">
-        <div className="column marginBottom">
+        <div className="column daoDetail marginBottom">
           <p className="LabelSteps">
             <LeftOutlined /> Back to proposal
           </p>
-          <TitlePage textTitle="Name of the DAO 1" />
+          <div className="flex flex-start detailDaoTitleContainer">
+            <TitlePage textTitle="Name of the DAO 1" />
+            <div className="flex space-between">
+              <a>Proposals (2)</a>
+              <a>Proposals (36)</a>
+            </div>
+          </div>
         </div>
         <ProposalModal />
       </div>
