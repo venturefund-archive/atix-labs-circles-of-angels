@@ -148,10 +148,11 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/dao/dao-members',
+    path: '/dao-members',
     component: DaoMembers,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+    }
   }
 ];
