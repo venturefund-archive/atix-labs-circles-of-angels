@@ -10,10 +10,10 @@ import React, { useState, useEffect } from 'react';
 import '../_style.scss';
 import './_style.scss';
 import { LeftOutlined } from '@ant-design/icons';
-import CardMember from '../../components/molecules/CardMember/CardMember';
 import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
+import Daomembers from '../../components/molecules/DaoMembers/Daomembers';
 
 function DaoMembers() {
   return (
@@ -33,15 +33,7 @@ function DaoMembers() {
         </div>
         <ProposalModal />
       </div>
-      <div className="BoxContainer">
-        <CardMember />
-        <CardMember />
-        <CardMember />
-        <CardMember />
-        <CardMember />
-        <CardMember />
-        <CardMember />
-      </div>
+      <Daomembers />
     </div>
   );
 }
