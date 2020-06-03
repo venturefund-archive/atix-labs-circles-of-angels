@@ -7,8 +7,11 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, Input, Popconfirm } from 'antd';
-import { createNewMemberProposal } from '../../../api/daoApi';
+import { Modal, message } from 'antd';
+import {
+  createNewMemberProposal,
+  uploadProposalGetTransaction
+} from '../../../api/daoApi';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import {
@@ -33,10 +36,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       return false;
     }
 
-    const proposal = {
-      applicant,
-      description
-    };
+    const proposal = { applicant, description };
     const response = await createNewMemberProposal(daoId, proposal);
     if (response.errors) {
       const title = 'Error!';
@@ -48,6 +48,35 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       showModalSuccess('Success', 'Proposal created correctly!');
       setVisible(false);
       setCreationSuccess(true);
+    }
+  };
+
+  const getProposalTx = async data => {
+    const response = await uploadProposalGetTransaction(daoId, data);
+
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error submitting the proposal.';
+      showModalError(title, content);
+    }
+    console.log('Get proposal Tx', response);
+    return response.data;
+  };
+
+  const onNewProposal = async () => {
+    try {
+      if (!applicant || !description) {
+        showModalError('Error!', 'Please complete both fields');
+        return false;
+      }
+
+      const proposalData = { applicant, description };
+      const tx = await getProposalTx(proposalData);
+      // showPasswordModal(newEvidenceData, tx, newEvidenceStatus);
+    } catch (error) {
+      message.error(error.message);
     }
   };
 
@@ -112,7 +141,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         <ModalMemberSelection
           setApplicant={setApplicant}
           setDescription={setDescription}
-          submitMemberProposal={submitMemberProposal}
+          submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
         />
       </Modal>
