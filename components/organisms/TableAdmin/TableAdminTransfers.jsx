@@ -10,6 +10,7 @@ import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message } from 'antd';
+import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -92,37 +93,45 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     },
     {
       title: 'Actions',
-      render: ({ id, status }) => {
-        if (status !== TransferStatuses.PENDING) return;
+      key: 'actions',
+      dataIndex: 'actions',
+      render: actions => (
+        <button className="reintentarBtn">
+          <UndoOutlined /> Reintentar
+        </button>
+      )
 
-        return (
-          <Fragment>
-            <Col span={8}>
-              <CustomButton
-                theme="Primary"
-                key="back"
-                buttonText="Approve"
-                onClick={() => onApprovedTransfer(id)}
-              />
-            </Col>
-            <Col span={8}>
-              <CustomButton
-                theme="Sencondary"
-                key="back"
-                buttonText="Reject"
-                onClick={() => setTransferSelected(id)}
-              />
-            </Col>
-          </Fragment>
-        );
-      }
+      // render: ({ id, status }) => {
+      //   if (status !== TransferStatuses.PENDING) return;
+
+      //   return (
+      //     <Fragment>
+      //       <Col span={8}>
+      //         <CustomButton
+      //           theme="Primary"
+      //           key="back"
+      //           buttonText="Approve"
+      //           onClick={() => onApprovedTransfer(id)}
+      //         />
+      //       </Col>
+      //       <Col span={8}>
+      //         <CustomButton
+      //           theme="Sencondary"
+      //           key="back"
+      //           buttonText="Reject"
+      //           onClick={() => setTransferSelected(id)}
+      //         />
+      //       </Col>
+      //     </Fragment>
+      //   );
+      // }
     }
   ];
 
-  const fetchTransfers = async () => {
+  const fetchTransfers = useCallback(async () => {
     const data = await getTransfers(projectId);
     setTransfers(data);
-  };
+  });
 
   const inputPasswordHandler = async data => {
     // TODO: add support for mnemonic
@@ -221,7 +230,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     fetchTransfers();
-  }, []);
+  }, [fetchTransfers]);
 
   useEffect(() => {
     if (!transferSelected) return;
