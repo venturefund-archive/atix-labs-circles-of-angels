@@ -84,6 +84,11 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     return response.data;
   };
 
+  const hideModalProposal = () => {
+    setVisible(false);
+    setCreationSuccess(true);
+  };
+
   const showPasswordModal = (proposalData, tx) => {
     setTxData(tx);
     setModalPasswordVisible(true);
@@ -104,6 +109,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       return;
     } finally {
       hideModalPassword();
+      hideModalProposal();
     }
     message.success('Proposal created successfully!');
   };
