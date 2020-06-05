@@ -40,42 +40,27 @@
 }
 
 
-.BlockDiscussion{
-  height: 63%;
-  overflow-y:auto;
-  .MessageContent{
-    h3{
-      padding: 0 0.5em;
-      @include primary-text($medium, $black, 400);
-    }
-    span{
-      @include primary-text($label, $on-surface-medium, 400);
-    }
-    p.Text{
-      padding:  0.5em 0;
-      @include primary-text($body, $grey, 400);
-    }
-    a{
-      @include primary-text($label, $primary-color, 400);
-    }
-    .ant-scroll-number-only > p{
-      color: $primary-color;
-      font-size:$label;
+@media only screen and (max-width: 1288px) {
+  .profileContainerReadOnly {
+    width: 100%;
+    .ant-form {
+      width: 100%;
     }
   }
-  .BlockVisible{
-    background: $light-gray;
-    border-radius: 4px;
-    margin-bottom:1em;
-    padding:1em;
-  }
-  .Answer{
-    padding:0.5em 1em;
-    background: transparent;
-    border-left: 1px solid $on-surface-medium;
-    p.Text{
-      padding:  0;
+}
+
+@media only screen and (max-width: 820px) {
+  .profileContainerReadOnly {
+    .ant-form {
+      width: 100%;
+      .halph {
+        width: 100%;
+        margin-right: 0em;
+      }
+      .full {
+        width: 100%;
+        margin-right: 0;
+      }
     }
   }
-   
 }
