@@ -65,7 +65,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
       const proposalData = { applicant, description };
       const tx = await getProposalTx(proposalData);
-      showPasswordModal(proposalData, tx);
+      if (tx) showPasswordModal(proposalData, tx);
     } catch (error) {
       message.error(error.message);
     }
