@@ -24,7 +24,6 @@ import './_style.scss';
 const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
-  const [fetching, setFetching] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
   const [txData, setTxData] = useState();
@@ -37,7 +36,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         message.error('An error occurred while getting the Users list');
         return [];
       }
-      setFetching(true);
       setUsersData(response.data.users);
     } catch (error) {
       message.error(error);

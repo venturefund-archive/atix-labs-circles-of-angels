@@ -34,6 +34,8 @@ const getOracles = async () => {
 
 const getUsers = () => apiCall('get', `${baseURL}`);
 
+const getUser = userId => doGet(`${baseURL}/${userId}`);
+
 const changeUserRegistrationStatus = (userId, registrationStatus) =>
   apiCall('put', `${baseURL}/${userId}`, {
     registrationStatus
@@ -76,6 +78,7 @@ export {
   loginUser,
   getOracles,
   getUsers,
+  getUser,
   changeUserRegistrationStatus,
   getCountries,
   register,

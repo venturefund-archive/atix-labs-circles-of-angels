@@ -251,7 +251,7 @@
 .ant-btn.VoteYes:active,
 .ant-btn.VoteYes:focus,
 .ant-btn.VoteYes:hover {
-  background: $danger-color;
+  background: $success-color;
   span {
     @include primary-text($button, $white, 400);
   }
@@ -272,7 +272,7 @@
 .ant-btn.VoteNo:active,
 .ant-btn.VoteNo:focus,
 .ant-btn.VoteNo:hover {
-  background: $success-color;
+  background: $danger-color;
   span {
     @include primary-text($button, $white, 400);
   }

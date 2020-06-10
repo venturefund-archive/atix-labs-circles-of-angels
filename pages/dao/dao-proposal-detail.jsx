@@ -14,6 +14,7 @@ import {
   showModalError,
   showModalSuccess
 } from '../../components/utils/Modals';
+import { useUserContext } from '../../components/utils/UserContext';
 import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../helpers/blockchain/wallet';
 import '../_style.scss';
@@ -23,10 +24,11 @@ import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import {
   getProposalsByDaoId,
-  voteProposal,
+  getDaoUsers,
   uploadVoteGetTransaction,
   uploadVoteSendTransaction
 } from '../../api/daoApi';
+import { getUser } from '../../api/userApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
@@ -36,8 +38,34 @@ function DaoProposalDetail() {
   const [voteSuccess, setVoteSuccess] = useState(false);
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [buttonsDisable, setButtonsDisable] = useState(false);
+  const [isVotePeriod, setIsVotePeriod] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
   const history = useHistory();
   const { daoId, proposalId } = useQuery();
+  const { getLoggedUser } = useUserContext();
+  const user = getLoggedUser();
+
+  useEffect(() => {
+    fetchCurrentProposal();
+  }, [voteSuccess]);
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await getUser(user.id);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the current user data');
+        return [];
+      }
+      setCurrentUser(response.data);
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
   const fetchCurrentProposal = async () => {
     try {
@@ -91,8 +119,9 @@ function DaoProposalDetail() {
       message.error(error.message);
       return;
     } finally {
+      setVoteSuccess(true);
       hideModalPassword();
-      // maybe disable voting buttons
+      disableButtons();
     }
     message.success('Vote submitted successfully!');
   };
@@ -138,9 +167,16 @@ function DaoProposalDetail() {
     setModalPasswordVisible(false);
   };
 
-  useEffect(() => {
-    fetchCurrentProposal();
-  }, [voteSuccess]);
+  const disableButtons = () => {
+    setButtonsDisable(true);
+  };
+
+  const hideExecuteButton = () => {
+    const isProposer = currentUser.address === currentProposal.proposer;
+    const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
+    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    return hideButton;
+  };
 
   const votesPercentage = votes => {
     const totalVotes = currentProposal.yesVotes + currentProposal.noVotes;
@@ -286,15 +322,24 @@ function DaoProposalDetail() {
 
         <div className="flex VoteButton">
           <CustomButton
-            // onClick={() => submitVoteProposal(voteEnum.YES)}
             onClick={() => onNewVote(voteEnum.YES)}
-            theme="VoteYes"
+            theme={buttonsDisable ? 'disabled' : 'VoteYes'}
             buttonText="Vote Yes"
+            disabled={buttonsDisable}
+            hidden={!isVotePeriod}
           />
           <CustomButton
             onClick={() => onNewVote(voteEnum.NO)}
-            theme="VoteNo"
+            theme={buttonsDisable ? 'disabled' : 'VoteNo'}
             buttonText="Vote No"
+            disabled={buttonsDisable}
+            hidden={!isVotePeriod}
+          />
+          <CustomButton
+            theme="Primary"
+            buttonText="Execute"
+            // onClick={}
+            hidden={hideExecuteButton()}
           />
         </div>
       </div>
