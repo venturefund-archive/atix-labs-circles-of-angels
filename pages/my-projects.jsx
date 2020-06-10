@@ -16,6 +16,7 @@ import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { projectStatuses } from '../constants/constants';
+import MemberList from '../components/molecules/MemberList/MemberList';
 import {
   getMyProjects,
   getFollowedProjects,
@@ -107,17 +108,20 @@ const MyProjects = ({ user }) => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   return (
-    <ProjectBrowser
+    <div>
+      <MemberList />
+      {/* <ProjectBrowser
       title="My Projects"
       userRole={user && user.role}
       projects={projects}
       onCardClick={goToProjectDetail}
       onTagClick={goToProjectProgress}
       onNewProject={goToNewProject}
-    />
+    /> */}
+    </div>
   );
 };
 
