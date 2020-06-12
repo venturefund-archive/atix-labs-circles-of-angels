@@ -111,12 +111,13 @@ const MyProjects = ({ user }) => {
 
   return (
     <ProjectBrowser
-    title="My Projects"
-    userRole={user && user.role}
-    projects={projects}
-    onCardClick={goToProjectDetail}
-    onTagClick={goToProjectProgress}
-    onNewProject={goToNewProject}
+      title="My Projects"
+      userRole={user && user.role}
+      projects={projects}
+      onCardClick={goToProjectDetail}
+      onTagClick={goToProjectProgress}
+      onNewProject={goToNewProject}
+    />
   );
 };
 
