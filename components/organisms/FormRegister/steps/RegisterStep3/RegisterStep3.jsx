@@ -10,6 +10,7 @@ import React from 'react';
 import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
 import Field from '../../../../atoms/Field/Field';
+import './_style.scss';
 
 // TODO: Questions and answers should be de-hardcoded
 
