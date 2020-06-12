@@ -6,55 +6,47 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Modal, message } from 'antd';
 import {
   createNewMemberProposal,
   uploadProposalGetTransaction,
-  uploadProposalSendTransaction
+  uploadProposalSendTransaction,
+  getDaoUsers
 } from '../../../api/daoApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
-import {
-  showModalSuccess,
-  showModalError,
-  showModalConfirm
-} from '../../utils/Modals';
+import { showModalSuccess, showModalError } from '../../utils/Modals';
 import './_style.scss';
-
-function callback(key) {
-  console.log(key);
-}
 
 const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
+  const [usersData, setUsersData] = useState([]);
+  const [fetching, setFetching] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
 
-  const submitMemberProposal = async () => {
-    if (!applicant || !description) {
-      showModalError('Error!', 'Please complete both fields');
-      return false;
-    }
-
-    const proposal = { applicant, description };
-    const response = await createNewMemberProposal(daoId, proposal);
-    if (response.errors) {
-      const title = 'Error!';
-      const content = response.errors
-        ? response.errors
-        : 'There was an error submitting the proposal.';
-      showModalError(title, content);
-    } else {
-      showModalSuccess('Success', 'Proposal created correctly!');
-      setVisible(false);
-      setCreationSuccess(true);
+  const fetchUsers = async () => {
+    try {
+      const response = await getDaoUsers();
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Users list');
+        return [];
+      }
+      setFetching(true);
+      setUsersData(response.data.users);
+    } catch (error) {
+      message.error(error);
     }
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const onNewProposal = async () => {
     try {
@@ -208,6 +200,8 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
           setDescription={setDescription}
           submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
+          usersData={usersData}
+          fetching={fetching}
         />
 
         <ModalPasswordRequest
