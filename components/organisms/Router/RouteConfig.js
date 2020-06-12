@@ -141,15 +141,8 @@ export const routesConfig = [
     }
   },
   {
-    path: '/dao/dao-proposal-detail',
+    path: '/dao-proposal-detail',
     component: DaoProposalDetail,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
-  },
-  {
-    path: '/dao-members',
-    component: DaoMembers,
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]

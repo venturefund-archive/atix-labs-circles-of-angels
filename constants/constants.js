@@ -30,6 +30,11 @@ export const proposalTypeEnum = {
   ASSIGN_CURATOR: 'Assign New Role'
 };
 
+export const voteEnum = {
+  YES: true,
+  NO: false
+};
+
 export const publicProjectStatuses = {
   PUBLISHED: 'published',
   CONSENSUS: 'consensus',

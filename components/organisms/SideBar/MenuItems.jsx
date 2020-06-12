@@ -28,9 +28,7 @@ const menuItems = [
   {
     route: '/dao-list',
     key: 'dao-list',
-    content: (
-      <img src="./static/images/dashboard-icon-navbar.svg" alt="daolist" />
-    ),
+    content: <img src="./static/images/daos-icon-navbar.svg" alt="daolist" />,
     allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.PROJECT_CURATOR]
   },
   {
