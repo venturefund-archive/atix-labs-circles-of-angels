@@ -172,21 +172,21 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
         <div className="flex space-between margin-top">
           <div className="daoMemberContainer flex">
-            <img src="../static/images/icon-modal-01.png" />
+            <img alt="member-icon" src="../static/images/icon-modal-01.png" />
             <p>
               <strong>NEW MEMBER</strong>
             </p>
           </div>
 
           <div className="daoRoleContainer flex">
-            <img src="../static/images/icon-modal-02.png" />
+            <img alt="role-icon" src="../static/images/icon-modal-02.png" />
             <p>
               <strong>NEW ROLE</strong>
             </p>
           </div>
 
           <div className="daoRoleContainer flex">
-            <img src="../static/images/icon-modal-03.png" />
+            <img alt="dao-icon" src="../static/images/icon-modal-03.png" />
             <p>
               <strong>CREATE DAO</strong>
             </p>
@@ -199,7 +199,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
           submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
           usersData={usersData}
-          fetching={fetching}
         />
 
         <ModalPasswordRequest
