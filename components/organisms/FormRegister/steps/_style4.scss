@@ -5,13 +5,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    .InfoStep {
+      img {
+        margin-bottom: 1em;
+        width: 150px;
+      }
+    }
   .BlockCongrats {
     text-align: center;
     h1 {
-      @include primary-text($subtitle, $on-surface, 500);
+      @include primary-text($title, $on-surface, 500);
     }
     h2 {
-      @include primary-text($subtitle, $primary-color, 500);
+      @include primary-text($subtitle, $on-surface-medium, 500);
     }
     p {
       @include primary-text($body, $on-surface-medium, 500);
@@ -28,4 +34,20 @@
       }
     }
   }
+  .BlockKeyWords {
+    .SubtitleSection{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      h2 {
+        color: $secondary-color;
+        margin-left: 1em;
+      }
+    }
+  }
+}
+
+.copy {
+  color:$primary-color!important;
 }

@@ -73,6 +73,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         onClick={showModal}
       />
       <Modal
+        className="propModal"
         title="Basic Modal"
         visible={visible}
         onOk={handleOk}
@@ -118,6 +119,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       </Modal>
     </div>
   );
-}
+};
 
 export default ProposalModal;

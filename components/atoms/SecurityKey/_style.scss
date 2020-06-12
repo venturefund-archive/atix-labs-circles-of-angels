@@ -1,0 +1,12 @@
+@import "../../../css/general_styling.scss";
+
+
+  .SecurityWord {
+    background:$white;
+    border:1px solid $primary-color;
+    border-radius: 3px;
+    display: inline-block;
+    padding:0.5em 2em;
+    color:$primary-color!important;
+    margin:0.5em!important;
+  }
