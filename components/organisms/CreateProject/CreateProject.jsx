@@ -33,7 +33,9 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
     <Col className="BlockButton" sm={24} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
-        theme={(disabled && 'disabled') || (completed && 'Primary') || 'Alternative'}
+        theme={
+          (disabled && 'disabled') || (completed && 'Primary') || 'Alternative'
+        }
         onClick={onClick}
         disabled={disabled}
       />
