@@ -27,3 +27,14 @@
 }
 
 
+.reintentarBtn {
+  background: transparent;
+  border:none;
+  text-align: left;
+  padding:0;
+  outline: none;
+  color:#4C7FF7;
+  &:hover {
+    color:rgb(112, 154, 253)
+  }
+}
