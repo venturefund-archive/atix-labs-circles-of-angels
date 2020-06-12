@@ -29,7 +29,6 @@ function Dao() {
         message.error('An error occurred while getting the Daos');
         return [];
       }
-      console.log(response.data);
       setDaos(response.data);
     } catch (error) {
       message.error(error);
