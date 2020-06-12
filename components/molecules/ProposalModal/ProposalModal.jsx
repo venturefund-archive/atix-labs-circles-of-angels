@@ -6,9 +6,15 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
-import { Modal, Input, Popconfirm } from 'antd';
-import { createNewMemberProposal } from '../../../api/daoApi';
+import React, { useState, useCallback } from 'react';
+import { Modal, message } from 'antd';
+import {
+  createNewMemberProposal,
+  uploadProposalGetTransaction,
+  uploadProposalSendTransaction
+} from '../../../api/daoApi';
+import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
+import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import {
@@ -26,6 +32,8 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
+  const [txData, setTxData] = useState();
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
 
   const submitMemberProposal = async () => {
     if (!applicant || !description) {
@@ -33,10 +41,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       return false;
     }
 
-    const proposal = {
-      applicant,
-      description
-    };
+    const proposal = { applicant, description };
     const response = await createNewMemberProposal(daoId, proposal);
     if (response.errors) {
       const title = 'Error!';
@@ -49,6 +54,94 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
       setVisible(false);
       setCreationSuccess(true);
     }
+  };
+
+  const onNewProposal = async () => {
+    try {
+      if (!applicant || !description) {
+        showModalError('Error!', 'Please complete both fields');
+        return false;
+      }
+
+      const proposalData = { applicant, description };
+      const tx = await getProposalTx(proposalData);
+      if (tx) showPasswordModal(proposalData, tx);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getProposalTx = async data => {
+    const response = await uploadProposalGetTransaction(daoId, data);
+
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error submitting the proposal.';
+      showModalError(title, content);
+    }
+    return response.data;
+  };
+
+  const hideModalProposal = () => {
+    setVisible(false);
+    setCreationSuccess(true);
+  };
+
+  const showPasswordModal = (proposalData, tx) => {
+    setTxData(tx);
+    setModalPasswordVisible(true);
+  };
+
+  const hideModalPassword = () => {
+    setTxData(undefined);
+    setModalPasswordVisible(false);
+  };
+
+  const inputPasswordHandler = async data => {
+    // TODO: add support for mnemonic
+    const password = data.get('password');
+    try {
+      await signAndSendTransaction(password);
+    } catch (error) {
+      message.error(error.message);
+      return;
+    } finally {
+      hideModalPassword();
+      hideModalProposal();
+    }
+    message.success('Proposal created successfully!');
+  };
+
+  const signAndSendTransaction = useCallback(
+    async userPassword => {
+      const signedTransaction = await signProposalTx(txData, userPassword);
+      await sendProposalTx(signedTransaction);
+    },
+    [txData]
+  );
+
+  const signProposalTx = async (tx, password) => {
+    const { tx: unsignedTx, encryptedWallet } = tx;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return { signedTransaction };
+  };
+
+  const sendProposalTx = async signedTransaction => {
+    const response = await uploadProposalSendTransaction(
+      daoId,
+      signedTransaction
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
   };
 
   const showModal = () => {
@@ -113,8 +206,14 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         <ModalMemberSelection
           setApplicant={setApplicant}
           setDescription={setDescription}
-          submitMemberProposal={submitMemberProposal}
+          submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
+        />
+
+        <ModalPasswordRequest
+          visible={modalPasswordVisible}
+          onConfirm={inputPasswordHandler}
+          onClose={hideModalPassword}
         />
       </Modal>
     </div>

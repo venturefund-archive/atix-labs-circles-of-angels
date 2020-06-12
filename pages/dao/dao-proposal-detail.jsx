@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { message, Progress, Avatar } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
@@ -14,12 +14,19 @@ import {
   showModalError,
   showModalSuccess
 } from '../../components/utils/Modals';
+import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
+import { signTransaction } from '../../helpers/blockchain/wallet';
 import '../_style.scss';
 import './_style.scss';
 import '../_transfer-funds.scss';
 import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import { getProposalsByDaoId, voteProposal } from '../../api/daoApi';
+import {
+  getProposalsByDaoId,
+  voteProposal,
+  uploadVoteGetTransaction,
+  uploadVoteSendTransaction
+} from '../../api/daoApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
@@ -27,6 +34,8 @@ function DaoProposalDetail() {
   const [visibility, setVisibility] = useState(false);
   const [currentProposal, setCurrentProposal] = useState({});
   const [voteSuccess, setVoteSuccess] = useState(false);
+  const [txData, setTxData] = useState();
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const history = useHistory();
   const { daoId, proposalId } = useQuery();
 
@@ -50,19 +59,82 @@ function DaoProposalDetail() {
     }
   };
 
-  const submitVoteProposal = async vote => {
-    const data = { vote };
-    const response = await voteProposal(daoId, proposalId, data);
+  const onNewVote = async vote => {
+    try {
+      const voteData = { vote };
+      const tx = await getVoteTx(voteData);
+      if (tx) showPasswordModal(voteData, tx);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getVoteTx = async data => {
+    const response = await uploadVoteGetTransaction(daoId, proposalId, data);
     if (response.errors) {
       const title = 'Error!';
       const content = response.errors
         ? response.errors
         : 'There was an error submitting the vote.';
       showModalError(title, content);
-    } else {
-      showModalSuccess('Success', 'Vote submitted correctly!');
-      setVoteSuccess(true);
     }
+    return response.data;
+  };
+
+  const inputPasswordHandler = async data => {
+    // TODO: add support for mnemonic
+    const password = data.get('password');
+    try {
+      await signAndSendTransaction(password);
+    } catch (error) {
+      message.error(error.message);
+      return;
+    } finally {
+      hideModalPassword();
+      // maybe disable voting buttons
+    }
+    message.success('Vote submitted successfully!');
+  };
+
+  const signAndSendTransaction = useCallback(
+    async userPassword => {
+      const signedTransaction = await signProposalTx(txData, userPassword);
+      await sendProposalTx(signedTransaction);
+    },
+    [txData]
+  );
+
+  const signProposalTx = async (tx, password) => {
+    const { tx: unsignedTx, encryptedWallet } = tx;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return { signedTransaction };
+  };
+
+  const sendProposalTx = async signedTransaction => {
+    const response = await uploadVoteSendTransaction(
+      daoId,
+      proposalId,
+      signedTransaction
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const showPasswordModal = (voteData, tx) => {
+    setTxData(tx);
+    setModalPasswordVisible(true);
+  };
+
+  const hideModalPassword = () => {
+    setTxData(undefined);
+    setModalPasswordVisible(false);
   };
 
   useEffect(() => {
@@ -213,17 +285,23 @@ function DaoProposalDetail() {
 
         <div className="flex VoteButton">
           <CustomButton
-            onClick={() => submitVoteProposal(voteEnum.YES)}
+            // onClick={() => submitVoteProposal(voteEnum.YES)}
+            onClick={() => onNewVote(voteEnum.YES)}
             theme="VoteYes"
             buttonText="Vote Yes"
           />
           <CustomButton
-            onClick={() => submitVoteProposal(voteEnum.NO)}
+            onClick={() => onNewVote(voteEnum.NO)}
             theme="VoteNo"
             buttonText="Vote No"
           />
         </div>
       </div>
+      <ModalPasswordRequest
+        visible={modalPasswordVisible}
+        onConfirm={inputPasswordHandler}
+        onClose={hideModalPassword}
+      />
     </div>
   );
 }
