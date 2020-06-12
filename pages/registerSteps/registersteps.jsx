@@ -14,6 +14,9 @@ import RegisterForm from '../../components/organisms/FormRegister/FormRegister';
 import './_register-steps.scss';
 import '../_style.scss';
 import RegisterStepsHeader from './RegisterStepsHeader';
+
+import RegisterStep4 from '../../components/organisms/FormRegister/steps/RegisterStep4/RegisterStep4';
+
 import RegisterStep1 from '../../components/organisms/FormRegister/steps/RegisterStep1/RegisterStep1';
 import RegisterStep2 from '../../components/organisms/FormRegister/steps/RegisterStep2/RegisterStep2';
 import RegisterStep3, {
@@ -48,6 +51,15 @@ const Registersteps = () => {
   const query = location && queryString.parse(location.search);
   const { role } = query || {};
   const initialStep = !role ? 0 : 1;
+
+  const steps = [
+    {
+      fields: [],
+      component: RegisterStep4
+    }
+  ];
+
+  /*
   const steps = [
     {
       fields: Object.keys(step1Inputs),
@@ -60,8 +72,12 @@ const Registersteps = () => {
     {
       fields: Object.keys(step3Inputs),
       component: RegisterStep3
+    },
+    {
+      fields: [],
+      component: RegisterStep4
     }
-  ];
+  ]; */
 
   const fetchCountries = async () => {
     try {
@@ -130,7 +146,7 @@ const Registersteps = () => {
     if (role && !REGISTER_ROLES.includes(role))
       return history.push('/register');
     setQuestionsByRole(role);
-  }, [role]);
+  }, [history, role, setQuestionsByRole]);
 
   useEffect(() => {
     if (!countries.length) return;
@@ -141,7 +157,7 @@ const Registersteps = () => {
 
     setFields({ ...fields, ...step2 });
     setLoading(false);
-  }, [countries]);
+  }, [countries, fields]);
 
   // TODO: add loading when form is submitting
 
