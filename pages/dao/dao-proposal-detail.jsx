@@ -63,7 +63,6 @@ function DaoProposalDetail() {
     try {
       const voteData = { vote };
       const tx = await getVoteTx(voteData);
-      console.log(tx);
       if (tx) showPasswordModal(voteData, tx);
     } catch (error) {
       message.error(error.message);
