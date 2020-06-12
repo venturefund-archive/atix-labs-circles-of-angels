@@ -21,4 +21,25 @@ const createNewMemberProposal = (daoId, data) =>
 const voteProposal = (daoId, proposalId, data) =>
   doPut(`${baseURL}/${daoId}/proposals/${proposalId}/vote`, data);
 
-export { getDaos, getProposalsByDaoId, createNewMemberProposal, voteProposal };
+const uploadVoteGetTransaction = (daoId, proposalId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/${proposalId}/get-transaction`, data);
+
+const uploadVoteSendTransaction = (daoId, proposalId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/${proposalId}/send-transaction`, data);
+
+const uploadProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/get-transaction`, data);
+
+const uploadProposalSendTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/send-transaction`, data);
+
+export {
+  getDaos,
+  getProposalsByDaoId,
+  createNewMemberProposal,
+  voteProposal,
+  uploadProposalGetTransaction,
+  uploadProposalSendTransaction,
+  uploadVoteGetTransaction,
+  uploadVoteSendTransaction
+};
