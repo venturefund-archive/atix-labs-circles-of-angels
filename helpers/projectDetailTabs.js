@@ -6,6 +6,7 @@ import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscus
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
 import SeccionExperience from '../components/organisms/SeccionExperiences/SeccionExperiences';
 import Transfers from '../components/organisms/Transfers/Transfers';
+import Faq from '../components/organisms/Faq/Faq';
 import {
   projectStatuses,
   SHOW_EXPERIENCES_STATUSES,
@@ -139,5 +140,11 @@ export const tabsContent = ({
     content: <Transfers project={project} allowNewFund={allowNewFund} />,
     key: '5',
     hidden: !showFundsTab(project.status)
+  },
+  faq: {
+    title: 'FAQ',
+    content: <Faq project={project} />,
+    key: '6',
+    hidden: false
   }
 });
