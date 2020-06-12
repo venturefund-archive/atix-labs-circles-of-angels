@@ -1,0 +1,66 @@
+@import "../../../css/general_styling.scss";
+
+.profileContainerReadOnly {
+  padding:2em;
+  .edit {
+    p {@include primary-text($label, $primary-color, 400);}
+    margin-left: 1em;
+    .anticon {
+      margin-right: 0.5em;
+      color:$primary-color;
+    }
+  }
+  .ant-form {
+    width: 60%;
+    margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    label {
+      font-size: $body;
+      color:$secondary-color;
+    }
+    .full {
+      width: 100%;
+      margin-right: 1em;
+    }
+    .halph {
+      width: 48%;
+      margin-right: 1em;
+    }
+    p {
+      color: $grey;
+    }
+  }
+  .buttonSection {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5em;
+  }
+}
+
+
+@media only screen and (max-width: 1288px) {
+  .profileContainerReadOnly {
+    width: 100%;
+    .ant-form {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .profileContainerReadOnly {
+    .ant-form {
+      width: 100%;
+      .halph {
+        width: 100%;
+        margin-right: 0em;
+      }
+      .full {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+}
