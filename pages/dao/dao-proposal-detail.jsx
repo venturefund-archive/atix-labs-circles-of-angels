@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Progress, Avatar } from 'antd';
+import { message, Progress } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import {
@@ -26,7 +26,9 @@ import {
   getProposalsByDaoId,
   getDaoUsers,
   uploadVoteGetTransaction,
-  uploadVoteSendTransaction
+  uploadVoteSendTransaction,
+  uploadProcessGetTransaction,
+  uploadProcessSendTransaction
 } from '../../api/daoApi';
 import { getUser } from '../../api/userApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
@@ -82,6 +84,7 @@ function DaoProposalDetail() {
         return;
       }
       setCurrentProposal(found);
+      setButtonsDisable(found.didPass);
     } catch (error) {
       message.error(error);
     }
@@ -91,7 +94,7 @@ function DaoProposalDetail() {
     try {
       const voteData = { vote };
       const tx = await getVoteTx(voteData);
-      if (tx) showPasswordModal(voteData, tx);
+      if (tx) showPasswordModal(tx);
     } catch (error) {
       message.error(error.message);
     }
@@ -118,7 +121,7 @@ function DaoProposalDetail() {
       message.error(error.message);
       return;
     } finally {
-      setVoteSuccess(true);
+      if (isVotePeriod) setVoteSuccess(true);
       hideModalPassword();
       disableButtons();
     }
@@ -144,11 +147,20 @@ function DaoProposalDetail() {
   };
 
   const sendProposalTx = async signedTransaction => {
-    const response = await uploadVoteSendTransaction(
-      daoId,
-      proposalId,
-      signedTransaction
-    );
+    let response;
+    if (isVotePeriod) {
+      response = await uploadVoteSendTransaction(
+        daoId,
+        proposalId,
+        signedTransaction
+      );
+    } else {
+      response = await uploadProcessSendTransaction(
+        daoId,
+        proposalId,
+        signedTransaction
+      );
+    }
 
     if (response.errors) {
       throw new Error(response.errors);
@@ -156,7 +168,7 @@ function DaoProposalDetail() {
     return response.data;
   };
 
-  const showPasswordModal = (voteData, tx) => {
+  const showPasswordModal = tx => {
     setTxData(tx);
     setModalPasswordVisible(true);
   };
@@ -170,10 +182,32 @@ function DaoProposalDetail() {
     setButtonsDisable(true);
   };
 
+  const onProcess = async () => {
+    try {
+      const tx = await getProcessTx();
+      if (tx) showPasswordModal(tx);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getProcessTx = async () => {
+    const response = await uploadProcessGetTransaction(daoId, proposalId);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error processing the proposal.';
+      showModalError(title, content);
+    }
+    return response.data;
+  };
+
   const hideExecuteButton = () => {
     const isProposer = currentUser.address === currentProposal.proposer;
     const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
-    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    // const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    const hideButton = !isProposer || !majorityPositive;
     return hideButton;
   };
 
@@ -335,9 +369,10 @@ function DaoProposalDetail() {
             hidden={!isVotePeriod}
           />
           <CustomButton
-            theme="Primary"
+            onClick={() => onProcess()}
+            theme={buttonsDisable ? 'disabled' : 'Primary'}
             buttonText="Execute"
-            // onClick={}
+            disabled={buttonsDisable}
             hidden={hideExecuteButton()}
           />
         </div>
