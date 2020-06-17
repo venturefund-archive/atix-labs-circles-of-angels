@@ -51,7 +51,9 @@ function DaoDetail() {
   };
 
   const goToProposalDetail = proposalId => {
-    const daoName = history.location.state ? history.location.state.daoName : `Name of Dao ${daoId}`;
+    const daoName = history.location.state
+      ? history.location.state.daoName
+      : `Name of Dao ${daoId}`;
     const state = { daoId, proposalId, daoName };
     history.push(
       `/dao-proposal-detail?daoId=${daoId}&proposalId=${proposalId}`,

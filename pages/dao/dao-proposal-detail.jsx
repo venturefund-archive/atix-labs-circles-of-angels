@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Progress } from 'antd';
+import { message, Progress, Popover } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import {
@@ -43,6 +43,7 @@ function DaoProposalDetail() {
   const [buttonsDisable, setButtonsDisable] = useState(false);
   const [isVotePeriod, setIsVotePeriod] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
+  const [daoUsers, setDaoUsers] = useState([]);
   const history = useHistory();
   const { daoId, proposalId } = useQuery();
   const { getLoggedUser } = useUserContext();
@@ -54,6 +55,10 @@ function DaoProposalDetail() {
 
   useEffect(() => {
     fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetchDaoUsers();
   }, []);
 
   const fetchCurrentUser = async () => {
@@ -83,8 +88,27 @@ function DaoProposalDetail() {
         message.error('The proposal does not exist on this DAO');
         return;
       }
+      console.log(found);
       setCurrentProposal(found);
+      setIsVotePeriod(
+        !found.votingPeriodExpired
+        // !found.votingPeriodExpired &&
+        //   found.currentPeriod >= found.startingPeriod
+      );
       setButtonsDisable(found.didPass);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const fetchDaoUsers = async () => {
+    try {
+      const response = await getDaoUsers();
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the dao users');
+        return [];
+      }
+      setDaoUsers(response.data.users);
     } catch (error) {
       message.error(error);
     }
@@ -234,6 +258,20 @@ function DaoProposalDetail() {
     return proposalTypes[type];
   };
 
+  const userFullname = address => {
+    const daoUser = daoUsers.find(current => current.address === address);
+    if (!daoUser) return;
+    const fullname = `${daoUser.firstName} ${daoUser.lastName}`;
+    return fullname;
+  };
+
+  const copyToClipboard = memberAddress => {
+    if (currentProposal) {
+      const proposerAddress = memberAddress;
+      navigator.clipboard.writeText(proposerAddress);
+    }
+  };
+
   return (
     <div className="DaoContainer">
       <div className="flex space-between titleSection borderBottom marginBottom">
@@ -283,9 +321,18 @@ function DaoProposalDetail() {
               </div>
               <div className="flex maragin">
                 <div>
-                  <p className="bold">Matt Grindor</p>
+                  <p className="bold">
+                    {userFullname(currentProposal.proposer)}
+                  </p>
                   <p>
-                    {parseAddress(currentProposal.proposer)} ... <CopyFilled />
+                    {parseAddress(currentProposal.proposer)} ...{' '}
+                    <Popover content="Copied" trigger="click">
+                      <CopyFilled
+                        onClick={() =>
+                          copyToClipboard(currentProposal.proposer)
+                        }
+                      />
+                    </Popover>
                   </p>
                 </div>
               </div>
@@ -296,9 +343,18 @@ function DaoProposalDetail() {
               </div>
               <div className="flex maragin">
                 <div>
-                  <p className="bold">Eric Conner</p>
+                  <p className="bold">
+                    {userFullname(currentProposal.applicant)}
+                  </p>
                   <p>
-                    {parseAddress(currentProposal.applicant)} ... <CopyFilled />
+                    {parseAddress(currentProposal.applicant)} ...{' '}
+                    <Popover content="Copied" trigger="click">
+                      <CopyFilled
+                        onClick={() =>
+                          copyToClipboard(currentProposal.applicant)
+                        }
+                      />
+                    </Popover>
                   </p>
                 </div>
               </div>

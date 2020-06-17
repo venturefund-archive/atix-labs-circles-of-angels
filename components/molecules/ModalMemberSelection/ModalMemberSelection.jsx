@@ -59,7 +59,7 @@ const ModalMemberSelection = ({
         <p>Description</p>
         <Form.Item name="description">
           <TextArea
-            rows={4} 
+            rows={4}
             placeholder="Type description"
             onChange={e => setDescription(e.target.value)}
           />
