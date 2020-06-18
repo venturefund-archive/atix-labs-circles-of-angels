@@ -71,32 +71,6 @@ const ModalMemberSelection = ({
             <Option value="Option2">Option2</Option>
           </Select> */}
       </div>
-
-      {/* <div className="flex space-between margin-top">
-        <div className="column">
-          <p>
-            <strong>Set deadline</strong>
-          </p>
-          <p>How soon are you looking for responses?</p>
-        </div>
-        <div className="space-between">
-          <Popconfirm
-            title={(
-              <div className="column">
-                <p>Today (2 hours)</p>
-                <p>Tomorroy (24 hours)</p>
-                <p>This Week (7 days)</p>
-              </div>
-            )}
-          >
-            <div className="flex date">
-              <img src="../static/images/icon-time-orange.png" />
-              <p>Due date: 1 hour</p>
-            </div>
-          </Popconfirm>
-          <img src="../static/images/icon-pencil.png" />
-        </div>
-      </div> */}
       <div className="flex space-between border-top margin-top padding-top">
         <CustomButton
           theme="Alternative"

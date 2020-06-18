@@ -144,7 +144,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   };
 
   const handleCancel = e => {
-    console.log(e);
     setVisible(false);
   };
 

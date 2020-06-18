@@ -61,6 +61,11 @@ function DaoDetail() {
     );
   };
 
+  const proposalsLength = () => {
+    const total = currentProposals.length + completedProposals.length;
+    return total;
+  };
+
   useEffect(() => {
     fetchDaoProposals();
   }, [creationSuccess]);
@@ -81,7 +86,8 @@ function DaoDetail() {
                   : `Name of Dao ${daoId}`
               }
             />
-            <a>Proposals ({currentProposals.length})</a>
+            {/* <a>Proposals ({currentProposals.length})</a> */}
+            <a>Proposals ({proposalsLength()})</a>
           </div>
         </div>
         <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />

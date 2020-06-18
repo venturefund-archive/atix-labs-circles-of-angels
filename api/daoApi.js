@@ -26,8 +26,11 @@ const voteProposal = (daoId, proposalId, data) =>
 const uploadProcessGetTransaction = (daoId, proposalId) =>
   doPost(`${baseURL}/${daoId}/process-proposal/${proposalId}/get-transaction`);
 
-const uploadProcessSendTransaction = (daoId, proposalId) =>
-  doPost(`${baseURL}/${daoId}/process-proposal/${proposalId}/send-transaction`);
+const uploadProcessSendTransaction = (daoId, proposalId, data) =>
+  doPost(
+    `${baseURL}/${daoId}/process-proposal/${proposalId}/send-transaction`,
+    data
+  );
 
 const uploadVoteGetTransaction = (daoId, proposalId, data) =>
   doPost(`${baseURL}/${daoId}/proposal/${proposalId}/get-transaction`, data);

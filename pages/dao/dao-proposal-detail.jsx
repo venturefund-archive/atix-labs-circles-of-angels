@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Progress, Popover } from 'antd';
+import { message, Popover } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import {
@@ -88,12 +88,10 @@ function DaoProposalDetail() {
         message.error('The proposal does not exist on this DAO');
         return;
       }
-      console.log(found);
       setCurrentProposal(found);
       setIsVotePeriod(
-        !found.votingPeriodExpired
-        // !found.votingPeriodExpired &&
-        //   found.currentPeriod >= found.startingPeriod
+        !found.votingPeriodExpired &&
+          found.currentPeriod >= found.startingPeriod
       );
       setButtonsDisable(found.didPass);
     } catch (error) {
@@ -230,8 +228,7 @@ function DaoProposalDetail() {
   const hideExecuteButton = () => {
     const isProposer = currentUser.address === currentProposal.proposer;
     const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
-    // const hideButton = isVotePeriod || !isProposer || !majorityPositive;
-    const hideButton = !isProposer || !majorityPositive;
+    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
     return hideButton;
   };
 
@@ -389,7 +386,7 @@ function DaoProposalDetail() {
                 </div>
               </div>
             </div>
-            <Progress percent={votesPercentage(currentProposal.yesVotes)} />
+            {/* <Progress percent={votesPercentage(currentProposal.yesVotes)} /> */}
             {/* <div className="subBox">
               <h3>Participants</h3>
               <div className="detail flex">
