@@ -12,7 +12,7 @@ import {
   createNewMemberProposal,
   uploadProposalGetTransaction,
   uploadProposalSendTransaction,
-  getDaoUsers
+  getAllUsers
 } from '../../../api/daoApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
@@ -31,7 +31,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await getDaoUsers();
+      const response = await getAllUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the Users list');
         return [];

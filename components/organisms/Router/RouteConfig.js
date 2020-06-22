@@ -14,7 +14,6 @@ import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
 import Roles from '../../../constants/RolesMap';
-import DaoMembers from '../../../pages/dao/dao-members';
 
 const {
   COA_ADMIN,

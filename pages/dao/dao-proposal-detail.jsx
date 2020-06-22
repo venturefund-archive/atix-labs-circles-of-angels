@@ -24,7 +24,7 @@ import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import {
   getProposalsByDaoId,
-  getDaoUsers,
+  getAllUsers,
   uploadVoteGetTransaction,
   uploadVoteSendTransaction,
   uploadProcessGetTransaction,
@@ -101,7 +101,7 @@ function DaoProposalDetail() {
 
   const fetchDaoUsers = async () => {
     try {
-      const response = await getDaoUsers();
+      const response = await getAllUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the dao users');
         return [];
@@ -147,7 +147,10 @@ function DaoProposalDetail() {
       hideModalPassword();
       disableButtons();
     }
-    message.success('Vote submitted successfully!');
+    if (isVotePeriod) message.success('Vote submitted successfully!');
+    else {
+      message.success('Processed successfully!');
+    }
   };
 
   const signAndSendTransaction = useCallback(
