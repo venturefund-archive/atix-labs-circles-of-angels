@@ -42,6 +42,7 @@ function DaoDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
+      console.log(response);
       const current = response.data.filter(proposal => !proposal.processed);
       const completed = response.data.filter(proposal => proposal.processed);
       setCurrentProposals(current);
@@ -81,7 +82,7 @@ function DaoDetail() {
   };
 
   const DaoProposals = ({ proposals, completed }) => {
-    const onVotingTitle = 'Voting Period';
+    const onVotingTitle = 'Open';
     const completedTitle = 'Completed';
     return (
       <div className="column marginBottom">
@@ -96,6 +97,7 @@ function DaoDetail() {
             <CardDaoDetail
               proposal={proposal}
               showStatus={completed}
+              showRemainingTime={!completed}
               onClick={() => goToProposalDetail(proposal.id)}
             />
           ))}

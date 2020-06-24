@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import moment from 'moment';
 import { message, Popover } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
@@ -31,6 +32,7 @@ import {
   uploadProcessSendTransaction
 } from '../../api/daoApi';
 import { getUser } from '../../api/userApi';
+import { parseDate } from '../../helpers/daoDates';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
@@ -272,6 +274,21 @@ function DaoProposalDetail() {
     }
   };
 
+  const renderRemainingTimeLabel = () => {
+    if (!currentProposal.processed) {
+      return (
+        <div className="flex">
+          <img
+            className="marginRight"
+            src="../static/images/icon-time.png"
+            alt="img"
+          />
+          <p className="text">{parseDate(currentProposal)}</p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="DaoContainer">
       <div className="flex space-between titleSection borderBottom marginBottom">
@@ -292,24 +309,7 @@ function DaoProposalDetail() {
       <div className="ProposalContainer flex space-between">
         {/* First Column */}
         <div className="column col">
-          <div className="flex marginBottom">
-            <div className="flex marginRight">
-              <img
-                className="marginRight"
-                src="../static/images/icon-date.svg"
-                alt="img"
-              />
-              <p className="text">01 d : 21 h :09 m</p>
-            </div>
-            <div className="flex">
-              <img
-                className="marginRight"
-                src="../static/images/icon-time.png"
-                alt="img"
-              />
-              <p className="text">Due date: 13 days</p>
-            </div>
-          </div>
+          {renderRemainingTimeLabel()}
           <h2 className="proposalTitle">
             {parseType(currentProposal.proposalType)}
           </h2>
