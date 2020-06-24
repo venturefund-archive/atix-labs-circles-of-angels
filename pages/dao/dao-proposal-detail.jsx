@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import moment from 'moment';
 import { message, Popover } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';

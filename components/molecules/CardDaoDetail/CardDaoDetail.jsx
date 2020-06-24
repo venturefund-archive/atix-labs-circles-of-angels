@@ -7,8 +7,6 @@
  */
 
 import React from 'react';
-import { Avatar, Progress } from 'antd';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 import { parseDate } from '../../../helpers/daoDates';
