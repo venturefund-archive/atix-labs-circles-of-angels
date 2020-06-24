@@ -19,6 +19,7 @@ import { getProposalsByDaoId, getDaoUsers } from '../../api/daoApi';
 import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
 import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
 import DaoMembers from '../../components/molecules/DaoMembers/Daomembers';
+import DaoProposals from '../../components/molecules/DaoProposals/DaoProposals';
 
 const { Option } = Select;
 
@@ -80,36 +81,20 @@ function DaoDetail() {
     return total;
   };
 
-  const DaoProposals = ({ proposals, completed }) => {
-    const onVotingTitle = 'Voting Period';
-    const completedTitle = 'Completed';
-    return (
-      <div className="column marginBottom">
-        <div className="flex alignItems linkSection">
-          <div className="dot" />
-          <p>
-            {completed ? completedTitle : onVotingTitle} ({proposals.length})
-          </p>
-        </div>
-        <div className="BoxContainer">
-          {proposals.map(proposal => (
-            <CardDaoDetail
-              proposal={proposal}
-              showStatus={completed}
-              onClick={() => goToProposalDetail(proposal.id)}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   const renderCurrentTab = () => {
     if (proposalsVisibility) {
       return (
         <div>
-          <DaoProposals proposals={currentProposals} completed={false} />
-          <DaoProposals proposals={completedProposals} completed />
+          <DaoProposals
+            proposals={currentProposals}
+            completed={false}
+            onClick={goToProposalDetail}
+          />
+          <DaoProposals
+            proposals={completedProposals}
+            completed
+            onClick={goToProposalDetail}
+          />
         </div>
       );
     }
