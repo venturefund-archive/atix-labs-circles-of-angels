@@ -86,7 +86,6 @@ function DaoDetail() {
                   : `Name of Dao ${daoId}`
               }
             />
-            {/* <a>Proposals ({currentProposals.length})</a> */}
             <a>Proposals ({proposalsLength()})</a>
           </div>
         </div>
