@@ -11,9 +11,9 @@ import { Modal, message } from 'antd';
 import {
   createNewMemberProposal,
   uploadProposalGetTransaction,
-  uploadProposalSendTransaction,
-  getDaoUsers
+  uploadProposalSendTransaction
 } from '../../../api/daoApi';
+import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -31,7 +31,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await getDaoUsers();
+      const response = await getUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the Users list');
         return [];

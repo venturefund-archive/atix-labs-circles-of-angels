@@ -24,13 +24,12 @@ import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import {
   getProposalsByDaoId,
-  getDaoUsers,
   uploadVoteGetTransaction,
   uploadVoteSendTransaction,
   uploadProcessGetTransaction,
   uploadProcessSendTransaction
 } from '../../api/daoApi';
-import { getUser } from '../../api/userApi';
+import { getUser, getUsers } from '../../api/userApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
@@ -101,7 +100,7 @@ function DaoProposalDetail() {
 
   const fetchDaoUsers = async () => {
     try {
-      const response = await getDaoUsers();
+      const response = await getUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the dao users');
         return [];
