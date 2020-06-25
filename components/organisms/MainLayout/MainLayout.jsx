@@ -11,7 +11,9 @@ const MainLayout = ({
   authenticated
 }) => (
   <div className="AppContainer">
-    {withSideBar && authenticated && <SideBar role={user && user.role} />}
+    {withSideBar && authenticated && (
+      <SideBar hasDaos={user && user.hasDaos} role={user && user.role} />
+    )}
     <div className="MainContent">
       {withHeader && authenticated && <Header />}
       <div>{children}</div>

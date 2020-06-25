@@ -15,13 +15,19 @@ import './_style.scss';
 
 const { Sider } = Layout;
 
-const SideBar = ({ role }) => {
+const SideBar = ({ role, hasDaos }) => {
   const history = useHistory();
 
   const goToRoute = route => history.push(route);
 
-  const getMenuItems = userRole =>
-    menuItems.filter(({ allowedRoles }) => allowedRoles.includes(userRole));
+  const getMenuItems = userRole => {
+    const daosKey = 'dao-list';
+    let items = menuItems.filter(({ allowedRoles }) => allowedRoles.includes(userRole));
+    if (!hasDaos) {
+      items = items.filter(({ key }) => key !== daosKey);
+    }
+    return items;
+  };
 
   return (
     <Sider width="60" breakpoint="md" collapsedWidth="0">
@@ -42,5 +48,6 @@ const SideBar = ({ role }) => {
 export default SideBar;
 
 SideBar.propTypes = {
-  role: PropTypes.string.isRequired
+  role: PropTypes.string.isRequired,
+  hasDaos: PropTypes.bool.isRequired
 };
