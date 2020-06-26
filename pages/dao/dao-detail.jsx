@@ -42,7 +42,6 @@ function DaoDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
-      console.log(response);
       const current = response.data.filter(proposal => !proposal.processed);
       const completed = response.data.filter(proposal => proposal.processed);
       setCurrentProposals(current);
