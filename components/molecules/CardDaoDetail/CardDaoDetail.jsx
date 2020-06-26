@@ -7,14 +7,29 @@
  */
 
 import React from 'react';
-import { Avatar, Progress } from 'antd';
 import PropTypes from 'prop-types';
 import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
+import { parseDate } from '../../../helpers/daoDates';
 import { proposalTypeEnum } from '../../../constants/constants';
 import './_style.scss';
 
-const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
-  const { description, yesVotes, noVotes, proposalType, didPass, processed } = proposal;
+const CardDaoDetail = ({
+  proposal,
+  showStatus,
+  showRemainingTime,
+  onClick
+}) => {
+  const {
+    description,
+    yesVotes,
+    noVotes,
+    proposalType,
+    didPass,
+    daoCreationTime,
+    startingPeriod,
+    currentPeriod,
+    votingPeriodExpired
+  } = proposal;
 
   const votesPercentage = votes => {
     const totalVotes = yesVotes + noVotes;
@@ -31,6 +46,21 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
       proposalTypeEnum.ASSIGN_CURATOR
     ];
     return proposalTypes[type];
+  };
+
+  const renderRemainingTimeLabel = () => {
+    if (showRemainingTime) {
+      return (
+        <div className="flex">
+          <img
+            className="marginRight"
+            src="../static/images/icon-time.png"
+            alt="img"
+          />
+          <p className="text">{parseDate(proposal)}</p>
+        </div>
+      );
+    }
   };
 
   const renderStatusTag = () => {
@@ -58,14 +88,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
     <div onClick={onClick} className="Box2 column">
       <div className="topSection">
         <div className="flex space-between marginBottom">
-          <div className="flex">
-            <img
-              className="marginRight"
-              src="../static/images/icon-time.png"
-              alt="img"
-            />
-            <p className="text">01 d : 21 h :09 m</p>
-          </div>
+          {renderRemainingTimeLabel()}
           {renderStatusTag()}
         </div>
         <h2>{parseType(proposalType)}</h2>
