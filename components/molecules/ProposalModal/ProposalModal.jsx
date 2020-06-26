@@ -14,6 +14,7 @@ import {
   uploadProposalSendTransaction,
   getAllUsers
 } from '../../../api/daoApi';
+import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
