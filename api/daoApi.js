@@ -15,6 +15,10 @@ const getDaos = () => doGet(`${baseURL}`);
 
 const getProposalsByDaoId = daoId => doGet(`${baseURL}/${daoId}/proposals`);
 
+const getAllUsers = () => doGet(`${baseURL}/users`);
+
+const getDaoUsers = (daoId) => doGet(`${baseURL}/users/${daoId}`);
+
 const createNewMemberProposal = (daoId, data) =>
   doPost(`${baseURL}/${daoId}/proposals/member`, data);
 
@@ -52,5 +56,7 @@ export {
   uploadVoteGetTransaction,
   uploadVoteSendTransaction,
   uploadProcessGetTransaction,
-  uploadProcessSendTransaction
+  uploadProcessSendTransaction,
+  getDaoUsers,
+  getAllUsers
 };

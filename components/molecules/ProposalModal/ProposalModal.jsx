@@ -11,7 +11,8 @@ import { Modal, message } from 'antd';
 import {
   createNewMemberProposal,
   uploadProposalGetTransaction,
-  uploadProposalSendTransaction
+  uploadProposalSendTransaction,
+  getAllUsers
 } from '../../../api/daoApi';
 import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
@@ -31,7 +32,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await getUsers();
+      const response = await getAllUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the Users list');
         return [];
