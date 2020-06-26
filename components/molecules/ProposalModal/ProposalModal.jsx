@@ -11,9 +11,9 @@ import { Modal, message } from 'antd';
 import {
   createNewMemberProposal,
   uploadProposalGetTransaction,
-  uploadProposalSendTransaction,
-  getDaoUsers
+  uploadProposalSendTransaction
 } from '../../../api/daoApi';
+import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -24,7 +24,6 @@ import './_style.scss';
 const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
-  const [fetching, setFetching] = useState(false);
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
   const [txData, setTxData] = useState();
@@ -32,12 +31,11 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await getDaoUsers();
+      const response = await getUsers();
       if (response.errors || !response.data) {
         message.error('An error occurred while getting the Users list');
         return [];
       }
-      setFetching(true);
       setUsersData(response.data.users);
     } catch (error) {
       message.error(error);
@@ -146,7 +144,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   };
 
   const handleCancel = e => {
-    console.log(e);
     setVisible(false);
   };
 
@@ -174,21 +171,21 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
         <div className="flex space-between margin-top">
           <div className="daoMemberContainer flex">
-            <img src="../static/images/icon-modal-01.png" />
+            <img alt="member-icon" src="../static/images/icon-modal-01.png" />
             <p>
               <strong>NEW MEMBER</strong>
             </p>
           </div>
 
           <div className="daoRoleContainer flex">
-            <img src="../static/images/icon-modal-02.png" />
+            <img alt="role-icon" src="../static/images/icon-modal-02.png" />
             <p>
               <strong>NEW ROLE</strong>
             </p>
           </div>
 
           <div className="daoRoleContainer flex">
-            <img src="../static/images/icon-modal-03.png" />
+            <img alt="dao-icon" src="../static/images/icon-modal-03.png" />
             <p>
               <strong>CREATE DAO</strong>
             </p>
@@ -201,7 +198,6 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
           submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
           usersData={usersData}
-          fetching={fetching}
         />
 
         <ModalPasswordRequest

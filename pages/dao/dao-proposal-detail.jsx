@@ -7,13 +7,14 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Progress, Avatar } from 'antd';
+import { message, Popover } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import {
   showModalError,
   showModalSuccess
 } from '../../components/utils/Modals';
+import { useUserContext } from '../../components/utils/UserContext';
 import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../helpers/blockchain/wallet';
 import '../_style.scss';
@@ -23,10 +24,12 @@ import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import {
   getProposalsByDaoId,
-  voteProposal,
   uploadVoteGetTransaction,
-  uploadVoteSendTransaction
+  uploadVoteSendTransaction,
+  uploadProcessGetTransaction,
+  uploadProcessSendTransaction
 } from '../../api/daoApi';
+import { getUser, getUsers } from '../../api/userApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
@@ -36,8 +39,39 @@ function DaoProposalDetail() {
   const [voteSuccess, setVoteSuccess] = useState(false);
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [buttonsDisable, setButtonsDisable] = useState(false);
+  const [isVotePeriod, setIsVotePeriod] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
+  const [daoUsers, setDaoUsers] = useState([]);
   const history = useHistory();
   const { daoId, proposalId } = useQuery();
+  const { getLoggedUser } = useUserContext();
+  const user = getLoggedUser();
+
+  useEffect(() => {
+    fetchCurrentProposal();
+  }, [voteSuccess]);
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetchDaoUsers();
+  }, []);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await getUser(user.id);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the current user data');
+        return [];
+      }
+      setCurrentUser(response.data);
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
   const fetchCurrentProposal = async () => {
     try {
@@ -54,6 +88,24 @@ function DaoProposalDetail() {
         return;
       }
       setCurrentProposal(found);
+      setIsVotePeriod(
+        !found.votingPeriodExpired &&
+          found.currentPeriod >= found.startingPeriod
+      );
+      setButtonsDisable(found.didPass);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const fetchDaoUsers = async () => {
+    try {
+      const response = await getUsers();
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the dao users');
+        return [];
+      }
+      setDaoUsers(response.data.users);
     } catch (error) {
       message.error(error);
     }
@@ -63,7 +115,7 @@ function DaoProposalDetail() {
     try {
       const voteData = { vote };
       const tx = await getVoteTx(voteData);
-      if (tx) showPasswordModal(voteData, tx);
+      if (tx) showPasswordModal(tx);
     } catch (error) {
       message.error(error.message);
     }
@@ -90,8 +142,9 @@ function DaoProposalDetail() {
       message.error(error.message);
       return;
     } finally {
+      if (isVotePeriod) setVoteSuccess(true);
       hideModalPassword();
-      // maybe disable voting buttons
+      disableButtons();
     }
     message.success('Vote submitted successfully!');
   };
@@ -115,11 +168,20 @@ function DaoProposalDetail() {
   };
 
   const sendProposalTx = async signedTransaction => {
-    const response = await uploadVoteSendTransaction(
-      daoId,
-      proposalId,
-      signedTransaction
-    );
+    let response;
+    if (isVotePeriod) {
+      response = await uploadVoteSendTransaction(
+        daoId,
+        proposalId,
+        signedTransaction
+      );
+    } else {
+      response = await uploadProcessSendTransaction(
+        daoId,
+        proposalId,
+        signedTransaction
+      );
+    }
 
     if (response.errors) {
       throw new Error(response.errors);
@@ -127,7 +189,7 @@ function DaoProposalDetail() {
     return response.data;
   };
 
-  const showPasswordModal = (voteData, tx) => {
+  const showPasswordModal = tx => {
     setTxData(tx);
     setModalPasswordVisible(true);
   };
@@ -137,9 +199,37 @@ function DaoProposalDetail() {
     setModalPasswordVisible(false);
   };
 
-  useEffect(() => {
-    fetchCurrentProposal();
-  }, [voteSuccess]);
+  const disableButtons = () => {
+    setButtonsDisable(true);
+  };
+
+  const onProcess = async () => {
+    try {
+      const tx = await getProcessTx();
+      if (tx) showPasswordModal(tx);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getProcessTx = async () => {
+    const response = await uploadProcessGetTransaction(daoId, proposalId);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error processing the proposal.';
+      showModalError(title, content);
+    }
+    return response.data;
+  };
+
+  const hideExecuteButton = () => {
+    const isProposer = currentUser.address === currentProposal.proposer;
+    const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
+    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    return hideButton;
+  };
 
   const votesPercentage = votes => {
     const totalVotes = currentProposal.yesVotes + currentProposal.noVotes;
@@ -162,6 +252,20 @@ function DaoProposalDetail() {
       proposalTypeEnum.ASSIGN_CURATOR
     ];
     return proposalTypes[type];
+  };
+
+  const userFullname = address => {
+    const daoUser = daoUsers.find(current => current.address === address);
+    if (!daoUser) return;
+    const fullname = `${daoUser.firstName} ${daoUser.lastName}`;
+    return fullname;
+  };
+
+  const copyToClipboard = memberAddress => {
+    if (currentProposal) {
+      const proposerAddress = memberAddress;
+      navigator.clipboard.writeText(proposerAddress);
+    }
   };
 
   return (
@@ -213,9 +317,18 @@ function DaoProposalDetail() {
               </div>
               <div className="flex maragin">
                 <div>
-                  <p className="bold">Matt Grindor</p>
+                  <p className="bold">
+                    {userFullname(currentProposal.proposer)}
+                  </p>
                   <p>
-                    {parseAddress(currentProposal.proposer)} ... <CopyFilled />
+                    {parseAddress(currentProposal.proposer)} ...{' '}
+                    <Popover content="Copied" trigger="click">
+                      <CopyFilled
+                        onClick={() =>
+                          copyToClipboard(currentProposal.proposer)
+                        }
+                      />
+                    </Popover>
                   </p>
                 </div>
               </div>
@@ -226,9 +339,18 @@ function DaoProposalDetail() {
               </div>
               <div className="flex maragin">
                 <div>
-                  <p className="bold">Eric Conner</p>
+                  <p className="bold">
+                    {userFullname(currentProposal.applicant)}
+                  </p>
                   <p>
-                    {parseAddress(currentProposal.applicant)} ... <CopyFilled />
+                    {parseAddress(currentProposal.applicant)} ...{' '}
+                    <Popover content="Copied" trigger="click">
+                      <CopyFilled
+                        onClick={() =>
+                          copyToClipboard(currentProposal.applicant)
+                        }
+                      />
+                    </Popover>
                   </p>
                 </div>
               </div>
@@ -263,7 +385,7 @@ function DaoProposalDetail() {
                 </div>
               </div>
             </div>
-            <Progress percent={votesPercentage(currentProposal.yesVotes)} />
+            {/* <Progress percent={votesPercentage(currentProposal.yesVotes)} /> */}
             {/* <div className="subBox">
               <h3>Participants</h3>
               <div className="detail flex">
@@ -285,15 +407,25 @@ function DaoProposalDetail() {
 
         <div className="flex VoteButton">
           <CustomButton
-            // onClick={() => submitVoteProposal(voteEnum.YES)}
             onClick={() => onNewVote(voteEnum.YES)}
-            theme="VoteYes"
+            theme={buttonsDisable ? 'disabled' : 'VoteYes'}
             buttonText="Vote Yes"
+            disabled={buttonsDisable}
+            hidden={!isVotePeriod}
           />
           <CustomButton
             onClick={() => onNewVote(voteEnum.NO)}
-            theme="VoteNo"
+            theme={buttonsDisable ? 'disabled' : 'VoteNo'}
             buttonText="Vote No"
+            disabled={buttonsDisable}
+            hidden={!isVotePeriod}
+          />
+          <CustomButton
+            onClick={() => onProcess()}
+            theme={buttonsDisable ? 'disabled' : 'Primary'}
+            buttonText="Execute"
+            disabled={buttonsDisable}
+            hidden={hideExecuteButton()}
           />
         </div>
       </div>

@@ -51,12 +51,19 @@ function DaoDetail() {
   };
 
   const goToProposalDetail = proposalId => {
-    const daoName = history.location.state ? history.location.state.daoName : `Name of Dao ${daoId}`;
+    const daoName = history.location.state
+      ? history.location.state.daoName
+      : `Name of Dao ${daoId}`;
     const state = { daoId, proposalId, daoName };
     history.push(
       `/dao-proposal-detail?daoId=${daoId}&proposalId=${proposalId}`,
       state
     );
+  };
+
+  const proposalsLength = () => {
+    const total = currentProposals.length + completedProposals.length;
+    return total;
   };
 
   useEffect(() => {
@@ -79,7 +86,7 @@ function DaoDetail() {
                   : `Name of Dao ${daoId}`
               }
             />
-            <a>Proposals ({currentProposals.length})</a>
+            <a>Proposals ({proposalsLength()})</a>
           </div>
         </div>
         <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
