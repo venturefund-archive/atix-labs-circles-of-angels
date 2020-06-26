@@ -30,7 +30,7 @@ import {
   uploadProcessGetTransaction,
   uploadProcessSendTransaction
 } from '../../api/daoApi';
-import { getUser } from '../../api/userApi';
+import { getUser, getUsers } from '../../api/userApi';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
