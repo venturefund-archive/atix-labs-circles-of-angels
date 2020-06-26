@@ -9,16 +9,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Modal, message } from 'antd';
 import {
-  createNewMemberProposal,
   uploadProposalGetTransaction,
   uploadProposalSendTransaction,
   getAllUsers
 } from '../../../api/daoApi';
-import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
+import ModalDaoSelection from '../ModalDaoSelection/ModalDaoSelection';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
 import './_style.scss';
 
@@ -26,6 +25,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const [applicant, setApplicant] = useState('');
+  const [newDaoName, setNewDaoName] = useState('');
   const [description, setDescription] = useState('');
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
@@ -49,6 +49,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
 
   const onNewProposal = async () => {
     try {
+      // Refactor: encapsule it on a function for each case
       if (!applicant || !description) {
         showModalError('Error!', 'Please complete both fields');
         return false;
@@ -193,13 +194,22 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
           </div>
         </div>
 
-        <ModalMemberSelection
+        <ModalDaoSelection
+          setNewDaoName={setNewDaoName}
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          submitDaoProposal={onNewProposal}
+          onCancel={handleCancel}
+          usersData={usersData}
+        />
+
+        {/* <ModalMemberSelection
           setApplicant={setApplicant}
           setDescription={setDescription}
           submitMemberProposal={onNewProposal}
           onCancel={handleCancel}
           usersData={usersData}
-        />
+        /> */}
 
         <ModalPasswordRequest
           visible={modalPasswordVisible}
