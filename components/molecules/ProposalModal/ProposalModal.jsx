@@ -18,6 +18,7 @@ import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import ModalDaoSelection from '../ModalDaoSelection/ModalDaoSelection';
+import ProposalOption from '../ProposalOption/ProposalOption';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
 import './_style.scss';
 
@@ -26,6 +27,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [usersData, setUsersData] = useState([]);
   const [applicant, setApplicant] = useState('');
   const [newDaoName, setNewDaoName] = useState('');
+  const [selectedOption, setSelectedOption] = useState(0);
   const [description, setDescription] = useState('');
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
@@ -140,13 +142,54 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     setVisible(true);
   };
 
+  const onSelect = proposalType => {
+    setSelectedOption(proposalType);
+  };
+
   const handleOk = e => {
-    console.log(e);
     setVisible(false);
   };
 
   const handleCancel = e => {
     setVisible(false);
+  };
+
+  const renderSelectedComponent = () => {
+    return (
+      <div>
+        {selectedOption === 0 && (
+          <ModalMemberSelection
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitMemberProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )}
+
+        {/* {selectedOption === 1 && (
+          <ModalRoleSelection
+            setNewDaoName={setNewDaoName}
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitDaoProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )} */}
+
+        {selectedOption === 2 && (
+          <ModalDaoSelection
+            setNewDaoName={setNewDaoName}
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitDaoProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )}
+      </div>
+    );
   };
 
   return (
@@ -172,44 +215,27 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         </p>
 
         <div className="flex space-between margin-top">
-          <div className="daoMemberContainer flex">
-            <img alt="member-icon" src="../static/images/icon-modal-01.png" />
-            <p>
-              <strong>NEW MEMBER</strong>
-            </p>
-          </div>
-
-          <div className="daoRoleContainer flex">
-            <img alt="role-icon" src="../static/images/icon-modal-02.png" />
-            <p>
-              <strong>NEW ROLE</strong>
-            </p>
-          </div>
-
-          <div className="daoRoleContainer flex">
-            <img alt="dao-icon" src="../static/images/icon-modal-03.png" />
-            <p>
-              <strong>CREATE DAO</strong>
-            </p>
-          </div>
+          {/* TODO: a map and read it from an object array */}
+          <ProposalOption
+            img="../static/images/icon-modal-01.png"
+            title="NEW MEMBER"
+            proposalType={0}
+            onSelect={onSelect}
+          />
+          <ProposalOption
+            img="../static/images/icon-modal-02.png"
+            title="NEW ROLE"
+            proposalType={1}
+            onSelect={onSelect}
+          />
+          <ProposalOption
+            img="../static/images/icon-modal-03.png"
+            title="CREATE DAO"
+            proposalType={2}
+            onSelect={onSelect}
+          />
         </div>
-
-        <ModalDaoSelection
-          setNewDaoName={setNewDaoName}
-          setApplicant={setApplicant}
-          setDescription={setDescription}
-          submitDaoProposal={onNewProposal}
-          onCancel={handleCancel}
-          usersData={usersData}
-        />
-
-        {/* <ModalMemberSelection
-          setApplicant={setApplicant}
-          setDescription={setDescription}
-          submitMemberProposal={onNewProposal}
-          onCancel={handleCancel}
-          usersData={usersData}
-        /> */}
+        {renderSelectedComponent()}
 
         <ModalPasswordRequest
           visible={modalPasswordVisible}

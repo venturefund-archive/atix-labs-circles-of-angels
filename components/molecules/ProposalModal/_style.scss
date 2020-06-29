@@ -90,13 +90,25 @@
       background:$white;
       padding:1em;
       border-radius: 10px;
-      border:1px solid $primary-color;
+      // border:1px solid $primary-color;
+      border:1px solid $light-gray;
       img {
         margin-right:1em;
       }
     }
 
-    .daoRoleContainer:hover {
+    .newDaoContainer {
+      width: 200px;
+      background:$white;
+      padding:1em;
+      border-radius: 10px;
+      border:1px solid $light-gray;
+      img {
+        margin-right:1em;
+      }
+    }
+
+    .daoRoleContainer:hover, .newDaoContainer:hover, .daoMemberContainer:hover {
       border:1px solid $primary-color;
     }
 }
