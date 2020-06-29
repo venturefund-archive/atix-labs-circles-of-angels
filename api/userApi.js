@@ -6,21 +6,22 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import api, { doGet } from './api';
+import apiCall from './apiCall';
+import questionsToText from '../helpers/questionsToText';
 
 const baseURL = '/users';
 
-const loginUser = async (email, pwd) => {
-  try {
-    const response = await api.post(`${baseURL}/login`, {
-      email,
-      pwd
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
+
+const getFollowedProjects = async () =>
+  apiCall('get', `${baseURL}/followed-projects`);
+
+const getAppliedProjects = async () =>
+  apiCall('get', `${baseURL}/applied-projects`);
+
+const loginUser = (email, pwd) =>
+  apiCall('post', `${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {
@@ -31,51 +32,23 @@ const getOracles = async () => {
   }
 };
 
-const getUsers = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response.data.users;
-  } catch (error) {
-    return { error };
-  }
-};
+const getUsers = () => apiCall('get', `${baseURL}`);
 
-const getAllRoles = async () => {
-  try {
-    const response = await api.get(`${baseURL}/roles`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const getUser = userId => doGet(`${baseURL}/${userId}`);
 
-const getAllUserRegistrationStatus = async () => {
-  try {
-    const response = await api.get(`${baseURL}/registrationStatus`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const changeUserRegistrationStatus = (userId, registrationStatus) =>
+  apiCall('put', `${baseURL}/${userId}`, {
+    registrationStatus
+  });
 
-const changeUserRegistrationStatus = async (userId, registrationStatus) => {
-  try {
-    const response = await api.put(`${baseURL}/${userId}`, {
-      registrationStatus
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const signUpUser = async user => {
-  try {
-    const response = await api.post(`${baseURL}/signup`, user);
-    return response;
-  } catch (error) {
-    return { error };
-  }
+const register = (user, { address, encryptedWallet }) => {
+  const answers = questionsToText(user);
+  return apiCall('post', `${baseURL}/signup`, {
+    ...user,
+    answers,
+    address,
+    encryptedWallet
+  });
 };
 
 const recoverPassword = async email => {
@@ -99,24 +72,19 @@ const updatePassword = async (token, password) => {
   }
 };
 
-const getMyProjects = async userId => {
-  try {
-    const response = await api.get(`${baseURL}/${userId}/projects`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const getCountries = async () => apiCall('get', 'countries');
 
 export {
   loginUser,
   getOracles,
   getUsers,
+  getUser,
   changeUserRegistrationStatus,
-  getAllUserRegistrationStatus,
-  getAllRoles,
-  signUpUser,
+  getCountries,
+  register,
   recoverPassword,
   updatePassword,
-  getMyProjects
+  getMyProjects,
+  getFollowedProjects,
+  getAppliedProjects
 };

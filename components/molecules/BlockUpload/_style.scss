@@ -10,7 +10,7 @@
   align-items: center;
   margin: 0px 0px 20px 0;
   .Title {
-    @include primary-text($body, $secondary-color, 600);
+    @include primary-text($body, $secondary-color, 500);
     margin-bottom: 0;
   }
   p {

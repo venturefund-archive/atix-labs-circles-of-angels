@@ -33,10 +33,10 @@ const SignatoryItem = ({
   loggedUser
 }) => {
   const hasUser = loggedUser && loggedUser.role;
-  const isFunder = hasUser && loggedUser.role.id === Roles.Funder;
+  const isFunder = hasUser && loggedUser.role.id === Roles.PROJECT_SUPPORTER;
   const isOwner = hasUser && userId === loggedUser.id;
   const showTransferStatus =
-    (hasUser && loggedUser.role.id === Roles.SocialEntrepreneur) ||
+    (hasUser && loggedUser.role.id === Roles.ENTREPRENEUR) ||
     (isOwner && isFunder);
   const showSignButton = signStatus === SignStatus.UNSIGNED && isOwner;
 

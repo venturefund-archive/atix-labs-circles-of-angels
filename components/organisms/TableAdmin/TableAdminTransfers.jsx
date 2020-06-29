@@ -6,34 +6,57 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Table } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import transferStatusMap from '../../../model/transferStatus';
+import React, { useState, useEffect, Fragment, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
+import { Table, Tag, Col, message } from 'antd';
+import { UndoOutlined } from '@ant-design/icons';
+import transferStatusesMap from '../../../model/transferStatusesMap';
+import TransferStatuses from '../../../constants/TransferStatuses';
+import CustomButton from '../../atoms/CustomButton/CustomButton';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { newTransferClaimFormItems } from '../../../helpers/createProjectFormFields';
+import {
+  addTransferClaimSendTransaction,
+  addTransferClaimGetTransaction
+} from '../../../api/transferApi';
+import ModalPasswordRequest from '../ModalPasswordRequest/ModalPasswordRequest';
+import { signTransaction } from '../../../helpers/blockchain/wallet';
 
-const TableAdminTransfers = ({
-  projectId,
-  saveStatus,
-  getTransfersOfProjects
-}) => (
-  <TransferTable
-    projectId={projectId}
-    saveStatus={saveStatus}
-    getTransfersOfProjects={getTransfersOfProjects}
-  />
-);
-class TransferTable extends React.Component {
-  columns = [
+const TableAdminTransfers = ({ projectId, getTransfers }) => {
+  const [transfers, setTransfers] = useState([]);
+  const [modalRejectVisible, setModalRejectVisible] = useState(false);
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [transferSelected, setTransferSelected] = useState(undefined);
+  const [txData, setTxData] = useState();
+  const [claimData, setClaimData] = useState({});
+  const [claimApproved, setClaimApproved] = useState();
+
+  const signAndSendTransaction = useCallback(
+    async userPassword => {
+      const signedTransaction = await signClaimTx(txData, userPassword);
+      await sendClaimTx(claimData, claimApproved, signedTransaction);
+    },
+    [txData, claimData, claimApproved]
+  );
+
+  const columns = [
     {
       title: 'Transfer Id',
-      dataIndex: 'id',
-      key: 'id'
+      dataIndex: 'transferId',
+      key: 'transferId'
     },
     {
-      title: 'User Id',
-      dataIndex: 'sender',
-      key: 'name'
+      title: 'Sender',
+      key: 'sender',
+      render: ({ sender }) => (
+        <span>{`${sender.firstName} ${sender.lastName}`}</span>
+      )
+    },
+    {
+      title: 'Destination Account',
+      dataIndex: 'destinationAccount',
+      key: 'destinationAccount'
     },
     {
       title: 'Amount',
@@ -41,72 +64,207 @@ class TransferTable extends React.Component {
       key: 'amount'
     },
     {
-      title: 'Receipt Number',
-      dataIndex: 'transferId',
-      key: 'transferId'
+      title: 'Currency',
+      dataIndex: 'currency',
+      key: 'currency'
+    },
+    {
+      title: 'Receipt',
+      dataIndex: 'receiptPath',
+      key: 'receiptPath',
+      // TODO check how we will handle this
+      render: receipt => (
+        <a href={receipt} target="_blank" rel="noopener noreferrer">
+          View
+        </a>
+      )
     },
     {
       title: 'Status',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (text, record) => (
+      key: 'status',
+      dataIndex: 'status',
+      render: status => (
         <span>
-          <select
-            onChange={evnt => (record.state = evnt.currentTarget.value)}
-            defaultValue={record.state}
-          >
-            {Object.keys(transferStatusMap).map(transferStatusKey => (
-              <option key={transferStatusKey} value={transferStatusKey}>
-                {transferStatusMap[transferStatusKey].show}
-              </option>
-            ))}
-          </select>
+          <Tag color={transferStatusesMap[status].color} key={status}>
+            {transferStatusesMap[status].name}
+          </Tag>
         </span>
       )
     },
     {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <span>
-          <CustomButton
-            theme="Primary"
-            buttonText="Confirm"
-            onClick={() => {
-              console.log(record);
-              this.props.saveStatus(record.id, record.state);
-            }}
-          />
-        </span>
+      title: 'Actions',
+      key: 'actions',
+      dataIndex: 'actions',
+      render: actions => (
+        <button className="reintentarBtn">
+          <UndoOutlined /> Reintentar
+        </button>
       )
+
+      // render: ({ id, status }) => {
+      //   if (status !== TransferStatuses.PENDING) return;
+
+      //   return (
+      //     <Fragment>
+      //       <Col span={8}>
+      //         <CustomButton
+      //           theme="Primary"
+      //           key="back"
+      //           buttonText="Approve"
+      //           onClick={() => onApprovedTransfer(id)}
+      //         />
+      //       </Col>
+      //       <Col span={8}>
+      //         <CustomButton
+      //           theme="Sencondary"
+      //           key="back"
+      //           buttonText="Reject"
+      //           onClick={() => setTransferSelected(id)}
+      //         />
+      //       </Col>
+      //     </Fragment>
+      //   );
+      // }
     }
   ];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-  }
+  const fetchTransfers = useCallback(async () => {
+    const data = await getTransfers(projectId);
+    setTransfers(data);
+  });
 
-  componentDidMount = async () => {
-    const { getTransfersOfProjects, projectId } = this.props;
-    const data = await getTransfersOfProjects(projectId);
-    this.setState({ data });
+  const inputPasswordHandler = async data => {
+    // TODO: add support for mnemonic
+    const password = data.get('password');
+    try {
+      await signAndSendTransaction(password);
+    } catch (error) {
+      message.error(error.message);
+      return;
+    } finally {
+      hideModalPassword();
+    }
+    message.success('Transfer updated successfully!');
+    fetchTransfers();
   };
 
-  render() {
-    const { data } = this.state;
-    return (
+  const getClaimTx = async (transferId, approved) => {
+    const response = await addTransferClaimGetTransaction(transferId, approved);
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const signClaimTx = async (tx, password) => {
+    const { tx: unsignedTx, encryptedWallet } = tx;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return signedTransaction;
+  };
+
+  const sendClaimTx = async (data, approved, signedTransaction) => {
+    const body = { ...data, signedTransaction };
+    delete body.transferId;
+    const response = await addTransferClaimSendTransaction(
+      data.transferId,
+      approved,
+      body
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const onApprovedTransfer = async transferId => {
+    try {
+      const tx = await getClaimTx(transferId, true);
+      showPasswordModal(tx, true, { transferId });
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const onRejectTransfer = async data => {
+    if (!transferSelected) return;
+
+    const formData = {};
+    data.forEach((value, key) => {
+      formData[key] = value;
+    });
+
+    try {
+      const tx = await getClaimTx(transferSelected, false);
+      showPasswordModal(tx, false, {
+        transferId: transferSelected,
+        ...formData
+      });
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const showPasswordModal = (tx, approved, data) => {
+    setClaimData(data);
+    setClaimApproved(approved);
+    setTxData(tx);
+    setModalPasswordVisible(true);
+  };
+
+  const hideModalPassword = () => {
+    setClaimData({});
+    setClaimApproved(undefined);
+    setTxData(undefined);
+    setModalPasswordVisible(false);
+    setTransferSelected(undefined);
+    setModalRejectVisible(false);
+  };
+
+  const onShowRejectModal = () => setModalRejectVisible(true);
+
+  useEffect(() => {
+    fetchTransfers();
+  }, [fetchTransfers]);
+
+  useEffect(() => {
+    if (!transferSelected) return;
+    onShowRejectModal();
+  }, [transferSelected]);
+
+  return (
+    <Fragment>
       <Table
-        columns={this.columns}
-        dataSource={data}
+        columns={columns}
+        dataSource={transfers}
         size="middle"
         className="TableAdmin"
         pagination={false}
       />
-    );
-  }
-}
+      <CustomFormModal
+        title="Reject transfer"
+        formItems={newTransferClaimFormItems}
+        visible={modalRejectVisible}
+        onConfirm={onRejectTransfer}
+        onClose={() => setModalRejectVisible(false)}
+      />
+      <ModalPasswordRequest
+        onConfirm={inputPasswordHandler}
+        onClose={hideModalPassword}
+        visible={modalPasswordVisible}
+      />
+    </Fragment>
+  );
+};
 
 export default TableAdminTransfers;
+
+TableAdminTransfers.propTypes = {
+  projectId: PropTypes.number.isRequired,
+  getTransfers: PropTypes.func.isRequired
+};

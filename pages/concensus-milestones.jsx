@@ -40,7 +40,6 @@ import {
 import signStatusMap from '../model/signStatusMap';
 import SignStatus from '../constants/SignStatus';
 import transferStatusMap from '../model/transferStatus';
-import Routing from '../components/utils/Routes';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
@@ -65,7 +64,7 @@ import ButtonUpload from '../components/atoms/ButtonUpload/ButtonUpload';
 import StepsSe from '../components/molecules/StepsSe/StepsSe';
 import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
-import TransferStatus from '../constants/TransferStatus';
+import TransferStatus from '../constants/TransferStatuses';
 import BlockchainStatus from '../constants/BlockchainStatus';
 import { isNumber } from 'util';
 
@@ -295,11 +294,24 @@ class ConcensusMilestones extends Component {
     const { projectId } = this.props;
     const { status } = info.file;
     const projectAgreement = info.file;
-    if (status === FileUploadStatus.DONE) {
-      await uploadAgreement(projectId, projectAgreement.originFileObj);
 
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (status === FileUploadStatus.ERROR) {
+    // TODO : this was locally modified on production.
+    //        nobody knows who made it.
+    try {
+      if (
+        status === FileUploadStatus.DONE ||
+        status === FileUploadStatus.UPLOADING
+      ) {
+        // TODO : unused variable.
+        const response = await uploadAgreement(
+          projectId,
+          projectAgreement.originFileObj
+        );
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (status === FileUploadStatus.ERROR) {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    } catch (error) {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
@@ -333,7 +345,7 @@ class ConcensusMilestones extends Component {
   };
 
   signAgreementOk = async userProject => {
-    //const { user, projectId } = this.props;
+    // const { user, projectId } = this.props;
     const { userProjects } = this.state;
     const response = await signAgreement(userProject.id);
 
@@ -424,8 +436,9 @@ class ConcensusMilestones extends Component {
     const { faqLink, goalAmount, projectName } = project;
     const { user, projectId } = this.props;
     const isSocialEntrepreneur =
-      user && user.role && user.role.id === Roles.SocialEntrepreneur;
-    const isFunder = user && user.role && user.role.id === Roles.Funder;
+      user && user.role && user.role.id === Roles.ENTREPRENEUR;
+    const isFunder =
+      user && user.role && user.role.id === Roles.PROJECT_SUPPORTER;
     const signedAgreement = Object.values(userProjects).some(
       userProject =>
         userProject.user.id === user.id &&

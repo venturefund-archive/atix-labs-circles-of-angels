@@ -6,98 +6,61 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import {
-  getUsers,
-  changeUserRegistrationStatus,
-  getAllUserRegistrationStatus,
-  getAllRoles
-} from '../api/userApi';
-import { withUser } from '../components/utils/UserContext';
-
+import React, { useState, useEffect } from 'react';
 import './_style.scss';
 import './_back-office-users.scss';
+import { message } from 'antd';
+import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
+import { getUsers } from '../api/userApi';
+import userRoles from '../constants/RolesMap';
 
-class BackOfficeUsers extends React.Component {
-  constructor(props) {
-    super(props);
+const BackOfficeUsers = () => {
+  const [users, setUsers] = useState([]);
+  const [filters, setFilters] = useState({});
 
-    this.state = {
-      users: [],
-      registrationStatusList: [],
-      filters: {}
-    };
-  }
-
-  async componentDidMount() {
-    const roleFilters = [];
-    const users = await getUsers();
-    const sortedUsers = users.sort((a, b) => b.id - a.id);
-    const { roles } = (await getAllRoles()).data;
-    roles.forEach(role => {
-      roleFilters.push({
-        text: role.name,
-        value: role.name
-      });
-    });
-    const { registrationStatus } = (await getAllUserRegistrationStatus()).data;
-    this.setState({
-      users: sortedUsers,
-      registrationStatusList: registrationStatus,
-      filters: { roles: roleFilters }
-    });
-  }
-
-  changeRegistrationStatus = async (userId, registrationStatus) => {
-    const { users } = this.state;
-    const response = await changeUserRegistrationStatus(
-      userId,
-      registrationStatus.id
-    );
-    if (!response || response.error) {
-      const { error } = response;
-      const title = error.response
-        ? 'Error Changing User Registration Status'
-        : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
-    } else {
-      showModalSuccess('Success!', response.data.success);
-      const updatedUser = users.find(user => user.id === userId);
-      updatedUser.registrationStatus = registrationStatus;
-      this.setState({ users });
+  const fetchUsers = async () => {
+    try {
+      const response = await getUsers();
+      const usersFound = response && response.users;
+      const roleFilters = Object.values(userRoles)
+        .filter(role => role !== userRoles.COA_ADMIN)
+        .map(role => ({
+          text: role.toUpperCase(),
+          value: role
+        }));
+      setUsers(usersFound || []);
+      setFilters({ roles: roleFilters || [] });
+    } catch (error) {
+      message.error(error);
     }
-
-    return response;
   };
 
-  render() {
-    const { registrationStatusList, filters, users } = this.state;
-    return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="TableContainer">
-            <h1>Users Administration</h1>
-            <TableBOUsers
-              dataSource={users}
-              onRegistrationStatusChange={this.changeRegistrationStatus}
-              registrationStatusOptions={registrationStatusList}
-              filters={filters}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  // TODO user registration validation has changed, this will be handle in a future task
+  // const changeRegistrationStatus = async (userId, registrationStatus) => {
+  //   try {
+  //     const response = await changeUserRegistrationStatus(
+  //       userId,
+  //       registrationStatus.id
+  //     );
+  //     const updatedUser = users.find(user => user.id === userId);
+  //     updatedUser.registrationStatus = registrationStatus;
+  //     message.success('User updated successfully!');
+  //     return response;
+  //   } catch (error) {
+  //     message.error(error);
+  //   }
+  // };
 
-export default withUser(BackOfficeUsers);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  return (
+    <div className="TableContainer">
+      <h1>Users Administration</h1>
+      <TableBOUsers data={users} filters={filters} />
+    </div>
+  );
+};
+
+export default BackOfficeUsers;

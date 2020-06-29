@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import { Divider, Icon, Breadcrumb, Tooltip, message, Tag } from 'antd';
 import { isEmpty } from 'lodash';
 import mime from 'mime-types';
-import Routing from '../components/utils/Routes';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
@@ -321,9 +320,7 @@ class ProjectEvidence extends Component {
                         </Tooltip>
                         <a
                           target="_blank"
-                          href={`https://explorer.testnet.rsk.co/tx/${
-                            activity.transactionHash
-                          }`}
+                          href={`https://explorer.testnet.rsk.co/tx/${activity.transactionHash}`}
                         >
                           {activity.transactionHash}
                         </a>

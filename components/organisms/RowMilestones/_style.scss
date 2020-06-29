@@ -1,0 +1,163 @@
+@import '../../../css/general_styling.scss';
+
+.WrapperTable {
+  overflow: hidden;
+  margin: 0 0 1em 0 !important;
+  @include breakpoint(sm) {
+    margin: 0 0 1em 0 !important;
+  }
+  .BorderBox {
+    padding-left: 1em;
+    border-left: 1px solid $border;
+  }
+  .Contentbox{
+    padding: 0.5em 0;
+    .Box {
+      padding-right: 1em;
+    }
+  }
+  .ant-input {
+    font-size: 12px;
+    border: 1px solid $primary-color;
+    color: #728099;
+    margin-right: 0.5em;
+  }
+  .gutter-row {
+    margin-right: 0.5em;
+  }
+
+  .SubWrapperActivitiesActions {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .TableMilestones {
+    border: 1px solid $border;
+    border-bottom: transparent;
+    padding: 0 1em 1em;
+    border-radius: 4px 4px 0 0;
+  }
+  .ant-progress-show-info .ant-progress-outer {
+    margin-right: calc(-2em - 8px);
+    padding-right: calc(2.5em + 12px);
+  }
+  .ant-progress-inner {
+    background-color: #e1e3e2;
+  }
+  .ant-progress-bg {
+    background-color: $success-color-light;
+  }
+  .ant-progress-text {
+    margin-left: 1em;
+    @include primary-text(12.5px, $on-surface, 400);
+  }
+  .TableMilestones,
+  .TableActivities {
+    padding: 0 1em 1em;
+    height: auto;
+    @include breakpoint(sm) {
+      flex-direction: column;
+    }
+    h3 {
+      @include primary-text(13px, $on-surface, 500);
+    }
+    p {
+      @include primary-text(12.5px, $on-surface, 400);
+    }
+    label {
+      @include primary-text(12.5px, $on-surface-medium, 400);
+    }
+    .header {
+      display: flex;
+      border-bottom: 1px solid $border;
+      margin-bottom: 1em;
+      padding: 0.5em 0;
+    }
+  }
+  .TableActivities {
+    h3 {
+      @include primary-text($h3, $on-surface, 500);
+    }
+
+    .gutter-row {
+      margin-right: 1em;
+      .ant-select {
+        width: 90%;
+        margin-top: 0.5em;
+        .ant-select-selection {
+          border-radius: 2px;
+          border: transparent;
+          border-bottom: 2px solid $primary-color;
+          margin-bottom: 1em;
+        }
+      }
+    }
+  }
+  .WrapperActionsActivities,
+  .WrapperActions {
+    .isEditing {
+      background: #e9f0fe;
+      border-radius: 4px;
+    }
+    .blueLink{
+      display: inline-block
+    }
+  }
+  .WrapperActions {
+    text-align: center;
+    @include breakpoint(sm) {
+      border-radius: 0px;
+      transform: scale(0.8);
+      justify-content: space-evenly;
+    }
+  }
+  .SubWrapperActivities {
+    position: relative;
+    border: 1px solid $border;
+    background: $light-gray;
+    overflow: hidden;
+    @include breakpoint(sm) {
+      height: auto;
+    }
+  }
+  .WrapperActions,
+  .WrapperActionsActivities {
+    a {
+      font-size: $body-2;
+    }
+  }
+  .WrapperActivities {
+    padding: 0 !important;
+    background: transparent;
+    margin-bottom: 1em;
+    .ant-collapse {
+      background-color: transparent;
+      border: none;
+      .ant-collapse-item {
+        border-bottom: transparent;
+      }
+      .ant-collapse-header {
+        border-top: transparent;
+        padding: 0.5em 1.5em;
+        border-radius: 0 0 4px 4px;
+        border: 1px solid $border;
+        @include primary-text(12px, $primary-color, 400);
+        .anticon.anticon-right.ant-collapse-arrow {
+          padding-left: 7em;
+        }
+      }
+      .ant-collapse-content {
+        border: none;
+      }
+      .ant-collapse-content > .ant-collapse-content-box {
+        padding: 0;
+      }
+    }
+  }
+  .ant-divider-vertical {
+    height: 2em;
+    margin: 0 0.5em;
+    background: $border;
+  }
+}

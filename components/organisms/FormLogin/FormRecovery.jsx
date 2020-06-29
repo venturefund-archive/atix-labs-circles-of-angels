@@ -8,13 +8,14 @@
 
 import React from 'react';
 import { Form, Icon, Input } from 'antd';
+import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import 'antd/dist/antd.css';
 import './_style.scss';
-import Routing from '../../utils/Routes';
 
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
+  const history = useHistory();
+
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
@@ -22,6 +23,7 @@ const FormRecovery = ({ form, onSubmit }) => {
       }
     });
   };
+
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
@@ -49,7 +51,7 @@ const FormRecovery = ({ form, onSubmit }) => {
         <CustomButton
           theme="Cancel"
           buttonText="Back"
-          onClick={() => Routing.toLogin()}
+          onClick={() => history.push('/login')}
         />
       </Form.Item>
     </Form>

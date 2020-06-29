@@ -14,7 +14,6 @@ import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { sendTransferInformation } from '../api/transferApi';
-import Routing from '../components/utils/Routes';
 import { withUser } from '../components/utils/UserContext';
 
 import './_style.scss';

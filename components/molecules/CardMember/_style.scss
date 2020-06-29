@@ -1,0 +1,96 @@
+@import "../../../css/general_styling.scss";
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+  .BoxMember {
+    position: relative;
+    overflow: visible;
+    box-shadow: $shadow;
+    min-height: 100px;
+    min-width: 270px;
+    width:23%;
+    border-radius: 10px;
+    margin: 1em 0.5em;
+    &:hover {
+      border:1px solid $primary-color;
+      box-shadow: 0px 26px 14px -20px rgba(0,4,121,0.27);
+      box-sizing: border-box;
+    }
+    
+    .TopBoxSection {
+      padding: 0.5em 2em;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top:5px;
+      left:0;
+      .ant-avatar {
+        height: 40px;
+        width: 40px;
+        background: $primary-color;
+        .ant-avatar-string {
+          color: white;
+        }
+      }
+      p {
+        @include primary-text(body, $secondary-color, 400);
+        margin: 0 0 0 0.5em;
+      }  
+    }
+    .BottomBoxSection {
+      padding:0.5em 2em;
+      border-top: 1px solid $light-gray;
+      height: 30px;
+      overflow: hidden;
+      position: absolute;
+      bottom:0;
+      left:0;
+      width: 100%;
+    }
+    .subBox {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      p {
+        color:$grey;
+        width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+
+  @media only screen and (max-width: 400px) {
+    .Box1 {
+      height: 300px;
+      .BottomBoxSection {
+        height: 190px;
+        flex-direction: column;
+        .subBox {
+          width: 100%;
+          margin-bottom: 1em;
+        }
+      }
+    }
+  }

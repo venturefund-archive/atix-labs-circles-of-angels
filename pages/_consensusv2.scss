@@ -1,0 +1,89 @@
+@import '../css/general_styling.scss';
+
+.ConsensusView {
+  height: 92vh;
+  .Left {
+    height: 100%;
+    border-right: 1px solid $border;
+    .ant-tabs-bar {
+      border-bottom: none;
+    }
+    .Top {
+      height: 17%;
+      padding: 2em 1.5em 1.5em 0em;
+      margin-left: 2.5em;
+      border-bottom: 1px solid $border;
+      .TitlePage h1 {
+        margin-bottom: 0;
+        margin-right: 0.5em;
+        &:after {
+          display: none;
+        }
+      }
+    }
+    .Bottom {
+      height: 83%;
+      padding: 1em 1.5em 0em 2.5em;
+      .ant-tabs,.ant-tabs-content{
+        height: 100%;
+      }
+    }
+  }
+  .Right {
+    height: 100%;
+    padding: 2em 2em 2em 1.5em;
+    position: relative;
+    h3 {
+      margin-bottom: 2em;
+    }
+    .ant-avatar-image {
+      margin-right: -8px;
+      border: 1px solid $white;
+    }
+    .ant-btn {
+      margin: 0 auto;
+      height: auto;
+    }
+    .Secondary{
+      padding: 0;
+    }
+    .BlockActions {
+      position: absolute;
+      bottom:0;
+      left: 0;
+      .CustomButton{
+        margin-top: 1em;
+        height: 38px;
+      }
+    }
+    .Cards {
+      padding: 1em;
+      border-radius: 4px;
+      margin-top: 1em;
+      border-top: 1px solid $border;
+      border-right: 1px solid $border;
+      border-bottom: 1px solid $border;
+      h3 {
+        @include primary-text($medium, $on-surface, 400);
+      }
+      h3.bold {
+        @include primary-text($medium, $on-surface, 500);
+      }
+      .ant-avatar-image {
+        margin-left: 0px;
+      }
+      span {
+        @include primary-text($body, $primary-color, 400);
+      }
+    }
+    .Orange {
+      border-left: 4px solid #FB976C;
+    }
+    .Red {
+      border-left: 4px solid #ff6f6f;
+    }
+    .Blue {
+      border-left: 4px solid $primary-color;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import "../../../css/general_styling.scss";
+
+.ModalPasswordRequest{
+  h1,h3{
+     margin:0;
+  }
+  h1{
+    @include primary-text($labelbig, $on-surface, 500);
+  }
+  h3{
+    @include primary-text($body, $on-surface-medium, 400);
+  }
+  .CustomButton.Primary{
+    width: 100%;
+  }
+  img{
+    margin-right: 1em;
+  }
+  .Title{
+    padding: 1.5em 1.5em 0.5em;
+  }
+  .Body{
+     padding: 0 1.5em 0.5em
+  }
+  .ant-modal-content .ant-modal-body{
+    padding: 0em;
+  }
+}

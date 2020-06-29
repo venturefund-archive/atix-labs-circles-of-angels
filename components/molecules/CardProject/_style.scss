@@ -1,68 +1,49 @@
 @import "../../../css/general_styling.scss";
 
 .CardProject {
-  background: $white;
-  width: 24.2%;
-  border-radius: 5px;
-  box-shadow: $shadow;
   margin-bottom: 2em;
-  margin-right: 1em;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  .ant-tag{
-    position: absolute;
-    top: 1em;
-    left: 1em;
-    z-index: 9;
-    cursor: pointer;
-  }
-  .ant-tag:hover{
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  &:hover{
-    transform: scale(1.01);
-    box-shadow: $shadow-big; 
-  }
 
+  .ant-col-1{
+    margin: 0 0.5em;
+  }
+  .ant-divider, .ant-divider-vertical{
+    height: 2em;
+  }
   .ProjectDescription {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-end;
-    position: relative;
+    width: 100%;
+    height: 270px;
+    background: #ECECEC;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    overflow: hidden;
     img {
-      height: 175px;
+      border-radius: 5px;
+      height: 100%;
       width: 100%;
-      -webkit-border-top-left-radius: 5px;
-      -webkit-border-top-right-radius: 5px;
-      -moz-border-radius-topleft: 5px;
-      -moz-border-radius-topright: 5px;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
     }
-
-    .GradientEfect {
-      background: rgb(0, 0, 0);
-      background: linear-gradient(0deg, #000000bd 10%, #000000d4 5%, rgba(0, 0, 0, 0) 100%);
-      width: 100%;
+    .BlockTags{
+      display: flex;
+      justify-content: space-between;
       position: absolute;
-      padding-top: 1.25em;
-      .DescriptionData {
-        padding: 1em;
-        h1 {
-          @include primary-text($h1, $white, 600);
-        }
-        p {
-          line-height: 20px;
-          @include primary-text($h2, $white, 600);
+      top: 1em;
+      left:1em;
+      z-index: 9;
+      .ant-tag{
+        cursor: pointer;
+        .anticon{
+          margin-left:0.5em;
         }
       }
     }
   }
-
   .ProjectSummery {
-    padding: 1em;
+    padding-top: 0.5em;
+    h1{
+      @include primary-text($titlecard, $on-surface, 500);
+    }
   }
 }
 .CardProject:last-child{

@@ -1,27 +1,78 @@
 @import "../../../css/general_styling.scss";
 
 .GeneralItem{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1em;
-
-    h2{
-        @include primary-text($body, $black, 400);
+    margin-right:1.5em;
+    img{
+      margin-right: 0.8em;
+      opacity: 0.7;
+      width: 20px;
     }
-
+    .Info{
+        @include primary-text($body, $white, 400);
+        opacity: 0.7;
+        line-height: 19px;
+    }
     .HeaderData{
-        display: flex;
-        align-items: center;   
-
         .anticon{
             margin-right: 0.5em;
         }
-        p{
-            @include primary-text($body, $grey, 400);
+        .Label{
+            @include primary-text($body,$white, 500);
+            line-height: 19px;
+            opacity:1;
+            max-width:250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         } 
+                a.Label{
+                    @include primary-text($body,$white, 400);
+                    opacity: 0.7;
+                    line-height: 19px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    &:hover{
+                        opacity: 1;
+                    }
+                     @include breakpoint(sm) {
+                     width: 90vw;
+                    }
+                    .Separate{
+                        margin-left: 0em;
+                        @include breakpoint(sm) {
+                        margin-left: 0;
+                        }
+                        img:hover{
+                            opacity:1;
+                        }
+                    }
+                }
+                a.Label .link {   
+                    margin-left: 0em;
+                    padding: 0.5em 1em;
+                    border: 1px solid white;
+                    border-radius: 50px;
+                    .download{
+                        display:none
+                    }
+                    @include breakpoint(sm) {
+                    color: $primary-color;
+                    opacity:1;
+                    padding: 1em 0;
+                    .download{
+                        display:block
+                    }
+                    }
+                    img{
+                        width: 10px;
+                     &:hover{
+                        opacity: 1;
+                    }
+                    }
+                }
     }
 }
-
-.GeneralItem:last-child{
-    margin-bottom: 0;
+.GeneralItem:last-child {
+    margin-right:0;
 }

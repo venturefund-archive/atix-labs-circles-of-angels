@@ -7,33 +7,23 @@
  */
 
 import React from 'react';
-import App, { Container } from 'next/app';
-import 'antd/dist/antd.css'; 
+import 'antd/dist/antd.css';
 import '../css/app.scss';
+import { Container } from 'next/app';
 import { UserProvider } from '../components/utils/UserContext';
+import Router from '../components/organisms/Router/Router';
+import withReactRouter from './with-react-router';
+import { StorageProvider } from '../components/utils/StorageContext';
+import { routesConfig } from '../components/organisms/Router/RouteConfig';
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+const MyApp = props => (
+  <Container>
+    <UserProvider>
+      <StorageProvider>
+        <Router {...props} routesConfig={routesConfig} />
+      </StorageProvider>
+    </UserProvider>
+  </Container>
+);
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  }
-
-  render() {
-    const { Component, pageProps } = this.props;
-
-    return (
-      <Container>
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
-      </Container>
-    );
-  }
-}
-
-export default MyApp;
+export default withReactRouter(MyApp);
