@@ -11,7 +11,6 @@ const ProposalOption = ({ img, value, onSelect, selectedOption, proposalType }) 
       }
       onClick={() => onSelect(proposalType)}
     >
-      {/* className={this.state.button ? 'buttonTrue' : 'buttonFalse'} */}
       <img alt="proposal-icon" src={img} />
       <p>
         <strong>{value}</strong>
