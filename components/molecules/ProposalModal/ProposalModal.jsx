@@ -66,12 +66,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     getCurrentUser();
   });
 
-  const validateInputs = () => {
-    console.log('applicant', applicant);
-    console.log('description', description);
-    const validProposal = !applicant || !description;
-    return validProposal;
-  };
+  const validateInputs = () => !applicant || !description;
 
   const onNewProposal = async () => {
     try {
@@ -260,6 +255,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
               value={option.value}
               proposalType={option.proposalType}
               onSelect={onSelect}
+              selectedOption={selectedOption}
             />
           ))}
         </div>

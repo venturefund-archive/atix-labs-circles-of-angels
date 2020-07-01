@@ -1,9 +1,17 @@
 import React from 'react';
 import './_style.scss';
 
-const ProposalOption = ({ img, value, onSelect, proposalType }) => {
+const ProposalOption = ({ img, value, onSelect, selectedOption, proposalType }) => {
   return (
-    <div className="proposalOptionContainer flex" onClick={() => onSelect(proposalType)}>
+    <div
+      className={
+        selectedOption === proposalType
+          ? 'proposalSelectedContainer flex'
+          : 'proposalOptionContainer flex'
+      }
+      onClick={() => onSelect(proposalType)}
+    >
+      {/* className={this.state.button ? 'buttonTrue' : 'buttonFalse'} */}
       <img alt="proposal-icon" src={img} />
       <p>
         <strong>{value}</strong>
