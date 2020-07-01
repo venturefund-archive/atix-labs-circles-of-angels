@@ -190,6 +190,15 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     return currentOption.title;
   };
 
+  const filterOptions = () => {
+    const superDaoId = 0;
+    let filteredOptions = options;
+    if (daoId !== superDaoId) {
+      filteredOptions = options.filter(option => !option.onlySuperDAO);
+    }
+    return filteredOptions;
+  };
+
   const renderSelectedComponent = () => {
     return (
       <div>
@@ -249,7 +258,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         </p>
 
         <div className="flex space-between margin-top">
-          {options.map(option => (
+          {filterOptions().map(option => (
             <ProposalOption
               img={option.image}
               value={option.value}
