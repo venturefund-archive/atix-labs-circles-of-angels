@@ -6,14 +6,35 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { getDaoUsers } from '../../../api/daoApi';
 import { daoCardPropTypes } from '../../../helpers/proptypes';
 
 const CardDao = ({ onClick, dao }) => {
-  const { name, address, proposalsAmount } = dao;
+  const { name, address, proposalsAmount, id } = dao;
+  const [usersData, setUsersData] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getDaoUsers(id);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Users list');
+        return [];
+      }
+      console.log('Response', response.data);
+      setUsersData(response.data.users);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
   return (
     <div onClick={onClick} className="Box1 column">
       <h2>{name}</h2>
@@ -27,7 +48,7 @@ const CardDao = ({ onClick, dao }) => {
             </div>
             <div className="plusSign flex-start">
               <h2>+</h2>
-              <p>34</p>
+              <p>{usersData.length}</p>
             </div>
           </div>
         </div>
