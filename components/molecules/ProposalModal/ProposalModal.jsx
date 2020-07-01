@@ -20,17 +20,25 @@ import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import ModalDaoSelection from '../ModalDaoSelection/ModalDaoSelection';
 import ProposalOption from '../ProposalOption/ProposalOption';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
+import { options } from './proposalOptions';
+import { proposalTypes } from '../../../constants/constants';
+import { useUserContext } from '../../utils/UserContext';
 import './_style.scss';
 
 const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [applicant, setApplicant] = useState('');
-  const [newDaoName, setNewDaoName] = useState('');
-  const [selectedOption, setSelectedOption] = useState(0);
   const [description, setDescription] = useState('');
+  const [selectedOption, setSelectedOption] = useState(
+    proposalTypes.NEW_MEMBER
+  );
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+
+  const { getLoggedUser } = useUserContext();
+  const loggedUser = getLoggedUser();
 
   const fetchUsers = async () => {
     try {
@@ -45,19 +53,38 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     }
   };
 
+  const getCurrentUser = () => {
+    const userFound = usersData.find(user => user.id === loggedUser.id);
+    setCurrentUser(userFound);
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    getCurrentUser();
+  });
+
+  const validateInputs = () => {
+    console.log('applicant', applicant);
+    console.log('description', description);
+    const validProposal = !applicant || !description;
+    return validProposal;
+  };
+
   const onNewProposal = async () => {
     try {
-      // Refactor: encapsule it on a function for each case
-      if (!applicant || !description) {
+      if (validateInputs()) {
         showModalError('Error!', 'Please complete both fields');
         return false;
       }
 
-      const proposalData = { applicant, description };
+      const proposalData = {
+        applicant,
+        description,
+        proposalType: selectedOption
+      };
       const tx = await getProposalTx(proposalData);
       if (tx) showPasswordModal(proposalData, tx);
     } catch (error) {
@@ -138,11 +165,17 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     return response.data;
   };
 
+  const cleanFields = () => {
+    setApplicant('');
+    setDescription('');
+  };
+
   const showModal = () => {
     setVisible(true);
   };
 
   const onSelect = proposalType => {
+    cleanFields();
     setSelectedOption(proposalType);
   };
 
@@ -151,13 +184,21 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   };
 
   const handleCancel = e => {
+    cleanFields();
     setVisible(false);
+  };
+
+  const getOptionTitle = () => {
+    const currentOption = options.find(
+      option => option.proposalType === selectedOption
+    );
+    return currentOption.title;
   };
 
   const renderSelectedComponent = () => {
     return (
       <div>
-        {selectedOption === 0 && (
+        {selectedOption === proposalTypes.NEW_MEMBER && (
           <ModalMemberSelection
             setApplicant={setApplicant}
             setDescription={setDescription}
@@ -178,9 +219,9 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
           />
         )} */}
 
-        {selectedOption === 2 && (
+        {selectedOption === proposalTypes.NEW_DAO && (
           <ModalDaoSelection
-            setNewDaoName={setNewDaoName}
+            currentUser={currentUser}
             setApplicant={setApplicant}
             setDescription={setDescription}
             submitDaoProposal={onNewProposal}
@@ -207,34 +248,22 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         onCancel={handleCancel}
         width={700}
       >
-        {/* This should change dinamically */}
-        {/* <h1>Create a New Proposal</h1> */}
-        <h1>Create a New Member</h1>
+        <h1>{getOptionTitle()}</h1>
         <p className="subtitle">
           Select the type of proposal form the following options
         </p>
 
         <div className="flex space-between margin-top">
-          {/* TODO: a map and read it from an object array */}
-          <ProposalOption
-            img="../static/images/icon-modal-01.png"
-            title="NEW MEMBER"
-            proposalType={0}
-            onSelect={onSelect}
-          />
-          <ProposalOption
-            img="../static/images/icon-modal-02.png"
-            title="NEW ROLE"
-            proposalType={1}
-            onSelect={onSelect}
-          />
-          <ProposalOption
-            img="../static/images/icon-modal-03.png"
-            title="CREATE DAO"
-            proposalType={2}
-            onSelect={onSelect}
-          />
+          {options.map(option => (
+            <ProposalOption
+              img={option.image}
+              value={option.value}
+              proposalType={option.proposalType}
+              onSelect={onSelect}
+            />
+          ))}
         </div>
+
         {renderSelectedComponent()}
 
         <ModalPasswordRequest

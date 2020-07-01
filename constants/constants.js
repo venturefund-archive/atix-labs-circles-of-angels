@@ -30,6 +30,13 @@ export const proposalTypeEnum = {
   ASSIGN_CURATOR: 'Assign New Role'
 };
 
+export const proposalTypes = {
+  NEW_MEMBER: 0,
+  NEW_DAO: 1,
+  ASSIGN_BANK: 2,
+  ASSIGN_CURATOR: 3
+};
+
 export const voteEnum = {
   YES: true,
   NO: false

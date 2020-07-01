@@ -6,72 +6,49 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Select, Form } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
 const ModalDaoSelection = ({
-  setNewDaoName,
+  currentUser,
   setApplicant,
   setDescription,
   submitDaoProposal,
   onCancel
 }) => {
-  function onChange(value) {
-    const address = value.key;
-    setApplicant(address);
-  }
+  useEffect(() => {
+    setApplicant(currentUser.address);
+  });
 
   const userFullname = user => {
+    if (!user) return;
     const fullName = `${user.firstName} ${user.lastName}`;
     return fullName;
   };
 
-  // const options = usersData.map(user => (
-  //   <Option value={user.address}>{userFullname(user)}</Option>
-  // ));
-
   return (
     <Form onSubmit={submitDaoProposal}>
       <div className="daoSelection column">
+        <p>Applicant</p>
+        <Form.Item name="applicant">
+          <Select
+            defaultValue={userFullname(currentUser)}
+            style={{ width: '100%' }}
+            disabled
+          />
+        </Form.Item>
         <p>DAO Name</p>
         <Form.Item name="description">
           <TextArea
             rows={1}
             placeholder="Type Dao Name"
-            onChange={e => setNewDaoName(e.target.value)}
-          />
-        </Form.Item>
-        <p>Applicant</p>
-        <Form.Item name="applicant">
-          <Select
-            showSearch
-            labelInValue
-            style={{ width: '100%' }}
-            defaultActiveFirstOption={false}
-            onChange={onChange}
-          >
-            {/* {options} */}
-          </Select>
-        </Form.Item>
-        <p>Description</p>
-        <Form.Item name="description">
-          <TextArea
-            rows={4}
-            placeholder="Type description"
             onChange={e => setDescription(e.target.value)}
           />
         </Form.Item>
-
-        {/* <p>Role</p>
-          <Select defaultValue="Option1">
-            <Option value="Option1">Option1</Option>
-            <Option value="Option2">Option2</Option>
-          </Select> */}
       </div>
       <div className="flex space-between border-top margin-top padding-top">
         <CustomButton
