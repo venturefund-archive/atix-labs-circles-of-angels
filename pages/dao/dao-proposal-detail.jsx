@@ -85,6 +85,7 @@ function DaoProposalDetail() {
       // FIXME: This page may be refactored to a single page
       // with the dao-detail one making a conditional rendering
       const found = response.data.find(proposal => proposal.id === proposalId);
+      console.log(found);
       if (!found) {
         message.error('The proposal does not exist on this DAO');
         return;
@@ -94,7 +95,7 @@ function DaoProposalDetail() {
         !found.votingPeriodExpired &&
           found.currentPeriod >= found.startingPeriod
       );
-      setButtonsDisable(found.didPass);
+      setButtonsDisable(found.processed);
     } catch (error) {
       message.error(error);
     }
@@ -231,8 +232,7 @@ function DaoProposalDetail() {
 
   const hideExecuteButton = () => {
     const isProposer = currentUser.address === currentProposal.proposer;
-    const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
-    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    const hideButton = isVotePeriod || !isProposer;
     return hideButton;
   };
 
