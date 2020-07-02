@@ -94,4 +94,49 @@
         }
       }
     }
+    .BottomBoxSection {
+      padding:2em;
+      height: 100px;
+      overflow: hidden;
+      position: absolute;
+      bottom:0;
+      left:0;
+      width: 100%;
+    }
+    .subBox {
+      flex-direction:column;
+      h3 {
+        color:$grey;
+      }
+      width: 100%;
+    }
+    .detail {
+      width: 100%;
+      .ant-avatar {
+        background: $primary-color;
+      }
+      .ant-avatar-string {
+        color:white;
+      }
+      .plusSign {
+        display: flex;
+        align-items: center;
+        h2, p {
+          color:$primary-color;
+          margin:0;
+        }
+    }
+      .avatarBox {
+        .avatar  {
+          border:2px solid white;
+          margin-left: -9px!important;
+        z-index: 2;
+        }
+        .avatar-overlap {
+          margin-right: -0.5px!important;
+        border:2px solid white;
+          z-index: 1;
+        }
+      }
+    }
   }
