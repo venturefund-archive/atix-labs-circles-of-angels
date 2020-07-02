@@ -85,7 +85,6 @@ function DaoProposalDetail() {
       // FIXME: This page may be refactored to a single page
       // with the dao-detail one making a conditional rendering
       const found = response.data.find(proposal => proposal.id === proposalId);
-      console.log(found);
       if (!found) {
         message.error('The proposal does not exist on this DAO');
         return;
