@@ -35,6 +35,23 @@ const CardDao = ({ onClick, dao }) => {
     }
   };
 
+  const renderAvatars = () => {
+    const maxAvatars = 2;
+    if (usersData.length < maxAvatars) {
+      return (
+        <div className="avatarBox flex">
+          <Avatar className="avatar">U</Avatar>
+        </div>
+      );
+    }
+    return (
+      <div className="avatarBox flex">
+        <Avatar className="avatar-overlap">U</Avatar>
+        <Avatar className="avatar">A</Avatar>
+      </div>
+    );
+  };
+
   return (
     <div onClick={onClick} className="Box1 column">
       <h2>{name}</h2>
@@ -42,13 +59,9 @@ const CardDao = ({ onClick, dao }) => {
         <div className="subBox">
           <h3>Members</h3>
           <div className="detail flex">
-            <div className="avatarBox flex">
-              <Avatar className="avatar-overlap">U</Avatar>
-              <Avatar className="avatar">A</Avatar>
-            </div>
+            {renderAvatars()}
             <div className="plusSign flex-start">
-              <h2>+</h2>
-              <p>{usersData.length}</p>
+              <p>... {usersData.length}</p>
             </div>
           </div>
         </div>
@@ -68,7 +81,7 @@ const CardDao = ({ onClick, dao }) => {
       </div>
     </div>
   );
-}
+};
 
 CardDao.defaultProps = {
   onClick: () => null
