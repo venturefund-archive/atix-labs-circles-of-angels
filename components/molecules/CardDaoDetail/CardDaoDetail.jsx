@@ -99,7 +99,10 @@ const CardDaoDetail = ({
         <h2>{parseType(proposalType)}</h2>
         <p className="text">{description}</p>
       </div>
-      <div className="flex middleSection">
+      <div
+        className="flex middleSection"
+        style={{ height: !showStatus ? '50%' : '' }}
+      >
         <div className="flex voteBox">
           <div className="imgVote">
             <img alt="img" src="../static/images/icon-yes-vote.png" />

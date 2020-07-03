@@ -49,7 +49,7 @@
     overflow: visible;
     padding:2em;
     box-shadow: $shadow;
-    min-height: 251px;
+    min-height: 300px;
     width: 30%;
     min-width: 400px;
     border-radius: 10px;
@@ -82,7 +82,7 @@
         justify-content: center;
         .imgVote {
           img {
-            margin:0.5em;
+            margin-right: 0.5em;
           }
         }
       }
@@ -106,9 +106,11 @@
     .subBox {
       flex-direction:column;
       h3 {
+        padding-top: 1em;
         color:$grey;
       }
       width: 100%;
+      border-top: 1px solid $light-gray;;
     }
     .detail {
       width: 100%;
