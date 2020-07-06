@@ -17,6 +17,7 @@ const ModalDaoSelection = ({
   currentUser,
   setApplicant,
   setDescription,
+  description,
   submitDaoProposal,
   onCancel
 }) => {
@@ -47,6 +48,7 @@ const ModalDaoSelection = ({
             rows={1}
             placeholder="Type Dao Name"
             onChange={e => setDescription(e.target.value)}
+            value={description}
           />
         </Form.Item>
       </div>
