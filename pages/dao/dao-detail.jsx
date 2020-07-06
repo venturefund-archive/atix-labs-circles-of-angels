@@ -133,7 +133,11 @@ function DaoDetail() {
             </a>
           </div>
         </div>
-        <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
+        <ProposalModal
+          daoId={daoId}
+          setCreationSuccess={setCreationSuccess}
+          setProposalsVisibility={setProposalsVisibility}
+        />
       </div>
       {renderCurrentTab()}
     </div>

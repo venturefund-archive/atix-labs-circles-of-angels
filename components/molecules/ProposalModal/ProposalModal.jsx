@@ -22,7 +22,11 @@ import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
 import './_style.scss';
 
-const ProposalModal = ({ daoId, setCreationSuccess }) => {
+const ProposalModal = ({
+  daoId,
+  setCreationSuccess,
+  setProposalsVisibility
+}) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const [applicant, setApplicant] = useState('');
@@ -101,6 +105,7 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
     } finally {
       hideModalPassword();
       hideModalProposal();
+      setProposalsVisibility(true);
     }
     message.success('Proposal created successfully!');
   };
