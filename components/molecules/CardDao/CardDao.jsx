@@ -28,7 +28,6 @@ const CardDao = ({ onClick, dao }) => {
         message.error('An error occurred while getting the Users list');
         return [];
       }
-      console.log('Response', response.data);
       setUsersData(response.data.users);
     } catch (error) {
       message.error(error);
