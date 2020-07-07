@@ -6,14 +6,51 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { getDaoUsers } from '../../../api/daoApi';
 import { daoCardPropTypes } from '../../../helpers/proptypes';
 
 const CardDao = ({ onClick, dao }) => {
-  const { name, address, proposalsAmount } = dao;
+  const { name, address, proposalsAmount, id } = dao;
+  const [usersData, setUsersData] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getDaoUsers(id);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Users list');
+        return [];
+      }
+      setUsersData(response.data.users);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const renderAvatars = () => {
+    const maxAvatars = 2;
+    if (usersData.length < maxAvatars) {
+      return (
+        <div className="avatarBox flex">
+          <Avatar className="avatar">U</Avatar>
+        </div>
+      );
+    }
+    return (
+      <div className="avatarBox flex">
+        <Avatar className="avatar-overlap">U</Avatar>
+        <Avatar className="avatar">A</Avatar>
+      </div>
+    );
+  };
+
   return (
     <div onClick={onClick} className="Box1 column">
       <h2>{name}</h2>
@@ -21,13 +58,9 @@ const CardDao = ({ onClick, dao }) => {
         <div className="subBox">
           <h3>Members</h3>
           <div className="detail flex">
-            <div className="avatarBox flex">
-              <Avatar className="avatar-overlap">U</Avatar>
-              <Avatar className="avatar">A</Avatar>
-            </div>
+            {renderAvatars()}
             <div className="plusSign flex-start">
-              <h2>+</h2>
-              <p>34</p>
+              <p>... {usersData.length}</p>
             </div>
           </div>
         </div>
@@ -47,7 +80,7 @@ const CardDao = ({ onClick, dao }) => {
       </div>
     </div>
   );
-}
+};
 
 CardDao.defaultProps = {
   onClick: () => null
