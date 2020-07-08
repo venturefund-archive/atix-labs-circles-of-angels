@@ -94,7 +94,7 @@ function DaoProposalDetail() {
         !found.votingPeriodExpired &&
           found.currentPeriod >= found.startingPeriod
       );
-      setButtonsDisable(found.didPass);
+      setButtonsDisable(found.processed);
     } catch (error) {
       message.error(error);
     }
@@ -230,14 +230,16 @@ function DaoProposalDetail() {
   };
 
   const hideExecuteButton = () => {
-    const isProposer = currentUser.address === currentProposal.proposer;
-    const majorityPositive = currentProposal.yesVotes > currentProposal.noVotes;
-    const hideButton = isVotePeriod || !isProposer || !majorityPositive;
+    const { currentPeriod, startingPeriod, proposer } = currentProposal;
+    const beforeVotingPeriod = currentPeriod < startingPeriod;
+    const isProposer = currentUser.address === proposer;
+    const hideButton = beforeVotingPeriod || isVotePeriod || !isProposer;
     return hideButton;
   };
 
   const votesPercentage = votes => {
-    const totalVotes = currentProposal.yesVotes + currentProposal.noVotes;
+    const { yesVotes, noVotes } = currentProposal;
+    const totalVotes = yesVotes + noVotes;
     if (totalVotes <= 0) return 0;
     const percentage = (votes / totalVotes) * 100;
     return percentage;

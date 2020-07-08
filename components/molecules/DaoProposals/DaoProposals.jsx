@@ -18,7 +18,6 @@ const DaoProposals = ({ proposals, completed, onClick }) => {
           <CardDaoDetail
             proposal={proposal}
             showStatus={completed}
-            // onClick={() => goToProposalDetail(proposal.id)}
             onClick={() => onClick(proposal.id)}
           />
         ))}
