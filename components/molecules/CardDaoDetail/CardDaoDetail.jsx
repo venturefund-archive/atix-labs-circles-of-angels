@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Avatar } from 'antd';
 import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 import { parseDate } from '../../../helpers/daoDates';
 import { proposalTypeEnum } from '../../../constants/constants';
@@ -84,6 +85,10 @@ const CardDaoDetail = ({
     }
   };
 
+  const totalVotes = () => {
+    return yesVotes + noVotes;
+  };
+
   return (
     <div onClick={onClick} className="Box2 column">
       <div className="topSection">
@@ -94,7 +99,10 @@ const CardDaoDetail = ({
         <h2>{parseType(proposalType)}</h2>
         <p className="text">{description}</p>
       </div>
-      <div className="flex middleSection">
+      <div
+        className="flex middleSection"
+        style={{ height: !showStatus ? '50%' : '' }}
+      >
         <div className="flex voteBox">
           <div className="imgVote">
             <img alt="img" src="../static/images/icon-yes-vote.png" />
@@ -115,6 +123,23 @@ const CardDaoDetail = ({
             <p className="voteBold">
               {noVotes} - {votesPercentage(noVotes)}%
             </p>
+          </div>
+        </div>
+      </div>
+      <div className="BottomBoxSection flex space-between">
+        <div className="subBox">
+          <h3>Participants</h3>
+          <div className="detail flex">
+            <div className="avatarBox flex">
+              <Avatar className="avatar-overlap">U</Avatar>
+              <Avatar className="avatar">A</Avatar>
+              <Avatar className="avatar">R</Avatar>
+              <Avatar className="avatar">S</Avatar>
+              <Avatar className="avatar">P</Avatar>
+            </div>
+            <div className="plusSign flex-start">
+              <h2>... {totalVotes()}</h2>
+            </div>
           </div>
         </div>
       </div>
