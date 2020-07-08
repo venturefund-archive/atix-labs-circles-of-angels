@@ -18,10 +18,12 @@ const ModalMemberSelection = ({
   usersData,
   setApplicant,
   setDescription,
+  description,
   submitMemberProposal,
   onCancel
 }) => {
   function onChange(value) {
+    if (!value) return;
     const address = value.key;
     setApplicant(address);
   }
@@ -42,6 +44,7 @@ const ModalMemberSelection = ({
         <Form.Item name="applicant">
           <Select
             showSearch
+            allowClear
             labelInValue
             style={{ width: '100%' }}
             placeholder="Select an applicant"
@@ -62,14 +65,9 @@ const ModalMemberSelection = ({
             rows={4}
             placeholder="Type description"
             onChange={e => setDescription(e.target.value)}
+            value={description}
           />
         </Form.Item>
-
-        {/* <p>Role</p>
-          <Select defaultValue="Option1">
-            <Option value="Option1">Option1</Option>
-            <Option value="Option2">Option2</Option>
-          </Select> */}
       </div>
       <div className="flex space-between border-top margin-top padding-top">
         <CustomButton
