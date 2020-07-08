@@ -214,6 +214,7 @@ const ProposalModal = ({
           <ModalMemberSelection
             setApplicant={setApplicant}
             setDescription={setDescription}
+            description={description}
             submitMemberProposal={onNewProposal}
             onCancel={handleCancel}
             usersData={usersData}
@@ -236,6 +237,7 @@ const ProposalModal = ({
             currentUser={currentUser}
             setApplicant={setApplicant}
             setDescription={setDescription}
+            description={description}
             submitDaoProposal={onNewProposal}
             onCancel={handleCancel}
             usersData={usersData}
