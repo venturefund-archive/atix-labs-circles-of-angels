@@ -193,9 +193,9 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const filterOptions = () => {
     const superDaoId = 0;
     let filteredOptions = options;
-    // if (daoId !== superDaoId) {
-    //   filteredOptions = options.filter(option => !option.onlySuperDAO);
-    // }
+    if (daoId !== superDaoId) {
+      filteredOptions = options.filter(option => !option.onlySuperDAO);
+    }
     return filteredOptions;
   };
 
