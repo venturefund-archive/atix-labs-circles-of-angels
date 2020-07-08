@@ -9,17 +9,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Modal, message } from 'antd';
 import {
-  createNewMemberProposal,
-  uploadProposalGetTransaction,
+  uploadMemberProposalGetTransaction,
+  uploadDaoProposalGetTransaction,
   uploadProposalSendTransaction,
   getAllUsers
 } from '../../../api/daoApi';
-import { getUsers } from '../../../api/userApi';
 import ModalPasswordRequest from '../../organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
+import ModalDaoSelection from '../ModalDaoSelection/ModalDaoSelection';
+import ProposalOption from '../ProposalOption/ProposalOption';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
+import { options } from './proposalOptions';
+import { proposalTypes } from '../../../constants/constants';
+import { useUserContext } from '../../utils/UserContext';
 import './_style.scss';
 
 const ProposalModal = ({
@@ -29,10 +33,17 @@ const ProposalModal = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [applicant, setApplicant] = useState('');
   const [description, setDescription] = useState('');
+  const [selectedOption, setSelectedOption] = useState(
+    proposalTypes.NEW_MEMBER
+  );
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+
+  const { getLoggedUser } = useUserContext();
+  const loggedUser = getLoggedUser();
 
   const fetchUsers = async () => {
     try {
@@ -47,18 +58,31 @@ const ProposalModal = ({
     }
   };
 
+  const getCurrentUser = () => {
+    const userFound = usersData.find(user => user.id === loggedUser.id);
+    setCurrentUser(userFound);
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    getCurrentUser();
+  }, [usersData]);
+
+  const validateInputs = () => !applicant || !description;
+
   const onNewProposal = async () => {
     try {
-      if (!applicant || !description) {
+      if (validateInputs()) {
         showModalError('Error!', 'Please complete both fields');
         return false;
       }
-
-      const proposalData = { applicant, description };
+      const proposalData = {
+        applicant,
+        description
+      };
       const tx = await getProposalTx(proposalData);
       if (tx) showPasswordModal(proposalData, tx);
     } catch (error) {
@@ -67,7 +91,11 @@ const ProposalModal = ({
   };
 
   const getProposalTx = async data => {
-    const response = await uploadProposalGetTransaction(daoId, data);
+    let response;
+    if (selectedOption === proposalTypes.NEW_MEMBER)
+      response = await uploadMemberProposalGetTransaction(daoId, data);
+    if (selectedOption === proposalTypes.NEW_DAO)
+      response = await uploadDaoProposalGetTransaction(daoId, data);
 
     if (response.errors) {
       const title = 'Error!';
@@ -140,17 +168,81 @@ const ProposalModal = ({
     return response.data;
   };
 
+  const cleanFields = () => {
+    setApplicant('');
+    setDescription('');
+  };
+
   const showModal = () => {
     setVisible(true);
   };
 
+  const onSelect = proposalType => {
+    cleanFields();
+    setSelectedOption(proposalType);
+  };
+
   const handleOk = e => {
-    console.log(e);
     setVisible(false);
   };
 
   const handleCancel = e => {
+    cleanFields();
     setVisible(false);
+  };
+
+  const getOptionTitle = () => {
+    const currentOption = options.find(
+      option => option.proposalType === selectedOption
+    );
+    return currentOption.title;
+  };
+
+  const filterOptions = () => {
+    const superDaoId = 0;
+    let filteredOptions = options;
+    if (daoId !== superDaoId) {
+      filteredOptions = options.filter(option => !option.onlySuperDAO);
+    }
+    return filteredOptions;
+  };
+
+  const renderSelectedComponent = () => {
+    return (
+      <div>
+        {selectedOption === proposalTypes.NEW_MEMBER && (
+          <ModalMemberSelection
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitMemberProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )}
+
+        {/* {selectedOption === 1 && (
+          <ModalRoleSelection
+            setNewDaoName={setNewDaoName}
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitDaoProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )} */}
+
+        {selectedOption === proposalTypes.NEW_DAO && (
+          <ModalDaoSelection
+            currentUser={currentUser}
+            setApplicant={setApplicant}
+            setDescription={setDescription}
+            submitDaoProposal={onNewProposal}
+            onCancel={handleCancel}
+            usersData={usersData}
+          />
+        )}
+      </div>
+    );
   };
 
   return (
@@ -168,43 +260,24 @@ const ProposalModal = ({
         onCancel={handleCancel}
         width={700}
       >
-        {/* This should change dinamically */}
-        {/* <h1>Create a New Proposal</h1> */}
-        <h1>Create a New Member</h1>
+        <h1>{getOptionTitle()}</h1>
         <p className="subtitle">
           Select the type of proposal form the following options
         </p>
 
         <div className="flex space-between margin-top">
-          <div className="daoMemberContainer flex">
-            <img alt="member-icon" src="../static/images/icon-modal-01.png" />
-            <p>
-              <strong>NEW MEMBER</strong>
-            </p>
-          </div>
-
-          <div className="daoRoleContainer flex">
-            <img alt="role-icon" src="../static/images/icon-modal-02.png" />
-            <p>
-              <strong>NEW ROLE</strong>
-            </p>
-          </div>
-
-          <div className="daoRoleContainer flex">
-            <img alt="dao-icon" src="../static/images/icon-modal-03.png" />
-            <p>
-              <strong>CREATE DAO</strong>
-            </p>
-          </div>
+          {filterOptions().map(option => (
+            <ProposalOption
+              img={option.image}
+              value={option.value}
+              proposalType={option.proposalType}
+              onSelect={onSelect}
+              selectedOption={selectedOption}
+            />
+          ))}
         </div>
 
-        <ModalMemberSelection
-          setApplicant={setApplicant}
-          setDescription={setDescription}
-          submitMemberProposal={onNewProposal}
-          onCancel={handleCancel}
-          usersData={usersData}
-        />
+        {renderSelectedComponent()}
 
         <ModalPasswordRequest
           visible={modalPasswordVisible}
