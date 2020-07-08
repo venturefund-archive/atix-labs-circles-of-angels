@@ -9,7 +9,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Modal, message } from 'antd';
 import {
-  uploadProposalGetTransaction,
+  uploadMemberProposalGetTransaction,
+  uploadDaoProposalGetTransaction,
   uploadProposalSendTransaction,
   getAllUsers
 } from '../../../api/daoApi';
@@ -74,11 +75,9 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
         showModalError('Error!', 'Please complete both fields');
         return false;
       }
-
       const proposalData = {
         applicant,
-        description,
-        proposalType: selectedOption
+        description
       };
       const tx = await getProposalTx(proposalData);
       if (tx) showPasswordModal(proposalData, tx);
@@ -88,7 +87,11 @@ const ProposalModal = ({ daoId, setCreationSuccess }) => {
   };
 
   const getProposalTx = async data => {
-    const response = await uploadProposalGetTransaction(daoId, data);
+    let response;
+    if (selectedOption === proposalTypes.NEW_MEMBER)
+      response = await uploadMemberProposalGetTransaction(daoId, data);
+    if (selectedOption === proposalTypes.NEW_DAO)
+      response = await uploadDaoProposalGetTransaction(daoId, data);
 
     if (response.errors) {
       const title = 'Error!';
