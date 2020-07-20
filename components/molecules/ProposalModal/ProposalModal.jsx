@@ -157,9 +157,15 @@ const ProposalModal = ({
   };
 
   const sendProposalTx = async signedTransaction => {
+    const data = {
+      applicant,
+      description,
+      type: selectedOption,
+      ...signedTransaction
+    };
     const response = await uploadProposalSendTransaction(
       daoId,
-      signedTransaction
+      data
     );
 
     if (response.errors) {
