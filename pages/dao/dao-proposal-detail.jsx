@@ -38,6 +38,7 @@ import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 function DaoProposalDetail() {
   const [visibility, setVisibility] = useState(false);
   const [currentProposal, setCurrentProposal] = useState({});
+  const [newVote, setNewVote] = useState();
   const [voteSuccess, setVoteSuccess] = useState(false);
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
@@ -115,6 +116,7 @@ function DaoProposalDetail() {
 
   const onNewVote = async vote => {
     try {
+      setNewVote(vote);
       const voteData = { vote };
       const tx = await getVoteTx(voteData);
       if (tx) showPasswordModal(tx);
@@ -175,10 +177,16 @@ function DaoProposalDetail() {
   const sendProposalTx = async signedTransaction => {
     let response;
     if (isVotePeriod) {
+      console.log(newVote);
+      const data = {
+        vote: newVote,
+        ...signedTransaction
+      };
+      
       response = await uploadVoteSendTransaction(
         daoId,
         proposalId,
-        signedTransaction
+        data
       );
     } else {
       response = await uploadProcessSendTransaction(
@@ -411,27 +419,33 @@ function DaoProposalDetail() {
         </div>
 
         <div className="flex VoteButton">
-          <CustomButton
-            onClick={() => onNewVote(voteEnum.YES)}
-            theme={buttonsDisable ? 'disabled' : 'VoteYes'}
-            buttonText="Vote Yes"
-            disabled={buttonsDisable}
-            hidden={!isVotePeriod}
-          />
-          <CustomButton
-            onClick={() => onNewVote(voteEnum.NO)}
-            theme={buttonsDisable ? 'disabled' : 'VoteNo'}
-            buttonText="Vote No"
-            disabled={buttonsDisable}
-            hidden={!isVotePeriod}
-          />
-          <CustomButton
-            onClick={() => onProcess()}
-            theme={buttonsDisable ? 'disabled' : 'Primary'}
-            buttonText="Execute"
-            disabled={buttonsDisable}
-            hidden={hideExecuteButton()}
-          />
+          {isVotePeriod && (
+            <CustomButton
+              onClick={() => onNewVote(voteEnum.YES)}
+              theme={buttonsDisable ? 'disabled' : 'VoteYes'}
+              buttonText="Vote Yes"
+              disabled={buttonsDisable}
+            />
+          )}
+
+          {isVotePeriod && (
+            <CustomButton
+              onClick={() => onNewVote(voteEnum.NO)}
+              theme={buttonsDisable ? 'disabled' : 'VoteNo'}
+              buttonText="Vote No"
+              disabled={buttonsDisable}
+            />
+          )}
+
+          {!hideExecuteButton() && (
+            <CustomButton
+              onClick={() => onProcess()}
+              theme={buttonsDisable ? 'disabled' : 'Primary'}
+              buttonText="Execute"
+              disabled={buttonsDisable}
+            />
+          )}
+
         </div>
       </div>
       <ModalPasswordRequest
