@@ -42,7 +42,7 @@ function DaoProposalDetail() {
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [buttonsDisable, setButtonsDisable] = useState(false);
-  const [isVotePeriod, setIsVotePeriod] = useState(true);
+  const [isVotePeriod, setIsVotePeriod] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [daoUsers, setDaoUsers] = useState([]);
   const history = useHistory();
@@ -230,10 +230,12 @@ function DaoProposalDetail() {
   };
 
   const hideExecuteButton = () => {
+    const votingPeriodLength = 35;
     const { currentPeriod, startingPeriod, proposer } = currentProposal;
     const beforeVotingPeriod = currentPeriod < startingPeriod;
+    const gracePeriod = currentPeriod >= startingPeriod + votingPeriodLength;
     const isProposer = currentUser.address === proposer;
-    const hideButton = beforeVotingPeriod || isVotePeriod || !isProposer;
+    const hideButton = beforeVotingPeriod || isVotePeriod || gracePeriod || !isProposer;
     return hideButton;
   };
 
