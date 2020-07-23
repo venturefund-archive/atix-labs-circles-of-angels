@@ -14,7 +14,7 @@ import { getDaoUsers } from '../../../api/daoApi';
 import { daoCardPropTypes } from '../../../helpers/proptypes';
 
 const CardDao = ({ onClick, dao }) => {
-  const { name, address, proposalsAmount, id } = dao;
+  const { name, proposalsAmount, proposalsOpen, id } = dao;
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CardDao = ({ onClick, dao }) => {
               <p>Total</p>
             </div>
             <div className="detailText green space-between">
-              <h2>{proposalsAmount}</h2>
+              <h2>{proposalsOpen}</h2>
               <p>Open</p>
             </div>
           </div>
