@@ -23,10 +23,6 @@ import DaoProposals from '../../components/molecules/DaoProposals/DaoProposals';
 
 const { Option } = Select;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 function DaoDetail() {
   const [proposalsVisibility, setProposalsVisibility] = useState(true);
   const [currentProposals, setCurrentProposals] = useState([]);

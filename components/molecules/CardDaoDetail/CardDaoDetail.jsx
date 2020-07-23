@@ -17,19 +17,18 @@ import './_style.scss';
 const CardDaoDetail = ({
   proposal,
   showStatus,
-  showRemainingTime,
   onClick
 }) => {
+  const txPendingStatus = proposal.txStatus === 'sent';
+  txPendingStatus ? proposal.yesVotes = 0 : proposal.yesVotes;
+  txPendingStatus ? proposal.noVotes = 0 : proposal.noVotes;
+
   const {
     description,
     yesVotes,
     noVotes,
     proposalType,
-    didPass,
-    daoCreationTime,
-    startingPeriod,
-    currentPeriod,
-    votingPeriodExpired
+    didPass
   } = proposal;
 
   const votesPercentage = votes => {
@@ -50,7 +49,7 @@ const CardDaoDetail = ({
   };
 
   const renderRemainingTimeLabel = () => {
-    if (showRemainingTime) {
+    if (!showStatus && !txPendingStatus) {
       return (
         <div className="flex">
           <img
@@ -67,22 +66,39 @@ const CardDaoDetail = ({
   const renderStatusTag = () => {
     const notPassedMessage = "Status: Didn't Pass";
     const passedMessage = 'Status: Passed';
+    const pendingMessage = 'Status: Pending Transaction';
     const passedIcon = '../static/images/icon-vote-green.png';
     const notPassedIcon = '../static/images/icon-vote-red.svg';
+    const pendingIcon = '../static/images/icon-vote-red.svg';
     const passedClass = 'flex passed';
     const notPassedClass = 'flex notPassed';
-    if (showStatus) {
-      return (
-        <div className={didPass ? passedClass : notPassedClass}>
-          <img
-            className="marginRight"
-            src={didPass ? passedIcon : notPassedIcon}
-            alt="img"
-          />
-          <p className="text">{didPass ? passedMessage : notPassedMessage}</p>
-        </div>
-      );
-    }
+    const pendingClass = 'flex pending';
+
+    return (
+      <div>
+        {showStatus && (
+          <div className={didPass ? passedClass : notPassedClass}>
+            <img
+              className="marginRight"
+              src={didPass ? passedIcon : notPassedIcon}
+              alt="img"
+            />
+            <p className="text">{didPass ? passedMessage : notPassedMessage}</p>
+          </div>
+        )}
+  
+        {!showStatus && txPendingStatus && (
+          <div className={notPassedClass}>
+            {/* <img
+              className="marginRight"
+              src={pendingIcon}
+              alt="img"
+            /> */}
+            <p className="text">{pendingMessage}</p>
+          </div>
+        )}
+      </div>
+    );
   };
 
   const totalVotes = () => {
