@@ -106,7 +106,7 @@ const CardDaoDetail = ({
   };
 
   return (
-    <div onClick={onClick} className="Box2 column">
+    <div onClick={!txPendingStatus && onClick} className="Box2 column">
       <div className="topSection">
         <div className="flex space-between marginBottom">
           {renderRemainingTimeLabel()}
