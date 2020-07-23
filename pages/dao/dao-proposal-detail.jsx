@@ -177,7 +177,6 @@ function DaoProposalDetail() {
   const sendProposalTx = async signedTransaction => {
     let response;
     if (isVotePeriod) {
-      console.log(newVote);
       const data = {
         vote: newVote,
         ...signedTransaction
