@@ -230,8 +230,7 @@ function DaoProposalDetail() {
   };
 
   const hideExecuteButton = () => {
-    const votingPeriodLength = 35;
-    const { currentPeriod, startingPeriod, proposer } = currentProposal;
+    const { currentPeriod, startingPeriod, proposer, votingPeriodLength } = currentProposal;
     const beforeVotingPeriod = currentPeriod < startingPeriod;
     const gracePeriod = currentPeriod >= startingPeriod + votingPeriodLength 
       && currentPeriod <= startingPeriod + votingPeriodLength + votingPeriodLength;
