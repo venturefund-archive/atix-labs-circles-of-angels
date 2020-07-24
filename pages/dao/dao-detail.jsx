@@ -23,10 +23,6 @@ import DaoProposals from '../../components/molecules/DaoProposals/DaoProposals';
 
 const { Option } = Select;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 function DaoDetail() {
   const [proposalsVisibility, setProposalsVisibility] = useState(true);
   const [currentProposals, setCurrentProposals] = useState([]);
@@ -67,8 +63,8 @@ function DaoDetail() {
 
   const goToProposalDetail = proposalId => {
     const daoName = history.location.state
-      ? history.location.state.daoName
-      : `Name of Dao ${daoId}`;
+    ? history.location.state.daoName
+    : `Name of Dao ${daoId}`;
     const state = { daoId, proposalId, daoName };
     history.push(
       `/dao-proposal-detail?daoId=${daoId}&proposalId=${proposalId}`,
