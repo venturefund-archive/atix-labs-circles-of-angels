@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Popover } from 'antd';
+import { message, Popover, Avatar, Progress } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import {
@@ -36,7 +36,6 @@ import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
 function DaoProposalDetail() {
-  const [visibility, setVisibility] = useState(false);
   const [currentProposal, setCurrentProposal] = useState({});
   const [newVote, setNewVote] = useState();
   const [voteSuccess, setVoteSuccess] = useState(false);
@@ -299,6 +298,10 @@ function DaoProposalDetail() {
     }
   };
 
+  const totalVotes = () => {
+    return currentProposal.yesVotes + currentProposal.noVotes;
+  };
+
   return (
     <div className="DaoContainer">
       <div className="flex space-between titleSection borderBottom marginBottom">
@@ -317,7 +320,6 @@ function DaoProposalDetail() {
         </div>
       </div>
       <div className="ProposalContainer flex space-between">
-        {/* First Column */}
         <div className="column col">
           {renderRemainingTimeLabel()}
           <h2 className="proposalTitle">
@@ -399,23 +401,22 @@ function DaoProposalDetail() {
                 </div>
               </div>
             </div>
-            {/* <Progress percent={votesPercentage(currentProposal.yesVotes)} /> */}
-            {/* <div className="subBox">
+            <Progress percent={votesPercentage(currentProposal.yesVotes)} />
+            <div className="subBox">
               <h3>Participants</h3>
               <div className="detail flex">
                 <div className="avatarBox flex">
-                  <Avatar className="avatar-overlap">U</Avatar>
+                  <Avatar className="avatar">U</Avatar>
                   <Avatar className="avatar">A</Avatar>
                   <Avatar className="avatar">R</Avatar>
                   <Avatar className="avatar">S</Avatar>
                   <Avatar className="avatar">P</Avatar>
                 </div>
                 <div className="plusSign flex-start">
-                  <h2>+</h2>
-                  <p>334</p>
+                  <h2>... {totalVotes()}</h2>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
