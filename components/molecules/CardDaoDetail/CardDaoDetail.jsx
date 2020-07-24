@@ -20,9 +20,6 @@ const CardDaoDetail = ({
   onClick
 }) => {
   const txPendingStatus = proposal.txStatus === 'sent';
-  txPendingStatus ? proposal.yesVotes = 0 : proposal.yesVotes;
-  txPendingStatus ? proposal.noVotes = 0 : proposal.noVotes;
-
   const {
     description,
     yesVotes,
