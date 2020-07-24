@@ -1,26 +1,20 @@
 import moment from 'moment';
 
 const getRemainingTime = proposal => {
-  // votingPeriods and Duration should come from server or config
-  const votingPeriods = 35;
-  const periodDuration = 17280;
+  const { periodDuration, startingPeriod, daoCreationTime, votingPeriodLength } = proposal;
   const timestampConverter = 1000;
-
   // Move to the start date of current proposal
-  const daoCreationDate = new Date(
-    proposal.daoCreationTime * timestampConverter
-  );
+  const daoCreationDate = new Date(daoCreationTime * timestampConverter);
   daoCreationDate.setSeconds(
-    daoCreationDate.getSeconds() + periodDuration * proposal.startingPeriod
+    daoCreationDate.getSeconds() + periodDuration * startingPeriod
   );
   const now = moment();
   const votePeriodBegin = moment(daoCreationDate);
   // Time (seconds) from now to the start of current proposal
   const timeDuringVotingPeriod = now.diff(votePeriodBegin, 'seconds');
   // Time (seconds) of the length of the current proposal
-  const votingPeriodLength =
-    (proposal.startingPeriod + votingPeriods) * periodDuration;
-  const remainingTime = votingPeriodLength - timeDuringVotingPeriod;
+  const votingPeriod = (startingPeriod + votingPeriodLength) * periodDuration;
+  const remainingTime = votingPeriod - timeDuringVotingPeriod;
   const remainingTimeMoment = moment.duration(remainingTime, 'seconds');
   const minutes = remainingTimeMoment.minutes();
   const hours = remainingTimeMoment.hours();
@@ -31,13 +25,11 @@ const getRemainingTime = proposal => {
 };
 
 export const parseDate = proposal => {
+  const { startingPeriod, currentPeriod, votingPeriodExpired } = proposal;
   const didntStartMessage = 'Not in voting period yet';
   const votingPeriodEndMessage = 'Voting period has finished';
-  if (proposal.currentPeriod < proposal.startingPeriod) {
-    return didntStartMessage;
-  }
-  if (!proposal.votingPeriodExpired) {
-    return getRemainingTime(proposal);
-  }
+
+  if (currentPeriod < startingPeriod) return didntStartMessage;
+  if (!votingPeriodExpired) return getRemainingTime(proposal);
   return votingPeriodEndMessage;
 };
