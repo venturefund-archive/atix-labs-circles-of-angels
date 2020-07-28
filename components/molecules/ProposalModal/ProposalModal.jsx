@@ -19,6 +19,7 @@ import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
 import ModalDaoSelection from '../ModalDaoSelection/ModalDaoSelection';
+import ModalRoleSelection from '../ModalRoleSelection/ModalRoleSelection';
 import ProposalOption from '../ProposalOption/ProposalOption';
 import { showModalSuccess, showModalError } from '../../utils/Modals';
 import { options } from './proposalOptions';
@@ -96,6 +97,9 @@ const ProposalModal = ({
       response = await uploadMemberProposalGetTransaction(daoId, data);
     if (selectedOption === proposalTypes.NEW_DAO)
       response = await uploadDaoProposalGetTransaction(daoId, data);
+    // if (selectedOption === proposalTypes.ASSIGN_BANK)
+    //   response = await uploadDaoProposalGetTransaction(daoId, data);
+    console.log('SELECTED OPTION', selectedOption);
 
     if (response.errors) {
       const title = 'Error!';
@@ -227,16 +231,18 @@ const ProposalModal = ({
           />
         )}
 
-        {/* {selectedOption === 1 && (
+        {(selectedOption === proposalTypes.ASSIGN_BANK  || 
+         selectedOption === proposalTypes.ASSIGN_CURATOR) && (
           <ModalRoleSelection
-            setNewDaoName={setNewDaoName}
             setApplicant={setApplicant}
             setDescription={setDescription}
-            submitDaoProposal={onNewProposal}
+            description={description}
+            submitRoleProposal={onNewProposal}
             onCancel={handleCancel}
             usersData={usersData}
+            setSelectedOption={setSelectedOption}
           />
-        )} */}
+        )}
 
         {selectedOption === proposalTypes.NEW_DAO && (
           <ModalDaoSelection
