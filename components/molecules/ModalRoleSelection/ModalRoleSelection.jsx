@@ -33,7 +33,6 @@ const ModalRoleSelection = ({
   function onRoleChange(value) {
     if (!value) return;
     const proposalType = value.key;
-    console.log(proposalType);
     setSelectedOption(proposalType);
   }
 
