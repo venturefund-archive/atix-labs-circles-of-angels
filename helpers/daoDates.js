@@ -5,6 +5,7 @@ const getRemainingTime = proposal => {
   const timestampConverter = 1000;
   // Move to the start date of current proposal
   const daoCreationDate = new Date(daoCreationTime * timestampConverter);
+  // Move to the start date of voting period
   daoCreationDate.setSeconds(
     daoCreationDate.getSeconds() + periodDuration * startingPeriod
   );
@@ -13,7 +14,7 @@ const getRemainingTime = proposal => {
   // Time (seconds) from now to the start of current proposal
   const timeDuringVotingPeriod = now.diff(votePeriodBegin, 'seconds');
   // Time (seconds) of the length of the current proposal
-  const votingPeriod = (startingPeriod + votingPeriodLength) * periodDuration;
+  const votingPeriod = votingPeriodLength * periodDuration;
   const remainingTime = votingPeriod - timeDuringVotingPeriod;
   const remainingTimeMoment = moment.duration(remainingTime, 'seconds');
   const minutes = remainingTimeMoment.minutes();
