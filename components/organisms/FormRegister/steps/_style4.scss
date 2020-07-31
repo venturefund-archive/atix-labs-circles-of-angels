@@ -5,7 +5,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
     .InfoStep {
+      position: absolute;
+      top: 30%;
+      right: 75%;
+      text-align: center;
+      width: 300px;
+      h2 {
+        @include primary-text($labelbig, $on-surface, 400);
+        margin-top:1em;
+      }
+      h4 {
+        @include primary-text($medium, $on-surface-medium, 400);
+      }
       img {
         margin-bottom: 1em;
         width: 150px;
