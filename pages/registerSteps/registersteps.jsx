@@ -40,7 +40,7 @@ const Registersteps = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showMnemonics, setShowMnemonics] = useState(true);
   const [createdWallet, setCreatedWallet] = useState({});
   const [fields, setFields] = useState({
