@@ -41,7 +41,7 @@ const Registersteps = () => {
   const [formValues, setFormValues] = useState({});
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showMnemonics, setShowMnemonics] = useState(false);
+  const [showMnemonics, setShowMnemonics] = useState(true);
   const [createdWallet, setCreatedWallet] = useState({});
   const [fields, setFields] = useState({
     ...step1Inputs,
@@ -158,7 +158,7 @@ const Registersteps = () => {
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
-      {!showMnemonics && 
+      {/* {!showMnemonics && 
         <RegisterForm
           formFields={fields}
           formSteps={steps}
@@ -168,7 +168,7 @@ const Registersteps = () => {
             setFormValues(values);
           }}
         />
-      }
+      } */}
       {showMnemonics && 
         <RegisterStep4
           wallet={createdWallet}
