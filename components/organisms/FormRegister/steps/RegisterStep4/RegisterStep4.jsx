@@ -16,11 +16,7 @@ import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 
 export default function RegisterStep4(props) {
   const history = useHistory();
-  const { goToLanding, data } = props;
-  const wallet = {
-    mnemonic:
-      'Hola que tal como estas todo bien lalala Hola que tal como estas todo bien lalala '
-  };
+  const { wallet, goToLanding, data } = props;
 
   const mnemonicWords = () => {
     const mnemonics = wallet.mnemonic.split(' ');
@@ -43,7 +39,7 @@ export default function RegisterStep4(props) {
             alt="Circles of Angels"
           />
           <h1>Congratulations</h1>
-          <h2> Hello!</h2>
+          <h2> Hello {data.role.value}!</h2>
           <p>
             Continue discovering the Circles of Angels platform while
             administration confirm your account
