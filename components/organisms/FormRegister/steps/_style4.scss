@@ -1,17 +1,20 @@
 @import '../../../../css/general_styling.scss';
 
 .RegisterStep4 {
-    height: 100%;
+    width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    
     .InfoStep {
-      position: absolute;
-      top: 30%;
-      right: 75%;
+      padding: 2em;
       text-align: center;
-      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
+      width: 25%;
+      height: 100vh;
+      background: #F3F4FB;
       h2 {
         @include primary-text($labelbig, $on-surface, 400);
         margin-top:1em;
@@ -24,43 +27,99 @@
         width: 150px;
       }
     }
-  .BlockCongrats {
-    text-align: center;
-    h1 {
-      @include primary-text($title, $on-surface, 500);
-    }
-    h2 {
-      @include primary-text($subtitle, $on-surface-medium, 500);
-    }
-    p {
-      @include primary-text($body, $on-surface-medium, 500);
-      margin-top: 2em;
-      &::before {
-        background: $border;
-        content: '';
-        display: block;
-        height: 3px;
-        position: absolute;
-        width: 10%;
-        top: 4.5em;
-        left: 46%;
+    .StepPersonalInformation {
+      width: 75%;
+      position: relative;
+      .FormRegister {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .BlockCongrats {
+          text-align: center;
+          h1 {
+            @include primary-text($title, $on-surface, 500);
+          }
+          h2 {
+            @include primary-text($subtitle, $on-surface-medium, 500);
+          }
+          p {
+            @include primary-text($body, $on-surface-medium, 500);
+            margin-top: 2em;
+            &::before {
+              background: $border;
+              content: '';
+              display: block;
+              height: 3px;
+              position: absolute;
+              width: 10%;
+              top: 4.5em;
+              left: 46%;
+            }
+          }
+        }
+        .buttonSection {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          position: absolute;
+          bottom:-5em;
+        }
+        .ant-btn.Alternative, .ant-btn.Alternative:active, .ant-btn.Alternative:focus, .ant-btn.Alternative:hover {
+          border:none;
+          margin: 0 auto;
+        }
+        .BlockKeyWords {
+          .SubtitleSection{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            h2 {
+              color: $secondary-color;
+              margin-left: 1em;
+            }
+          }
+        }
       }
     }
-  }
-  .BlockKeyWords {
-    .SubtitleSection{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: left;
-      h2 {
-        color: $secondary-color;
-        margin-left: 1em;
-      }
-    }
-  }
 }
 
 .copy {
   color:$primary-color!important;
 }
+
+@media only screen and (max-width: 960px) {
+  .RegisterStep4 {
+    .InfoStep {
+      width: 30%;
+    }
+    .StepPersonalInformation {
+      width: 70%;
+    }
+}
+}
+
+@media only screen and (max-width: 800px) {
+  .RegisterStep4 {
+    flex-direction: column;
+    .InfoStep {
+      width: 100%;
+      height: auto;
+    }
+    .StepPersonalInformation {
+      width: 100%;
+      height: auto;
+      .FormRegister {
+        padding: 2em;
+        height: auto;
+        .buttonSection {
+          position: relative;
+          bottom: 0; 
+        }
+      }
+    }
+}
+}
+
+

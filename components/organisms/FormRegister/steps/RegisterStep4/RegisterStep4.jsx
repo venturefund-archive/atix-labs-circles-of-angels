@@ -17,7 +17,10 @@ import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 export default function RegisterStep4(props) {
   const history = useHistory();
   const { goToLanding, data } = props;
-  const wallet = { mnemonic: "Hola que tal" };
+  const wallet = {
+    mnemonic:
+      'Hola que tal como estas todo bien lalala Hola que tal como estas todo bien lalala '
+  };
 
   const mnemonicWords = () => {
     const mnemonics = wallet.mnemonic.split(' ');
@@ -34,16 +37,18 @@ export default function RegisterStep4(props) {
   return (
     <div className="RegisterStep4">
       <div className="InfoStep">
-        <img
-          src="./static/images/icon-users-small.svg"
-          alt="Circles of Angels"
-        />
-        <h1>Congratulations</h1>
-        <h2> Hello!</h2>
-        <p>
-          Continue discovering the Circles of Angels platform while
-          administration confirm your account
-        </p>
+        <div>
+          <img
+            src="./static/images/icon-users-small.svg"
+            alt="Circles of Angels"
+          />
+          <h1>Congratulations</h1>
+          <h2> Hello!</h2>
+          <p>
+            Continue discovering the Circles of Angels platform while
+            administration confirm your account
+          </p>
+        </div>
       </div>
       <div className="StepPersonalInformation">
         <Row className="FormRegister" gutter={26} type="flex" justify="center">
@@ -59,16 +64,19 @@ export default function RegisterStep4(props) {
             <SecurityKey words={mnemonicWords()} />
             <Popover content="Copied" trigger="click">
               <CustomButton
-                theme={'Alternative'}
-                buttonText={'Copy security Key'}
+                className="securityKey"
+                theme="Alternative"
+                buttonText="Copy security Key"
                 onClick={() => copyToClipboard(wallet.mnemonic)}
               />
             </Popover>
-            <CustomButton
-              theme={'Primary'}
-              buttonText={'Finish!'}
+            <div className="buttonSection">
+                <CustomButton
+              theme="Primary"
+              buttonText="Finish!"
               onClick={goToLanding}
-            />
+              />
+              </div>
           </Col>
         </Row>
       </div>
