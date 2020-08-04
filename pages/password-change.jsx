@@ -8,8 +8,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import { Row, Col } from 'antd';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
+import SecurityKey from '../components/molecules/SecurityKeySection/SecurityKeySection';
 import { updatePassword } from '../api/userApi';
 
 function PasswordChange() {
@@ -43,8 +45,23 @@ function PasswordChange() {
         <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
       <div className="FormSide">
-        <h1>CIRCLES OF ANGELS</h1>
-        <h2>CHANGE PASSWORD</h2>
+        <div className="StepPersonalInformation">
+          <Row className="FormRegister" gutter={26} type="flex" justify="center">
+            <Col className="gutter-row BlockCongrats BlockKeyWords" span={20}>
+              <div className="SubtitleSection">
+                <img src="./static/images/password-lock.svg" alt="password" />
+                <h2>Please keep your security key safe!</h2>
+              </div>
+              <p>
+                This keywords will guarantee your access to your account at any
+                time
+              </p>
+              <SecurityKey />
+              <p className="copy">Copy security Key</p>
+            </Col>
+          </Row>
+        </div>
+        <h2>CHANGE YOUR PASSWORD</h2>
         <DynamicFormPassword onSubmit={updatePassword} />
       </div>
     </div>

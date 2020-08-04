@@ -7,9 +7,14 @@ const DefaultRoute = () => {
   const { getLoggedUser } = useUserContext();
   const user = getLoggedUser();
   const authenticated = !!user;
+  const { role, forcePasswordChange } = user;
 
+  if(authenticated && forcePasswordChange) {
+    return <Redirect push to={'/password-change'} />
+  }
+  
   return authenticated ? (
-    <Redirect push to={defaultRouteByRole[user.role]} />
+    <Redirect push to={defaultRouteByRole[role]} />
   ) : (
     <Redirect push to="/" />
   );

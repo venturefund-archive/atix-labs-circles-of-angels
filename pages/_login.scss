@@ -8,22 +8,20 @@
   .LogoSide {
     display: flex;
     align-items: center;
-    width: 50%;
+    width: 30%;
     background: $theme-color-1;
     justify-content: center;
 
     img {
-      width: 300px;
+      width: 250px;
     }
   }
   .FormSide {
-    width: 50%;
+    width: 70%;
     background: $white;
     justify-content: center;
     text-align: center;
     padding-top: 5em;
-
-
   }
   h1 {
     @include primary-text($h1, $primary-color, 500);

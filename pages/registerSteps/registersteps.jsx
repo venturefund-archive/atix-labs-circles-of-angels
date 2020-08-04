@@ -64,10 +64,6 @@ const Registersteps = () => {
       fields: Object.keys(step3Inputs),
       component: RegisterStep3
     }
-    // {
-    //   fields: [],
-    //   component: RegisterStep4
-    // }
   ];
 
   const fetchCountries = async () => {
