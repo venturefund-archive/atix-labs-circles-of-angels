@@ -6,21 +6,22 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import { withUser } from '../components/utils/UserContext';
-
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import { updatePassword } from '../api/userApi';
 
-class PasswordChange extends Component {
-  static async getInitialProps(query) {
-    const { token } = query.query;
-    return { token };
-  }
+function PasswordChange() {
+  const fetchWallet = async () => {
+    return true;
+  };
 
-  updatePassword = async password => {
+  useEffect(() => {
+    fetchWallet();
+  }, []);
+
+  const updatePassword = async password => {
     const { token } = this.props;
     const response = await updatePassword(token, password);
     if (response.error) {
@@ -36,20 +37,18 @@ class PasswordChange extends Component {
     return response;
   };
 
-  render() {
-    return (
-      <div className="Login">
-        <div className="LogoSide">
-          <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
-        </div>
-        <div className="FormSide">
-          <h1>CIRCLES OF ANGELS</h1>
-          <h2>CHANGE PASSWORD</h2>
-          <DynamicFormPassword onSubmit={this.updatePassword} />
-        </div>
+  return (
+    <div className="Login">
+      <div className="LogoSide">
+        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
-    );
-  }
+      <div className="FormSide">
+        <h1>CIRCLES OF ANGELS</h1>
+        <h2>CHANGE PASSWORD</h2>
+        <DynamicFormPassword onSubmit={updatePassword} />
+      </div>
+    </div>
+  );
 }
 
-export default withUser(PasswordChange);
+export default PasswordChange;
