@@ -33,8 +33,18 @@ const FormPassword = ({ form, onSubmit }) => {
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
+        {getFieldDecorator('oldpassword', {
+          rules: [{ required: true, message: 'Please input your old password!' }]
+        })(
+          <Input.Password
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Current Password"
+          />
+        )}
+      </Form.Item>
+      <Form.Item>
         {getFieldDecorator('newpassword', {
-          rules: [{ required: true, message: 'Please input your password!' }]
+          rules: [{ required: true, message: 'Please input your new password!' }]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -45,7 +55,7 @@ const FormPassword = ({ form, onSubmit }) => {
       <Form.Item>
         {getFieldDecorator('confirm', {
           rules: [
-            { required: true, message: 'Please input your password!' },
+            { required: true, message: 'Please input your new password!' },
             {
               validator: comparePasswords
             }
@@ -53,7 +63,7 @@ const FormPassword = ({ form, onSubmit }) => {
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Confirm Password"
+            placeholder="Confirm new Password"
           />
         )}
       </Form.Item>

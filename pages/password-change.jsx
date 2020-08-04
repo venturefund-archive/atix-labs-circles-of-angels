@@ -14,15 +14,10 @@ import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import { updatePassword } from '../api/userApi';
 
-class PasswordRecovery extends Component {
+class PasswordChange extends Component {
   static async getInitialProps(query) {
     const { token } = query.query;
     return { token };
-  }
-
-  componentDidMount() {
-    const { removeUser } = this.props;
-    removeUser();
   }
 
   updatePassword = async password => {
@@ -37,7 +32,6 @@ class PasswordRecovery extends Component {
       showModalError(title, content);
     } else {
       showModalSuccess('Success!', 'Your password was successfully changed!');
-      Routing.toLogin();
     }
     return response;
   };
@@ -50,7 +44,7 @@ class PasswordRecovery extends Component {
         </div>
         <div className="FormSide">
           <h1>CIRCLES OF ANGELS</h1>
-          <h2>PASS RECOVERY</h2>
+          <h2>CHANGE PASSWORD</h2>
           <DynamicFormPassword onSubmit={this.updatePassword} />
         </div>
       </div>
@@ -58,4 +52,4 @@ class PasswordRecovery extends Component {
   }
 }
 
-export default withUser(PasswordRecovery);
+export default withUser(PasswordChange);
