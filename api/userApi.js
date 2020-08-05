@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doGet } from './api';
+import api, { doGet, doPut } from './api';
 import apiCall from './apiCall';
 import questionsToText from '../helpers/questionsToText';
 
@@ -72,6 +72,9 @@ const updatePassword = async (token, password) => {
   }
 };
 
+const changePassword = data =>
+  doPut(`${baseURL}/me/password`, data);
+
 const getCountries = async () => apiCall('get', 'countries');
 
 export {
@@ -84,6 +87,7 @@ export {
   register,
   recoverPassword,
   updatePassword,
+  changePassword,
   getMyProjects,
   getFollowedProjects,
   getAppliedProjects

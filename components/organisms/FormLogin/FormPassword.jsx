@@ -17,7 +17,10 @@ const FormPassword = ({ form, onSubmit }) => {
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
-        return onSubmit(getFieldProps('newpassword').value);
+        return onSubmit(
+          getFieldProps('currentpassword').value, 
+          getFieldProps('newpassword').value
+        );
       }
     });
   };
@@ -33,8 +36,8 @@ const FormPassword = ({ form, onSubmit }) => {
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
-        {getFieldDecorator('oldpassword', {
-          rules: [{ required: true, message: 'Please input your old password!' }]
+        {getFieldDecorator('currentpassword', {
+          rules: [{ required: true, message: 'Please input your current password!' }]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
