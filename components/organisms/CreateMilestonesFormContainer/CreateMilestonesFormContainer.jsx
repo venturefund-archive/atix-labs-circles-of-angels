@@ -90,13 +90,13 @@ const CreateMilestonesFormContainer = ({
   useEffect(() => {
     if (!project || !project.id) goBack();
     fetchMilestones();
-  }, [project, goBack, fetchMilestones]);
+  }, [project, goBack]);
 
   useEffect(() => {
     if (milestones.length > 0) {
       validateFields(2);
     }
-  }, [milestones, validateFields]);
+  }, [milestones]);
 
   const fetchMilestones = async () => {
     const response = await getProjectMilestones(project.id);
