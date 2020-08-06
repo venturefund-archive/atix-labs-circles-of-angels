@@ -46,6 +46,12 @@ const uploadMemberProposalGetTransaction = (daoId, data) =>
 const uploadDaoProposalGetTransaction = (daoId, data) =>
   doPost(`${baseURL}/${daoId}/proposal/new-dao/get-transaction`, data);
 
+const uploadRoleBankProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/new-bank/get-transaction`, data);
+
+const uploadRoleCuratorProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/new-curator/get-transaction`, data);
+
 const uploadProposalSendTransaction = (daoId, data) =>
   doPost(`${baseURL}/${daoId}/proposal/send-transaction`, data);
 
@@ -56,6 +62,8 @@ export {
   voteProposal,
   uploadMemberProposalGetTransaction,
   uploadDaoProposalGetTransaction,
+  uploadRoleBankProposalGetTransaction,
+  uploadRoleCuratorProposalGetTransaction,
   uploadProposalSendTransaction,
   uploadVoteGetTransaction,
   uploadVoteSendTransaction,
