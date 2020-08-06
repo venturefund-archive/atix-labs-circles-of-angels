@@ -101,7 +101,7 @@ function PasswordChange() {
                   <CustomButton
                     className="securityKey"
                     theme="Alternative"
-                    buttonText="Copy security Key"
+                    buttonText="Copy"
                     onClick={() => copyToClipboard(mnemonics)}
                   />
                 </Popover>
