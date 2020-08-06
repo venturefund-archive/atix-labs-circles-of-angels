@@ -51,7 +51,7 @@ export const routesConfig = [
     withSideBar: false,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
     },
   },
   {
