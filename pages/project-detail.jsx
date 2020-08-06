@@ -31,12 +31,14 @@ import {
   getProjectMilestones,
   getProjectExperiences,
   addProjectExperience,
-  getProjectBlockchainData
+  getProjectBlockchainData,
+  updateProjectStatus
 } from '../api/projectApi';
 import {
   projectStatuses,
   publicProjectStatuses,
-  SHOW_EXPERIENCES_STATUSES
+  SHOW_EXPERIENCES_STATUSES,
+  claimMilestoneStatus
 } from '../constants/constants';
 import { assignOracleToActivity, getEvidences } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
@@ -71,10 +73,12 @@ const ProjectDetail = ({ user }) => {
   });
   const [fundedAmount, setFundedAmount] = useState(0);
   const [fundingProgress, setFundingProgress] = useState(0);
+  const [projectFinished, setProjectFinished] = useState(false);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
     const response = await getProjectMilestones(project.id);
+    console.log('milestones', response.data);
     if (response.errors) {
       // TODO: if this fails what to do? ignore it? display an error?
       setMilestones();
@@ -265,6 +269,21 @@ const ProjectDetail = ({ user }) => {
     return progressPercentage > 100 ? 100 : progressPercentage;
   };
 
+  const checkFinished = async () => {
+    try {
+      const isClaimed = milestone => milestone.claimStatus === claimMilestoneStatus.CLAIMED;
+      const hasFinished = milestones.every(isClaimed);
+      console.log('Didnt Finish');
+      if(hasFinished) {
+        console.log('Updating project');
+        await updateProjectStatus(project.id, projectStatuses.FINISHED);
+        setProjectFinished(projectFinished);
+      }
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -281,6 +300,10 @@ const ProjectDetail = ({ user }) => {
         fetchExperiences();
     }
   }, [project]);
+
+  useEffect(() => {
+    checkFinished();
+  }, [milestones]);
 
   const renderTabs = projectData =>
     Object.values(
