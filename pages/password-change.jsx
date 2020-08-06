@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Row, Col, Popover } from 'antd';
+import { Row, Col, Popover, Spin } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
@@ -20,6 +20,7 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 function PasswordChange() {
   const history = useHistory();
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [mnemonics, setMnemonics] = useState('');
 
   const fetchWallet = async () => {
@@ -42,6 +43,7 @@ function PasswordChange() {
 
   const updatePassword = async (currentPassword, newPassword) => {
     try {
+      setLoading(true);
       const wallet = await fetchWallet();
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
@@ -60,6 +62,7 @@ function PasswordChange() {
         : error.message;
       showModalError(title, content);
     }
+    setLoading(false);
   };
 
   const renderForm = () => {
@@ -67,9 +70,11 @@ function PasswordChange() {
       <div>
         {!successfulUpdate && (
           <div>
-            <h1>CIRCLE OF ANGELS</h1>
-            <h2>CHANGE YOUR PASSWORD</h2>
-            <DynamicFormPassword onSubmit={updatePassword} />
+            <Spin spinning={loading}>
+              <h1>CIRCLE OF ANGELS</h1>
+              <h2>CHANGE YOUR PASSWORD</h2>
+              <DynamicFormPassword onSubmit={updatePassword} />
+            </Spin>
           </div>
         )}
       </div>
