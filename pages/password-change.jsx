@@ -93,7 +93,7 @@ function PasswordChange() {
                   <h2>Please save these words somewhere safe!</h2>
                 </div>
                 <p>
-                  This keywords will guarantee your access to your account at any
+                  These keywords will guarantee access to your account at any
                   time
                 </p>
                 <SecurityKey words={mnemonicWords()} />
