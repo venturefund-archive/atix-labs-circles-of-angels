@@ -41,6 +41,8 @@ const Registersteps = () => {
   const [formValues, setFormValues] = useState({});
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showMnemonics, setShowMnemonics] = useState(false);
+  const [createdWallet, setCreatedWallet] = useState({});
   const [fields, setFields] = useState({
     ...step1Inputs,
     ...step2Inputs,
@@ -64,10 +66,6 @@ const Registersteps = () => {
       fields: Object.keys(step3Inputs),
       component: RegisterStep3
     }
-    // {
-    //   fields: [],
-    //   component: RegisterStep4
-    // }
   ];
 
   const fetchCountries = async () => {
@@ -100,9 +98,9 @@ const Registersteps = () => {
 
   const successCallback = wallet => {
     setIsSubmitting(false);
-    // TODO: show mnemonic and address to user
     message.success('The user has been registered successfully!');
-    return history.push('/landing');
+    setCreatedWallet(wallet);
+    setShowMnemonics(true);
   };
 
   const errorCallback = error => {
@@ -150,21 +148,34 @@ const Registersteps = () => {
     setLoading(false);
   }, [countries]);
 
+  const goToLanding = () => {
+    return history.push('/landing');
+  };
+
   // TODO: add loading when form is submitting
 
   if (loading) return <Loading />;
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
-      <RegisterForm
-        formFields={fields}
-        formSteps={steps}
-        initialStep={initialStep}
-        registerUser={values => {
-          setIsSubmitting(true);
-          setFormValues(values);
-        }}
-      />
+      {!showMnemonics && 
+        <RegisterForm
+          formFields={fields}
+          formSteps={steps}
+          initialStep={initialStep}
+          registerUser={values => {
+            setIsSubmitting(true);
+            setFormValues(values);
+          }}
+        />
+      }
+      {showMnemonics && 
+        <RegisterStep4
+          wallet={createdWallet}
+          goToLanding={goToLanding}
+          data={formValues}
+        />
+      }
     </div>
   );
 };

@@ -7,26 +7,44 @@
  */
 
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Popover } from 'antd';
+import { CopyFilled } from '@ant-design/icons';
 import '../_style4.scss';
+import { useHistory } from 'react-router';
 import SecurityKey from '../../../../molecules/SecurityKeySection/SecurityKeySection';
+import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 
 export default function RegisterStep4(props) {
-  const { fields } = props;
+  const history = useHistory();
+  const { wallet, goToLanding, data } = props;
+
+  const mnemonicWords = () => {
+    const mnemonics = wallet.mnemonic.split(' ');
+    return mnemonics;
+  };
+
+  const copyToClipboard = mnemonicWords => {
+    if (wallet) {
+      const words = mnemonicWords;
+      navigator.clipboard.writeText(words);
+    }
+  };
 
   return (
     <div className="RegisterStep4">
       <div className="InfoStep">
-        <img
-          src="./static/images/icon-users-small.svg"
-          alt="Circles of Angels"
-        />
-        <h1>Congratulations</h1>
-        <h2> Hello {fields.role.value}!</h2>
-        <p>
-          Continue discovering the Circles of Angels platform while
-          administration confirm your account
-        </p>
+        <div>
+          <img
+            src="./static/images/icon-users-small.svg"
+            alt="Circles of Angels"
+          />
+          <h1>Congratulations</h1>
+          <h2> Hello {data.role.value}!</h2>
+          <p>
+            Continue discovering the Circles of Angels platform while
+            administration confirm your account
+          </p>
+        </div>
       </div>
       <div className="StepPersonalInformation">
         <Row className="FormRegister" gutter={26} type="flex" justify="center">
@@ -39,8 +57,22 @@ export default function RegisterStep4(props) {
               This keywords will guarantee your access to your account at any
               time
             </p>
-            <SecurityKey />
-            <p className="copy">Copy security Key</p>
+            <SecurityKey words={mnemonicWords()} />
+            <Popover content="Copied" trigger="click">
+              <CustomButton
+                className="securityKey"
+                theme="Alternative"
+                buttonText="Copy security Key"
+                onClick={() => copyToClipboard(wallet.mnemonic)}
+              />
+            </Popover>
+            <div className="buttonSection">
+                <CustomButton
+              theme="Primary"
+              buttonText="Finish!"
+              onClick={goToLanding}
+              />
+              </div>
           </Col>
         </Row>
       </div>
