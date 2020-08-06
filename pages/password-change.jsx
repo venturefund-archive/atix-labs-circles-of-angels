@@ -90,10 +90,10 @@ function PasswordChange() {
               <Col className="gutter-row BlockCongrats BlockKeyWords" span={20}>
                 <div className="SubtitleSection">
                   <img src="./static/images/password-lock.svg" alt="password" />
-                  <h2>Please keep your security key safe!</h2>
+                  <h2>Please save these words somewhere safe!</h2>
                 </div>
                 <p>
-                  This keywords will guarantee your access to your account at any
+                  These keywords will guarantee access to your account at any
                   time
                 </p>
                 <SecurityKey words={mnemonicWords()} />
@@ -101,7 +101,7 @@ function PasswordChange() {
                   <CustomButton
                     className="securityKey"
                     theme="Alternative"
-                    buttonText="Copy security Key"
+                    buttonText="Copy"
                     onClick={() => copyToClipboard(mnemonics)}
                   />
                 </Popover>
