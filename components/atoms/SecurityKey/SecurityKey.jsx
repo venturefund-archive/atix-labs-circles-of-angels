@@ -9,6 +9,6 @@
 import React from 'react';
 import './_style.scss';
 
-const SecurityKey = ({}) => <p className="SecurityWord">Coffe</p>;
+const SecurityKey = ({word}) => <p className="SecurityWord">{word}</p>;
 
 export default SecurityKey;

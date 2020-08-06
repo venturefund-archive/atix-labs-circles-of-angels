@@ -1,0 +1,27 @@
+@import "../../../css/general_styling.scss";
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.memberSelection {
+  padding:1em;
+  p {
+    margin: 1em 0;
+  }
+}

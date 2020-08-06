@@ -37,6 +37,11 @@ export const proposalTypes = {
   ASSIGN_CURATOR: 3
 };
 
+export const newRolesEnum = {
+  ASSIGN_BANK: 'Project Banker',
+  ASSIGN_CURATOR: 'Project Curator'
+};
+
 export const voteEnum = {
   YES: true,
   NO: false
