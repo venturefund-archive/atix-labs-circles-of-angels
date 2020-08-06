@@ -75,6 +75,8 @@ const updatePassword = async (token, password) => {
 const changePassword = data =>
   doPut(`${baseURL}/me/password`, data);
 
+const getWallet = () => doGet(`${baseURL}/me/wallet`);
+
 const getCountries = async () => apiCall('get', 'countries');
 
 export {
@@ -90,5 +92,6 @@ export {
   changePassword,
   getMyProjects,
   getFollowedProjects,
-  getAppliedProjects
+  getAppliedProjects,
+  getWallet
 };

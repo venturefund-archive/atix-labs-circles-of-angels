@@ -25,9 +25,14 @@ const FormPassword = ({ form, onSubmit }) => {
     });
   };
 
-  const comparePasswords = (rule, value, callback) => {
+  const validPasswords = (rule, value, callback) => {
+    const minPasswordLength = 6;
     if (value && value !== form.getFieldValue('newpassword')) {
       callback('Passwords do not match!');
+    } else if (value.length < minPasswordLength) {
+      callback('New password is too short!');
+    } else if (value === form.getFieldValue('currentpassword')) {
+      callback('You have to change your password!');
     } else {
       callback();
     }
@@ -60,7 +65,7 @@ const FormPassword = ({ form, onSubmit }) => {
           rules: [
             { required: true, message: 'Please input your new password!' },
             {
-              validator: comparePasswords
+              validator: validPasswords
             }
           ]
         })(

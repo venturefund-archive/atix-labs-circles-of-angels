@@ -8,14 +8,11 @@
 
 import React from 'react';
 import { Row, Col, Popover } from 'antd';
-import { CopyFilled } from '@ant-design/icons';
 import '../_style4.scss';
-import { useHistory } from 'react-router';
 import SecurityKey from '../../../../molecules/SecurityKeySection/SecurityKeySection';
 import CustomButton from '../../../../atoms/CustomButton/CustomButton';
 
 export default function RegisterStep4(props) {
-  const history = useHistory();
   const { wallet, goToLanding, data } = props;
 
   const mnemonicWords = () => {
@@ -67,12 +64,12 @@ export default function RegisterStep4(props) {
               />
             </Popover>
             <div className="buttonSection">
-                <CustomButton
-              theme="Primary"
-              buttonText="Finish!"
-              onClick={goToLanding}
+              <CustomButton
+                theme="Primary"
+                buttonText="Finish!"
+                onClick={goToLanding}
               />
-              </div>
+            </div>
           </Col>
         </Row>
       </div>

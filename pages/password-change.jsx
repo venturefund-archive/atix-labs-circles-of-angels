@@ -7,37 +7,50 @@
  */
 
 import React, { useState } from 'react';
-import { Row, Col } from 'antd';
+import { useHistory } from 'react-router';
+import { Row, Col, Popover } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import SecurityKey from '../components/molecules/SecurityKeySection/SecurityKeySection';
-import { changePassword, getUser } from '../api/userApi';
-import { useUserContext } from '../components/utils/UserContext';
+import { changePassword, getWallet } from '../api/userApi';
 import { encryptWallet, decryptJsonWallet } from '../helpers/blockchain/wallet';
+import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 function PasswordChange() {
-  const { getLoggedUser } = useUserContext();
-  const loggedUser = getLoggedUser();
+  const history = useHistory();
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
+  const [mnemonics, setMnemonics] = useState('');
 
   const fetchWallet = async () => {
-    const response = await getUser(loggedUser.id);
-    const { encryptedWallet } = response.data;
+    const response = await getWallet();
+    const encryptedWallet = JSON.stringify(response.data);
     return encryptedWallet;
+  };
+
+  const mnemonicWords = () => {
+    return mnemonics.split(' ');
+  };
+
+  const copyToClipboard = words => {
+    navigator.clipboard.writeText(words);
+  };
+
+  const goToDashboard = () => {
+    return history.push('/');
   };
 
   const updatePassword = async (currentPassword, newPassword) => {
     try {
       const wallet = await fetchWallet();
-      console.log(currentPassword, newPassword);
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
       const data = { 
         password: newPassword, 
         encryptedWallet: encrypted 
       };
-      const response = await changePassword(data);
+      await changePassword(data);
+      setMnemonics(decrypted.mnemonic);
       showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
     } catch (error) {
@@ -51,7 +64,7 @@ function PasswordChange() {
 
   const renderForm = () => {
     return (
-      <div className="FormSide">
+      <div>
         {!successfulUpdate && (
           <div>
             <h1>CIRCLE OF ANGELS</h1>
@@ -59,6 +72,13 @@ function PasswordChange() {
             <DynamicFormPassword onSubmit={updatePassword} />
           </div>
         )}
+      </div>
+    );
+  };
+
+  const renderPersonalInfo = () => {
+    return (
+      <div>
         {successfulUpdate && (
           <div className="StepPersonalInformation">
             <Row className="FormRegister" gutter={26} type="flex" justify="center">
@@ -71,13 +91,27 @@ function PasswordChange() {
                   This keywords will guarantee your access to your account at any
                   time
                 </p>
-                <SecurityKey />
-                <p className="copy">Copy security Key</p>
+                <SecurityKey words={mnemonicWords()} />
+                <Popover content="Copied" trigger="click">
+                  <CustomButton
+                    className="securityKey"
+                    theme="Alternative"
+                    buttonText="Copy security Key"
+                    onClick={() => copyToClipboard(mnemonics)}
+                  />
+                </Popover>
+                <div className="buttonSection">
+                  <CustomButton
+                    theme="Primary"
+                    buttonText="Finish!"
+                    onClick={goToDashboard}
+                  />
+                </div>
               </Col>
             </Row>
           </div>
         )}
-      </div>
+      </div>     
     );
   };
 
@@ -86,7 +120,10 @@ function PasswordChange() {
       <div className="LogoSide">
         <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
-      {renderForm()}
+      <div className="FormSide" >
+        {renderForm()}
+        {renderPersonalInfo()}
+      </div>
     </div>
   );
 }

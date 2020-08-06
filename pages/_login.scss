@@ -31,6 +31,13 @@
     @include primary-text($h2, $grey, 400);
     text-transform: uppercase;
   }
+  .ant-btn.Alternative, .ant-btn.Alternative:active, .ant-btn.Alternative:focus, .ant-btn.Alternative:hover {
+    border:none;
+  }
+  .ant-btn {
+    margin: 0 auto;
+    margin-top: 1em;
+  }
 }
 
 @media screen and (max-width: 770px) {
