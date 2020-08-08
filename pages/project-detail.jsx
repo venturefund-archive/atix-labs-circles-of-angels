@@ -73,12 +73,10 @@ const ProjectDetail = ({ user }) => {
   });
   const [fundedAmount, setFundedAmount] = useState(0);
   const [fundingProgress, setFundingProgress] = useState(0);
-  const [projectFinished, setProjectFinished] = useState(false);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
     const response = await getProjectMilestones(project.id);
-    console.log('milestones', response.data);
     if (response.errors) {
       // TODO: if this fails what to do? ignore it? display an error?
       setMilestones();
@@ -172,6 +170,18 @@ const ProjectDetail = ({ user }) => {
   const onEditProject = () => {
     const state = { projectId: project.id };
     history.push(`/create-project?id=${project.id}`, state);
+  };
+
+  const onAbortProject = async () => {
+    const isExecuting = project.status === projectStatuses.EXECUTING;
+    if(isExecuting) {
+      const response = await updateProjectStatus(project.id, projectStatuses.ABORTED);
+      if (response.errors) {
+        message.error(response.errors);
+        return;
+      }
+      message.success('Project aborted successfully!');
+    }
   };
 
   const checkFollowing = async () => {
@@ -269,21 +279,6 @@ const ProjectDetail = ({ user }) => {
     return progressPercentage > 100 ? 100 : progressPercentage;
   };
 
-  const checkFinished = async () => {
-    try {
-      const isClaimed = milestone => milestone.claimStatus === claimMilestoneStatus.CLAIMED;
-      const hasFinished = milestones.every(isClaimed);
-      console.log('Didnt Finish');
-      if(hasFinished) {
-        console.log('Updating project');
-        await updateProjectStatus(project.id, projectStatuses.FINISHED);
-        setProjectFinished(projectFinished);
-      }
-    } catch (error) {
-      message.error(error);
-    }
-  };
-
   useEffect(() => {
     fetchProject();
   }, []);
@@ -300,10 +295,6 @@ const ProjectDetail = ({ user }) => {
         fetchExperiences();
     }
   }, [project]);
-
-  useEffect(() => {
-    checkFinished();
-  }, [milestones]);
 
   const renderTabs = projectData =>
     Object.values(
@@ -343,6 +334,7 @@ const ProjectDetail = ({ user }) => {
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
           onEditProject={onEditProject}
+          onAbortProject={onAbortProject}
           allowEdit={allowEditProject()}
           isFollower={isFollowing}
           fetchBlockchainData={fetchProjectBlockchainData}

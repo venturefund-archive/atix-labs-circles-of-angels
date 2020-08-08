@@ -43,6 +43,7 @@ const ProjectDetailHeader = ({
   onFollowProject,
   onUnfollowProject,
   onEditProject,
+  onAbortProject,
   allowEdit,
   isFollower,
   fetchBlockchainData
@@ -123,13 +124,23 @@ const ProjectDetailHeader = ({
                 />
               )}
 
-              <CustomButton
-                theme={isFollower ? 'Primary' : 'Primary'}
-                buttonText={isFollower ? 'Following' : 'Follow Project'}
-                icon="check"
-                classNameIcon={isFollower ? 'iconDisplay' : 'none'}
-                onClick={isFollower ? onUnfollowProject : onFollowProject}
-              />
+              {status && status !== 'aborted' && (
+                <CustomButton
+                  theme={isFollower ? 'Primary' : 'Primary'}
+                  buttonText={isFollower ? 'Following' : 'Follow Project'}
+                  icon="check"
+                  classNameIcon={isFollower ? 'iconDisplay' : 'none'}
+                  onClick={isFollower ? onUnfollowProject : onFollowProject}
+                />
+              )}
+
+              {status && status === 'executing' && (
+                <CustomButton
+                  theme="Alternative"
+                  buttonText="Abort"
+                  onClick={onAbortProject}
+                />
+              )}
             </Col>
           </div>
         </Row>

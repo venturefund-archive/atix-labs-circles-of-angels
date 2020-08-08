@@ -84,12 +84,16 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       key: 'status',
       dataIndex: 'status',
       render: status => {
+        if (!status) return;
         return (
           <span>
-            <Tag color={transferStatusesMap[status].color} key={status}>
-              {transferStatusesMap[status].name}
-            </Tag>
-        </span>
+            { transferStatusesMap[status] ?
+              <Tag color={transferStatusesMap[status].color} key={status}>
+                {transferStatusesMap[status].name}
+              </Tag>
+              : null
+            }
+          </span>
         )
       }
     },
@@ -229,7 +233,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     fetchTransfers();
-  }, [fetchTransfers]);
+  }, []);
 
   useEffect(() => {
     if (!transferSelected) return;
