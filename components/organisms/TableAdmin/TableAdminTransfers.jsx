@@ -83,48 +83,51 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: status => (
-        <span>
-          <Tag color={transferStatusesMap[status].color} key={status}>
-            {transferStatusesMap[status].name}
-          </Tag>
-        </span>
-      )
+      render: status => {
+        if (!status) return;
+        return (
+          <span>
+            { transferStatusesMap[status] ?
+              <Tag color={transferStatusesMap[status].color} key={status}>
+                {transferStatusesMap[status].name}
+              </Tag>
+              : null
+            }
+          </span>
+        )
+      }
     },
     {
       title: 'Actions',
       key: 'actions',
-      dataIndex: 'actions',
-      render: actions => (
-        <button className="reintentarBtn">
-          <UndoOutlined /> Reintentar
-        </button>
-      )
-
-      // render: ({ id, status }) => {
-      //   if (status !== TransferStatuses.PENDING) return;
-
-      //   return (
-      //     <Fragment>
-      //       <Col span={8}>
-      //         <CustomButton
-      //           theme="Primary"
-      //           key="back"
-      //           buttonText="Approve"
-      //           onClick={() => onApprovedTransfer(id)}
-      //         />
-      //       </Col>
-      //       <Col span={8}>
-      //         <CustomButton
-      //           theme="Sencondary"
-      //           key="back"
-      //           buttonText="Reject"
-      //           onClick={() => setTransferSelected(id)}
-      //         />
-      //       </Col>
-      //     </Fragment>
-      //   );
-      // }
+      // render: actions => (
+      //   <button className="reintentarBtn">
+      //     <UndoOutlined /> Reintentar
+      //   </button>
+      // )
+      render: ({id, status}) => {
+        if (status !== TransferStatuses.PENDING) return;
+        return (
+          <Fragment>
+            <Col span={8}>
+              <CustomButton
+                theme="Primary"
+                key="back"
+                buttonText="Approve"
+                onClick={() => onApprovedTransfer(id)}
+              />
+            </Col>
+            <Col span={8}>
+              <CustomButton
+                theme="Sencondary"
+                key="back"
+                buttonText="Reject"
+                onClick={() => setTransferSelected(id)}
+              />
+            </Col>
+          </Fragment>
+        );
+      }
     }
   ];
 
@@ -230,7 +233,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     fetchTransfers();
-  }, [fetchTransfers]);
+  }, []);
 
   useEffect(() => {
     if (!transferSelected) return;

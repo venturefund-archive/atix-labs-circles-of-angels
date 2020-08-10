@@ -31,12 +31,14 @@ import {
   getProjectMilestones,
   getProjectExperiences,
   addProjectExperience,
-  getProjectBlockchainData
+  getProjectBlockchainData,
+  updateProjectStatus
 } from '../api/projectApi';
 import {
   projectStatuses,
   publicProjectStatuses,
-  SHOW_EXPERIENCES_STATUSES
+  SHOW_EXPERIENCES_STATUSES,
+  claimMilestoneStatus
 } from '../constants/constants';
 import { assignOracleToActivity, getEvidences } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
@@ -168,6 +170,18 @@ const ProjectDetail = ({ user }) => {
   const onEditProject = () => {
     const state = { projectId: project.id };
     history.push(`/create-project?id=${project.id}`, state);
+  };
+
+  const onAbortProject = async () => {
+    const isExecuting = project.status === projectStatuses.EXECUTING;
+    if(isExecuting) {
+      const response = await updateProjectStatus(project.id, projectStatuses.ABORTED);
+      if (response.errors) {
+        message.error(response.errors);
+        return;
+      }
+      message.success('Project aborted successfully!');
+    }
   };
 
   const checkFollowing = async () => {
@@ -320,6 +334,7 @@ const ProjectDetail = ({ user }) => {
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
           onEditProject={onEditProject}
+          onAbortProject={onAbortProject}
           allowEdit={allowEditProject()}
           isFollower={isFollowing}
           fetchBlockchainData={fetchProjectBlockchainData}
