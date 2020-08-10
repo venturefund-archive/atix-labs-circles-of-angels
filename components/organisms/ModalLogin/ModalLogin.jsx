@@ -29,9 +29,13 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     try {
       const user = await loginUser(email, pwd);
       changeUser(user);
+      const { role, forcePasswordChange } = user;
 
-      const { role } = user;
-      history.push(defaultRouteByRole[role]);
+      if(forcePasswordChange) 
+        history.push('/password-change');
+      else 
+        history.push(defaultRouteByRole[role]);
+      
       clearFields();
     } catch (error) {
       message.error(error);

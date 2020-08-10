@@ -17,14 +17,22 @@ const FormPassword = ({ form, onSubmit }) => {
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
-        return onSubmit(getFieldProps('newpassword').value);
+        return onSubmit(
+          getFieldProps('currentpassword').value, 
+          getFieldProps('newpassword').value
+        );
       }
     });
   };
 
-  const comparePasswords = (rule, value, callback) => {
+  const validPasswords = (rule, value, callback) => {
+    const minPasswordLength = 6;
     if (value && value !== form.getFieldValue('newpassword')) {
       callback('Passwords do not match!');
+    } else if (value.length < minPasswordLength) {
+      callback('New password is too short!');
+    } else if (value === form.getFieldValue('currentpassword')) {
+      callback('You have to change your password!');
     } else {
       callback();
     }
@@ -33,8 +41,18 @@ const FormPassword = ({ form, onSubmit }) => {
   return (
     <Form className="recovery-form" onSubmit={submit}>
       <Form.Item>
+        {getFieldDecorator('currentpassword', {
+          rules: [{ required: true, message: 'Please input your current password!' }]
+        })(
+          <Input.Password
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Current Password"
+          />
+        )}
+      </Form.Item>
+      <Form.Item>
         {getFieldDecorator('newpassword', {
-          rules: [{ required: true, message: 'Please input your password!' }]
+          rules: [{ required: true, message: 'Please input your new password!' }]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -45,15 +63,15 @@ const FormPassword = ({ form, onSubmit }) => {
       <Form.Item>
         {getFieldDecorator('confirm', {
           rules: [
-            { required: true, message: 'Please input your password!' },
+            { required: true, message: 'Please input your new password!' },
             {
-              validator: comparePasswords
+              validator: validPasswords
             }
           ]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Confirm Password"
+            placeholder="Confirm new Password"
           />
         )}
       </Form.Item>

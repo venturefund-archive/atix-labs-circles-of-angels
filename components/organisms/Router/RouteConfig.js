@@ -5,7 +5,7 @@ import MyProjects from '../../../pages/my-projects';
 import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
-import PasswordRecovery from '../../../pages/passwordRecovery';
+import PasswordChange from '../../../pages/password-change';
 import Landing from '../../../pages/landing/landing';
 import Dao from '../../../pages/dao/dao-list';
 import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
@@ -46,11 +46,13 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/passwordRecovery',
-    component: PasswordRecovery,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    path: '/password-change',
+    component: PasswordChange,
+    withSideBar: false,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
+    },
   },
   {
     path: '/register',
