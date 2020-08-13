@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
 import RegisterForm from '../../components/organisms/FormRegister/FormRegister';
@@ -20,7 +20,6 @@ import RegisterStep2 from '../../components/organisms/FormRegister/steps/Registe
 import RegisterStep3, {
   questionsByRole
 } from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
-import RegisterStep4 from '../../components/organisms/FormRegister/steps/RegisterStep4/RegisterStep4';
 import {
   step1Inputs,
   step2Inputs,
@@ -41,8 +40,6 @@ const Registersteps = () => {
   const [formValues, setFormValues] = useState({});
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showMnemonics, setShowMnemonics] = useState(false);
-  const [createdWallet, setCreatedWallet] = useState({});
   const [fields, setFields] = useState({
     ...step1Inputs,
     ...step2Inputs,
@@ -84,6 +81,7 @@ const Registersteps = () => {
   };
 
   const registerUser = async () => {
+    setLoading(true);
     const values = Object.values(formValues).reduce(
       (acc, field) => Object.assign(acc, { [field.name]: field.value }),
       {}
@@ -98,13 +96,14 @@ const Registersteps = () => {
 
   const successCallback = wallet => {
     setIsSubmitting(false);
+    setLoading(false);
     message.success('The user has been registered successfully!');
-    setCreatedWallet(wallet);
-    setShowMnemonics(true);
+    return history.push('/landing');
   };
 
   const errorCallback = error => {
     setIsSubmitting(false);
+    setLoading(false);
     message.error(error);
   };
 
@@ -148,17 +147,11 @@ const Registersteps = () => {
     setLoading(false);
   }, [countries]);
 
-  const goToLanding = () => {
-    return history.push('/landing');
-  };
-
   // TODO: add loading when form is submitting
-
   if (loading) return <Loading />;
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
-      {!showMnemonics && 
         <RegisterForm
           formFields={fields}
           formSteps={steps}
@@ -168,14 +161,6 @@ const Registersteps = () => {
             setFormValues(values);
           }}
         />
-      }
-      {showMnemonics && 
-        <RegisterStep4
-          wallet={createdWallet}
-          goToLanding={goToLanding}
-          data={formValues}
-        />
-      }
     </div>
   );
 };

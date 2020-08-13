@@ -31,7 +31,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       changeUser(user);
       const { role, forcePasswordChange } = user;
 
-      if(forcePasswordChange) 
+      if(!forcePasswordChange) 
         history.push('/password-change');
       else 
         history.push(defaultRouteByRole[role]);
@@ -64,10 +64,9 @@ const ModalLogin = ({ setVisibility, visibility }) => {
           </>
         )}
         <DynamicForm onSubmit={onLoginSubmit} />
-        {/* uncomment when it is working */}
-        {/* <div className="flex link">
+        <div className="flex link">
           <ModalRecovery />
-        </div> */}
+        </div>
       </Modal>
     </div>
   );

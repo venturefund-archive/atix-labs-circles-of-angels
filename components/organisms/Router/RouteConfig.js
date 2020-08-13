@@ -6,6 +6,7 @@ import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordChange from '../../../pages/password-change';
+import ForgotPassword from '../../../pages/forgot-password';
 import Landing from '../../../pages/landing/landing';
 import Dao from '../../../pages/dao/dao-list';
 import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
@@ -41,6 +42,13 @@ export const routesConfig = [
   {
     path: '/recovery',
     component: Recovery,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
+    path: '/forgot-password',
+    component: ForgotPassword,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false

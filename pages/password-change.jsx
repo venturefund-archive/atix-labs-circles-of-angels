@@ -29,14 +29,6 @@ function PasswordChange() {
     return encryptedWallet;
   };
 
-  const mnemonicWords = () => {
-    return mnemonics.split(' ');
-  };
-
-  const copyToClipboard = words => {
-    navigator.clipboard.writeText(words);
-  };
-
   const goToDashboard = () => {
     return history.push('/');
   };

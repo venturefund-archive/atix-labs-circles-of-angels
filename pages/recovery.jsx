@@ -17,7 +17,7 @@ import DynamicFormRecovery from '../components/organisms/FormLogin/FormRecovery'
 class Recovery extends Component {
   componentDidMount() {
     const { removeUser } = this.props;
-    removeUser();
+    // removeUser();
   }
 
   sendVerificationCode = async email => {
