@@ -13,7 +13,7 @@ import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import queryString from 'query-string';
 import './_login.scss';
 import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
-import { changePassword, getWalletFromToken } from '../api/userApi';
+import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
 import { encryptWallet, decryptMnemonicWallet } from '../helpers/blockchain/wallet';
 
 function ForgotPassword() {
@@ -24,41 +24,42 @@ function ForgotPassword() {
   const query = location && queryString.parse(location.search);
   const { token } = query || {};
 
-  const fetchWallet = async () => {
-    const response = await getWalletFromToken(token);
-    console.log(response);
-    const encryptedWallet = JSON.stringify(response.data);
-    return encryptedWallet;
+  const fetchMnemonic = async () => {
+    const { data, errors } = await getMnemonicFromToken(token);
+    if (errors || !data)
+      throw new Error(errors);
+    const mnemonic = data;
+    return mnemonic;
   };
 
   const goToDashboard = () => {
     return history.push('/');
   };
 
-  const updatePassword = async (currentPassword, newPassword) => {
-    console.log('token', token);
-    // try {
-    // setLoading(true);
-    const { mnemonic } = await fetchWallet();
-    // console.log(mnemonic);
-    // const decrypted = await decryptMnemonicWallet(mnemonic);
-    //   const encrypted = await encryptWallet(decrypted, newPassword);
-    //   const data = { 
-    //     password: newPassword, 
-    //     encryptedWallet: encrypted 
-    //   };
-    //   await changePassword(data);
-    //   showModalSuccess('Success!', 'Your password was successfully changed!');
-    //   setSuccessfulUpdate(true);
-    //   goToDashboard();
-    // } catch (error) {
-    //   const title = 'Error!';
-    //   const content = error.response
-    //     ? error.response.data.error
-    //     : error.message;
-    //   showModalError(title, content);
-    // }
-    // setLoading(false);
+  const updatePassword = async (newPassword) => {
+    try {
+      setLoading(true);
+      const mnemonic = await fetchMnemonic();
+      const decrypted = await decryptMnemonicWallet(mnemonic);
+      const encrypted = await encryptWallet(decrypted, newPassword);
+      const data = { 
+        token,
+        password: newPassword, 
+        encryptedWallet: encrypted 
+      };
+      console.log(data);
+      await changeRecoverPassword(data);
+      showModalSuccess('Success!', 'Your password was successfully changed!');
+      setSuccessfulUpdate(true);
+      goToDashboard();
+    } catch (error) {
+      const title = 'Error!';
+      const content = error.response
+        ? error.response.data.error
+        : error.message;
+      showModalError(title, content);
+    }
+    setLoading(false);
   };
 
   const renderForm = () => {

@@ -8,20 +8,17 @@
 
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Row, Col, Popover, Spin } from 'antd';
+import { Spin } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
-import SecurityKey from '../components/molecules/SecurityKeySection/SecurityKeySection';
 import { changePassword, getWallet } from '../api/userApi';
 import { encryptWallet, decryptJsonWallet } from '../helpers/blockchain/wallet';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
 
 function PasswordChange() {
   const history = useHistory();
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [mnemonics, setMnemonics] = useState('');
 
   const fetchWallet = async () => {
     const response = await getWallet();
@@ -44,9 +41,9 @@ function PasswordChange() {
         encryptedWallet: encrypted 
       };
       await changePassword(data);
-      setMnemonics(decrypted.mnemonic);
       showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
+      goToDashboard();
     } catch (error) {
       const title = 'Error!';
       const content = error.response
@@ -73,45 +70,6 @@ function PasswordChange() {
     );
   };
 
-  const renderPersonalInfo = () => {
-    return (
-      <div>
-        {successfulUpdate && (
-          <div className="StepPersonalInformation">
-            <Row className="FormRegister" gutter={26} type="flex" justify="center">
-              <Col className="gutter-row BlockCongrats BlockKeyWords" span={20}>
-                <div className="SubtitleSection">
-                  <img src="./static/images/password-lock.svg" alt="password" />
-                  <h2>Please save these words somewhere safe!</h2>
-                </div>
-                <p>
-                  These keywords will guarantee access to your account at any
-                  time
-                </p>
-                <SecurityKey words={mnemonicWords()} />
-                <Popover content="Copied" trigger="click">
-                  <CustomButton
-                    className="securityKey"
-                    theme="Alternative"
-                    buttonText="Copy"
-                    onClick={() => copyToClipboard(mnemonics)}
-                  />
-                </Popover>
-                <div className="buttonSection">
-                  <CustomButton
-                    theme="Primary"
-                    buttonText="Finish!"
-                    onClick={goToDashboard}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </div>
-        )}
-      </div>     
-    );
-  };
-
   return (
     <div className="Login">
       <div className="LogoSide">
@@ -119,7 +77,6 @@ function PasswordChange() {
       </div>
       <div className="FormSide" >
         {renderForm()}
-        {renderPersonalInfo()}
       </div>
     </div>
   );

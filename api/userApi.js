@@ -9,6 +9,7 @@
 import api, { doGet, doPut, doPost } from './api';
 import apiCall from './apiCall';
 import questionsToText from '../helpers/questionsToText';
+import { mnemonicToEntropy } from 'ethers/utils/hdnode';
 
 const baseURL = '/users';
 
@@ -41,13 +42,14 @@ const changeUserRegistrationStatus = (userId, registrationStatus) =>
     registrationStatus
   });
 
-const register = (user, { address, encryptedWallet }) => {
+const register = (user, { address, encryptedWallet, mnemonic }) => {
   const answers = questionsToText(user);
   return apiCall('post', `${baseURL}/signup`, {
     ...user,
     answers,
     address,
-    encryptedWallet
+    encryptedWallet,
+    mnemonic
   });
 };
 
@@ -69,9 +71,12 @@ const updatePassword = async (token, password) => {
 const changePassword = data =>
   doPut(`${baseURL}/me/password`, data);
 
+const changeRecoverPassword = data =>
+  doPut(`${baseURL}/me/recover-password`, data);
+
 const getWallet = () => doGet(`${baseURL}/me/wallet`);
 
-const getWalletFromToken = token => doGet(`${baseURL}/wallet/${token}`);
+const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
 
 const getCountries = async () => apiCall('get', 'countries');
 
@@ -86,9 +91,10 @@ export {
   recoverPassword,
   updatePassword,
   changePassword,
+  changeRecoverPassword,
   getMyProjects,
   getFollowedProjects,
   getAppliedProjects,
   getWallet,
-  getWalletFromToken
+  getMnemonicFromToken
 };

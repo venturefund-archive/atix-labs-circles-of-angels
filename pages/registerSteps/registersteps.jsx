@@ -90,7 +90,7 @@ const Registersteps = () => {
     const { mnemonic, address, encryptedWallet } = await createNewWallet(
       values.password
     );
-    await register(values, { address, encryptedWallet });
+    await register(values, { address, encryptedWallet, mnemonic });
     return { mnemonic, address };
   };
 
