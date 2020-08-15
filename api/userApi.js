@@ -9,7 +9,6 @@
 import api, { doGet, doPut, doPost } from './api';
 import apiCall from './apiCall';
 import questionsToText from '../helpers/questionsToText';
-import { mnemonicToEntropy } from 'ethers/utils/hdnode';
 
 const baseURL = '/users';
 
