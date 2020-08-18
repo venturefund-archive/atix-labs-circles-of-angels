@@ -14,7 +14,7 @@ import queryString from 'query-string';
 import './_login.scss';
 import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
 import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
-import { encryptWallet, decryptMnemonicWallet } from '../helpers/blockchain/wallet';
+import { encryptWallet, generateWalletFromMnemonic } from '../helpers/blockchain/wallet';
 
 function ForgotPassword() {
   const history = useHistory();
@@ -40,7 +40,7 @@ function ForgotPassword() {
     try {
       setLoading(true);
       const mnemonic = await fetchMnemonic();
-      const decrypted = await decryptMnemonicWallet(mnemonic);
+      const decrypted = await generateWalletFromMnemonic(mnemonic);
       const encrypted = await encryptWallet(decrypted, newPassword);
       const data = { 
         token,

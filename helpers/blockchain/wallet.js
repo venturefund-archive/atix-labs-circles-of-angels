@@ -10,10 +10,6 @@ export const decryptJsonWallet = async (jsonWallet, password) => {
   if (!password) throw new Error('a password is required to decrypt a wallet');
   return Wallet.fromEncryptedJson(jsonWallet, password);
 };
-export const decryptMnemonicWallet = async (mnemonic) => {
-  if (!mnemonic) throw new Error('a mnemonic is required to decrypt a wallet');
-  return Wallet.fromMnemonic(mnemonic);
-};
 export const generateWalletFromMnemonic = mnemonic => {
   if (!mnemonic)
     throw new Error('a mnemonic is required to generate the wallet');
