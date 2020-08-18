@@ -10,37 +10,44 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Spin } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import queryString from 'query-string';
 import './_login.scss';
-import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
-import { changePassword, getWallet } from '../api/userApi';
-import { encryptWallet, decryptJsonWallet } from '../helpers/blockchain/wallet';
+import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
+import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
+import { encryptWallet, generateWalletFromMnemonic } from '../helpers/blockchain/wallet';
 
-function PasswordChange() {
+function ForgotPassword() {
   const history = useHistory();
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const fetchWallet = async () => {
-    const response = await getWallet();
-    const encryptedWallet = JSON.stringify(response.data);
-    return encryptedWallet;
+  const query = location && queryString.parse(location.search);
+  const { token } = query || {};
+
+  const fetchMnemonic = async () => {
+    const { data, errors } = await getMnemonicFromToken(token);
+    if (errors || !data)
+      throw new Error(errors);
+    const mnemonic = data;
+    return mnemonic;
   };
 
   const goToDashboard = () => {
     return history.push('/');
   };
 
-  const updatePassword = async (currentPassword, newPassword) => {
+  const updatePassword = async (newPassword) => {
     try {
       setLoading(true);
-      const wallet = await fetchWallet();
-      const decrypted = await decryptJsonWallet(wallet, currentPassword);
+      const mnemonic = await fetchMnemonic();
+      const decrypted = await generateWalletFromMnemonic(mnemonic);
       const encrypted = await encryptWallet(decrypted, newPassword);
       const data = { 
+        token,
         password: newPassword, 
         encryptedWallet: encrypted 
       };
-      await changePassword(data);
+      await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
       goToDashboard();
@@ -62,7 +69,7 @@ function PasswordChange() {
             <Spin spinning={loading}>
               <h1>CIRCLE OF ANGELS</h1>
               <h2>CHANGE YOUR PASSWORD</h2>
-              <DynamicFormPassword onSubmit={updatePassword} />
+              <DynamicFormForgotPassword onSubmit={updatePassword} />
             </Spin>
           </div>
         )}
@@ -82,4 +89,4 @@ function PasswordChange() {
   );
 }
 
-export default PasswordChange;
+export default ForgotPassword;

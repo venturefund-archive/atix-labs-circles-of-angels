@@ -6,7 +6,6 @@ export const encryptWallet = async (wallet, password) => {
     throw new Error('wallet is not valid');
   return wallet.encrypt(password);
 };
-
 export const decryptJsonWallet = async (jsonWallet, password) => {
   if (!password) throw new Error('a password is required to decrypt a wallet');
   return Wallet.fromEncryptedJson(jsonWallet, password);

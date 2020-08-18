@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doGet, doPut } from './api';
+import api, { doGet, doPut, doPost } from './api';
 import apiCall from './apiCall';
 import questionsToText from '../helpers/questionsToText';
 
@@ -41,24 +41,19 @@ const changeUserRegistrationStatus = (userId, registrationStatus) =>
     registrationStatus
   });
 
-const register = (user, { address, encryptedWallet }) => {
+const register = (user, { address, encryptedWallet, mnemonic }) => {
   const answers = questionsToText(user);
   return apiCall('post', `${baseURL}/signup`, {
     ...user,
     answers,
     address,
-    encryptedWallet
+    encryptedWallet,
+    mnemonic
   });
 };
 
-const recoverPassword = async email => {
-  try {
-    const response = await api.post(`${baseURL}/recoverPassword`, { email });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const recoverPassword = (data) => 
+  doPost(`${baseURL}/recoverPassword`, data);
 
 const updatePassword = async (token, password) => {
   try {
@@ -75,7 +70,12 @@ const updatePassword = async (token, password) => {
 const changePassword = data =>
   doPut(`${baseURL}/me/password`, data);
 
+const changeRecoverPassword = data =>
+  doPut(`${baseURL}/me/recover-password`, data);
+
 const getWallet = () => doGet(`${baseURL}/me/wallet`);
+
+const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
 
 const getCountries = async () => apiCall('get', 'countries');
 
@@ -90,8 +90,10 @@ export {
   recoverPassword,
   updatePassword,
   changePassword,
+  changeRecoverPassword,
   getMyProjects,
   getFollowedProjects,
   getAppliedProjects,
-  getWallet
+  getWallet,
+  getMnemonicFromToken
 };
