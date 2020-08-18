@@ -47,7 +47,6 @@ function ForgotPassword() {
         password: newPassword, 
         encryptedWallet: encrypted 
       };
-      console.log(data);
       await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
