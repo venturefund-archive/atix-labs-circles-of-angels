@@ -21,8 +21,15 @@ const SettingsMenu = () => {
     history.push('/landing');
   };
 
+  const changePassword = () => {
+    history.push('/password-change');
+  };
+
   const menu = (
     <Menu>
+      <Menu.Item key="2" onClick={changePassword}>
+        Change Password
+      </Menu.Item>
       <Menu.Item key="2" onClick={logout}>
         Log out
       </Menu.Item>
