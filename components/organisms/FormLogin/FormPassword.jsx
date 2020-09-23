@@ -26,17 +26,23 @@ const FormPassword = ({ form, onSubmit }) => {
   };
 
   const validPasswords = (rule, value, callback) => {
-    const minPasswordLength = 6;
     if (value && value !== form.getFieldValue('newpassword')) {
       callback('Passwords do not match!');
-    } else if (value.length < minPasswordLength) {
-      callback('New password is too short!');
     } else if (value === form.getFieldValue('currentpassword')) {
       callback('You have to change your password!');
     } else {
       callback();
     }
   };
+
+  const validateNewPassword = (rule, value, callback) => {
+    const regexPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})');
+    if(value && !regexPassword.test(value)) {
+      callback('Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.');
+    } else {
+      callback();
+    }
+  }
 
   return (
     <Form className="recovery-form" onSubmit={submit}>
@@ -52,7 +58,14 @@ const FormPassword = ({ form, onSubmit }) => {
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('newpassword', {
-          rules: [{ required: true, message: 'Please input your new password!' }]
+          rules: [
+            { required: true, 
+              message: 'Please input your new password!' 
+            },
+            {
+              validator: validateNewPassword
+            }
+          ]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
