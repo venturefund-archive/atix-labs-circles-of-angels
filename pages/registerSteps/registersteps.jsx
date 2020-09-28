@@ -82,6 +82,7 @@ const Registersteps = () => {
 
   const registerUser = async () => {
     setLoading(true);
+    debugger;
     const values = Object.values(formValues).reduce(
       (acc, field) => Object.assign(acc, { [field.name]: field.value }),
       {}
@@ -97,7 +98,7 @@ const Registersteps = () => {
   const successCallback = wallet => {
     setIsSubmitting(false);
     setLoading(false);
-    message.success('The user has been registered successfully!');
+    message.success('Thank you for register. We have sent a e-mail to verify your address. \nPlease click the link in that email to continue');
     return history.push('/landing');
   };
 
