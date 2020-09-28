@@ -79,6 +79,9 @@ const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
 
 const getCountries = async () => apiCall('get', 'countries');
 
+const confirmEmail = async userId =>
+  doPut(`${baseURL}/${userId}/confirm`, {});
+
 export {
   loginUser,
   getOracles,
@@ -95,5 +98,6 @@ export {
   getFollowedProjects,
   getAppliedProjects,
   getWallet,
-  getMnemonicFromToken
+  getMnemonicFromToken,
+  confirmEmail
 };
