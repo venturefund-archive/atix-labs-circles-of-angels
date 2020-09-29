@@ -82,7 +82,6 @@ const Registersteps = () => {
 
   const registerUser = async () => {
     setLoading(true);
-    debugger;
     const values = Object.values(formValues).reduce(
       (acc, field) => Object.assign(acc, { [field.name]: field.value }),
       {}
