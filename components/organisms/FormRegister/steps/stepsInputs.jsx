@@ -106,6 +106,10 @@ export const step2Inputs = {
       {
         required: true,
         message: 'Please input your password!'
+      },
+      {
+        regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+        message: 'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
       }
     ]
   },
