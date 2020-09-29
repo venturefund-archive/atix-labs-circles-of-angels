@@ -149,8 +149,8 @@ export const questionsByRole = {
           name: '1 to 3 investments in the last 12 months'
         },
         {
-          value: '4-5 investments in the last 12 months',
-          name: '4-5 investments in the last 12 months'
+          value: '4 to 5 investments in the last 12 months',
+          name: '4 to 5 investments in the last 12 months'
         },
         {
           value: 'More than 5 investments in the last 12 months',
@@ -158,9 +158,9 @@ export const questionsByRole = {
         },
         {
           value:
-            'I currently only do philanthropy eg: donate to charitable causes online & offline',
+            'I currently only do philanthropy e.g.: donate to charitable causes online & offline',
           name:
-            'I currently only do philanthropy eg: donate to charitable causes online & offline'
+            'I currently only do philanthropy e.g.: donate to charitable causes online & offline'
         }
       ],
       rules: [
