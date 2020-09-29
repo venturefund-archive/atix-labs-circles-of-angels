@@ -15,7 +15,7 @@ import './_style.scss';
 import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
-import { projectStatuses } from '../constants/constants';
+import { projectStatuses, SUPPORTER } from '../constants/constants';
 import {
   getMyProjects,
   getFollowedProjects,
@@ -92,7 +92,8 @@ const MyProjects = ({ user }) => {
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
     const { status } = project;
-    if (status === projectStatuses.NEW || status === projectStatuses.REJECTED) {
+    if (status === projectStatuses.NEW || (status === projectStatuses.REJECTED && user.role !== SUPPORTER)) {
+      debugger
       history.push(`/create-project?id=${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);

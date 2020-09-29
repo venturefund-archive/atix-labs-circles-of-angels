@@ -34,6 +34,7 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
+
 const CreateProjectContainer = () => {
   const { id } = useQuery();
   const history = useHistory();
