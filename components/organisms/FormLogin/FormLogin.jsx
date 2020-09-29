@@ -7,10 +7,11 @@
  */
 
 import React, { useState } from 'react';
-import { Form, Icon, Input, Checkbox } from 'antd';
+import { Form, Icon, Input, Checkbox, message } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 import Field from '../../atoms/Field/Field';
+import Captcha from '../../atoms/Captcha/Captcha';
 
 export const formLoginInputs = {
   email: {
@@ -94,6 +95,7 @@ const validate = (rule, value) => {
 
 const FormLogin = ({ form, onSubmit }) => {
   const [fields, setFields] = useState(formLoginInputs);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const clearFields = () => setFields(formLoginInputs);
 
   const handleChange = event => {
@@ -109,6 +111,10 @@ const FormLogin = ({ form, onSubmit }) => {
   };
 
   const submit = e => {
+    if(!isCaptchaVerified) {
+      message.error('Please verify that you are a human with the Captcha');
+      return;
+    }
     e.preventDefault();
     form.validateFields();
     onSubmit(fields.email.value, fields.password.value, clearFields);
@@ -119,6 +125,7 @@ const FormLogin = ({ form, onSubmit }) => {
       <Field {...fields.email} handleChange={handleChange} />
       <Field {...fields.password} handleChange={handleChange} />
       <Form.Item>
+        <Captcha onChange={(value) => setIsCaptchaVerified(value)} >Captcha</Captcha>
         <CustomButton
           theme="Primary"
           buttonText="Sign In"
