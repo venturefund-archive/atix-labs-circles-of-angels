@@ -80,7 +80,7 @@ const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
 const getCountries = async () => apiCall('get', 'countries');
 
 const confirmEmail = async userId =>
-  doPut(`${baseURL}/${userId}/confirm`, {});
+  doPut(`${baseURL}/${userId}/email/confirm`, {});
 
 export {
   loginUser,
