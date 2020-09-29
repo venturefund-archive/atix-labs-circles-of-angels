@@ -36,8 +36,9 @@ function PasswordChange() {
       const wallet = await fetchWallet();
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
-      const data = { 
-        password: newPassword, 
+      const data = {
+        currentPassword, 
+        newPassword, 
         encryptedWallet: encrypted 
       };
       await changePassword(data);
