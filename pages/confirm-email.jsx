@@ -51,7 +51,6 @@ function ConfirmEmail() {
 
   const renderForm = () => {
     return (
-          <div>
             <Spin spinning={loading}>
               <h1>CIRCLE OF ANGELS</h1>
               <h2>{statusConfirm ? 
@@ -59,7 +58,6 @@ function ConfirmEmail() {
               'An error occurred while confirming the email address'}</h2>
               <Button onClick={goToDashboard}>Continue</Button>
             </Spin>
-          </div>
     );
   };
 
