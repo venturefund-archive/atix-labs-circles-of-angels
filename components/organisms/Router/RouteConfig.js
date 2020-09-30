@@ -14,6 +14,7 @@ import DaoDetail from '../../../pages/dao/dao-detail';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
+import ConfirmEmail from '../../../pages/confirm-email';
 import Roles from '../../../constants/RolesMap';
 
 const {
@@ -155,6 +156,13 @@ export const routesConfig = [
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+    }
+  },
+  {
+    path: '/confirm',
+    component: ConfirmEmail,
+    authentication: {
+      required: false
     }
   }
 ];
