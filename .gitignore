@@ -3,3 +3,4 @@ node_modules
 .next/*
 .DS_STORE
 **/.DS_STORE
+.vscode
