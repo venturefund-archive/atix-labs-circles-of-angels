@@ -420,6 +420,7 @@ export const newTaskEvidenceFormItems = {
     name: 'description',
     label: 'Claim description',
     placeholder: 'Claim description',
+    maxLength: 80,
     rules: [
       {
         required: true,
