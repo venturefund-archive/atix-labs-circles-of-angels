@@ -97,7 +97,9 @@ const Registersteps = () => {
   const successCallback = wallet => {
     setIsSubmitting(false);
     setLoading(false);
-    message.success('Thank you for register. We have sent a e-mail to verify your address. \nPlease click the link in that email to continue');
+    message.success(
+      'Thank you for register. We have sent a e-mail to verify your address. \nPlease click the link in that email to continue'
+    );
     return history.push('/landing');
   };
 
@@ -152,15 +154,15 @@ const Registersteps = () => {
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
-        <RegisterForm
-          formFields={fields}
-          formSteps={steps}
-          initialStep={initialStep}
-          registerUser={values => {
-            setIsSubmitting(true);
-            setFormValues(values);
-          }}
-        />
+      <RegisterForm
+        formFields={fields}
+        formSteps={steps}
+        initialStep={initialStep}
+        registerUser={values => {
+          setIsSubmitting(true);
+          setFormValues(values);
+        }}
+      />
     </div>
   );
 };
