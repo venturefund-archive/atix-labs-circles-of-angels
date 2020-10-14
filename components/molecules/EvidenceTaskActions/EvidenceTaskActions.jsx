@@ -3,11 +3,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Tag } from 'antd';
+import { Button, Col, Tag } from 'antd';
 import ModalEvidences from '../../organisms/ModalEvidences/ModalEvidences';
 import { tagPropTypes, evidencePropTypes } from '../../../helpers/proptypes';
-
-// TODO: <a> elements should be replaced by buttons with link style
 
 const EvidenceTaskActions = ({
   color,
@@ -21,9 +19,9 @@ const EvidenceTaskActions = ({
 }) => (
   <Col span={24}>
     <Tag color={color}>{text}</Tag>
-    <a className="blueLink" onClick={openModalEvidences}>
+    <Button type="link" className="blueLink" onClick={openModalEvidences}>
       Evidences
-    </a>
+    </Button>
     {showModalEvidence && (
       <ModalEvidences
         visible={showModalEvidence}
@@ -32,9 +30,9 @@ const EvidenceTaskActions = ({
       />
     )}
     {showAddEvidence && (
-      <a className="blueLink" onClick={onNewEvidence}>
+      <Button type="link" className="blueLink" onClick={onNewEvidence}>
         +Add Evidence
-      </a>
+      </Button>
     )}
   </Col>
 );

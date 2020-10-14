@@ -9,7 +9,7 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Col, message } from 'antd';
+import { Table, Tag, Col, message, Button } from 'antd';
 import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
@@ -74,9 +74,14 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       key: 'receiptPath',
       // TODO check how we will handle this
       render: receipt => (
-        <a href={receipt} target="_blank" rel="noopener noreferrer">
+        <Button
+          type="link"
+          href={receipt}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View
-        </a>
+        </Button>
       )
     },
     {
@@ -87,14 +92,13 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         if (!status) return;
         return (
           <span>
-            { transferStatusesMap[status] ?
+            {transferStatusesMap[status] ? (
               <Tag color={transferStatusesMap[status].color} key={status}>
                 {transferStatusesMap[status].name}
               </Tag>
-              : null
-            }
+            ) : null}
           </span>
-        )
+        );
       }
     },
     {
@@ -105,7 +109,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       //     <UndoOutlined /> Reintentar
       //   </button>
       // )
-      render: ({id, status}) => {
+      render: ({ id, status }) => {
         if (status !== TransferStatuses.PENDING) return;
         return (
           <Fragment>
@@ -233,7 +237,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     fetchTransfers();
-  }, []);
+  }, [fetchTransfers]);
 
   useEffect(() => {
     if (!transferSelected) return;

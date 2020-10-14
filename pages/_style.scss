@@ -113,7 +113,7 @@ p {
 }
 //LINKS TRANSITION
 
-a.redLink{
+button.redLink > span{
     color: $danger-color;
     position: relative;
     background:transparent;
@@ -122,7 +122,7 @@ a.redLink{
       color: $danger-color;
     }
 }
-a.redLink::before {
+button.redLink::before {
   content: '';
   display: block;
   opacity: 0;
@@ -139,14 +139,14 @@ a.redLink::before {
   transform: scale(0);
   transition-property: transform,opacity;
 }
-a.redLink:hover::before {
+button.redLink:hover::before {
   opacity: .06;
   transform: scale(1);
   opacity: .2;
   z-index: 1;
 }
 
-a.greenLink{
+button.greenLink > span {
     color: $success-color;
     position: relative;
     background:transparent;
@@ -155,7 +155,7 @@ a.greenLink{
       color: $success-color;
     }
 }
-a.greenLink::before {
+button.greenLink::before {
   content: '';
   display: block;
   opacity: 0;
@@ -172,7 +172,7 @@ a.greenLink::before {
   transform: scale(0);
   transition-property: transform,opacity;
 }
-a.greenLink:hover::before {
+button.greenLink:hover::before {
   opacity: .06;
   transform: scale(1);
   opacity: .2;
@@ -180,7 +180,7 @@ a.greenLink:hover::before {
 }
 
 
-a.blueLink{
+button.blueLink > span {
     color: $primary-color;
     position: relative;
     background:transparent;
@@ -189,7 +189,7 @@ a.blueLink{
       color: $primary-color;
     }
 }
-a.blueLink::before {
+button.blueLink::before {
   content: '';
   display: block;
   opacity: 0;
@@ -206,7 +206,7 @@ a.blueLink::before {
   transform: scale(0);
   transition-property: transform,opacity;
 }
-a.blueLink:hover::before {
+button.blueLink:hover::before {
   opacity: .06;
   transform: scale(1);
   opacity: .2;

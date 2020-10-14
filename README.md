@@ -12,7 +12,7 @@ Circles of Angels is a platform that brings Social Entrepreneurs and Funders aro
 
 - next@9.1.2
 
-- antd@3.13.6
+- antd@3.17.0
 
 - fastify@1.14.3
 

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { useHistory } from 'react-router';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, Button } from 'antd';
 import { useUserContext } from '../../utils/UserContext';
 
 import './_style.scss';
@@ -39,9 +39,9 @@ const SettingsMenu = () => {
   return (
     <div className="SettingsMenu">
       <Dropdown overlay={menu} trigger={['click']}>
-        <a className="ant-dropdown-link" href="/#">
+        <Button type="link" size="small">
           <Icon type="down" />
-        </a>
+        </Button>
       </Dropdown>
     </div>
   );
