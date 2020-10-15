@@ -49,6 +49,23 @@
 .CardProject:last-child{
   margin-right:0; 
 }
+.CardProject:hover {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  transition: filter 0.5s ease-in-out;
+  .hoverText {
+    display: inline-block;
+  }
+}
+.hoverText {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
 
 @media screen and (max-width: 768px) {
     .CardProject {
