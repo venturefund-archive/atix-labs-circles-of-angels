@@ -19,6 +19,7 @@ export function useUserContext() {
 export const withUser = c => c;
 
 const USER_KEY = 'user';
+const USER_AUTH_KEY = 'userAuth';
 
 const changeUser = user => {
   Cookies.set(USER_KEY, user);
@@ -26,6 +27,7 @@ const changeUser = user => {
 
 const removeUser = () => {
   Cookies.remove(USER_KEY);
+  Cookies.remove(USER_AUTH_KEY);
 };
 
 const getLoggedUser = () => {
