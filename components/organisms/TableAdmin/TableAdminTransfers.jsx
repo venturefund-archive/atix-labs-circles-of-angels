@@ -87,14 +87,13 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         if (!status) return;
         return (
           <span>
-            { transferStatusesMap[status] ?
+            {transferStatusesMap[status] ? (
               <Tag color={transferStatusesMap[status].color} key={status}>
                 {transferStatusesMap[status].name}
               </Tag>
-              : null
-            }
+            ) : null}
           </span>
-        )
+        );
       }
     },
     {
@@ -105,7 +104,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       //     <UndoOutlined /> Reintentar
       //   </button>
       // )
-      render: ({id, status}) => {
+      render: ({ id, status }) => {
         if (status !== TransferStatuses.PENDING) return;
         return (
           <Fragment>
@@ -189,6 +188,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     try {
       const tx = await getClaimTx(transferId, true);
       showPasswordModal(tx, true, { transferId });
+      fetchTransfers();
     } catch (error) {
       message.error(error.message);
     }
@@ -208,6 +208,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         transferId: transferSelected,
         ...formData
       });
+      fetchTransfers();
     } catch (error) {
       message.error(error.message);
     }
