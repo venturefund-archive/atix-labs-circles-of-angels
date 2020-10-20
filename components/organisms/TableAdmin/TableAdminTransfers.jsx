@@ -193,6 +193,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     try {
       const tx = await getClaimTx(transferId, true);
       showPasswordModal(tx, true, { transferId });
+      fetchTransfers();
     } catch (error) {
       message.error(error.message);
     }
@@ -212,6 +213,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         transferId: transferSelected,
         ...formData
       });
+      fetchTransfers();
     } catch (error) {
       message.error(error.message);
     }
