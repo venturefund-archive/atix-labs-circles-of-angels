@@ -1,37 +1,21 @@
 @import "../../../css/general_styling.scss";
 
-
-
-.cardExperience,
-.cardExperienceText {
+.cardExperience {
   margin-bottom: 0.5em;
   border-radius: 4px;
   border: 1px solid $border;
 }
 
-.cardExperienceExpanded {
-  margin-bottom: 0.5em;
-  border-radius: 4px;
-  border: 1px solid $border;
-  background: red;
-  position: absolute;
-  width: 96%;
-  background: white;
-  z-index: 999;
-  box-shadow: 0px 9px 15px 0px #e4e5e6;
-}
-.cardExperience,
-.cardExperienceText,
-.cardExperienceExpanded {
+.cardExperience {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 2em 1em 1em;
   min-height: 230px;
-  .CustomShowMoreText {
+  .CustomExpandableParagraph {
     transition: all 0.1s linear;
     transition-delay: 0.1s;
-    position: relative;
+    // position: relative;
     span {
       @include primary-text($body-2, $on-surface, 400);
     }
@@ -55,46 +39,7 @@
       font-size: 8em;
       position: absolute;
     }
-    a.TextMore {
-      display: block;
-    }
   }
 
 
-}
-.cardExperienceText {
-  height: 230px;
-  .absolute {
-    text-shadow: none;
-    justify-content: start;
-    width: 100%;
-    p {
-      @include primary-text($body-2, $on-surface, 500);
-    }
-    span {
-      @include primary-text($label, $on-surface, 400);
-    }
-    h3 {
-      @include primary-text($h3, $on-surface, 400);
-      margin-top: 2em;
-      position: relative;
-    }
-  }
-  h3:before {
-    content: open-quote;
-    top: 20px;
-  }
-  h3:after {
-    content: close-quote;
-    content: close-quote;
-    bottom: -20px;
-    right: 0;
-  }
-  h3:after,
-  h3:before {
-    line-height: 0px;
-    color: #7372711a;
-    font-size: 8em;
-    position: absolute;
-  }
 }
