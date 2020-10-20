@@ -9,13 +9,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Divider, Row, Col, Icon } from 'antd';
+import { Tag, Divider, Row, Col, Icon, Button } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 
-const CardProject = ({ showTag, onClick, tagClick, project }) => {
+const CardProject = ({ showTag, onClick, tagClick, project, hoverText }) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -34,9 +34,14 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
         </Tag>
       )}
       <div onClick={onClick}>
+        {hoverText && (
+          <Button type="text" className="hoverText">
+            {hoverText}
+          </Button>
+        )}
         <div className="ProjectDescription">
           <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
-          <div className="BlockTags">       
+          <div className="BlockTags">
             {status && (
               <Tag color={projectStatusMap[status].color}>
                 {projectStatusMap[status].name}
@@ -54,7 +59,7 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
                 <Icon type="check" style={{ color: 'white' }} />
               </Tag>
             )}
-           </div>
+          </div>
         </div>
         <Row className="ProjectSummery">
           <Col span={24}>
@@ -98,14 +103,16 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
 CardProject.defaultProps = {
   showTag: false,
   onClick: () => null,
-  tagClick: () => null
+  tagClick: () => null,
+  hoverText: null
 };
 
 CardProject.propTypes = {
   project: PropTypes.shape(projectCardPropType).isRequired,
   onClick: PropTypes.func,
   tagClick: PropTypes.func,
-  showTag: PropTypes.bool
+  showTag: PropTypes.bool,
+  hoverText: PropTypes.string
 };
 
 export default CardProject;

@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Row, Col, message } from 'antd';
+import { Row, Col, message, Button } from 'antd';
 import { useHistory } from 'react-router';
 import '../_style.scss';
 import './_landing.scss';
@@ -16,6 +16,7 @@ import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import CardProject from '../../components/molecules/CardProject/CardProject';
 import { getFeaturedProjects } from '../../api/projectApi';
+import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
 
 function Landing() {
   const [visibility, setVisibility] = useState(false);
@@ -37,13 +38,29 @@ function Landing() {
   //   history.push(`/project-detail?id=${project.id}`, state);
   // };
 
+  const modalLogin = (
+    <div className="WrapperModalLogin">
+      <CustomButton
+        data-testid="loginButton"
+        buttonText="Login"
+        theme="Secondary"
+        onClick={() => setVisibility(true)}
+      />
+      <ModalLogin
+        data-testid="modal"
+        setVisibility={setVisibility}
+        visibility={visibility}
+      />
+    </div>
+  );
+
   useEffect(() => {
     fecthFeaturedProjects();
   }, []);
 
   return (
     <Row className="Landing">
-      <TopBar setVisibility={setVisibility} visibility={visibility} />
+      <TopBar modalLogin={modalLogin} />
       <Row type="flex" className="BlockBanner Wrapper" align="middle">
         <Col sm={24} md={24} lg={24}>
           <h1>
@@ -74,7 +91,11 @@ function Landing() {
         </Col>
         {/* TODO define if landing cards projects will have this format */}
         {featuredProjects.map(project => (
-          <CardProject project={project} />
+          <CardProject
+            project={project}
+            onClick={() => setVisibility(true)}
+            hoverText="View more"
+          />
         ))}
       </Row>
     </Row>
