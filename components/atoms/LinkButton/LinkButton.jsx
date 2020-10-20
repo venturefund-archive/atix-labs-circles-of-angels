@@ -2,20 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LinkButton = ({ className, text }) => (
-  <div className={className}>
-    <img src="./static/images/download-file.svg" alt="download" />
-    <a className="download">Download</a>
+const LinkButton = ({ text }) => (
+  <>
+    <img
+      style={{ height: '80%' }}
+      src="./static/images/download-file.svg"
+      alt="download"
+    />
     {text}
-  </div>
+  </>
 );
 
-LinkButton.defaultProps = {
-  className: ''
-};
-
 LinkButton.propTypes = {
-  className: PropTypes.string,
   text: PropTypes.string.isRequired
 };
 

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import './_style.scss';
-import { Avatar } from 'antd';
+import { Avatar, Button } from 'antd';
 import CommentReply from '../../atoms/CommentReply/CommentReply';
 import ReplyWriting from '../../atoms/ReplyWriting/ReplyWriting';
 
@@ -28,7 +28,9 @@ const Comment = () => (
       deserunt ollit anim id est laborum,quis nostrud exercitation ullamco.
       Laboris nisi ut aliquip ex ea commodo?
     </p>
-    <a href="#">Reply</a>
+    <Button type="link" href="#">
+      Reply
+    </Button>
     <CommentReply />
     <ReplyWriting />
   </div>

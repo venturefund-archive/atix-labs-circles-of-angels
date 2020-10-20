@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Table, Select, Divider, Modal, Icon, Form, Input } from 'antd';
+import { Table, Select, Divider, Modal, Icon, Form, Input, Button } from 'antd';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
 import '../TableProjectProgress/_tablestyle.scss';
@@ -212,41 +212,47 @@ class TableMilestones extends React.Component {
           <div>
             {editable ? (
               <span className="flex">
-                <a
+                <Button
+                  type="link"
                   onClick={() => {
                     onEdit(index, this.actualField);
                     this.setState({ editingKey: '' });
                   }}
                 >
                   Save
-                </a>
+                </Button>
                 <Divider type="vertical" />
-                <a onClick={() => this.cancelEdit(index)}>Cancel</a>
+                <Button type="link" onClick={() => this.cancelEdit(index)}>
+                  Cancel
+                </Button>
               </span>
             ) : (
               <span className="flex">
-                <a
+                <Button
+                  type="link"
                   disabled={editingKey !== ''}
                   onClick={() => this.edit(index, record)}
                 >
                   Edit
-                </a>
+                </Button>
                 <Divider type="vertical" />
-                <a
+                <Button
+                  type="link"
                   disabled={editingKey !== ''}
                   onClick={() => onDelete(record)}
                 >
                   Delete
-                </a>
+                </Button>
                 {record.type === 'Milestone' && (
                   <span>
                     <Divider type="vertical" />
-                    <a
+                    <Button
+                      type="link"
                       onClick={() => this.showActivityModal(record.id)}
                       title="Create a new Activity"
                     >
                       +
-                    </a>
+                    </Button>
                   </span>
                 )}
               </span>

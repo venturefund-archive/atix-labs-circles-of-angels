@@ -92,8 +92,10 @@ const MyProjects = ({ user }) => {
   const goToProjectDetail = project => {
     const state = { projectId: project.id };
     const { status } = project;
-    if (status === projectStatuses.NEW || (status === projectStatuses.REJECTED && user.role !== SUPPORTER)) {
-      debugger
+    if (
+      status === projectStatuses.NEW ||
+      (status === projectStatuses.REJECTED && user.role !== SUPPORTER)
+    ) {
       history.push(`/create-project?id=${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
@@ -108,7 +110,7 @@ const MyProjects = ({ user }) => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   return (
     <ProjectBrowser

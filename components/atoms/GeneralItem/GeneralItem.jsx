@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { Button } from 'antd';
 
 const GeneralItem = ({ value, label, img, type, extra, url }) => (
   <div className="GeneralItem flex">
@@ -20,14 +21,14 @@ const GeneralItem = ({ value, label, img, type, extra, url }) => (
         </p>
       )}
       {type === 'link' && (
-        <a
-          className="Label"
+        <Button
+          type={`${type} Label`}
           href={url || value}
           target="_blank"
           rel="noopener noreferrer"
         >
           {value}
-        </a>
+        </Button>
       )}
       {label && <h2 className="Info">{label}</h2>}
     </div>

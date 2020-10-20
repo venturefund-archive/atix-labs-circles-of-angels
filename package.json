@@ -16,7 +16,7 @@
     "@ant-design/icons": "4.1.0",
     "@rsksmart/rif-storage": "0.1.0",
     "@zeit/next-sass": "1.0.1",
-    "antd": "3.13.6",
+    "antd": "3.17.0",
     "axios": "0.18.0",
     "blob-to-buffer": "1.2.8",
     "conf": "2.2.0",

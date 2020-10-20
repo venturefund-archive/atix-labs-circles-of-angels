@@ -8,7 +8,7 @@
 
 import React from 'react';
 import './_style.scss';
-import { Row, Col, Avatar, Badge, Input } from 'antd';
+import { Row, Col, Avatar, Badge, Input, Button } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const { TextArea } = Input;
@@ -18,7 +18,7 @@ const BlockChat = ({}) => (
     <Col span={24}>
       <Col span={24} className="flex">
         <span>En respuesta a</span>
-        <a>Annette Bell </a>
+        <Button type="link">Annette Bell</Button>
       </Col>
       <Col span={24}>
         <TextArea placeholder="Write your comment here" rows={2} />

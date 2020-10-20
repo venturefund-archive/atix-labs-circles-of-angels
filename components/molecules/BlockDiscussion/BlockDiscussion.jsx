@@ -8,7 +8,7 @@
 
 import React from 'react';
 import './_style.scss';
-import { Row, Col, Avatar, Badge } from 'antd';
+import { Row, Col, Avatar, Badge, Button } from 'antd';
 
 const BlockDiscussion = ({}) => (
   <Row className="BlockDiscussion">
@@ -27,7 +27,7 @@ const BlockDiscussion = ({}) => (
         </p>
       </Col>
       <Col span={23}>
-        <a>Respond</a>
+        <Button type="link">Respond</Button>
       </Col>
       <Col span={1} className="flex">
         <img src="/static/images/chat.svg" alt="chatimage" />

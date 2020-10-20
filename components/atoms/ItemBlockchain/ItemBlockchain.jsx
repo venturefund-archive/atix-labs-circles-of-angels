@@ -10,6 +10,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { Button } from 'antd';
 import { linkPropTypes } from '../../../helpers/proptypes';
 
 const ItemBlockchain = ({ image, label, info, link }) => (
@@ -20,9 +21,14 @@ const ItemBlockchain = ({ image, label, info, link }) => (
       {info && <p>{info}</p>}
       {link &&
         (link.url ? (
-          <a href={link.url} target="_blank" rel="noopener noreferrer">
+          <Button
+            type="link"
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {link.text}
-          </a>
+          </Button>
         ) : (
           <p>{link.text}</p>
         ))}

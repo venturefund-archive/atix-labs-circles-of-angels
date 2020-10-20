@@ -7,10 +7,10 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, Form, Input, Divider } from 'antd';
+import { Modal, Form, Input, Divider, Button } from 'antd';
 import './_style.scss';
 import { recoverPassword } from '../../../api/userApi';
-import { showModalError, showModalSuccess } from '../../../components/utils/Modals';
+import { showModalError, showModalSuccess } from '../../utils/Modals';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 
@@ -50,7 +50,7 @@ const ModalRecovery = () => {
     if (response.errors) {
       const { errors } = response;
       const title = 'Error!';
-      const content = errors
+      const content = errors;
       showModalError(title, content);
     } else {
       showModalSuccess(
@@ -77,30 +77,28 @@ const ModalRecovery = () => {
         width="400"
         footer={null}
       >
-        {!successfulSent && 
+        {!successfulSent && (
           <div>
             <TitlePage textTitle="Recovery Password" />
             <Form className="login-form">
-              <Form.Item 
-                label="Your Email" 
-                name="email"
-              >
+              <Form.Item label="Your Email" name="email">
                 <Input onChange={onChange} />
               </Form.Item>
               <Form.Item>
-                <CustomButton           
+                <CustomButton
                   onClick={handleSubmit}
-                  theme="Primary" 
-                  buttonText="Send Mail" 
+                  theme="Primary"
+                  buttonText="Send Mail"
                 />
               </Form.Item>
             </Form>
             <p>
-              We will send you an E-mail containing a link to reset your Password
+              We will send you an E-mail containing a link to reset your
+              Password
             </p>
           </div>
-        }
-        {successfulSent && 
+        )}
+        {successfulSent && (
           <div>
             <TitlePage textTitle="E-mail send" />
             <h4>Check your inbox</h4>
@@ -112,13 +110,15 @@ const ModalRecovery = () => {
             <h4>Did not receive the E-mail?</h4>
             <p>
               Please check your spam folder. If it´s not there then please{' '}
-              <a onClick={handleResend}>click here to send a new link</a>
+              <Button type="link" onClick={handleResend}>
+                click here to send a new link
+              </Button>
             </p>
           </div>
-        }
+        )}
       </Modal>
     </div>
   );
-}
+};
 
 export default ModalRecovery;
