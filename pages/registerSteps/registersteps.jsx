@@ -95,7 +95,6 @@ const Registersteps = () => {
   };
 
   const successCallback = wallet => {
-    setIsSubmitting(false);
     setLoading(false);
     message.success(
       'Thank you for register. We have sent a e-mail to verify your address. \nPlease click the link in that email to continue'
@@ -104,7 +103,6 @@ const Registersteps = () => {
   };
 
   const errorCallback = error => {
-    setIsSubmitting(false);
     setLoading(false);
     message.error(error);
   };
