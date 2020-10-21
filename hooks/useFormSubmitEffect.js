@@ -11,5 +11,5 @@ export default function useFormSubmitEffect({
       apiCall(otherParams)
         .then(successCallback)
         .catch(errorCallback);
-  }, [successCallback, errorCallback, isSubmitting, apiCall, otherParams]);
+  }, [isSubmitting]);
 }
