@@ -300,6 +300,7 @@ const ProjectDetail = ({ user }) => {
     Object.values(
       tabsContent({
         project: projectData,
+        funders: projectUsers.funders,
         user,
         assignOracle,
         onCreateExperience,
