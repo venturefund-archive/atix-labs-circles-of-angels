@@ -25,9 +25,11 @@ const showMilestoneClaimStatus = projectStatus =>
 
 const allowNewExperience = (project, user) => {
   if (
-    [projectStatuses.CONSENSUS, projectStatuses.FUNDING].includes(
-      project.status
-    )
+    [
+      projectStatuses.CONSENSUS,
+      projectStatuses.FUNDING,
+      projectStatuses.FINISHED
+    ].includes(project.status)
   ) {
     return isOwner(project, user);
   }
