@@ -128,6 +128,8 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                     <Field
                       {...fields.coverPhotoPath}
                       handleChange={handleChange}
+                      showPreviouslyUploadedList
+                      isImage
                     />
                   </div>
                 </Col>
@@ -140,6 +142,8 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                     <Field
                       {...fields.agreementFile}
                       handleChange={handleChange}
+                      showPreviouslyUploadedList
+                      label="Legal Agreement"
                     />
                   </div>
                 </Col>
@@ -152,6 +156,8 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                     <Field
                       {...fields.proposalFile}
                       handleChange={handleChange}
+                      showPreviouslyUploadedList
+                      label="Project Proposal"
                     />
                   </div>
                 </Col>

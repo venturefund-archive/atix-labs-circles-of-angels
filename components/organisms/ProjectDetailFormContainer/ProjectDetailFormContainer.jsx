@@ -61,13 +61,28 @@ const ProjectDetailFormContainer = ({
     if (!project || !project.id) return goBack();
 
     const projectFields = { ...fields };
-    const { mission, problemAddressed, coverPhotoPath } = project;
+    const {
+      mission,
+      problemAddressed,
+      coverPhotoPath,
+      agreementFilePath,
+      proposalFilePath
+    } = project;
 
-    if (!mission && !problemAddressed && !coverPhotoPath) return;
+    if (
+      !mission &&
+      !problemAddressed &&
+      !coverPhotoPath &&
+      !agreementFilePath &&
+      !proposalFilePath
+    )
+      return;
 
     projectFields.mission.value = mission;
     projectFields.problemAddressed.value = problemAddressed;
     projectFields.coverPhotoPath.value = coverPhotoPath;
+    projectFields.agreementFile.value = agreementFilePath;
+    projectFields.proposalFile.value = proposalFilePath;
 
     setFields({ ...projectFields });
     validateFields();
