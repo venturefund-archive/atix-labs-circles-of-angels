@@ -59,6 +59,7 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
         formData[key] = value;
     });
     submitForm(PROJECT_FORM_NAMES.THUMBNAILS, formData);
+    clearFields();
     try {
       if (project && project.id) {
         const response = await updateProjectThumbnail(project.id, data);
@@ -75,6 +76,12 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
     } catch (error) {
       message.error('An error occurred when trying to save the information');
     }
+  };
+
+  const clearFields = () => {
+    Object.keys(fields).forEach(fieldName => {
+      fields[fieldName].value = '';
+    });
   };
 
   const getNextStepButton = () => (
