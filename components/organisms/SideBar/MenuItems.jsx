@@ -37,7 +37,7 @@ const menuItems = [
     content: (
       <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
     ),
-    allowedRoles: [Roles.PROJECT_CURATOR]
+    allowedRoles: [Roles.PROJECT_CURATOR, Roles.COA_ADMIN]
   },
   {
     route: '/fund-administration',

@@ -99,7 +99,7 @@ export const routesConfig = [
     component: BackofficeProjects,
     authentication: {
       required: true,
-      roles: [PROJECT_CURATOR]
+      roles: [PROJECT_CURATOR, COA_ADMIN]
     }
   },
   {
