@@ -6,7 +6,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Dropdown, Menu, Icon, message, Modal } from 'antd';
@@ -173,7 +173,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const goToProjectDetail = projectId =>
     history.push(`/project-detail?id=${projectId}`);
   return (
-    <Fragment>
+    <>
       <Table
         dataSource={data}
         columns={user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns}
@@ -188,7 +188,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       >
         <p>Are you sure you want to change status to {statusSelected}? </p>
       </Modal>
-    </Fragment>
+    </>
   );
 };
 
