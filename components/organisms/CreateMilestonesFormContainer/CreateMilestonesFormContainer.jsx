@@ -163,6 +163,10 @@ const CreateMilestonesFormContainer = ({
     });
   };
 
+  const deleteAllMilestones = () => {
+    milestones.forEach(milestone => deleteMilestone(milestone.id));
+  };
+
   const processMilestones = async (fieldName, milestoneFile) => {
     if (!project || !project.id) goBack();
     if (!milestoneFile.length) return;
@@ -213,6 +217,7 @@ const CreateMilestonesFormContainer = ({
         createMilestone={handleCreateMilestone}
         editMilestone={handleEditMilestone}
         deleteMilestone={handleDeleteMilestone}
+        deleteAllMilestones={deleteAllMilestones}
         createTask={handleCreateTask}
         editTask={handleEditTask}
         deleteTask={handleDeleteTask}

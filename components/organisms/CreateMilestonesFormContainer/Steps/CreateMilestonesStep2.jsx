@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider, Empty } from 'antd';
+import { Row, Col, Divider, Empty, Modal } from 'antd';
 import TitlePage from '../../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../../atoms/CustomButton/CustomButton';
 import Field from '../../../atoms/Field/Field';
@@ -14,7 +14,8 @@ const CreateMilestonesStep2 = ({
   errorList,
   processError,
   processed,
-  cleanFile
+  cleanFile,
+  deleteAllMilestones
 }) => {
   const [hasLoadedFile, setHasLoadedFile] = useState(false);
 
@@ -26,7 +27,32 @@ const CreateMilestonesStep2 = ({
   }, [fields.milestoneFile]);
 
   const processedWithErrors = processed && errorList.length > 0;
+
   const canProcess = hasLoadedFile && (!processed || processedWithErrors);
+
+  const processMilestones = () => {
+    handleProcessMilestones(
+      fields.milestoneFile.name,
+      fields.milestoneFile.value
+    );
+  };
+
+  const openDeleteMilestones = () => {
+    Modal.confirm({
+      title: 'Replace Milestones?',
+      content: 'Are you sure you want to replace all loaded Milestones?',
+      okType: 'danger',
+      onOk() {
+        deleteMilestonesAndProcessNewOnes();
+      }
+    });
+  };
+
+  const deleteMilestonesAndProcessNewOnes = () => {
+    //TODO: Add update or replace Milestone File to Back
+    deleteAllMilestones();
+    processMilestones();
+  };
 
   return (
     <Fragment>
@@ -119,14 +145,11 @@ const CreateMilestonesStep2 = ({
             <Col span={7}>
               <CustomButton
                 buttonText="Process Milestones"
-                theme={!canProcess ? 'disabled' : 'Primary'}
+                theme={!hasLoadedFile ? 'disabled' : 'Primary'}
                 classNameIcon="iconDisplay"
-                disabled={!canProcess}
+                disabled={!hasLoadedFile}
                 onClick={() =>
-                  handleProcessMilestones(
-                    fields.milestoneFile.name,
-                    fields.milestoneFile.value
-                  )
+                  canProcess ? processMilestones() : openDeleteMilestones()
                 }
               />
             </Col>
@@ -170,7 +193,8 @@ CreateMilestonesStep2.propTypes = {
   ),
   processed: PropTypes.bool,
   processError: PropTypes.string,
-  cleanFile: PropTypes.bool
+  cleanFile: PropTypes.bool,
+  deleteAllMilestones: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesStep2;
