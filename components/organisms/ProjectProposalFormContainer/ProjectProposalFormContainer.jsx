@@ -58,15 +58,17 @@ const ProjectProposalFormContainer = ({
 
   useEffect(() => {
     if (!project || !project.id) return goBack();
-
+    clearFields();
     const projectFields = { ...fields };
     const { proposal } = project;
 
-    if (!proposal) return;
-
-    projectFields.proposal.value = proposal;
-    setFields({ ...projectFields });
-    validateFields();
+    if (!proposal) {
+      setFields({ ...projectFields });
+    } else {
+      projectFields.proposal.value = proposal;
+      setFields({ ...projectFields });
+      validateFields();
+    }
   }, [setFields, project, goBack]);
 
   const onSubmit = async values => {
@@ -76,6 +78,7 @@ const ProjectProposalFormContainer = ({
         const response = await updateProjectProposal(project.id, {
           proposal: values.proposal.value
         });
+        clearFields();
         if (response.errors) {
           return onError();
         }
@@ -85,6 +88,12 @@ const ProjectProposalFormContainer = ({
     } catch (error) {
       message.error('An error occurred when trying to save the information');
     }
+  };
+
+  const clearFields = () => {
+    Object.keys(fields).forEach(fieldName => {
+      fields[fieldName].value = '';
+    });
   };
 
   return (

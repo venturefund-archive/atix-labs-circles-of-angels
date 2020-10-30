@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Col } from 'antd';
-import CustomShowMoreText from '../../atoms/CustomShowMoreText/CustomShowMoreText';
 import { experiencePropType } from '../../../helpers/proptypes';
 import ImageExperience from '../ImageExperience/ImageExperience';
+import CustomExpandableParagraph from '../../atoms/CustomExpandableParagraph/CustomExpandableParagraph';
 import './_style.scss';
 
 const CardExperience = ({ experience }) => {
-  const [cardClass, setCardClass] = useState('cardExperience');
   return (
     <Col xs={24} lg={8}>
-      <Col className={cardClass} span={24}>
-        <CustomShowMoreText
-          lines={3}
-          text={experience.comment}
-          updateClass={setCardClass}
-        />
+      <Col className="cardExperience" span={24}>
+        <CustomExpandableParagraph text={experience.comment} lines={3} />
         <Col className="ExpPhotosWrapper" gutter={8}>
           {experience.photos && !isEmpty(experience.photos) && (
             <ImageExperience

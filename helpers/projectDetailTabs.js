@@ -15,7 +15,7 @@ import {
   SHOW_MILESTONE_STATUS_ACTIONS,
   SHOW_TASK_EVIDENCE_ACTIONS
 } from '../constants/constants';
-import { isOracle, isOwner } from './utils';
+import { isFunder, isOwner, isOracle } from './utils';
 
 const showExperienceTab = projectStatus =>
   SHOW_EXPERIENCES_STATUSES.includes(projectStatus);
@@ -23,17 +23,18 @@ const showExperienceTab = projectStatus =>
 const showMilestoneClaimStatus = projectStatus =>
   SHOW_CLAIM_STATUS.includes(projectStatus);
 
-const allowNewExperience = (project, user) => {
+const allowNewExperience = (project, user, funders) => {
   if (
     [
       projectStatuses.CONSENSUS,
       projectStatuses.FUNDING,
-      projectStatuses.FINISHED
+      projectStatuses.FINISHED,
+      projectStatuses.EXECUTING
     ].includes(project.status)
   ) {
-    return isOwner(project, user);
+    return isOwner(project, user) || isFunder(user, funders);
   }
-  return project.status === projectStatuses.EXECUTING;
+  return false;
 };
 
 const allowNewEvidence = (task, project, user) =>
@@ -76,6 +77,7 @@ const experienceTabTitle = project => (
 // TODO: discussion tab
 export const tabsContent = ({
   project,
+  funders,
   user,
   assignOracle,
   onCreateExperience,
@@ -131,7 +133,7 @@ export const tabsContent = ({
       <SeccionExperience
         experiences={project.experiences}
         onCreate={onCreateExperience}
-        showCreateExperience={allowNewExperience(project, user)}
+        showCreateExperience={allowNewExperience(project, user, funders)}
       />
     ),
     key: '4',

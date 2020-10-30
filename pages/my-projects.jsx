@@ -110,7 +110,7 @@ const MyProjects = ({ user }) => {
 
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]);
+  }, []);
 
   return (
     <ProjectBrowser

@@ -8,7 +8,6 @@
 
 import React, { useEffect } from 'react';
 import { Input, Select, Form } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
 const { TextArea } = Input;
@@ -17,9 +16,7 @@ const ModalDaoSelection = ({
   currentUser,
   setApplicant,
   setDescription,
-  description,
-  submitDaoProposal,
-  onCancel
+  description
 }) => {
   useEffect(() => {
     setApplicant(currentUser.address);
@@ -32,7 +29,7 @@ const ModalDaoSelection = ({
   };
 
   return (
-    <Form onSubmit={submitDaoProposal}>
+    <Form >
       <div className="daoSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
@@ -53,16 +50,6 @@ const ModalDaoSelection = ({
         </Form.Item>
       </div>
       <div className="flex space-between border-top margin-top padding-top">
-        <CustomButton
-          theme="Alternative"
-          buttonText="Cancel"
-          onClick={onCancel}
-        />
-        <CustomButton
-          theme="Primary"
-          buttonText="Create Proposal"
-          onClick={submitDaoProposal}
-        />
       </div>
     </Form>
   );

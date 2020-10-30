@@ -8,8 +8,7 @@
 
 import React from 'react';
 import { Input, Select, Form } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import { proposalTypes, proposalTypeEnum, newRolesEnum } from '../../../constants/constants';
+import { proposalTypes, newRolesEnum } from '../../../constants/constants';
 import './_style.scss';
 
 const { Option } = Select;
@@ -20,9 +19,7 @@ const ModalRoleSelection = ({
   setSelectedOption,
   setApplicant,
   setDescription,
-  description,
-  submitRoleProposal,
-  onCancel
+  description
 }) => {
   function onChange(value) {
     if (!value) return;
@@ -55,7 +52,7 @@ const ModalRoleSelection = ({
   }
 
   return (
-    <Form onSubmit={submitRoleProposal}>
+    <Form>
       <div className="memberSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
@@ -104,18 +101,6 @@ const ModalRoleSelection = ({
             value={description}
           />
         </Form.Item>
-      </div>
-      <div className="flex space-between border-top margin-top padding-top">
-        <CustomButton
-          theme="Alternative"
-          buttonText="Cancel"
-          onClick={onCancel}
-        />
-        <CustomButton
-          theme="Primary"
-          buttonText="Create Proposal"
-          onClick={submitRoleProposal}
-        />
       </div>
     </Form>
   );
