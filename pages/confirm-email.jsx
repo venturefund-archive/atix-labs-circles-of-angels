@@ -12,21 +12,14 @@ import useQuery from '../hooks/useQuery';
 import { Spin, Button } from 'antd';
 import './_login.scss';
 import { confirmEmail } from '../api/userApi';
-import { defaultRouteByRole } from '../constants/DefaultRouteByRole';
-import { useUserContext } from '../components/utils/UserContext';
 
 function ConfirmEmail() {
   const { id } = useQuery();
   const [loading, setLoading] = useState(true);
-  const [role, setLRole] = useState();
-  const [statusConfirm, setLStatusConfirm] = useState(false);
-  const { changeUser } = useUserContext();
+  const [statusConfirm, setStatusConfirm] = useState(false);
   const history = useHistory();
 
   const goToDashboard = () => {
-    if(statusConfirm) {
-      return history.push(defaultRouteByRole[role]);
-    }
     return history.push('/');
   };
 
@@ -34,13 +27,10 @@ function ConfirmEmail() {
     async userId => {
       const response = await confirmEmail(userId);
       setLoading(false);
-      if (response.errors || !response.data) {
+      if (response.errors) {
         return;
       }
-      const {role} = response.data;
-      setLStatusConfirm(true);
-      changeUser(response.data);
-      setLRole(role);
+      setStatusConfirm(true);
   }
   );
   
