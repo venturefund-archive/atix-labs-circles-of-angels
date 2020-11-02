@@ -148,6 +148,6 @@ export const tabsContent = ({
     title: 'FAQ',
     content: <Faq project={project} />,
     key: '6',
-    hidden: false
+    hidden: true
   }
 });
