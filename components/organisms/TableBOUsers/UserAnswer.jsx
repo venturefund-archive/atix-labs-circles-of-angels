@@ -8,40 +8,36 @@
 
 import React from 'react';
 import { Table } from 'antd';
-import { isEmpty } from 'lodash';
 
-const columns = [
-  {
-    title: 'Question',
-    dataIndex: 'question',
-    key: 'question',
-    render: question => <div>{question.question}</div>
-  },
-  {
-    title: 'Answer',
-    dataIndex: 'answer',
-    key: 'answer',
-    render: (answer, record) => {
-      if (record.customAnswer) return <div>{record.customAnswer}</div>;
-      return <div>{answer.answer}</div>;
+const UserAnswer = ({ user }) => {
+  const userAnswers = JSON.parse(user.answers);
+  const questions = Object.keys(userAnswers);
+  const dataSource = questions.map(question => {
+    return { question, answer: userAnswers[question] };
+  });
+  const columns = [
+    {
+      title: 'Question',
+      dataIndex: 'question',
+      key: 'question'
+    },
+    {
+      title: 'Answer',
+      dataIndex: 'answer',
+      key: 'answer',
+      render: answer => (Array.isArray(answer) ? answer.join(', ') : answer)
     }
-  }
-];
+  ];
 
-const UserAnswer = ({ user }) =>
-  user.detail || !isEmpty(user.answers) ? (
+  return (user.phoneNumber && user.company) || user.answers ? (
     <div>
-      {user.detail && user.detail.phoneNumber && (
-        <p>Phone number: {user.detail.phoneNumber}</p>
-      )}
-      {user.detail && user.detail.company && (
-        <p>Company: {user.detail.company}</p>
-      )}
-      {!isEmpty(user.answers) && (
+      {user && user.phoneNumber && <p>Phone number: {user.phoneNumber}</p>}
+      {user && user.company && <p>Company: {user.company}</p>}
+      {user.answers && (
         <div>
           <p>Questionnaire: </p>
           <Table
-            dataSource={user.answers}
+            dataSource={dataSource}
             className="TableBOProjects"
             columns={columns}
             pagination={false}
@@ -53,5 +49,6 @@ const UserAnswer = ({ user }) =>
   ) : (
     <div>This user has no additional information.</div>
   );
+};
 
 export default UserAnswer;
