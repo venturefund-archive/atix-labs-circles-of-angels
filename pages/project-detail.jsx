@@ -38,7 +38,8 @@ import {
   projectStatuses,
   publicProjectStatuses,
   SHOW_EXPERIENCES_STATUSES,
-  claimMilestoneStatus
+  claimMilestoneStatus,
+  supporterRoles
 } from '../constants/constants';
 import { assignOracleToActivity, getEvidences } from '../api/activityApi';
 import { claimMilestone } from '../api/milestonesApi';
@@ -204,12 +205,15 @@ const ProjectDetail = ({ user }) => {
     isEntrepreneur(user);
 
   const onApply = async role => {
+    const roleName = role === supporterRoles.ORACLES ? 'Oracle' : 'Funder';
     try {
       await applyToProject(project.id, role);
 
       setAlreadyApplied({ ...alreadyApplied, [role]: true });
       fetchProjectUsers();
-      message.success(`You have apply as possible ${role} for this project`);
+      message.success(
+        `You have applied as possible ${roleName} for this project`
+      );
     } catch (error) {
       message.error(error);
     }
