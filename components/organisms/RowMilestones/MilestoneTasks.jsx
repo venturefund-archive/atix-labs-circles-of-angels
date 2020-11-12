@@ -18,7 +18,8 @@ const MilestoneTasks = ({
   oracles,
   hideOracleColumn,
   allowNewEvidence,
-  fetchEvidences
+  fetchEvidences,
+  fetchMilestones
 }) => {
   const handleDelete = value => onDelete(value);
   const handleEdit = value => onEdit(value);
@@ -39,6 +40,7 @@ const MilestoneTasks = ({
       hideOracleColumn={hideOracleColumn}
       allowNewEvidence={allowNewEvidence(task)}
       fetchEvidences={fetchEvidences}
+      fetchMilestones={fetchMilestones}
     />
   ));
   return (
@@ -62,7 +64,8 @@ MilestoneTasks.defaultProps = {
   tasks: [],
   oracles: [],
   allowNewEvidence: () => undefined,
-  fetchEvidences: undefined
+  fetchEvidences: undefined,
+  fetchMilestones: undefined
 };
 
 MilestoneTasks.propTypes = {
@@ -77,7 +80,8 @@ MilestoneTasks.propTypes = {
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.func,
-  fetchEvidences: PropTypes.func
+  fetchEvidences: PropTypes.func,
+  fetchMilestones: PropTypes.func
 };
 
 export default MilestoneTasks;

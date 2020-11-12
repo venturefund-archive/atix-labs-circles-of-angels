@@ -37,7 +37,8 @@ const Milestone = ({
   hideOracleColumn,
   allowNewEvidence,
   allowClaimMilestone,
-  fetchEvidences
+  fetchEvidences,
+  fetchMilestones
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -143,6 +144,7 @@ const Milestone = ({
         hideOracleColumn={hideOracleColumn}
         allowNewEvidence={allowNewEvidence}
         fetchEvidences={fetchEvidences}
+        fetchMilestones={fetchMilestones}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -157,7 +159,8 @@ Milestone.defaultProps = {
   allowNewEvidence: () => undefined,
   onClaimMilestone: () => undefined,
   showClaimStatus: false,
-  fetchEvidences: undefined
+  fetchEvidences: undefined,
+  fetchMilestones: undefined
 };
 
 Milestone.propTypes = {
@@ -185,7 +188,8 @@ Milestone.propTypes = {
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.func,
   allowClaimMilestone: PropTypes.bool.isRequired,
-  fetchEvidences: PropTypes.func
+  fetchEvidences: PropTypes.func,
+  fetchMilestones: PropTypes.func
 };
 
 export default Milestone;

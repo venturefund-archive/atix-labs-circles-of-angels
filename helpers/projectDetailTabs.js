@@ -82,7 +82,8 @@ export const tabsContent = ({
   onCreateExperience,
   onClaimMilestone,
   allowNewFund,
-  fetchEvidences
+  fetchEvidences,
+  fetchMilestones
 }) => ({
   details: {
     title: 'Details',
@@ -116,6 +117,7 @@ export const tabsContent = ({
         showClaimStatus={showMilestoneClaimStatus(project && project.status)}
         allowClaimMilestone={isOwner(project, user)}
         fetchEvidences={fetchEvidences}
+        fetchMilestones={fetchMilestones}
       />
     ),
     key: '2'
