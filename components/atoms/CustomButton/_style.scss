@@ -93,6 +93,9 @@
 .ant-btn.Primary .anticon.none{
   display: none;
 }
+.ant-btn-primary > span{
+  color: $white;
+}
 
 /* SECONDARY */
 .ant-btn.Secondary,
