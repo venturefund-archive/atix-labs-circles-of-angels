@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message, Button, Row } from 'antd';
@@ -40,7 +39,16 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     },
     [txData, claimData, claimApproved]
   );
-  const router = useRouter();
+  const transferStatusTag = (status, rejectionReason) => {
+    const transferStatus = rejectionReason
+      ? transferStatusesMap.rejected
+      : transferStatusesMap[status];
+    return (
+      <Tag color={transferStatus.color} key={status}>
+        {transferStatus.name}
+      </Tag>
+    );
+  };
   const columns = [
     {
       title: 'Transfer Id',
@@ -89,17 +97,9 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: status => {
+      render: (status, { rejectionReason }) => {
         if (!status) return;
-        return (
-          <span>
-            {transferStatusesMap[status] ? (
-              <Tag color={transferStatusesMap[status].color} key={status}>
-                {transferStatusesMap[status].name}
-              </Tag>
-            ) : null}
-          </span>
-        );
+        return <span>{transferStatusTag(status, rejectionReason)}</span>;
       }
     },
     {
@@ -152,9 +152,9 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       return;
     } finally {
       hideModalPassword();
+      window.location.reload();
     }
     message.success('Transfer updated successfully!');
-    router.reload();
   };
 
   const getClaimTx = async (transferId, approved) => {
@@ -195,7 +195,6 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     try {
       const tx = await getClaimTx(transferId, true);
       showPasswordModal(tx, true, { transferId });
-      router.reload();
     } catch (error) {
       message.error(error.message);
     }
@@ -215,7 +214,6 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         transferId: transferSelected,
         ...formData
       });
-      router.reload();
     } catch (error) {
       message.error(error.message);
     }

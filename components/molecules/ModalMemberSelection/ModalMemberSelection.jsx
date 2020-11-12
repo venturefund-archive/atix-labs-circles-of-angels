@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, Select, Form } from 'antd';
 import './_style.scss';
 
@@ -17,12 +18,15 @@ const ModalMemberSelection = ({
   usersData,
   setApplicant,
   setDescription,
-  description
+  description,
+  selectedUser,
+  setSelectedUser
 }) => {
   function onChange(value) {
     if (!value) return;
     const address = value.key;
     setApplicant(address);
+    setSelectedUser(value);
   }
 
   const userFullname = user => {
@@ -52,6 +56,7 @@ const ModalMemberSelection = ({
                 .indexOf(input.toLowerCase()) >= 0
             }
             onChange={onChange}
+            value={selectedUser}
           >
             {options}
           </Select>
@@ -68,6 +73,15 @@ const ModalMemberSelection = ({
       </div>
     </Form>
   );
-}
+};
+
+ModalMemberSelection.propTypes = {
+  usersData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setApplicant: PropTypes.func.isRequired,
+  setDescription: PropTypes.func.isRequired,
+  description: PropTypes.string.isRequired,
+  selectedUser: PropTypes.func.isRequired,
+  setSelectedUser: PropTypes.func.isRequired
+};
 
 export default ModalMemberSelection;

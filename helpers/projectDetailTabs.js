@@ -28,6 +28,7 @@ const allowNewExperience = (project, user, funders) => {
     [
       projectStatuses.CONSENSUS,
       projectStatuses.FUNDING,
+      projectStatuses.FINISHED,
       projectStatuses.EXECUTING
     ].includes(project.status)
   ) {
