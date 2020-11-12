@@ -85,6 +85,7 @@ const TaskRow = ({
       return;
     } finally {
       hideModalPassword();
+      fetchMilestones();
     }
     message.success('Evidence added successfully!');
   };
@@ -131,8 +132,6 @@ const TaskRow = ({
       showPasswordModal(newEvidenceData, tx, newEvidenceStatus);
     } catch (error) {
       message.error(error.message);
-    } finally {
-      fetchMilestones();
     }
   };
 
