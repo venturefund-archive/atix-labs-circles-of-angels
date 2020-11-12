@@ -40,18 +40,11 @@ const ProjectUsersPanel = ({
     allowAssignFunderStatuses.includes(status);
 
   const askApplyConfirmation = role => {
-    const modalText =
-      role === supporterRoles.ORACLES
-        ? {
-            title: 'Applying to be an Oracle',
-            description:
-              'Are you sure you want to apply to be an Oracle of this project?'
-          }
-        : {
-            title: 'Applying to be a Funder',
-            description:
-              'Are you sure you want to apply to be a Funder of this project?'
-          };
+    const roleText = role === supporterRoles.ORACLES ? 'an Oracle' : 'a Funder';
+    const modalText = {
+      title: `Applying to be ${roleText}`,
+      description: `Are you sure you want to apply to be ${roleText} of this project?`
+    };
     showModalConfirm(modalText.title, modalText.description, () =>
       onApply(role)
     );
