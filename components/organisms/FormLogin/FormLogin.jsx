@@ -139,7 +139,7 @@ const FormLogin = ({ form, onSubmit }) => {
         </Captcha>
         <CustomButton
           theme="Primary"
-          buttonText="Sign In"
+          buttonText="Log In"
           onClick={submit}
           htmlType="submit"
         />

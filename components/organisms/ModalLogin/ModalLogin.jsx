@@ -52,13 +52,13 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         width="400"
         footer={null}
       >
-        <TitlePage textTitle="Login" />
+        <TitlePage textTitle="Log In" />
         {false && (
           <>
-            <CustomButton theme="Facebook" buttonText="Login with Facebook" />
+            <CustomButton theme="Facebook" buttonText="Log In with Facebook" />
             <div className="flex Linear">
               <hr />
-              <p>or Login with</p>
+              <p>or Log In with</p>
               <hr />
             </div>
           </>
