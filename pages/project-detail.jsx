@@ -72,7 +72,8 @@ const ProjectDetail = ({ user }) => {
     funders: true
   });
   const [fundedAmount, setFundedAmount] = useState(0);
-  const [fundingProgress, setFundingProgress] = useState(0);
+  // const [fundingProgress, setFundingProgress] = useState(0);
+  const [milestonesProgress, setMilestonesProgress] = useState(0);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
@@ -174,8 +175,11 @@ const ProjectDetail = ({ user }) => {
 
   const onAbortProject = async () => {
     const isExecuting = project.status === projectStatuses.EXECUTING;
-    if(isExecuting) {
-      const response = await updateProjectStatus(project.id, projectStatuses.ABORTED);
+    if (isExecuting) {
+      const response = await updateProjectStatus(
+        project.id,
+        projectStatuses.ABORTED
+      );
       if (response.errors) {
         message.error(response.errors);
         return;
@@ -256,29 +260,6 @@ const ProjectDetail = ({ user }) => {
     isSupporter(user) &&
     isFunder(user, projectUsers.funders);
 
-  const calculateFundingProgress = () => {
-    if (!milestones || !milestones.length) return 0;
-    const milestonesBudget = milestones.map(milestone => {
-      const budget = milestone.tasks.reduce(
-        (total, task) => Number(task.budget) + total,
-        0
-      );
-
-      return {
-        milestone: milestone.id,
-        budget
-      };
-    });
-
-    const totalBudget = milestonesBudget.reduce(
-      (total, milestone) => milestone.budget + total,
-      0
-    );
-    const progressPercentage =
-      totalBudget > 0 ? (fundedAmount * 100) / totalBudget : 100;
-    return progressPercentage > 100 ? 100 : progressPercentage;
-  };
-
   useEffect(() => {
     fetchProject();
   }, []);
@@ -317,12 +298,38 @@ const ProjectDetail = ({ user }) => {
         )
     );
 
+  const calculateMilestoneProgress = () => {
+    if (!milestones || !milestones.length) return 0;
+    const milestonesTasks = milestones.map(milestone => {
+      const milestoneTotalTasks = milestone.tasks.length;
+      const milestoneVerifiedTasks = milestone.tasks.reduce(
+        (total, task) => (task.verified ? 1 : 0) + total,
+        0
+      );
+
+      return {
+        milestone: milestone.id,
+        verifiedTasks: milestoneVerifiedTasks,
+        totalTasks: milestoneTotalTasks
+      };
+    });
+
+    const totalTasks = milestonesTasks.reduce(
+      (total, milestone) => milestone.totalTasks + total,
+      0
+    );
+    const verifiedTasks = milestonesTasks.reduce(
+      (total, milestone) => milestone.verifiedTasks + total,
+      0
+    );
+    const progressPercentage =
+      totalTasks > 0 ? (verifiedTasks * 100) / totalTasks : 100;
+    return progressPercentage > 100 ? 100 : progressPercentage;
+  };
+
   useEffect(() => {
-    if (milestones && milestones.length) {
-      const progress = calculateFundingProgress();
-      setFundingProgress(progress);
-    }
-  }, [milestones, fundedAmount]);
+    setMilestonesProgress(calculateMilestoneProgress());
+  }, [milestones]);
 
   if (!project) return null;
 
@@ -345,7 +352,7 @@ const ProjectDetail = ({ user }) => {
             {renderTabs({
               ...project,
               milestones,
-              progress: fundingProgress,
+              progress: milestonesProgress,
               experiences,
               oracles: projectUsers.oracles
             })}

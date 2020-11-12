@@ -42,7 +42,7 @@ function Landing() {
     <div className="WrapperModalLogin">
       <CustomButton
         data-testid="loginButton"
-        buttonText="Login"
+        buttonText="Log In"
         theme="Secondary"
         onClick={() => setVisibility(true)}
       />

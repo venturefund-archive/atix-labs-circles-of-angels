@@ -28,6 +28,7 @@ const allowNewExperience = (project, user, funders) => {
     [
       projectStatuses.CONSENSUS,
       projectStatuses.FUNDING,
+      projectStatuses.FINISHED,
       projectStatuses.EXECUTING
     ].includes(project.status)
   ) {
@@ -92,6 +93,11 @@ export const tabsContent = ({
         mission={project.mission}
         problem={project.problemAddressed}
         progress={project.progress}
+        hidden={
+          project.status === projectStatuses.EXECUTING &&
+          project.milestones &&
+          project.milestones.length > 0
+        }
       />
     ),
     key: '1'
@@ -148,6 +154,6 @@ export const tabsContent = ({
     title: 'FAQ',
     content: <Faq project={project} />,
     key: '6',
-    hidden: false
+    hidden: true
   }
 });

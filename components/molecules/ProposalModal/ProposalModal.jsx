@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import {
   uploadMemberProposalGetTransaction,
@@ -44,6 +45,8 @@ const ProposalModal = ({
   );
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(undefined);
+  const [selectedRole, setSelectedRole] = useState(undefined);
 
   const { getLoggedUser } = useUserContext();
   const loggedUser = getLoggedUser();
@@ -103,7 +106,7 @@ const ProposalModal = ({
       response = await uploadRoleBankProposalGetTransaction(daoId, data);
     if (selectedOption === proposalTypes.ASSIGN_CURATOR)
       response = await uploadRoleCuratorProposalGetTransaction(daoId, data);
-    
+
     if (response.errors) {
       const title = 'Error!';
       const content = response.errors
@@ -148,7 +151,8 @@ const ProposalModal = ({
     async userPassword => {
       const signedTransaction = await signProposalTx(txData, userPassword);
       await sendProposalTx(signedTransaction);
-    },[txData]
+    },
+    [txData]
   );
 
   const signProposalTx = async (tx, password) => {
@@ -168,10 +172,7 @@ const ProposalModal = ({
       type: selectedOption,
       ...signedTransaction
     };
-    const response = await uploadProposalSendTransaction(
-      daoId,
-      data
-    );
+    const response = await uploadProposalSendTransaction(daoId, data);
 
     if (response.errors) {
       throw new Error(response.errors);
@@ -182,6 +183,8 @@ const ProposalModal = ({
   const cleanFields = () => {
     setApplicant('');
     setDescription('');
+    setSelectedUser(undefined);
+    setSelectedRole(undefined);
   };
 
   const showModal = () => {
@@ -225,10 +228,12 @@ const ProposalModal = ({
             setDescription={setDescription}
             description={description}
             usersData={usersData}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
           />
         )}
 
-        {(selectedOption === proposalTypes.ASSIGN_BANK  || 
+        {(selectedOption === proposalTypes.ASSIGN_BANK ||
           selectedOption === proposalTypes.ASSIGN_CURATOR) && (
           <ModalRoleSelection
             setApplicant={setApplicant}
@@ -236,8 +241,12 @@ const ProposalModal = ({
             description={description}
             usersData={usersData}
             setSelectedOption={setSelectedOption}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            selectedRole={selectedRole}
+            setSelectedRole={setSelectedRole}
           />
-         )}
+        )}
 
         {selectedOption === proposalTypes.NEW_DAO && (
           <ModalDaoSelection
@@ -296,6 +305,12 @@ const ProposalModal = ({
       </Modal>
     </div>
   );
+};
+
+ProposalModal.propTypes = {
+  daoId: PropTypes.number.isRequired,
+  setCreationSuccess: PropTypes.func.isRequired,
+  setProposalsVisibility: PropTypes.func.isRequired
 };
 
 export default ProposalModal;
