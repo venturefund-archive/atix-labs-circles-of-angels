@@ -179,11 +179,11 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   };
 
   const onRejectProject = rejectionData => {
-    const formData = {};
-    rejectionData.forEach((value, key) => {
-      formData[key] = value;
+    let reason;
+    rejectionData.forEach(value => {
+      reason = value;
     });
-    onReject(rejectedProject, formData);
+    onReject(rejectedProject, reason);
   };
 
   return (
