@@ -291,7 +291,8 @@ const ProjectDetail = ({ user }) => {
         onCreateExperience,
         onClaimMilestone,
         allowNewFund: allowNewFund(),
-        fetchEvidences
+        fetchEvidences,
+        fetchMilestones
       })
     ).map(
       tab =>
