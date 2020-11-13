@@ -9,7 +9,8 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Col, message, Button } from 'antd';
+import { Table, Tag, Col, message, Button, Row } from 'antd';
+import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -104,6 +105,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     {
       title: 'Actions',
       key: 'actions',
+      fixed: 'right',
       // render: actions => (
       //   <button className="reintentarBtn">
       //     <UndoOutlined /> Reintentar
@@ -112,8 +114,8 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       render: ({ id, status }) => {
         if (status !== TransferStatuses.PENDING) return;
         return (
-          <Fragment>
-            <Col span={8}>
+          <Row>
+            <Col span={12}>
               <CustomButton
                 theme="Primary"
                 key="back"
@@ -121,7 +123,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                 onClick={() => onApprovedTransfer(id)}
               />
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <CustomButton
                 theme="Sencondary"
                 key="back"
@@ -129,7 +131,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                 onClick={() => setTransferSelected(id)}
               />
             </Col>
-          </Fragment>
+          </Row>
         );
       }
     }
@@ -252,6 +254,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         size="middle"
         className="TableAdmin"
         pagination={false}
+        scroll={{ x: 1 }}
       />
       <CustomFormModal
         title="Reject transfer"
