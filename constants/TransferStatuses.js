@@ -10,7 +10,9 @@ const TransferStatuses = {
   PENDING: 'pending',
   RECONCILIATION: 'reconciliation',
   VERIFIED: 'verified',
-  CANCELLED: 'cancelled'
+  CANCELLED: 'cancelled',
+  FAILED: 'failed',
+  PENDING_VERIFICATION: 'pending_verification' 
 };
 
 export default TransferStatuses;
