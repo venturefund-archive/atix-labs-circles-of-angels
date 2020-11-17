@@ -8,27 +8,17 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { message, Col, Row } from 'antd';
+import { message } from 'antd';
 import TableTransfer from '../TableTransfer/TableTransfer';
 import {
   getTransferListOfProject,
-  createTransfer
+  createTransfer,
+  getTransferBlockchainData
 } from '../../../api/transferApi';
 import { projectPropTypes } from '../../../helpers/proptypes';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newFundFormItems } from '../../../helpers/createProjectFormFields';
-
-const blabla = (
-  <Row className="Data">
-    <Col span={12} className="flex">
-      <b>Alias</b> <p>CIRCLES OF ANGELS ALIAS</p>
-    </Col>
-    <Col span={12} className="flex">
-      <b>ID ACCOUNT</b> <p>0170347240000030652220</p>
-    </Col>
-  </Row>
-);
 
 const Transfers = ({ project, allowNewFund }) => {
   const [transfers, setTransfers] = useState([]);
@@ -42,6 +32,14 @@ const Transfers = ({ project, allowNewFund }) => {
     } catch (error) {
       message.error(error);
     }
+  };
+
+  const fetchTransferBlockchainData = async transferId => {
+    const response = await getTransferBlockchainData(transferId);
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
   };
 
   const onNewFund = async fund => {
@@ -75,9 +73,11 @@ const Transfers = ({ project, allowNewFund }) => {
         visible={visible}
         onConfirm={onNewFund}
         onClose={() => setVisible(false)}
-        // body={blabla}
       />
-      <TableTransfer transfers={transfers} />
+      <TableTransfer
+        transfers={transfers}
+        fetchBlockchainData={fetchTransferBlockchainData}
+      />
     </Fragment>
   );
 };

@@ -82,6 +82,9 @@ export const addTransferClaimSendTransaction = (transferId, approved, data) =>
         data
       );
 
+export const getTransferBlockchainData = transferId =>
+  doGet(`${baseURL}/${transferId}/blockchain-data`);
+
 export {
   sendTransferInformation,
   getTransferDestinationInfo,

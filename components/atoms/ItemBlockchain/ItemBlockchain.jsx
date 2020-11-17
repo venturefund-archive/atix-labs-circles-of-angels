@@ -18,11 +18,14 @@ const ItemBlockchain = ({ image, label, info, link }) => (
     <div className="Data">
       {label && <label>{label}</label>}
       {info && <p>{info}</p>}
-      {link && (
-        <a href={link.url} target="_blank" rel="noopener noreferrer">
-          {link.text}
-        </a>
-      )}
+      {link &&
+        (link.url ? (
+          <a href={link.url} target="_blank" rel="noopener noreferrer">
+            {link.text}
+          </a>
+        ) : (
+          <p>{link.text}</p>
+        ))}
     </div>
   </div>
 );
