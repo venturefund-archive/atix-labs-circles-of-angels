@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { intersectionBy, unionBy } from 'lodash';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
 import './_style.scss';
@@ -30,8 +31,22 @@ const MyProjects = ({ user }) => {
     const followedProjects = await fetchFollowedProjects();
     const appliedProjects = await fetchAppliedProjects();
 
+    const followedAndAppliedProjects = intersectionBy(
+      followedProjects,
+      appliedProjects,
+      'id'
+    ).map(project => ({ ...project, applied: true }));
+
+    const uniqueProjects = unionBy(
+      followedAndAppliedProjects,
+      followedProjects,
+      appliedProjects,
+      myProjects,
+      'id'
+    );
+
     // TODO analize if is all projects will be together
-    setProjects(myProjects.concat(followedProjects, appliedProjects));
+    setProjects(uniqueProjects);
   };
 
   const fetchMyProjects = async () => {
@@ -48,9 +63,9 @@ const MyProjects = ({ user }) => {
   const fetchFollowedProjects = async () => {
     try {
       const response = await getFollowedProjects();
-      return (
-        response && response.map(project => ({ ...project, following: true }))
-      );
+      return response
+        ? response.map(project => ({ ...project, following: true }))
+        : [];
     } catch (error) {
       message.error(error);
     }
@@ -61,19 +76,12 @@ const MyProjects = ({ user }) => {
       const response = await getAppliedProjects();
       const { funding, monitoring } = response || {};
 
-      const appliedProjects = funding.map(project => ({
+      const uniqueApplied = unionBy(funding, monitoring, 'id');
+
+      const appliedProjects = uniqueApplied.map(project => ({
         ...project,
         applied: true
       }));
-
-      monitoring.forEach(project => {
-        if (!funding.some(({ id }) => id === project.id)) {
-          appliedProjects.push({
-            ...project,
-            applied: true
-          });
-        }
-      });
 
       return appliedProjects;
     } catch (error) {

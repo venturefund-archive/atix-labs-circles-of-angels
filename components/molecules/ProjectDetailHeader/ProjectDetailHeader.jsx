@@ -5,6 +5,7 @@ import CustomButton from '../../atoms/CustomButton/CustomButton';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
 import projectStatusMap from '../../../model/projectStatus';
 import { publicProjectStatuses } from '../../../constants/constants';
+import LinkButton from '../../atoms/LinkButton/LinkButton';
 
 // TODO: show default if status not valid?
 const getTagStatus = status =>
@@ -21,6 +22,8 @@ const ProjectDetailHeader = ({
   goalAmount,
   fundedAmount,
   projectName,
+  proposalFilePath,
+  agreementFilePath,
   faqLink,
   status,
   onFollowProject,
@@ -45,6 +48,20 @@ const ProjectDetailHeader = ({
       value: goalAmount,
       extra: 'USD',
       img: './static/images/amount-icon.svg'
+    },
+    {
+      type: 'link',
+      url: proposalFilePath,
+      value: (
+        <LinkButton text="Download Project Proposal" className="Separate" />
+      ),
+      hide: !proposalFilePath
+    },
+    {
+      type: 'link',
+      url: agreementFilePath,
+      value: <LinkButton text="Download Legal Agreement" />,
+      hide: !agreementFilePath
     }
   ];
 
@@ -66,32 +83,31 @@ const ProjectDetailHeader = ({
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
           <p>Organization Name</p>
-          <Col xs={24} md={21} lg={18} className="flex">
-            <h1>{projectName}</h1>
-            {getTagStatus(status)}
-          </Col>
-          {allowEdit ? (
-            <Col xs={24} md={3} lg={3}>
+          <div className="space-between blockverticalrsp">
+            <Col className="flex">
+              <h1>{projectName}</h1>
+              {getTagStatus(status)}
+            </Col>
+            <Col className="flex">
+              {allowEdit && (
+                <CustomButton
+                  theme="Alternative"
+                  buttonText="Edit"
+                  icon="edit"
+                  classNameIcon="iconDisplay"
+                  onClick={onEditProject}
+                />
+              )}
+
               <CustomButton
-                theme="Alternative"
-                buttonText="Edit"
-                icon="edit"
-                classNameIcon="iconDisplay"
-                onClick={onEditProject}
+                theme={isFollower ? 'Primary' : 'Primary'}
+                buttonText={isFollower ? 'Following' : 'Follow Project'}
+                icon="check"
+                classNameIcon={isFollower ? 'iconDisplay' : 'none'}
+                onClick={isFollower ? onUnfollowProject : onFollowProject}
               />
             </Col>
-          ) : (
-            ''
-          )}
-          <Col xs={24} md={3} lg={3}>
-            <CustomButton
-              theme={isFollower ? 'Primary' : 'Primary'}
-              buttonText={isFollower ? 'Following' : 'Follow Project'}
-              icon="check"
-              classNameIcon={isFollower ? 'iconDisplay' : 'none'}
-              onClick={isFollower ? onUnfollowProject : onFollowProject}
-            />
-          </Col>
+          </div>
         </Row>
         <Row type="flex" justify="space-between" className="BlockBottom">
           {/* <Col className="flex">
@@ -102,9 +118,12 @@ const ProjectDetailHeader = ({
             />
           </Col> */}
           <Col className="flex">
-            {itemsData.map(item => (
-              <GeneralItem {...item} key={`data-${item.value}`} />
-            ))}
+            {itemsData.map(
+              item =>
+                !item.hide && (
+                  <GeneralItem {...item} key={`data-${item.value}`} />
+                )
+            )}
           </Col>
         </Row>
       </div>
@@ -122,7 +141,9 @@ ProjectDetailHeader.defaultProps = {
   faqLink: '#',
   isFollower: false,
   allowEdit: false,
-  onEditProject: () => undefined
+  onEditProject: () => undefined,
+  agreementFilePath: undefined,
+  proposalFilePath: undefined
 };
 
 ProjectDetailHeader.propTypes = {
@@ -138,7 +159,9 @@ ProjectDetailHeader.propTypes = {
   onUnfollowProject: PropTypes.func.isRequired,
   onEditProject: PropTypes.func,
   allowEdit: PropTypes.bool,
-  isFollower: PropTypes.bool
+  isFollower: PropTypes.bool,
+  agreementFilePath: PropTypes.string,
+  proposalFilePath: PropTypes.string
 };
 
 export default ProjectDetailHeader;

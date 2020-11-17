@@ -6,7 +6,7 @@ import InfoItem from '../../atoms/InfoItem/InfoItem';
 import { getPreviewValue } from '../../../helpers/formatter';
 import Field from '../../atoms/Field/Field';
 import { toBase64 } from '../../utils/FileUtils';
-import { fieldPropType } from '../../../helpers/proptypes'
+import { fieldPropType } from '../../../helpers/proptypes';
 
 const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
   const [photoPreview, setPhotoPreview] = useState();
@@ -128,7 +128,30 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                     <Field
                       {...fields.coverPhotoPath}
                       handleChange={handleChange}
-                      showUploadList={false}
+                    />
+                  </div>
+                </Col>
+                <Col sm={24} md={24} lg={24} className="space-between">
+                  <div>
+                    <h3>Legal Agreement</h3>
+                    <span>Format: PDF, DOC or DOCX</span>
+                  </div>
+                  <div>
+                    <Field
+                      {...fields.agreementFile}
+                      handleChange={handleChange}
+                    />
+                  </div>
+                </Col>
+                <Col sm={24} md={24} lg={24} className="space-between">
+                  <div>
+                    <h3>Project Proposal</h3>
+                    <span>Format: PDF, DOC or DOCX</span>
+                  </div>
+                  <div>
+                    <Field
+                      {...fields.proposalFile}
+                      handleChange={handleChange}
                     />
                   </div>
                 </Col>
@@ -159,7 +182,10 @@ ProjectDetailForm.propTypes = {
   }),
   fields: PropTypes.shape({
     mission: fieldPropType,
-    problemAddressed: fieldPropType
+    problemAddressed: fieldPropType,
+    coverPhotoPath: fieldPropType,
+    proposalFile: fieldPropType,
+    agreementFile: fieldPropType
   }).isRequired,
   handleChange: PropTypes.func.isRequired
 };

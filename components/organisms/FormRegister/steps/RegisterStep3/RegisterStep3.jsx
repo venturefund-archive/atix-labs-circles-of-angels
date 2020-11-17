@@ -239,10 +239,8 @@ const RegisterStep3 = ({ fields, handleChange }) => (
   <div>
     <div className="InfoStep">
       <img src="./static/images/icon-personal.svg" alt="Circles of Angels" />
-      <h2>Enterprise Information</h2>
-      <h4>
-        Lorem ipsum dolor sit amet, concectetur adipiscing elit. Duis sit amet..
-      </h4>
+      <h2>Additional Information</h2>
+      <h4>Please answer these questions</h4>
     </div>
     <div className="StepPersonalInformation">
       <TitlePage textTitle="We have some questions for you!" />
