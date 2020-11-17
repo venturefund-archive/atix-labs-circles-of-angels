@@ -125,7 +125,6 @@ const ProposalModal = ({
   };
 
   const hideModalPassword = () => {
-    setTxData(undefined);
     setModalPasswordVisible(false);
   };
 
@@ -149,8 +148,7 @@ const ProposalModal = ({
     async userPassword => {
       const signedTransaction = await signProposalTx(txData, userPassword);
       await sendProposalTx(signedTransaction);
-    },
-    [txData]
+    },[txData]
   );
 
   const signProposalTx = async (tx, password) => {
@@ -195,10 +193,6 @@ const ProposalModal = ({
     setSelectedOption(proposalType);
   };
 
-  const handleOk = e => {
-    setVisible(false);
-  };
-
   const handleCancel = e => {
     cleanFields();
     setVisible(false);
@@ -230,8 +224,6 @@ const ProposalModal = ({
             setApplicant={setApplicant}
             setDescription={setDescription}
             description={description}
-            submitMemberProposal={onNewProposal}
-            onCancel={handleCancel}
             usersData={usersData}
           />
         )}
@@ -242,8 +234,6 @@ const ProposalModal = ({
             setApplicant={setApplicant}
             setDescription={setDescription}
             description={description}
-            submitRoleProposal={onNewProposal}
-            onCancel={handleCancel}
             usersData={usersData}
             setSelectedOption={setSelectedOption}
           />
@@ -255,8 +245,6 @@ const ProposalModal = ({
             setApplicant={setApplicant}
             setDescription={setDescription}
             description={description}
-            submitDaoProposal={onNewProposal}
-            onCancel={handleCancel}
             usersData={usersData}
           />
         )}
@@ -275,9 +263,11 @@ const ProposalModal = ({
         className="propModal"
         title="Basic Modal"
         visible={visible}
-        onOk={handleOk}
+        onOk={onNewProposal}
         onCancel={handleCancel}
         width={700}
+        okText="Create Proposal"
+        cancelText="Cancel"
       >
         <h1>{getOptionTitle()}</h1>
         <p className="subtitle">

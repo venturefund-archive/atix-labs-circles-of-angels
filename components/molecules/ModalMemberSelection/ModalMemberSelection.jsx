@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { Input, Select, Form } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
 const { Option } = Select;
@@ -18,9 +17,7 @@ const ModalMemberSelection = ({
   usersData,
   setApplicant,
   setDescription,
-  description,
-  submitMemberProposal,
-  onCancel
+  description
 }) => {
   function onChange(value) {
     if (!value) return;
@@ -38,7 +35,7 @@ const ModalMemberSelection = ({
   ));
 
   return (
-    <Form onSubmit={submitMemberProposal}>
+    <Form>
       <div className="memberSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
@@ -68,18 +65,6 @@ const ModalMemberSelection = ({
             value={description}
           />
         </Form.Item>
-      </div>
-      <div className="flex space-between border-top margin-top padding-top">
-        <CustomButton
-          theme="Alternative"
-          buttonText="Cancel"
-          onClick={onCancel}
-        />
-        <CustomButton
-          theme="Primary"
-          buttonText="Create Proposal"
-          onClick={submitMemberProposal}
-        />
       </div>
     </Form>
   );
