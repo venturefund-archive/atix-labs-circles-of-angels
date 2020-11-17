@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
 import RegisterForm from '../../components/organisms/FormRegister/FormRegister';
@@ -20,7 +20,6 @@ import RegisterStep2 from '../../components/organisms/FormRegister/steps/Registe
 import RegisterStep3, {
   questionsByRole
 } from '../../components/organisms/FormRegister/steps/RegisterStep3/RegisterStep3';
-import RegisterStep4 from '../../components/organisms/FormRegister/steps/RegisterStep4/RegisterStep4';
 import {
   step1Inputs,
   step2Inputs,
@@ -64,10 +63,6 @@ const Registersteps = () => {
       fields: Object.keys(step3Inputs),
       component: RegisterStep3
     }
-    // {
-    //   fields: [],
-    //   component: RegisterStep4
-    // }
   ];
 
   const fetchCountries = async () => {
@@ -86,6 +81,7 @@ const Registersteps = () => {
   };
 
   const registerUser = async () => {
+    setLoading(true);
     const values = Object.values(formValues).reduce(
       (acc, field) => Object.assign(acc, { [field.name]: field.value }),
       {}
@@ -94,19 +90,20 @@ const Registersteps = () => {
     const { mnemonic, address, encryptedWallet } = await createNewWallet(
       values.password
     );
-    await register(values, { address, encryptedWallet });
+    await register(values, { address, encryptedWallet, mnemonic });
     return { mnemonic, address };
   };
 
   const successCallback = wallet => {
     setIsSubmitting(false);
-    // TODO: show mnemonic and address to user
+    setLoading(false);
     message.success('The user has been registered successfully!');
     return history.push('/landing');
   };
 
   const errorCallback = error => {
     setIsSubmitting(false);
+    setLoading(false);
     message.error(error);
   };
 
@@ -151,20 +148,19 @@ const Registersteps = () => {
   }, [countries]);
 
   // TODO: add loading when form is submitting
-
   if (loading) return <Loading />;
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
-      <RegisterForm
-        formFields={fields}
-        formSteps={steps}
-        initialStep={initialStep}
-        registerUser={values => {
-          setIsSubmitting(true);
-          setFormValues(values);
-        }}
-      />
+        <RegisterForm
+          formFields={fields}
+          formSteps={steps}
+          initialStep={initialStep}
+          registerUser={values => {
+            setIsSubmitting(true);
+            setFormValues(values);
+          }}
+        />
     </div>
   );
 };

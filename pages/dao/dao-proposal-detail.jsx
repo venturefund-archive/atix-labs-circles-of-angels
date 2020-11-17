@@ -7,13 +7,10 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Popover } from 'antd';
+import { message, Popover, Avatar, Progress } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
-import {
-  showModalError,
-  showModalSuccess
-} from '../../components/utils/Modals';
+import { showModalError } from '../../components/utils/Modals';
 import { useUserContext } from '../../components/utils/UserContext';
 import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../helpers/blockchain/wallet';
@@ -36,7 +33,6 @@ import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 
 function DaoProposalDetail() {
-  const [visibility, setVisibility] = useState(false);
   const [currentProposal, setCurrentProposal] = useState({});
   const [newVote, setNewVote] = useState();
   const [voteSuccess, setVoteSuccess] = useState(false);
@@ -44,6 +40,7 @@ function DaoProposalDetail() {
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [buttonsDisable, setButtonsDisable] = useState(false);
   const [isVotePeriod, setIsVotePeriod] = useState(false);
+  const [alreadyVote, setAlreadyVote] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [daoUsers, setDaoUsers] = useState([]);
   const history = useHistory();
@@ -53,7 +50,7 @@ function DaoProposalDetail() {
 
   useEffect(() => {
     fetchCurrentProposal();
-  }, [voteSuccess]);
+  }, [voteSuccess, currentUser]);
 
   useEffect(() => {
     fetchCurrentUser();
@@ -83,9 +80,9 @@ function DaoProposalDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
-      // FIXME: This page may be refactored to a single page
-      // with the dao-detail one making a conditional rendering
+
       const found = response.data.find(proposal => proposal.id === proposalId);
+      const voted = found.voters.find(voter => voter === currentUser.address);
       if (!found) {
         message.error('The proposal does not exist on this DAO');
         return;
@@ -96,6 +93,7 @@ function DaoProposalDetail() {
           found.currentPeriod >= found.startingPeriod
       );
       setButtonsDisable(found.processed);
+      setAlreadyVote(voted && voted.length);
     } catch (error) {
       message.error(error);
     }
@@ -399,28 +397,27 @@ function DaoProposalDetail() {
                 </div>
               </div>
             </div>
-            {/* <Progress percent={votesPercentage(currentProposal.yesVotes)} /> */}
-            {/* <div className="subBox">
+            <Progress percent={votesPercentage(currentProposal.yesVotes)} />
+            <div className="subBox">
               <h3>Participants</h3>
               <div className="detail flex">
                 <div className="avatarBox flex">
-                  <Avatar className="avatar-overlap">U</Avatar>
+                  <Avatar className="avatar">U</Avatar>
                   <Avatar className="avatar">A</Avatar>
                   <Avatar className="avatar">R</Avatar>
                   <Avatar className="avatar">S</Avatar>
                   <Avatar className="avatar">P</Avatar>
                 </div>
                 <div className="plusSign flex-start">
-                  <h2>+</h2>
-                  <p>334</p>
+                <h2>... {currentProposal.yesVotes + currentProposal.noVotes}</h2>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
         <div className="flex VoteButton">
-          {isVotePeriod && (
+          {isVotePeriod && !alreadyVote && (
             <CustomButton
               onClick={() => onNewVote(voteEnum.YES)}
               theme={buttonsDisable ? 'disabled' : 'VoteYes'}
@@ -429,7 +426,7 @@ function DaoProposalDetail() {
             />
           )}
 
-          {isVotePeriod && (
+          {isVotePeriod && !alreadyVote && (
             <CustomButton
               onClick={() => onNewVote(voteEnum.NO)}
               theme={buttonsDisable ? 'disabled' : 'VoteNo'}
@@ -443,7 +440,7 @@ function DaoProposalDetail() {
               onClick={() => onProcess()}
               theme={buttonsDisable ? 'disabled' : 'Primary'}
               buttonText="Execute"
-              disabled={buttonsDisable}
+              disabled={buttonsDisable && alreadyVote}
             />
           )}
 

@@ -11,14 +11,13 @@ import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
-const FormPassword = ({ form, onSubmit }) => {
+const FormForgotPassword = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
 
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
         return onSubmit(
-          getFieldProps('currentpassword').value, 
           getFieldProps('newpassword').value
         );
       }
@@ -31,8 +30,6 @@ const FormPassword = ({ form, onSubmit }) => {
       callback('Passwords do not match!');
     } else if (value.length < minPasswordLength) {
       callback('New password is too short!');
-    } else if (value === form.getFieldValue('currentpassword')) {
-      callback('You have to change your password!');
     } else {
       callback();
     }
@@ -40,16 +37,6 @@ const FormPassword = ({ form, onSubmit }) => {
 
   return (
     <Form className="recovery-form" onSubmit={submit}>
-      <Form.Item>
-        {getFieldDecorator('currentpassword', {
-          rules: [{ required: true, message: 'Please input your current password!' }]
-        })(
-          <Input.Password
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Current Password"
-          />
-        )}
-      </Form.Item>
       <Form.Item>
         {getFieldDecorator('newpassword', {
           rules: [{ required: true, message: 'Please input your new password!' }]
@@ -63,7 +50,7 @@ const FormPassword = ({ form, onSubmit }) => {
       <Form.Item>
         {getFieldDecorator('confirm', {
           rules: [
-            { required: true, message: 'Please input your new password!' },
+            { required: true, message: 'Please confirm your new password!' },
             {
               validator: validPasswords
             }
@@ -82,6 +69,6 @@ const FormPassword = ({ form, onSubmit }) => {
   );
 };
 
-const DynamicFormPassword = Form.create({ name: 'FormPassword' })(FormPassword);
+const DynamicFormForgotPassword = Form.create({ name: 'FormForgotPassword' })(FormForgotPassword);
 
-export default DynamicFormPassword;
+export default DynamicFormForgotPassword;
