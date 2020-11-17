@@ -26,7 +26,7 @@ const SideBar = ({ role }) => {
   return (
     <Sider width="60" breakpoint="md" collapsedWidth="0">
       <div className="logo">
-        <img src="./static/images/circle-isologo.svg" alt="Circles of Angels" />
+        <img src="./static/images/isologo.svg" alt="Circles of Angels" />
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
         {getMenuItems(role).map(({ key, route, content }) => (

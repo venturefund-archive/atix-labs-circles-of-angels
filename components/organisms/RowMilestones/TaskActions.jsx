@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tag } from 'antd';
+import ModalEvidences from '../ModalEvidences/ModalEvidences';
 import { tagPropTypes } from '../../../helpers/proptypes';
 
 const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
@@ -37,8 +38,9 @@ const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
 
 const evidenceTask = ({ color, text }, showAddEvidence, onNewEvidence) => (
   <Col span={24}>
-    {/* <a className="blueLink">Evidences</a> */}
     <Tag color={color}>{text}</Tag>
+    {/* TODO: uncomment when it is working */}
+    {/* <ModalEvidences /> */}
     {showAddEvidence && (
       <a className="blueLink" onClick={onNewEvidence}>
         +Add Evidence

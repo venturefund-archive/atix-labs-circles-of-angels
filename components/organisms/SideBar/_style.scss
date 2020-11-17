@@ -11,23 +11,38 @@
   display: flex;
   justify-content: center;
   cursor: pointer;
-  background: $primary-color;
+  position: absolute;
+  width: 62px;
+  background:$white;
+  height:8vh;
+  border-bottom: 1px solid $border;
+  @include breakpoint(sm) {
+    position: relative;
+    width: 60px;
+    border-right: 1px solid $border;
+    border-bottom: none;
+  }
 }
-
 .icon {
   color: $primary-color;
 }
-
 .ant-layout-sider {
   height: 100vh;
   background: $white;
   border-right: 1px solid $border;
+  position: relative;
   ul.ant-menu {
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 7.78vh;
+    border-top: 1px solid #E5E6ED; 
+    @include breakpoint(sm) {
+      margin-top: 0;
+      border-top: none; 
+    }
   }
   li.ant-menu-item {
     padding-left: 0px !important;

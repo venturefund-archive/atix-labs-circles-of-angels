@@ -17,9 +17,9 @@ import { experiencePropType } from '../../../helpers/proptypes';
 
 const SeccionExperience = ({ experiences, onCreate, showCreateExperience }) => (
   <div className="Experiences">
-    <Row gutter={12}>
+    <Row gutter={12} className="wrap">
       {showCreateExperience && (
-        <Col span={8}>
+        <Col xs={24} lg={8}>
           <NewExperience onCreate={onCreate} />
         </Col>
       )}

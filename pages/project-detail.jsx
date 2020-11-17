@@ -69,6 +69,7 @@ const ProjectDetail = ({ user }) => {
     funders: true
   });
   const [fundedAmount, setFundedAmount] = useState(0);
+  const [fundingProgress, setFundingProgress] = useState(0);
 
   // TODO: this should have pagination
   const fetchMilestones = async () => {
@@ -223,6 +224,29 @@ const ProjectDetail = ({ user }) => {
     isSupporter(user) &&
     isFunder(user, projectUsers.funders);
 
+  const calculateFundingProgress = () => {
+    if (!milestones || !milestones.length) return 0;
+    const milestonesBudget = milestones.map(milestone => {
+      const budget = milestone.tasks.reduce(
+        (total, task) => Number(task.budget) + total,
+        0
+      );
+
+      return {
+        milestone: milestone.id,
+        budget
+      };
+    });
+
+    const totalBudget = milestonesBudget.reduce(
+      (total, milestone) => milestone.budget + total,
+      0
+    );
+    const progressPercentage =
+      totalBudget > 0 ? (fundedAmount * 100) / totalBudget : 100;
+    return progressPercentage > 100 ? 100 : progressPercentage;
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -259,9 +283,12 @@ const ProjectDetail = ({ user }) => {
         )
     );
 
-  // TODO: milestones do not have status anymore.
-  //       how do we get the project progress?
-  const projectProgress = 0;
+  useEffect(() => {
+    if (milestones && milestones.length) {
+      const progress = calculateFundingProgress();
+      setFundingProgress(progress);
+    }
+  }, [milestones, fundedAmount]);
 
   if (!project) return null;
 
@@ -282,7 +309,7 @@ const ProjectDetail = ({ user }) => {
             {renderTabs({
               ...project,
               milestones,
-              progress: projectProgress,
+              progress: fundingProgress,
               experiences,
               oracles: projectUsers.oracles
             })}
