@@ -141,3 +141,9 @@ export const blockchainInfoPropTypes = {
   link: PropTypes.shape(linkPropTypes),
   info: PropTypes.oneOfType([PropTypes.string], [PropTypes.element])
 };
+
+export const daoCardPropTypes = {
+  name: PropTypes.string,
+  address: PropTypes.string,
+  proposals_amount: PropTypes.number
+};

@@ -7,6 +7,9 @@ import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
 import PasswordRecovery from '../../../pages/passwordRecovery';
 import Landing from '../../../pages/landing/landing';
+import Dao from '../../../pages/dao/dao-list';
+// import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
+import DaoDetail from '../../../pages/dao/dao-detail';
 import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
@@ -119,5 +122,28 @@ export const routesConfig = [
       required: true,
       roles: [BANK_OPERATOR]
     }
+  },
+  {
+    path: '/dao-list',
+    component: Dao,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+    }
+  },
+  {
+    path: '/dao-detail',
+    component: DaoDetail,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+    }
   }
+  // {
+  //   path: '/dao/dao-proposal-detail',
+  //   component: DaoProposalDetail,
+  //   authentication: { required: false },
+  //   withHeader: false,
+  //   withSideBar: false
+  // }
 ];
