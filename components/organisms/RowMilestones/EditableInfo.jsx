@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Input, Select } from 'antd';
+import { isNaN } from 'lodash';
 
 const { Option } = Select;
 
@@ -10,7 +11,8 @@ const EditableInfo = ({
   updateValue,
   selectable,
   options,
-  placeholder
+  placeholder,
+  isNumber
 }) => {
   const input = () => {
     if (selectable) {
@@ -30,10 +32,31 @@ const EditableInfo = ({
         </Select>
       );
     }
+    if (isNumber && isEditing) {
+      return (
+        <Input
+          defaultValue={value}
+          value={value}
+          onChange={target => {
+            const targetValue = target.currentTarget.value;
+            const reg = /^-?[0-9]*?$/;
+            if (
+              (!isNaN(targetValue) && reg.test(targetValue)) ||
+              targetValue === ''
+            ) {
+              updateValue(targetValue);
+            }
+          }}
+        />
+      );
+    }
     return (
       <Input
         defaultValue={value}
-        onChange={target => updateValue(target.currentTarget.value)}
+        onChange={target => {
+          const targetValue = target.currentTarget.value;
+          updateValue(targetValue);
+        }}
       />
     );
   };
@@ -58,7 +81,8 @@ EditableInfo.defaultProps = {
   updateValue: undefined,
   selectable: false,
   options: [],
-  placeholder: ''
+  placeholder: '',
+  isNumber: false
 };
 
 EditableInfo.propTypes = {
@@ -74,7 +98,8 @@ EditableInfo.propTypes = {
     ]),
     text: PropTypes.string
   }),
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  isNumber: PropTypes.bool
 };
 
 export default EditableInfo;
