@@ -45,7 +45,7 @@ const FormPassword = ({ form, onSubmit }) => {
   }
 
   return (
-    <Form className="recovery-form" onSubmit={submit}>
+    <Form className="recovery-form">
       <Form.Item>
         {getFieldDecorator('currentpassword', {
           rules: [{ required: true, message: 'Please input your current password!' }]

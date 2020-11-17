@@ -42,7 +42,7 @@ const FormForgotPassword = ({ form, onSubmit }) => {
   }
 
   return (
-    <Form className="recovery-form" onSubmit={submit}>
+    <Form className="recovery-form">
       <Form.Item>
         {getFieldDecorator('newpassword', {
           rules: [{ 
