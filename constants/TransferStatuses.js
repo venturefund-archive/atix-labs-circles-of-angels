@@ -12,6 +12,7 @@ const TransferStatuses = {
   VERIFIED: 'verified',
   CANCELLED: 'cancelled',
   FAILED: 'failed',
+  SENT: 'sent',
   PENDING_VERIFICATION: 'pending_verification' 
 };
 
