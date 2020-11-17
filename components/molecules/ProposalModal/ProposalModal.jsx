@@ -7,17 +7,49 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, Input, Collapse, Popconfirm, message } from 'antd';
+import { Modal, Input, Popconfirm } from 'antd';
+import { createNewMemberProposal } from '../../../api/daoApi';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import ModalMemberSelection from '../../molecules/ModalMemberSelection/ModalMemberSelection';
+import ModalMemberSelection from '../ModalMemberSelection/ModalMemberSelection';
+import {
+  showModalSuccess,
+  showModalError,
+  showModalConfirm
+} from '../../utils/Modals';
 import './_style.scss';
 
 function callback(key) {
   console.log(key);
 }
 
-function ProposalModal() {
+const ProposalModal = ({ daoId, setCreationSuccess }) => {
   const [visible, setVisible] = useState(false);
+  const [applicant, setApplicant] = useState('');
+  const [description, setDescription] = useState('');
+
+  const submitMemberProposal = async () => {
+    if (!applicant || !description) {
+      showModalError('Error!', 'Please complete both fields');
+      return false;
+    }
+
+    const proposal = {
+      applicant,
+      description
+    };
+    const response = await createNewMemberProposal(daoId, proposal);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors
+        ? response.errors
+        : 'There was an error submitting the proposal.';
+      showModalError(title, content);
+    } else {
+      showModalSuccess('Success', 'Proposal created correctly!');
+      setVisible(false);
+      setCreationSuccess(true);
+    }
+  };
 
   const showModal = () => {
     setVisible(true);
@@ -33,10 +65,6 @@ function ProposalModal() {
     setVisible(false);
   };
 
-  const { TextArea } = Input;
-
-  const { Panel } = Collapse;
-
   return (
     <div>
       <CustomButton
@@ -49,84 +77,44 @@ function ProposalModal() {
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={700}
       >
-        <Input className="inputPriary" placeholder="Add a description" />
-        <TextArea rows={4} />
-        <Collapse onChange={callback}>
-          <Panel
-            header={
-              <div className="flex categoryCollapseHeader">
-                <p>Category</p>
-                <p className="categorySelected">-None</p>{' '}
-                <CustomButton theme="Category" buttonText="Select Type" />
-              </div>
-            }
-            key="1"
-          >
-            <p className="CollapseInnerTitle">New Member</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-01.png" />
-              <div className="column">
-                <p>
-                  <strong>NEW MEMBER</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
+        {/* This should change dinamically */}
+        {/* <h1>Create a New Proposal</h1> */}
+        <h1>Create a New Member</h1>
+        <p className="subtitle">
+          Select the type of proposal form the following options
+        </p>
 
-            {/* <ModalMemberSelection /> */}
-
-            <p className="CollapseInnerTitle">New Rol</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-02.png" />
-              <div className="column">
-                <p>
-                  <strong>NEW ROL</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
-            <p className="CollapseInnerTitle">Create DAO</p>
-            <div className="daoRoleContainer flex">
-              <img src="../static/images/icon-modal-03.png" />
-              <div className="column">
-                <p>
-                  <strong>CREATE DAO</strong>
-                </p>
-                <p>Lorem ipsum.</p>
-              </div>
-            </div>
-          </Panel>
-        </Collapse>
         <div className="flex space-between margin-top">
-          <div className="column">
+          <div className="daoMemberContainer flex">
+            <img src="../static/images/icon-modal-01.png" />
             <p>
-              <strong>Set deadline</strong>
+              <strong>NEW MEMBER</strong>
             </p>
-            <p>How soon are you looking for responses?</p>
           </div>
-          <div className="space-between">
-            <Popconfirm
-              title={
-                <div className="column">
-                  <p>Today (2 hours)</p>
-                  <p>Tomorroy (24 hours)</p>
-                  <p>This Week (7 days)</p>
-                </div>
-              }
-            >
-              <div className="flex date">
-                <img src="../static/images/icon-time-orange.png" />
-                <p>Due date: 7 days</p>
-              </div>
-            </Popconfirm>
-            <img src="../static/images/icon-pencil.png" />
+
+          <div className="daoRoleContainer flex">
+            <img src="../static/images/icon-modal-02.png" />
+            <p>
+              <strong>NEW ROLE</strong>
+            </p>
+          </div>
+
+          <div className="daoRoleContainer flex">
+            <img src="../static/images/icon-modal-03.png" />
+            <p>
+              <strong>CREATE DAO</strong>
+            </p>
           </div>
         </div>
-        <div className="flex space-between border-top margin-top padding-top">
-          <CustomButton theme="Alternative" buttonText="Cancel" />
-          <CustomButton theme="Primary" buttonText="Create Proposal" />
-        </div>
+
+        <ModalMemberSelection
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          submitMemberProposal={submitMemberProposal}
+          onCancel={handleCancel}
+        />
       </Modal>
     </div>
   );

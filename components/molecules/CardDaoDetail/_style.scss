@@ -32,12 +32,24 @@
   @include primary-text($body-2, $on-surface-medium, 400);
 }
 
+.passed {
+  padding:0.5em 1em;
+  background: $light-green;
+  border-radius: 7em;
+}
+
+.notPassed {
+  padding:0.5em 1em;
+  background: #FFD4D4;
+  border-radius: 7em;
+}
+
   .Box2 {
     position: relative;
     overflow: visible;
     padding:2em;
     box-shadow: $shadow;
-    min-height: 351px;
+    min-height: 251px;
     width: 30%;
     min-width: 400px;
     border-radius: 10px;
@@ -48,10 +60,7 @@
       box-sizing: border-box;
     }
     .topSection {
-      position: absolute;
-      top:0;
-      left:0;
-      padding:2em;
+      padding:0 0 1em 0;
       h2 {
         @include primary-text($title, $secondary-color, 400);
         margin: 0;
@@ -66,37 +75,11 @@
       }
     }
     .middleSection{
-      position: absolute;
-      top:180px;
-      left:0;
+      padding:1em 0;
       width: 100%;
-      .percent {
-
-        //progress ant
-        .ant-progress-inner{
-          width: 56px!important;
-          height: 56px!important;
-          position: relative!important;
-          .ant-progress-text {
-            display: none;
-          }
-        }
-        
-        .ant-progress-circle-path {
-          stroke: $cyanbg!important;
-        }
-        // progress ant
-        display: flex;
-        justify-content: center;
-        width: 30%;
-          img {
-            position: absolute;
-            top:15px;
-            left: 12%;
-          }
-      }
       .voteBox {
-        width: 30%;
+        width: 50%;
+        justify-content: center;
         .imgVote {
           img {
             margin:0.5em;
@@ -108,52 +91,6 @@
             font-size:1em;
             font-weight:medium;
             color:$on-surface-medium;
-        }
-      }
-    }
-    .BottomBoxSection {
-      padding:2em;
-      border-top: 1px solid $light-gray;
-      height: 100px;
-      overflow: hidden;
-      position: absolute;
-      bottom:0;
-      left:0;
-      width: 100%;
-    }
-    .subBox {
-      flex-direction:column;
-      h3 {
-        color:$grey;
-      }
-      width: 100%;
-    }
-    .detail {
-      width: 100%;
-      .ant-avatar {
-        background: $primary-color;
-      }
-      .ant-avatar-string {
-        color:white;
-      }
-      .plusSign {
-        display: flex;
-        align-items: center;
-        h2, p {
-          color:$primary-color;
-          margin:0;
-        }
-      }
-      .avatarBox {
-        .avatar  {
-          border:2px solid white;
-          margin-left: -9px!important;
-          z-index: 2;
-        }
-        .avatar-overlap {
-          margin-right: -0.5px!important;
-          border:2px solid white;
-          z-index: 1;
         }
       }
     }

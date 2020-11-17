@@ -16,9 +16,11 @@ import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import Header from '../../components/molecules/Header/Header';
 import SideBar from '../../components/organisms/SideBar/SideBar';
-// import { getFeaturedProjects } from '../../api/projectApi';
+import useQuery from '../../hooks/useQuery';
+import { getProposalsByDaoId } from '../../api/daoApi';
 import CardDaoDetail from '../../components/molecules/CardDaoDetail/CardDaoDetail';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
+import ProposalModal from '../../components/molecules/ProposalModal/ProposalModal';
 
 const { Option } = Select;
 
@@ -28,76 +30,75 @@ function handleChange(value) {
 
 function DaoDetail() {
   const [visibility, setVisibility] = useState(false);
-  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [currentProposals, setCurrentProposals] = useState([]);
+  const [completedProposals, setCompletedProposals] = useState([]);
+  const [creationSuccess, setCreationSuccess] = useState(false);
   const history = useHistory();
+  const { id: daoId } = useQuery();
 
-  const fecthFeaturedProjects = async () => {
+  const fecthDaoProposals = async () => {
     try {
-      const response = await getFeaturedProjects();
-      setFeaturedProjects(response);
+      const response = await getProposalsByDaoId(daoId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Proposals');
+        return [];
+      }
+      const current = response.data.filter(proposal => !proposal.processed);
+      const completed = response.data.filter(proposal => proposal.processed);
+      setCurrentProposals(current);
+      setCompletedProposals(completed);
     } catch (error) {
       message.error(error);
     }
   };
 
-  // TODO for the moment cards without redirection
-  // const goToProjectDetail = project => {
-  //   const state = { projectId: project.id };
-  //   history.push(`/project-detail?id=${project.id}`, state);
-  // };
-
   useEffect(() => {
-    fecthFeaturedProjects();
-  }, []);
+    fecthDaoProposals();
+  }, [creationSuccess]);
 
   return (
     <div className="DaoContainer">
-      <div className="flex space-between titleSection daoDetail borderBottom">
+      <div className="flex space-between titleSection daoDetail borderBottom marginBottom">
         <div className="column">
           <p className="LabelSteps">
-            <LeftOutlined /> Back to DAOS
+            <LeftOutlined />
+            <a onClick={() => history.goBack()}>Back to DAOS</a>
           </p>
           <div className="flex flex-start detailDaoTitleContainer">
-            <TitlePage textTitle="Name of Dao 1" />
-            <a>Proposals (2)</a>
-            <a>Members (36)</a>
+            <TitlePage
+              textTitle={
+                history.location.state
+                  ? history.location.state.daoName
+                  : `Name of Dao ${daoId}`
+              }
+            />
+            <a>Proposals ({currentProposals.length})</a>
           </div>
         </div>
-        <CustomButton theme="Primary" buttonText="+ New Proposal" />
+        <ProposalModal daoId={daoId} setCreationSuccess={setCreationSuccess} />
       </div>
-      <div className="flex daoSearch">
-        <Input
-          placeholder="Search by name"
-          prefix={<SearchOutlined />}
-          style={{ width: 200 }}
-        />
-        <Select
-          defaultValue="status1"
-          style={{ width: 200 }}
-          onChange={handleChange}
-        >
-          <Option value="status1">Status 1</Option>
-          <Option value="status2">Status 2</Option>
-          <Option value="status3">Status 3</Option>
-        </Select>
-        <Select
-          defaultValue="Category1"
-          style={{ width: 200 }}
-          onChange={handleChange}
-        >
-          <Option value="Category1">Category 1</Option>
-          <Option value="Category2">Category 2</Option>
-          <Option value="Category3">Category 3</Option>
-        </Select>
+
+      <div className="column marginBottom">
+        <div className="flex alignItems linkSection">
+          <div className="dot" />
+          <p>Voting period ({currentProposals.length})</p>
+        </div>
+        <div className="BoxContainer">
+          {currentProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus={false} />
+          ))}
+        </div>
       </div>
-      <div className="flex alignItems linkSection">
-        <div className="dot"></div>
-        <p>Voting period (3)</p>
-      </div>
-      <div className="BoxContainer">
-        <CardDaoDetail />
-        <CardDaoDetail />
-        <CardDaoDetail />
+      <div className="column">
+        <div className="flex alignItems linkSection">
+          <div className="dot-completed" />
+          <p>Completed ({completedProposals.length})</p>
+        </div>
+        <div className="BoxContainer">
+          {completedProposals.map(proposal => (
+            <CardDaoDetail proposal={proposal} showStatus />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -137,10 +137,7 @@ function DaoProposalDetail() {
             {/* Second Column */}
             <div className="column col">
               <h3>CATEGORY</h3>
-              <div className="flex categoryTag">
-                <img src="../static/images/icon-add-member.png" />
-                <h3>NEW MEMBER</h3>
-              </div>
+
               <h3>PROGRESS</h3>
               <div className="columnn VoteProgressBox">
                 <div className="flex space-between">
