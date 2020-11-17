@@ -6,64 +6,47 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Select, Form } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
-const ModalMemberSelection = ({
-  usersData,
+const ModalDaoSelection = ({
+  currentUser,
   setApplicant,
   setDescription,
   description,
-  submitMemberProposal,
+  submitDaoProposal,
   onCancel
 }) => {
-  function onChange(value) {
-    if (!value) return;
-    const address = value.key;
-    setApplicant(address);
-  }
+  useEffect(() => {
+    setApplicant(currentUser.address);
+  });
 
   const userFullname = user => {
+    if (!user) return;
     const fullName = `${user.firstName} ${user.lastName}`;
     return fullName;
   };
 
-  const options = usersData.map(user => (
-    <Option value={user.address}>{userFullname(user)}</Option>
-  ));
-
   return (
-    <Form onSubmit={submitMemberProposal}>
-      <div className="memberSelection column">
+    <Form onSubmit={submitDaoProposal}>
+      <div className="daoSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
           <Select
-            showSearch
-            allowClear
-            labelInValue
+            defaultValue={userFullname(currentUser)}
             style={{ width: '100%' }}
-            placeholder="Select an applicant"
-            defaultActiveFirstOption={false}
-            filterOption={(input, option) =>
-              option.props.children
-                .toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
-            }
-            onChange={onChange}
-          >
-            {options}
-          </Select>
+            disabled
+          />
         </Form.Item>
-        <p>Description</p>
+        <p>DAO Name</p>
         <Form.Item name="description">
           <TextArea
-            rows={4}
-            placeholder="Type description"
+            rows={1}
+            placeholder="Type Dao Name"
             onChange={e => setDescription(e.target.value)}
             value={description}
           />
@@ -78,11 +61,11 @@ const ModalMemberSelection = ({
         <CustomButton
           theme="Primary"
           buttonText="Create Proposal"
-          onClick={submitMemberProposal}
+          onClick={submitDaoProposal}
         />
       </div>
     </Form>
   );
 }
 
-export default ModalMemberSelection;
+export default ModalDaoSelection;

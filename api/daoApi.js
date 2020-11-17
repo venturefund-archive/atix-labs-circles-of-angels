@@ -15,7 +15,9 @@ const getDaos = () => doGet(`${baseURL}`);
 
 const getProposalsByDaoId = daoId => doGet(`${baseURL}/${daoId}/proposals`);
 
-const getDaoUsers = () => doGet(`${baseURL}/users`);
+const getAllUsers = () => doGet(`${baseURL}/users`);
+
+const getDaoUsers = daoId => doGet(`${baseURL}/users/${daoId}`);
 
 const createNewMemberProposal = (daoId, data) =>
   doPost(`${baseURL}/${daoId}/proposals/member`, data);
@@ -23,26 +25,42 @@ const createNewMemberProposal = (daoId, data) =>
 const voteProposal = (daoId, proposalId, data) =>
   doPut(`${baseURL}/${daoId}/proposals/${proposalId}/vote`, data);
 
+const uploadProcessGetTransaction = (daoId, proposalId) =>
+  doPost(`${baseURL}/${daoId}/process-proposal/${proposalId}/get-transaction`);
+
+const uploadProcessSendTransaction = (daoId, proposalId, data) =>
+  doPost(
+    `${baseURL}/${daoId}/process-proposal/${proposalId}/send-transaction`,
+    data
+  );
+
 const uploadVoteGetTransaction = (daoId, proposalId, data) =>
   doPost(`${baseURL}/${daoId}/proposal/${proposalId}/get-transaction`, data);
 
 const uploadVoteSendTransaction = (daoId, proposalId, data) =>
   doPost(`${baseURL}/${daoId}/proposal/${proposalId}/send-transaction`, data);
 
-const uploadProposalGetTransaction = (daoId, data) =>
-  doPost(`${baseURL}/${daoId}/get-transaction`, data);
+const uploadMemberProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/new-member/get-transaction`, data);
+
+const uploadDaoProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/new-dao/get-transaction`, data);
 
 const uploadProposalSendTransaction = (daoId, data) =>
-  doPost(`${baseURL}/${daoId}/send-transaction`, data);
+  doPost(`${baseURL}/${daoId}/proposal/send-transaction`, data);
 
 export {
   getDaos,
   getProposalsByDaoId,
   createNewMemberProposal,
   voteProposal,
-  uploadProposalGetTransaction,
+  uploadMemberProposalGetTransaction,
+  uploadDaoProposalGetTransaction,
   uploadProposalSendTransaction,
   uploadVoteGetTransaction,
   uploadVoteSendTransaction,
-  getDaoUsers
+  uploadProcessGetTransaction,
+  uploadProcessSendTransaction,
+  getDaoUsers,
+  getAllUsers
 };
