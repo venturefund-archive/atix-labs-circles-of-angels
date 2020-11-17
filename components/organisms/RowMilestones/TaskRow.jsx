@@ -29,7 +29,8 @@ const TaskRow = ({
   oracles,
   hideOracleColumn,
   allowNewEvidence,
-  fetchEvidences
+  fetchEvidences,
+  fetchMilestones
 }) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
@@ -84,6 +85,7 @@ const TaskRow = ({
       return;
     } finally {
       hideModalPassword();
+      fetchMilestones();
     }
     message.success('Evidence added successfully!');
   };
@@ -275,7 +277,8 @@ const TaskRow = ({
 
 TaskRow.defaultProps = {
   allowNewEvidence: false,
-  fetchEvidences: () => []
+  fetchEvidences: () => [],
+  fetchMilestones: () => []
 };
 
 TaskRow.propTypes = {
@@ -291,7 +294,8 @@ TaskRow.propTypes = {
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.bool,
-  fetchEvidences: PropTypes.func
+  fetchEvidences: PropTypes.func,
+  fetchMilestones: PropTypes.func
 };
 
 export default TaskRow;

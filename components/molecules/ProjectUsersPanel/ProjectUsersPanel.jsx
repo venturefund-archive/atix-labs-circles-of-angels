@@ -39,12 +39,16 @@ const ProjectUsersPanel = ({
     isSupporter &&
     allowAssignFunderStatuses.includes(status);
 
-  const askApplyConfirmation = role =>
-    showModalConfirm(
-      `Applying to ${role}`,
-      `Are you sure you want to apply to ${role} of this project?`,
-      () => onApply(role)
+  const askApplyConfirmation = role => {
+    const roleText = role === supporterRoles.ORACLES ? 'an Oracle' : 'a Funder';
+    const modalText = {
+      title: `Applying to be ${roleText}`,
+      description: `Are you sure you want to apply to be ${roleText} of this project?`
+    };
+    showModalConfirm(modalText.title, modalText.description, () =>
+      onApply(role)
     );
+  };
 
   // TODO: this could be a different component
   const followerList = () => (
@@ -71,48 +75,48 @@ const ProjectUsersPanel = ({
 
   return (
     <Fragment>
-    <div>
-      <h3>Related users</h3>
-      {followerList()}
-      <UsersPanelCard
-        theme="Orange"
-        category="Project Social"
-        userRole="Entrepreneur"
-        users={entrepreneur ? [entrepreneur] : []}
-      />
-      <UsersPanelCard
-        theme="Blue"
-        type="funders"
-        category="Interested in"
-        userRole="Funding"
-        users={funders}
-      />
-      <UsersPanelCard
-        theme="Red"
-        category="Interested in being"
-        userRole="Oracles"
-        users={oracles}
-      />
-    </div>
-     <div>
-      <Col span={24} className="BlockActions">
-        <Col span={24}>
-          <CustomButton
-            theme="Primary"
-            buttonText="I want to be an Oracle"
-            hidden={!allowApplyOracle}
-            onClick={() => askApplyConfirmation(supporterRoles.ORACLES)}
-          />
+      <div>
+        <h3>Related users</h3>
+        {followerList()}
+        <UsersPanelCard
+          theme="Orange"
+          category="Project Social"
+          userRole="Entrepreneur"
+          users={entrepreneur ? [entrepreneur] : []}
+        />
+        <UsersPanelCard
+          theme="Blue"
+          type="funders"
+          category="Interested in"
+          userRole="Funding"
+          users={funders}
+        />
+        <UsersPanelCard
+          theme="Red"
+          category="Interested in being"
+          userRole="Oracles"
+          users={oracles}
+        />
+      </div>
+      <div>
+        <Col span={24} className="BlockActions">
+          <Col span={24}>
+            <CustomButton
+              theme="Primary"
+              buttonText="I want to be an Oracle"
+              hidden={!allowApplyOracle}
+              onClick={() => askApplyConfirmation(supporterRoles.ORACLES)}
+            />
+          </Col>
+          <Col span={24}>
+            <CustomButton
+              theme="Alternative"
+              buttonText="I want to be a Funder"
+              hidden={!allowApplyFunder}
+              onClick={() => askApplyConfirmation(supporterRoles.FUNDERS)}
+            />
+          </Col>
         </Col>
-        <Col span={24}>
-          <CustomButton
-            theme="Alternative"
-            buttonText="I want to be a Funder"
-            hidden={!allowApplyFunder}
-            onClick={() => askApplyConfirmation(supporterRoles.FUNDERS)}
-          />
-        </Col>
-      </Col>
       </div>
     </Fragment>
   );

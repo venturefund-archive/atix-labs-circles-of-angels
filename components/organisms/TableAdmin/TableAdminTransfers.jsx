@@ -7,10 +7,9 @@
  */
 
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Col, message, Button } from 'antd';
+import { Table, Tag, Col, message, Button, Row } from 'antd';
 import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
@@ -40,7 +39,16 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     },
     [txData, claimData, claimApproved]
   );
-  const router = useRouter();
+  const transferStatusTag = (status, rejectionReason) => {
+    const transferStatus = rejectionReason
+      ? transferStatusesMap.rejected
+      : transferStatusesMap[status];
+    return (
+      <Tag color={transferStatus.color} key={status}>
+        {transferStatus.name}
+      </Tag>
+    );
+  };
   const columns = [
     {
       title: 'Transfer Id',
@@ -89,22 +97,15 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: status => {
+      render: (status, { rejectionReason }) => {
         if (!status) return;
-        return (
-          <span>
-            {transferStatusesMap[status] ? (
-              <Tag color={transferStatusesMap[status].color} key={status}>
-                {transferStatusesMap[status].name}
-              </Tag>
-            ) : null}
-          </span>
-        );
+        return <span>{transferStatusTag(status, rejectionReason)}</span>;
       }
     },
     {
       title: 'Actions',
       key: 'actions',
+      fixed: 'right',
       // render: actions => (
       //   <button className="reintentarBtn">
       //     <UndoOutlined /> Reintentar
@@ -113,8 +114,8 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       render: ({ id, status }) => {
         if (status !== TransferStatuses.PENDING) return;
         return (
-          <Fragment>
-            <Col span={8}>
+          <Row>
+            <Col span={12}>
               <CustomButton
                 theme="Primary"
                 key="back"
@@ -122,7 +123,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                 onClick={() => onApprovedTransfer(id)}
               />
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <CustomButton
                 theme="Sencondary"
                 key="back"
@@ -130,7 +131,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                 onClick={() => setTransferSelected(id)}
               />
             </Col>
-          </Fragment>
+          </Row>
         );
       }
     }
@@ -151,9 +152,9 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       return;
     } finally {
       hideModalPassword();
+      window.location.reload();
     }
     message.success('Transfer updated successfully!');
-    router.reload();
   };
 
   const getClaimTx = async (transferId, approved) => {
@@ -194,7 +195,6 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     try {
       const tx = await getClaimTx(transferId, true);
       showPasswordModal(tx, true, { transferId });
-      router.reload();
     } catch (error) {
       message.error(error.message);
     }
@@ -214,7 +214,6 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         transferId: transferSelected,
         ...formData
       });
-      router.reload();
     } catch (error) {
       message.error(error.message);
     }
@@ -255,6 +254,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         size="middle"
         className="TableAdmin"
         pagination={false}
+        scroll={{ x: 1 }}
       />
       <CustomFormModal
         title="Reject transfer"

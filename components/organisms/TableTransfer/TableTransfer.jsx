@@ -19,12 +19,14 @@ import DrawerBlockchain from '../DrawerBlockchain/DrawerBlockchain';
 import { buildTransferBlockchainData } from '../../../helpers/blockchainData';
 
 const transferStatusTag = (status, rejectionReason) => {
-  const transferStatus = rejectionReason ? transferStatusesMap.rejected: transferStatusesMap[status];
+  const transferStatus = rejectionReason
+    ? transferStatusesMap.rejected
+    : transferStatusesMap[status];
   return (
-  <Tag color={ transferStatus.color } key={status}>
-    { transferStatus.name }
-  </Tag>
-  )
+    <Tag color={transferStatus.color} key={status}>
+      {transferStatus.name}
+    </Tag>
+  );
 };
 
 const blockchainDrawerTitle = (
@@ -67,7 +69,10 @@ const TableTransfer = ({ transfers, fetchBlockchainData }) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (status, {rejectionReason}) => <span>{transferStatusTag(status, rejectionReason)}</span>
+      render: (status, { rejectionReason }) => {
+        if (!status) return;
+        return <span>{transferStatusTag(status, rejectionReason)}</span>;
+      }
     },
     {
       render: transfer =>
@@ -79,7 +84,12 @@ const TableTransfer = ({ transfers, fetchBlockchainData }) => {
             onLoad={() => fetchBlockchainData(transfer.id)}
             noDataMessage="Could not fetch the blockchain information for this fund transfer"
             dataBuilder={buildTransferBlockchainData}
-            extraData={{ status: transferStatusTag(transfer.status, transfer.rejectionReason) }}
+            extraData={{
+              status: transferStatusTag(
+                transfer.status,
+                transfer.rejectionReason
+              )
+            }}
           />
         )
     }
