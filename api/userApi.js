@@ -39,9 +39,14 @@ const changeUserRegistrationStatus = (userId, registrationStatus) =>
     registrationStatus
   });
 
-const register = user => {
+const register = (user, { address, encryptedWallet }) => {
   const answers = questionsToText(user);
-  return apiCall('post', `${baseURL}/signup`, { ...user, answers });
+  return apiCall('post', `${baseURL}/signup`, {
+    ...user,
+    answers,
+    address,
+    encryptedWallet
+  });
 };
 
 const recoverPassword = async email => {

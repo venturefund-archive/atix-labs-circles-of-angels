@@ -42,7 +42,7 @@
   .ProjectSummery {
     padding-top: 0.5em;
     h1{
-      @include primary-text($titlecard, $on-surface, 600);
+      @include primary-text($titlecard, $on-surface, 500);
     }
   }
 }

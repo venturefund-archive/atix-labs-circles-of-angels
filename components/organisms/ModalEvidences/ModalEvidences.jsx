@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Divider } from 'antd';
+import { Modal } from 'antd';
 import './_style.scss';
 import { evidencePropTypes } from '../../../helpers/proptypes';
 import EvidenceItem from './EvidenceItem';
@@ -25,10 +25,7 @@ const ModalEvidences = ({ visible, onClose, evidences }) => (
       onCancel={onClose}
     >
       {evidences.map(evidence => (
-        <>
-          <EvidenceItem {...evidence} key={evidence.id} />
-          <Divider />
-        </>
+        <EvidenceItem {...evidence} key={evidence.id} />
       ))}
     </Modal>
   </div>

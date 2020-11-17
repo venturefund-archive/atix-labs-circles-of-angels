@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Col, message } from 'antd';
 import RowLabel from './RowLabel';
 import EditableInfo from './EditableInfo';
 import TaskActions from './TaskActions';
 import { showModalConfirm } from '../../utils/Modals';
+import ModalPasswordRequest from '../ModalPasswordRequest/ModalPasswordRequest';
 import { taskPropType, userPropTypes } from '../../../helpers/proptypes';
+import { signTransaction } from '../../../helpers/blockchain/wallet';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newTaskEvidenceFormItems } from '../../../helpers/createProjectFormFields';
-import { uploadEvidence } from '../../../api/activityApi';
+import {
+  uploadEvidenceGetTransaction,
+  uploadEvidenceSendTransaction
+} from '../../../api/activityApi';
 
 // TODO: define what task fields to show, schema changed
 const TaskRow = ({
@@ -28,7 +33,19 @@ const TaskRow = ({
 }) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [modalNewEvidenceVisible, setModalNewEvidenceVisible] = useState(false);
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [txData, setTxData] = useState();
+  const [evidenceData, setEvidenceData] = useState();
+  const [evidenceStatus, setEvidenceStatus] = useState();
+
+  const signAndSendTransaction = useCallback(
+    async userPassword => {
+      const signedTransaction = await signEvidenceTx(txData, userPassword);
+      await sendEvidenceTx(evidenceData, evidenceStatus, signedTransaction);
+    },
+    [txData, evidenceData, evidenceStatus]
+  );
 
   const deleteTask = () =>
     showModalConfirm(
@@ -43,21 +60,80 @@ const TaskRow = ({
     return save === true ? onEdit(editFields, index) : undefined;
   };
 
-  const onNewEvidence = async data => {
-    const status = data.get('status');
-    data.delete('status');
+  const showPasswordModal = (evidence, tx, status) => {
+    setEvidenceData(evidence);
+    setTxData(tx);
+    setEvidenceStatus(status);
+    setModalPasswordVisible(true);
+  };
 
-    const response = await uploadEvidence(task.id, data, status);
+  const hideModalPassword = () => {
+    setEvidenceData(undefined);
+    setTxData(undefined);
+    setEvidenceStatus(undefined);
+    setModalPasswordVisible(false);
+  };
 
-    if (response.errors) {
-      message.error(response.errors);
+  const inputPasswordHandler = async data => {
+    // TODO: add support for mnemonic
+    const password = data.get('password');
+    try {
+      await signAndSendTransaction(password);
+    } catch (error) {
+      message.error(error.message);
       return;
+    } finally {
+      hideModalPassword();
     }
-
     message.success('Evidence added successfully!');
   };
 
-  const onShowModal = () => setVisible(true);
+  const getEvidenceTx = async (data, status) => {
+    const response = await uploadEvidenceGetTransaction(task.id, data, status);
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const signEvidenceTx = async (tx, password) => {
+    const { tx: unsignedTx, encryptedWallet } = tx;
+    const signedTransaction = await signTransaction(
+      encryptedWallet,
+      unsignedTx,
+      password
+    );
+    return signedTransaction;
+  };
+
+  const sendEvidenceTx = async (evidence, status, signedTransaction) => {
+    evidence.set('signedTransaction', signedTransaction);
+    const response = await uploadEvidenceSendTransaction(
+      task.id,
+      evidence,
+      status
+    );
+
+    if (response.errors) {
+      throw new Error(response.errors);
+    }
+    return response.data;
+  };
+
+  const onNewEvidence = async newEvidenceData => {
+    const newEvidenceStatus = newEvidenceData.get('status');
+    newEvidenceData.delete('status');
+
+    try {
+      const tx = await getEvidenceTx(newEvidenceData, newEvidenceStatus);
+      showPasswordModal(newEvidenceData, tx, newEvidenceStatus);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const onShowModal = () => setModalNewEvidenceVisible(true);
 
   const mapTaskStatus = isVerified =>
     isVerified
@@ -184,9 +260,14 @@ const TaskRow = ({
       <CustomFormModal
         title="Add new evidence"
         formItems={newTaskEvidenceFormItems}
-        visible={visible}
+        visible={modalNewEvidenceVisible}
         onConfirm={onNewEvidence}
-        onClose={() => setVisible(false)}
+        onClose={() => setModalNewEvidenceVisible(false)}
+      />
+      <ModalPasswordRequest
+        visible={modalPasswordVisible}
+        onConfirm={inputPasswordHandler}
+        onClose={hideModalPassword}
       />
     </Col>
   );

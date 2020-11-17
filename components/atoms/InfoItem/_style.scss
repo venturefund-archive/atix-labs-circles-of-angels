@@ -17,7 +17,7 @@
         }
         h2{
             line-height: 16px;
-            @include primary-text($body, $on-surface, 600);
+            @include primary-text($body, $on-surface, 500);
         }
     }
 }

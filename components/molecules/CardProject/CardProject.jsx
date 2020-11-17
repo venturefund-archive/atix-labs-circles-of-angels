@@ -43,9 +43,9 @@ const CardProject = ({ showTag, onClick, tagClick, project }) => {
               </Tag>
             )}
             {following && (
-              <Tag className="Follow" color="#4C7FF7" align="right">
+              <Tag className="Follow" align="right">
                 Following
-                <Icon type="check" style={{ color: 'white' }} />
+                <Icon type="check" style={{ color: '#4C7FF77' }} />
               </Tag>
             )}
             {applied && (

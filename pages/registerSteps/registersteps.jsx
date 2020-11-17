@@ -28,6 +28,7 @@ import { register, getCountries } from '../../api/userApi';
 import useFormSubmitEffect from '../../hooks/useFormSubmitEffect';
 import Loading from '../../components/molecules/Loading/Loading';
 import userRoles from '../../constants/RolesMap';
+import { createNewWallet } from '../../helpers/blockchain/wallet';
 
 const REGISTER_ROLES = [userRoles.ENTREPRENEUR, userRoles.PROJECT_SUPPORTER];
 
@@ -77,17 +78,22 @@ const Registersteps = () => {
     }
   };
 
-  const registerUser = () => {
+  const registerUser = async () => {
     const values = Object.values(formValues).reduce(
       (acc, field) => Object.assign(acc, { [field.name]: field.value }),
       {}
     );
 
-    return register(values);
+    const { mnemonic, address, encryptedWallet } = await createNewWallet(
+      values.password
+    );
+    await register(values, { address, encryptedWallet });
+    return { mnemonic, address };
   };
 
-  const successCallback = () => {
+  const successCallback = wallet => {
     setIsSubmitting(false);
+    // TODO: show mnemonic and address to user
     message.success('The user has been registered successfully!');
     return history.push('/landing');
   };
@@ -137,10 +143,9 @@ const Registersteps = () => {
     setLoading(false);
   }, [countries]);
 
-  // TODO add loading when form is submitting
+  // TODO: add loading when form is submitting
 
   if (loading) return <Loading />;
-
   return (
     <div className="RegisterWrapper">
       <RegisterStepsHeader />
