@@ -6,107 +6,42 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import queryString from 'query-string';
+import api, { doGet, doPut, doDelete, doPost } from './api';
 
-const baseURL = 'milestones';
-const restActivityBasePath = 'activities';
+const baseURL = '/milestones';
 
-const updateMilestone = async ({
-  budget,
-  category,
-  id,
-  impact,
-  impactCriterion,
-  keyPersonnel,
-  project,
-  quarter,
-  signsOfSuccess,
-  signsOfSuccessCriterion,
-  tasks,
-  type
-}) => {
-  try {
-    console.log('Updating milestone', id);
-    const response = await api.put(`${baseURL}/${id}`, {
-      milestone: {
-        budget,
-        category,
-        id,
-        impact,
-        impactCriterion,
-        keyPersonnel,
-        project,
-        quarter,
-        signsOfSuccess,
-        signsOfSuccessCriterion,
-        tasks,
-        type
-      }
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+export const updateMilestone = (milestoneId, saveData) =>
+  doPut(`${baseURL}/${milestoneId}`, saveData);
 
-const deleteMilestone = async milestoneId => {
-  try {
-    console.log('Deleting milestone', milestoneId);
+export const deleteMilestone = milestoneId =>
+  doDelete(`${baseURL}/${milestoneId}`);
 
-    const response = await api.delete(`${baseURL}/${milestoneId}`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+export const createMilestone = (projectId, saveData) =>
+  doPost(`/projects/${projectId}${baseURL}`, saveData);
 
-const deleteActivity = async activityId => {
+export const claimMilestone = milestoneId =>
+  doPost(`${baseURL}/${milestoneId}/claim`);
+
+export const transferredMilestone = milestoneId =>
+  doPost(`${baseURL}/${milestoneId}/transferred`);
+
+// TODO: delete, used in old consensus page
+export const deleteActivity = async activityId => {
   try {
     console.log('Deleting activity', activityId);
 
-    const response = await api.delete(`${restActivityBasePath}/${activityId}`);
+    const response = await api.delete(`/activities/${activityId}`);
     return response;
   } catch (error) {
     return { error };
   }
 };
 
-const getAllMilestones = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+export const getMilestones = async filters => {
+  const queryParams = queryString.stringify(filters, {
+    skipNull: true
+  });
 
-const getAllBudgetStatus = async () => {
-  try {
-    const response = await api.get(`${baseURL}/budgetStatus`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const changeBudgetStatus = async (milestoneId, budgetStatusId) => {
-  try {
-    const response = await api.put(`${baseURL}/${milestoneId}`, {
-      milestone: {
-        budgetStatus: budgetStatusId
-      }
-    });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-export {
-  updateMilestone,
-  deleteMilestone,
-  deleteActivity,
-  getAllMilestones,
-  getAllBudgetStatus,
-  changeBudgetStatus
+  return doGet(`${baseURL}?${queryParams}`);
 };

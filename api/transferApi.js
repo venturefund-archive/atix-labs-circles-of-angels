@@ -6,7 +6,8 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import api, { doGet, doPost } from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/transfers';
 
@@ -36,7 +37,7 @@ const sendTransferInformation = async ({
 
 const getTransferDestinationInfo = async () => {
   try {
-    const response = await api.get(`/general/accountDestination`);
+    const response = await api.get('/general/accountDestination');
     console.log('Geting transfer destination data');
     return response.data.bankAccount;
   } catch (error) {
@@ -51,38 +52,37 @@ const getTransferStatus = async ({ userId, projectId }) => {
     );
     console.log(response);
     return response.data.state;
-  } catch (error) {}
+  } catch (error) { }
 };
 
-const getTransferListOfProject = async projectId => {
-  try {
-    const response = await api.get(`/projects/${projectId}${baseURL}`);
-    let transfers = response.data;
-    if (!transfers) return [];
-    let key = 0;
-    transfers.map(t => {
-      t.key = key;
-      key++;
-    });
-    return transfers;
-  } catch (error) {}
+const getTransferListOfProject = projectId =>
+  apiCall('get', `/projects/${projectId}${baseURL}`);
+
+const getFundedAmount = projectId =>
+  doGet(`/projects/${projectId}${baseURL}/funded-amount`);
+
+const createTransfer = (projectId, transfer) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPost(`/projects/${projectId}${baseURL}`, transfer, config);
 };
 
-const updateStateOfTransference = async (transferId, state) => {
-  try {
-    const response = await api.put(`${baseURL}/${transferId}`, {
-      state
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
+const updateStateOfTransference = (transferId, state) =>
+  apiCall('put', `${baseURL}/${transferId}`, { state });
+
+const addApprovedTransferClaim = transferId =>
+  doPost(`${baseURL}/${transferId}/claim/approved`);
+
+const addDisapprovedTransferClaim = (transferId, data) =>
+  doPost(`${baseURL}/${transferId}/claim/disapproved`, { ...data });
 
 export {
   sendTransferInformation,
   getTransferDestinationInfo,
   getTransferStatus,
   getTransferListOfProject,
-  updateStateOfTransference
+  getFundedAmount,
+  updateStateOfTransference,
+  createTransfer,
+  addApprovedTransferClaim,
+  addDisapprovedTransferClaim
 };

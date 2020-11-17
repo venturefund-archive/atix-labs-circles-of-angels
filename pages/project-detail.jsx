@@ -6,233 +6,305 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import { Tabs } from 'antd';
-import { showModalError } from '../components/utils/Modals';
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
-import { withUser } from '../components/utils/UserContext';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
+import { Tabs, Col, Row, message } from 'antd';
 import './_style.scss';
 import './_steps.scss';
 import './_project-detail.scss';
-import ProjectMission from '../components/molecules/ProjectMission/ProjectMission';
-import GeneralItem from '../components/atoms/GeneralItem/GeneralItem';
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
+import {
+  followProject,
+  unfollowProject,
+  isFollower,
+  applyToProject,
+  isCandidate
+} from '../api/userProjectApi';
+import useQuery from '../hooks/useQuery';
+import ProjectDetailHeader from '../components/molecules/ProjectDetailHeader/ProjectDetailHeader';
+import { userPropTypes } from '../helpers/proptypes';
+import { tabsContent } from '../helpers/projectDetailTabs';
+import ProjectUsersPanel from '../components/molecules/ProjectUsersPanel/ProjectUsersPanel';
 import {
   getProject,
-  getProjectExperiences,
+  getProjectUsers,
   getProjectMilestones,
-  createProjectExperience
+  getProjectExperiences,
+  addProjectExperience
 } from '../api/projectApi';
-import { createUserProject } from '../api/userProjectApi';
-import { getPhoto } from '../api/photoApi';
-import Routing from '../components/utils/Routes';
-import ProjectStatus from '../constants/ProjectStatus';
-import Roles from '../constants/RolesMap';
-import SeccionExperience from './experiences';
+import { projectStatuses, publicProjectStatuses } from '../constants/constants';
+import { assignOracleToActivity } from '../api/activityApi';
+import { claimMilestone } from '../api/milestonesApi';
+import {
+  isFunder,
+  isSupporter,
+  isOwner,
+  isEntrepreneur
+} from '../helpers/utils';
+import { getFundedAmount } from '../api/transferApi';
 
 const { TabPane } = Tabs;
 
-function callback(key) {}
+const ProjectDetail = ({ user }) => {
+  const { id } = useQuery();
+  const projectId = id;
+  const history = useHistory();
 
-class ProjectDetail extends React.Component {
-  constructor(props) {
-    super(props);
+  const [project, setProject] = useState();
+  const [projectUsers, setProjectUsers] = useState({
+    followers: [],
+    oracles: [],
+    funders: []
+  });
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [milestones, setMilestones] = useState();
+  const [experiences, setExperiences] = useState([]);
+  // TODO this is set to true initialy  to avoid show the button in the first render before fetch
+  const [alreadyApplied, setAlreadyApplied] = useState({
+    oracles: true,
+    funders: true
+  });
+  const [fundedAmount, setFundedAmount] = useState(0);
 
-    this.state = {
-      projectDetail: {},
-      projectExperiences: [],
-      milestones: []
-    };
-  }
-
-  static async getInitialProps(query) {
-    const { projectId } = query.query;
-    return { projectId };
-  }
-
-  componentDidMount = async () => {
-    const { projectId } = this.props;
-    const projectDetail = (await getProject(projectId)).data;
-    const milestones = (await getProjectMilestones(projectId)).data;
-    const sortedMilestones = milestones.sort((a, b) => a.id - b.id);
-    const projectExperiences = await this.getExperiences();
-    this.setState({
-      projectDetail,
-      projectExperiences,
-      milestones: sortedMilestones
-    });
-  };
-
-  getExperiences = async () => {
-    const { projectId } = this.props;
-    const projectExperiences = (await getProjectExperiences(projectId))
-      .experiences;
-
-    await projectExperiences.forEach(async experience => {
-      const date = new Date(experience.createdAt);
-      experience.date = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
-
-      if (experience.photos)
-        await experience.photos.forEach(async photo => {
-          photo.image = await getPhoto(photo.id);
-          this.setState({ projectExperiences });
-        });
-    });
-    return projectExperiences;
-  };
-
-  createProjectExperience = async experience => {
-    const { projectId, user } = this.props;
-    const { comment, photos } = experience;
-    const newExperience = {
-      comment,
-      projectId,
-      user: user.id
-    };
-    const createdExperience = await createProjectExperience(
-      newExperience,
-      photos
-    );
-    if (createdExperience.error) {
-      console.error(createdExperience.error);
+  // TODO: this should have pagination
+  const fetchMilestones = async () => {
+    const response = await getProjectMilestones(project.id);
+    if (response.errors) {
+      // TODO: if this fails what to do? ignore it? display an error?
+      setMilestones();
       return;
     }
-    const projectExperiences = await this.getExperiences();
-    this.setState({ projectExperiences });
+    setMilestones(response.data);
   };
 
-  applyToProject = async () => {
-    const { projectDetail } = this.state;
-    const { user } = this.props;
-    const isFunder = user && user.role && user.role.id === Roles.Funder;
-    if (isFunder) {
-      const response = await createUserProject(user.id, projectDetail.id);
+  const fetchProjectUsers = async () => {
+    const response = await getProjectUsers(project.id);
+    if (response.errors) {
+      // TODO: if this fails what to do? ignore it? display an error?
+      setProjectUsers({
+        followers: [],
+        oracles: [],
+        funders: []
+      });
+      return;
+    }
+    setProjectUsers(response.data);
+  };
 
-      if (response.error) {
-        const { error } = response;
-        const title = error.response
-          ? `${error.response.status} - ${error.response.statusText}`
-          : error.message;
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
-        showModalError(title, content);
-        return response;
-      }
+  const fetchExperiences = async () => {
+    const response = await getProjectExperiences(project.id);
+    if (response.errors) {
+      // TODO: if this fails what to do? ignore it? display an error?
+      setExperiences([]);
+      return;
+    }
+    setExperiences(response.data);
+  };
+
+  const fetchProject = async () => {
+    const response = await getProject(projectId);
+    if (response.errors) {
+      message.error('An error occurred while fetching the project');
+      history.goBack();
+      return;
     }
 
-    if (projectDetail.status === ProjectStatus.IN_PROGRESS) {
-      Routing.toProjectProgress({
-        projectId: projectDetail.id
-      });
-    } else {
-      Routing.toConsensusMilestones({
-        projectId: projectDetail.id,
-        initialStep: 0
-      });
+    setProject(response.data);
+  };
+
+  const getTotalFundedAmount = async () => {
+    const response = await getFundedAmount(project.id);
+    if (response.errors) {
+      setFundedAmount(0);
+      return;
+    }
+
+    setFundedAmount(response.data.fundedAmount);
+  };
+
+  const onFollowProject = async () => {
+    try {
+      await followProject(project.id);
+      setIsFollowing(true);
+      fetchProjectUsers();
+      message.success('You are following this project now!');
+    } catch (error) {
+      message.error(error);
     }
   };
 
-  render() {
-    const { projectDetail, projectExperiences, milestones } = this.state;
-    const { projectId } = this.props;
-    const itemsData = projectDetail
-      ? [
-          {
-            subtitle: 'Country of Impact',
-            title: projectDetail.location,
-            iconItem: 'environment'
-          },
-          {
-            subtitle: 'Project duration',
-            title: projectDetail.timeframe,
-            iconItem: 'calendar'
-          },
-          {
-            subtitle: 'Amount',
-            title: projectDetail.goalAmount,
-            iconItem: 'dollar'
-          },
-          {
-            subtitle: 'Name of Lead',
-            title: projectDetail.ownerName,
-            iconItem: 'user'
-          },
-          {
-            subtitle: 'Mail of Lead',
-            title: projectDetail.ownerEmail,
-            iconItem: 'mail'
-          }
-        ]
-      : [];
-    return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="ContentComplete">
-            <div className="ProjectContainer DataSteps">
-              <div className="ProjectHeader">
-                <img
-                  src={`/files/projects/${projectId}/coverPhoto.jpg`}
-                  alt="projectCoverImage"
-                />
-                <div className="ProjectEnterprice">
-                  <p>Entreprise</p>
-                  <h1>{projectDetail ? projectDetail.projectName : ''}</h1>
-                </div>
-              </div>
-              <Tabs defaultActiveKey="1" onChange={callback}>
-                <TabPane tab="Project Details" key="1">
-                  <div className="ProjectContent">
-                    <ProjectMission
-                      mission={projectDetail ? projectDetail.mission : ''}
-                      terms={
-                        projectDetail ? projectDetail.problemAddressed : ''
-                      }
-                      startedProject={
-                        projectDetail.status === ProjectStatus.IN_PROGRESS
-                      }
-                      milestones={milestones}
-                    />
-                    <div className="ProjectGeneralData">
-                      <div className="block">
-                        <h1 className="title">Generals</h1>
-                      </div>
+  const onUnfollowProject = async () => {
+    try {
+      await unfollowProject(project.id);
+      setIsFollowing(false);
+      fetchProjectUsers();
+      message.success('You have followed this project');
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
-                      {itemsData.map((item, i) => (
-                        <GeneralItem
-                          subtitle={item.subtitle}
-                          title={item.title}
-                          iconItem={item.iconItem}
-                          key={i}
-                        />
-                      ))}
-                      {/* <h1 className="title">Oracle: Joseph Stewart</h1> */}
-                    </div>
-                  </div>
-                </TabPane>
-                <TabPane tab="Experiences" key="2">
-                  <SeccionExperience
-                    experiences={projectExperiences}
-                    onCreate={this.createProjectExperience}
-                  />
-                </TabPane>
-              </Tabs>
-            </div>
-            <div className="SubmitProject StepOne">
-              <CustomButton
-                buttonText="Go to project"
-                theme="Success"
-                onClick={this.applyToProject}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+  const onEditProject = () => {
+    const state = { projectId: project.id };
+    history.push(`/create-project?id=${project.id}`, state);
+  };
+
+  const checkFollowing = async () => {
+    try {
+      const response = await isFollower(project.id);
+      setIsFollowing(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const allowEditProject = () =>
+    project &&
+    project.status === projectStatuses.CONSENSUS &&
+    isOwner(project, user) &&
+    isEntrepreneur(user);
+
+  const onApply = async role => {
+    try {
+      await applyToProject(project.id, role);
+
+      setAlreadyApplied({ ...alreadyApplied, [role]: true });
+      fetchProjectUsers();
+      message.success(`You have apply as possible ${role} for this project`);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const checkCandidate = async () => {
+    try {
+      const response = await isCandidate(project.id);
+      setAlreadyApplied(response);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  const assignOracle = async (taskId, oracleId) => {
+    const response = await assignOracleToActivity(taskId, oracleId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+    fetchMilestones();
+  };
+
+  const onCreateExperience = async experience => {
+    const response = await addProjectExperience(project.id, experience);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Experience added successfully!');
+    fetchExperiences();
+  };
+
+  const onClaimMilestone = async milestoneId => {
+    const response = await claimMilestone(milestoneId);
+    if (response.errors) {
+      message.error(response.errors);
+      return;
+    }
+
+    message.success('Milestone claimed successfully!');
+    fetchMilestones();
+  };
+
+  const allowNewFund = () =>
+    project.status === projectStatuses.FUNDING &&
+    isSupporter(user) &&
+    isFunder(user, projectUsers.funders);
+
+  useEffect(() => {
+    fetchProject();
+  }, []);
+
+  useEffect(() => {
+    if (project) {
+      checkFollowing();
+      checkCandidate();
+      fetchProjectUsers();
+      fetchMilestones();
+      if (Object.values(publicProjectStatuses).includes(project.status))
+        getTotalFundedAmount();
+      if (project.status === projectStatuses.CONSENSUS) fetchExperiences();
+    }
+  }, [project]);
+
+  const renderTabs = projectData =>
+    Object.values(
+      tabsContent({
+        project: projectData,
+        user,
+        assignOracle,
+        onCreateExperience,
+        onClaimMilestone,
+        allowNewFund: allowNewFund()
+      })
+    ).map(
+      tab =>
+        !tab.hidden && (
+          <TabPane tab={tab.title} key={tab.key}>
+            {tab.content}
+          </TabPane>
+        )
     );
-  }
-}
 
-export default withUser(ProjectDetail);
+  // TODO: milestones do not have status anymore.
+  //       how do we get the project progress?
+  const projectProgress = 0;
+
+  if (!project) return null;
+
+  return (
+    <Row className="ContentComplete">
+      <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
+        <ProjectDetailHeader
+          {...project}
+          fundedAmount={fundedAmount}
+          onFollowProject={onFollowProject}
+          onUnfollowProject={onUnfollowProject}
+          onEditProject={onEditProject}
+          allowEdit={allowEditProject()}
+          isFollower={isFollowing}
+        />
+        <div className="BlockContent">
+          <Tabs defaultActiveKey="1">
+            {renderTabs({
+              ...project,
+              milestones,
+              progress: projectProgress,
+              experiences,
+              oracles: projectUsers.oracles
+            })}
+          </Tabs>
+        </div>
+      </Col>
+      <Col xs={24} lg={6} className="Right">
+        <ProjectUsersPanel
+          entrepreneur={projectUsers.owner}
+          followers={projectUsers.followers}
+          funders={projectUsers.funders}
+          oracles={projectUsers.oracles}
+          userRole={user.role}
+          onApply={onApply}
+          applied={alreadyApplied}
+          status={project && project.status}
+          isSupporter={isSupporter(user)}
+        />
+      </Col>
+    </Row>
+  );
+};
+
+export default ProjectDetail;
+
+ProjectDetail.propTypes = {
+  user: PropTypes.shape(userPropTypes).isRequired
+};

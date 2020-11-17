@@ -7,6 +7,7 @@
  */
 
 import api from './api';
+import apiCall from './apiCall';
 
 const baseURL = '/userProjects';
 
@@ -41,4 +42,28 @@ const createUserProject = async (userId, projectId) => {
   }
 };
 
-export { getUsers, signAgreement, createUserProject };
+const followProject = async projectId =>
+  apiCall('post', `/projects/${projectId}/follow`);
+
+const unfollowProject = async projectId =>
+  apiCall('post', `/projects/${projectId}/unfollow`);
+
+const isFollower = async projectId =>
+  apiCall('get', `/projects/${projectId}/follower`);
+
+const applyToProject = async (projectId, role) =>
+  apiCall('post', `/projects/${projectId}/${role}`);
+
+const isCandidate = async projectId =>
+  apiCall('get', `/projects/${projectId}/candidate`);
+
+export {
+  getUsers,
+  signAgreement,
+  createUserProject,
+  followProject,
+  unfollowProject,
+  isFollower,
+  applyToProject,
+  isCandidate
+};

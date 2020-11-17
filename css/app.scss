@@ -4,6 +4,7 @@ body {
   margin: auto;
   padding: 0;
   background-color: white;
+  color: $on-surface;
  }
  h1{
   font-size: $h1;
@@ -12,8 +13,25 @@ body {
   border-right: 1px solid $medium-grey;
   margin: 0 0.5em;
  }
- 
- 
+ h3{
+  @include primary-text($labels,$on-surface ,400)
+ }
+ a{
+   color: $primary-color;
+ }
+ p{
+  @include primary-text($body,$on-surface ,400)
+ }
+ b{
+  @include primary-text($body,$on-surface ,600)
+ }
+ span{
+    @include primary-text($body,$on-surface-medium ,400)
+ }
+ .ant-input, .ant-select-selection{
+border: 1px solid $border;
+ }
+
  // Buttons
  
  button {
@@ -23,6 +41,9 @@ body {
   &:focus {
     outline: none;
   }
+ }
+ .ant-form-item-label label::after{
+   display:none;
  }
   .ControlSteps.StepOne,
 .SubmitProject.StepOne {

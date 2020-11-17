@@ -1,27 +1,37 @@
 @import "../../../css/general_styling.scss";
 
 .GeneralItem{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1em;
-
-    h2{
-        @include primary-text($body, $black, 400);
+    margin-right:1.5em;
+    img{
+      margin-right:1.5em;
+      opacity:1;
     }
-
+    .Info{
+        @include primary-text($h3, $white, 400);
+        opacity: 0.7;
+        line-height: 19px;
+    }
     .HeaderData{
-        display: flex;
-        align-items: center;   
-
         .anticon{
             margin-right: 0.5em;
         }
-        p{
-            @include primary-text($body, $grey, 400);
+        .Label{
+            @include primary-text($medium,$white, 600);
+            line-height: 19px;
+            opacity:1;
         } 
+                a{
+                    width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $primary-color;
+        @include breakpoint(sm) {
+            width: 90vw;
+          }
+                }
     }
 }
-
-.GeneralItem:last-child{
-    margin-bottom: 0;
+.GeneralItem:last-child {
+    margin-right:0;
 }

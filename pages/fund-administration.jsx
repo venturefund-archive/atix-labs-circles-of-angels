@@ -6,55 +6,46 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
-import Header from '../components/molecules/Header/Header';
-import SideBar from '../components/organisms/SideBar/SideBar';
+import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 import TableAdminProjects from '../components/organisms/TableAdmin/TableAdminProjects';
 import './_style.scss';
 import './_fund-administration.scss';
-import {
-  getTransferListOfProject,
-  updateStateOfTransference
-} from '../api/transferApi';
-import { withUser } from '../components/utils/UserContext';
-import { getProjects } from '../api/projectApi';
+import { getTransferListOfProject } from '../api/transferApi';
+import { getFundingProjects } from '../api/projectApi';
 
-class FundAdministration extends React.Component {
-  static async getInitialProps(query) {
-    const response = await getProjects();
-    return { projects: response.data || [] };
-  }
+const FundAdministration = () => {
+  const [projects, setProjects] = useState([]);
 
-  saveStatus = (transferId, state) => {
-    updateStateOfTransference(transferId, state);
-    alert(`Status changed successfuly!`);
+  const fetchProjects = async () => {
+    const response = await getFundingProjects();
+    if (response.errors) {
+      setProjects([]);
+      message.error(response.errors);
+      return;
+    }
+    setProjects(response.data);
   };
 
-  getTransfersOfProjects = async projectId => {
-    const transfers = await getTransferListOfProject(parseInt(projectId, 10));
-    console.log(transfers);
-    return transfers || [];
+  const fetchTransfers = async projectId => {
+    try {
+      const transfers = await getTransferListOfProject(parseInt(projectId, 10));
+      return transfers || [];
+    } catch (error) {
+      message.error(error);
+    }
   };
 
-  render() {
-    const { projects } = this.props;
-    return (
-      <div className="AppContainer">
-        <SideBar />
-        <div className="MainContent">
-          <Header />
-          <div className="FundAdminContainer">
-            <h1>Funds Administration</h1>
-            <TableAdminProjects
-              data={projects}
-              saveStatus={this.saveStatus}
-              getTransfersOfProjects={this.getTransfersOfProjects}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
-export default withUser(FundAdministration);
+  return (
+    <div className="FundAdminContainer">
+      <h1>Funds Administration</h1>
+      <TableAdminProjects data={projects} fetchTransfers={fetchTransfers} />
+    </div>
+  );
+};
+
+export default FundAdministration;

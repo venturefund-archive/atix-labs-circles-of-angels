@@ -1,7 +1,6 @@
 @import '../../../css/general_styling.scss';
 .StepsContainer {
   height: 10%;
-  font-family: 'Source Sans Pro', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +42,7 @@
     width: 100%;
     flex-flow: row;
     flex-wrap: wrap;
-    border-top: 1px solid $light-grey;
+    border-top: 1px solid $light-gray;
     padding-top: 1em;
     .DownloadTemplateContainer{
           margin-bottom: 1.4em;
@@ -84,7 +83,6 @@
   overflow-y: auto;
 }
 .ant-btn {
-  font-family: 'Source Sans Pro', sans-serif;
   font-size: $button;
 }
 .ant-btn-primary {

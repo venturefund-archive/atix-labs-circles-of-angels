@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
 import { Button, Icon } from 'antd';
 
@@ -17,7 +18,9 @@ const CustomButton = ({
   onClick,
   icon,
   disabled,
-  htmlType
+  hidden,
+  htmlType,
+  classNameIcon
 }) => {
   const classname = `CustomButton ${theme}`;
   return (
@@ -27,11 +30,36 @@ const CustomButton = ({
       onClick={onClick}
       disabled={disabled}
       htmlType={htmlType}
+      hidden={hidden}
     >
       <span>{buttonText} </span>
-      <Icon type={icon} />
+      <Icon type={icon} className={classNameIcon} />
     </Button>
   );
 };
 
 export default CustomButton;
+
+CustomButton.defaultProps = {
+  id: 1,
+  theme: 'Primary',
+  buttonText: '',
+  onClick: () => undefined,
+  icon: '',
+  disabled: false,
+  hidden: false,
+  htmlType: '',
+  classNameIcon: ''
+};
+
+CustomButton.propTypes = {
+  id: PropTypes.number,
+  theme: PropTypes.string,
+  buttonText: PropTypes.string,
+  onClick: PropTypes.func,
+  icon: PropTypes.string,
+  disabled: PropTypes.bool,
+  hidden: PropTypes.bool,
+  htmlType: PropTypes.string,
+  classNameIcon: PropTypes.string
+};

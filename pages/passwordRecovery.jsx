@@ -13,7 +13,6 @@ import { withUser } from '../components/utils/UserContext';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import { updatePassword } from '../api/userApi';
-import Routing from '../components/utils/Routes';
 
 class PasswordRecovery extends Component {
   static async getInitialProps(query) {

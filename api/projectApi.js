@@ -7,39 +7,75 @@
  */
 
 import { isEmpty } from 'lodash';
-import api from './api';
+import apiCall from './apiCall';
+import api, { doGet, doPost, doPut, doDelete } from './api';
 import ProjectStatus from '../constants/ProjectStatus';
+import { useGet } from '../hooks/useRequest';
 
 const baseURL = '/projects';
 
-const createProject = async (project, files, ownerId) => {
+export const getProjects = () => apiCall('get', `${baseURL}`);
+
+export const getFundingProjects = () => doGet(`${baseURL}/funding`);
+
+export const createProjectThumbnail = saveData => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-  const fd = new FormData();
-  try {
-    fd.append('projectProposal', files[0]);
-    fd.append('projectCoverPhoto', files[1]);
-    fd.append('projectCardPhoto', files[2]);
-    fd.append('projectMilestones', files[3]);
-    fd.append('projectAgreement', files[4]);
-    fd.append('project', JSON.stringify(project));
-    fd.append('ownerId', ownerId);
-
-    const response = await api.post(`${baseURL}`, fd, config);
-
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  return doPost(`${baseURL}/description`, saveData, config);
 };
 
-const getProjects = async () => {
-  try {
-    const response = await api.get(`${baseURL}`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
+export const updateProjectThumbnail = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/description`, saveData, config);
+};
+
+export const updateProjectDetail = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
+};
+
+export const updateProjectProposal = (projectId, saveData) =>
+  doPut(`${baseURL}/${projectId}/proposal`, saveData);
+
+export const processProjectMilestones = (projectId, saveData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/milestones`, saveData, config);
+};
+
+export const getProjectMilestones = projectId =>
+  doGet(`${baseURL}/${projectId}/milestones`);
+
+export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
+
+export const useGetPublicProjects = () => {
+  const [{ data, isLoading, isError }] = useGet('/projects/public');
+  return [data, isLoading, isError];
+};
+
+export const getProjectUsers = projectId =>
+  doGet(`${baseURL}/${projectId}/users`);
+
+export const getFeaturedProjects = async () =>
+  apiCall('get', `${baseURL}/featured`);
+
+export const sendToReview = projectId =>
+  doPut(`${baseURL}/${projectId}/to-review`);
+
+export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
+
+export const addProjectExperience = (projectId, experienceData) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPost(`${baseURL}/${projectId}/experiences`, experienceData, config);
+};
+
+export const getProjectExperiences = async projectId =>
+  doGet(`${baseURL}/${projectId}/experiences`);
+
+export const deleteProject = async projectId =>
+  doDelete(`${baseURL}/${projectId}`);
+
+export const useGetProjects = () => {
+  const [{ data, isLoading, isError }] = useGet('/projects');
+  return [data, isLoading, isError];
 };
 
 const getActiveProjects = async () => {
@@ -54,15 +90,6 @@ const getActiveProjects = async () => {
 const getProjectsPreview = async () => {
   try {
     const response = await api.get(`${baseURL}/preview`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const getProject = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}`);
     return response;
   } catch (error) {
     return { error };
@@ -101,36 +128,8 @@ const rejectProject = async projectId => {
   }
 };
 
-const getProjectMilestones = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/milestones`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
-
-const downloadProjectMilestonesFile = async projectId => {
-  try {
-    const config = { responseType: 'blob' };
-    const response = await api.get(
-      `${baseURL}/${projectId}/milestonesFile`,
-      config
-    );
-
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    const filename = response.headers.file;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const updateProjectStatus = async (projectId, status) =>
+  apiCall('put', `${baseURL}/${projectId}/status`, { status });
 
 const downloadAgreement = async projectId => {
   try {
@@ -193,22 +192,18 @@ const uploadAgreement = async (projectId, agreementFile) => {
 };
 
 const downloadMilestonesTemplate = async () => {
-  try {
-    const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/templates/milestones`, config);
+  const config = { responseType: 'blob' };
+  const response = await doGet('files/milestones/template', undefined, config);
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    const filename = response.headers.file;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  const filename = response.headers.file;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
 
-    return response;
-  } catch (error) {
-    return { error };
-  }
+  return response;
 };
 
 const downloadProposalTemplate = async () => {
@@ -275,15 +270,6 @@ const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
   }
 };
 
-const getProjectExperiences = async projectId => {
-  try {
-    const response = await api.get(`${baseURL}/${projectId}/experiences`);
-    return response.data;
-  } catch (error) {
-    return { error };
-  }
-};
-
 const createProjectExperience = async (experience, photos) => {
   try {
     photos = photos.map(photo => photo.originFileObj);
@@ -306,14 +292,10 @@ const createProjectExperience = async (experience, photos) => {
 };
 
 export {
-  getProjects,
   getActiveProjects,
-  getProject,
   confirmProject,
   rejectProject,
-  getProjectMilestones,
-  createProject,
-  downloadProjectMilestonesFile,
+  updateProjectStatus,
   downloadAgreement,
   uploadAgreement,
   downloadProposal,
@@ -322,7 +304,6 @@ export {
   getProjectsAsOracle,
   downloadProposalTemplate,
   updateProject,
-  getProjectExperiences,
   createProjectExperience,
   getProjectsPreview
 };

@@ -1,0 +1,79 @@
+@import '../css/general_styling.scss';
+
+.ThumbnailsWrapper{  
+  padding: 2em 3em;
+  @include breakpoint(sm) {
+    padding: 2em 1em 0;
+  }
+  .centered{
+    height:65vh;
+    overflow-y:scroll;
+  }
+  .FooterButtons {
+    @include breakpoint(sm) {
+      position: relative;
+      margin-top: 1em;
+    }
+  }
+  .ant-divider,
+  .ant-divider-vertical {
+    height: 100%;
+    @include breakpoint(sm) {
+      display: none;
+    }
+  }
+  .ant-form-item-label label {
+    @include primary-text($labels, $on-surface, 600);
+  }  
+  .CardExample {
+    @include breakpoint(sm) {
+      margin-bottom: 2em;
+    }
+    .ant-skeleton-paragraph {
+      padding: 0;
+      margin-bottom: 0;
+    }
+    .ant-skeleton-content .ant-skeleton-paragraph > li {
+      background: $light-gray;
+      width: 100% !important;
+    }
+    h1 {
+      @include primary-text($titlecard, $on-surface, 600);
+    }
+    h2{
+      width: 100%;
+    }
+    h3 {
+      @include primary-text($labels, $on-surface-medium, 600);
+      margin: 0.5em 0 0.9em;
+      @include breakpoint(sm) {
+        margin: 1em 0;
+      }
+    }
+    .InfoItem {
+      width: 29%;
+      @include breakpoint(sm) {
+        width: 100%;
+      }
+      .ant-skeleton-paragraph {
+        margin-bottom: 0.6em;
+      }
+
+    }
+    .BlockImage {
+      border-radius: 4px;
+      background: $light-gray;
+      overflow: hidden;
+      height: 260px;
+      img {
+        width: 100%;
+      }
+    }
+    .ant-divider,
+    .ant-divider-vertical {
+      margin: 0 1em;
+      height: 35px;
+    }
+  }
+  
+}

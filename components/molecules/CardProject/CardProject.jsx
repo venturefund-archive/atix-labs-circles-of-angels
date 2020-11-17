@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -7,68 +8,106 @@
  */
 
 import React from 'react';
-import { Tag, Progress } from 'antd';
+import PropTypes from 'prop-types';
+import { Tag, Divider, Row, Col, Icon } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
+import { projectCardPropType } from '../../../helpers/proptypes';
+import projectStatusMap from '../../../model/projectStatus';
 
-const CardProject = ({
-  enterpriseName,
-  enterpriseLocation,
-  timeframe,
-  amount,
-  showTag,
-  onClick,
-  tagClick,
-  milestoneProgress,
-  projectId
-}) => (
-  <div className="CardProject">
-    {showTag && (
-      <Tag color="orange" onClick={tagClick}>
-        View my activities to verify
-      </Tag>
-    )}
+const CardProject = ({ showTag, onClick, tagClick, project }) => {
+  const {
+    cardPhotoPath,
+    goalAmount,
+    location,
+    projectName,
+    timeframe,
+    status,
+    following,
+    applied
+  } = project;
+  return (
+    <Col className="CardProject" span={8}>
+      {showTag && (
+        <Tag color="orange" onClick={tagClick}>
+          View my activities to verify
+        </Tag>
+      )}
+      <div onClick={onClick}>
+        <div className="ProjectDescription">
+          <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
+          {status && (
+            <Tag color={projectStatusMap[status].color}>
+              {projectStatusMap[status].name}
+            </Tag>
+          )}
+          {following ? (
+            <Tag className="Follow" color="#4C7FF7" align="right">
+              Following
+              <Icon type="check" style={{ color: 'white' }} />
+            </Tag>
+          ) : (
+            ''
+          )}
+          {applied ? (
+            <Tag className="Applied" color="#DF5BD2" align="right">
+              Applied
+              <Icon type="check" style={{ color: 'white' }} />
+            </Tag>
+          ) : (
+            ''
+          )}
+        </div>
+        <Row className="ProjectSummery">
+          <Col span={24}>
+            <h1>{projectName}</h1>
+          </Col>
+          <Col align="middle" span={24}>
+            <InfoItem
+              xs={24}
+              lg={7}
+              subtitle="Country of Impact"
+              title={location}
+              iconInfoItem="environment"
+            />
+            <Col span={1} xs={0}>
+              <Divider type="vertical" />
+            </Col>
+            <InfoItem
+              xs={24}
+              lg={7}
+              subtitle="Timeframe"
+              title={timeframe}
+              iconInfoItem="clock-circle"
+            />
+            <Col span={1} xs={0}>
+              <Divider type="vertical" />
+            </Col>
+            <InfoItem
+              xs={24}
+              lg={7}
+              subtitle="Amount"
+              title={`$ ${goalAmount}`}
+              iconInfoItem="dollar"
+            />
+          </Col>
+        </Row>
+      </div>
+    </Col>
+  );
+};
 
-    <div onClick={onClick}>
-      <div className="ProjectDescription">
-        <img
-          src={`/files/projects/${projectId}/cardPhoto.jpg`}
-          alt="projectCardImage"
-        />
-        <div className="GradientEfect">
-          <div className="DescriptionData">
-            <h1>{enterpriseName}</h1>
-          </div>
-        </div>
-      </div>
-      <div className="ProjectSummery">
-        <div className="space-between">
-          <InfoItem
-            subtitle="Country of Impact"
-            title={enterpriseLocation}
-            iconInfoItem="environment"
-          />
-          <InfoItem
-            subtitle="Timeframe"
-            title={timeframe}
-            iconInfoItem="clock-circle"
-          />
-          <InfoItem
-            subtitle="Amount"
-            title={`$ ${amount}`}
-            iconInfoItem="dollar"
-          />
-        </div>
-        <Progress
-          size="small"
-          showInfo={false}
-          strokeColor="#22C89B"
-          percent={milestoneProgress || 0}
-          status="active"
-        />
-      </div>
-    </div>
-  </div>
-);
+CardProject.defaultProps = {
+  showTag: false,
+  onClick: () => null,
+  tagClick: () => null
+};
+
+CardProject.propTypes = {
+  project: PropTypes.shape(projectCardPropType).isRequired,
+  onClick: PropTypes.func,
+  tagClick: PropTypes.func,
+  showTag: PropTypes.bool
+};
 
 export default CardProject;

@@ -1,8 +1,6 @@
 @import "../../../css/general_styling.scss";
 
 .TableBOProjects {
-  font-family: "Source Sans Pro", sans-serif;
-
   .ant-tag{
     border-radius: 20px;
     padding: 0 20px;
@@ -24,9 +22,6 @@
     margin-left: -10px;
   }
 
-  .ProjectAccess{
-    cursor: pointer;
-  }
 
   select {
     background: $primary-color;
