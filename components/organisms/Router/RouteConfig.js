@@ -14,6 +14,7 @@ import Recovery from '../../../pages/recovery';
 import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
 import Roles from '../../../constants/RolesMap';
+import DaoMembers from '../../../pages/dao/dao-members';
 
 const {
   COA_ADMIN,
@@ -140,10 +141,11 @@ export const routesConfig = [
     }
   },
   {
-    path: '/dao/dao-proposal-detail',
+    path: '/dao-proposal-detail',
     component: DaoProposalDetail,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
+    }
   }
 ];

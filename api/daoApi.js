@@ -7,7 +7,7 @@
  */
 
 // import api, { doGet } from './api';
-import { doGet, doPost } from './api';
+import { doGet, doPost, doPut } from './api';
 
 const baseURL = '/daos';
 
@@ -15,7 +15,34 @@ const getDaos = () => doGet(`${baseURL}`);
 
 const getProposalsByDaoId = daoId => doGet(`${baseURL}/${daoId}/proposals`);
 
+const getDaoUsers = () => doGet(`${baseURL}/users`);
+
 const createNewMemberProposal = (daoId, data) =>
   doPost(`${baseURL}/${daoId}/proposals/member`, data);
 
-export { getDaos, getProposalsByDaoId, createNewMemberProposal };
+const voteProposal = (daoId, proposalId, data) =>
+  doPut(`${baseURL}/${daoId}/proposals/${proposalId}/vote`, data);
+
+const uploadVoteGetTransaction = (daoId, proposalId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/${proposalId}/get-transaction`, data);
+
+const uploadVoteSendTransaction = (daoId, proposalId, data) =>
+  doPost(`${baseURL}/${daoId}/proposal/${proposalId}/send-transaction`, data);
+
+const uploadProposalGetTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/get-transaction`, data);
+
+const uploadProposalSendTransaction = (daoId, data) =>
+  doPost(`${baseURL}/${daoId}/send-transaction`, data);
+
+export {
+  getDaos,
+  getProposalsByDaoId,
+  createNewMemberProposal,
+  voteProposal,
+  uploadProposalGetTransaction,
+  uploadProposalSendTransaction,
+  uploadVoteGetTransaction,
+  uploadVoteSendTransaction,
+  getDaoUsers
+};
