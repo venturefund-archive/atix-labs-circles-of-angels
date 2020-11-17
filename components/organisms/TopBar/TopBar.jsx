@@ -11,10 +11,9 @@ import PropTypes from 'prop-types';
 import { Row, Col, Divider } from 'antd';
 import { useHistory } from 'react-router';
 import './_style.scss';
-import ModalLogin from '../ModalLogin/ModalLogin';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-const TopBar = ({ setVisibility, visibility }) => {
+const TopBar = ({ modalLogin }) => {
   const history = useHistory();
 
   return (
@@ -34,19 +33,7 @@ const TopBar = ({ setVisibility, visibility }) => {
           onClick={() => history.push('/register')}
         />
         <Divider type="vertical" />
-        <div className="WrapperModalLogin">
-          <CustomButton
-            data-testid="loginButton"
-            buttonText="Login"
-            theme="Secondary"
-            onClick={() => setVisibility(true)}
-          />
-          <ModalLogin
-            data-testid="modal"
-            setVisibility={setVisibility}
-            visibility={visibility}
-          />
-        </div>
+        {modalLogin}
       </Col>
     </Row>
   );

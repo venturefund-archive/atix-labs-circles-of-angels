@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Upload, Form } from 'antd';
+import { Upload, Form, Button, Modal } from 'antd';
 import CustomButton from '../CustomButton/CustomButton';
+import './_FieldFileStyle.scss';
+import GeneralItem from '../GeneralItem/GeneralItem';
+import LinkButton from '../LinkButton/LinkButton';
 
 const FieldFile = ({
   name,
+  value,
   handleChange,
   showUploadList,
+  showPreviouslyUploadedList,
+  label,
+  isImage,
   valid,
   errorMessage,
   multiple,
   clean
 }) => {
   const [fileList, setFileList] = useState([]);
+  const [showPrevious, setShowPrevious] = useState(showPreviouslyUploadedList);
+  const [previewVisible, setPreviewVisible] = useState(false);
 
   const fileChange = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -33,6 +42,7 @@ const FieldFile = ({
     const newFileList = multiple ? [...fileList, file] : [file];
     handleChange(undefined, name, newFileList);
     setFileList(newFileList);
+    setShowPrevious(false);
   };
 
   const cleanField = () => setFileList([]);
@@ -40,6 +50,19 @@ const FieldFile = ({
   useEffect(() => {
     cleanField();
   }, [clean]);
+
+  const previouslyUploadedFile = className =>
+    isImage ? (
+      <img className={className} alt="Previously Uploaded File" src={value} />
+    ) : (
+      <GeneralItem
+        className="FieldFileGeneralItem"
+        type="link"
+        url={value}
+        value={<LinkButton text={label} className="link" />}
+        hide={!value}
+      />
+    );
 
   return (
     <Form.Item
@@ -53,23 +76,53 @@ const FieldFile = ({
         onRemove={removeFile}
         fileList={fileList}
       >
-        <CustomButton buttonText="Click to upload" theme="Alternative" />
+        <CustomButton
+          buttonText={value ? 'Click to change' : 'Click to upload'}
+          theme="Alternative"
+        />
       </Upload>
+      {showPrevious && value && (
+        <>
+          <Button
+            type="link"
+            onClick={() => isImage && setPreviewVisible(true)}
+          >
+            {previouslyUploadedFile('PreviouslyUploadedList')}
+          </Button>
+          {isImage && (
+            <Modal
+              visible={previewVisible}
+              footer={null}
+              onCancel={() => setPreviewVisible(false)}
+            >
+              {previouslyUploadedFile('PreviouslyUploadedListModal')}
+            </Modal>
+          )}
+        </>
+      )}
     </Form.Item>
   );
 };
 
 FieldFile.defaultProps = {
   showUploadList: true,
+  showPreviouslyUploadedList: false,
+  isImage: false,
   valid: undefined,
+  label: undefined,
   errorMessage: undefined,
   multiple: false,
-  clean: false
+  clean: false,
+  value: undefined
 };
 
 FieldFile.propTypes = {
   showUploadList: PropTypes.bool,
+  showPreviouslyUploadedList: PropTypes.bool,
+  isImage: PropTypes.bool,
   name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  label: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   valid: PropTypes.bool,
   errorMessage: PropTypes.string,

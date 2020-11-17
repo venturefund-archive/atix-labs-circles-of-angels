@@ -97,7 +97,6 @@
   .WrapperActionsActivities,
   .WrapperActions {
     .isEditing {
-      background: #e9f0fe;
       border-radius: 4px;
     }
     .blueLink{
@@ -123,7 +122,7 @@
   }
   .WrapperActions,
   .WrapperActionsActivities {
-    a {
+    button {
       font-size: $body-2;
     }
   }

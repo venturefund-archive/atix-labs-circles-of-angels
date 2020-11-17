@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'antd';
+import { Button, Col } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
 import MilestoneClaimStatus from './MilestoneClaimStatus';
 
@@ -21,34 +21,46 @@ const editMilestoneButtons = (
       {showEdit &&
         (isEditing ? (
           <div className="isEditing">
-            <a className="blueLink" onClick={() => onEdit(true)}>
+            <Button
+              type="link"
+              className="blueLink"
+              onClick={() => onEdit(true)}
+            >
               Save
-            </a>
-            <a className="redLink" onClick={() => onEdit(false)}>
+            </Button>
+            <Button
+              type="link"
+              className="redLink"
+              onClick={() => onEdit(false)}
+            >
               Cancel
-            </a>
+            </Button>
           </div>
         ) : (
           <div>
-            <a className="blueLink" onClick={() => onEdit(false)}>
+            <Button
+              type="link"
+              className="blueLink"
+              onClick={() => onEdit(false)}
+            >
               Edit
-            </a>
+            </Button>
           </div>
         ))}
       {showDelete && showEdit}
       {showCreateTask && (
         <div>
-          <a className="blueLink" onClick={onClickCreateTask}>
+          <Button type="link" className="blueLink" onClick={onClickCreateTask}>
             + New Task
-          </a>
+          </Button>
         </div>
       )}
     </div>
     {showDelete && (
       <div>
-        <a className="redLink" onClick={onDelete}>
+        <Button type="link" className="redLink" onClick={onDelete}>
           Delete
-        </a>
+        </Button>
       </div>
     )}
   </div>

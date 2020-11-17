@@ -9,9 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import { Button } from 'antd';
 
-const GeneralItem = ({ value, label, img, type, extra, url }) => (
-  <div className="GeneralItem flex">
+const GeneralItem = ({ value, label, img, type, extra, url, className }) => (
+  <div className={`GeneralItem flex ${className}`}>
     {img && <img src={img} alt="imgItems" />}
     <div className="HeaderData vertical">
       {type === 'info' && (
@@ -20,14 +21,14 @@ const GeneralItem = ({ value, label, img, type, extra, url }) => (
         </p>
       )}
       {type === 'link' && (
-        <a
-          className="Label"
+        <Button
+          type={`${type} Label`}
           href={url || value}
           target="_blank"
           rel="noopener noreferrer"
         >
           {value}
-        </a>
+        </Button>
       )}
       {label && <h2 className="Info">{label}</h2>}
     </div>
@@ -39,7 +40,8 @@ GeneralItem.defaultProps = {
   type: 'info',
   extra: '',
   url: undefined,
-  label: undefined
+  label: undefined,
+  className: ''
 };
 
 GeneralItem.propTypes = {
@@ -48,7 +50,8 @@ GeneralItem.propTypes = {
   img: PropTypes.string,
   type: PropTypes.oneOf(['info', 'link']),
   extra: PropTypes.string,
-  url: PropTypes.string
+  url: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default GeneralItem;

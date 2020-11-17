@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input } from 'antd';
+import { max } from 'lodash';
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
 export default function FieldInput(props) {
@@ -12,6 +13,7 @@ export default function FieldInput(props) {
     errorMessage,
     handleChange,
     type,
+    maxLength,
     disabled
   } = props;
 
@@ -29,6 +31,7 @@ export default function FieldInput(props) {
         size="large"
         onChange={handleChange}
         disabled={disabled}
+        maxLength={maxLength}
       />
     </Form.Item>
   );

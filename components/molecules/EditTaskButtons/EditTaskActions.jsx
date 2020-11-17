@@ -3,8 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// TODO: <a> elements should be replaced by buttons with link style
+import { Button } from 'antd';
 
 const EditTaskActions = ({
   onEdit,
@@ -18,22 +17,34 @@ const EditTaskActions = ({
       <div>
         {isEditing ? (
           <span className="isEditing">
-            <a className="blueLink" onClick={() => onEdit(true)}>
+            <Button
+              type="link"
+              className="blueLink"
+              onClick={() => onEdit(true)}
+            >
               Save
-            </a>
-            <a className="redLink" onClick={() => onEdit(false)}>
+            </Button>
+            <Button
+              type="link"
+              className="redLink"
+              onClick={() => onEdit(false)}
+            >
               Cancel
-            </a>
+            </Button>
           </span>
         ) : (
-          <a className="blueLink" onClick={() => onEdit(false)}>
+          <Button
+            type="link"
+            className="blueLink"
+            onClick={() => onEdit(false)}
+          >
             Edit
-          </a>
+          </Button>
         )}
         {showDelete && (
-          <a className="redLink" onClick={onDelete}>
+          <Button type="link" className="redLink" onClick={onDelete}>
             Delete
-          </a>
+          </Button>
         )}
       </div>
     )}

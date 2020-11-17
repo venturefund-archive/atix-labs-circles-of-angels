@@ -7,9 +7,10 @@
  */
 
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Col, message } from 'antd';
+import { Table, Tag, Col, message, Button } from 'antd';
 import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
@@ -39,7 +40,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     },
     [txData, claimData, claimApproved]
   );
-
+  const router = useRouter();
   const columns = [
     {
       title: 'Transfer Id',
@@ -74,9 +75,14 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       key: 'receiptPath',
       // TODO check how we will handle this
       render: receipt => (
-        <a href={receipt} target="_blank" rel="noopener noreferrer">
+        <Button
+          type="link"
+          href={receipt}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View
-        </a>
+        </Button>
       )
     },
     {
@@ -87,14 +93,13 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         if (!status) return;
         return (
           <span>
-            { transferStatusesMap[status] ?
+            {transferStatusesMap[status] ? (
               <Tag color={transferStatusesMap[status].color} key={status}>
                 {transferStatusesMap[status].name}
               </Tag>
-              : null
-            }
+            ) : null}
           </span>
-        )
+        );
       }
     },
     {
@@ -105,7 +110,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       //     <UndoOutlined /> Reintentar
       //   </button>
       // )
-      render: ({id, status}) => {
+      render: ({ id, status }) => {
         if (status !== TransferStatuses.PENDING) return;
         return (
           <Fragment>
@@ -148,7 +153,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       hideModalPassword();
     }
     message.success('Transfer updated successfully!');
-    fetchTransfers();
+    router.reload();
   };
 
   const getClaimTx = async (transferId, approved) => {
@@ -189,6 +194,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     try {
       const tx = await getClaimTx(transferId, true);
       showPasswordModal(tx, true, { transferId });
+      router.reload();
     } catch (error) {
       message.error(error.message);
     }
@@ -208,6 +214,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
         transferId: transferSelected,
         ...formData
       });
+      router.reload();
     } catch (error) {
       message.error(error.message);
     }

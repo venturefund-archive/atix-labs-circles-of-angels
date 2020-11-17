@@ -11,7 +11,7 @@ import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { getProjects, updateProjectStatus, publish } from '../api/projectApi';
+import { getProjects, publish } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 
 const BackOfficeProjects = () => {
@@ -54,6 +54,7 @@ const BackOfficeProjects = () => {
         data={projects}
         onConfirm={projectId => handleConfirm(projectId)}
         onReject={projectId => handleReject(projectId)}
+        fetchProjects={fetchProjects}
       />
     </div>
   );

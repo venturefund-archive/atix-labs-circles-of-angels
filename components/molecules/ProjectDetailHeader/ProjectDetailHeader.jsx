@@ -11,14 +11,13 @@ import {
 } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
+import moment from 'moment';
 
 // TODO: show default if status not valid?
-const getTagStatus = status =>
+const getTagStatus = (status, daysToGo) =>
   Object.keys(projectStatusMap).includes(status) && (
     <Tag color={projectStatusMap[status].color}>
-      {projectStatusMap[status].name}
-      {/* TODO: receive props  */}
-      {/* <b>- 10 days left</b> */}
+      {projectStatusMap[status].name} {daysToGo}
     </Tag>
   );
 
@@ -29,6 +28,14 @@ const blockchainDrawerTitle = (
   </p>
 );
 
+const getDaysToGo = nextStatusUpdateAt => {
+  if (!nextStatusUpdateAt) return null;
+  const daysToGo = moment(nextStatusUpdateAt).diff(moment(), 'days');
+  return daysToGo >= 0 ? (
+  <b> - {daysToGo} days left</b>
+  ): null; 
+}
+
 const ProjectDetailHeader = ({
   coverPhotoPath,
   location,
@@ -38,7 +45,6 @@ const ProjectDetailHeader = ({
   projectName,
   proposalFilePath,
   agreementFilePath,
-  faqLink,
   status,
   onFollowProject,
   onUnfollowProject,
@@ -46,7 +52,8 @@ const ProjectDetailHeader = ({
   onAbortProject,
   allowEdit,
   isFollower,
-  fetchBlockchainData
+  fetchBlockchainData,
+  nextStatusUpdateAt
 }) => {
   const itemsData = [
     {
@@ -90,6 +97,7 @@ const ProjectDetailHeader = ({
       hide: !agreementFilePath
     }
   ];
+  const daysToGo = getDaysToGo(nextStatusUpdateAt);
 
   return (
     <div className="ProjectHeader">
@@ -100,7 +108,7 @@ const ProjectDetailHeader = ({
       />
       <div className="ProjectEnterprice">
         <Row className="BlockTop">
-          {getTagStatus(status)}
+          {getTagStatus(status, daysToGo)}
           <div className="space-between blockverticalrsp">
             <Col className="flex">
               <h1>{projectName}</h1>

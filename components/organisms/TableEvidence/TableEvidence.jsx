@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Table, Divider, Tag } from 'antd';
+import { Table, Divider, Tag, Button } from 'antd';
 import '../TableProjectProgress/_tablestyle.scss';
 
 const TableEvidence = ({
@@ -47,11 +47,15 @@ const TableEvidence = ({
         <span className="flex">
           {(isActivityOracle || isOwner) && (
             <span>
-              <a onClick={() => onDelete(record)}>Delete</a>
+              <Button type="link" onClick={() => onDelete(record)}>
+                Delete
+              </Button>
               <Divider type="vertical" />
             </span>
           )}
-          <a onClick={() => onDownload(record)}>Download</a>
+          <Button type="link" onClick={() => onDownload(record)}>
+            Download
+          </Button>
         </span>
       )
     }

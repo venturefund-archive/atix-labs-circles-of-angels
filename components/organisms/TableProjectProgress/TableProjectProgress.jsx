@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Table, Tag, Badge, Icon, Progress } from 'antd';
+import { Table, Tag, Badge, Icon, Progress, Button } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
 import { claimMilestoneStatus } from '../../../constants/constants';
@@ -119,7 +119,8 @@ const TableProjectProgress = ({
       render: (text, record) =>
         record.type !== 'Milestone' ? (
           <span key={record.id}>
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 Routing.toProjectEvidence({
                   activityId: record.id,
@@ -128,7 +129,7 @@ const TableProjectProgress = ({
               }}
             >
               Evidence
-            </a>
+            </Button>
           </span>
         ) : (
           record.budgetStatus.id === claimMilestoneStatus.CLAIMABLE &&

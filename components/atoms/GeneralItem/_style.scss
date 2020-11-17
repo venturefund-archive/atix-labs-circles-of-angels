@@ -20,7 +20,7 @@
             @include primary-text($body,$white, 500);
             line-height: 19px;
             opacity:1;
-            max-width:250px;
+            max-width:200px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -32,6 +32,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    padding: 0.35em;
                     &:hover{
                         opacity: 1;
                     }

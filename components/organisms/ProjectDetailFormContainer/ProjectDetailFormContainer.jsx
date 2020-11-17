@@ -60,14 +60,30 @@ const ProjectDetailFormContainer = ({
   useEffect(() => {
     if (!project || !project.id) return goBack();
 
+    clearFields();
     const projectFields = { ...fields };
-    const { mission, problemAddressed, coverPhotoPath } = project;
+    const {
+      mission,
+      problemAddressed,
+      coverPhotoPath,
+      agreementFilePath,
+      proposalFilePath
+    } = project;
 
-    if (!mission && !problemAddressed && !coverPhotoPath) return;
+    if (
+      !mission &&
+      !problemAddressed &&
+      !coverPhotoPath &&
+      !agreementFilePath &&
+      !proposalFilePath
+    )
+      return;
 
     projectFields.mission.value = mission;
     projectFields.problemAddressed.value = problemAddressed;
     projectFields.coverPhotoPath.value = coverPhotoPath;
+    projectFields.agreementFile.value = agreementFilePath;
+    projectFields.proposalFile.value = proposalFilePath;
 
     setFields({ ...projectFields });
     validateFields();
@@ -89,6 +105,7 @@ const ProjectDetailFormContainer = ({
     data.forEach((value, key) => {
       formData[key] = value;
     });
+    clearFields();
     try {
       if (project && project.id) {
         const response = await updateProjectDetail(project.id, data);
@@ -101,6 +118,12 @@ const ProjectDetailFormContainer = ({
     } catch (error) {
       message.error('An error occurred when trying to save the information');
     }
+  };
+
+  const clearFields = () => {
+    Object.keys(fields).forEach(fieldName => {
+      fields[fieldName].value = '';
+    });
   };
 
   return (

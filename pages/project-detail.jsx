@@ -300,6 +300,7 @@ const ProjectDetail = ({ user }) => {
     Object.values(
       tabsContent({
         project: projectData,
+        funders: projectUsers.funders,
         user,
         assignOracle,
         onCreateExperience,
@@ -327,7 +328,7 @@ const ProjectDetail = ({ user }) => {
 
   return (
     <Row className="ContentComplete">
-      <Col xs={24} lg={18} className="ProjectContainer scrollY DataSteps">
+      <Col xs={24} xl={18} className="ProjectContainer scrollY DataSteps">
         <ProjectDetailHeader
           {...project}
           fundedAmount={fundedAmount}
@@ -351,7 +352,7 @@ const ProjectDetail = ({ user }) => {
           </Tabs>
         </div>
       </Col>
-      <Col xs={24} lg={6} className="Right">
+      <Col xs={24} xl={6} className="Right">
         <ProjectUsersPanel
           entrepreneur={projectUsers.owner}
           followers={projectUsers.followers}
