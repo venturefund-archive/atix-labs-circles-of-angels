@@ -23,7 +23,8 @@ const TaskRow = ({
   canAssignOracle,
   oracles,
   hideOracleColumn,
-  allowNewEvidence
+  allowNewEvidence,
+  fetchEvidences
 }) => {
   const [editFields, setEditFields] = useState(task);
   const [editing, setEditing] = useState(false);
@@ -91,6 +92,7 @@ const TaskRow = ({
               showAddEvidence={allowNewEvidence}
               type={taskActionType}
               taskStatusProps={mapTaskStatus(task.verified)}
+              fetchEvidences={() => fetchEvidences(task.id)}
             />
           )}
         </div>
@@ -191,7 +193,8 @@ const TaskRow = ({
 };
 
 TaskRow.defaultProps = {
-  allowNewEvidence: false
+  allowNewEvidence: false,
+  fetchEvidences: () => []
 };
 
 TaskRow.propTypes = {
@@ -206,7 +209,8 @@ TaskRow.propTypes = {
   showEdit: PropTypes.bool.isRequired,
   taskActionType: PropTypes.oneOf(['evidence', 'edit', 'none']).isRequired,
   hideOracleColumn: PropTypes.bool.isRequired,
-  allowNewEvidence: PropTypes.bool
+  allowNewEvidence: PropTypes.bool,
+  fetchEvidences: PropTypes.func
 };
 
 export default TaskRow;

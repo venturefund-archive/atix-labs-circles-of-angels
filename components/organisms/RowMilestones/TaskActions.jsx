@@ -1,55 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Tag } from 'antd';
-import ModalEvidences from '../ModalEvidences/ModalEvidences';
-import { tagPropTypes } from '../../../helpers/proptypes';
+import { Col } from 'antd';
+import EvidenceTaskActions from '../../molecules/EvidenceTaskActions/EvidenceTaskActions';
+import EditTaskActions from '../../molecules/EditTaskButtons/EditTaskActions';
 
-const editTaskButtons = (onEdit, onDelete, showEdit, showDelete, isEditing) => (
-  <span>
-    {showEdit && (
-      <div>
-        {isEditing ? (
-          <span className="isEditing">
-            <a className="blueLink" onClick={() => onEdit(true)}>
-              Save
-            </a>
-            <a className="redLink" onClick={() => onEdit(false)}>
-              Cancel
-            </a>
-          </span>
-        ) : (
-          <a className="blueLink" onClick={() => onEdit(false)}>
-            Edit
-          </a>
-        )}
-        {showDelete && (
-          <a className="redLink" onClick={onDelete}>
-            Delete
-          </a>
-        )}
-      </div>
-    )}
-    {showDelete && showEdit}
-  </span>
-);
-
-const evidenceTask = ({ color, text }, showAddEvidence, onNewEvidence) => (
-  <Col span={24}>
-    <Tag color={color}>{text}</Tag>
-    {/* TODO: uncomment when it is working */}
-    {/* <ModalEvidences /> */}
-    {showAddEvidence && (
-      <a className="blueLink" onClick={onNewEvidence}>
-        +Add Evidence
-      </a>
-    )}
-  </Col>
-);
-
-// TODO: <a> elements should be replaced by buttons with link style
 const TaskActions = ({
   showEdit,
   showDelete,
@@ -59,22 +13,48 @@ const TaskActions = ({
   isEditing,
   showAddEvidence,
   type,
-  taskStatusProps
-}) => (
-  <Col className="WrapperActionsActivities">
-    {type === 'evidence' &&
-      evidenceTask(taskStatusProps, showAddEvidence, onNewEvidence)}
-    {type === 'edit' &&
-      editTaskButtons(onEdit, onDelete, showEdit, showDelete, isEditing)}
-  </Col>
-);
+  taskStatusProps,
+  fetchEvidences
+}) => {
+  const [showModalEvidence, setShowModalEvidence] = useState(false);
+  const [evidences, setEvidences] = useState([]);
 
-evidenceTask.defaultProps = {
-  text: undefined,
-  color: undefined
+  const handleOpenModalEvidences = async () => {
+    const taskEvidences = await fetchEvidences();
+    setEvidences(taskEvidences);
+    setShowModalEvidence(true);
+  };
+
+  const handleCloseModalEvidences = () => {
+    setShowModalEvidence(false);
+    setEvidences([]);
+  };
+
+  return (
+    <Col className="WrapperActionsActivities">
+      {type === 'evidence' && (
+        <EvidenceTaskActions
+          {...taskStatusProps}
+          showAddEvidence={showAddEvidence}
+          onNewEvidence={onNewEvidence}
+          showModalEvidence={showModalEvidence}
+          evidences={evidences}
+          openModalEvidences={handleOpenModalEvidences}
+          closeModalEvidences={handleCloseModalEvidences}
+        />
+      )}
+      {type === 'edit' && (
+        <EditTaskActions
+          onEdit={onEdit}
+          onDelete={onDelete}
+          showEdit={showEdit}
+          showDelete={showDelete}
+          isEditing={isEditing}
+        />
+      )}
+    </Col>
+  );
 };
-
-evidenceTask.propTypes = tagPropTypes;
 
 TaskActions.defaultProps = {
   isEditing: false,
@@ -93,7 +73,8 @@ TaskActions.propTypes = {
   taskStatusProps: PropTypes.shape({
     text: PropTypes.string,
     color: PropTypes.string
-  })
+  }),
+  fetchEvidences: PropTypes.func.isRequired
 };
 
 export default TaskActions;
