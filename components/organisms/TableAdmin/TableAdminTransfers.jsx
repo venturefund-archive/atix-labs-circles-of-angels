@@ -161,12 +161,12 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     const password = data.get('password');
     try {
       await signAndSendTransaction(password);
+      window.location.reload();
     } catch (error) {
       message.error(error.message);
       return;
     } finally {
       hideModalPassword();
-      window.location.reload();
     }
     message.success('Transfer updated successfully!');
   };
