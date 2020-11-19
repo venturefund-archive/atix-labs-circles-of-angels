@@ -21,7 +21,6 @@ const ModalCreateActivity = ({
   >
     <>
       <TitlePage textTitle="Create new activity" />
-      <br />
       <Row type="flex" justify="space-around" align="middle">
         <Col sm={24} md={24} lg={24}>
           <Field {...fields.description} handleChange={handleChange} />

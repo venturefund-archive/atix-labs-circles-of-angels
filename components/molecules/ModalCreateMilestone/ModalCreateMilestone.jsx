@@ -14,9 +14,8 @@ const ModalCreateMilestone = ({
   handleChange
 }) => (
   <Modal visible={visibility} onOk={onOk} onCancel={onCancel} width="600px">
-    <Fragment>
+    <>
       <TitlePage textTitle="Create new milestone" />
-      <br />
       <Row type="flex" justify="space-around" align="middle">
         <Col sm={24} md={24} lg={24}>
           <Field {...fields.description} handleChange={handleChange} />
@@ -25,7 +24,7 @@ const ModalCreateMilestone = ({
           <Field {...fields.category} handleChange={handleChange} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   </Modal>
 );
 
