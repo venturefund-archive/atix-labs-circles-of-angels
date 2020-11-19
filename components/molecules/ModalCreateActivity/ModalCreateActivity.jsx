@@ -12,9 +12,16 @@ const ModalCreateActivity = ({
   fields,
   handleChange
 }) => (
-  <Modal visible={visibility} onOk={onOk} onCancel={onCancel} width="600px" centered>
-    <Fragment>
+  <Modal
+    visible={visibility}
+    onOk={onOk}
+    onCancel={onCancel}
+    width="600px"
+    centered
+  >
+    <>
       <TitlePage textTitle="Create new activity" />
+      <br />
       <Row type="flex" justify="space-around" align="middle">
         <Col sm={24} md={24} lg={24}>
           <Field {...fields.description} handleChange={handleChange} />
@@ -32,7 +39,7 @@ const ModalCreateActivity = ({
           <Field {...fields.budget} handleChange={handleChange} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   </Modal>
 );
 
