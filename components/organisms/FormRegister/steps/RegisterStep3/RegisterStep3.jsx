@@ -20,9 +20,8 @@ const commonQuestions = {
     label: "What's your phone number?",
     rules: [
       {
-        required: true,
+        required: false,
         regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
-        message: 'Provide a valid phone number',
         whitespace: true
       }
     ]
@@ -33,7 +32,7 @@ const commonQuestions = {
     label: "What's your company name?",
     rules: [
       {
-        required: true,
+        required: false,
         message: 'Please input your company',
         whitespace: true
       }
@@ -62,7 +61,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please input your phone!'
         }
       ]
@@ -125,7 +124,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please choose at least one goal'
         }
       ]
@@ -165,7 +164,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Select an answer'
         }
       ]
@@ -228,7 +227,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please choose at least one goal'
         }
       ]

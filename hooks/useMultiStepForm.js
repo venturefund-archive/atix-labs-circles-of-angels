@@ -140,9 +140,12 @@ export default function useMultiStepForm(
 
   const isFormValid = () => {
     const stepFields = steps[currentStep].fields;
+    const currentStepName = steps[currentStep].component.name;
     return (
       !stepFields ||
       !stepFields.length > 0 ||
+      (currentStep === steps.length - 1 && 
+        currentStepName.includes('Register')) ||
       Object.values(stepFields).every(i => fields[i].valid)
     );
   };
