@@ -31,8 +31,6 @@ export const transferredMilestone = (milestoneId, saveData) => {
 // TODO: delete, used in old consensus page
 export const deleteActivity = async activityId => {
   try {
-    console.log('Deleting activity', activityId);
-
     const response = await api.delete(`/activities/${activityId}`);
     return response;
   } catch (error) {
