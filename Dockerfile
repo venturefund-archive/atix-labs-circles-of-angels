@@ -1,3 +1,19 @@
-FROM mhart/alpine-node:8
+FROM node:12.16.0
 
-RUN apk add --no-cache make gcc g++ python git bash
+
+# Setting working directory. All the path will be relative to WORKDIR
+WORKDIR /usr/src/app
+
+# Installing dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copying source files
+COPY . .
+
+# Building app
+RUN npm run build
+
+# Running the app
+CMD [ "npm", "start" ]
+
