@@ -14,19 +14,9 @@ import { parseDate } from '../../../helpers/daoDates';
 import { proposalTypeEnum } from '../../../constants/constants';
 import './_style.scss';
 
-const CardDaoDetail = ({
-  proposal,
-  showStatus,
-  onClick
-}) => {
+const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   const txPendingStatus = proposal.txStatus === 'sent';
-  const {
-    description,
-    yesVotes,
-    noVotes,
-    proposalType,
-    didPass
-  } = proposal;
+  const { description, yesVotes, noVotes, proposalType, didPass } = proposal;
 
   const votesPercentage = votes => {
     const totalVotes = yesVotes + noVotes;
@@ -83,7 +73,7 @@ const CardDaoDetail = ({
             <p className="text">{didPass ? passedMessage : notPassedMessage}</p>
           </div>
         )}
-  
+
         {!showStatus && txPendingStatus && (
           <div className={notPassedClass}>
             {/* <img
@@ -132,7 +122,7 @@ const CardDaoDetail = ({
             <img alt="img" src="../static/images/icon-no-vote.png" />
           </div>
           <div className="column">
-            <p className="text">Yes Votes</p>
+            <p className="text">No Votes</p>
             <p className="voteBold">
               {noVotes} - {votesPercentage(noVotes)}%
             </p>
