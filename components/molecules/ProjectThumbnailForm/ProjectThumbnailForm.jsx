@@ -69,7 +69,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
               </h1>
             </Col>
             <Col sm={24} md={24} lg={8}>
-              <Tag color="orange">Pending for approval</Tag>
+              <Tag color="cyan">New</Tag>
             </Col>
           </Col>
           <Col className="flex" sm={24} md={24} lg={24}>
