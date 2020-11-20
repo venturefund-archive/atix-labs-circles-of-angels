@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Table, Select, Divider, Modal, Icon, Form, Input, Button } from 'antd';
+import { isNaN } from 'lodash';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
 import '../TableProjectProgress/_tablestyle.scss';
@@ -380,8 +381,10 @@ class TableMilestones extends React.Component {
                   onChange={e => {
                     const { value } = e.target;
                     let budget = '';
-                    const valid = /^[0-9]*(\.[0-9]*)?$/.test(value);
-                    if (valid) {
+                    if (
+                      (!isNaN(value) && /^-?[0-9]*?$/.test(value)) ||
+                      value === ''
+                    ) {
                       budget = value;
                       const toChange = { ...activity, budget };
                       this.setState({ activity: toChange });
