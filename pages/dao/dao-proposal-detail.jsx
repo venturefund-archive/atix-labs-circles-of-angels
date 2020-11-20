@@ -120,6 +120,8 @@ function DaoProposalDetail() {
       if (tx) showPasswordModal(tx);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setAlreadyVote(true);
     }
   };
 
