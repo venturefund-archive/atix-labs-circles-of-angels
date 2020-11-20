@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Avatar, Popover } from 'antd';
 import { CopyFilled } from '@ant-design/icons';
 import './_style.scss';
@@ -46,3 +47,7 @@ const CardMember = ({ member }) => {
 };
 
 export default CardMember;
+
+CardMember.propTypes = {
+  member: PropTypes.element.isRequired
+};

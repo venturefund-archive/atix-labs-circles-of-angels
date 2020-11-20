@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -56,10 +57,10 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
     const pendingMessage = 'Status: Pending Transaction';
     const passedIcon = '../static/images/icon-vote-green.png';
     const notPassedIcon = '../static/images/icon-vote-red.svg';
-    const pendingIcon = '../static/images/icon-vote-red.svg';
+    // const pendingIcon = '../static/images/icon-vote-red.svg';
     const passedClass = 'flex passed';
     const notPassedClass = 'flex notPassed';
-    const pendingClass = 'flex pending';
+    // const pendingClass = 'flex pending';
 
     return (
       <div>
@@ -91,7 +92,11 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   const totalVotes = () => yesVotes + noVotes;
 
   return (
-    <div onClick={!txPendingStatus && onClick} className="Box2 column">
+    <div
+      onClick={!txPendingStatus && onClick}
+      className="Box2 column"
+      role="presentation"
+    >
       <div className="topSection">
         <div className="flex space-between marginBottom">
           {renderRemainingTimeLabel()}
@@ -148,8 +153,14 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   );
 };
 
+CardDaoDetail.defaultProps = {
+  showStatus: false
+};
+
 CardDaoDetail.propTypes = {
-  proposal: PropTypes.shape(daoCardDetailPropTypes).isRequired
+  proposal: PropTypes.shape(daoCardDetailPropTypes).isRequired,
+  showStatus: PropTypes.bool,
+  onClick: PropTypes.func.isRequired
 };
 
 export default CardDaoDetail;
