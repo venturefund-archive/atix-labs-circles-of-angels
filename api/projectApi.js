@@ -131,8 +131,8 @@ const rejectProject = async projectId => {
   }
 };
 
-const updateProjectStatus = async (projectId, status) =>
-  apiCall('put', `${baseURL}/${projectId}/status`, { status });
+const updateProjectStatus = async (projectId, data) =>
+  apiCall('put', `${baseURL}/${projectId}/status`, data);
 
 const downloadAgreement = async projectId => {
   try {

@@ -29,7 +29,7 @@ const BackOfficeProjects = () => {
   const handleReject = async (projectId, rejectionReason) => {
     //TODO: Add the rejection reason to the backend and send it here
     try {
-      await updateProjectStatus(projectId, projectStatuses.REJECTED);
+      await updateProjectStatus(projectId, {rejectionReason, status: projectStatuses.REJECTED});
       fetchProjects();
       message.success('Project status changed correctly');
     } catch (error) {
