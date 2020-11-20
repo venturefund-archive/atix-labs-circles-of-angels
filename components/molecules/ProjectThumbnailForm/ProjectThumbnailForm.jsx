@@ -137,7 +137,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                   )}
                 </Col>
               </Col>
-              <Col sm={24} md={24} lg={18}>
+              <Col sm={24} md={24} lg={18} className="upload-info">
                 <h3>Thumbnail Image</h3>
                 <span>
                   Recomended Image Size: 1400x400px. Format: PNG or JPG.
