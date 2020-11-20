@@ -18,6 +18,8 @@ import userRole from '../../../constants/RolesMap';
 import { downloadFileFromPath } from '../../utils/FileUtils';
 import { updateProjectStatus } from '../../../api/projectApi';
 import { useUserContext } from '../../utils/UserContext';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { newProjectFormItems } from '../../../helpers/createProjectFormFields';
 
 const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const { getLoggedUser } = useUserContext();
@@ -26,7 +28,9 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const [showModal, setShowModal] = useState(false);
   const [statusSelected, setStatusSelected] = useState(null);
   const [projectSelected, setProjectSelected] = useState(null);
-  
+  const [modalRejectVisible, setModalRejectVisible] = useState(false);
+  const [rejectedProject, setRejectedProject] = useState('');
+
   const handleMenuClick = e => {
     setStatusSelected(e.key);
     setShowModal(true);
@@ -44,20 +48,13 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     }
   };
 
-  const getProjectStatuses = () => {
-    return (
-      <Menu onClick={handleMenuClick}>
-        {Object.keys(projectStatuses).map(function(key) {
-          return (
-            <Menu.Item 
-              key={projectStatuses[key]}>
-              {projectStatuses[key]}
-            </Menu.Item>
-          )
-        })}
-      </Menu>
-    )
-  };
+  const getProjectStatuses = () => (
+    <Menu onClick={handleMenuClick}>
+      {Object.keys(projectStatuses).map(key => (
+        <Menu.Item key={projectStatuses[key]}>{projectStatuses[key]}</Menu.Item>
+      ))}
+    </Menu>
+  );
   const curatorColumns = [
     {
       title: 'User',
@@ -127,7 +124,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
             theme="Cancel"
             buttonText="Reject"
             hidden={status !== projectStatuses.TO_REVIEW}
-            onClick={() => onReject(id)}
+            onClick={() => handleRejectionButton(id)}
           />
         </div>
       )
@@ -162,7 +159,10 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       key: 'action',
       render: ({ id, status }) => (
         <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
-          <a className="ant-dropdown-link" onClick={() => setProjectSelected(id)}>
+          <a
+            className="ant-dropdown-link"
+            onClick={() => setProjectSelected(id)}
+          >
             Change project status <Icon type="down" />
           </a>
         </Dropdown>
@@ -172,11 +172,27 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
 
   const goToProjectDetail = projectId =>
     history.push(`/project-detail?id=${projectId}`);
+
+  const handleRejectionButton = id => {
+    setModalRejectVisible(true);
+    setRejectedProject(id);
+  };
+
+  const onRejectProject = rejectionData => {
+    let reason;
+    rejectionData.forEach(value => {
+      reason = value;
+    });
+    onReject(rejectedProject, reason);
+  };
+
   return (
     <>
       <Table
         dataSource={data}
-        columns={user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns}
+        columns={
+          user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns
+        }
         size="middle"
         className="TableBOProjects"
       />
@@ -188,6 +204,13 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       >
         <p>Are you sure you want to change status to {statusSelected}? </p>
       </Modal>
+      <CustomFormModal
+        title="Reject project"
+        formItems={newProjectFormItems}
+        visible={modalRejectVisible}
+        onConfirm={onRejectProject}
+        onClose={() => setModalRejectVisible(false)}
+      />
     </>
   );
 };
@@ -201,5 +224,6 @@ TableBOProjects.defaultProps = {
 TableBOProjects.propTypes = {
   data: PropTypes.arrayOf({}),
   onConfirm: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired
+  onReject: PropTypes.func.isRequired,
+  fetchProjects: PropTypes.func.isRequired
 };
