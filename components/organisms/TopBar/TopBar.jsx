@@ -41,11 +41,6 @@ const TopBar = ({ modalLogin }) => {
 
 export default TopBar;
 
-TopBar.defaultProps = {
-  visibility: false
-};
-
 TopBar.propTypes = {
-  setVisibility: PropTypes.func.isRequired,
-  visibility: PropTypes.bool
+  modalLogin: PropTypes.element.isRequired
 };

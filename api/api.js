@@ -26,7 +26,7 @@ export const getBaseURL = () => {
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
-    case 'testing': // TODO: don't think this is needed
+    case 'test':
       return 'http://localhost:3001';
     case 'staging': // TODO: don't think this is needed
       return 'http://localhost:3001';

@@ -33,7 +33,7 @@ const CustomButton = ({
       hidden={hidden}
     >
       <span>{buttonText} </span>
-      <Icon type={icon} className={classNameIcon} />
+      {icon && <Icon type={icon} className={classNameIcon} />}
     </Button>
   );
 };
@@ -45,10 +45,10 @@ CustomButton.defaultProps = {
   theme: 'Primary',
   buttonText: '',
   onClick: () => undefined,
-  icon: '',
+  icon: undefined,
   disabled: false,
   hidden: false,
-  htmlType: '',
+  htmlType: 'button',
   classNameIcon: ''
 };
 
