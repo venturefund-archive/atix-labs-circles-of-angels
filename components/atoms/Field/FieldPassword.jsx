@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input } from 'antd';
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
@@ -31,3 +32,23 @@ export default function FieldPassword(props) {
     </Form.Item>
   );
 }
+
+FieldPassword.defaultProps = {
+  name: '',
+  label: '',
+  valid: false,
+  errorMessage: '',
+  placeholder: '',
+  type: ''
+};
+
+FieldPassword.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.element.isRequired,
+  valid: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string
+};

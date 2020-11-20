@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 
@@ -31,3 +32,21 @@ export default function FieldTextArea(props) {
     </Form.Item>
   );
 }
+FieldTextArea.defaultProps = {
+  name: '',
+  label: '',
+  valid: false,
+  errorMessage: '',
+  placeholder: ''
+};
+
+FieldTextArea.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.element.isRequired,
+  valid: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  rows: PropTypes.node.isRequired
+};
