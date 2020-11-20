@@ -28,7 +28,7 @@ module.exports = withSass(
         fs: 'empty'
       }
     }),
-    //it should be in .env 
+    // it should be in .env
     env: {
       NEXT_PUBLIC_CAPTCHA_SITE_KEY: '6LenedEZAAAAAHeHqQ7TRJeZnXI_mOklV_P9lgZC'
     }

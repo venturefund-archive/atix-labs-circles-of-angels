@@ -219,47 +219,45 @@ const ProposalModal = ({
     return filteredOptions;
   };
 
-  const renderSelectedComponent = () => {
-    return (
-      <div>
-        {selectedOption === proposalTypes.NEW_MEMBER && (
-          <ModalMemberSelection
-            setApplicant={setApplicant}
-            setDescription={setDescription}
-            description={description}
-            usersData={usersData}
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-          />
-        )}
+  const renderSelectedComponent = () => (
+    <div>
+      {selectedOption === proposalTypes.NEW_MEMBER && (
+        <ModalMemberSelection
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          description={description}
+          usersData={usersData}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
+      )}
 
-        {(selectedOption === proposalTypes.ASSIGN_BANK ||
-          selectedOption === proposalTypes.ASSIGN_CURATOR) && (
-          <ModalRoleSelection
-            setApplicant={setApplicant}
-            setDescription={setDescription}
-            description={description}
-            usersData={usersData}
-            setSelectedOption={setSelectedOption}
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-            selectedRole={selectedRole}
-            setSelectedRole={setSelectedRole}
-          />
-        )}
+      {(selectedOption === proposalTypes.ASSIGN_BANK ||
+        selectedOption === proposalTypes.ASSIGN_CURATOR) && (
+        <ModalRoleSelection
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          description={description}
+          usersData={usersData}
+          setSelectedOption={setSelectedOption}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+          selectedRole={selectedRole}
+          setSelectedRole={setSelectedRole}
+        />
+      )}
 
-        {selectedOption === proposalTypes.NEW_DAO && (
-          <ModalDaoSelection
-            currentUser={currentUser}
-            setApplicant={setApplicant}
-            setDescription={setDescription}
-            description={description}
-            usersData={usersData}
-          />
-        )}
-      </div>
-    );
-  };
+      {selectedOption === proposalTypes.NEW_DAO && (
+        <ModalDaoSelection
+          currentUser={currentUser}
+          setApplicant={setApplicant}
+          setDescription={setDescription}
+          description={description}
+          usersData={usersData}
+        />
+      )}
+    </div>
+  );
 
   return (
     <div>

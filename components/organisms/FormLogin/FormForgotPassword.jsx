@@ -17,9 +17,7 @@ const FormForgotPassword = ({ form, onSubmit }) => {
   const submit = () => {
     form.validateFields(err => {
       if (!err) {
-        return onSubmit(
-          getFieldProps('newpassword').value
-        );
+        return onSubmit(getFieldProps('newpassword').value);
       }
     });
   };
@@ -33,26 +31,31 @@ const FormForgotPassword = ({ form, onSubmit }) => {
   };
 
   const validateNewPassword = (rule, value, callback) => {
-    const regexPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})');
-    if(value && !regexPassword.test(value)) {
-      callback('Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.');
+    const regexPassword = new RegExp(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})'
+    );
+    if (value && !regexPassword.test(value)) {
+      callback(
+        'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
+      );
     } else {
       callback();
     }
-  }
+  };
 
   return (
     <Form className="recovery-form">
       <Form.Item>
         {getFieldDecorator('newpassword', {
-          rules: [{ 
-            required: true, 
-            message: 'Please input your new password!' 
-          },
-          {
-            validator: validateNewPassword
-          }
-        ]
+          rules: [
+            {
+              required: true,
+              message: 'Please input your new password!'
+            },
+            {
+              validator: validateNewPassword
+            }
+          ]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -82,6 +85,8 @@ const FormForgotPassword = ({ form, onSubmit }) => {
   );
 };
 
-const DynamicFormForgotPassword = Form.create({ name: 'FormForgotPassword' })(FormForgotPassword);
+const DynamicFormForgotPassword = Form.create({ name: 'FormForgotPassword' })(
+  FormForgotPassword
+);
 
 export default DynamicFormForgotPassword;

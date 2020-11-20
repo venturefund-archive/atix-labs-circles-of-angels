@@ -8,7 +8,7 @@
 
 const projectStatusMap = {
   new: { name: 'New', color: 'blue' },
-  toreview: { name: 'To Review'},
+  toreview: { name: 'To Review' },
   rejected: { name: 'Rejected', color: 'red' },
   deleted: { name: 'Deleted', color: 'red' },
   published: { name: 'Published', color: 'green' },

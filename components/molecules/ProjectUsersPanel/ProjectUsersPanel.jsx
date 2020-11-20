@@ -65,7 +65,7 @@ const ProjectUsersPanel = ({
           onClick={() => setDrawerVisible(true)}
         />
       </Col>
-      <Col span={24} className="flex" >
+      <Col span={24} className="flex">
         {followers.map(user => (
           <AvatarUser user={user} />
         ))}

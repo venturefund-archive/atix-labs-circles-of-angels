@@ -26,7 +26,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const [showModal, setShowModal] = useState(false);
   const [statusSelected, setStatusSelected] = useState(null);
   const [projectSelected, setProjectSelected] = useState(null);
-  
+
   const handleMenuClick = e => {
     setStatusSelected(e.key);
     setShowModal(true);
@@ -44,20 +44,17 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     }
   };
 
-  const getProjectStatuses = () => {
-    return (
-      <Menu onClick={handleMenuClick}>
-        {Object.keys(projectStatuses).map(function(key) {
-          return (
-            <Menu.Item 
-              key={projectStatuses[key]}>
-              {projectStatuses[key]}
-            </Menu.Item>
-          )
-        })}
-      </Menu>
-    )
-  };
+  const getProjectStatuses = () => (
+    <Menu onClick={handleMenuClick}>
+      {Object.keys(projectStatuses).map(function(key) {
+        return (
+          <Menu.Item key={projectStatuses[key]}>
+            {projectStatuses[key]}
+          </Menu.Item>
+        );
+      })}
+    </Menu>
+  );
   const curatorColumns = [
     {
       title: 'User',
@@ -162,7 +159,10 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       key: 'action',
       render: ({ id, status }) => (
         <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
-          <a className="ant-dropdown-link" onClick={() => setProjectSelected(id)}>
+          <a
+            className="ant-dropdown-link"
+            onClick={() => setProjectSelected(id)}
+          >
             Change project status <Icon type="down" />
           </a>
         </Dropdown>
@@ -176,7 +176,9 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     <>
       <Table
         dataSource={data}
-        columns={user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns}
+        columns={
+          user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns
+        }
         size="middle"
         className="TableBOProjects"
       />

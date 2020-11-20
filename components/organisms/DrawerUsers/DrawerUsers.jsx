@@ -7,11 +7,7 @@ import './_style.scss';
 
 const DrawerUsers = ({ users, visible, onClose, title, onClick }) => (
   <div>
-          <CustomButton
-          buttonText="View All"
-          theme="Secondary"
-          onClick={onClick}
-        />
+    <CustomButton buttonText="View All" theme="Secondary" onClick={onClick} />
     <Drawer
       title={title}
       placement="right"

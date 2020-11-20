@@ -29,7 +29,7 @@ const ModalDaoSelection = ({
   };
 
   return (
-    <Form >
+    <Form>
       <div className="daoSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
@@ -49,10 +49,9 @@ const ModalDaoSelection = ({
           />
         </Form.Item>
       </div>
-      <div className="flex space-between border-top margin-top padding-top">
-      </div>
+      <div className="flex space-between border-top margin-top padding-top" />
     </Form>
   );
-}
+};
 
 export default ModalDaoSelection;

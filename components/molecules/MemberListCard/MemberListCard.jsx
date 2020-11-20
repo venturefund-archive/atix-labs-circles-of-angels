@@ -13,14 +13,14 @@ import './_style.scss';
 const MemberListCard = () => (
   <div className="BoxMemberList flex">
     <div className="TopBoxSection">
-        <Avatar>U</Avatar>
-        <div className="column">
+      <Avatar>U</Avatar>
+      <div className="column">
         <p>
           <strong>Evan Nguyen</strong>
         </p>
         <p>Project Curator</p>
       </div>
-      </div>
+    </div>
     <div className="BottomBoxSection flex">
       <div className="subBox">
         <div className="column">

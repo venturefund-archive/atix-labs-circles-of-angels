@@ -10,14 +10,12 @@ import React, { useState, useEffect } from 'react';
 import './_style.scss';
 import CardMember from '../CardMember/CardMember';
 
-const DaoMembers = ({ users }) => {
-  return (
-    <div className="BoxContainer">
-      {users.map(member => (
-        <CardMember member={member} />
-      ))}
-    </div>
-  );
-};
+const DaoMembers = ({ users }) => (
+  <div className="BoxContainer">
+    {users.map(member => (
+      <CardMember member={member} />
+    ))}
+  </div>
+);
 
 export default DaoMembers;

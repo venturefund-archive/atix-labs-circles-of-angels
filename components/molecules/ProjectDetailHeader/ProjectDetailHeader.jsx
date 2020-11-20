@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tag, Row } from 'antd';
+import moment from 'moment';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
@@ -11,7 +12,6 @@ import {
 } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
-import moment from 'moment';
 
 // TODO: show default if status not valid?
 const getTagStatus = (status, daysToGo) =>
@@ -31,10 +31,8 @@ const blockchainDrawerTitle = (
 const getDaysToGo = nextStatusUpdateAt => {
   if (!nextStatusUpdateAt) return null;
   const daysToGo = moment(nextStatusUpdateAt).diff(moment(), 'days');
-  return daysToGo >= 0 ? (
-  <b> - {daysToGo} days left</b>
-  ): null; 
-}
+  return daysToGo >= 0 ? <b> - {daysToGo} days left</b> : null;
+};
 
 const ProjectDetailHeader = ({
   coverPhotoPath,

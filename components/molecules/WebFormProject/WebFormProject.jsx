@@ -157,7 +157,6 @@ class WebFormProject extends React.Component {
                   prefix={
                     <Icon type="alert" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-
                 />
               )}
             </Form.Item>

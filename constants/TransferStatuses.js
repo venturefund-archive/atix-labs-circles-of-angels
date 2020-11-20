@@ -13,7 +13,7 @@ const TransferStatuses = {
   CANCELLED: 'cancelled',
   FAILED: 'failed',
   SENT: 'sent',
-  PENDING_VERIFICATION: 'pending_verification' 
+  PENDING_VERIFICATION: 'pending_verification'
 };
 
 export default TransferStatuses;

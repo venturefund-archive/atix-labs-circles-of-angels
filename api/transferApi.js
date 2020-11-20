@@ -52,7 +52,7 @@ const getTransferStatus = async ({ userId, projectId }) => {
     );
     console.log(response);
     return response.data.state;
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getTransferListOfProject = projectId =>

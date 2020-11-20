@@ -18,7 +18,7 @@ const FormPassword = ({ form, onSubmit }) => {
     form.validateFields(err => {
       if (!err) {
         return onSubmit(
-          getFieldProps('currentpassword').value, 
+          getFieldProps('currentpassword').value,
           getFieldProps('newpassword').value
         );
       }
@@ -36,19 +36,25 @@ const FormPassword = ({ form, onSubmit }) => {
   };
 
   const validateNewPassword = (rule, value, callback) => {
-    const regexPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})');
-    if(value && !regexPassword.test(value)) {
-      callback('Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.');
+    const regexPassword = new RegExp(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})'
+    );
+    if (value && !regexPassword.test(value)) {
+      callback(
+        'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
+      );
     } else {
       callback();
     }
-  }
+  };
 
   return (
     <Form className="recovery-form">
       <Form.Item>
         {getFieldDecorator('currentpassword', {
-          rules: [{ required: true, message: 'Please input your current password!' }]
+          rules: [
+            { required: true, message: 'Please input your current password!' }
+          ]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -59,9 +65,7 @@ const FormPassword = ({ form, onSubmit }) => {
       <Form.Item>
         {getFieldDecorator('newpassword', {
           rules: [
-            { required: true, 
-              message: 'Please input your new password!' 
-            },
+            { required: true, message: 'Please input your new password!' },
             {
               validator: validateNewPassword
             }

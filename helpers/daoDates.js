@@ -1,7 +1,12 @@
 import moment from 'moment';
 
 const getRemainingTime = proposal => {
-  const { periodDuration, startingPeriod, daoCreationTime, votingPeriodLength } = proposal;
+  const {
+    periodDuration,
+    startingPeriod,
+    daoCreationTime,
+    votingPeriodLength
+  } = proposal;
   const timestampConverter = 1000;
   // Move to the start date of current proposal
   const daoCreationDate = new Date(daoCreationTime * timestampConverter);

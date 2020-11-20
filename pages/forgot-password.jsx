@@ -9,12 +9,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Spin } from 'antd';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import queryString from 'query-string';
+import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
 import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
-import { encryptWallet, generateWalletFromMnemonic } from '../helpers/blockchain/wallet';
+import {
+  encryptWallet,
+  generateWalletFromMnemonic
+} from '../helpers/blockchain/wallet';
 
 function ForgotPassword() {
   const history = useHistory();
@@ -26,26 +29,23 @@ function ForgotPassword() {
 
   const fetchMnemonic = async () => {
     const { data, errors } = await getMnemonicFromToken(token);
-    if (errors || !data)
-      throw new Error(errors);
+    if (errors || !data) throw new Error(errors);
     const mnemonic = data;
     return mnemonic;
   };
 
-  const goToDashboard = () => {
-    return history.push('/');
-  };
+  const goToDashboard = () => history.push('/');
 
-  const updatePassword = async (newPassword) => {
+  const updatePassword = async newPassword => {
     try {
       setLoading(true);
       const mnemonic = await fetchMnemonic();
       const decrypted = await generateWalletFromMnemonic(mnemonic);
       const encrypted = await encryptWallet(decrypted, newPassword);
-      const data = { 
+      const data = {
         token,
-        password: newPassword, 
-        encryptedWallet: encrypted 
+        password: newPassword,
+        encryptedWallet: encrypted
       };
       await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
@@ -61,30 +61,26 @@ function ForgotPassword() {
     setLoading(false);
   };
 
-  const renderForm = () => {
-    return (
-      <div>
-        {!successfulUpdate && (
-          <div>
-            <Spin spinning={loading}>
-              <h1>CIRCLE OF ANGELS</h1>
-              <h2>CHANGE YOUR PASSWORD</h2>
-              <DynamicFormForgotPassword onSubmit={updatePassword} />
-            </Spin>
-          </div>
-        )}
-      </div>
-    );
-  };
+  const renderForm = () => (
+    <div>
+      {!successfulUpdate && (
+        <div>
+          <Spin spinning={loading}>
+            <h1>CIRCLE OF ANGELS</h1>
+            <h2>CHANGE YOUR PASSWORD</h2>
+            <DynamicFormForgotPassword onSubmit={updatePassword} />
+          </Spin>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="Login">
       <div className="LogoSide">
         <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
-      <div className="FormSide" >
-        {renderForm()}
-      </div>
+      <div className="FormSide">{renderForm()}</div>
     </div>
   );
 }

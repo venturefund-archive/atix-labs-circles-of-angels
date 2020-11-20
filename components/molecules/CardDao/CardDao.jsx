@@ -19,7 +19,7 @@ const CardDao = ({ onClick, dao }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  });
 
   const fetchUsers = async () => {
     try {

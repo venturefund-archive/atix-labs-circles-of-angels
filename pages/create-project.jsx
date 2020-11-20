@@ -34,7 +34,6 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
-
 const CreateProjectContainer = () => {
   const { id } = useQuery();
   const history = useHistory();
@@ -87,7 +86,9 @@ const CreateProjectContainer = () => {
     setCompletedSteps(stepsStatus);
   };
 
-  const submitForm = (formKey, values) => updateFormValues(values, formKey);
+  const submitForm = useCallback((formKey, values) =>
+    updateFormValues(values, formKey)
+  );
 
   const updateFormValues = (values, formKey) => {
     const newFormValues = { ...formValues };

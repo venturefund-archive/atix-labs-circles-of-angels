@@ -61,7 +61,7 @@ export const routesConfig = [
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
-    },
+    }
   },
   {
     path: '/register',

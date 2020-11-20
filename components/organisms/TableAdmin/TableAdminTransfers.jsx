@@ -111,29 +111,31 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       //     <UndoOutlined /> Reintentar
       //   </button>
       // )
-      render: ({id, status}) => {
+      render: ({ id, status }) => {
         if (status === TransferStatuses.PENDING)
-        return (
-          <Row>
-            <Col span={12}>
-              <CustomButton
-                theme="Primary"
-                key="back"
-                buttonText="Approve"
-                onClick={() => onApprovedTransfer(id)}
-              />
-            </Col>
-            <Col span={12}>
-              <CustomButton
-                theme="Sencondary"
-                key="back"
-                buttonText="Reject"
-                onClick={() => setTransferSelected(id)}
-              />
-            </Col>
-          </Row>
-        );
-        if([TransferStatuses.FAILED, TransferStatuses.CANCELLED].includes(status))
+          return (
+            <Row>
+              <Col span={12}>
+                <CustomButton
+                  theme="Primary"
+                  key="back"
+                  buttonText="Approve"
+                  onClick={() => onApprovedTransfer(id)}
+                />
+              </Col>
+              <Col span={12}>
+                <CustomButton
+                  theme="Sencondary"
+                  key="back"
+                  buttonText="Reject"
+                  onClick={() => setTransferSelected(id)}
+                />
+              </Col>
+            </Row>
+          );
+        if (
+          [TransferStatuses.FAILED, TransferStatuses.CANCELLED].includes(status)
+        )
           return (
             <Fragment>
               <Col span={8}>
@@ -144,9 +146,8 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                   onClick={() => onApprovedTransfer(id)}
                 />
               </Col>
-            </Fragment> 
+            </Fragment>
           );
-        return;
       }
     }
   ];

@@ -22,7 +22,9 @@ const SideBar = ({ role, hasDaos }) => {
 
   const getMenuItems = userRole => {
     const daosKey = 'dao-list';
-    let items = menuItems.filter(({ allowedRoles }) => allowedRoles.includes(userRole));
+    let items = menuItems.filter(({ allowedRoles }) =>
+      allowedRoles.includes(userRole)
+    );
     if (!hasDaos) {
       items = items.filter(({ key }) => key !== daosKey);
     }

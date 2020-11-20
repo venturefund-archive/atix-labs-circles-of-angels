@@ -54,7 +54,7 @@ function DaoProposalDetail() {
 
   useEffect(() => {
     fetchCurrentUser();
-  }, []);
+  });
 
   useEffect(() => {
     fetchDaoUsers();
@@ -179,12 +179,8 @@ function DaoProposalDetail() {
         vote: newVote,
         ...signedTransaction
       };
-      
-      response = await uploadVoteSendTransaction(
-        daoId,
-        proposalId,
-        data
-      );
+
+      response = await uploadVoteSendTransaction(daoId, proposalId, data);
     } else {
       response = await uploadProcessSendTransaction(
         daoId,
@@ -235,12 +231,19 @@ function DaoProposalDetail() {
   };
 
   const hideExecuteButton = () => {
-    const { currentPeriod, startingPeriod, proposer, votingPeriodLength } = currentProposal;
+    const {
+      currentPeriod,
+      startingPeriod,
+      proposer,
+      votingPeriodLength
+    } = currentProposal;
     const beforeVotingPeriod = currentPeriod < startingPeriod;
-    const gracePeriod = currentPeriod >= startingPeriod + votingPeriodLength 
-      && currentPeriod <= startingPeriod + votingPeriodLength + votingPeriodLength;
+    const gracePeriod =
+      currentPeriod >= startingPeriod + votingPeriodLength &&
+      currentPeriod <= startingPeriod + votingPeriodLength + votingPeriodLength;
     const isProposer = currentUser.address === proposer;
-    const hideButton = beforeVotingPeriod || isVotePeriod || gracePeriod || !isProposer;
+    const hideButton =
+      beforeVotingPeriod || isVotePeriod || gracePeriod || !isProposer;
     return hideButton;
   };
 
@@ -409,7 +412,9 @@ function DaoProposalDetail() {
                   <Avatar className="avatar">P</Avatar>
                 </div>
                 <div className="plusSign flex-start">
-                <h2>... {currentProposal.yesVotes + currentProposal.noVotes}</h2>
+                  <h2>
+                    ... {currentProposal.yesVotes + currentProposal.noVotes}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -443,7 +448,6 @@ function DaoProposalDetail() {
               disabled={buttonsDisable && alreadyVote}
             />
           )}
-
         </div>
       </div>
       <ModalPasswordRequest

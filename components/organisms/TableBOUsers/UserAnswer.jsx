@@ -12,9 +12,10 @@ import { Table } from 'antd';
 const UserAnswer = ({ user }) => {
   const userAnswers = JSON.parse(user.answers);
   const questions = Object.keys(userAnswers);
-  const dataSource = questions.map(question => {
-    return { question, answer: userAnswers[question] };
-  });
+  const dataSource = questions.map(question => ({
+    question,
+    answer: userAnswers[question]
+  }));
   const columns = [
     {
       title: 'Question',

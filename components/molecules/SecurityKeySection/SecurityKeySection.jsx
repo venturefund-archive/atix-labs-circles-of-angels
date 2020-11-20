@@ -10,7 +10,7 @@ import React from 'react';
 import SecurityKey from '../../atoms/SecurityKey/SecurityKey';
 import './_style.scss';
 
-const SecurityKeySection = ({words}) => (
+const SecurityKeySection = ({ words }) => (
   <div className="SecurityKeySection">
     {words.map(word => (
       <SecurityKey word={word} />

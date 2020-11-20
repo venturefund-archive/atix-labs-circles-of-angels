@@ -50,8 +50,6 @@ const context = {
   isOracle: false
 };
 
-export const UserProvider = ({ children }) => {
-  return (
-    <UserContext.Provider value={context}>{children}</UserContext.Provider>
-  );
-};
+export const UserProvider = ({ children }) => (
+  <UserContext.Provider value={context}>{children}</UserContext.Provider>
+);

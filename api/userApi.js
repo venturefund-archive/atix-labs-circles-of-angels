@@ -52,8 +52,7 @@ const register = (user, { address, encryptedWallet, mnemonic }) => {
   });
 };
 
-const recoverPassword = (data) => 
-  doPost(`${baseURL}/recoverPassword`, data);
+const recoverPassword = data => doPost(`${baseURL}/recoverPassword`, data);
 
 const updatePassword = async (token, password) => {
   try {
@@ -67,8 +66,7 @@ const updatePassword = async (token, password) => {
   }
 };
 
-const changePassword = data =>
-  doPut(`${baseURL}/me/password`, data);
+const changePassword = data => doPut(`${baseURL}/me/password`, data);
 
 const changeRecoverPassword = data =>
   doPut(`${baseURL}/me/recover-password`, data);

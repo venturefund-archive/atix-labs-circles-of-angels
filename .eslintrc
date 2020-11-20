@@ -6,6 +6,11 @@
     "mocha": true,
     "node": true
   },
+  "globals": {
+    "assert": true,
+    "expect": true,
+    "beforeAll": true
+  },
   "rules": {
     "func-names": "error",
     "new-cap": "off",

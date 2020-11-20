@@ -6,7 +6,7 @@ const transferStatusesMap = {
   failed: { name: 'Failed', color: 'red' },
   rejected: { name: 'Rejected', color: 'red' },
   sent: { name: 'Sent', color: 'yellow' },
-  pending_verification: { name: 'Pending verification', color: 'yellow' },
+  pending_verification: { name: 'Pending verification', color: 'yellow' }
 };
 
 export default transferStatusesMap;

@@ -70,9 +70,7 @@ const validateField = (field, fields) => {
   };
 };
 
-const getFieldValue = field => {
-  return field.value || field.selected || field.checked;
-};
+const getFieldValue = field => field.value || field.selected || field.checked;
 
 const validate = (rule, value) => {
   let isValid = true;

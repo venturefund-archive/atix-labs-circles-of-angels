@@ -9,7 +9,9 @@ const UsersPanelCard = ({ theme, category, userRole, users }) => {
   return (
     <Col span={24} className={classname}>
       <Col span={24}>
-        <h3>{category} <b>{userRole}</b></h3>
+        <h3>
+          {category} <b>{userRole}</b>
+        </h3>
       </Col>
       {users.map(user => {
         const userFullName = `${user.firstName} ${user.lastName}`;
