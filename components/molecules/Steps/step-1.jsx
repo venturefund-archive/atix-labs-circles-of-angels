@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, message } from 'antd';
 import { isEmpty } from 'lodash';
 import mime from 'mime-types';
@@ -146,13 +148,7 @@ class Step1 extends React.Component {
   };
 
   render() {
-    const {
-      project,
-      changeProjectFile,
-      hiddenButtons,
-      hideButton,
-      showButton
-    } = this.props;
+    const { project, hiddenButtons } = this.props;
 
     const {
       projectProposal,
@@ -169,11 +165,11 @@ class Step1 extends React.Component {
             <h3>Complete Project Details</h3>
           </div>
           <div className="ProjectDataContainer">
-            <h3 className="CreateSubtitle">Project's Details</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Details</h3>
             <WebFormProject project={project} webform={webform} />
           </div>
           <div className="ProjectImagesContainer">
-            <h3 className="CreateSubtitle">Project's Files</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Files</h3>
             <BlockUpload
               subtitle="Project Thumbnail Image"
               text="This will allow funders to identify your project in the discovery phase
@@ -255,3 +251,12 @@ class Step1 extends React.Component {
 }
 
 export default Step1;
+
+Step1.propTypes = {
+  changeProjectFile: PropTypes.func.isRequired,
+  hideButton: PropTypes.func.isRequired,
+  showButton: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
+  project: PropTypes.element.isRequired,
+  hiddenButtons: PropTypes.element.isRequired
+};

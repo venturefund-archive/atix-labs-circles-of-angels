@@ -174,7 +174,6 @@ ProjectDetailHeader.defaultProps = {
   goalAmount: 0,
   fundedAmount: 0,
   projectName: '-',
-  faqLink: '#',
   isFollower: false,
   allowEdit: false,
   onEditProject: () => undefined,
@@ -189,7 +188,6 @@ ProjectDetailHeader.propTypes = {
   goalAmount: PropTypes.number,
   fundedAmount: PropTypes.number,
   projectName: PropTypes.string,
-  faqLink: PropTypes.string,
   status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
   onFollowProject: PropTypes.func.isRequired,
   onUnfollowProject: PropTypes.func.isRequired,
@@ -198,7 +196,9 @@ ProjectDetailHeader.propTypes = {
   isFollower: PropTypes.bool,
   agreementFilePath: PropTypes.string,
   proposalFilePath: PropTypes.string,
-  fetchBlockchainData: PropTypes.func.isRequired
+  fetchBlockchainData: PropTypes.func.isRequired,
+  onAbortProject: PropTypes.func.isRequired,
+  nextStatusUpdateAt: PropTypes.number.isRequired
 };
 
 export default ProjectDetailHeader;

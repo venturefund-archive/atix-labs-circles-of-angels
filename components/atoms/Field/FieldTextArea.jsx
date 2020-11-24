@@ -33,11 +33,11 @@ export default function FieldTextArea(props) {
   );
 }
 FieldTextArea.defaultProps = {
-  name: '',
-  label: '',
-  valid: false,
-  errorMessage: '',
-  placeholder: ''
+  name: undefined,
+  label: undefined,
+  valid: undefined,
+  errorMessage: undefined,
+  placeholder: undefined
 };
 
 FieldTextArea.propTypes = {

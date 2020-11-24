@@ -34,12 +34,12 @@ export default function FieldPassword(props) {
 }
 
 FieldPassword.defaultProps = {
-  name: '',
-  label: '',
-  valid: false,
-  errorMessage: '',
-  placeholder: '',
-  type: ''
+  name: undefined,
+  label: undefined,
+  valid: undefined,
+  errorMessage: undefined,
+  placeholder: undefined,
+  type: undefined
 };
 
 FieldPassword.propTypes = {

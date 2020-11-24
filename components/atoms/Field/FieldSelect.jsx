@@ -47,11 +47,11 @@ const FieldSelect = props => {
 export default FieldSelect;
 
 FieldSelect.defaultProps = {
-  name: '',
-  label: '',
-  valid: false,
-  errorMessage: '',
-  placeholder: '',
+  name: undefined,
+  label: undefined,
+  valid: undefined,
+  errorMessage: undefined,
+  placeholder: undefined,
   mode: 'default'
 };
 

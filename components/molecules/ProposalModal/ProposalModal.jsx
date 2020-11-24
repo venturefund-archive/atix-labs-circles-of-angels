@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -64,10 +65,10 @@ const ProposalModal = ({
     }
   };
 
-  const getCurrentUser = () => {
+  const getCurrentUser = useCallback(() => {
     const userFound = usersData.find(user => user.id === loggedUser.id);
     setCurrentUser(userFound);
-  };
+  }, [loggedUser.id, usersData]);
 
   useEffect(() => {
     fetchUsers();
@@ -75,7 +76,7 @@ const ProposalModal = ({
 
   useEffect(() => {
     getCurrentUser();
-  }, [usersData]);
+  }, [getCurrentUser, usersData]);
 
   const validateInputs = () => !applicant || !description;
 
@@ -152,7 +153,7 @@ const ProposalModal = ({
       const signedTransaction = await signProposalTx(txData, userPassword);
       await sendProposalTx(signedTransaction);
     },
-    [txData]
+    [sendProposalTx, txData]
   );
 
   const signProposalTx = async (tx, password) => {
@@ -165,20 +166,23 @@ const ProposalModal = ({
     return { signedTransaction };
   };
 
-  const sendProposalTx = async signedTransaction => {
-    const data = {
-      applicant,
-      description,
-      type: selectedOption,
-      ...signedTransaction
-    };
-    const response = await uploadProposalSendTransaction(daoId, data);
+  const sendProposalTx = useCallback(
+    async signedTransaction => {
+      const data = {
+        applicant,
+        description,
+        type: selectedOption,
+        ...signedTransaction
+      };
+      const response = await uploadProposalSendTransaction(daoId, data);
 
-    if (response.errors) {
-      throw new Error(response.errors);
-    }
-    return response.data;
-  };
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
+      return response.data;
+    },
+    [applicant, daoId, description, selectedOption]
+  );
 
   const cleanFields = () => {
     setApplicant('');
@@ -196,7 +200,7 @@ const ProposalModal = ({
     setSelectedOption(proposalType);
   };
 
-  const handleCancel = e => {
+  const handleCancel = () => {
     cleanFields();
     setVisible(false);
   };

@@ -37,20 +37,21 @@ export default function FieldInput(props) {
   );
 }
 FieldInput.defaultProps = {
-  name: '',
-  label: '',
-  valid: false,
-  errorMessage: '',
-  placeholder: '',
-  type: '',
+  name: undefined,
+  label: undefined,
+  valid: undefined,
+  errorMessage: undefined,
+  placeholder: undefined,
+  type: undefined,
   maxLength: 25,
-  disabled: false
+  disabled: false,
+  value: undefined
 };
 
 FieldInput.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.element.isRequired,
+  value: PropTypes.element,
   valid: PropTypes.bool,
   errorMessage: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
