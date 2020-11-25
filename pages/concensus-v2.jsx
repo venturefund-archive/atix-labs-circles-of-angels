@@ -1,13 +1,15 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar, Tabs, Tooltip } from 'antd';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Row, Col, Tag, Tabs } from 'antd';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import './_consensusv2.scss';
@@ -19,10 +21,6 @@ import BlockDiscussion from '../components/molecules/BlockDiscussion/BlockDiscus
 import BlockChat from '../components/molecules/BlockChat/BlockChat';
 
 const { TabPane } = Tabs;
-
-function callback(key) {
-  console.log(key);
-}
 
 const Cards = ({ theme, category, user, usersName, avatarImage }) => {
   const classname = `Cards ${theme}`;
@@ -70,7 +68,7 @@ const Consensusv2 = () => (
         </Col>
       </Row>
       <Row className="Bottom">
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs defaultActiveKey="1">
           <TabPane tab="Milestones" key="1">
             <RowMilestones />
           </TabPane>
@@ -143,3 +141,11 @@ const Consensusv2 = () => (
   </div>
 );
 export default Consensusv2;
+
+Cards.propTypes = {
+  theme: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  user: PropTypes.element.isRequired,
+  usersName: PropTypes.string.isRequired,
+  avatarImage: PropTypes.string.isRequired
+};

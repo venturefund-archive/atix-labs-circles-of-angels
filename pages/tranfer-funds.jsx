@@ -1,13 +1,16 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
@@ -103,3 +106,8 @@ class TransferFunds extends React.Component {
 }
 
 export default withUser(TransferFunds);
+
+TransferFunds.propTypes = {
+  user: PropTypes.element.isRequired,
+  projectId: PropTypes.number.isRequired
+};

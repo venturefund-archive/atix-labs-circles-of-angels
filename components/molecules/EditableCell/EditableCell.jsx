@@ -52,7 +52,7 @@ EditableCell.propTypes = {
   title: PropTypes.string,
   inputType: PropTypes.string,
   record: PropTypes.element.isRequired,
-  index: PropTypes.number,
+  index: PropTypes.number
 };
 
 EditableCell.defaultProps = {

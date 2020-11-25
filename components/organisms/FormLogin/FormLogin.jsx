@@ -78,7 +78,8 @@ const validate = (rule, value) => {
   let isValid = true;
 
   if (value === undefined) {
-    isValid = false;
+    // eslint-disable-next-line no-param-reassign
+    value = '';
   }
 
   const v = rule.whitespace ? value.trim() : value;

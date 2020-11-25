@@ -40,7 +40,6 @@ class ConfirmPopUp extends React.Component {
 
   render() {
     const { visible } = this.state;
-    const { handleOk } = this.props;
     return (
       <div>
         <CustomButton

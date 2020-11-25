@@ -1,7 +1,10 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -20,7 +23,6 @@ import {
   getProject,
   downloadProposal
 } from '../api/projectApi';
-import { changeBudgetStatus } from '../api/milestonesApi';
 import { withUser } from '../components/utils/UserContext';
 import { showModalError } from '../components/utils/Modals';
 import BlockchainStatus from '../constants/BlockchainStatus';
@@ -125,8 +127,6 @@ class ProjectProgress extends React.Component {
       milestone => milestone.id === milestoneId
     );
 
-    console.log(updatedMilestone);
-
     if (updatedMilestone) {
       updatedMilestone.budgetStatus.id = budgetStatusId;
     }
@@ -147,14 +147,15 @@ class ProjectProgress extends React.Component {
           <div className="Content">
             <Breadcrumb>
               <Breadcrumb.Item>
-                <a
+                <Button
+                  type="link"
                   onClick={() => {
                     if (isBackofficeAdmin) Routing.goBack();
                     else Routing.toProjectDetail({ projectId: project.id });
                   }}
                 >
                   <Icon type="arrow-left" />
-                </a>
+                </Button>
               </Breadcrumb.Item>
               <Breadcrumb.Item>Project Progress</Breadcrumb.Item>
             </Breadcrumb>
@@ -165,15 +166,16 @@ class ProjectProgress extends React.Component {
               </div>
               <div className="flex">
                 <div className="vertical  Data">
-                  <a
+                  <Button
+                    type="link"
                     className="TextBlue"
                     href={project.faqLink}
                     target="_blank"
                   >
                     {project.faqLink}
-                  </a>
+                  </Button>
                   <span className="Overline">
-                    FAQ-Funders and SE's Questions & Answers Link
+                    FAQ-Funders and SE&apos;s Questions & Answers Link
                   </span>
                 </div>
                 <Divider type="vertical" />
@@ -188,17 +190,19 @@ class ProjectProgress extends React.Component {
                     <Tooltip title="Hash">
                       <Icon component={HashIcon} />
                     </Tooltip>
-                    <a
+                    <Button
+                      type="link"
                       target="_blank"
                       href={`https://explorer.testnet.rsk.co/tx/${project.transactionHash}`}
                     >
                       {project.transactionHash}
-                    </a>
+                    </Button>
                     <div className="speech-bubble-ds-top">
                       <p>
                         <strong>What´s a HASH? </strong>
                         This is the transaction id in the Blockchain that
-                        indicates when this project started it's execution phase
+                        indicates when this project started it&apos;s execution
+                        phase
                       </p>
                       <div className="speech-bubble-ds-arrow-top" />
                     </div>

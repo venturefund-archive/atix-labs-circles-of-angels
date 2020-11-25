@@ -32,4 +32,4 @@ SignatureLabel.propTypes = {
   theme: PropTypes.string,
   text: PropTypes.string.isRequired,
   iconStatus: PropTypes.string.isRequired
-}
+};

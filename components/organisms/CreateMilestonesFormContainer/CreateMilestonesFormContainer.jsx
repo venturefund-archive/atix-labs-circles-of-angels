@@ -91,13 +91,15 @@ const CreateMilestonesFormContainer = ({
   useEffect(() => {
     if (!project || !project.id) goBack();
     fetchMilestones();
-  }, [project, goBack, fetchMilestones]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project, goBack]);
 
   useEffect(() => {
     if (milestones.length > 0) {
       validateFields(2);
     }
-  }, [milestones, validateFields]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [milestones]);
 
   const fetchMilestones = useCallback(async () => {
     const response = await getProjectMilestones(project.id);

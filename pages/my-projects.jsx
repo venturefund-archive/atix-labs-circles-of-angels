@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -25,29 +26,6 @@ import {
 const MyProjects = ({ user }) => {
   const history = useHistory();
   const [projects, setProjects] = useState([]);
-
-  const fetchProjects = async () => {
-    const myProjects = await fetchMyProjects();
-    const followedProjects = await fetchFollowedProjects();
-    const appliedProjects = await fetchAppliedProjects();
-
-    const followedAndAppliedProjects = intersectionBy(
-      followedProjects,
-      appliedProjects,
-      'id'
-    ).map(project => ({ ...project, applied: true }));
-
-    const uniqueProjects = unionBy(
-      followedAndAppliedProjects,
-      followedProjects,
-      appliedProjects,
-      myProjects,
-      'id'
-    );
-
-    // TODO analize if is all projects will be together
-    setProjects(uniqueProjects);
-  };
 
   const fetchMyProjects = async () => {
     const response = await getMyProjects();
@@ -102,13 +80,36 @@ const MyProjects = ({ user }) => {
     }
   };
 
-  const goToProjectProgress = projectId => {
+  const goToProjectProgress = () => {
     // TODO: go to project-progress page
   };
 
   const goToNewProject = () => history.push('/create-project');
 
   useEffect(() => {
+    const fetchProjects = async () => {
+      const myProjects = await fetchMyProjects();
+      const followedProjects = await fetchFollowedProjects();
+      const appliedProjects = await fetchAppliedProjects();
+
+      const followedAndAppliedProjects = intersectionBy(
+        followedProjects,
+        appliedProjects,
+        'id'
+      ).map(project => ({ ...project, applied: true }));
+
+      const uniqueProjects = unionBy(
+        followedAndAppliedProjects,
+        followedProjects,
+        appliedProjects,
+        myProjects,
+        'id'
+      );
+
+      // TODO analize if is all projects will be together
+      setProjects(uniqueProjects);
+    };
+
     fetchProjects();
   }, []);
 

@@ -11,7 +11,8 @@ export default function useForm(formFields) {
 
     // TODO : why is this happening?
     if (value === undefined) {
-      isValid = false;
+      // eslint-disable-next-line no-param-reassign
+      value = '';
     }
 
     const v = rule.whitespace ? value.trim() : value;

@@ -26,4 +26,4 @@ Label.defaultProps = {
 Label.propTypes = {
   labelText: PropTypes.string,
   theme: PropTypes.string
-}
+};

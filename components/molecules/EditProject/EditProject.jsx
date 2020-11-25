@@ -59,11 +59,11 @@ class EditProject extends React.Component {
             <h3>Complete Project Details</h3>
           </div>
           <div className="ProjectDataContainer">
-            <h3 className="CreateSubtitle">Project's Details</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Details</h3>
             <WebFormProject project={project} webform={webform} />
           </div>
           <div className="ProjectImagesContainer">
-            <h3 className="CreateSubtitle">Project's Files</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Files</h3>
             <BlockUpload
               subtitle="Project Thumbnail Image"
               text="This will allow funders to identify your project in the discovery phase
