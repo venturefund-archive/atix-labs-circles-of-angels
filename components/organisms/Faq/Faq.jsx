@@ -1,23 +1,21 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { message, Input, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { projectPropTypes } from '../../../helpers/proptypes';
+import React, { Fragment } from 'react';
+import { Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import Comment from '../../molecules/Comment/Comment';
 import './_style.scss';
 
 const { TextArea } = Input;
 
-const Faq = ({ project }) => (
+const Faq = () => (
   <Fragment>
     <div className="faqSection">
       <div>
@@ -36,11 +34,3 @@ const Faq = ({ project }) => (
 );
 
 export default Faq;
-
-Faq.defaultProps = {
-  project: undefined
-};
-
-Faq.propTypes = {
-  project: PropTypes.shape(projectPropTypes)
-};

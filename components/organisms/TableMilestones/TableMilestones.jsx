@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table, Select, Divider, Modal, Icon, Form, Input, Button } from 'antd';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
@@ -50,7 +52,7 @@ class TableMilestones extends React.Component {
     this.setState({ editingKey: key });
   };
 
-  cancelEdit = key => {
+  cancelEdit = () => {
     this.setState({ editingKey: '' });
   };
 
@@ -119,7 +121,7 @@ class TableMilestones extends React.Component {
       {
         title: 'Assigned Oracle',
         key: 'oracle',
-        render: (text, record, index) => {
+        render: (text, record) => {
           if (!record.type.includes('Activity')) return '';
           const { oracle } = record;
           const oracleToShow = oracle ? oracle.username : undefined;
@@ -133,6 +135,7 @@ class TableMilestones extends React.Component {
               onChange={selected => {
                 const user = JSON.parse(selected);
                 onAssignOracle(user ? user.id : undefined, record.id);
+                // eslint-disable-next-line no-param-reassign
                 record.oracle = user;
               }}
               defaultValue={oracleToShow}
@@ -432,3 +435,14 @@ class TableMilestones extends React.Component {
 }
 
 export default withUser(TableMilestones);
+
+TableMilestones.propTypes = {
+  user: PropTypes.element.isRequired,
+  onCreateActivity: PropTypes.func.isRequired,
+  onAssignOracle: PropTypes.func.isRequired,
+  oracles: PropTypes.element.isRequired,
+  dataSource: PropTypes.element.isRequired,
+  isSocialEntrepreneur: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired
+};

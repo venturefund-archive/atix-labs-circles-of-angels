@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -10,7 +12,6 @@ import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message, Button, Row } from 'antd';
-import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -58,6 +59,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     {
       title: 'Sender',
       key: 'sender',
+      // eslint-disable-next-line react/prop-types
       render: ({ sender }) => (
         <span>{`${sender.firstName} ${sender.lastName}`}</span>
       )
@@ -152,10 +154,10 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     }
   ];
 
-  const fetchTransfers = useCallback(async () => {
+  const fetchTransfers = async () => {
     const data = await getTransfers(projectId);
     setTransfers(data);
-  });
+  };
 
   const inputPasswordHandler = async data => {
     // TODO: add support for mnemonic

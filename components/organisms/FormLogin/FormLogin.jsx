@@ -1,13 +1,15 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { useState } from 'react';
-import { Form, Icon, Input, Checkbox, message, Button } from 'antd';
+import PropTypes from 'prop-types';
+import { Form, message } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 import Field from '../../atoms/Field/Field';
@@ -20,7 +22,7 @@ export const formLoginInputs = {
     placeholder: 'example@domain.com',
     rules: [
       {
-        regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         message: 'The input is not valid E-mail!'
       },
       {
@@ -75,9 +77,8 @@ const getFieldValue = field => field.value || field.selected || field.checked;
 const validate = (rule, value) => {
   let isValid = true;
 
-  // TODO : why is this happening?
   if (value === undefined) {
-    value = '';
+    isValid = false;
   }
 
   const v = rule.whitespace ? value.trim() : value;
@@ -149,3 +150,8 @@ const FormLogin = ({ form, onSubmit }) => {
 const DynamicForm = Form.create({ name: 'FormLogin' })(FormLogin);
 
 export default DynamicForm;
+
+FormLogin.propTypes = {
+  form: PropTypes.element.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};

@@ -1,13 +1,15 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
-import { Table, Tag, Badge, Icon, Progress, Button } from 'antd';
+import PropTypes from 'prop-types';
+import { Table, Tag, Progress, Button } from 'antd';
 import MilestoneActivityStatusMap from '../../../model/milestoneActivityStatusMap';
 import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus';
 import { claimMilestoneStatus } from '../../../constants/constants';
@@ -18,7 +20,6 @@ import './_tablestyle.scss';
 const TableProjectProgress = ({
   dataSource,
   projectId,
-  projectName,
   filters,
   isSocialEntrepreneur,
   onBudgetStatusChange,
@@ -122,6 +123,7 @@ const TableProjectProgress = ({
             <Button
               type="link"
               onClick={() => {
+                // eslint-disable-next-line no-undef
                 Routing.toProjectEvidence({
                   activityId: record.id,
                   projectId
@@ -157,3 +159,12 @@ const TableProjectProgress = ({
   );
 };
 export default TableProjectProgress;
+
+TableProjectProgress.propTypes = {
+  dataSource: PropTypes.element.isRequired,
+  projectId: PropTypes.number.isRequired,
+  filters: PropTypes.element.isRequired,
+  isSocialEntrepreneur: PropTypes.bool.isRequired,
+  onBudgetStatusChange: PropTypes.func.isRequired,
+  projectConfirmedOnBlockchain: PropTypes.element.isRequired
+};

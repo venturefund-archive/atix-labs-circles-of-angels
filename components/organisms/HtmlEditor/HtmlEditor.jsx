@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
 
 const htmlEditorModules = {
@@ -29,3 +30,9 @@ const HtmlEditor = ({ name, value, onChange }) => {
 };
 
 export default HtmlEditor;
+
+HtmlEditor.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.element.isRequired,
+  onChange: PropTypes.func.isRequired
+};
