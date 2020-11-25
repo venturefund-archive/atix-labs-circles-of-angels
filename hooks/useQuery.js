@@ -4,9 +4,9 @@ function parseQuery(search) {
   const params = new URLSearchParams(search);
   const entries = params.entries();
   const object = {};
-  for (const [key, value] of entries) {
+  entries.forEach(({ key, value }) => {
     object[key] = JSON.parse(value);
-  }
+  });
 
   return object;
 }

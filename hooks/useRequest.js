@@ -6,29 +6,29 @@ export default function useRequest(method, url, body, config) {
   const [errors, setErrors] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
-  const doFetch = async () => {
-    setErrors(undefined);
-    setLoading(true);
-
-    try {
-      const result = await api.request({
-        method,
-        url: getBaseURL() + url,
-        data: body,
-        ...config // TODO : can this include the base url?
-      });
-      setData(result.data);
-    } catch (error) {
-      console.error('errors found', error);
-      setData(undefined);
-      setErrors(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const doFetch = async () => {
+      setErrors(undefined);
+      setLoading(true);
+
+      try {
+        const result = await api.request({
+          method,
+          url: getBaseURL() + url,
+          data: body,
+          ...config // TODO : can this include the base url?
+        });
+        setData(result.data);
+      } catch (error) {
+        setData(undefined);
+        setErrors(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     doFetch();
-  }, [method, url, body]);
+  }, [method, url, body, config]);
 
   return [{ data, errors, loading }, () => {}];
 }

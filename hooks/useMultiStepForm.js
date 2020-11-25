@@ -28,7 +28,7 @@ export default function useMultiStepForm(
 
     // TODO : why is this happening?
     if (value === undefined) {
-      value = '';
+      isValid = false;
     }
 
     const v = rule.whitespace ? value.trim() : value;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useForm(formFields, submitCallback) {
+export default function useForm(formFields) {
   const [fields, setFields] = useState(formFields);
   const [submitting, setSubmitting] = useState(false);
 
@@ -11,7 +11,7 @@ export default function useForm(formFields, submitCallback) {
 
     // TODO : why is this happening?
     if (value === undefined) {
-      value = '';
+      isValid = false;
     }
 
     const v = rule.whitespace ? value.trim() : value;
