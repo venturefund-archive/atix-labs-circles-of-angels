@@ -138,14 +138,22 @@ export default function useMultiStepForm(
     setCurrentStep(currentStep - 1);
   };
 
+  const isLastRegisterForm = (stepRegister) => {
+    const { component } = stepRegister;
+    if(!component)  { 
+      return false;
+    };
+    return component.name.includes('Register') &&
+      currentStep === steps.length - 1;
+  }; 
+
   const isFormValid = () => {
     const stepFields = steps[currentStep].fields;
-    const currentStepName = steps[currentStep].component.name;
+    const lastRegisterForm = isLastRegisterForm(steps[currentStep]);
     return (
       !stepFields ||
       !stepFields.length > 0 ||
-      (currentStep === steps.length - 1 && 
-        currentStepName.includes('Register')) ||
+      lastRegisterForm ||
       Object.values(stepFields).every(i => fields[i].valid)
     );
   };
