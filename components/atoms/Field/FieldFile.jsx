@@ -13,7 +13,7 @@ const FieldFile = ({
   showUploadList,
   showPreviouslyUploadedList,
   label,
-  isImage,
+  fileType,
   valid,
   errorMessage,
   multiple,
@@ -51,6 +51,8 @@ const FieldFile = ({
     cleanField();
   }, [clean]);
 
+  const isImage = fileType === 'image';
+
   const previouslyUploadedFile = className =>
     isImage ? (
       <img className={className} alt="Previously Uploaded File" src={value} />
@@ -64,12 +66,26 @@ const FieldFile = ({
       />
     );
 
+  const acceptedFormats = () => {
+    switch (fileType) {
+      case 'image':
+        return '.jpg,.jpeg,.png';
+      case 'excel':
+        return '.xls,.xlsx';
+      case 'document':
+        return '.doc,.pdf,.docx,';
+      default:
+        return undefined;
+    }
+  };
+
   return (
     <Form.Item
       validateStatus={valid || valid === undefined ? 'success' : 'error'}
       help={errorMessage}
     >
       <Upload
+        accept={acceptedFormats()}
         multiple={multiple}
         customRequest={fileChange}
         showUploadList={showUploadList}
@@ -107,7 +123,7 @@ const FieldFile = ({
 FieldFile.defaultProps = {
   showUploadList: true,
   showPreviouslyUploadedList: false,
-  isImage: false,
+  fileType: undefined,
   valid: undefined,
   label: undefined,
   errorMessage: undefined,
@@ -119,7 +135,7 @@ FieldFile.defaultProps = {
 FieldFile.propTypes = {
   showUploadList: PropTypes.bool,
   showPreviouslyUploadedList: PropTypes.bool,
-  isImage: PropTypes.bool,
+  fileType: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   label: PropTypes.string,
