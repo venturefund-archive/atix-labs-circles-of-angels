@@ -51,7 +51,7 @@ const MilestoneTasks = ({
       md={24}
       lg={{ span: 24 }}
     >
-      <Collapse defaultActiveKey={['1']} expandIconPosition='right'>
+      <Collapse defaultActiveKey={['1']} expandIconPosition="right">
         <Panel header="More Info" key="1">
           <div className="SubWrapperActivities">{tasksElements}</div>
         </Panel>

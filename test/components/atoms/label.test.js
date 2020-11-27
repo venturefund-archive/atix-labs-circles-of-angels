@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Label from 'components/atoms/Label/Label';
+import Label from '../../../components/atoms/Label/Label';
 
 test('Label component', async () => {
   const props = {

@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
@@ -12,6 +11,7 @@ const RoleOption = ({ onSelect, title, usertype, value, selected, image }) => {
         onClick={() => onSelect(value)}
         className={`OptionsUsers ${selectedClass}`}
         selected={selected}
+        type="button"
       >
         <div>
           <img src={image} alt="platformusers" />
@@ -34,5 +34,6 @@ RoleOption.propTypes = {
   title: PropTypes.string,
   usertype: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired
+  selected: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired
 };

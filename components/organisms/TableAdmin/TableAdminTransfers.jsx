@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -10,7 +12,6 @@ import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Col, message, Button, Row } from 'antd';
-import { UndoOutlined } from '@ant-design/icons';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
@@ -58,6 +59,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
     {
       title: 'Sender',
       key: 'sender',
+      // eslint-disable-next-line react/prop-types
       render: ({ sender }) => (
         <span>{`${sender.firstName} ${sender.lastName}`}</span>
       )
@@ -111,29 +113,31 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
       //     <UndoOutlined /> Reintentar
       //   </button>
       // )
-      render: ({id, status}) => {
+      render: ({ id, status }) => {
         if (status === TransferStatuses.PENDING)
-        return (
-          <Row>
-            <Col span={12}>
-              <CustomButton
-                theme="Primary"
-                key="back"
-                buttonText="Approve"
-                onClick={() => onApprovedTransfer(id)}
-              />
-            </Col>
-            <Col span={12}>
-              <CustomButton
-                theme="Sencondary"
-                key="back"
-                buttonText="Reject"
-                onClick={() => setTransferSelected(id)}
-              />
-            </Col>
-          </Row>
-        );
-        if([TransferStatuses.FAILED, TransferStatuses.CANCELLED].includes(status))
+          return (
+            <Row>
+              <Col span={12}>
+                <CustomButton
+                  theme="Primary"
+                  key="back"
+                  buttonText="Approve"
+                  onClick={() => onApprovedTransfer(id)}
+                />
+              </Col>
+              <Col span={12}>
+                <CustomButton
+                  theme="Sencondary"
+                  key="back"
+                  buttonText="Reject"
+                  onClick={() => setTransferSelected(id)}
+                />
+              </Col>
+            </Row>
+          );
+        if (
+          [TransferStatuses.FAILED, TransferStatuses.CANCELLED].includes(status)
+        )
           return (
             <Fragment>
               <Col span={8}>
@@ -144,17 +148,16 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
                   onClick={() => onApprovedTransfer(id)}
                 />
               </Col>
-            </Fragment> 
+            </Fragment>
           );
-        return;
       }
     }
   ];
 
-  const fetchTransfers = useCallback(async () => {
+  const fetchTransfers = async () => {
     const data = await getTransfers(projectId);
     setTransfers(data);
-  });
+  };
 
   const inputPasswordHandler = async data => {
     // TODO: add support for mnemonic

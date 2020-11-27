@@ -28,6 +28,7 @@ export default function useMultiStepForm(
 
     // TODO : why is this happening?
     if (value === undefined) {
+      // eslint-disable-next-line no-param-reassign
       value = '';
     }
 

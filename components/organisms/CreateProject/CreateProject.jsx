@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { Fragment } from 'react';
 import { Col, Breadcrumb, Row } from 'antd';
 import PropTypes from 'prop-types';

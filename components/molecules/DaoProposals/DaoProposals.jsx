@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
 import CardDaoDetail from '../CardDaoDetail/CardDaoDetail';
 
@@ -27,3 +28,9 @@ const DaoProposals = ({ proposals, completed, onClick }) => {
 };
 
 export default DaoProposals;
+
+DaoProposals.propTypes = {
+  proposals: PropTypes.element.isRequired,
+  completed: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
+};

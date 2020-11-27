@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input } from 'antd';
-import { max } from 'lodash';
 
 // TODO : allow to pass another kind of elements, no just use the Form.Item harcoded.
 export default function FieldInput(props) {
@@ -36,3 +36,27 @@ export default function FieldInput(props) {
     </Form.Item>
   );
 }
+FieldInput.defaultProps = {
+  name: undefined,
+  label: undefined,
+  valid: undefined,
+  errorMessage: undefined,
+  placeholder: undefined,
+  type: undefined,
+  maxLength: 25,
+  disabled: false,
+  value: undefined
+};
+
+FieldInput.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.element,
+  valid: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  maxLength: PropTypes.number,
+  disabled: PropTypes.bool
+};

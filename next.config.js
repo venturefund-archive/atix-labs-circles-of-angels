@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -28,7 +29,7 @@ module.exports = withSass(
         fs: 'empty'
       }
     }),
-    //it should be in .env 
+    // it should be in .env
     env: {
       NEXT_PUBLIC_CAPTCHA_SITE_KEY: '6LenedEZAAAAAHeHqQ7TRJeZnXI_mOklV_P9lgZC'
     }

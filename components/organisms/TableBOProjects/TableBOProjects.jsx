@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -9,7 +10,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Dropdown, Menu, Icon, message, Modal } from 'antd';
+import { Table, Tag, Dropdown, Menu, Icon, message, Modal, Button } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
@@ -112,6 +113,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     {
       title: 'Actions',
       key: 'action',
+      // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => (
         <div className="ActionButtons">
           <CustomButton
@@ -157,14 +159,12 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     {
       title: 'Actions',
       key: 'action',
+      // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => (
         <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
-          <a
-            className="ant-dropdown-link"
-            onClick={() => setProjectSelected(id)}
-          >
+          <Button onClick={() => setProjectSelected(id)}>
             Change project status <Icon type="down" />
-          </a>
+          </Button>
         </Dropdown>
       )
     }

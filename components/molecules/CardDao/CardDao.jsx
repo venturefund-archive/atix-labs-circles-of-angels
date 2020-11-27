@@ -1,13 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { useState, useEffect } from 'react';
-import { Avatar } from 'antd';
+import { message, Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { getDaoUsers } from '../../../api/daoApi';
@@ -19,7 +20,7 @@ const CardDao = ({ onClick, dao }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  });
 
   const fetchUsers = async () => {
     try {
@@ -52,7 +53,7 @@ const CardDao = ({ onClick, dao }) => {
   };
 
   return (
-    <div onClick={onClick} className="Box1 column">
+    <div onClick={onClick} className="Box1 column" role="presentation">
       <h2>{name}</h2>
       <div className="BottomBoxSection flex space-between">
         <div className="subBox">

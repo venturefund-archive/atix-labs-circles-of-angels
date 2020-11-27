@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -38,7 +39,6 @@ import {
   projectStatuses,
   publicProjectStatuses,
   SHOW_EXPERIENCES_STATUSES,
-  claimMilestoneStatus,
   supporterRoles
 } from '../constants/constants';
 import { assignOracleToActivity, getEvidences } from '../api/activityApi';
@@ -109,17 +109,6 @@ const ProjectDetail = ({ user }) => {
       return;
     }
     setExperiences(response.data);
-  };
-
-  const fetchProject = async () => {
-    const response = await getProject(projectId);
-    if (response.errors) {
-      message.error('An error occurred while fetching the project');
-      history.goBack();
-      return;
-    }
-
-    setProject(response.data);
   };
 
   const fetchEvidences = async taskId => {
@@ -265,8 +254,19 @@ const ProjectDetail = ({ user }) => {
     isFunder(user, projectUsers.funders);
 
   useEffect(() => {
+    const fetchProject = async () => {
+      const response = await getProject(projectId);
+      if (response.errors) {
+        message.error('An error occurred while fetching the project');
+        history.goBack();
+        return;
+      }
+
+      setProject(response.data);
+    };
+
     fetchProject();
-  }, []);
+  }, [history, projectId]);
 
   useEffect(() => {
     if (project) {
@@ -279,6 +279,7 @@ const ProjectDetail = ({ user }) => {
       if (SHOW_EXPERIENCES_STATUSES.includes(project.status))
         fetchExperiences();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project]);
 
   const renderTabs = projectData =>
@@ -303,36 +304,36 @@ const ProjectDetail = ({ user }) => {
         )
     );
 
-  const calculateMilestoneProgress = () => {
-    if (!milestones || !milestones.length) return 0;
-    const milestonesTasks = milestones.map(milestone => {
-      const milestoneTotalTasks = milestone.tasks.length;
-      const milestoneVerifiedTasks = milestone.tasks.reduce(
-        (total, task) => (task.verified ? 1 : 0) + total,
+  useEffect(() => {
+    const calculateMilestoneProgress = () => {
+      if (!milestones || !milestones.length) return 0;
+      const milestonesTasks = milestones.map(milestone => {
+        const milestoneTotalTasks = milestone.tasks.length;
+        const milestoneVerifiedTasks = milestone.tasks.reduce(
+          (total, task) => (task.verified ? 1 : 0) + total,
+          0
+        );
+
+        return {
+          milestone: milestone.id,
+          verifiedTasks: milestoneVerifiedTasks,
+          totalTasks: milestoneTotalTasks
+        };
+      });
+
+      const totalTasks = milestonesTasks.reduce(
+        (total, milestone) => milestone.totalTasks + total,
         0
       );
+      const verifiedTasks = milestonesTasks.reduce(
+        (total, milestone) => milestone.verifiedTasks + total,
+        0
+      );
+      const progressPercentage =
+        totalTasks > 0 ? (verifiedTasks * 100) / totalTasks : 100;
+      return progressPercentage > 100 ? 100 : progressPercentage;
+    };
 
-      return {
-        milestone: milestone.id,
-        verifiedTasks: milestoneVerifiedTasks,
-        totalTasks: milestoneTotalTasks
-      };
-    });
-
-    const totalTasks = milestonesTasks.reduce(
-      (total, milestone) => milestone.totalTasks + total,
-      0
-    );
-    const verifiedTasks = milestonesTasks.reduce(
-      (total, milestone) => milestone.verifiedTasks + total,
-      0
-    );
-    const progressPercentage =
-      totalTasks > 0 ? (verifiedTasks * 100) / totalTasks : 100;
-    return progressPercentage > 100 ? 100 : progressPercentage;
-  };
-
-  useEffect(() => {
     setMilestonesProgress(calculateMilestoneProgress());
   }, [milestones]);
 

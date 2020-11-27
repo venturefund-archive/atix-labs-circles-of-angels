@@ -1,12 +1,13 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Steps, message } from 'antd';
 import './_steps-milestones.scss';
@@ -90,22 +91,24 @@ const CreateMilestonesFormContainer = ({
   useEffect(() => {
     if (!project || !project.id) goBack();
     fetchMilestones();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project, goBack]);
 
   useEffect(() => {
     if (milestones.length > 0) {
       validateFields(2);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [milestones]);
 
-  const fetchMilestones = async () => {
+  const fetchMilestones = useCallback(async () => {
     const response = await getProjectMilestones(project.id);
     if (response.errors) {
       message.error("An error occurred while getting the project's milestones");
       return;
     }
     setMilestones(response.data);
-  };
+  }, [project.id]);
 
   const downloadTemplate = async () => {
     const response = await downloadMilestonesTemplate();

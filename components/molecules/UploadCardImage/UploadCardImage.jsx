@@ -1,13 +1,15 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
-import { Upload, Icon, Modal, Button } from 'antd';
+import PropTypes from 'prop-types';
+import { Upload, Modal } from 'antd';
 import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
@@ -17,7 +19,7 @@ class UploadCardImage extends React.Component {
     previewImage: ''
   };
 
-  dummyRequest = ({ file, onSuccess }) => {
+  dummyRequest = ({ onSuccess }) => {
     setTimeout(() => {
       onSuccess('ok');
     }, 0);
@@ -72,3 +74,8 @@ class UploadCardImage extends React.Component {
 }
 
 export default UploadCardImage;
+
+UploadCardImage.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  fileList: PropTypes.element.isRequired
+};

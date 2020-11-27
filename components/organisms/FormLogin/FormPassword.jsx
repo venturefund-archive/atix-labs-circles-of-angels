@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
@@ -18,7 +20,7 @@ const FormPassword = ({ form, onSubmit }) => {
     form.validateFields(err => {
       if (!err) {
         return onSubmit(
-          getFieldProps('currentpassword').value, 
+          getFieldProps('currentpassword').value,
           getFieldProps('newpassword').value
         );
       }
@@ -36,19 +38,25 @@ const FormPassword = ({ form, onSubmit }) => {
   };
 
   const validateNewPassword = (rule, value, callback) => {
-    const regexPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})');
-    if(value && !regexPassword.test(value)) {
-      callback('Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.');
+    const regexPassword = new RegExp(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})'
+    );
+    if (value && !regexPassword.test(value)) {
+      callback(
+        'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
+      );
     } else {
       callback();
     }
-  }
+  };
 
   return (
     <Form className="recovery-form">
       <Form.Item>
         {getFieldDecorator('currentpassword', {
-          rules: [{ required: true, message: 'Please input your current password!' }]
+          rules: [
+            { required: true, message: 'Please input your current password!' }
+          ]
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -59,9 +67,7 @@ const FormPassword = ({ form, onSubmit }) => {
       <Form.Item>
         {getFieldDecorator('newpassword', {
           rules: [
-            { required: true, 
-              message: 'Please input your new password!' 
-            },
+            { required: true, message: 'Please input your new password!' },
             {
               validator: validateNewPassword
             }
@@ -98,3 +104,8 @@ const FormPassword = ({ form, onSubmit }) => {
 const DynamicFormPassword = Form.create({ name: 'FormPassword' })(FormPassword);
 
 export default DynamicFormPassword;
+
+FormPassword.propTypes = {
+  form: PropTypes.element.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};

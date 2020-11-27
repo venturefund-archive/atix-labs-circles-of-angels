@@ -14,29 +14,29 @@ const EvidenceBlockchainInfo = ({ onLoad, extraData, noDataMessage }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const info = await onLoad();
 
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const info = await onLoad();
-
-      if (info) {
-        const { oracle: oracleInfo, ...evidenceInfo } = info;
-        setEvidenceData(
-          buildEvidenceBlockchainData({ ...evidenceInfo, ...extraData })
-        );
-        setOracleData(buildOracleBlockchainData(oracleInfo));
-      } else {
-        throw new Error('Missing blockchain data');
+        if (info) {
+          const { oracle: oracleInfo, ...evidenceInfo } = info;
+          setEvidenceData(
+            buildEvidenceBlockchainData({ ...evidenceInfo, ...extraData })
+          );
+          setOracleData(buildOracleBlockchainData(oracleInfo));
+        } else {
+          throw new Error('Missing blockchain data');
+        }
+      } catch (e) {
+        setEvidenceData([]);
+        setOracleData([]);
       }
-    } catch (e) {
-      setEvidenceData([]);
-      setOracleData([]);
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    };
+
+    loadData();
+  }, [extraData, onLoad]);
 
   return (
     <div className="Container">

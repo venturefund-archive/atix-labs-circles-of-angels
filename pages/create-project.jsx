@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -33,7 +35,6 @@ const wizards = {
   proposal: ProjectProposalFormContainer,
   milestones: CreateMilestonesFormContainer
 };
-
 
 const CreateProjectContainer = () => {
   const { id } = useQuery();
@@ -87,7 +88,9 @@ const CreateProjectContainer = () => {
     setCompletedSteps(stepsStatus);
   };
 
-  const submitForm = (formKey, values) => updateFormValues(values, formKey);
+  const submitForm = useCallback((formKey, values) =>
+    updateFormValues(values, formKey)
+  );
 
   const updateFormValues = (values, formKey) => {
     const newFormValues = { ...formValues };

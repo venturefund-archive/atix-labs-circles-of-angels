@@ -11,5 +11,6 @@ export default function useFormSubmitEffect({
       apiCall(otherParams)
         .then(successCallback)
         .catch(errorCallback);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting]);
 }

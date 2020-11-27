@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Input, Select, Form } from 'antd';
 import './_style.scss';
 
@@ -29,7 +31,7 @@ const ModalDaoSelection = ({
   };
 
   return (
-    <Form >
+    <Form>
       <div className="daoSelection column">
         <p>Applicant</p>
         <Form.Item name="applicant">
@@ -49,10 +51,20 @@ const ModalDaoSelection = ({
           />
         </Form.Item>
       </div>
-      <div className="flex space-between border-top margin-top padding-top">
-      </div>
+      <div className="flex space-between border-top margin-top padding-top" />
     </Form>
   );
-}
+};
 
 export default ModalDaoSelection;
+
+ModalDaoSelection.propTypes = {
+  currentUser: PropTypes.element.isRequired,
+  setApplicant: PropTypes.func.isRequired,
+  setDescription: PropTypes.func.isRequired,
+  description: PropTypes.string
+};
+
+ModalDaoSelection.defaultProps = {
+  description: ''
+};

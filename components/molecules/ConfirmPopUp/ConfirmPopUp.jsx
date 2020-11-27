@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
@@ -38,7 +40,6 @@ class ConfirmPopUp extends React.Component {
 
   render() {
     const { visible } = this.state;
-    const { handleOk } = this.props;
     return (
       <div>
         <CustomButton
@@ -55,7 +56,7 @@ class ConfirmPopUp extends React.Component {
           cancelText="cancel"
           className="ConfirmModal"
         >
-          <img src="/static/images/icon-modal.svg" />
+          <img src="/static/images/icon-modal.svg" alt="Modal Icon" />
           <h1> Sign Agreement</h1>
           <h2>Are you sure you want to sign this agreement?</h2>
         </Modal>
@@ -65,3 +66,7 @@ class ConfirmPopUp extends React.Component {
 }
 
 export default ConfirmPopUp;
+
+ConfirmPopUp.propTypes = {
+  handleOk: PropTypes.func.isRequired
+};

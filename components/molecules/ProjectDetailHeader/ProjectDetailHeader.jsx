@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tag, Row } from 'antd';
+import moment from 'moment';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
@@ -11,7 +12,6 @@ import {
 } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
-import moment from 'moment';
 
 // TODO: show default if status not valid?
 const getTagStatus = (status, daysToGo) =>
@@ -31,10 +31,8 @@ const blockchainDrawerTitle = (
 const getDaysToGo = nextStatusUpdateAt => {
   if (!nextStatusUpdateAt) return null;
   const daysToGo = moment(nextStatusUpdateAt).diff(moment(), 'days');
-  return daysToGo >= 0 ? (
-  <b> - {daysToGo} days left</b>
-  ): null; 
-}
+  return daysToGo >= 0 ? <b> - {daysToGo} days left</b> : null;
+};
 
 const ProjectDetailHeader = ({
   coverPhotoPath,
@@ -176,7 +174,6 @@ ProjectDetailHeader.defaultProps = {
   goalAmount: 0,
   fundedAmount: 0,
   projectName: '-',
-  faqLink: '#',
   isFollower: false,
   allowEdit: false,
   onEditProject: () => undefined,
@@ -191,7 +188,6 @@ ProjectDetailHeader.propTypes = {
   goalAmount: PropTypes.number,
   fundedAmount: PropTypes.number,
   projectName: PropTypes.string,
-  faqLink: PropTypes.string,
   status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
   onFollowProject: PropTypes.func.isRequired,
   onUnfollowProject: PropTypes.func.isRequired,
@@ -200,7 +196,9 @@ ProjectDetailHeader.propTypes = {
   isFollower: PropTypes.bool,
   agreementFilePath: PropTypes.string,
   proposalFilePath: PropTypes.string,
-  fetchBlockchainData: PropTypes.func.isRequired
+  fetchBlockchainData: PropTypes.func.isRequired,
+  onAbortProject: PropTypes.func.isRequired,
+  nextStatusUpdateAt: PropTypes.number.isRequired
 };
 
 export default ProjectDetailHeader;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FieldInput from './FieldInput';
 import FieldSelect from './FieldSelect';
 import FieldTextArea from './FieldTextArea';
@@ -18,3 +19,7 @@ export default function Field(props) {
 
   return <FieldInput {...props} />;
 }
+
+Field.propTypes = {
+  type: PropTypes.string.isRequired
+};

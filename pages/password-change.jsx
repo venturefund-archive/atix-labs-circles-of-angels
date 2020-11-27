@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -26,9 +27,7 @@ function PasswordChange() {
     return encryptedWallet;
   };
 
-  const goToDashboard = () => {
-    return history.push('/');
-  };
+  const goToDashboard = () => history.push('/');
 
   const updatePassword = async (currentPassword, newPassword) => {
     try {
@@ -37,9 +36,9 @@ function PasswordChange() {
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
       const data = {
-        currentPassword, 
-        newPassword, 
-        encryptedWallet: encrypted 
+        currentPassword,
+        newPassword,
+        encryptedWallet: encrypted
       };
       await changePassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
@@ -55,30 +54,26 @@ function PasswordChange() {
     setLoading(false);
   };
 
-  const renderForm = () => {
-    return (
-      <div>
-        {!successfulUpdate && (
-          <div>
-            <Spin spinning={loading}>
-              <h1>CIRCLE OF ANGELS</h1>
-              <h2>CHANGE YOUR PASSWORD</h2>
-              <DynamicFormPassword onSubmit={updatePassword} />
-            </Spin>
-          </div>
-        )}
-      </div>
-    );
-  };
+  const renderForm = () => (
+    <div>
+      {!successfulUpdate && (
+        <div>
+          <Spin spinning={loading}>
+            <h1>CIRCLE OF ANGELS</h1>
+            <h2>CHANGE YOUR PASSWORD</h2>
+            <DynamicFormPassword onSubmit={updatePassword} />
+          </Spin>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="Login">
       <div className="LogoSide">
         <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
       </div>
-      <div className="FormSide" >
-        {renderForm()}
-      </div>
+      <div className="FormSide">{renderForm()}</div>
     </div>
   );
 }

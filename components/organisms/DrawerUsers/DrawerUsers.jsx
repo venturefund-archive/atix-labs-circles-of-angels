@@ -7,11 +7,7 @@ import './_style.scss';
 
 const DrawerUsers = ({ users, visible, onClose, title, onClick }) => (
   <div>
-          <CustomButton
-          buttonText="View All"
-          theme="Secondary"
-          onClick={onClick}
-        />
+    <CustomButton buttonText="View All" theme="Secondary" onClick={onClick} />
     <Drawer
       title={title}
       placement="right"
@@ -34,7 +30,8 @@ DrawerUsers.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)).isRequired,
   visible: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default DrawerUsers;

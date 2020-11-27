@@ -10,7 +10,7 @@ export const step1Inputs = {
         value: 'entrepreneur',
         usertype: 'Social Entrepreneur',
         title: 'Create a project',
-        image: "./static/images/create-project.svg"
+        image: './static/images/create-project.svg'
       },
       // TODO define wording for each role
       {
@@ -18,7 +18,7 @@ export const step1Inputs = {
         value: 'supporter',
         usertype: 'Project Supporter',
         title: 'Fund or monitor a project',
-        image: "./static/images/fund-project.svg"
+        image: './static/images/fund-project.svg'
       }
     ],
     rules: [
@@ -74,7 +74,7 @@ export const step2Inputs = {
     placeholder: 'Email',
     rules: [
       {
-        regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         message: 'The input is not valid E-mail!'
       },
       {
@@ -108,8 +108,9 @@ export const step2Inputs = {
         message: 'Please input your password!'
       },
       {
-        regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-        message: 'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
+        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+        message:
+          'Your password must have the following:\n- At least 8 characters\n- At least 1 lowercase character\n- At least 1 uppercase character\n- At least 1 numeric character.'
       }
     ]
   },
