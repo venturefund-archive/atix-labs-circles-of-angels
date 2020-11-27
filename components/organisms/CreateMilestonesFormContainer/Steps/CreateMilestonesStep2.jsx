@@ -49,7 +49,7 @@ const CreateMilestonesStep2 = ({
   };
 
   const deleteMilestonesAndProcessNewOnes = () => {
-    //TODO: Add update or replace Milestone File to Back
+    // TODO: Add update or replace Milestone File to Back
     deleteAllMilestones();
     processMilestones();
   };
