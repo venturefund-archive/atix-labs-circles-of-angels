@@ -9,7 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { Layout, Menu } from 'antd';
 import menuItems from './MenuItems';
 import './_style.scss';
@@ -18,6 +18,7 @@ const { Sider } = Layout;
 
 const SideBar = ({ role, hasDaos }) => {
   const history = useHistory();
+  const location = useLocation();
 
   const goToRoute = route => history.push(route);
 
@@ -37,7 +38,11 @@ const SideBar = ({ role, hasDaos }) => {
       <div className="logo">
         <img src="./static/images/isologo.svg" alt="Circles of Angels" />
       </div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['-1']}>
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={[location.pathname.replace('/', '')]}
+      >
         {getMenuItems(role).map(({ key, route, content }) => (
           <Menu.Item key={key} onClick={() => goToRoute(route)}>
             {content}
