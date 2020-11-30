@@ -166,10 +166,9 @@ const ProjectDetail = ({ user }) => {
   const onAbortProject = async () => {
     const isExecuting = project.status === projectStatuses.EXECUTING;
     if (isExecuting) {
-      const response = await updateProjectStatus(
-        project.id,
-        projectStatuses.ABORTED
-      );
+      const response = await updateProjectStatus(project.id, {
+        status: projectStatuses.ABORTED
+      });
       if (response.errors) {
         message.error(response.errors);
         return;

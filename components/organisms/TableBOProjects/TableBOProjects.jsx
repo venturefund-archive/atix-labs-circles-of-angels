@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import { projectStatuses } from '../../../constants/constants';
+import projectStatusesTransition from '../../../constants/ProjectStatusesTransition';
 import userRole from '../../../constants/RolesMap';
 import { downloadFileFromPath } from '../../utils/FileUtils';
 import { updateProjectStatus } from '../../../api/projectApi';
@@ -39,9 +40,14 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
 
   const changeStatusByAdmin = async () => {
     try {
-      await updateProjectStatus(projectSelected, statusSelected);
-      fetchProjects();
-      message.success('Project status changed correctly');
+      if (statusSelected === projectStatuses.REJECTED) {
+        setModalRejectVisible(true);
+        setRejectedProject(projectSelected);
+      } else {
+        await updateProjectStatus(projectSelected, { status: statusSelected });
+        fetchProjects();
+        message.success('Project status changed correctly');
+      }
     } catch (error) {
       message.error(error);
     } finally {
@@ -49,13 +55,18 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     }
   };
 
-  const getProjectStatuses = () => (
-    <Menu onClick={handleMenuClick}>
-      {Object.keys(projectStatuses).map(key => (
-        <Menu.Item key={projectStatuses[key]}>{projectStatuses[key]}</Menu.Item>
-      ))}
-    </Menu>
-  );
+  const getProjectStatuses = status => {
+    const availablestatuses = projectStatusesTransition[status];
+    return (
+      <Menu onClick={handleMenuClick}>
+        {Object.keys(availablestatuses).map(key => (
+          <Menu.Item key={availablestatuses[key]}>
+            {availablestatuses[key]}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  };
   const curatorColumns = [
     {
       title: 'User',
@@ -160,13 +171,19 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       title: 'Actions',
       key: 'action',
       // eslint-disable-next-line react/prop-types
-      render: ({ id, status }) => (
-        <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
-          <Button onClick={() => setProjectSelected(id)}>
-            Change project status <Icon type="down" />
-          </Button>
-        </Dropdown>
-      )
+      render: ({ id, status }) => {
+        const availablestatuses = projectStatusesTransition[status];
+        if (!availablestatuses.length) {
+          return;
+        }
+        return (
+          <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
+            <Button onClick={() => setProjectSelected(id)}>
+              Change project status <Icon type="down" />
+            </Button>
+          </Dropdown>
+        );
+      }
     }
   ];
 
