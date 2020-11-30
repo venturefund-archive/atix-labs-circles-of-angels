@@ -39,7 +39,7 @@
 }
 @media screen and (max-width: 770px) {
   .HeaderContainer {
-    width: 100vw;
+    width: calc(100%);
 
     .RightSide {
       width: 30%;

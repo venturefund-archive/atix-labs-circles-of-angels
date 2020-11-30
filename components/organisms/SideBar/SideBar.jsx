@@ -33,7 +33,7 @@ const SideBar = ({ role, hasDaos }) => {
   };
 
   return (
-    <Sider width="60" breakpoint="md" collapsedWidth="0">
+    <Sider width="60" breakpoint="sm" collapsedWidth="0">
       <div className="logo">
         <img src="./static/images/isologo.svg" alt="Circles of Angels" />
       </div>
