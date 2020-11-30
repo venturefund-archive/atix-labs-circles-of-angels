@@ -10,34 +10,13 @@ const FooterButtons = ({ finishButton, nextStepButton, prevStepButton }) => (
     justify="space-between"
     align="middle"
   >
-    <Col
-      xs={{ span: 24, order: 1 }}
-      sm={{ span: 24, order: 1 }}
-      md={6}
-      lg={{ span: 4, offset: 0, order: 1 }}
-    >
-      {prevStepButton}
-    </Col>
-    <Col
-      className="space-between"
-      xs={{ span: 24, order: 3 }}
-      sm={{ span: 24, order: 3 }}
-      md={6}
-      lg={{ span: 3, offset: 14 }}
-    >
-      {nextStepButton}
-    </Col>
-    {!!finishButton && (
-      <Col
-        className="space-between"
-        xs={{ span: 24, order: 2 }}
-        sm={{ span: 24, order: 2 }}
-        md={6}
-        lg={{ span: 3, offset: 0, order: 3 }}
-      >
-        {finishButton}
-      </Col>
-    )}
+    <Row type="flex" justify="start">
+      <Col>{prevStepButton}</Col>
+    </Row>
+    <Row className="RightFooterButtons" type="flex" justify="end">
+      <Col>{nextStepButton}</Col>
+      {!!finishButton && <Col>{finishButton}</Col>}
+    </Row>
   </Row>
 );
 
