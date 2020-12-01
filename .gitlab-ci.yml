@@ -41,7 +41,7 @@ package:
   image: docker.atixlabs.com/node:12.16.0-alpine
   stage: package
   services:
-    - docker.atixlabs.com/docker:19.03.1-dind
+    - docker:19.03.1-dind
   script:
     - apk add docker
     - docker login -u gitlabci -p $CI_JOB_TOKEN $CI_REGISTRY
