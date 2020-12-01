@@ -1,5 +1,4 @@
 variables:
-
   # To make npm test to not to start in watch mode
   # https://create-react-app.dev/docs/running-tests/#continuous-integration
   CI: "true"
@@ -13,6 +12,7 @@ before_script:
 
 stages:
   - test
+  - package
 
 lint:
   image: docker.atixlabs.com/node:12.16.0-alpine
@@ -29,3 +29,21 @@ test:
     - npm run test
   except:
     - schedules
+
+package:
+  image: docker.atixlabs.com/node:12.16.0-alpine
+  stage: package
+  services:
+    - docker.atixlabs.com/docker:19.03.1-dind
+  script:
+    - apk add docker
+    - docker login -u gitlabci -p $CI_JOB_TOKEN $CI_REGISTRY
+    - npm run docker:build
+    - npm run docker:push
+  only:
+    refs:
+      # Only run on develop, release/x.y.x and hotfix/xxxx
+      - COA-1746-Dockerize-Front
+      - develop
+      - /^release.*$/
+      - /^hotfix.*$/
