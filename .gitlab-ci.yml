@@ -15,7 +15,7 @@ stages:
   - test
 
 lint:
-  image: docker.atixlabs.com/node:12.16.0
+  image: docker.atixlabs.com/node:12.16.0-alpine
   stage: test
   script:
     - npm run eslint
@@ -23,7 +23,7 @@ lint:
     - schedules
 
 test:
-  image: docker.atixlabs.com/node:12.16.0
+  image: docker.atixlabs.com/node:12.16.0-alpine
   stage: test
   script:
     - npm run test

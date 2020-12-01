@@ -1,4 +1,4 @@
-FROM node:12.16.0
+FROM docker.atixlabs.com/node:12.16.0-alpine
 
 
 # Setting working directory. All the path will be relative to WORKDIR
