@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Skeleton, Divider, Form, message } from 'antd';
+import { Row, Col, Skeleton, Divider, message } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import { getPreviewValue } from '../../../helpers/formatter';
 import Field from '../../atoms/Field/Field';
