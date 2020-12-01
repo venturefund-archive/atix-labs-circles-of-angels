@@ -1,5 +1,7 @@
 {
   "name": "circlesofangels",
+  "version": "1.0.0",
+  "dockerImage": "docker.atixlabs.com/coa/frontend",
   "scripts": {
     "clean": "rm -rf .next",
     "dev": "next",
