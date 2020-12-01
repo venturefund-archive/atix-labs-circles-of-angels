@@ -38,7 +38,8 @@ const Milestone = ({
   allowNewEvidence,
   allowClaimMilestone,
   fetchEvidences,
-  fetchMilestones
+  fetchMilestones,
+  isEditingMilestone
 }) => {
   const [editFields, setEditFields] = useState(milestone);
   const [editing, setEditing] = useState(false);
@@ -58,7 +59,11 @@ const Milestone = ({
     );
 
   const handleEditRow = save => {
-    if (!editing) return setEditing(true);
+    if (!editing) {
+      isEditingMilestone(true);
+      return setEditing(true);
+    }
+    isEditingMilestone(false);
     setEditing(false);
     return save === true ? onMilestoneEdit(editFields, index) : undefined;
   };
@@ -145,6 +150,7 @@ const Milestone = ({
         allowNewEvidence={allowNewEvidence}
         fetchEvidences={fetchEvidences}
         fetchMilestones={fetchMilestones}
+        isEditingMilestone={isEditingMilestone}
       />
       <CreateActivityContainer
         visibility={modalVisible}
@@ -189,7 +195,8 @@ Milestone.propTypes = {
   allowNewEvidence: PropTypes.func,
   allowClaimMilestone: PropTypes.bool.isRequired,
   fetchEvidences: PropTypes.func,
-  fetchMilestones: PropTypes.func
+  fetchMilestones: PropTypes.func,
+  isEditingMilestone: PropTypes.func.isRequired
 };
 
 export default Milestone;

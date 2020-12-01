@@ -28,7 +28,8 @@ const RowMilestones = ({
   allowNewEvidence,
   allowClaimMilestone,
   fetchEvidences,
-  fetchMilestones
+  fetchMilestones,
+  isEditingMilestone
 }) => {
   const handleTaskCreate = (milestoneId, taskData) =>
     onTaskCreate(milestoneId, taskData);
@@ -65,6 +66,7 @@ const RowMilestones = ({
       allowClaimMilestone={allowClaimMilestone}
       fetchEvidences={fetchEvidences}
       fetchMilestones={fetchMilestones}
+      isEditingMilestone={isEditingMilestone}
     />
   ));
   return (
@@ -123,7 +125,8 @@ RowMilestones.propTypes = {
   allowNewEvidence: PropTypes.func,
   allowClaimMilestone: PropTypes.bool,
   fetchEvidences: PropTypes.func,
-  fetchMilestones: PropTypes.func
+  fetchMilestones: PropTypes.func,
+  isEditingMilestone: PropTypes.func.isRequired
 };
 
 export default RowMilestones;
