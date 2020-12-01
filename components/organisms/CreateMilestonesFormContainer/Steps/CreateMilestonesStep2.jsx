@@ -137,6 +137,7 @@ const CreateMilestonesStep2 = ({
                 {...fields.milestoneFile}
                 handleChange={handleChange}
                 clean={cleanFile}
+                fileType="excel"
               />
             </Col>
             <Col span={24}>

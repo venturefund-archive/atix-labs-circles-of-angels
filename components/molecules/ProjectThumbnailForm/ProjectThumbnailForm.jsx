@@ -148,7 +148,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                   {...fields.cardPhotoPath}
                   handleChange={handleChange}
                   showPreviouslyUploadedList
-                  isImage
+                  fileType="image"
                 />
               </Col>
             </Form>
