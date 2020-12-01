@@ -54,16 +54,24 @@ const CreateProject = ({
 
   const getContinueLaterButton = () => (
     <CustomButton
-      buttonText={
-        status === projectStatuses.CONSENSUS
-          ? 'Save changes'
-          : 'Save & Continue later'
-      }
+      buttonText={getContinueLaterLabel()}
       theme="Secondary"
       // TODO: show saved message? warn about losing non-saved changes?
       onClick={goToMyProjects}
     />
   );
+
+  const getContinueLaterLabel = () => {
+    if (anyStepCompleted()) {
+      return status === projectStatuses.CONSENSUS
+        ? 'Save changes'
+        : 'Save & Continue later';
+    }
+    return 'Go back';
+  };
+
+  const anyStepCompleted = () =>
+    Object.values(completedSteps).some(completed => completed);
 
   const sendToReviewButton = () => {
     if (status === projectStatuses.CONSENSUS) return;
