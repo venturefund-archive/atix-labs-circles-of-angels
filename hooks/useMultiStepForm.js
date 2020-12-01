@@ -28,6 +28,7 @@ export default function useMultiStepForm(
 
     // TODO : why is this happening?
     if (value === undefined) {
+      // eslint-disable-next-line no-param-reassign
       value = '';
     }
 
@@ -138,11 +139,23 @@ export default function useMultiStepForm(
     setCurrentStep(currentStep - 1);
   };
 
+  const isLastRegisterForm = stepRegister => {
+    const { component } = stepRegister;
+    if (!component) {
+      return false;
+    }
+    return (
+      component.name.includes('Register') && currentStep === steps.length - 1
+    );
+  };
+
   const isFormValid = () => {
     const stepFields = steps[currentStep].fields;
+    const lastRegisterForm = isLastRegisterForm(steps[currentStep]);
     return (
       !stepFields ||
       !stepFields.length > 0 ||
+      lastRegisterForm ||
       Object.values(stepFields).every(i => fields[i].valid)
     );
   };

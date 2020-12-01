@@ -69,7 +69,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
               </h1>
             </Col>
             <Col sm={24} md={24} lg={8}>
-              <Tag color="orange">Pending for approval</Tag>
+              <Tag color="cyan">New</Tag>
             </Col>
           </Col>
           <Col className="flex" sm={24} md={24} lg={24}>
@@ -137,7 +137,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                   )}
                 </Col>
               </Col>
-              <Col sm={24} md={24} lg={18}>
+              <Col sm={24} md={24} lg={18} className="upload-info">
                 <h3>Thumbnail Image</h3>
                 <span>
                   Recomended Image Size: 1400x400px. Format: PNG or JPG.
@@ -147,7 +147,8 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                 <Field
                   {...fields.cardPhotoPath}
                   handleChange={handleChange}
-                  showUploadList={false}
+                  showPreviouslyUploadedList
+                  isImage
                 />
               </Col>
             </Form>

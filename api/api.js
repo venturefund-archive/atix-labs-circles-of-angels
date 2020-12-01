@@ -2,7 +2,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -12,25 +13,17 @@ import formatError from '../helpers/errorFormatter';
 
 require('dotenv').config();
 
-// const config = new Conf();
-// console.log(config)
-// const actualEnvironment = "develop";
-
-// config.set("develop", {
-//   baseURL: "http://localhost:3001",
-//   timeout: 1000
-// });
 const { NODE_ENV } = process.env;
 
 export const getBaseURL = () => {
   switch (NODE_ENV) {
     case 'development':
       return 'http://localhost:3001';
-    case 'testing': // TODO: don't think this is needed
+    case 'test':
       return 'http://localhost:3001';
-    case 'staging': // TODO: don't think this is needed
+    case 'staging':
       return 'http://localhost:3001';
-    case 'production': // when using a production build
+    case 'production':
       return 'http://localhost:3001';
     default:
       throw new Error('no scope selected');

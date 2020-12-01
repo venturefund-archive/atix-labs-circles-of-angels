@@ -1,13 +1,16 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { Component } from 'react';
-import { Divider, Icon, Breadcrumb, Tooltip, message, Tag } from 'antd';
+import { Divider, Icon, Breadcrumb, Tooltip, message, Tag, Button } from 'antd';
 import { isEmpty } from 'lodash';
 import mime from 'mime-types';
 import Header from '../components/molecules/Header/Header';
@@ -25,7 +28,6 @@ import {
   getActivity,
   deleteEvidence,
   downloadEvidence,
-  uploadEvidence,
   completeActivity
 } from '../api/activityApi';
 import {
@@ -46,7 +48,8 @@ const BreadCrumb = query => (
   <Breadcrumb>
     <Breadcrumb.Item>
       <Icon type="arrow-left" />
-      <a
+      <Button
+        type="link"
         onClick={() =>
           Routing.toProjectProgress({
             projectId: query.query
@@ -54,7 +57,7 @@ const BreadCrumb = query => (
         }
       >
         Project Progress
-      </a>
+      </Button>
     </Breadcrumb.Item>
     <Breadcrumb.Item>Evidence</Breadcrumb.Item>
   </Breadcrumb>
@@ -318,12 +321,13 @@ class ProjectEvidence extends Component {
                         <Tooltip title="Hash">
                           <Icon component={HashIcon} />
                         </Tooltip>
-                        <a
+                        <Button
+                          type="link"
                           target="_blank"
                           href={`https://explorer.testnet.rsk.co/tx/${activity.transactionHash}`}
                         >
                           {activity.transactionHash}
-                        </a>
+                        </Button>
                       </span>
                       <div className="speech-bubble-ds">
                         <p>

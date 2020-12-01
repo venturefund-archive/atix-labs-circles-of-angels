@@ -30,7 +30,8 @@ DrawerUsers.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape(userAvatarPropTypes)).isRequired,
   visible: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default DrawerUsers;

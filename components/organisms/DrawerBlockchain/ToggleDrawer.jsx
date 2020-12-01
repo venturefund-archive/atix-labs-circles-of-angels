@@ -23,7 +23,7 @@ const ToggleDrawer = ({ onClick }) => (
           src="/static/images/miniblock.svg"
           alt="blockchainIcon"
         />
-        Blockchain Details >
+        Blockchain Details {'>'}
       </button>
     </div>
   </>

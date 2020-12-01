@@ -1,23 +1,22 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, message } from 'antd';
 import mime from 'mime-types';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import DragUploadFile from '../DragUploadFile/DragUploadFile';
 import FileUploadStatus from '../../../constants/FileUploadStatus';
 import { withUser } from '../../utils/UserContext';
-import {
-  createProject,
-  downloadMilestonesTemplate
-} from '../../../api/projectApi';
-import { showModalError } from '../../utils/Modals';
+import { downloadMilestonesTemplate } from '../../../api/projectApi';
+// import { showModalError } from '../../utils/Modals';
 
 import './_style.scss';
 import FileVerificationList from '../FileVerificationList/FileVerificationList';
@@ -39,61 +38,61 @@ class Step2 extends React.Component {
     return res;
   };
 
-  submitProject = async () => {
-    const { project, next } = this.props;
-    const {
-      projectProposal,
-      projectCoverPhoto,
-      projectCardPhoto,
-      projectMilestones,
-      projectAgreement
-    } = project.files;
+  // submitProject = async () => {
+  //   const { project, next } = this.props;
+  //   const {
+  //     projectProposal,
+  //     projectCoverPhoto,
+  //     projectCardPhoto,
+  //     projectMilestones,
+  //     projectAgreement
+  //   } = project.files;
 
-    const { user } = this.props;
-    const ownerId = user.id;
+  //   const { user } = this.props;
+  //   const ownerId = user.id;
 
-    const files = [];
-    files.push(projectProposal.originFileObj);
-    files.push(projectCoverPhoto.originFileObj);
-    files.push(projectCardPhoto.originFileObj);
-    files.push(projectMilestones.originFileObj);
-    files.push(projectAgreement.originFileObj);
+  //   const files = [];
+  //   files.push(projectProposal.originFileObj);
+  //   files.push(projectCoverPhoto.originFileObj);
+  //   files.push(projectCardPhoto.originFileObj);
+  //   files.push(projectMilestones.originFileObj);
+  //   files.push(projectAgreement.originFileObj);
 
-    const newProject = {
-      ...project.data,
-      goalAmount: parseFloat(project.data.goalAmount)
-    };
-    this.verifyingFile();
-    const res = await createProject(newProject, files, ownerId);
+  //   const newProject = {
+  //     ...project.data,
+  //     goalAmount: parseFloat(project.data.goalAmount)
+  //   };
+  //   this.verifyingFile();
+  //   const res = await createProject(newProject, files, ownerId);
 
-    if (res.status === 200) {
-      next();
-    } else if (res.error) {
-      if (res.error.response && res.error.response.data.errors) {
-        this.setState({
-          milestonesErrors: res.error.response.data.errors,
-          creationStatus: false,
-          uploadDisable: false,
-          verifying: false,
-          filelist: []
-        });
-      } else {
-        const { error } = res;
-        const title = 'Project creation failed';
-        console.log(res);
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
-        showModalError(title, content);
-        this.setState({
-          creationStatus: false,
-          verifying: false,
-          uploadDisable: false,
-          filelist: []
-        });
-      }
-    }
-  };
+  //   if (res.status === 200) {
+  //     next();
+  //   } else if (res.error) {
+  //     if (res.error.response && res.error.response.data.errors) {
+  //       this.setState({
+  //         milestonesErrors: res.error.response.data.errors,
+  //         creationStatus: false,
+  //         uploadDisable: false,
+  //         verifying: false,
+  //         filelist: []
+  //       });
+  //     } else {
+  //       const { error } = res;
+  //       const title = 'Project creation failed';
+  //       console.log(res);
+  //       const content = error.response
+  //         ? error.response.data.error
+  //         : error.message;
+  //       showModalError(title, content);
+  //       this.setState({
+  //         creationStatus: false,
+  //         verifying: false,
+  //         uploadDisable: false,
+  //         filelist: []
+  //       });
+  //     }
+  //   }
+  // };
 
   changeMilestones = info => {
     const { project } = this.props;
@@ -224,3 +223,8 @@ class Step2 extends React.Component {
 }
 
 export default withUser(Step2);
+
+Step2.propTypes = {
+  project: PropTypes.element.isRequired,
+  prev: PropTypes.func.isRequired
+};

@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -9,7 +10,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
-import { Table, Tag, Dropdown, Menu, Icon, message, Modal } from 'antd';
+import { Table, Tag, Dropdown, Menu, Icon, message, Modal, Button } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
@@ -18,6 +19,8 @@ import userRole from '../../../constants/RolesMap';
 import { downloadFileFromPath } from '../../utils/FileUtils';
 import { updateProjectStatus } from '../../../api/projectApi';
 import { useUserContext } from '../../utils/UserContext';
+import CustomFormModal from '../CustomFormModal/CustomFormModal';
+import { newProjectFormItems } from '../../../helpers/createProjectFormFields';
 
 const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const { getLoggedUser } = useUserContext();
@@ -26,6 +29,8 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   const [showModal, setShowModal] = useState(false);
   const [statusSelected, setStatusSelected] = useState(null);
   const [projectSelected, setProjectSelected] = useState(null);
+  const [modalRejectVisible, setModalRejectVisible] = useState(false);
+  const [rejectedProject, setRejectedProject] = useState('');
 
   const handleMenuClick = e => {
     setStatusSelected(e.key);
@@ -46,13 +51,9 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
 
   const getProjectStatuses = () => (
     <Menu onClick={handleMenuClick}>
-      {Object.keys(projectStatuses).map(function(key) {
-        return (
-          <Menu.Item key={projectStatuses[key]}>
-            {projectStatuses[key]}
-          </Menu.Item>
-        );
-      })}
+      {Object.keys(projectStatuses).map(key => (
+        <Menu.Item key={projectStatuses[key]}>{projectStatuses[key]}</Menu.Item>
+      ))}
     </Menu>
   );
   const curatorColumns = [
@@ -112,6 +113,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     {
       title: 'Actions',
       key: 'action',
+      // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => (
         <div className="ActionButtons">
           <CustomButton
@@ -124,7 +126,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
             theme="Cancel"
             buttonText="Reject"
             hidden={status !== projectStatuses.TO_REVIEW}
-            onClick={() => onReject(id)}
+            onClick={() => handleRejectionButton(id)}
           />
         </div>
       )
@@ -157,14 +159,12 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     {
       title: 'Actions',
       key: 'action',
+      // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => (
         <Dropdown overlay={getProjectStatuses(status)} trigger={['click']}>
-          <a
-            className="ant-dropdown-link"
-            onClick={() => setProjectSelected(id)}
-          >
+          <Button onClick={() => setProjectSelected(id)}>
             Change project status <Icon type="down" />
-          </a>
+          </Button>
         </Dropdown>
       )
     }
@@ -172,6 +172,20 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
 
   const goToProjectDetail = projectId =>
     history.push(`/project-detail?id=${projectId}`);
+
+  const handleRejectionButton = id => {
+    setModalRejectVisible(true);
+    setRejectedProject(id);
+  };
+
+  const onRejectProject = rejectionData => {
+    let reason;
+    rejectionData.forEach(value => {
+      reason = value;
+    });
+    onReject(rejectedProject, reason);
+  };
+
   return (
     <>
       <Table
@@ -190,6 +204,13 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       >
         <p>Are you sure you want to change status to {statusSelected}? </p>
       </Modal>
+      <CustomFormModal
+        title="Reject project"
+        formItems={newProjectFormItems}
+        visible={modalRejectVisible}
+        onConfirm={onRejectProject}
+        onClose={() => setModalRejectVisible(false)}
+      />
     </>
   );
 };
@@ -203,5 +224,6 @@ TableBOProjects.defaultProps = {
 TableBOProjects.propTypes = {
   data: PropTypes.arrayOf({}),
   onConfirm: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired
+  onReject: PropTypes.func.isRequired,
+  fetchProjects: PropTypes.func.isRequired
 };

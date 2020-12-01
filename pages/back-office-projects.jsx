@@ -1,7 +1,8 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -11,7 +12,7 @@ import { message } from 'antd';
 import './_style.scss';
 import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
-import { getProjects, publish } from '../api/projectApi';
+import { getProjects, publish, updateProjectStatus } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';
 
 const BackOfficeProjects = () => {
@@ -26,9 +27,13 @@ const BackOfficeProjects = () => {
     }
   };
 
-  const handleReject = async projectId => {
+  const handleReject = async (projectId, rejectionReason) => {
+    // TODO: Add the rejection reason to the backend and send it here
     try {
-      await updateProjectStatus(projectId, projectStatuses.REJECTED);
+      await updateProjectStatus(projectId, {
+        rejectionReason,
+        status: projectStatuses.REJECTED
+      });
       fetchProjects();
       message.success('Project status changed correctly');
     } catch (error) {
@@ -53,7 +58,9 @@ const BackOfficeProjects = () => {
       <TableBOProjects
         data={projects}
         onConfirm={projectId => handleConfirm(projectId)}
-        onReject={projectId => handleReject(projectId)}
+        onReject={(projectId, rejectionReason) =>
+          handleReject(projectId, rejectionReason)
+        }
         fetchProjects={fetchProjects}
       />
     </div>

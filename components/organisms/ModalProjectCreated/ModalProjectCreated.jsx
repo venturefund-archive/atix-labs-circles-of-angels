@@ -1,18 +1,16 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
-import { Row, Col, Divider, Modal } from 'antd';
+import { Modal } from 'antd';
 import './_style.scss';
-import { withUser } from '../../utils/UserContext';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
-import FormLogin from '../FormLogin/FormLogin';
 
 class ModalProjectCreated extends React.Component {
   state = { visible: false };
@@ -23,27 +21,27 @@ class ModalProjectCreated extends React.Component {
     });
   };
 
-  handleOk = e => {
-    console.log(e);
+  handleOk = () => {
     this.setState({
       visible: false
     });
   };
 
-  handleCancel = e => {
-    console.log(e);
+  handleCancel = () => {
     this.setState({
       visible: false
     });
   };
 
   render() {
+    const { visible } = this.state;
+
     return (
       <div className="ModalProjectCreated">
         <Modal
           closable={false}
           centered
-          visible={this.state.visible}
+          visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           className="ModalProjectCreated"

@@ -107,7 +107,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
         <Col className="AlignCenter" sm={12} md={12} lg={12}>
           <Col sm={24} md={24} lg={24} className="BlockForm">
             <Row gutter={22}>
-              <Form className="login-form">
+              <Form>
                 <Col className="InputTwoLabel" sm={24} md={24} lg={24}>
                   <Field {...fields.mission} handleChange={handleChange} />
                 </Col>
@@ -118,13 +118,13 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                   />
                 </Col>
                 <Col sm={24} md={24} lg={24} className="space-between">
-                  <div>
+                  <div className="upload-info">
                     <h3>Background Image</h3>
                     <span>
                       Recomended Image Size: 1400x400px. Format: PNG or JPG.
                     </span>
                   </div>
-                  <div>
+                  <div className="upload-button-field">
                     <Field
                       {...fields.coverPhotoPath}
                       handleChange={handleChange}
@@ -134,11 +134,11 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                   </div>
                 </Col>
                 <Col sm={24} md={24} lg={24} className="space-between">
-                  <div>
+                  <div className="upload-info">
                     <h3>Legal Agreement</h3>
                     <span>Format: PDF, DOC or DOCX</span>
                   </div>
-                  <div>
+                  <div className="upload-button">
                     <Field
                       {...fields.agreementFile}
                       handleChange={handleChange}
@@ -148,11 +148,11 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
                   </div>
                 </Col>
                 <Col sm={24} md={24} lg={24} className="space-between">
-                  <div>
+                  <div className="upload-info">
                     <h3>Project Proposal</h3>
                     <span>Format: PDF, DOC or DOCX</span>
                   </div>
-                  <div>
+                  <div className="upload-button">
                     <Field
                       {...fields.proposalFile}
                       handleChange={handleChange}

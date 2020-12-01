@@ -1,13 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { useState, useEffect } from 'react';
-import { message, Spin } from 'antd';
+import { message } from 'antd';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
 import RegisterForm from '../../components/organisms/FormRegister/FormRegister';
@@ -94,7 +95,7 @@ const Registersteps = () => {
     return { mnemonic, address };
   };
 
-  const successCallback = wallet => {
+  const successCallback = () => {
     setLoading(false);
     message.success(
       'Thank you for register. We have sent a e-mail to verify your address. \nPlease click the link in that email to continue'
@@ -134,6 +135,7 @@ const Registersteps = () => {
     if (role && !REGISTER_ROLES.includes(role))
       return history.push('/register');
     setQuestionsByRole(role);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role]);
 
   useEffect(() => {
@@ -145,6 +147,7 @@ const Registersteps = () => {
 
     setFields({ ...fields, ...step2 });
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countries]);
 
   // TODO: add loading when form is submitting

@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
 import Field from '../../../../atoms/Field/Field';
@@ -20,9 +22,8 @@ const commonQuestions = {
     label: "What's your phone number?",
     rules: [
       {
-        required: true,
+        required: false,
         regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
-        message: 'Provide a valid phone number',
         whitespace: true
       }
     ]
@@ -33,7 +34,7 @@ const commonQuestions = {
     label: "What's your company name?",
     rules: [
       {
-        required: true,
+        required: false,
         message: 'Please input your company',
         whitespace: true
       }
@@ -62,7 +63,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please input your phone!'
         }
       ]
@@ -125,7 +126,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please choose at least one goal'
         }
       ]
@@ -165,7 +166,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Select an answer'
         }
       ]
@@ -228,7 +229,7 @@ export const questionsByRole = {
       ],
       rules: [
         {
-          required: true,
+          required: false,
           message: 'Please choose at least one goal'
         }
       ]
@@ -270,3 +271,8 @@ const RegisterStep3 = ({ fields, handleChange }) => (
 );
 
 export default RegisterStep3;
+
+RegisterStep3.propTypes = {
+  fields: PropTypes.shape({}).isRequired,
+  handleChange: PropTypes.func.isRequired
+};

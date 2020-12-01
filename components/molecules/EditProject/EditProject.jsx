@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
@@ -57,11 +59,11 @@ class EditProject extends React.Component {
             <h3>Complete Project Details</h3>
           </div>
           <div className="ProjectDataContainer">
-            <h3 className="CreateSubtitle">Project's Details</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Details</h3>
             <WebFormProject project={project} webform={webform} />
           </div>
           <div className="ProjectImagesContainer">
-            <h3 className="CreateSubtitle">Project's Files</h3>
+            <h3 className="CreateSubtitle">Project&apos;s Files</h3>
             <BlockUpload
               subtitle="Project Thumbnail Image"
               text="This will allow funders to identify your project in the discovery phase
@@ -118,3 +120,9 @@ class EditProject extends React.Component {
 }
 
 export default EditProject;
+
+EditProject.propTypes = {
+  project: PropTypes.element.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired
+};

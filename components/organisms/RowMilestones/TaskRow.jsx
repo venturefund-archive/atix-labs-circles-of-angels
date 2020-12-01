@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Col, message } from 'antd';
@@ -211,7 +212,8 @@ const TaskRow = ({
           <div className="BorderBox">
             <RowLabel text="Budget" />
             <EditableInfo
-              value={task.budget}
+              isNumber
+              value={editing ? editFields.budget : task.budget}
               isEditing={editing}
               updateValue={v => setEditFields({ ...editFields, budget: v })}
             />

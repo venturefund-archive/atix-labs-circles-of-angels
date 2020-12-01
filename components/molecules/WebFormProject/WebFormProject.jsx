@@ -1,12 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, Icon, Form } from 'antd';
 
 import './_style.scss';
@@ -110,12 +112,14 @@ class WebFormProject extends React.Component {
               })(
                 <Input
                   placeholder="Project Duration"
-                  prefix={
+                  // eslint-disable-next-line prettier/prettier
+                  prefix={(
                     <Icon
-  type="calendar"
-  style={{ color: 'rgba(0,0,0,.25)' }}
-/>
-                  }
+                      type="calendar"
+                      style={{ color: 'rgba(0,0,0,.25)' }}
+                    />
+                    // eslint-disable-next-line prettier/prettier
+                  )}
                 />
               )}
             </Form.Item>
@@ -177,3 +181,9 @@ class WebFormProject extends React.Component {
   }
 }
 export default Form.create({ name: 'CreateProjectForm' })(WebFormProject);
+
+WebFormProject.propTypes = {
+  form: PropTypes.element.isRequired,
+  webform: PropTypes.element.isRequired,
+  project: PropTypes.element.isRequired
+};

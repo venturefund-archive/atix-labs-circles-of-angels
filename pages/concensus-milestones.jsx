@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
@@ -25,7 +28,6 @@ import {
   getProjectMilestones,
   downloadAgreement,
   downloadProposal,
-  uploadAgreement,
   startProject,
   getProject
 } from '../api/projectApi';
@@ -66,7 +68,6 @@ import Label from '../components/atoms/Label/Label';
 import LottieFiles from '../components/molecules/LottieFiles';
 import TransferStatus from '../constants/TransferStatuses';
 import BlockchainStatus from '../constants/BlockchainStatus';
-import { isNumber } from 'util';
 
 class ConcensusMilestones extends Component {
   constructor(props) {
@@ -291,9 +292,7 @@ class ConcensusMilestones extends Component {
   };
 
   changeProjectAgreement = async info => {
-    const { projectId } = this.props;
     const { status } = info.file;
-    const projectAgreement = info.file;
 
     // TODO : this was locally modified on production.
     //        nobody knows who made it.
@@ -303,10 +302,6 @@ class ConcensusMilestones extends Component {
         status === FileUploadStatus.UPLOADING
       ) {
         // TODO : unused variable.
-        const response = await uploadAgreement(
-          projectId,
-          projectAgreement.originFileObj
-        );
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (status === FileUploadStatus.ERROR) {
         message.error(`${info.file.name} file upload failed.`);
@@ -484,7 +479,7 @@ class ConcensusMilestones extends Component {
                 <Linkify tag="a">{faqLink}</Linkify>
 
                 <span className="Overline">
-                  FAQ-Funders and SE's Questions & Answers Link
+                  FAQ-Funders and SE&apos;s Questions & Answers Link
                 </span>
               </div>
               <Divider type="vertical" />

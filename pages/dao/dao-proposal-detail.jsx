@@ -1,13 +1,14 @@
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
- * It facilitate the investment process by utilizing smart contracts to develop impact milestones agreed upon by funders and the social entrepenuers.
+ * It facilitate the investment process by utilizing smart contracts
+ * to develop impact milestones agreed upon by funders and the social entrepenuers.
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { message, Popover, Avatar, Progress } from 'antd';
+import { message, Popover, Avatar, Progress, Button } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { showModalError } from '../../components/utils/Modals';
@@ -49,8 +50,36 @@ function DaoProposalDetail() {
   const user = getLoggedUser();
 
   useEffect(() => {
+    const fetchCurrentProposal = async () => {
+      try {
+        const response = await getProposalsByDaoId(daoId);
+        if (response.errors || !response.data) {
+          message.error('An error occurred while getting the Proposals');
+          return [];
+        }
+
+        const found = response.data.find(
+          proposal => proposal.id === proposalId
+        );
+        const voted = found.voters.find(voter => voter === currentUser.address);
+        if (!found) {
+          message.error('The proposal does not exist on this DAO');
+          return;
+        }
+        setCurrentProposal(found);
+        setIsVotePeriod(
+          !found.votingPeriodExpired &&
+            found.currentPeriod >= found.startingPeriod
+        );
+        setButtonsDisable(found.processed);
+        setAlreadyVote(voted && voted.length);
+      } catch (error) {
+        message.error(error);
+      }
+    };
+
     fetchCurrentProposal();
-  }, [voteSuccess, currentUser]);
+  }, [voteSuccess, currentUser, daoId, proposalId]);
 
   useEffect(() => {
     fetchCurrentUser();
@@ -68,32 +97,6 @@ function DaoProposalDetail() {
         return [];
       }
       setCurrentUser(response.data);
-    } catch (error) {
-      message.error(error);
-    }
-  };
-
-  const fetchCurrentProposal = async () => {
-    try {
-      const response = await getProposalsByDaoId(daoId);
-      if (response.errors || !response.data) {
-        message.error('An error occurred while getting the Proposals');
-        return [];
-      }
-
-      const found = response.data.find(proposal => proposal.id === proposalId);
-      const voted = found.voters.find(voter => voter === currentUser.address);
-      if (!found) {
-        message.error('The proposal does not exist on this DAO');
-        return;
-      }
-      setCurrentProposal(found);
-      setIsVotePeriod(
-        !found.votingPeriodExpired &&
-          found.currentPeriod >= found.startingPeriod
-      );
-      setButtonsDisable(found.processed);
-      setAlreadyVote(voted && voted.length);
     } catch (error) {
       message.error(error);
     }
@@ -120,6 +123,8 @@ function DaoProposalDetail() {
       if (tx) showPasswordModal(tx);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setAlreadyVote(true);
     }
   };
 
@@ -159,6 +164,7 @@ function DaoProposalDetail() {
       const signedTransaction = await signProposalTx(txData, userPassword);
       await sendProposalTx(signedTransaction);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [txData]
   );
 
@@ -306,7 +312,9 @@ function DaoProposalDetail() {
         <div className="column marginBottom">
           <p className="LabelSteps">
             <LeftOutlined />
-            <a onClick={() => history.goBack()}>Back to proposal</a>
+            <Button type="link" onClick={() => history.goBack()}>
+              Back to proposal
+            </Button>
           </p>
           <TitlePage
             textTitle={

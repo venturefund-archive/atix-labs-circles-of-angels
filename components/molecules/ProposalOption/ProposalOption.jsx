@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
 
 const ProposalOption = ({
@@ -15,6 +16,7 @@ const ProposalOption = ({
         : 'proposalOptionContainer flex'
     }
     onClick={() => onSelect(proposalType)}
+    role="presentation"
   >
     <img alt="proposal-icon" src={img} />
     <p>
@@ -24,3 +26,11 @@ const ProposalOption = ({
 );
 
 export default ProposalOption;
+
+ProposalOption.propTypes = {
+  img: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  selectedOption: PropTypes.element.isRequired,
+  proposalType: PropTypes.element.isRequired
+};
