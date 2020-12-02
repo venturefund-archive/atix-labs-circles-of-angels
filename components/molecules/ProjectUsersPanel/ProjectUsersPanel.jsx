@@ -9,7 +9,7 @@ import { userAvatarPropTypes } from '../../../helpers/proptypes';
 import { supporterRoles, projectStatuses } from '../../../constants/constants';
 import { showModalConfirm } from '../../utils/Modals';
 
-const { PUBLISHED, CONSENSUS, FUNDING } = projectStatuses;
+const { PUBLISHED, CONSENSUS, FUNDING, EXECUTING, FINISHED } = projectStatuses;
 
 const ProjectUsersPanel = ({
   entrepreneur,
@@ -38,6 +38,8 @@ const ProjectUsersPanel = ({
     !alreadyApplyAsFunder &&
     isSupporter &&
     allowAssignFunderStatuses.includes(status);
+
+  const isExecutingOrFinished = [EXECUTING, FINISHED].includes(status);
 
   const askApplyConfirmation = role => {
     const roleText = role === supporterRoles.ORACLES ? 'an Oracle' : 'a Funder';
@@ -86,15 +88,14 @@ const ProjectUsersPanel = ({
         />
         <UsersPanelCard
           theme="Blue"
-          type="funders"
-          category="Interested in"
-          userRole="Funding"
+          category={isExecutingOrFinished ? 'Funders' : 'Interested in'}
+          userRole={isExecutingOrFinished ? '' : 'Funding'}
           users={funders}
         />
         <UsersPanelCard
           theme="Red"
-          category="Interested in being"
-          userRole="Oracles"
+          category={isExecutingOrFinished ? 'Oracles' : 'Interested in being'}
+          userRole={isExecutingOrFinished ? '' : 'Oracles'}
           users={oracles}
         />
       </div>
