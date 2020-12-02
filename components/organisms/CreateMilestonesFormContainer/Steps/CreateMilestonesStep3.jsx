@@ -14,7 +14,8 @@ const CreateMilestonesStep3 = ({
   deleteMilestone,
   createTask,
   editTask,
-  deleteTask
+  deleteTask,
+  isEditingMilestone
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const milestoneRowsProps = {
@@ -69,6 +70,7 @@ const CreateMilestonesStep3 = ({
         milestones={milestones}
         {...milestoneRowsProps}
         {...taskRowProps}
+        isEditingMilestone={isEditingMilestone}
       />
     </div>
   );
@@ -85,7 +87,8 @@ CreateMilestonesStep3.propTypes = {
   deleteMilestone: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
-  deleteTask: PropTypes.func.isRequired
+  deleteTask: PropTypes.func.isRequired,
+  isEditingMilestone: PropTypes.func.isRequired
 };
 
 export default CreateMilestonesStep3;

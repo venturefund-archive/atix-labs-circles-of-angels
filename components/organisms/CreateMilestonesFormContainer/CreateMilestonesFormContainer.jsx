@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Steps, message } from 'antd';
 import './_steps-milestones.scss';
@@ -87,6 +87,26 @@ const CreateMilestonesFormContainer = ({
   const [processError, setProcessError] = useState();
   const [milestones, setMilestones] = useState([]);
   const [cleanFile, setCleanFile] = useState(false);
+  const [isEditingMilestone, setIsEditingMilestone] = useState(false);
+  const [milestoneEditHistory, setMilestoneEditHistory] = useState([]);
+
+  const setMilestoneBeingEdited = isBeingEdited => {
+    if (isBeingEdited) {
+      setMilestoneEditHistory([...milestoneEditHistory, isBeingEdited]);
+    } else {
+      const history = [...milestoneEditHistory];
+      history.pop();
+      setMilestoneEditHistory(history);
+    }
+  };
+
+  useEffect(() => {
+    if (milestoneEditHistory.length === 0) {
+      setIsEditingMilestone(false);
+    } else {
+      setIsEditingMilestone(true);
+    }
+  }, [milestoneEditHistory]);
 
   useEffect(() => {
     if (!project || !project.id) goBack();
@@ -224,6 +244,7 @@ const CreateMilestonesFormContainer = ({
         createTask={handleCreateTask}
         editTask={handleEditTask}
         deleteTask={handleDeleteTask}
+        isEditingMilestone={setMilestoneBeingEdited}
         skipStep={skipProcessFileStep}
         cleanFile={cleanFile}
       />
@@ -231,7 +252,7 @@ const CreateMilestonesFormContainer = ({
   }
 
   return (
-    <Fragment>
+    <>
       <div className="StepsMilestonesWrapper">
         <Steps current={currentStep}>
           {steps.map(item => (
@@ -242,12 +263,12 @@ const CreateMilestonesFormContainer = ({
         <FooterButtons
           nextStepButton={getNextStepButton(
             currentStep,
-            currentStep === 1 ? milestones.length === 0 : false
+            currentStep === 1 ? milestones.length === 0 : isEditingMilestone
           )}
           prevStepButton={getPrevStepButton(currentStep)}
         />
       </div>
-    </Fragment>
+    </>
   );
 };
 
