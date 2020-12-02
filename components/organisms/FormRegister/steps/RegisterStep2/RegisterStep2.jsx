@@ -61,6 +61,9 @@ const RegisterStep2 = ({ fields, handleChange }) => (
             the site.
           </Checkbox>
         </Col> */}
+        <Row>
+          <h4>* Required fields</h4>
+        </Row>
       </Row>
     </div>
   </div>
