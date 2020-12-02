@@ -182,14 +182,13 @@
   .Register2 {
     .FormRegister {
       height: 70%;
-      overflow-y: scroll;
       @include breakpoint(sm) {
         margin: 1em 0 1em;
         height: auto;
       }
-      h4 {
-        @include primary-text($medium, $on-surface-medium, 400);
-      }
+    }
+    .leyend {
+      @include primary-text($medium, $on-surface-medium, 400);
     }
   }
 }
