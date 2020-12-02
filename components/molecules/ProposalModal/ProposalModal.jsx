@@ -282,7 +282,7 @@ const ProposalModal = ({
       >
         <h1>{getOptionTitle()}</h1>
         <p className="subtitle">
-          Select the type of proposal form the following options
+          Select the type of proposal from the following options
         </p>
 
         <div className="flex space-between margin-top">
