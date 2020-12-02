@@ -46,7 +46,7 @@ export const step1Inputs = {
 export const step2Inputs = {
   firstName: {
     name: 'firstName',
-    label: 'First name',
+    label: 'First name *',
     placeholder: 'First name',
     rules: [
       {
@@ -58,7 +58,7 @@ export const step2Inputs = {
   },
   lastName: {
     name: 'lastName',
-    label: 'Last name',
+    label: 'Last name *',
     placeholder: 'Last name',
     rules: [
       {
@@ -70,7 +70,7 @@ export const step2Inputs = {
   },
   email: {
     name: 'email',
-    label: 'Email',
+    label: 'Email *',
     placeholder: 'Email',
     rules: [
       {
@@ -86,7 +86,7 @@ export const step2Inputs = {
   country: {
     name: 'country',
     type: 'select',
-    label: 'Country',
+    label: 'Country *',
     placeholder: 'Select',
     defaultValue: undefined,
     options: [],
@@ -100,7 +100,7 @@ export const step2Inputs = {
   password: {
     name: 'password',
     type: 'password',
-    label: 'Password',
+    label: 'Password *',
     placeholder: 'Password',
     rules: [
       {
@@ -116,7 +116,7 @@ export const step2Inputs = {
   },
   repeatPassword: {
     name: 'repeatPassword',
-    label: 'Repeat password',
+    label: 'Repeat password *',
     placeholder: 'Repeat password',
     valid: true,
     rules: [
