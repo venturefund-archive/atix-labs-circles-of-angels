@@ -9,7 +9,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Steps, message } from 'antd';
+import { Steps, message, Spin } from 'antd';
 import './_steps-milestones.scss';
 import '../../../pages/_style.scss';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
@@ -89,6 +89,7 @@ const CreateMilestonesFormContainer = ({
   const [cleanFile, setCleanFile] = useState(false);
   const [isEditingMilestone, setIsEditingMilestone] = useState(false);
   const [milestoneEditHistory, setMilestoneEditHistory] = useState([]);
+  const [fetchingMilestones, setFetchingMilestones] = useState(false);
 
   const setMilestoneBeingEdited = isBeingEdited => {
     if (isBeingEdited) {
@@ -115,19 +116,25 @@ const CreateMilestonesFormContainer = ({
   }, [project, goBack]);
 
   useEffect(() => {
-    if (milestones.length > 0) {
+    const theresMilestones = milestones.length > 0;
+    if (theresMilestones) {
       validateFields(2);
+    }
+    if (theresMilestones && currentStep === 0) {
+      setCurrentStep(2);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [milestones]);
 
   const fetchMilestones = useCallback(async () => {
+    setFetchingMilestones(true);
     const response = await getProjectMilestones(project.id);
     if (response.errors) {
       message.error("An error occurred while getting the project's milestones");
       return;
     }
     setMilestones(response.data);
+    setFetchingMilestones(false);
   }, [project.id]);
 
   const downloadTemplate = async () => {
@@ -251,25 +258,32 @@ const CreateMilestonesFormContainer = ({
     );
   }
 
-  return (
-    <>
-      <div className="StepsMilestonesWrapper">
-        <Steps current={currentStep}>
-          {steps.map(item => (
-            <Step key={item.title} title={item.title} />
-          ))}
-        </Steps>
-        <div className="steps-content">{getStepComponent(currentStep)}</div>
-        <FooterButtons
-          nextStepButton={getNextStepButton(
-            currentStep,
-            currentStep === 1 ? milestones.length === 0 : isEditingMilestone
-          )}
-          prevStepButton={getPrevStepButton(currentStep)}
-        />
-      </div>
-    </>
-  );
+  const loadingOrSteps = () => {
+    if (fetchingMilestones) {
+      return <Spin />;
+    }
+    return (
+      <>
+        <div className="StepsMilestonesWrapper">
+          <Steps current={currentStep}>
+            {steps.map(item => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+          <div className="steps-content">{getStepComponent(currentStep)}</div>
+          <FooterButtons
+            nextStepButton={getNextStepButton(
+              currentStep,
+              currentStep === 1 ? milestones.length === 0 : isEditingMilestone
+            )}
+            prevStepButton={getPrevStepButton(currentStep)}
+          />
+        </div>
+      </>
+    );
+  };
+
+  return loadingOrSteps();
 };
 
 CreateMilestonesFormContainer.defaultProps = {
