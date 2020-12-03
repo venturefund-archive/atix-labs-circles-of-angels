@@ -229,7 +229,7 @@ const ProjectDetail = ({ user }) => {
     const response = await addProjectExperience(project.id, experience);
     if (response.errors) {
       message.error(response.errors);
-      return;
+      return response;
     }
 
     message.success('Experience added successfully!');
