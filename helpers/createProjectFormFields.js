@@ -311,6 +311,7 @@ export const newExperienceFormItems = {
     name: 'photos',
     label: 'Click to upload',
     type: 'file',
+    fileType: 'image',
     multiple: true,
     rules: [
       {
