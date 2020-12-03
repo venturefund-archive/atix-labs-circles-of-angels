@@ -22,37 +22,41 @@ const RegisterStep2 = ({ fields, handleChange }) => (
     </div>
     <div className="StepPersonalInformation h100">
       <TitlePage textTitle="Register" />
-      <Row className="FormRegister" gutter={26}>
+      <Row className="FormRegister">
         <Form layout="vertical">
           {/* TODO : we could move the Col tags into the Field component,
                       and it could also include the sm and lg tags.
           */}
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Field {...fields.firstName} handleChange={handleChange} />
-          </Col>
-          <Col className="gutter-row" sm={24} lg={12}>
-            <Field {...fields.lastName} handleChange={handleChange} />
-          </Col>
-          <Col className="gutter-row" sm={12} lg={6}>
-            <Field {...fields.country} handleChange={handleChange} />
-          </Col>
-          <Col className="gutter-row" sm={12} lg={6}>
-            <Field {...fields.email} handleChange={handleChange} />
-          </Col>
-          <Col className="gutter-row" sm={12} lg={6}>
-            <Field
-              type="password"
-              handleChange={handleChange}
-              {...fields.password}
-            />
-          </Col>
-          <Col className="gutter-row" sm={12} lg={6}>
-            <Field
-              type="password"
-              handleChange={handleChange}
-              {...fields.repeatPassword}
-            />
-          </Col>
+          <Row gutter={26}>
+            <Col className="gutter-row" sm={24} lg={12}>
+              <Field {...fields.firstName} handleChange={handleChange} />
+            </Col>
+            <Col className="gutter-row" sm={24} lg={12}>
+              <Field {...fields.lastName} handleChange={handleChange} />
+            </Col>
+          </Row>
+          <Row gutter={26}>
+            <Col className="gutter-row" sm={12} lg={6}>
+              <Field {...fields.country} handleChange={handleChange} />
+            </Col>
+            <Col className="gutter-row" sm={12} lg={6}>
+              <Field {...fields.email} handleChange={handleChange} />
+            </Col>
+            <Col className="gutter-row" sm={12} lg={6}>
+              <Field
+                type="password"
+                handleChange={handleChange}
+                {...fields.password}
+              />
+            </Col>
+            <Col className="gutter-row" sm={12} lg={6}>
+              <Field
+                type="password"
+                handleChange={handleChange}
+                {...fields.repeatPassword}
+              />
+            </Col>
+          </Row>
         </Form>
         {/* TODO define waht happen with terms and conditions */}
         {/* <Col className="gutter-row" sm={24} lg={12}>
@@ -62,9 +66,7 @@ const RegisterStep2 = ({ fields, handleChange }) => (
           </Checkbox>
         </Col> */}
       </Row>
-      <Row>
-        <h4>* Required fields</h4>
-      </Row>
+      <Row className="leyend">* indicates required fields</Row>
     </div>
   </div>
 );

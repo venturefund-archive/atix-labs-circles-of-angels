@@ -385,6 +385,8 @@ export const newFundFormItems = {
     name: 'receiptPath',
     label: 'Click to upload',
     type: 'file',
+    fileType: 'image',
+    extraInformation: 'Format: PNG or JPG',
     rules: [
       {
         required: true,

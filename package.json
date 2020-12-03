@@ -1,5 +1,7 @@
 {
   "name": "circlesofangels",
+  "version": "1.0.0",
+  "dockerImage": "docker.atixlabs.com/coa/frontend",
   "scripts": {
     "clean": "rm -rf .next",
     "dev": "next",
@@ -10,7 +12,9 @@
     "si": "npm run build && npm run dev",
     "eslint": "./node_modules/eslint/bin/eslint.js . --ext .jsx --ext .js",
     "prod": "NODE_ENV=production next start",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "docker:build": "docker build -t $npm_package_dockerImage:$npm_package_version-$CI_COMMIT_SHORT_SHA .",
+    "docker:push": "docker push $npm_package_dockerImage:$npm_package_version-$CI_COMMIT_SHORT_SHA"
   },
   "dependencies": {
     "@ant-design/icons": "4.1.0",
