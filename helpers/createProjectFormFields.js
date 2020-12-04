@@ -5,6 +5,7 @@ export const thumbnailsFormInputs = {
     name: 'location',
     label: 'Country of Impact',
     placeholder: 'Country of Impact',
+    maxLength: 250,
     rules: [
       {
         required: true,
@@ -17,6 +18,7 @@ export const thumbnailsFormInputs = {
     name: 'projectName',
     label: 'Project Name',
     placeholder: 'Project Name',
+    maxLength: 50,
     rules: [
       {
         required: true,
