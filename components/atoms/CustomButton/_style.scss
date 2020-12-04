@@ -44,7 +44,7 @@
 }
 .ant-btn.SuccessMst,
 .ant-btn.SucceSuccessMstss:active .ant-btn.SuccessMst:focus {
-  background: $success-color;
+  background: $success-color !important;
   height:auto;
   span {
     @include primary-text($button, $white, 500);
