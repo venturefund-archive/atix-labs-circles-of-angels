@@ -43,7 +43,7 @@ FieldInput.defaultProps = {
   errorMessage: undefined,
   placeholder: undefined,
   type: undefined,
-  maxLength: 25,
+  maxLength: 80,
   disabled: false,
   value: undefined
 };
