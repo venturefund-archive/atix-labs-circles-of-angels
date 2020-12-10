@@ -8,14 +8,20 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-const projectStatusesTransition = {
+const projectStatusesTransitionAdmin = {
   new: ['toreview'],
   toreview: [],
   consensus: ['funding'],
   funding: ['executing', 'consensus'],
   executing: ['aborted'],
+  rejected: ['toreview'],
+  finished: [],
+  deleted: [],
   aborted: [],
-  rejected: ['toreview']
+  published: [],
+  changingscope: [],
+  archived: [],
+  cancelled: []
 };
 
-export default projectStatusesTransition;
+export default projectStatusesTransitionAdmin;
