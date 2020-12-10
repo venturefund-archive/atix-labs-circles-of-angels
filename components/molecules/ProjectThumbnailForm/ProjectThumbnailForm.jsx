@@ -27,8 +27,14 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
           Array.isArray(fields.cardPhotoPath.value) &&
           fields.cardPhotoPath.value.length > 0
         ) {
+          const file = fields.cardPhotoPath.value[0];
+          if (file.name && !file.name.match(/\.(jpg|jpeg|png)$/)) {
+            fields.cardPhotoPath.value.pop();
+            message.error('The image file type is not a valid one');
+            return;
+          }
           try {
-            const b64Photo = await toBase64(fields.cardPhotoPath.value[0]);
+            const b64Photo = await toBase64(file);
             setPhotoPreview(b64Photo);
           } catch (err) {
             message.error(
