@@ -13,22 +13,9 @@ import formatError from '../helpers/errorFormatter';
 
 require('dotenv').config();
 
-const { NODE_ENV } = process.env;
+const { BACKEND_URL } = process.env;
 
-export const getBaseURL = () => {
-  switch (NODE_ENV) {
-    case 'development':
-      return 'http://localhost:3001';
-    case 'test':
-      return 'http://localhost:3001';
-    case 'staging':
-      return 'http://localhost:3001';
-    case 'production':
-      return 'http://localhost:3001';
-    default:
-      throw new Error('no scope selected');
-  }
-};
+export const getBaseURL = () => BACKEND_URL;
 
 const baseURL = getBaseURL();
 
