@@ -9,8 +9,15 @@
 
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
+require('dotenv').config();
 
-const { NODE_ENV } = process.env;
+const {
+  NODE_ENV,
+  URL_PROTOCOL,
+  URL_HOST,
+  URL_PORT,
+  RECAPTCHA_SITE_KEY
+} = process.env;
 
 module.exports = withSass(
   withCss({
@@ -30,11 +37,8 @@ module.exports = withSass(
       }
     }),
     env: {
-      NEXT_PUBLIC_CAPTCHA_SITE_KEY:
-        NODE_ENV === 'production'
-          ? '6LenedEZAAAAAHeHqQ7TRJeZnXI_mOklV_P9lgZC'
-          : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', // testing key
-      BACKEND_URL: 'http://localhost:3001'
+      NEXT_PUBLIC_CAPTCHA_SITE_KEY: RECAPTCHA_SITE_KEY,
+      BACKEND_URL: `${URL_PROTOCOL}://${URL_HOST}:${URL_PORT}`
     }
   })
 );
