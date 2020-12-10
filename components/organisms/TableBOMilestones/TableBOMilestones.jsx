@@ -9,8 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Tag } from 'antd';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import { Button, Table, Tag } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
 import claimMilestoneStatusMap from '../../../model/claimMilestoneStatusMap';
 import './_style.scss';
@@ -46,12 +45,15 @@ const TableBOMilestones = ({ data, onFundsTransferred }) => {
       key: 'actions',
       // eslint-disable-next-line react/prop-types
       render: ({ id, claimStatus }) => (
-        <CustomButton
-          className="blueLink"
+        <Button
+          id={id}
+          type="primary"
+          size="small"
           onClick={() => onFundsTransferred(id)}
-          buttonText="Mark as transferred"
           hidden={claimStatus !== claimMilestoneStatus.CLAIMED}
-        />
+        >
+          <span>Mark as transferred</span>
+        </Button>
       )
     }
   ];

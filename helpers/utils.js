@@ -12,3 +12,5 @@ export const isSupporter = user =>
 
 export const isEntrepreneur = user =>
   user && user.role === RolesMap.ENTREPRENEUR;
+
+export const isCurator = user => user && user.role === RolesMap.PROJECT_CURATOR;

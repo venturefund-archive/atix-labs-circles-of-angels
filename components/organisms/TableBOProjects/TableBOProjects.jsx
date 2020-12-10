@@ -15,7 +15,7 @@ import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import projectStatusMap from '../../../model/projectStatus';
 import { projectStatuses } from '../../../constants/constants';
-import projectStatusesTransition from '../../../constants/ProjectStatusesTransition';
+import projectStatusesTransitionAdmin from '../../../constants/ProjectStatusesTransition';
 import userRole from '../../../constants/RolesMap';
 import { downloadFileFromPath } from '../../utils/FileUtils';
 import { updateProjectStatus } from '../../../api/projectApi';
@@ -56,7 +56,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
   };
 
   const getProjectStatuses = status => {
-    const availablestatuses = projectStatusesTransition[status];
+    const availablestatuses = projectStatusesTransitionAdmin[status];
     return (
       <Menu onClick={handleMenuClick}>
         {Object.keys(availablestatuses).map(key => (
@@ -172,7 +172,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       key: 'action',
       // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => {
-        const availablestatuses = projectStatusesTransition[status];
+        const availablestatuses = projectStatusesTransitionAdmin[status];
         if (!availablestatuses.length) {
           return;
         }

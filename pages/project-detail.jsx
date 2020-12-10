@@ -47,7 +47,8 @@ import {
   isFunder,
   isSupporter,
   isOwner,
-  isEntrepreneur
+  isEntrepreneur,
+  isCurator
 } from '../helpers/utils';
 import { getFundedAmount } from '../api/transferApi';
 
@@ -344,6 +345,7 @@ const ProjectDetail = ({ user }) => {
         <ProjectDetailHeader
           {...project}
           fundedAmount={fundedAmount}
+          allowFollow={!isCurator(user)}
           onFollowProject={onFollowProject}
           onUnfollowProject={onUnfollowProject}
           onEditProject={onEditProject}
