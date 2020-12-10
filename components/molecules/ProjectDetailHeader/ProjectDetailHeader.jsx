@@ -44,6 +44,7 @@ const ProjectDetailHeader = ({
   proposalFilePath,
   agreementFilePath,
   status,
+  allowFollow,
   onFollowProject,
   onUnfollowProject,
   onEditProject,
@@ -130,7 +131,7 @@ const ProjectDetailHeader = ({
                 />
               )}
 
-              {status && status !== 'aborted' && (
+              {allowFollow && status && status !== 'aborted' && (
                 <CustomButton
                   theme={isFollower ? 'Primary' : 'Primary'}
                   buttonText={isFollower ? 'Following' : 'Follow Project'}
@@ -176,6 +177,7 @@ ProjectDetailHeader.defaultProps = {
   projectName: '-',
   isFollower: false,
   allowEdit: false,
+  allowFollow: true,
   onEditProject: () => undefined,
   agreementFilePath: undefined,
   proposalFilePath: undefined
@@ -189,6 +191,7 @@ ProjectDetailHeader.propTypes = {
   fundedAmount: PropTypes.number,
   projectName: PropTypes.string,
   status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
+  allowFollow: PropTypes.bool,
   onFollowProject: PropTypes.func.isRequired,
   onUnfollowProject: PropTypes.func.isRequired,
   onEditProject: PropTypes.func,
