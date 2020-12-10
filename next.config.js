@@ -34,7 +34,7 @@ module.exports = withSass(
         NODE_ENV === 'production'
           ? '6LenedEZAAAAAHeHqQ7TRJeZnXI_mOklV_P9lgZC'
           : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', // testing key
-      BASE_URL: 'http://localhost:3001'
+      BACKEND_URL: 'http://localhost:3001'
     }
   })
 );

@@ -13,9 +13,9 @@ import formatError from '../helpers/errorFormatter';
 
 require('dotenv').config();
 
-const { BASE_URL } = process.env;
+const { BACKEND_URL } = process.env;
 
-export const getBaseURL = () => BASE_URL;
+export const getBaseURL = () => BACKEND_URL;
 
 const baseURL = getBaseURL();
 
