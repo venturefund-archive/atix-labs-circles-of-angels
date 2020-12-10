@@ -172,7 +172,6 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       key: 'action',
       // eslint-disable-next-line react/prop-types
       render: ({ id, status }) => {
-
         const availablestatuses = projectStatusesTransitionAdmin[status];
         if (!availablestatuses.length) {
           return;
