@@ -9,13 +9,10 @@
  */
 
 import axios from 'axios';
+import getConfig from 'next/config';
 import formatError from '../helpers/errorFormatter';
 
-require('dotenv').config();
-
-const { BACKEND_URL } = process.env;
-
-export const getBaseURL = () => BACKEND_URL;
+export const getBaseURL = () => getConfig().publicRuntimeConfig.BACKEND_URL;
 
 const baseURL = getBaseURL();
 

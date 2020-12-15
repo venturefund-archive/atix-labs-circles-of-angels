@@ -1,4 +1,5 @@
 module.exports = {
+  setupFilesAfterEnv: ['./jest.setup.js'],
   testMatch: ['<rootDir>/test/**/*.js'],
   testPathIgnorePatterns: ['/node_modules/', '/test/mocks/'],
   moduleDirectories: ['node_modules', __dirname],
