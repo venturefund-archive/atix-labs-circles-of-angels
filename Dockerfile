@@ -12,6 +12,11 @@ RUN npm install
 # Copying source files
 COPY . .
 
+ENV URL_PROTOCOL https
+ENV URL_HOST 45.79.113.200
+ENV URL_PORT 3001
+ENV RECAPTCHA_SITE_KEY '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+
 # Building app
 RUN npm run build
 EXPOSE 3000
