@@ -11,13 +11,7 @@ const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
 require('dotenv').config();
 
-const {
-  NODE_ENV,
-  URL_PROTOCOL,
-  URL_HOST,
-  URL_PORT,
-  RECAPTCHA_SITE_KEY
-} = process.env;
+const { NODE_ENV, URL_HOST, RECAPTCHA_SITE_KEY } = process.env;
 
 module.exports = withSass(
   withCss({
