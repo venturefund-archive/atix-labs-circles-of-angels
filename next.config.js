@@ -36,9 +36,9 @@ module.exports = withSass(
         fs: 'empty'
       }
     }),
-    env: {
+    publicRuntimeConfig: {
       NEXT_PUBLIC_CAPTCHA_SITE_KEY: RECAPTCHA_SITE_KEY,
-      BACKEND_URL: `${URL_PROTOCOL}://${URL_HOST}:${URL_PORT}`
+      BACKEND_URL: URL_HOST
     }
   })
 );
