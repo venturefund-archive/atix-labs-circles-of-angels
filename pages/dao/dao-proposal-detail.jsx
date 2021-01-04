@@ -413,11 +413,13 @@ function DaoProposalDetail() {
               <h3>Participants</h3>
               <div className="detail flex">
                 <div className="avatarBox flex">
-                  <Avatar className="avatar">U</Avatar>
-                  <Avatar className="avatar">A</Avatar>
-                  <Avatar className="avatar">R</Avatar>
-                  <Avatar className="avatar">S</Avatar>
-                  <Avatar className="avatar">P</Avatar>
+                  {currentProposal.voters
+                    ? currentProposal.voters.map(({ votertName }) => (
+                        <Avatar key={votertName} className="avatar">
+                          {votertName || 'NN'}
+                        </Avatar>
+                      ))
+                    : null}
                 </div>
                 <div className="plusSign flex-start">
                   <h2>

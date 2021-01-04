@@ -17,7 +17,14 @@ import './_style.scss';
 
 const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   const txPendingStatus = proposal.txStatus === 'sent';
-  const { description, yesVotes, noVotes, proposalType, didPass } = proposal;
+  const {
+    description,
+    yesVotes,
+    noVotes,
+    proposalType,
+    didPass,
+    voters
+  } = proposal;
 
   const votesPercentage = votes => {
     const totalVotes = yesVotes + noVotes;
@@ -137,11 +144,11 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
           <h3>Participants</h3>
           <div className="detail flex">
             <div className="avatarBox flex">
-              <Avatar className="avatar-overlap">U</Avatar>
-              <Avatar className="avatar">A</Avatar>
-              <Avatar className="avatar">R</Avatar>
-              <Avatar className="avatar">S</Avatar>
-              <Avatar className="avatar">P</Avatar>
+              {voters.map(({ voterName }) => (
+                <Avatar key={voterName} className="avatar">
+                  {voterName || 'NN'}
+                </Avatar>
+              ))}
             </div>
             <div className="plusSign flex-start">
               <h2>... {totalVotes()}</h2>
