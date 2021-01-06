@@ -23,7 +23,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
     noVotes,
     proposalType,
     didPass,
-    voters
+    voterNames
   } = proposal;
 
   const votesPercentage = votes => {
@@ -144,7 +144,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
           <h3>Participants</h3>
           <div className="detail flex">
             <div className="avatarBox flex">
-              {voters.map(({ voterName }) => (
+              {voterNames.map(voterName => (
                 <Avatar key={voterName} className="avatar">
                   {voterName || 'NN'}
                 </Avatar>

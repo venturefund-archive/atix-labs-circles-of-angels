@@ -48,46 +48,31 @@ function DaoProposalDetail() {
   const { daoId, proposalId } = useQuery();
   const { getLoggedUser } = useUserContext();
   const user = getLoggedUser();
-
-  useEffect(() => {
-    const fetchCurrentProposal = async () => {
-      try {
-        const response = await getProposalsByDaoId(daoId);
-        if (response.errors || !response.data) {
-          message.error('An error occurred while getting the Proposals');
-          return [];
-        }
-
-        const found = response.data.find(
-          proposal => proposal.id === proposalId
-        );
-        const voted = found.voters.find(voter => voter === currentUser.address);
-        if (!found) {
-          message.error('The proposal does not exist on this DAO');
-          return;
-        }
-        setCurrentProposal(found);
-        setIsVotePeriod(
-          !found.votingPeriodExpired &&
-            found.currentPeriod >= found.startingPeriod
-        );
-        setButtonsDisable(found.processed);
-        setAlreadyVote(voted && voted.length);
-      } catch (error) {
-        message.error(error);
+  const fetchCurrentProposal = async () => {
+    try {
+      const response = await getProposalsByDaoId(daoId);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while getting the Proposals');
+        return [];
       }
-    };
 
-    fetchCurrentProposal();
-  }, [voteSuccess, currentUser, daoId, proposalId]);
-
-  useEffect(() => {
-    fetchCurrentUser();
-  });
-
-  useEffect(() => {
-    fetchDaoUsers();
-  }, []);
+      const found = response.data.find(proposal => proposal.id === proposalId);
+      const voted = found.voters.find(voter => voter === currentUser.address);
+      if (!found) {
+        message.error('The proposal does not exist on this DAO');
+        return;
+      }
+      setCurrentProposal(found);
+      setIsVotePeriod(
+        !found.votingPeriodExpired &&
+          found.currentPeriod >= found.startingPeriod
+      );
+      setButtonsDisable(found.processed);
+      setAlreadyVote(voted && voted.length);
+    } catch (error) {
+      message.error(error);
+    }
+  };
 
   const fetchCurrentUser = async () => {
     try {
@@ -114,6 +99,12 @@ function DaoProposalDetail() {
       message.error(error);
     }
   };
+
+  useEffect(() => {
+    fetchCurrentProposal();
+    fetchCurrentUser();
+    fetchDaoUsers();
+  }, []);
 
   const onNewVote = async vote => {
     try {
@@ -413,10 +404,11 @@ function DaoProposalDetail() {
               <h3>Participants</h3>
               <div className="detail flex">
                 <div className="avatarBox flex">
-                  {currentProposal.voters
-                    ? currentProposal.voters.map(({ votertName }) => (
-                        <Avatar key={votertName} className="avatar">
-                          {votertName || 'NN'}
+                  {console.log(currentProposal)}
+                  {currentProposal.voterNames
+                    ? currentProposal.voterNames.map(voterName => (
+                        <Avatar key={voterName} className="avatar">
+                          {voterName}
                         </Avatar>
                       ))
                     : null}

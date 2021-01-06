@@ -84,7 +84,7 @@ function DaoDetail() {
     };
 
     fetchDaoProposals();
-  }, [creationSuccess, daoId]);
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
