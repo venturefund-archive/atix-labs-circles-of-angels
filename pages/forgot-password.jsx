@@ -43,10 +43,13 @@ function ForgotPassword() {
       const mnemonic = await fetchMnemonic();
       const decrypted = await generateWalletFromMnemonic(mnemonic);
       const encrypted = await encryptWallet(decrypted, newPassword);
+      const { address } = decrypted;
       const data = {
         token,
         password: newPassword,
-        encryptedWallet: encrypted
+        address,
+        encryptedWallet: encrypted,
+        mnemonic
       };
       await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
