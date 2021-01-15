@@ -47,11 +47,11 @@ const Transfers = ({ project, allowNewFund }) => {
     const response = await createTransfer(project.id, fund);
     if (response.errors) {
       message.error(response.errors);
-      return;
+    } else {
+      message.success('Fund done successfully!');
+      fetchTransfers();
     }
-
-    message.success('Fund done successfully!');
-    fetchTransfers();
+    return response;
   };
 
   const onShowModal = () => setVisible(true);
