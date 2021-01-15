@@ -38,7 +38,7 @@ const CustomFormModal = ({
   const onSubmit = async data => {
     setSubmitting(true);
     const response = await onConfirm(data);
-    if (!(response && response.errors)) {
+    if (response && !response.errors) {
       cleanForm();
     }
     setSubmitting(false);

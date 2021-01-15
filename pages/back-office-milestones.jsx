@@ -49,10 +49,12 @@ const BackOfficeMilestones = () => {
     const response = await transferredMilestone(selectedMilestone, formData);
     setSelectedMilestone(undefined);
     if (response.errors) {
-      message.error('An error has occurred');
-      return;
+      message.error(response.errors);
+    } else {
+      message.success('Funds transferred successfully!');
+      fetchMilestones();
     }
-    fetchMilestones();
+    return response;
   };
 
   useEffect(() => {
