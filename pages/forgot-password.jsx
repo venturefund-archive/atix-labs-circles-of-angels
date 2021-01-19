@@ -17,7 +17,8 @@ import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormFor
 import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
 import {
   encryptWallet,
-  generateWalletFromMnemonic
+  generateWalletFromMnemonic,
+  createNewWallet
 } from '../helpers/blockchain/wallet';
 
 function ForgotPassword() {
@@ -30,7 +31,7 @@ function ForgotPassword() {
 
   const fetchMnemonic = async () => {
     const { data, errors } = await getMnemonicFromToken(token);
-    if (errors || !data) throw new Error(errors);
+    if (errors) throw new Error(errors);
     const mnemonic = data;
     return mnemonic;
   };
@@ -38,19 +39,33 @@ function ForgotPassword() {
   const goToDashboard = () => history.push('/');
 
   const updatePassword = async newPassword => {
+    let data;
     try {
       setLoading(true);
       const mnemonic = await fetchMnemonic();
-      const decrypted = await generateWalletFromMnemonic(mnemonic);
-      const encrypted = await encryptWallet(decrypted, newPassword);
-      const { address } = decrypted;
-      const data = {
-        token,
-        password: newPassword,
-        address,
-        encryptedWallet: encrypted,
-        mnemonic
-      };
+      if (!mnemonic) {
+        let { mnemonic: newMnemonic, address, encryptedWallet } = await createNewWallet(
+          newPassword
+        );
+        data = {
+          token,
+          password: newPassword,
+          address,
+          encryptedWallet,
+          mnemonic: newMnemonic
+        };
+      } else {
+        const decrypted = await generateWalletFromMnemonic(mnemonic);
+        const encrypted = await encryptWallet(decrypted, newPassword);
+        const { address } = decrypted;
+        data = {
+          token,
+          password: newPassword,
+          address,
+          encryptedWallet: encrypted,
+          mnemonic
+        };
+      }
       await changeRecoverPassword(data);
       showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
