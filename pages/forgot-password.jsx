@@ -44,9 +44,11 @@ function ForgotPassword() {
       setLoading(true);
       const mnemonic = await fetchMnemonic();
       if (!mnemonic) {
-        let { mnemonic: newMnemonic, address, encryptedWallet } = await createNewWallet(
-          newPassword
-        );
+        const {
+          mnemonic: newMnemonic,
+          address,
+          encryptedWallet
+        } = await createNewWallet(newPassword);
         data = {
           token,
           password: newPassword,
