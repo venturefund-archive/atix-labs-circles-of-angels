@@ -230,11 +230,11 @@ const ProjectDetail = ({ user }) => {
     const response = await addProjectExperience(project.id, experience);
     if (response.errors) {
       message.error(response.errors);
-      return response;
+    } else {
+      message.success('Experience added successfully!');
+      fetchExperiences();
     }
-
-    message.success('Experience added successfully!');
-    fetchExperiences();
+    return response;
   };
 
   const onClaimMilestone = async milestoneId => {
@@ -243,7 +243,6 @@ const ProjectDetail = ({ user }) => {
       message.error(response.errors);
       return;
     }
-
     message.success('Milestone claimed successfully!');
     fetchMilestones();
   };

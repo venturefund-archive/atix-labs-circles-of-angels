@@ -86,14 +86,12 @@ const TaskRow = ({
     const password = data.get('password');
     try {
       await signAndSendTransaction(password);
+      message.success('Evidence added successfully!');
+      hideModalPassword();
+      setModalNewEvidenceVisible();
     } catch (error) {
       message.error(error.message);
-      return;
-    } finally {
-      hideModalPassword();
-      fetchMilestones();
     }
-    message.success('Evidence added successfully!');
   };
 
   const getEvidenceTx = async (data, status) => {
