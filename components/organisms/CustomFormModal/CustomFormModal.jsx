@@ -51,6 +51,9 @@ const CustomFormModal = ({
 
   useEffect(() => {
     setClean(!visible);
+    if (!visible) {
+      cleanForm();
+    }
   }, [visible]);
 
   const isButtonDisabled = () => submitting || !isFormValid();
