@@ -54,6 +54,7 @@ const CustomFormModal = ({
     if (!visible) {
       cleanForm();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const isButtonDisabled = () => submitting || !isFormValid();

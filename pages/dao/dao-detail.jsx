@@ -26,7 +26,7 @@ function DaoDetail() {
   const [currentProposals, setCurrentProposals] = useState([]);
   const [completedProposals, setCompletedProposals] = useState([]);
   const [usersData, setUsersData] = useState([]);
-  const [creationSuccess, setCreationSuccess] = useState(false);
+  const [, setCreationSuccess] = useState(false);
   const history = useHistory();
   const { id: daoId } = useQuery();
 
@@ -84,7 +84,7 @@ function DaoDetail() {
     };
 
     fetchDaoProposals();
-  }, []);
+  }, [daoId]);
 
   useEffect(() => {
     const fetchUsers = async () => {
