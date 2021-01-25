@@ -13,8 +13,12 @@ import { Spin } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
-import { changePassword, getWallet } from '../api/userApi';
-import { encryptWallet, decryptJsonWallet } from '../helpers/blockchain/wallet';
+import { changePassword, changeForcePassword, getWallet } from '../api/userApi';
+import {
+  encryptWallet,
+  decryptJsonWallet,
+  createNewWallet
+} from '../helpers/blockchain/wallet';
 
 function PasswordChange() {
   const history = useHistory();
@@ -23,6 +27,9 @@ function PasswordChange() {
 
   const fetchWallet = async () => {
     const response = await getWallet();
+    if (!response.data) {
+      return;
+    }
     const encryptedWallet = JSON.stringify(response.data);
     return encryptedWallet;
   };
@@ -30,28 +37,44 @@ function PasswordChange() {
   const goToDashboard = () => history.push('/');
 
   const updatePassword = async (currentPassword, newPassword) => {
-    try {
-      setLoading(true);
-      const wallet = await fetchWallet();
+    setLoading(true);
+    let data;
+    let response;
+    const wallet = await fetchWallet();
+    if (!wallet) {
+      const {
+        mnemonic: newMnemonic,
+        address,
+        encryptedWallet
+      } = await createNewWallet(newPassword);
+      data = {
+        currentPassword,
+        newPassword,
+        address,
+        encryptedWallet,
+        mnemonic: newMnemonic
+      };
+      response = await changeForcePassword(data);
+    } else {
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
-      const data = {
+      data = {
         currentPassword,
         newPassword,
         encryptedWallet: encrypted
       };
-      await changePassword(data);
-      showModalSuccess('Success!', 'Your password was successfully changed!');
-      setSuccessfulUpdate(true);
-      goToDashboard();
-    } catch (error) {
-      const title = 'Error!';
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
-      showModalError(title, content);
+      response = await changePassword(data);
     }
-    setLoading(false);
+    if (response.errors) {
+      const title = 'Error!';
+      const content = response.errors;
+      showModalError(title, content);
+      setLoading(false);
+      return;
+    }
+    showModalSuccess('Success!', 'Your password was successfully changed!');
+    setSuccessfulUpdate(true);
+    goToDashboard();
   };
 
   const renderForm = () => (
