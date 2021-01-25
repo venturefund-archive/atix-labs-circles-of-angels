@@ -37,7 +37,16 @@ const RegisterStep2 = ({ fields, handleChange }) => (
           </Row>
           <Row gutter={26}>
             <Col className="gutter-row" sm={12} lg={6}>
-              <Field {...fields.country} handleChange={handleChange} />
+              <Field
+                {...fields.country}
+                handleChange={handleChange}
+                showSearch
+                filterOption={(input, option) =>
+                  option.props.children
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                }
+              />
             </Col>
             <Col className="gutter-row" sm={12} lg={6}>
               <Field {...fields.email} handleChange={handleChange} />
