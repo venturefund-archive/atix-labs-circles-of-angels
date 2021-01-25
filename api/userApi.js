@@ -72,6 +72,8 @@ const changePassword = data => doPut(`${baseURL}/me/password`, data);
 const changeRecoverPassword = data =>
   doPut(`${baseURL}/me/recover-password`, data);
 
+const changeForcePassword = data => doPut(`${baseURL}/me/force-password`, data);
+
 const getWallet = () => doGet(`${baseURL}/me/wallet`);
 
 const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
@@ -93,6 +95,7 @@ export {
   updatePassword,
   changePassword,
   changeRecoverPassword,
+  changeForcePassword,
   getMyProjects,
   getFollowedProjects,
   getAppliedProjects,
