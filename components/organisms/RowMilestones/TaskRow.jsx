@@ -31,7 +31,6 @@ const TaskRow = ({
   hideOracleColumn,
   allowNewEvidence,
   fetchEvidences,
-  fetchMilestones,
   isEditingMilestone
 }) => {
   const [editFields, setEditFields] = useState(task);
@@ -282,8 +281,8 @@ const TaskRow = ({
 
 TaskRow.defaultProps = {
   allowNewEvidence: false,
-  fetchEvidences: () => [],
-  fetchMilestones: () => []
+  fetchEvidences: () => []
+  // fetchMilestones: () => []
 };
 
 TaskRow.propTypes = {
@@ -300,7 +299,7 @@ TaskRow.propTypes = {
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.bool,
   fetchEvidences: PropTypes.func,
-  fetchMilestones: PropTypes.func,
+  // fetchMilestones: PropTypes.func,
   isEditingMilestone: PropTypes.func.isRequired
 };
 

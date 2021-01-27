@@ -200,7 +200,8 @@ ProjectThumbnailForm.propTypes = {
     cardPhotoPath: PropTypes.shape(fieldPropType),
     location: PropTypes.shape(fieldPropType)
   }).isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default ProjectThumbnailForm;
