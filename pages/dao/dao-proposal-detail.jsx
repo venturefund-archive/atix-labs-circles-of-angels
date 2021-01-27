@@ -36,7 +36,7 @@ import { proposalTypeEnum, voteEnum } from '../../constants/constants';
 function DaoProposalDetail() {
   const [currentProposal, setCurrentProposal] = useState({});
   const [newVote, setNewVote] = useState();
-  const [voteSuccess, setVoteSuccess] = useState(false);
+  const [, setVoteSuccess] = useState(false);
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [buttonsDisable, setButtonsDisable] = useState(false);
@@ -104,6 +104,7 @@ function DaoProposalDetail() {
     fetchCurrentProposal();
     fetchCurrentUser();
     fetchDaoUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onNewVote = async vote => {
@@ -404,9 +405,9 @@ function DaoProposalDetail() {
               <h3>Participants</h3>
               <div className="detail flex">
                 <div className="avatarBox flex">
-                  {console.log(currentProposal)}
                   {currentProposal.voterNames
                     ? currentProposal.voterNames.map(voterName => (
+                        // eslint-disable-next-line react/jsx-indent
                         <Avatar key={voterName} className="avatar">
                           {voterName}
                         </Avatar>
