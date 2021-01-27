@@ -15,7 +15,10 @@ const FieldSelect = props => {
     valid,
     errorMessage,
     mode,
-    handleChange
+    handleChange,
+    showSearch,
+    filterOption,
+    loading
   } = props;
 
   const handleOptionChange = selectedOption =>
@@ -34,6 +37,9 @@ const FieldSelect = props => {
         size="large"
         mode={mode}
         onChange={handleOptionChange}
+        showSearch={showSearch}
+        filterOption={filterOption}
+        loading={loading}
       >
         {options &&
           options.map(option => (
@@ -52,7 +58,10 @@ FieldSelect.defaultProps = {
   valid: undefined,
   errorMessage: undefined,
   placeholder: undefined,
-  mode: 'default'
+  mode: 'default',
+  showSearch: false,
+  filterOption: undefined,
+  loading: false
 };
 
 FieldSelect.propTypes = {
@@ -65,5 +74,8 @@ FieldSelect.propTypes = {
   placeholder: PropTypes.string,
   defaultValue: PropTypes.element.isRequired,
   options: PropTypes.element.isRequired,
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  showSearch: PropTypes.bool,
+  filterOption: PropTypes.func,
+  loading: PropTypes.bool
 };
