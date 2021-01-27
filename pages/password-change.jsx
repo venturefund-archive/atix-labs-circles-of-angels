@@ -13,7 +13,7 @@ import { Spin } from 'antd';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
-import { changePassword, changeForcePassword, getWallet } from '../api/userApi';
+import { changePassword, getWallet } from '../api/userApi';
 import {
   encryptWallet,
   decryptJsonWallet,
@@ -27,7 +27,7 @@ function PasswordChange() {
 
   const fetchWallet = async () => {
     const response = await getWallet();
-    if (!response.data) {
+    if (response.errors) {
       return;
     }
     const encryptedWallet = JSON.stringify(response.data);
@@ -39,7 +39,6 @@ function PasswordChange() {
   const updatePassword = async (currentPassword, newPassword) => {
     setLoading(true);
     let data;
-    let response;
     const wallet = await fetchWallet();
     if (!wallet) {
       const {
@@ -54,7 +53,6 @@ function PasswordChange() {
         encryptedWallet,
         mnemonic: newMnemonic
       };
-      response = await changeForcePassword(data);
     } else {
       const decrypted = await decryptJsonWallet(wallet, currentPassword);
       const encrypted = await encryptWallet(decrypted, newPassword);
@@ -63,8 +61,8 @@ function PasswordChange() {
         newPassword,
         encryptedWallet: encrypted
       };
-      response = await changePassword(data);
     }
+    const response = await changePassword(data);
     if (response.errors) {
       const title = 'Error!';
       const content = response.errors;
