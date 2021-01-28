@@ -117,7 +117,12 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                 <Field {...fields.location} handleChange={handleChange} />
               </Col>
               <Col sm={24} md={24} lg={12}>
+                <Field
+                  {...fields.timeframeOptions}
+                  handleChange={handleChange}
+                />
                 <Field {...fields.timeframe} handleChange={handleChange} />
+                {/* </InputGroup> */}
               </Col>
               <Col sm={24} md={24} lg={12} className="InputAlert">
                 <Col sm={24} md={24} lg={24}>
