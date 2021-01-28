@@ -27,27 +27,10 @@ export const thumbnailsFormInputs = {
       }
     ]
   },
-  timeframeOptions: {
-    name: 'timeframeOptions',
-    label: 'Timeframe Options',
-    placeholder: 'Timeframe Options',
-    defaultValue: 'Month/s',
-    type: 'select',
-    options: [
-      { name: 'Month/s', value: 'Month/s', label: 'Month/s' },
-      { name: 'Year/s', value: 'Year/s', label: 'Year/s' }
-    ],
-    rules: [
-      {
-        required: true,
-        message: 'Please select the timeframe scale!',
-      }
-    ]
-  },
   timeframe: {
     name: 'timeframe',
     label: 'Timeframe',
-    placeholder: 'Timeframe',
+    placeholder: 'Timeframe in months',
     rules: [
       {
         regex: /^[1-9]\d*$/,

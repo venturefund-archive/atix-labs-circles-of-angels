@@ -92,7 +92,9 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
             <InfoItem
               subtitle="Timeframe"
               title={
-                fields.timeframe.value || (
+                fields.timeframe.value ? (
+                  `${fields.timeframe.value} month/s`
+                ) : (
                   <Skeleton paragraph={{ rows: 1 }} title={false} />
                 )
               }
@@ -117,12 +119,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                 <Field {...fields.location} handleChange={handleChange} />
               </Col>
               <Col sm={24} md={24} lg={12}>
-                <Field
-                  {...fields.timeframeOptions}
-                  handleChange={handleChange}
-                />
                 <Field {...fields.timeframe} handleChange={handleChange} />
-                {/* </InputGroup> */}
               </Col>
               <Col sm={24} md={24} lg={12} className="InputAlert">
                 <Col sm={24} md={24} lg={24}>
