@@ -15,7 +15,7 @@ const ALLOW_DELETE_STATUSES = [projectStatuses.REJECTED, projectStatuses.NEW];
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <Col className="Items flex" sm={24} md={24} lg={24}>
-    <Col sm={1} md={1} lg={1}>
+    <Col xs={3} sm={2} md={2} lg={1}>
       <img
         src={
           completed
@@ -25,11 +25,11 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
         alt="unchecked"
       />
     </Col>
-    <Col className="vertical" sm={24} md={21} lg={21}>
+    <Col className="vertical" xs={15} sm={16} md={18} lg={21}>
       <h3>{title}</h3>
       <h5>{subtitle}</h5>
     </Col>
-    <Col className="BlockButton" sm={24} md={4} lg={2}>
+    <Col className="BlockButton" xs={6} sm={6} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
         theme={
