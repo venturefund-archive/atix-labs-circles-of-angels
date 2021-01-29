@@ -21,12 +21,9 @@ const RegisterStep2 = ({ fields, handleChange }) => (
       <h4>Complete the form with your personal information</h4>
     </div>
     <div className="StepPersonalInformation h100">
-      <TitlePage textTitle="Register" />
+      <TitlePage textTitle={`Register as ${fields.role.value}`} />
       <Row className="FormRegister">
         <Form layout="vertical">
-          {/* TODO : we could move the Col tags into the Field component,
-                      and it could also include the sm and lg tags.
-          */}
           <Row gutter={26}>
             <Col className="gutter-row" sm={24} lg={12}>
               <Field {...fields.firstName} handleChange={handleChange} />
@@ -58,13 +55,6 @@ const RegisterStep2 = ({ fields, handleChange }) => (
             </Col>
           </Row>
         </Form>
-        {/* TODO define waht happen with terms and conditions */}
-        {/* <Col className="gutter-row" sm={24} lg={12}>
-          <Checkbox>
-            I’ve read and accept all the <a href="/">Terms and Conditions</a> of
-            the site.
-          </Checkbox>
-        </Col> */}
       </Row>
       <Row className="leyend">* indicates required fields</Row>
     </div>
