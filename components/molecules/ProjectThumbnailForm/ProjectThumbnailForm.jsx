@@ -7,7 +7,7 @@ import { toBase64 } from '../../utils/FileUtils';
 import { fieldPropType } from '../../../helpers/proptypes';
 import './_style.scss';
 
-const ProjectThumbnailForm = ({ fields, handleChange }) => {
+const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
   const [photoPreview, setPhotoPreview] = useState();
 
   const amount =
@@ -48,6 +48,20 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
     loadPhotoPreview();
   }, [fields.cardPhotoPath.value]);
 
+  const locationsNames = () => {
+    let locationName;
+    if (fields.location.value && fields.location.options) {
+      if (fields.location.value.length !== 0) {
+        const countries = fields.location.options.filter(
+          // eslint-disable-next-line radix
+          country => fields.location.value.includes(String(country.value))
+        );
+        locationName = countries.map(country => country.name).join(', ');
+      }
+    }
+    return locationName;
+  };
+
   return (
     <Fragment>
       <Row
@@ -82,7 +96,7 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
             <InfoItem
               subtitle="Country of Impact"
               title={
-                fields.location.value || (
+                locationsNames() || (
                   <Skeleton paragraph={{ rows: 1 }} title={false} />
                 )
               }
@@ -114,7 +128,17 @@ const ProjectThumbnailForm = ({ fields, handleChange }) => {
                 <Field {...fields.projectName} handleChange={handleChange} />
               </Col>
               <Col sm={24} md={24} lg={24}>
-                <Field {...fields.location} handleChange={handleChange} />
+                <Field
+                  loading={loading}
+                  {...fields.location}
+                  handleChange={handleChange}
+                  showSearch
+                  filterOption={(input, option) =>
+                    option.props.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                />
               </Col>
               <Col sm={24} md={24} lg={12}>
                 <Field {...fields.timeframe} handleChange={handleChange} />
@@ -173,7 +197,8 @@ ProjectThumbnailForm.propTypes = {
     cardPhotoPath: PropTypes.shape(fieldPropType),
     location: PropTypes.shape(fieldPropType)
   }).isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default ProjectThumbnailForm;

@@ -52,13 +52,22 @@ const ProjectDetailHeader = ({
   allowEdit,
   isFollower,
   fetchBlockchainData,
-  nextStatusUpdateAt
+  nextStatusUpdateAt,
+  countries
 }) => {
+  const locationsNames = () => {
+    const countriesIds = countries.filter(
+      // eslint-disable-next-line radix
+      country => location.split(',').includes(String(country.value))
+    );
+    return countriesIds.map(country => country.name).join(', ');
+  };
+
   const itemsData = [
     {
       key: 1,
       label: 'Country of Impact',
-      value: location,
+      value: locationsNames(),
       img: './static/images/world-icon.svg'
     },
     {
@@ -180,7 +189,8 @@ ProjectDetailHeader.defaultProps = {
   allowFollow: true,
   onEditProject: () => undefined,
   agreementFilePath: undefined,
-  proposalFilePath: undefined
+  proposalFilePath: undefined,
+  countries: []
 };
 
 ProjectDetailHeader.propTypes = {
@@ -201,7 +211,11 @@ ProjectDetailHeader.propTypes = {
   proposalFilePath: PropTypes.string,
   fetchBlockchainData: PropTypes.func.isRequired,
   onAbortProject: PropTypes.func.isRequired,
-  nextStatusUpdateAt: PropTypes.number.isRequired
+  nextStatusUpdateAt: PropTypes.number.isRequired,
+  countries: PropTypes.arrayOf({
+    name: PropTypes.string,
+    value: PropTypes.number
+  })
 };
 
 export default ProjectDetailHeader;

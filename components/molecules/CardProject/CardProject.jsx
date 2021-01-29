@@ -16,7 +16,14 @@ import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 
-const CardProject = ({ showTag, onClick, tagClick, project, hoverText }) => {
+const CardProject = ({
+  showTag,
+  onClick,
+  tagClick,
+  project,
+  hoverText,
+  countries
+}) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -27,6 +34,15 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText }) => {
     following,
     applied
   } = project;
+
+  const locationsNames = () => {
+    const countriesIds = countries.filter(
+      // eslint-disable-next-line radix
+      country => location.split(',').includes(String(country.value))
+    );
+    return countriesIds.map(country => country.name).join(', ');
+  };
+
   return (
     <Col className="CardProject" span={8}>
       {showTag && (
@@ -71,7 +87,7 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText }) => {
               xs={24}
               lg={7}
               subtitle="Country of Impact"
-              title={location}
+              title={locationsNames()}
               iconInfoItem="environment"
             />
             <Col span={1} xs={0}>
@@ -105,7 +121,8 @@ CardProject.defaultProps = {
   showTag: false,
   onClick: () => null,
   tagClick: () => null,
-  hoverText: null
+  hoverText: null,
+  countries: []
 };
 
 CardProject.propTypes = {
@@ -113,7 +130,11 @@ CardProject.propTypes = {
   onClick: PropTypes.func,
   tagClick: PropTypes.func,
   showTag: PropTypes.bool,
-  hoverText: PropTypes.string
+  hoverText: PropTypes.string,
+  countries: PropTypes.arrayOf({
+    name: PropTypes.string,
+    value: PropTypes.number
+  })
 };
 
 export default CardProject;

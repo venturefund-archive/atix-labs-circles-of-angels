@@ -17,7 +17,8 @@ const FieldSelect = props => {
     mode,
     handleChange,
     showSearch,
-    filterOption
+    filterOption,
+    loading
   } = props;
 
   const handleOptionChange = selectedOption =>
@@ -38,6 +39,7 @@ const FieldSelect = props => {
         onChange={handleOptionChange}
         showSearch={showSearch}
         filterOption={filterOption}
+        loading={loading}
       >
         {options &&
           options.map(option => (
@@ -58,7 +60,8 @@ FieldSelect.defaultProps = {
   placeholder: undefined,
   mode: 'default',
   showSearch: false,
-  filterOption: undefined
+  filterOption: undefined,
+  loading: false
 };
 
 FieldSelect.propTypes = {
@@ -73,5 +76,6 @@ FieldSelect.propTypes = {
   options: PropTypes.element.isRequired,
   mode: PropTypes.string,
   showSearch: PropTypes.bool,
-  filterOption: PropTypes.func
+  filterOption: PropTypes.func,
+  loading: PropTypes.bool
 };
