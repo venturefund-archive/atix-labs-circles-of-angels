@@ -50,10 +50,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
 
   const locationsNames = () => {
     let locationName;
-    if (
-      fields.location.value !== undefined &&
-      fields.location.options !== undefined
-    ) {
+    if (fields.location.value && fields.location.options) {
       if (fields.location.value.length !== 0) {
         const countries = fields.location.options.filter(
           // eslint-disable-next-line radix
