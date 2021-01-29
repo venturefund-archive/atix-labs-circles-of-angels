@@ -70,9 +70,10 @@ const Registersteps = () => {
     try {
       const response = await getCountries();
       const countryOptions = response
-        ? response.map(({ id, name }) => ({
+        ? response.map(({ id, name, callingCode }) => ({
             value: id,
-            name
+            name,
+            callingCode
           }))
         : [];
       setCountries(countryOptions);
