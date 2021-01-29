@@ -51,6 +51,7 @@ import {
   isCurator
 } from '../helpers/utils';
 import { getFundedAmount } from '../api/transferApi';
+import { getCountries } from '../api/userApi';
 
 const { TabPane } = Tabs;
 
@@ -76,7 +77,26 @@ const ProjectDetail = ({ user }) => {
   const [fundedAmount, setFundedAmount] = useState(0);
   // const [fundingProgress, setFundingProgress] = useState(0);
   const [milestonesProgress, setMilestonesProgress] = useState(0);
+  const [countries, setCountries] = useState([]);
 
+  const fetchCountries = async () => {
+    try {
+      const response = await getCountries();
+      const countryOptions = response
+        ? response.map(({ id: countryId, name }) => ({
+            value: countryId,
+            name
+          }))
+        : [];
+      setCountries(countryOptions);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
   // TODO: this should have pagination
   const fetchMilestones = async () => {
     const response = await getProjectMilestones(project.id);
@@ -352,6 +372,7 @@ const ProjectDetail = ({ user }) => {
           allowEdit={allowEditProject()}
           isFollower={isFollowing}
           fetchBlockchainData={fetchProjectBlockchainData}
+          countries={countries}
         />
         <div className="BlockContent">
           <Tabs defaultActiveKey="1">

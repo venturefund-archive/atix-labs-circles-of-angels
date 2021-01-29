@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
 import '../../../pages/_createproject.scss';
@@ -24,6 +24,7 @@ import {
   updateProjectThumbnail
 } from '../../../api/projectApi';
 import ProjectThumbnailForm from '../../molecules/ProjectThumbnailForm/ProjectThumbnailForm';
+import { getCountries } from '../../../api/userApi';
 
 const formFields = {
   ...thumbnailsFormInputs
@@ -31,6 +32,8 @@ const formFields = {
 
 const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const [fields, setFields, handleChange, handleSubmit] = useForm(formFields);
+  const [countries, setCountries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!project || !project.id) return;
@@ -46,7 +49,7 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
     projectFields.cardPhotoPath.value =
       project.cardPhotoPath || projectFields.cardPhotoPath.value;
     projectFields.location.value =
-      project.location || projectFields.location.value;
+      project.location.split(',') || projectFields.location.value;
 
     setFields({
       ...projectFields
@@ -101,11 +104,48 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
     <CustomButton theme="Secondary" buttonText="Back" onClick={goBack} />
   );
 
+  const fetchCountries = async () => {
+    try {
+      const response = await getCountries();
+      const countryOptions = response
+        ? response.map(({ id, name }) => ({
+            value: id,
+            name
+          }))
+        : [];
+      setCountries(countryOptions);
+    } catch (error) {
+      message.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    if (!countries.length) return;
+
+    const location = Object.assign({}, thumbnailsFormInputs, {
+      location: Object.assign({}, thumbnailsFormInputs.location, {
+        options: countries
+      })
+    });
+
+    setFields({ ...fields, ...location });
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countries]);
+
   return (
     <Fragment>
       <div className="ThumbnailsWrapper">
         <TitlePage textTitle="Complete Project's Thumbnail" />
-        <ProjectThumbnailForm fields={fields} handleChange={handleChange} />
+        <ProjectThumbnailForm
+          fields={fields}
+          handleChange={handleChange}
+          loading={loading}
+        />
         <FooterButtons
           nextStepButton={getNextStepButton()}
           prevStepButton={getPrevStepButton()}

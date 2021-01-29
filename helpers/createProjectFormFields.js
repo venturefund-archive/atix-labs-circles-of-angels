@@ -6,11 +6,12 @@ export const thumbnailsFormInputs = {
     label: 'Country of Impact',
     placeholder: 'Country of Impact',
     maxLength: 250,
+    type: 'select',
+    mode: 'multiple',
     rules: [
       {
         required: true,
-        message: 'Please input the country this project will impact on!',
-        whitespace: true
+        message: 'Please input the country this project will impact on!'
       }
     ]
   },

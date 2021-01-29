@@ -282,6 +282,7 @@ const TaskRow = ({
 TaskRow.defaultProps = {
   allowNewEvidence: false,
   fetchEvidences: () => []
+  // fetchMilestones: () => []
 };
 
 TaskRow.propTypes = {
@@ -298,6 +299,7 @@ TaskRow.propTypes = {
   hideOracleColumn: PropTypes.bool.isRequired,
   allowNewEvidence: PropTypes.bool,
   fetchEvidences: PropTypes.func,
+  // fetchMilestones: PropTypes.func,
   isEditingMilestone: PropTypes.func.isRequired
 };
 
