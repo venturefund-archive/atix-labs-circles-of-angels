@@ -106,7 +106,9 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
             <InfoItem
               subtitle="Timeframe"
               title={
-                fields.timeframe.value || (
+                fields.timeframe.value ? (
+                  `${fields.timeframe.value} month/s`
+                ) : (
                   <Skeleton paragraph={{ rows: 1 }} title={false} />
                 )
               }

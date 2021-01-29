@@ -31,11 +31,12 @@ export const thumbnailsFormInputs = {
   timeframe: {
     name: 'timeframe',
     label: 'Timeframe',
-    placeholder: 'Timeframe',
+    placeholder: 'Timeframe in months',
     rules: [
       {
+        regex: /^[1-9]\d*$/,
         required: true,
-        message: 'Please input the timeframe',
+        message: 'Please input the timeframe in integer numbers!',
         whitespace: true
       }
     ]
