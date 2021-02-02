@@ -322,5 +322,6 @@ export default RegisterStep3;
 
 RegisterStep3.propTypes = {
   fields: PropTypes.shape({}).isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  setFields: PropTypes.func.isRequired
 };

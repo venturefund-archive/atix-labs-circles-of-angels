@@ -30,7 +30,7 @@ module.exports = withSass(
         fs: 'empty'
       }
     }),
-    publicRuntimeConfig: {
+    env: {
       NEXT_PUBLIC_CAPTCHA_SITE_KEY: RECAPTCHA_SITE_KEY,
       BACKEND_URL: URL_HOST
     }
