@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-param-reassign */
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Col, message } from 'antd';
@@ -86,6 +87,7 @@ const TaskRow = ({
     try {
       await signAndSendTransaction(password);
       message.success('Evidence added successfully!');
+      task.verified = true;
       hideModalPassword();
       setModalNewEvidenceVisible();
     } catch (error) {

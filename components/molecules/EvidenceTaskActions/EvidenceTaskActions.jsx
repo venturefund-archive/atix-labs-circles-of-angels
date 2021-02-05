@@ -16,9 +16,11 @@ const EvidenceTaskActions = ({
 }) => (
   <Col span={24}>
     <Tag color={color}>{text}</Tag>
-    <Button type="link" className="blueLink" onClick={openModalEvidences}>
-      Evidences
-    </Button>
+    {text === 'Verified' ? (
+      <Button type="link" className="blueLink" onClick={openModalEvidences}>
+        Evidences
+      </Button>
+    ) : null}
     {showModalEvidence && (
       <ModalEvidences
         visible={showModalEvidence}

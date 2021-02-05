@@ -12,6 +12,7 @@ import {
 } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
+import { formatTimeframeValue } from '../../../helpers/formatter';
 
 // TODO: show default if status not valid?
 const getTagStatus = (status, daysToGo) =>
@@ -73,7 +74,7 @@ const ProjectDetailHeader = ({
     {
       key: 2,
       label: 'Timeframe',
-      value: timeframe,
+      value: formatTimeframeValue(timeframe),
       img: './static/images/calendar-icon.svg'
     },
     {
