@@ -242,7 +242,8 @@ function DaoProposalDetail() {
     const gracePeriod =
       currentPeriod >= startingPeriod + votingPeriodLength &&
       currentPeriod <= startingPeriod + votingPeriodLength + votingPeriodLength;
-    const isProposer = currentUser.address.toLowerCase() === proposer.toLowerCase();
+    const isProposer =
+      currentUser.address.toLowerCase() === proposer.toLowerCase();
     const hideButton =
       beforeVotingPeriod || isVotePeriod || gracePeriod || !isProposer;
     return hideButton;
