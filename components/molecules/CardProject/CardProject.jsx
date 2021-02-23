@@ -15,6 +15,7 @@ import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
+import { formatTimeframeValue } from '../../../helpers/formatter';
 
 const CardProject = ({
   showTag,
@@ -40,6 +41,9 @@ const CardProject = ({
       // eslint-disable-next-line radix
       country => location.split(',').includes(String(country.value))
     );
+    if (!countriesIds.length) {
+      return location;
+    }
     return countriesIds.map(country => country.name).join(', ');
   };
 
@@ -97,7 +101,7 @@ const CardProject = ({
               xs={24}
               lg={7}
               subtitle="Timeframe"
-              title={timeframe}
+              title={formatTimeframeValue(timeframe)}
               iconInfoItem="clock-circle"
             />
             <Col span={1} xs={0}>
