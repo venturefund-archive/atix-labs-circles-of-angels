@@ -47,10 +47,10 @@ const BackOfficeMilestones = () => {
   const onFundsTransferred = async formData => {
     if (!selectedMilestone) return;
     const response = await transferredMilestone(selectedMilestone, formData);
-    setSelectedMilestone(undefined);
     if (response.errors) {
       message.error(response.errors);
     } else {
+      setSelectedMilestone(undefined);
       message.success('Funds transferred successfully!');
       fetchMilestones();
     }
