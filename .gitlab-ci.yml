@@ -15,6 +15,7 @@ cache:
     - node_modules/
 
 before_script:
+  - apk add git
   - npm install
 
 stages:
