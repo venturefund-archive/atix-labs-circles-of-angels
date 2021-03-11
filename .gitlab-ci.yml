@@ -15,6 +15,7 @@ cache:
     - node_modules/
 
 before_script:
+  - npm cache clean
   - npm install
 
 stages:
