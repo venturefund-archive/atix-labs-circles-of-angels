@@ -150,14 +150,14 @@ const ProjectDetailHeader = ({
                   onClick={isFollower ? onUnfollowProject : onFollowProject}
                 />
               )}
-
-              {status && status === 'executing' && (
+              {/* TODO: uncomment when we confirm who has the ability to abort a project
+              status && status === 'executing' && (
                 <CustomButton
                   theme="Alternative"
                   buttonText="Abort"
                   onClick={onAbortProject}
                 />
-              )}
+              )*/}
             </Col>
           </div>
         </Row>
