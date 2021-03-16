@@ -29,6 +29,13 @@ const SeccionExperience = ({ experiences, onCreate, showCreateExperience }) => (
           <CardExperience experience={experience} key={experience.id} />
         ))}
     </Row>
+    {!showCreateExperience && isEmpty(experiences) && (
+      <div className="messageContainer">
+        <div className="messageNoExperiences">
+          There&apos;re no experiences to display
+        </div>
+      </div>
+    )}
   </div>
 );
 

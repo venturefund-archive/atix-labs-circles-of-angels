@@ -4,6 +4,17 @@
   padding-top: 2em;
 }
 
+.messageContainer {
+  height: 20em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messageNoExperiences {
+  text-align: center;
+  font-size: 18px;
+}
 
 .ModalNewExperience {
   width: 40vw;
