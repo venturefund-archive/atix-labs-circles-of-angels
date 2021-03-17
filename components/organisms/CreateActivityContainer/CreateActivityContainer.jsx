@@ -13,23 +13,25 @@ const CreateActivityContainer = ({
     newActivityFormItems
   );
 
+  const closeForm = () => {
+    setFields(newActivityFormItems);
+    setVisibility(false);
+  };
+
   const onSubmit = async data => {
     const formData = {};
     data.forEach((value, key) => {
       formData[key] = value;
     });
     const response = await createActivity(formData);
-    if (response) {
-      setFields(newActivityFormItems);
-      setVisibility(false);
-    }
+    if (response) closeForm();
   };
 
   return (
     <ModalCreateActivity
       visibility={visibility}
       onOk={() => handleSubmit(onSubmit)}
-      onCancel={() => setVisibility(false)}
+      onCancel={() => closeForm()}
       fields={fields}
       handleChange={handleChange}
     />
