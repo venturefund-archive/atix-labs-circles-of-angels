@@ -195,12 +195,13 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     setRejectedProject(id);
   };
 
-  const onRejectProject = rejectionData => {
+  const onRejectProject = async rejectionData => {
     let reason;
     rejectionData.forEach(value => {
       reason = value;
     });
-    onReject(rejectedProject, reason);
+    await onReject(rejectedProject, reason);
+    setModalRejectVisible(false);
   };
 
   return (
