@@ -39,7 +39,7 @@ function DaoProposalDetail() {
   const [, setVoteSuccess] = useState(false);
   const [txData, setTxData] = useState();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
-  const [buttonsDisable, setButtonsDisable] = useState(false);
+  const [buttonsDisable, setButtonsDisable] = useState(true);
   const [isVotePeriod, setIsVotePeriod] = useState(false);
   const [alreadyVote, setAlreadyVote] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -55,13 +55,14 @@ function DaoProposalDetail() {
         message.error('An error occurred while getting the Proposals');
         return [];
       }
-
-      const found = response.data.find(proposal => proposal.id === proposalId);
-      const voted = found.voters.find(voter => voter === currentUser.address);
+      const found = response.data.find(
+        proposal => proposal.id === Number(proposalId)
+      );
       if (!found) {
         message.error('The proposal does not exist on this DAO');
         return;
       }
+      const voted = found.voters.find(voter => voter === currentUser.address);
       setCurrentProposal(found);
       setIsVotePeriod(
         !found.votingPeriodExpired &&
@@ -228,27 +229,24 @@ function DaoProposalDetail() {
     return response.data;
   };
 
-  const hideExecuteButton = () => {
+  const showExecuteButton = () => {
     const {
       currentPeriod,
       startingPeriod,
       proposer,
       votingPeriodLength
     } = currentProposal;
-    if (!currentPeriod || !startingPeriod || !proposer) {
+    if ((!currentPeriod && currentPeriod !== 0) || !startingPeriod || !proposer)
       return;
-    }
+
     const beforeVotingPeriod = currentPeriod < startingPeriod;
     const gracePeriod =
       currentPeriod >= startingPeriod + votingPeriodLength &&
       currentPeriod <= startingPeriod + votingPeriodLength + votingPeriodLength;
     const isProposer =
       currentUser.address.toLowerCase() === proposer.toLowerCase();
-    const hideButton =
-      beforeVotingPeriod || isVotePeriod || gracePeriod || !isProposer;
-    return hideButton;
+    return !beforeVotingPeriod && !isVotePeriod && !gracePeriod && isProposer;
   };
-
   const votesPercentage = votes => {
     const { yesVotes, noVotes } = currentProposal;
     const totalVotes = yesVotes + noVotes;
@@ -447,7 +445,7 @@ function DaoProposalDetail() {
             />
           )}
 
-          {!hideExecuteButton() && (
+          {showExecuteButton() && (
             <CustomButton
               onClick={() => onProcess()}
               theme={buttonsDisable ? 'disabled' : 'Primary'}
