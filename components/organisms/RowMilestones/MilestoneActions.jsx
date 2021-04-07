@@ -48,7 +48,7 @@ const editMilestoneButtons = (
       {showCreateTask && (
         <div>
           <Button type="link" className="blueLink" onClick={onClickCreateTask}>
-            + New Task
+            + New Activity
           </Button>
         </div>
       )}
