@@ -1,4 +1,5 @@
 import RolesMap from '../constants/RolesMap';
+import { publicProjectStatuses } from '../constants/constants';
 
 export const isOwner = (project, user) => project.owner === user.id;
 
@@ -14,3 +15,8 @@ export const isEntrepreneur = user =>
   user && user.role === RolesMap.ENTREPRENEUR;
 
 export const isCurator = user => user && user.role === RolesMap.PROJECT_CURATOR;
+
+export const filterAbortedProjects = milestones =>
+  milestones.filter(
+    ({ project: { status } }) => status !== publicProjectStatuses.ABORTED
+  );

@@ -16,6 +16,7 @@ import { getMilestones, transferredMilestone } from '../api/milestonesApi';
 import { claimMilestoneStatus } from '../constants/constants';
 import CustomFormModal from '../components/organisms/CustomFormModal/CustomFormModal';
 import { transferMilestoneFormItems } from '../helpers/milestoneTransferFormFields';
+import { filterAbortedProjects } from '../helpers/utils';
 
 const BackOfficeMilestones = () => {
   const [milestones, setMilestones] = useState([]);
@@ -41,7 +42,11 @@ const BackOfficeMilestones = () => {
       return;
     }
 
-    setMilestones(response.data);
+    const filteredMilestones = filterAbortedProjects(
+      response ? response.data : []
+    );
+
+    setMilestones(filteredMilestones);
   };
 
   const onFundsTransferred = async formData => {
