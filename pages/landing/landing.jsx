@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Row, Col, message, Button } from 'antd';
+import { Row, Col, message } from 'antd';
 import { useHistory } from 'react-router';
 import '../_style.scss';
 import './_landing.scss';

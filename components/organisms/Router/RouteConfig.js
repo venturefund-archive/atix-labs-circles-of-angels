@@ -16,6 +16,7 @@ import RegisterSteps from '../../../pages/registerSteps/registersteps';
 import ProjectDetail from '../../../pages/project-detail';
 import ConfirmEmail from '../../../pages/confirm-email';
 import Roles from '../../../constants/RolesMap';
+import AdminLogin from  '../../../pages/admin-login';
 
 const {
   COA_ADMIN,
@@ -161,6 +162,14 @@ export const routesConfig = [
   {
     path: '/confirm',
     component: ConfirmEmail,
+    authentication: {
+      required: false
+    }
+  },
+  {
+    title: 'Admin login',
+    path: '/admin-login',
+    component: AdminLogin,
     authentication: {
       required: false
     }

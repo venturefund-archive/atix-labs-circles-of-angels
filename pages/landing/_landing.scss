@@ -92,4 +92,8 @@
   .ant-btn.CustomButton{
     display: inline-block
   }
+  .ant-btn.CustomButton.Secondary span {
+    font-weight: 700;
+    font-size: 17px;
+  }
 }

@@ -31,11 +31,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       changeUser(user);
       const { role, forcePasswordChange } = user;
 
-      if(forcePasswordChange) 
+      if (forcePasswordChange)
         history.push('/password-change');
-      else 
+      else
         history.push(defaultRouteByRole[role]);
-      
+
       clearFields();
     } catch (error) {
       message.error(error);
@@ -51,8 +51,13 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         className="ModalLogin"
         width="400"
         footer={null}
+        mask={false}
       >
-        <TitlePage textTitle="Log In" />
+
+        <div className="LogoWrapper">
+          <img src="./static/images/isologo.svg" alt="Circles of Angels" />
+          <TitlePage textTitle="Log In" />
+        </div>
         {false && (
           <>
             <CustomButton theme="Facebook" buttonText="Log In with Facebook" />
