@@ -4,7 +4,7 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import ModalLogin from '../components/organisms/ModalLogin/ModalLogin';
 import TopBar from '../components/organisms/TopBar/TopBar';
 
-function AdminLogin() {
+function Login() {
   const [visibility, setVisibility] = useState(true)
   const AdminModalLogin = (
     <div className="WrapperModalLogin">
@@ -28,4 +28,4 @@ function AdminLogin() {
   )
 }
 
-export default AdminLogin;
+export default Login;

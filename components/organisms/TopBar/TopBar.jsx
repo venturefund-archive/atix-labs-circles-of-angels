@@ -10,19 +10,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import './_style.scss';
+import { MenuOutlined } from '@ant-design/icons';
 
 const TopBar = ({ modalLogin }) => {
 
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
-      <Col className="gutter-row" xs={16} sm={4} lg={4}>
-        <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+      <Col className="gutter-row" xs={24} sm={4} lg={4}>
+        <MenuOutlined className="TopBarIcon" style={{ fontSize: '16px', color: '#4C7FF7' }}/>
+        <picture>
+          <source srcset='./static/images/isologo.svg' media="(max-width: 576px)" />
+          <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+        </picture>
       </Col>
-        {modalLogin}
+      {modalLogin}
     </Row>
   );
 };
-
 export default TopBar;
 
 TopBar.defaultProps = {

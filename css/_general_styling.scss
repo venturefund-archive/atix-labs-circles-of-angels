@@ -120,10 +120,11 @@ $screen-md-min: 768px;
 $screen-lg-min: 1024px;
 
 @mixin breakpoint($media) {
+  /* This media query is never used, add an $screen-xs-min value on line 121 */ 
   @if $media == xs {
     @media only screen and (max-width: $screen-xs-min) { @content; }
   }
-    @else if $media == sm {
+  @else if $media == sm {
     @media only screen and (max-width: $screen-sm-min) { @content; }
   }
   @else if $media == md {
