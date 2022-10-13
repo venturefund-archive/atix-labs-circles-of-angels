@@ -16,8 +16,6 @@ const {
   NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 } = process.env;
 
-console.log(NODE_ENV, NEXT_PUBLIC_RECAPTCHA_SITE_KEY, NEXT_PUBLIC_URL_HOST);
-
 module.exports = withSass(
   withCss({
     sassLoaderOptions: {
