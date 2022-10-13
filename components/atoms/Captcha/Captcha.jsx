@@ -11,10 +11,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import getConfig from 'next/config';
-
+console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
 const Captcha = ({ onChange }) => (
   <ReCAPTCHA
-    sitekey={getConfig().publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_SITE_KEY}
+    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
     onChange={() => onChange(true)}
   />
 );

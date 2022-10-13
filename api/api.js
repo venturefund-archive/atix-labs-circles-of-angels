@@ -12,7 +12,8 @@ import axios from 'axios';
 import getConfig from 'next/config';
 import formatError from '../helpers/errorFormatter';
 
-export const getBaseURL = () => getConfig().publicRuntimeConfig.BACKEND_URL;
+//export const getBaseURL = () => getConfig().publicRuntimeConfig.NEXT_PUBLIC_BACKEND_URL;
+export const getBaseURL = () => process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const baseURL = getBaseURL();
 
