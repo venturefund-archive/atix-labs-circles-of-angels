@@ -7,22 +7,25 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import './_style.scss';
 import { useHistory } from 'react-router';
 import { useUserContext } from '../../utils/UserContext';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
 import DynamicForm from '../FormLogin/FormLogin';
 import ModalRecovery from '../ModalRecovery/ModalRecovery';
 import { loginUser } from '../../../api/userApi';
 import { defaultRouteByRole } from '../../../constants/DefaultRouteByRole';
+import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
+  const [onLoginRoute, setOnLoginRoute] = useState(true);
   const history = useHistory();
+  useEffect(() => {
+    setOnLoginRoute(window.location.pathname.includes('/login'))
+  }, [])
 
   const onLoginSubmit = async (email, pwd, clearFields) => {
     if (!email || !pwd || email === '' || pwd === '') return;
@@ -48,24 +51,12 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         onOk={() => setVisibility(false)}
         onCancel={() => setVisibility(false)}
         className="ModalLogin"
-        width="400"
+        mask={!onLoginRoute}
+        maskClosable={!onLoginRoute}
+        closable={!onLoginRoute}
         footer={null}
-        mask={false}
       >
-        <div className="LogoWrapper">
-          <img src="./static/images/isologo.svg" alt="Circles of Angels" />
-          <TitlePage textTitle="Log In" />
-        </div>
-        {false && (
-          <>
-            <CustomButton theme="Facebook" buttonText="Log In with Facebook" />
-            <div className="flex Linear">
-              <hr />
-              <p>or Log In with</p>
-              <hr />
-            </div>
-          </>
-        )}
+        <LogoWrapper textTitle="Log In" />
         <DynamicForm onSubmit={onLoginSubmit} />
         <div className="flex link">
           <ModalRecovery />

@@ -57,7 +57,7 @@ function ForgotPassword() {
           mnemonic: newMnemonic
         };
       } else {
-        const decrypted = await generateWalletFromMnemonic(mnemonic);
+        const decrypted = generateWalletFromMnemonic(mnemonic);
         const encrypted = await encryptWallet(decrypted, newPassword);
         const { address } = decrypted;
         data = {

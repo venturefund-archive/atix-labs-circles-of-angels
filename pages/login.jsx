@@ -1,29 +1,16 @@
 import { Row } from 'antd';
-import React, { useState } from 'react'
-import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import ModalLogin from '../components/organisms/ModalLogin/ModalLogin';
+import React from 'react'
 import TopBar from '../components/organisms/TopBar/TopBar';
 
 function Login() {
-  const [visibility, setVisibility] = useState(true)
-  const AdminModalLogin = (
-    <div className="WrapperModalLogin">
-      <CustomButton
-        data-testid="adminLoginButton"
-        buttonText="Log In"
-        theme="Secondary"
-        onClick={() => setVisibility(true)}
-      />
-      <ModalLogin
-        data-testid="modal"
-        visibility={visibility}
-        setVisibility={setVisibility}
-      />
-    </div>
-  )
   return (
-    <Row className="Landing">
-      <TopBar modalLogin={AdminModalLogin} />
+    <Row className="Landing"
+      style={{
+        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundSize: 'cover',
+        backgroundPositionX: 'center'
+      }}>
+      <TopBar />
     </Row>
   )
 }

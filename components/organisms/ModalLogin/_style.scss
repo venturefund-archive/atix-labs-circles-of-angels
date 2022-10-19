@@ -6,7 +6,6 @@
 
 .ModalLogin {
   width: 470px;
-  margin-top: 115px;
 
   .ant-modal-content {
     border-radius: 10px !important;
@@ -56,8 +55,9 @@
   }
 
   .ant-form-item-label label {
-    font-size: $labels;
-    font-weight: 500;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: #728099 !important;
   }
 
   .ant-form-item-label label::after {
@@ -71,12 +71,4 @@
     margin-top: 1em;
   }
 
-  .LogoWrapper {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: space-around;
-    justify-content: space-evenly;
-    margin-top: 12px;
-  }
 }
