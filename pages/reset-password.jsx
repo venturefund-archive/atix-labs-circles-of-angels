@@ -11,10 +11,10 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Row, Spin } from 'antd';
 import queryString from 'query-string';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
-import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword'
+import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import TopBar from '../components/organisms/TopBar/TopBar';
 import { getMnemonicFromToken, resetPassword } from '../api/userApi';
 import {
@@ -31,59 +31,60 @@ function ResetPassword() {
   const goToSuccessMessage = () => history.push('/change-password-success');
 
   const query = window.location && queryString.parse(window.location.search);
-  const { token } = query || {}
-  console.log(token)
+  const { token } = query || {};
 
   const fetchMnemonic = async () => {
     const { data, errors } = await getMnemonicFromToken(token);
     if (errors) throw new Error(errors);
     const mnemonic = data;
     return mnemonic;
-  }
+  };
 
   const updatePassword = async newPassword => {
     let data = {};
     try {
-      setLoading(true)
+      setLoading(true);
       fetchMnemonic()
         .then(mnemonic => {
-          data.mnemonic = mnemonic
+          data.mnemonic = mnemonic;
+          return data;
         })
         .catch(error => {
-          // avoid to throw when there's not a mnemonic (genesys user)
-          console.log(error)
-        })
+          const title = 'Error';
+          const content = error.response
+            ? error.response.data.error
+            : error.message;
+          showModalError(title, content);
+        });
       if (!data.mnemonic) {
-        const {
-          mnemonic,
-          address,
-          encryptedWallet,
-        } = await createNewWallet(newPassword);
+        const { mnemonic, address, encryptedWallet } = await createNewWallet(
+          newPassword
+        );
 
         data = {
           token,
           password: newPassword,
           address,
           mnemonic,
-          encryptedWallet,
-        }
+          encryptedWallet
+        };
       } else {
-        const decrypted = generateWalletFromMnemonic(mnemonic)
-        const encryptedWallet = await encryptWallet(decrypted)
-        const { address } = decrypted
-        const mnemonic = data.mnemonic
+        const decrypted = generateWalletFromMnemonic(mnemonic);
+        const encryptedWallet = await encryptWallet(decrypted);
+        const { address } = decrypted;
+        const { mnemonic } = data;
         data = {
           token,
           password: newPassword,
           address,
           mnemonic,
-          encryptedWallet,
-        }
+          encryptedWallet
+        };
       }
 
       await resetPassword(data);
 
-      //showModalSuccess('Success!', 'Your password was successfully changed!');
+      // showModalSuccess('Success!', 'Your password was successfully changed!');
       setSuccessfulUpdate(true);
       goToSuccessMessage();
     } catch (error) {
@@ -91,10 +92,10 @@ function ResetPassword() {
       const content = error.response
         ? error.response.data.error
         : error.message;
-      showModalError(title, content)
+      showModalError(title, content);
     }
     setLoading(false);
-  }
+  };
 
   const renderForm = () => (
     <div>
@@ -108,18 +109,17 @@ function ResetPassword() {
     </div>
   );
 
- return (
-    <Row className="Landing"
+  return (
+    <Row
+      className="Landing"
       style={{
         backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
         backgroundSize: 'cover',
         backgroundPositionX: 'center'
       }}
     >
-      <TopBar/>
-      <div>
-        {renderForm()}
-      </div>
+      <TopBar />
+      <div>{renderForm()}</div>
     </Row>
   );
 }

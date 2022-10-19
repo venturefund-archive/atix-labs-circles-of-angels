@@ -50,14 +50,16 @@ const FormPassword = ({ form, onSubmit }) => {
 
   return (
     <Modal
-      visible={true}
+      visible
       closable={false}
       mask={false}
       maskClosable={false}
       width="400"
       className="ModalLogin ResetPassword"
       footer={(
-        <Button className="ant-btn ant-btn-primary" onClick={submit}>Change password</Button>
+        <Button className="ant-btn ant-btn-primary" onClick={submit}>
+          Change password
+        </Button>
       )}
     >
       <LogoWrapper textTitle="Change password" />
@@ -70,11 +72,7 @@ const FormPassword = ({ form, onSubmit }) => {
                 validator: validateNewPassword
               }
             ]
-          })(
-            <Input.Password
-              placeholder="New Password"
-            />
-          )}
+          })(<Input.Password placeholder="New Password" />)}
         </Form.Item>
         <Form.Item label="Confirm password">
           {getFieldDecorator('confirm', {
@@ -84,18 +82,16 @@ const FormPassword = ({ form, onSubmit }) => {
                 validator: validPasswords
               }
             ]
-          })(
-            <Input.Password
-              placeholder="Repeat your new password"
-            />
-          )}
+          })(<Input.Password placeholder="Repeat your new password" />)}
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-const DynamicFormChangePassword = Form.create({ name: 'FormChangePassword' })(FormPassword);
+const DynamicFormChangePassword = Form.create({ name: 'FormChangePassword' })(
+  FormPassword
+);
 
 export default DynamicFormChangePassword;
 

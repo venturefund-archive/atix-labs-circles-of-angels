@@ -7,7 +7,7 @@ import LogoWrapper from '../components/atoms/LogoWrapper';
 function ChangePasswordSuccess() {
   const history = useHistory();
   function goToLogin() {
-    history.push('/login')
+    history.push('/login');
   }
   return (
     <Row
@@ -20,19 +20,21 @@ function ChangePasswordSuccess() {
     >
       <TopBar />
       <Modal
-        visible={true}
+        visible
         mask={false}
         closable={false}
         maskClosable={false}
         className="ChangePasswordSuccess"
         footer={(
-          <Button className="ant-btn ant-btn-primary" onClick={goToLogin}>Continue</Button>
-        )}
+          <Button className="ant-btn ant-btn-primary" onClick={goToLogin}>
+            Continue
+          </Button>
+)}
       >
         <LogoWrapper textTitle="The password was changed succesfully" />
       </Modal>
     </Row>
-  )
-};
+  );
+}
 
 export default ChangePasswordSuccess;

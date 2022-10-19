@@ -18,7 +18,7 @@ import ConfirmEmail from '../../../pages/confirm-email';
 import Roles from '../../../constants/RolesMap';
 import Login from '../../../pages/login';
 import ResetPassword from '../../../pages/reset-password';
-import ChangePasswordSuccess from '../../../pages/change-password-success';{}
+import ChangePasswordSuccess from '../../../pages/change-password-success';
 
 const {
   COA_ADMIN,
@@ -72,7 +72,7 @@ export const routesConfig = [
     withHeader: false,
     withSideBar: false,
     authentication: {
-      required: false,
+      required: false
     }
   },
   {
@@ -80,7 +80,7 @@ export const routesConfig = [
     component: ChangePasswordSuccess,
     withSideBar: false,
     authentication: {
-      required: false,
+      required: false
     }
   },
   {

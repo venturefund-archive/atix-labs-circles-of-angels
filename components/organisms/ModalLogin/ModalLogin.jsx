@@ -24,8 +24,8 @@ const ModalLogin = ({ setVisibility, visibility }) => {
   const [onLoginRoute, setOnLoginRoute] = useState(true);
   const history = useHistory();
   useEffect(() => {
-    setOnLoginRoute(window.location.pathname.includes('/login'))
-  }, [])
+    setOnLoginRoute(window.location.pathname.includes('/login'));
+  }, []);
 
   const onLoginSubmit = async (email, pwd, clearFields) => {
     if (!email || !pwd || email === '' || pwd === '') return;

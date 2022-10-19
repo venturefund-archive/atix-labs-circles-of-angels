@@ -12,7 +12,13 @@ import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const Captcha = ({ onChange }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-around', margin: '16px auto 32px auto' }}>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-around',
+      margin: '16px auto 32px auto'
+    }}
+  >
     <ReCAPTCHA
       sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
       onChange={() => onChange(true)}
