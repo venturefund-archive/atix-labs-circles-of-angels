@@ -22,6 +22,7 @@ import {
   getFollowedProjects,
   getAppliedProjects
 } from '../api/userApi';
+import { createProject } from '../api/projectApi';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
@@ -84,7 +85,13 @@ const MyProjects = ({ user }) => {
     // TODO: go to project-progress page
   };
 
-  const goToNewProject = () => history.push('/create-project');
+  const _goToNewProject = () => history.push('/create-project');
+  const goToNewProject = async () => {
+    console.log('Doing my stuff')
+    const { projectId } = await createProject()
+    console.log(projectId)
+    history.push(`/project/edit/${projectId}`)
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {

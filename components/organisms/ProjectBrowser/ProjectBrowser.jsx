@@ -46,7 +46,7 @@ const ProjectBrowser = ({
         </Col>
       </Row>
       <Row className="ProjectsCardsContainer" gutter={16}>
-        {userRole === Roles.ENTREPRENEUR && onNewProject && (
+        {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
           <CardNewProyect onClick={onNewProject} />
         )}
         {projects &&
