@@ -25,7 +25,6 @@ import {
   deleteProject,
   getProjectMilestones
 } from '../api/projectApi';
-import useQuery from '../hooks/useQuery';
 import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
@@ -54,6 +53,10 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
+  useEffect(() => {
+    console.log(id)
+    
+  }, [])
   const fetchProject = useCallback(
     async projectId => {
       const response = await getProject(projectId);
