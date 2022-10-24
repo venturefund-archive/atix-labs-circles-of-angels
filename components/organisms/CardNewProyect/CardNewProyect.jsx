@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const CardNewProyect = ({ onClick }) => (
   <Col span={8} className="CardNewProyect">
     <button onClick={onClick} type="button">
-      <img src="/static/images/new-project.svg" alt="" />
+      <img src="/static/images/new-project.png" alt="" />
       <h1>New Project</h1>
     </button>
   </Col>

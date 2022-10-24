@@ -42,20 +42,11 @@ function ResetPassword() {
 
   const updatePassword = async newPassword => {
     let data = {};
+    setLoading(true);
     try {
-      setLoading(true);
-      fetchMnemonic()
-        .then(mnemonic => {
-          data.mnemonic = mnemonic;
-          return data;
-        })
-        .catch(error => {
-          const title = 'Error';
-          const content = error.response
-            ? error.response.data.error
-            : error.message;
-          showModalError(title, content);
-        });
+      const { mnemonic } = await fetchMnemonic()
+      data.mnemonic = mnemonic;
+
       if (!data.mnemonic) {
         const { mnemonic, address, encryptedWallet } = await createNewWallet(
           newPassword
@@ -82,11 +73,13 @@ function ResetPassword() {
         };
       }
 
-      await resetPassword(data);
-
-      // showModalSuccess('Success!', 'Your password was successfully changed!');
-      setSuccessfulUpdate(true);
-      goToSuccessMessage();
+      const { errors } = await resetPassword({ ...data, token: 'foo' })
+      if (!errors) {
+        setSuccessfulUpdate(true);
+        goToSuccessMessage();
+      } else {
+        showModalError('Error', errors);
+      }
     } catch (error) {
       const title = 'Error';
       const content = error.response

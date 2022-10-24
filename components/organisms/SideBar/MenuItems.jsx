@@ -4,27 +4,27 @@ import Roles from '../../../constants/RolesMap';
 
 const menuItems = [
   {
-    route: '/back-office-users',
-    key: 'back-office-users',
-    content: <Icon className="icon" type="team" />,
-    allowedRoles: [Roles.COA_ADMIN]
-  },
-  {
-    route: '/explore-projects',
-    key: 'explore-projects',
-    content: (
-      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
-    ),
-    allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
-  },
-  {
     route: '/my-projects',
     key: 'my-projects',
     content: (
       <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
     ),
-    allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
+    allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.COA_ADMIN]
   },
+  {
+    route: '/back-office-users',
+    key: 'back-office-users',
+    content: <Icon className="icon" type="team" />,
+    allowedRoles: [Roles.COA_ADMIN]
+  },
+  //{
+    //route: '/explore-projects',
+    //key: 'explore-projects',
+    //content: (
+      //<img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    //),
+    //allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
+  //},
   {
     route: '/dao-list',
     key: 'dao-list',

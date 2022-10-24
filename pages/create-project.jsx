@@ -36,7 +36,13 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
+const getIdFromPath = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length -1];
+}
+
 const CreateProjectContainer = () => {
+  //const id = getIdFromPath()
   const { id } = useQuery();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
@@ -49,6 +55,10 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
+  useEffect(() => {
+    console.log(id)
+    
+  }, [])
   const fetchProject = useCallback(
     async projectId => {
       const response = await getProject(projectId);
@@ -61,6 +71,7 @@ const CreateProjectContainer = () => {
       const thumbnailsData = {
         projectName: data.projectName,
         timeframe: data.timeframe,
+        timeframeUnit: 'months',
         goalAmount: data.goalAmount,
         cardPhotoPath: data.cardPhotoPath,
         location: data.location
