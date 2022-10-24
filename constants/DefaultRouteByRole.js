@@ -1,5 +1,5 @@
 export const defaultRouteByRole = {
-  admin: '/back-office-users',
+  admin: '/my-projects',
   entrepreneur: '/my-projects',
   supporter: '/explore-projects',
   curator: '/back-office-projects',

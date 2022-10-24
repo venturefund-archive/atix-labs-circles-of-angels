@@ -9,9 +9,12 @@
 
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
-require('dotenv').config();
 
-const { NODE_ENV, URL_HOST, RECAPTCHA_SITE_KEY } = process.env;
+const {
+  NODE_ENV,
+  NEXT_PUBLIC_URL_HOST,
+  NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+} = process.env;
 
 module.exports = withSass(
   withCss({
@@ -31,8 +34,8 @@ module.exports = withSass(
       }
     }),
     publicRuntimeConfig: {
-      NEXT_PUBLIC_CAPTCHA_SITE_KEY: RECAPTCHA_SITE_KEY,
-      BACKEND_URL: URL_HOST
+      NEXT_PUBLIC_CAPTCHA_SITE_KEY: NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+      NEXT_PUBLIC_BACKEND_URL: NEXT_PUBLIC_URL_HOST
     }
   })
 );

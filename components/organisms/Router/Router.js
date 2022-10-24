@@ -14,7 +14,9 @@ import PrivateRoute from '../../utils/PrivateRoute';
 import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = ({ routesConfig }) => {
-  const routes = routesConfig.map(route => <PrivateRoute {...route} />);
+  const routes = routesConfig.map(route => (
+    <PrivateRoute key={route.path} {...route} />
+  ));
 
   return (
     <BrowserRouter>

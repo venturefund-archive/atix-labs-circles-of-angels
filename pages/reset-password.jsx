@@ -9,22 +9,26 @@
 
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Spin } from 'antd';
+import { Row, Spin } from 'antd';
 import queryString from 'query-string';
-import { showModalError, showModalSuccess } from '../components/utils/Modals';
+import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
-import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
-import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
+import './landing/_landing.scss';
+import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
+import TopBar from '../components/organisms/TopBar/TopBar';
+import { getMnemonicFromToken, resetPassword } from '../api/userApi';
 import {
   encryptWallet,
-  generateWalletFromMnemonic,
-  createNewWallet
+  createNewWallet,
+  generateWalletFromMnemonic
 } from '../helpers/blockchain/wallet';
 
-function ForgotPassword() {
-  const history = useHistory();
+function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  const goToSuccessMessage = () => history.push('/change-password-success');
 
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
@@ -36,44 +40,48 @@ function ForgotPassword() {
     return mnemonic;
   };
 
-  const goToDashboard = () => history.push('/');
-
   const updatePassword = async newPassword => {
-    let data;
+    let data = {};
+    setLoading(true);
     try {
-      setLoading(true);
-      const mnemonic = await fetchMnemonic();
-      if (!mnemonic) {
-        const {
-          mnemonic: newMnemonic,
-          address,
-          encryptedWallet
-        } = await createNewWallet(newPassword);
+      const { mnemonic } = await fetchMnemonic()
+      data.mnemonic = mnemonic;
+
+      if (!data.mnemonic) {
+        const { mnemonic, address, encryptedWallet } = await createNewWallet(
+          newPassword
+        );
+
         data = {
           token,
           password: newPassword,
           address,
-          encryptedWallet,
-          mnemonic: newMnemonic
+          mnemonic,
+          encryptedWallet
         };
       } else {
         const decrypted = generateWalletFromMnemonic(mnemonic);
-        const encrypted = await encryptWallet(decrypted, newPassword);
+        const encryptedWallet = await encryptWallet(decrypted);
         const { address } = decrypted;
+        const { mnemonic } = data;
         data = {
           token,
           password: newPassword,
           address,
-          encryptedWallet: encrypted,
-          mnemonic
+          mnemonic,
+          encryptedWallet
         };
       }
-      await changeRecoverPassword(data);
-      showModalSuccess('Success!', 'Your password was successfully changed!');
-      setSuccessfulUpdate(true);
-      goToDashboard();
+
+      const { errors } = await resetPassword(data)
+      if (!errors) {
+        setSuccessfulUpdate(true);
+        goToSuccessMessage();
+      } else {
+        showModalError('Error', errors);
+      }
     } catch (error) {
-      const title = 'Error!';
+      const title = 'Error';
       const content = error.response
         ? error.response.data.error
         : error.message;
@@ -87,9 +95,7 @@ function ForgotPassword() {
       {!successfulUpdate && (
         <div>
           <Spin spinning={loading}>
-            <h1>CIRCLE OF ANGELS</h1>
-            <h2>CHANGE YOUR PASSWORD</h2>
-            <DynamicFormForgotPassword onSubmit={updatePassword} />
+            <DynamicFormChangePassword onSubmit={updatePassword} />
           </Spin>
         </div>
       )}
@@ -97,13 +103,18 @@ function ForgotPassword() {
   );
 
   return (
-    <div className="Login">
-      <div className="LogoSide">
-        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
-      </div>
-      <div className="FormSide">{renderForm()}</div>
-    </div>
+    <Row
+      className="Landing"
+      style={{
+        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundSize: 'cover',
+        backgroundPositionX: 'center'
+      }}
+    >
+      <TopBar />
+      <div>{renderForm()}</div>
+    </Row>
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;

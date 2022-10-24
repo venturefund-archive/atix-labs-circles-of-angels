@@ -53,26 +53,6 @@
     display: none;
   }
 }
-/* FACEBOOK */
-.ant-btn.Facebook,
-.ant-btn.Facebook:active,
-.ant-btn.Facebook:focus,
-.ant-btn.Facebook:hover {
-  background: #3B539A;
-  border-radius: 4px;
-  span {
-    @include primary-text($button, $white, 400);
-  }
-  .anticon {
-    display: none;
-  }
-  @include breakpoint(sm) {
-    width: 100%;
-    }
-    @include breakpoint(lg) {
-      width: auto;
-      }
-}
 /* PRIMARY */
 .ant-btn.Primary,
 .ant-btn.Primary:active,

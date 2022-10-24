@@ -49,7 +49,6 @@ const ProjectDetailHeader = ({
   onFollowProject,
   onUnfollowProject,
   onEditProject,
-  onAbortProject,
   allowEdit,
   isFollower,
   fetchBlockchainData,
@@ -157,7 +156,7 @@ const ProjectDetailHeader = ({
                   buttonText="Abort"
                   onClick={onAbortProject}
                 />
-              )*/}
+              ) */}
             </Col>
           </div>
         </Row>
@@ -211,7 +210,6 @@ ProjectDetailHeader.propTypes = {
   agreementFilePath: PropTypes.string,
   proposalFilePath: PropTypes.string,
   fetchBlockchainData: PropTypes.func.isRequired,
-  onAbortProject: PropTypes.func.isRequired,
   nextStatusUpdateAt: PropTypes.number.isRequired,
   countries: PropTypes.arrayOf({
     name: PropTypes.string,
