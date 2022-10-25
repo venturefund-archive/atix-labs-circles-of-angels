@@ -16,7 +16,6 @@ import CustomButton from 'components/atoms/CustomButton/CustomButton';
 import ModalLogin from '../ModalLogin/ModalLogin';
 
 const TopBar = () => {
-  console.log(customConfig);
   const [visibility, setVisibility] = useState(false);
   useLayoutEffect(() => {
     setVisibility(window.location.pathname.includes('/login'));
