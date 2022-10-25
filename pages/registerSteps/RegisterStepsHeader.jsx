@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'antd';
+import customConfig from 'custom-config';
 import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 
@@ -9,7 +10,10 @@ const RegisterStepsHeader = () => {
   return (
     <Row className="TopBar" type="flex" justify="space-between" align="middle">
       <Col className="gutter-row" xs={10} sm={4} lg={4}>
-        <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
+        <img
+          src={customConfig.LARGE_LOGO_PATH}
+          alt={`${customConfig.NAME} logo`}
+        />
       </Col>
       <Col
         className="gutter-row"

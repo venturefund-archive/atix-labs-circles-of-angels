@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import Linkify from 'linkifyjs/react';
 import { message, Divider, Button, Icon, Alert } from 'antd';
 import { values, isEmpty } from 'lodash';
+import customConfig from 'custom-config';
 import animationData from '../components/molecules/Steps/success.json';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import Header from '../components/molecules/Header/Header';
@@ -658,7 +659,7 @@ class ConcensusMilestones extends Component {
           <Label labelText="Project Name" />
           <h1>{projectName}</h1>
           <div className="TransferContent">
-            <h2>Circles of Angels Bank Account Information</h2>
+            <h2>{customConfig.NAME} Bank Account Information</h2>
             <div className="TransferBankInfo">
               <h3>{accountInfo.bank}</h3>
               <h4> Account #: {accountInfo.address}</h4>

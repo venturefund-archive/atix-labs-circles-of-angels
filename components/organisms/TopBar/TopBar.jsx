@@ -11,7 +11,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import './_style.scss';
 import { MenuOutlined } from '@ant-design/icons';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
+import customConfig from 'custom-config';
+import CustomButton from 'components/atoms/CustomButton/CustomButton';
 import ModalLogin from '../ModalLogin/ModalLogin';
 
 const TopBar = () => {
@@ -42,11 +43,11 @@ const TopBar = () => {
           style={{ fontSize: '16px', color: '#4C7FF7' }}
         />
         <picture>
-          <source
-            srcSet="./static/images/isologo.svg"
-            media="(max-width: 576px)"
+          <source srcSet={customConfig.LOGO_PATH} media="(max-width: 576px)" />
+          <img
+            src={customConfig.LARGE_LOGO_PATH}
+            alt={`${customConfig.NAME} logo`}
           />
-          <img src="./static/images/icon-large.svg" alt="Circles of Angels" />
         </picture>
       </Col>
       {modalLogin}

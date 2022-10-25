@@ -41,39 +41,26 @@ function ResetPassword() {
   };
 
   const updatePassword = async newPassword => {
-    let data = {};
+    let data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { mnemonic } = await fetchMnemonic()
-      data.mnemonic = mnemonic;
+      const { mnemonic } = await fetchMnemonic();
 
-      if (!data.mnemonic) {
-        const { mnemonic, address, encryptedWallet } = await createNewWallet(
-          newPassword
-        );
-
-        data = {
-          token,
-          password: newPassword,
-          address,
-          mnemonic,
-          encryptedWallet
-        };
-      } else {
+      if (mnemonic) {
         const decrypted = generateWalletFromMnemonic(mnemonic);
         const encryptedWallet = await encryptWallet(decrypted);
         const { address } = decrypted;
-        const { mnemonic } = data;
-        data = {
-          token,
-          password: newPassword,
+        data = { ...data, address, mnemonic, encryptedWallet };
+      } else {
+        const {
+          mnemonic: mnemonicCreated,
           address,
-          mnemonic,
           encryptedWallet
-        };
+        } = await createNewWallet(newPassword);
+        data = { ...data, address, mnemonic: mnemonicCreated, encryptedWallet };
       }
 
-      const { errors } = await resetPassword(data)
+      const { errors } = await resetPassword(data);
       if (!errors) {
         setSuccessfulUpdate(true);
         goToSuccessMessage();

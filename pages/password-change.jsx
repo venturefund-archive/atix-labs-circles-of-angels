@@ -10,6 +10,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Spin } from 'antd';
+import customConfig from 'custom-config';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
@@ -80,7 +81,7 @@ function PasswordChange() {
       {!successfulUpdate && (
         <div>
           <Spin spinning={loading}>
-            <h1>CIRCLE OF ANGELS</h1>
+            <h1>{customConfig.NAME}</h1>
             <h2>CHANGE YOUR PASSWORD</h2>
             <DynamicFormPassword onSubmit={updatePassword} />
           </Spin>
@@ -92,7 +93,10 @@ function PasswordChange() {
   return (
     <div className="Login">
       <div className="LogoSide">
-        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
+        <img
+          src={customConfig.SIDE_LOGO_PATH}
+          alt={`${customConfig.NAME} side logo`}
+        />
       </div>
       <div className="FormSide">{renderForm()}</div>
     </div>

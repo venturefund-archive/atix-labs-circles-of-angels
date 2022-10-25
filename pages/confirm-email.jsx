@@ -10,6 +10,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Spin, Button } from 'antd';
+import customConfig from 'custom-config';
 import useQuery from '../hooks/useQuery';
 import './_login.scss';
 import { confirmEmail } from '../api/userApi';
@@ -38,7 +39,7 @@ function ConfirmEmail() {
 
   const renderForm = () => (
     <Spin spinning={loading}>
-      <h1>CIRCLE OF ANGELS</h1>
+      <h1>{customConfig.NAME}</h1>
       <h2>
         {statusConfirm
           ? 'Your email address has been verified successfully'
@@ -51,7 +52,10 @@ function ConfirmEmail() {
   return (
     <div className="Login">
       <div className="LogoSide">
-        <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
+        <img
+          src={customConfig.SIDE_LOGO_PATH}
+          alt={`${customConfig.NAME} side logo`}
+        />
       </div>
       <div className="FormSide">{renderForm()}</div>
     </div>
