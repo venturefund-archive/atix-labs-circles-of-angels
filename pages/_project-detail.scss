@@ -281,9 +281,6 @@
     .ant-avatar-image {
       margin-left: 0px;
     }
-    .ant-avatar-string{
-        color: #23252b85;
-      }
     span {
       @include primary-text($body, $on-surface, 400);
       margin-bottom: 3px;

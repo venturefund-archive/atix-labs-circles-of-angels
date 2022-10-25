@@ -4,11 +4,11 @@ import { Col } from 'antd';
 import PropTypes from 'prop-types';
 
 const CardNewProyect = ({ onClick }) => (
-  <Col span={8} className="CardNewProyect">
-    <button onClick={onClick} type="button">
+  <Col span={8} xs={24} md={12} lg={8} className="CardNewProyect">
+    <div className="ContentContainer">
       <img src="/static/images/new-project.png" alt="" />
       <h1>New Project</h1>
-    </button>
+    </div>
   </Col>
 );
 
