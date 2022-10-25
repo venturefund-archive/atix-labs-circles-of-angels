@@ -9,10 +9,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import customConfig from 'custom-config';
 import { Row, Col, Popover } from 'antd';
 import '../_style4.scss';
-import SecurityKey from '../../../../molecules/SecurityKeySection/SecurityKeySection';
-import CustomButton from '../../../../atoms/CustomButton/CustomButton';
+import SecurityKey from 'components/molecules/SecurityKeySection/SecurityKeySection';
+import CustomButton from 'components/atoms/CustomButton/CustomButton';
 
 export default function RegisterStep4(props) {
   const { wallet, goToLanding, data } = props;
@@ -40,7 +41,7 @@ export default function RegisterStep4(props) {
           <h1>Congratulations</h1>
           <h2> Hello {data.role.value}!</h2>
           <p>
-            Continue discovering the Circles of Angels platform while
+            Continue discovering the {customConfig.NAME} platform while
             administration confirm your account
           </p>
         </div>

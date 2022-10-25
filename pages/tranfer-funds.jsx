@@ -11,6 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import customConfig from 'custom-config';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
@@ -79,7 +80,7 @@ class TransferFunds extends React.Component {
             <p className="LabelSteps">Project Name</p>
             <h1>Lorem Ipsum</h1>
             <div className="TransferContent">
-              <h2>Circles of Angels Bank Account Information</h2>
+              <h2>{customConfig.NAME} Bank Account Information</h2>
               <div className="TransferBankInfo">
                 <h3>Singapore Bank</h3>
                 <h4> Account #: 0012345678</h4>

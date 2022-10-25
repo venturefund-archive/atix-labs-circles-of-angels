@@ -8,6 +8,7 @@
  */
 
 import React, { Component } from 'react';
+import customConfig from 'custom-config';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import { withUser } from '../components/utils/UserContext';
 import { recoverPassword } from '../api/userApi';
@@ -43,10 +44,13 @@ class Recovery extends Component {
     return (
       <div className="Login">
         <div className="LogoSide">
-          <img src="/static/images/logo-angels.svg" alt="Circles of Angels" />
+          <img
+            src={customConfig.SIDE_LOGO_PATH}
+            alt={`${customConfig.NAME} side logo`}
+          />
         </div>
         <div className="FormSide">
-          <h1>CIRCLES OF ANGELS</h1>
+          <h1>{customConfig.NAME}</h1>
           <h2>PASS RECOVERY</h2>
           <DynamicFormRecovery onSubmit={this.sendVerificationCode} />
         </div>

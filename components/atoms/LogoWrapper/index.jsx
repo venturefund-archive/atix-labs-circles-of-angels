@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import customConfig from 'custom-config';
 import TitlePage from '../TitlePage/TitlePage';
 import './_style.scss';
 
 const LogoWrapper = ({ textTitle }) => (
   <div className="LogoWrapper">
-    <img src="./static/images/isologo.svg" alt="Circles of angels" />
+    <img src={customConfig.LOGO_PATH} alt={`${customConfig.name} logo`} />
     <TitlePage textTitle={textTitle} />
   </div>
 );

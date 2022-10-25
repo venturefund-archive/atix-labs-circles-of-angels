@@ -11,6 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router';
 import { Layout, Menu } from 'antd';
+import customConfig from 'custom-config';
 import menuItems from './MenuItems';
 import './_style.scss';
 
@@ -36,7 +37,7 @@ const SideBar = ({ role, hasDaos }) => {
   return (
     <Sider width="60" breakpoint="sm" collapsedWidth="0">
       <div className="logo">
-        <img src="./static/images/isologo.svg" alt="Circles of Angels" />
+        <img src={customConfig.LOGO_PATH} alt={`${customConfig.NAME} logo`} />
       </div>
       <Menu
         theme="dark"
