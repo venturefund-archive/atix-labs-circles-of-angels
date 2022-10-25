@@ -24,9 +24,9 @@ const ProjectBrowser = ({
       const response = await getCountries();
       const countryOptions = response
         ? response.map(({ id, name }) => ({
-            value: id,
-            name
-          }))
+          value: id,
+          name
+        }))
         : [];
       setCountries(countryOptions);
     } catch (error) {
@@ -42,10 +42,10 @@ const ProjectBrowser = ({
     <div className="Content ExploreProject">
       <Row>
         <Col span={14}>
-          <TitlePage textTitle={title} style={{ fontWeight: '700' }}/>
+          <TitlePage textTitle={title} style={{ fontWeight: '700' }} />
         </Col>
       </Row>
-      <Row className="ProjectsCardsContainer" gutter={16}>
+      <Row gutter={16}>
         {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
           <CardNewProyect onClick={onNewProject} />
         )}
