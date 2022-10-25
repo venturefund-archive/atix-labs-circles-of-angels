@@ -18,11 +18,6 @@ const Header = () => {
   const user = getLoggedUser();
   return (
     <div className="HeaderContainer">
-      <img
-        className="Logo"
-        src="/static/images/logotipo.svg"
-        alt="circlesoofangelslogo"
-      />
       <div className="RightSide">
         {user && user.role ? <UserAvatar user={user} /> : ''}
       </div>

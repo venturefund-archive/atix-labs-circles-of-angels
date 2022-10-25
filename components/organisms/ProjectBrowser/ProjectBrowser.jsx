@@ -42,7 +42,7 @@ const ProjectBrowser = ({
     <div className="Content ExploreProject">
       <Row>
         <Col span={14}>
-          <TitlePage textTitle={title} />
+          <TitlePage textTitle={title} style={{ fontWeight: '700' }}/>
         </Col>
       </Row>
       <Row className="ProjectsCardsContainer" gutter={16}>
