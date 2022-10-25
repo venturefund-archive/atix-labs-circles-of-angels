@@ -4,7 +4,7 @@ Circles of Angels is a platform that brings Social Entrepreneurs and Funders aro
 
 ## Prerequisites
 
-- Node v10.15.3
+- Node v12.16.0
 
 ## Tools and frameworks
 
@@ -13,8 +13,6 @@ Circles of Angels is a platform that brings Social Entrepreneurs and Funders aro
 - next@9.1.2
 
 - antd@3.17.0
-
-- fastify@1.14.3
 
 ## Contributing
 
