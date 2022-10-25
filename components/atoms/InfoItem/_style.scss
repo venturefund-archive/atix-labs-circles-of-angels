@@ -6,22 +6,24 @@
         margin-bottom:0.5em;
     }
     .anticon {
-    margin-top: 5px;}
+      margin-top: 5px;
+    }
 
     .InfoItemData{
         display: flex;
         flex-flow: column-reverse;
         align-items: flex-start;
-        p{
+        p {
             @include primary-text($body-2, $on-surface-medium, 400);
         }
-        h2{
+        h2 {
             line-height: 16px;
             @include primary-text($body, $on-surface, 500);
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
             width: 100%;
+            font-weight: bold;
         }
     }
 }
