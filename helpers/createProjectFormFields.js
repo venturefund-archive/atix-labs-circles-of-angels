@@ -71,6 +71,37 @@ export const thumbnailsFormInputs = {
 };
 
 export const detailsFormInputs = {
+  about: {
+    type: 'textArea',
+    name: 'about',
+    rows: 4,
+    label: (
+      <div className="LabelDescription">
+        About the project
+        <span>
+          Share your information about the entrepreneurs and the project
+        </span>
+      </div>
+    )
+  },
+  currencyType: {
+    name: 'currencyType',
+    label: 'Currency Type',
+    type: 'select',
+    placeholder: 'Select currency type',
+    defaultValue: undefined,
+    options: [
+      { name: 'CRYPTO', value: 'crypto' },
+      { name: 'FIAT', value: 'fiat' }
+    ],
+    rules: [
+      {
+        required: true,
+        message: 'Please select the claim status',
+        whitespace: true
+      }
+    ]
+  },
   mission: {
     type: 'textArea',
     name: 'mission',
