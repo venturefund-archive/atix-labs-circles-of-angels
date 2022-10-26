@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Col, message } from 'antd';
 import './_style.scss';
 import CardProject from '../../molecules/CardProject/CardProject';
-import CardNewProyect from '../CardNewProyect/CardNewProyect';
+import CardNewProject from '../../molecules/CardProject/CardNewProject';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import Roles from '../../../constants/RolesMap';
@@ -47,7 +47,7 @@ const ProjectBrowser = ({
       </Row>
       <Row gutter={16}>
         {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
-          <CardNewProyect onClick={onNewProject} />
+          <CardNewProject onClick={onNewProject} />
         )}
         {projects &&
           projects.length > 0 &&
