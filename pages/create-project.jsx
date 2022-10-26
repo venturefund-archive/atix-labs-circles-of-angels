@@ -42,8 +42,7 @@ const getIdFromPath = () => {
 }
 
 const CreateProjectContainer = () => {
-  //const id = getIdFromPath()
-  const { id } = useQuery();
+  const id = getIdFromPath()
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [formValues, setFormValues] = useState({});
@@ -55,10 +54,6 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
-  useEffect(() => {
-    console.log(id)
-    
-  }, [])
   const fetchProject = useCallback(
     async projectId => {
       const response = await getProject(projectId);

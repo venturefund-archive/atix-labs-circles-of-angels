@@ -67,10 +67,10 @@ const MyProjects = ({ user }) => {
     const state = { projectId: project.id };
     const { status } = project;
     if (
-      status === projectStatutes.DRAFT ||
+      status === projectStatuses.DRAFT ||
       (status === projectStatuses.REJECTED && user.role !== SUPPORTER)
     ) {
-      history.push(`/projects/edit/${project.id}`, state);
+      history.push(`/project/edit/${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
     }

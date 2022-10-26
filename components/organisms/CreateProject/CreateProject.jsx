@@ -19,8 +19,8 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
       <img
         src={
           completed
-            ? './static/images/checked.svg'
-            : './static/images/unchecked.svg'
+            ? './images/checked.svg'
+            : './images/unchecked.svg'
         }
         alt="unchecked"
       />

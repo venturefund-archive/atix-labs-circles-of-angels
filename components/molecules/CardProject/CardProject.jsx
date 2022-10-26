@@ -36,7 +36,6 @@ const CardProject = ({
     applied,
     beneficiary = 'unset',
   } = project;
-  console.log(project)
   const locationsNames = () => {
     const countriesIds = countries.filter(
       // eslint-disable-next-line radix
