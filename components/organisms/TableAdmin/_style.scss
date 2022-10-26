@@ -1,13 +1,13 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .TableAdmin {
-  .ant-tag{
+  .ant-tag {
     border-radius: 20px;
     padding: 0 20px;
     text-transform: uppercase;
   }
 
-  .Primary{
+  .Primary {
     transform: scale(0.8);
   }
 
@@ -23,18 +23,16 @@
     @include primary-text($button, $secondary-color, 400);
     text-transform: uppercase;
   }
-  
 }
-
 
 .reintentarBtn {
   background: transparent;
-  border:none;
+  border: none;
   text-align: left;
-  padding:0;
+  padding: 0;
   outline: none;
-  color:#4C7FF7;
+  color: #4c7ff7;
   &:hover {
-    color:rgb(112, 154, 253)
+    color: rgb(112, 154, 253);
   }
 }

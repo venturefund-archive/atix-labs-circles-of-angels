@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 .DraggerFile {
   width: 50%;
   padding-right: 1.5em;
@@ -15,6 +15,6 @@
 .ant-upload.ant-upload-drag p.ant-upload-text {
   @include primary-text($body, $on-surface, 400);
 }
-.ant-upload.ant-upload-drag p.ant-upload-hint{
-  @include primary-text($body, $on-surface-medium, 400); 
+.ant-upload.ant-upload-drag p.ant-upload-hint {
+  @include primary-text($body, $on-surface-medium, 400);
 }

@@ -1,13 +1,13 @@
-@import '../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
-.ThumbnailsWrapper{  
+.ThumbnailsWrapper {
   padding: 2em 3em;
   @include breakpoint(sm) {
     padding: 2em 1em 0;
   }
-  .centered{
-    height:65vh;
-    overflow-y:scroll;
+  .centered {
+    height: 65vh;
+    overflow-y: scroll;
   }
   .FooterButtons {
     @include breakpoint(sm) {
@@ -24,7 +24,7 @@
   }
   .ant-form-item-label label {
     @include primary-text($labels, $on-surface, 500);
-  }  
+  }
   .CardExample {
     @include breakpoint(sm) {
       margin-bottom: 2em;
@@ -40,7 +40,7 @@
     h1 {
       @include primary-text($titlecard, $on-surface, 500);
     }
-    h2{
+    h2 {
       width: 100%;
     }
     h3 {
@@ -58,7 +58,6 @@
       .ant-skeleton-paragraph {
         margin-bottom: 0.6em;
       }
-
     }
     .BlockImage {
       border-radius: 4px;
@@ -75,26 +74,26 @@
       height: 35px;
     }
   }
-  .InputAlert{
-    h3{
-     line-height: 39.9999px;
+  .InputAlert {
+    h3 {
+      line-height: 39.9999px;
     }
-    .Alert{
+    .Alert {
       padding: 0.5em 1em;
-      background: #FFF2EC;
-      display:flex;
-      align-items:center;
+      background: #fff2ec;
+      display: flex;
+      align-items: center;
       border-radius: 4px;
-      img{
+      img {
         margin-right: 0.7em;
-        width:21px;
+        width: 21px;
       }
-      span{
+      span {
         flex: 1;
         @include primary-text(12px, $alert-bg, 400);
-        line-height:16px;
+        line-height: 16px;
       }
-      b{
+      b {
         @include primary-text(12px, $alert-bg, 500);
       }
     }

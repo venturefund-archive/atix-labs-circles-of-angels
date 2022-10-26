@@ -1,37 +1,31 @@
-@import "../../../../../css/general_styling";
-
+@import 'css/general_styling';
 
 @media only screen and (max-width: 1920px) {
-    .LabelDescriptionIF {
-
-    margin-top:1em;
-    }
+  .LabelDescriptionIF {
+    margin-top: 1em;
   }
+}
 
-  @media only screen and (max-width: 1490px) {
-    .LabelDescriptionIF {
-
-        margin-top:0em;
-        }
+@media only screen and (max-width: 1490px) {
+  .LabelDescriptionIF {
+    margin-top: 0em;
+  }
 }
 
 @media only screen and (max-width: 1370px) {
-    .LabelDescriptionIF {
-
-        margin-top:1.5em;
-        }
+  .LabelDescriptionIF {
+    margin-top: 1.5em;
+  }
 }
 
 @media only screen and (max-width: 985px) {
-    .LabelDescriptionIF {
-
-    margin-top:1em;
-    }
+  .LabelDescriptionIF {
+    margin-top: 1em;
   }
+}
 
-  @media only screen and (max-width: 763px) {
-    .LabelDescriptionIF {
-
-    margin-top:0em;
-    }
+@media only screen and (max-width: 763px) {
+  .LabelDescriptionIF {
+    margin-top: 0em;
   }
+}

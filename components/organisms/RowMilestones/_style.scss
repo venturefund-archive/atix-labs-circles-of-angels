@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .WrapperTable {
   overflow: hidden;
@@ -10,7 +10,7 @@
     padding-left: 1em;
     border-left: 1px solid $border;
   }
-  .Contentbox{
+  .Contentbox {
     padding: 0.5em 0;
     .Box {
       padding-right: 1em;
@@ -99,8 +99,8 @@
     .isEditing {
       border-radius: 4px;
     }
-    .blueLink{
-      display: inline-block
+    .blueLink {
+      display: inline-block;
     }
   }
   .WrapperActions {

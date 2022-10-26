@@ -1,6 +1,6 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
-.DownloadTemplateContainer {    
+.DownloadTemplateContainer {
   width: 50%;
   margin-bottom: 1em;
   display: flex;
@@ -16,7 +16,7 @@
     min-width: 50%;
     margin-bottom: 1em;
   }
-  .vertical{
+  .vertical {
     padding: 0 0 0 1em;
   }
 }

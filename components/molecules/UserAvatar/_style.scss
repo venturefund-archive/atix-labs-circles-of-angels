@@ -1,20 +1,20 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .UserAvatar {
   display: flex;
   align-items: center;
- 
+
   .UserData {
     display: flex;
     justify-content: center;
     align-items: center;
- 
+
     .UserLabel {
       margin-left: 1em;
     }
   }
- 
+
   .SettingsMenu {
     margin-left: 1em;
   }
- }
+}

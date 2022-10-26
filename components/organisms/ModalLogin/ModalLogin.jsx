@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import { useHistory } from 'react-router';
+import { useRouter } from 'next/router';
 import { useUserContext } from '../../utils/UserContext';
 import DynamicForm from '../FormLogin/FormLogin';
 import ModalRecovery from '../ModalRecovery/ModalRecovery';
@@ -21,7 +22,9 @@ import LogoWrapper from '../../atoms/LogoWrapper';
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
   const [onLoginRoute, setOnLoginRoute] = useState(true);
-  const history = useHistory();
+  /* const history = useHistory(); */
+  const router = useRouter();
+
   useEffect(() => {
     setOnLoginRoute(window.location.pathname.includes('/login'));
   }, []);
@@ -34,8 +37,8 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       changeUser(user);
       const { role, forcePasswordChange } = user;
 
-      if (forcePasswordChange) history.push('/password-change');
-      else history.push(defaultRouteByRole[role]);
+      if (forcePasswordChange) router.push('/password-change');
+      else router.push(defaultRouteByRole[role]);
 
       clearFields();
     } catch (error) {

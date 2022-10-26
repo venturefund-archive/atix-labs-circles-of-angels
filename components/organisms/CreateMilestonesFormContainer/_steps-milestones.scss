@@ -1,11 +1,11 @@
-@import '../css/general_styling.scss';
+@import 'css/general_styling.scss';
 .StepsMilestonesWrapper {
   padding: 2em 3em;
-      height: 92%;
-    overflow-y: scroll;
-    @include breakpoint(sm) {
-      padding: 2em 1em 0;
-    }
+  height: 92%;
+  overflow-y: scroll;
+  @include breakpoint(sm) {
+    padding: 2em 1em 0;
+  }
   .ant-steps {
     width: 20%;
     position: absolute;
@@ -13,10 +13,10 @@
     bottom: 2%;
     z-index: 99;
     @include breakpoint(md) {
-      display:block;
+      display: block;
     }
     @include breakpoint(sm) {
-      display:none;
+      display: none;
     }
     .ant-steps-item-process
       > .ant-steps-item-content
@@ -115,28 +115,27 @@
       height: 55vh;
       padding: 1em;
       border-radius: 4px;
-      overflow-y:auto;
-      p{
+      overflow-y: auto;
+      p {
         @include primary-text($body, $on-surface, 400);
       }
-        .EmptyMilestone{
-    height:100%;
-      p.ant-empty-description{
+      .EmptyMilestone {
+        height: 100%;
+        p.ant-empty-description {
           @include primary-text($labels, $grey, 400);
+        }
       }
-  }
     }
   }
 }
 
-.Step3{
-.TitlePage{
-  margin-bottom: 4em;
-}
-.ant-btn.Alternative{
-  @include breakpoint(sm) {
-    margin-bottom: 1em;
+.Step3 {
+  .TitlePage {
+    margin-bottom: 4em;
   }
-}
-
+  .ant-btn.Alternative {
+    @include breakpoint(sm) {
+      margin-bottom: 1em;
+    }
+  }
 }

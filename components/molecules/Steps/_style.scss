@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 .StepsContainer {
   height: 10%;
   display: flex;
@@ -44,11 +44,11 @@
     flex-wrap: wrap;
     border-top: 1px solid $light-gray;
     padding-top: 1em;
-    .DownloadTemplateContainer{
-          margin-bottom: 1.4em;
-          .vertical{
-            padding: 0 0 0 1em;
-          }
+    .DownloadTemplateContainer {
+      margin-bottom: 1.4em;
+      .vertical {
+        padding: 0 0 0 1em;
+      }
     }
   }
 
@@ -103,5 +103,5 @@
 .UploadExcelFiles {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;  
+  flex-wrap: wrap;
 }

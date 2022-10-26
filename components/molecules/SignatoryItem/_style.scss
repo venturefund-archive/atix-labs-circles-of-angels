@@ -1,10 +1,10 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .SignatoryItem {
-    width: 100%;
-    border-bottom: 1px solid $light-gray;
-    padding-bottom: 0.5em;
-    margin-bottom: 1.5em;
+  width: 100%;
+  border-bottom: 1px solid $light-gray;
+  padding-bottom: 0.5em;
+  margin-bottom: 1.5em;
 
   .SignatoryLabel {
     @include primary-text($body, $grey, 300);
@@ -19,7 +19,7 @@
 
     .SignatoryData {
       display: flex;
-      align-items:center;
+      align-items: center;
       .UserLabel {
         transform: scale(1.25);
         margin-left: 1.5em;
@@ -31,9 +31,9 @@
       align-self: flex-end;
       align-items: center;
 
-      .Primary{
+      .Primary {
         margin-left: 0.5em;
-        p{
+        p {
           color: $white;
         }
       }

@@ -1,4 +1,4 @@
-@import '../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .ProjectContainer {
   height: 100%;
@@ -21,7 +21,7 @@
     .Banner {
       width: 100%;
       @include breakpoint(sm) {
-        display:none
+        display: none;
       }
     }
   }
@@ -76,24 +76,28 @@
       @include breakpoint(sm) {
         height: auto;
         padding: 4em 0;
-        .ant-btn.Primary, .ant-btn.Alternative{
+        .ant-btn.Primary,
+        .ant-btn.Alternative {
           margin: 0.5em auto;
-          span{
+          span {
             font-size: 14px;
           }
         }
-        .blockverticalrsp{
-          flex-direction:column;
+        .blockverticalrsp {
+          flex-direction: column;
         }
       }
-      .ant-btn.Alternative .anticon, .ant-btn.Alternative:active .anticon, .ant-btn.Alternative:focus .anticon, .ant-btn.Alternative:hover .anticon {
+      .ant-btn.Alternative .anticon,
+      .ant-btn.Alternative:active .anticon,
+      .ant-btn.Alternative:focus .anticon,
+      .ant-btn.Alternative:hover .anticon {
         display: block;
         color: $primary-color;
-    }
-      .ant-btn.Alternative {
-      margin-right:1em;
       }
-      .ant-tag{
+      .ant-btn.Alternative {
+        margin-right: 1em;
+      }
+      .ant-tag {
         @include breakpoint(sm) {
           position: absolute;
           top: 2em;
@@ -131,28 +135,28 @@
       @include breakpoint(sm) {
         height: auto;
         padding: 0 0 0.5em 0;
-        .flex{
+        .flex {
           flex-wrap: wrap;
         }
-        .GeneralItem:first-child{
+        .GeneralItem:first-child {
           border-top: none;
         }
-        .GeneralItem{
+        .GeneralItem {
           margin-top: 0.5em;
           width: 100%;
           margin-right: 0;
           border-top: 1px solid #eff1f4;
           padding-top: 0.5em;
         }
-        .GeneralItem img{
+        .GeneralItem img {
           width: 20px;
           margin-right: 0.5em;
-          display:none;
+          display: none;
         }
-        .GeneralItem .HeaderData .Label,.GeneralItem .Info{
-          color:$on-surface;
+        .GeneralItem .HeaderData .Label,
+        .GeneralItem .Info {
+          color: $on-surface;
         }
-        
       }
     }
   }
@@ -260,7 +264,7 @@
     padding: 0;
   }
   .BlockActions {
-    .CustomButton{
+    .CustomButton {
       margin-top: 1em;
       width: 100%;
     }
@@ -281,16 +285,16 @@
     .ant-avatar-image {
       margin-left: 0px;
     }
-    .ant-avatar-string{
-        color: #23252b85;
-      }
+    .ant-avatar-string {
+      color: #23252b85;
+    }
     span {
       @include primary-text($body, $on-surface, 400);
       margin-bottom: 3px;
     }
   }
   .Orange {
-    border-left: 4px solid #FB976C;
+    border-left: 4px solid #fb976c;
   }
   .Red {
     border-left: 4px solid #ff6f6f;

@@ -1,13 +1,15 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .profileContainerReadOnly {
-  padding:2em;
+  padding: 2em;
   .edit {
-    p {@include primary-text($label, $primary-color, 400);}
+    p {
+      @include primary-text($label, $primary-color, 400);
+    }
     margin-left: 1em;
     .anticon {
       margin-right: 0.5em;
-      color:$primary-color;
+      color: $primary-color;
     }
   }
   .ant-form {
@@ -17,7 +19,7 @@
     flex-wrap: wrap;
     label {
       font-size: $body;
-      color:$secondary-color;
+      color: $secondary-color;
     }
     .full {
       width: 100%;
@@ -38,7 +40,6 @@
     margin-top: 5em;
   }
 }
-
 
 @media only screen and (max-width: 1288px) {
   .profileContainerReadOnly {

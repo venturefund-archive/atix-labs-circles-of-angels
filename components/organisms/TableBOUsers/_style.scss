@@ -1,28 +1,29 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .TableBOProjects {
-  .ant-tag{
+  .ant-tag {
     border-radius: 20px;
     padding: 0 20px;
     text-transform: uppercase;
     cursor: auto;
   }
 
-  .ActionButtons{
+  .ActionButtons {
     display: flex;
   }
 
-  .Primary, .ButtonDownload{
+  .Primary,
+  .ButtonDownload {
     transform: scale(0.8);
     margin-left: -20px;
   }
 
-  .Cancel{
+  .Cancel {
     transform: scale(0.8);
     margin-left: -10px;
   }
 
-  .ProjectAccess{
+  .ProjectAccess {
     cursor: pointer;
   }
 

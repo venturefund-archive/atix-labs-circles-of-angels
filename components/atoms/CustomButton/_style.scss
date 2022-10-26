@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .ant-btn {
   height: 38px;
@@ -21,12 +21,12 @@
   opacity: 0.7;
 }
 
-.ant-btn.disabled{
+.ant-btn.disabled {
   background: #bfc8d2;
-  span .anticon{
-  color: #728099;
+  span .anticon {
+    color: #728099;
   }
-  &:hover{
+  &:hover {
     background: #bfc8d2;
   }
 }
@@ -45,7 +45,7 @@
 .ant-btn.SuccessMst,
 .ant-btn.SucceSuccessMstss:active .ant-btn.SuccessMst:focus {
   background: $success-color !important;
-  height:auto;
+  height: auto;
   span {
     @include primary-text($button, $white, 500);
   }
@@ -66,14 +66,14 @@
     display: none;
   }
 }
-.ant-btn.Primary .anticon.iconDisplay{
-  display:block;
+.ant-btn.Primary .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.Primary .anticon.none{
+.ant-btn.Primary .anticon.none {
   display: none;
 }
-.ant-btn-primary > span{
+.ant-btn-primary > span {
   color: $white;
 }
 
@@ -82,7 +82,7 @@
 .ant-btn.Secondary:active,
 .ant-btn.Secondary:focus,
 .ant-btn.Secondary:hover {
-  background:transparent;
+  background: transparent;
   span {
     @include primary-text($button, $primary-color, 400);
   }
@@ -90,11 +90,11 @@
     display: none;
   }
 }
-.ant-btn.Secondary .anticon.iconDisplay{
-  display:block;
+.ant-btn.Secondary .anticon.iconDisplay {
+  display: block;
   color: $primary-color;
 }
-.ant-btn.Secondary .anticon.none{
+.ant-btn.Secondary .anticon.none {
   display: none;
 }
 
@@ -103,8 +103,8 @@
 .ant-btn.Alternative:active,
 .ant-btn.Alternative:focus,
 .ant-btn.Alternative:hover {
-  background:$white;
-  border:1px solid $primary-color;
+  background: $white;
+  border: 1px solid $primary-color;
   span {
     @include primary-text($button, $primary-color, 400);
   }
@@ -113,11 +113,11 @@
   }
 }
 
-.ant-btn.Alternative .anticon.iconDisplay{
-  display:block;
+.ant-btn.Alternative .anticon.iconDisplay {
+  display: block;
   color: $primary-color;
 }
-.ant-btn.Alternative .anticon.none{
+.ant-btn.Alternative .anticon.none {
   display: none;
 }
 
@@ -126,8 +126,8 @@
 .ant-btn.White:active,
 .ant-btn.White:focus,
 .ant-btn.White:hover {
-  background:transparent;
-  border:2px  solid $white;
+  background: transparent;
+  border: 2px solid $white;
   span {
     @include primary-text($button, $white, 400);
   }
@@ -148,11 +148,11 @@
     display: none;
   }
 }
-.ant-btn.Cancel .anticon.iconDisplay{
-  display:block;
+.ant-btn.Cancel .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.Cancel .anticon.none{
+.ant-btn.Cancel .anticon.none {
   display: none;
 }
 /* CANCELMILESTONE */
@@ -161,7 +161,7 @@
 .ant-btn.CancelMst:focus,
 .ant-btn.CancelMst:hover {
   background: $border;
-  height:auto;
+  height: auto;
   span {
     @include primary-text($button, $white, 500);
   }
@@ -169,11 +169,11 @@
     display: none;
   }
 }
-.ant-btn.CancelMst .anticon.iconDisplay{
-  display:block;
+.ant-btn.CancelMst .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.CancelMst .anticon.none{
+.ant-btn.CancelMst .anticon.none {
   display: none;
 }
 
@@ -190,11 +190,11 @@
     display: none;
   }
 }
-.ant-btn.SecondaryCancel .anticon.iconDisplay{
-  display:block;
+.ant-btn.SecondaryCancel .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.SecondaryCancel .anticon.none{
+.ant-btn.SecondaryCancel .anticon.none {
   display: none;
 }
 
@@ -242,11 +242,11 @@
     display: none;
   }
 }
-.ant-btn.VoteYes .anticon.iconDisplay{
-  display:block;
+.ant-btn.VoteYes .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.VoteYes .anticon.none{
+.ant-btn.VoteYes .anticon.none {
   display: none;
 }
 
@@ -263,24 +263,22 @@
     display: none;
   }
 }
-.ant-btn.VoteNo .anticon.iconDisplay{
-  display:block;
+.ant-btn.VoteNo .anticon.iconDisplay {
+  display: block;
   color: $white;
 }
-.ant-btn.VoteNo .anticon.none{
+.ant-btn.VoteNo .anticon.none {
   display: none;
 }
-
-
 
 /* CATEGORY */
 .ant-btn.Category,
 .ant-btn.Category:active,
 .ant-btn.Category:focus,
 .ant-btn.Category:hover {
-  background:$white;
+  background: $white;
   box-shadow: $shadow;
-  padding:0.5em 1em;
+  padding: 0.5em 1em;
   span {
     @include primary-text($button, $primary-color, 400);
   }
@@ -289,12 +287,10 @@
   }
 }
 
-.ant-btn.Category .anticon.iconDisplay{
-  display:block;
+.ant-btn.Category .anticon.iconDisplay {
+  display: block;
   color: $primary-color;
 }
-.ant-btn.Category .anticon.none{
+.ant-btn.Category .anticon.none {
   display: none;
 }
-
-

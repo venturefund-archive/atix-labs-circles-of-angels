@@ -1,36 +1,38 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .FormSide {
   display: flex;
   flex-flow: column;
   justify-content: center;
 
-
-  .login-form , .recovery-form{
+  .login-form,
+  .recovery-form {
     width: 300px;
     margin: 0 auto;
     margin-top: 3em;
   }
-  .login-form{
+  .login-form {
     .Primary {
       margin-top: 2em;
     }
 
-    .FormControls{
-        padding-bottom: 2em;
+    .FormControls {
+      padding-bottom: 2em;
     }
 
     .login-form-forgot {
       float: right;
     }
 
-    .ant-checkbox-wrapper{
-        float: left;
+    .ant-checkbox-wrapper {
+      float: left;
     }
   }
 }
 
-.ResetPassword,.ChangePasswordSuccess,.ModalLogin {
+.ResetPassword,
+.ChangePasswordSuccess,
+.ModalLogin {
   margin-top: 40px;
   width: 470px !important;
   .ant-modal-content {
@@ -56,15 +58,15 @@
     justify-content: space-around;
     .ant-btn {
       border-radius: 4px;
-      border: 1px solid #4C7FF7;
+      border: 1px solid #4c7ff7;
       span {
-        color: #4C7FF7;
+        color: #4c7ff7;
         font-weight: bold;
         line-height: 19px;
         font-size: 14px;
       }
-      &-primary{
-        background: #4C7FF7; 
+      &-primary {
+        background: #4c7ff7;
         span {
           color: #fff;
         }
@@ -72,4 +74,3 @@
     }
   }
 }
-

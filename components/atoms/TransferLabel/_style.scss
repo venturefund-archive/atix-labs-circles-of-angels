@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .TransferLabel {
   background: $white;
@@ -34,8 +34,8 @@
 
 .theme-cancel {
   background: rgba(255, 0, 80, 0.2);
-  border: 1px solid #FF0050;
+  border: 1px solid #ff0050;
   p {
-    @include primary-text($body, #FF0050, 400);
+    @include primary-text($body, #ff0050, 400);
   }
 }

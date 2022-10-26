@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .UploadImageContainer {
   width: 50%;
@@ -22,5 +22,4 @@
   .ant-upload-list {
     text-overflow: ellipsis;
   }
- }
- 
+}

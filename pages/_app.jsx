@@ -9,7 +9,7 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
-import '../css/app.scss';
+import 'css/app.scss';
 import 'react-image-lightbox/style.css';
 import 'react-quill/dist/quill.snow.css';
 import { Container } from 'next/app';
@@ -19,14 +19,13 @@ import withReactRouter from './with-react-router';
 import { StorageProvider } from '../components/utils/StorageContext';
 import { routesConfig } from '../components/organisms/Router/RouteConfig';
 
-const MyApp = props => (
-  <Container>
-    <UserProvider>
-      <StorageProvider>
-        <Router {...props} routesConfig={routesConfig} />
-      </StorageProvider>
-    </UserProvider>
-  </Container>
+const MyApp = ({ Component, pageProps }) => (
+  <UserProvider>
+    <StorageProvider>
+      {/* <Router {...props} routesConfig={routesConfig} /> */}
+      <Component {...pageProps} />
+    </StorageProvider>
+  </UserProvider>
 );
 
-export default withReactRouter(MyApp);
+export default MyApp;

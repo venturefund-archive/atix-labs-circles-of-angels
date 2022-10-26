@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .flex {
   display: flex;
@@ -14,14 +14,14 @@
 .userAvatar {
   align-items: flex-start;
   .date {
-  @include primary-text($label, $grey, 100);
+    @include primary-text($label, $grey, 100);
   }
 }
 .ReplyWriting {
   width: 100%;
   margin-top: 1em;
-  padding:1em 2em;
-  border-top: 1px solid #E5E6ED;
+  padding: 1em 2em;
+  border-top: 1px solid #e5e6ed;
   .ant-avatar {
     margin-right: 0.5em;
   }

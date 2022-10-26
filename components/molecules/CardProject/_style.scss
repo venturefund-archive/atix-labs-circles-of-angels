@@ -1,20 +1,21 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .CardProject {
   margin-bottom: 2em;
   cursor: pointer;
   position: relative;
 
-  .ant-col-1{
+  .ant-col-1 {
     margin: 0 0.5em;
   }
-  .ant-divider, .ant-divider-vertical{
+  .ant-divider,
+  .ant-divider-vertical {
     height: 2em;
   }
   .ProjectDescription {
     width: 100%;
     height: 270px;
-    background: #ECECEC;
+    background: #ececec;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 4px;
@@ -24,30 +25,30 @@
       height: 100%;
       width: 100%;
     }
-    .BlockTags{
+    .BlockTags {
       display: flex;
       justify-content: space-between;
       position: absolute;
       top: 1em;
-      left:1em;
+      left: 1em;
       z-index: 9;
-      .ant-tag{
+      .ant-tag {
         cursor: pointer;
-        .anticon{
-          margin-left:0.5em;
+        .anticon {
+          margin-left: 0.5em;
         }
       }
     }
   }
   .ProjectSummery {
     padding-top: 0.5em;
-    h1{
+    h1 {
       @include primary-text($titlecard, $on-surface, 500);
     }
   }
 }
-.CardProject:last-child{
-  margin-right:0; 
+.CardProject:last-child {
+  margin-right: 0;
 }
 .CardProject:hover {
   .hoverText {
@@ -65,13 +66,13 @@
 }
 
 @media screen and (max-width: 768px) {
-    .CardProject {
-        width: 48%;
-    }
+  .CardProject {
+    width: 48%;
+  }
 }
 
 @media screen and (max-width: 450px) {
-    .CardProject {
-        width: 100%;
-    }
+  .CardProject {
+    width: 100%;
+  }
 }

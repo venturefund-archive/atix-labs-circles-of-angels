@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .ConfirmModal {
   h1 {
@@ -13,14 +13,14 @@
   .ProjectDetail {
     @include primary-text($body, $primary-color, 400);
   }
-  .ant-modal-header{
-      padding: 16px 30px;
+  .ant-modal-header {
+    padding: 16px 30px;
   }
-  .ant-modal-body{
-      padding: 50px 30px;
+  .ant-modal-body {
+    padding: 50px 30px;
   }
   .ant-modal-footer {
-      padding: 20px 30px;
+    padding: 20px 30px;
     .ant-btn,
     .ant-btn:hover,
     .ant-btn:focus {
@@ -39,8 +39,8 @@
       border-color: #15d380;
     }
   }
-  .ant-modal-close-x{
-      color: $grey;
+  .ant-modal-close-x {
+    color: $grey;
   }
 }
 

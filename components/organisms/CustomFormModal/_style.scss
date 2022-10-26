@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .CustomFormModal {
   .Data {
@@ -47,7 +47,7 @@
   .DraggerFile {
     width: 100%;
     padding-right: 0;
-    .ant-upload.ant-upload-drag{
+    .ant-upload.ant-upload-drag {
       height: auto;
     }
     .ant-upload.ant-upload-drag p.ant-upload-drag-icon {

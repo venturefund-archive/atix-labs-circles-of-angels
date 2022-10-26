@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .flex {
   display: flex;
@@ -10,20 +10,20 @@
 .userAvatar {
   align-items: flex-start;
   .date {
-  @include primary-text($label, $grey, 100);
+    @include primary-text($label, $grey, 100);
   }
 }
 .comment {
-  padding:1em 0;
-  border-top: 1px solid #E5E6ED;
-  border-bottom:1px solid #E5E6ED;
+  padding: 1em 0;
+  border-top: 1px solid #e5e6ed;
+  border-bottom: 1px solid #e5e6ed;
   .ant-avatar {
     margin-right: 0.5em;
   }
   .commentText {
-    margin:1em 0;
+    margin: 1em 0;
     p {
-    @include primary-text($body, $black, 100);
+      @include primary-text($body, $black, 100);
     }
   }
   a {

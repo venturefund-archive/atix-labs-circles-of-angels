@@ -1,12 +1,12 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
-.SecurityKeySection{
+.SecurityKeySection {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  margin:1em 1em;
+  margin: 1em 1em;
   justify-content: center;
   @include breakpoint(sm) {
     margin: 1em 0;
-    }
+  }
 }

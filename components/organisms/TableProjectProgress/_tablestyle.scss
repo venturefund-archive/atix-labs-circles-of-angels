@@ -1,4 +1,4 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .ant-table {
   font-size: $body;
@@ -14,25 +14,23 @@
       vertical-align: baseline;
     }
   }
-
-  
 }
-.ant-table-title {    
+.ant-table-title {
   @include primary-text($h2, $secondary-color, 500);
   margin-bottom: 0;
   padding: 1em 1em;
-  .milestoneStatus{
+  .milestoneStatus {
     display: flex;
-      width: 20%;
-      color: $success-color;
-      background: $success-color-light;
-      padding: 0.5em;
-      border-radius: 4px;
-      justify-content: center;
-      font-weight: 500;
-      .ant-progress-line{
-        width: 42%;
-      }
+    width: 20%;
+    color: $success-color;
+    background: $success-color-light;
+    padding: 0.5em;
+    border-radius: 4px;
+    justify-content: center;
+    font-weight: 500;
+    .ant-progress-line {
+      width: 42%;
+    }
   }
 }
 .ant-table-thead > tr > th,

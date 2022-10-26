@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .WrapperModalLogin {
   display: inline-block;
@@ -19,7 +19,7 @@
   .TitlePage h1 {
     font-weight: bold !important;
     /*find the variable that represents this tone*/
-    color: #4C7FF7 !important;
+    color: #4c7ff7 !important;
     font-size: 24px;
     text-align: center;
   }
@@ -70,5 +70,4 @@
     padding: 0.5em;
     margin-top: 1em;
   }
-
 }

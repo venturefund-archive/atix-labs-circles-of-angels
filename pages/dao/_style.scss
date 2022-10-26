@@ -1,4 +1,4 @@
-@import '../../css/general_styling';
+@import 'css/general_styling';
 
 // ant style
 
@@ -6,8 +6,9 @@
   color: $grey;
 }
 
-.ant-progress-success-bg, .ant-progress-bg {
-  background-color: $cyanbg!important;
+.ant-progress-success-bg,
+.ant-progress-bg {
+  background-color: $cyanbg !important;
 }
 
 // general style
@@ -58,7 +59,7 @@
   }
   .LabelSteps {
     color: #1479e261;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 
   .TransferBankInfo {
@@ -105,9 +106,10 @@
       }
     }
   }
-  
+
   .linkSection {
-    .dot, .dot-completed {
+    .dot,
+    .dot-completed {
       height: 10px;
       width: 10px;
       border-radius: 5em;
@@ -152,26 +154,26 @@
       }
     }
     // second column
-h3 {
-  color:$grey;
-}
-.categoryTag {
-  border-radius: 10px;
-  background: $light-gray;
-  width: 185px;
-  padding:0.5em 1em;
-  justify-content: center;
-  margin:1em 0;
-  img {
-    margin-right: 0.5em;
-  }
-}
+    h3 {
+      color: $grey;
+    }
+    .categoryTag {
+      border-radius: 10px;
+      background: $light-gray;
+      width: 185px;
+      padding: 0.5em 1em;
+      justify-content: center;
+      margin: 1em 0;
+      img {
+        margin-right: 0.5em;
+      }
+    }
     .VoteProgressBox {
       width: 90%;
-      padding:2em;
+      padding: 2em;
       box-shadow: $shadow;
       border-radius: 10px;
-      margin:1em 0;
+      margin: 1em 0;
       .flex {
         .voteBox {
           justify-content: center;
@@ -191,7 +193,7 @@ h3 {
       }
 
       .subBox {
-        margin-top:1em;
+        margin-top: 1em;
         flex-direction: column;
         h3 {
           color: $grey;
@@ -233,11 +235,11 @@ h3 {
     // second column
   }
   .VoteButton {
-    margin-top:4em;
+    margin-top: 4em;
     width: 100%;
-    padding:2em 0;
-    justify-content:center;
-    border-top:1px solid $light-gray;
+    padding: 2em 0;
+    justify-content: center;
+    border-top: 1px solid $light-gray;
     button {
       margin: 0 1em;
     }
@@ -255,15 +257,15 @@ h3 {
     justify-content: center;
     .col {
       h3 {
-        margin:1em auto;
+        margin: 1em auto;
       }
       width: 100%;
-      padding:1em 0;
+      padding: 1em 0;
       .categoryTag {
-        margin:0 auto;
+        margin: 0 auto;
       }
       .VoteProgressBox {
-        margin:0 auto;
+        margin: 0 auto;
       }
     }
   }

@@ -1,21 +1,21 @@
-@import '../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .flex {
-    display: flex;
+  display: flex;
 }
 .column {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .faqSection {
-    .title {
-        @include primary-text($labelbig, $black, 100);
-        margin-bottom: 1em;
-    }
-    textarea.ant-input {
-        margin-bottom: 1em;
-    }
-    .margin-bottom {
-        margin-bottom: 1em;
-    }
+  .title {
+    @include primary-text($labelbig, $black, 100);
+    margin-bottom: 1em;
+  }
+  textarea.ant-input {
+    margin-bottom: 1em;
+  }
+  .margin-bottom {
+    margin-bottom: 1em;
+  }
 }

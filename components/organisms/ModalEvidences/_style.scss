@@ -1,25 +1,25 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
 .ModalEvidences {
   width: 65vw !important;
-    @include breakpoint(sm) {
-      width: 95vw !important;
-    }
+  @include breakpoint(sm) {
+    width: 95vw !important;
+  }
   .ant-modal-content {
     padding: 1em 1em 2em;
   }
-  .ant-modal-body  {
+  .ant-modal-body {
     height: auto;
     overflow-y: scroll;
   }
   .EvidenceItem {
-    margin-bottom:1em;
+    margin-bottom: 1em;
     .Description {
-      .Data{
+      .Data {
         @include breakpoint(sm) {
           display: flex;
           flex-wrap: wrap;
-          .Title{
+          .Title {
             display: flex;
             width: 100%;
             justify-content: space-between;
@@ -154,10 +154,10 @@
           }
         }
       }
-      .Rows{
+      .Rows {
         @include breakpoint(sm) {
-          display:flex;
-          flex-direction:column;
+          display: flex;
+          flex-direction: column;
         }
       }
     }

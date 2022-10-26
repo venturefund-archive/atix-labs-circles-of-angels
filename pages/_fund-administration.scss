@@ -1,11 +1,11 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
-.FundAdminContainer{
-    margin-top: 60px;
-    padding: 0 1.5em;
+.FundAdminContainer {
+  margin-top: 60px;
+  padding: 0 1.5em;
 
-    h1{
-      @include primary-text($h1, $secondary-color, 400);
-      margin: 1.5em 0;
-    }
+  h1 {
+    @include primary-text($h1, $secondary-color, 400);
+    margin: 1.5em 0;
+  }
 }

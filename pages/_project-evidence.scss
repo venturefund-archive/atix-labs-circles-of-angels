@@ -1,26 +1,26 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
-.listItem{
-    @include primary-text($body, $grey,400);
-  .anticon{
+.listItem {
+  @include primary-text($body, $grey, 400);
+  .anticon {
     margin-right: 0.5em;
   }
-  .ant-divider, .ant-divider-vertical
-  {
+  .ant-divider,
+  .ant-divider-vertical {
     height: 1.1em;
   }
 }
-.b-right{
+.b-right {
   border-left: 3px solid $primary-color;
   padding: 0 1em;
-    .ant-tag{
+  .ant-tag {
     margin-left: 1em;
   }
 }
 .speech-bubble {
   background: #efefef;
   -webkit-border-radius: 4px;
-          border-radius: 4px;
+  border-radius: 4px;
   font-size: 1.2rem;
   line-height: 1.3;
   margin: 0 auto 40px;
@@ -28,4 +28,3 @@
   padding: 15px;
   position: relative;
 }
-

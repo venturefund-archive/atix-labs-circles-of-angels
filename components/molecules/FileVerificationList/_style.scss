@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .FileVerification {
   width: 50%;
@@ -14,7 +14,7 @@
   }
 
   li {
-    text-align: left
+    text-align: left;
   }
 
   h2 {

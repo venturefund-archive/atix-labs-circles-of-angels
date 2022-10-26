@@ -1,9 +1,9 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .Label {
   @include primary-text($label, $grey, 400);
 }
-.LabelBlue{
+.LabelBlue {
   @include primary-text($h3, $primary-color, 500);
   width: 100%;
   margin: 1em 0;

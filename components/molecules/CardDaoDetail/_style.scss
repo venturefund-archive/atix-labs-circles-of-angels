@@ -1,6 +1,6 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
-// 
+//
 .flex {
   display: flex;
 }
@@ -33,112 +33,113 @@
 }
 
 .passed {
-  padding:0.5em 1em;
+  padding: 0.5em 1em;
   background: $light-green;
   border-radius: 7em;
 }
 
 .notPassed {
-  padding:0.5em 1em;
-  background: #FFD4D4;
+  padding: 0.5em 1em;
+  background: #ffd4d4;
   border-radius: 7em;
 }
 
-  .Box2 {
-    position: relative;
-    overflow: visible;
-    padding:2em;
-    box-shadow: $shadow;
-    min-height: 300px;
-    width: 30%;
-    min-width: 400px;
-    border-radius: 10px;
-    margin: 1em 1%;
-    &:hover {
-      border:1px solid $primary-color;
-      box-shadow: 0px 26px 14px -20px rgba(0,4,121,0.27);
-      box-sizing: border-box;
+.Box2 {
+  position: relative;
+  overflow: visible;
+  padding: 2em;
+  box-shadow: $shadow;
+  min-height: 300px;
+  width: 30%;
+  min-width: 400px;
+  border-radius: 10px;
+  margin: 1em 1%;
+  &:hover {
+    border: 1px solid $primary-color;
+    box-shadow: 0px 26px 14px -20px rgba(0, 4, 121, 0.27);
+    box-sizing: border-box;
+  }
+  .topSection {
+    padding: 0 0 1em 0;
+    h2 {
+      @include primary-text($title, $secondary-color, 400);
+      margin: 0;
     }
-    .topSection {
-      padding:0 0 1em 0;
-      h2 {
-        @include primary-text($title, $secondary-color, 400);
-        margin: 0;
-      }
-      border-bottom: 1px solid $light-gray;
-      .newMember{
-        background: $light-gray;
-        border-radius: 5em;
-        padding: 0.3em 1em;
-        color:$grey;
-        font-size: $body-2;
-      }
+    border-bottom: 1px solid $light-gray;
+    .newMember {
+      background: $light-gray;
+      border-radius: 5em;
+      padding: 0.3em 1em;
+      color: $grey;
+      font-size: $body-2;
     }
-    .middleSection{
-      padding:1em 0;
-      width: 100%;
-      .voteBox {
-        width: 50%;
-        justify-content: center;
-        .imgVote {
-          img {
-            margin-right: 0.5em;
-          }
-        }
-      }
-      .column {
-        .voteBold {
-            font-size:1em;
-            font-weight:medium;
-            color:$on-surface-medium;
+  }
+  .middleSection {
+    padding: 1em 0;
+    width: 100%;
+    .voteBox {
+      width: 50%;
+      justify-content: center;
+      .imgVote {
+        img {
+          margin-right: 0.5em;
         }
       }
     }
-    .BottomBoxSection {
-      padding:2em;
-      height: 100px;
-      overflow: hidden;
-      position: absolute;
-      bottom:0;
-      left:0;
-      width: 100%;
-    }
-    .subBox {
-      flex-direction:column;
-      h3 {
-        padding-top: 1em;
-        color:$grey;
-      }
-      width: 100%;
-      border-top: 1px solid $light-gray;;
-    }
-    .detail {
-      width: 100%;
-      .ant-avatar {
-        background: $primary-color;
-      }
-      .ant-avatar-string {
-        color:white;
-      }
-      .plusSign {
-        display: flex;
-        align-items: center;
-        h2, p {
-          color:$primary-color;
-          margin:0;
-        }
-    }
-      .avatarBox {
-        .avatar  {
-          border:2px solid white;
-          margin-left: -9px!important;
-        z-index: 2;
-        }
-        .avatar-overlap {
-          margin-right: -0.5px!important;
-        border:2px solid white;
-          z-index: 1;
-        }
+    .column {
+      .voteBold {
+        font-size: 1em;
+        font-weight: medium;
+        color: $on-surface-medium;
       }
     }
   }
+  .BottomBoxSection {
+    padding: 2em;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  .subBox {
+    flex-direction: column;
+    h3 {
+      padding-top: 1em;
+      color: $grey;
+    }
+    width: 100%;
+    border-top: 1px solid $light-gray;
+  }
+  .detail {
+    width: 100%;
+    .ant-avatar {
+      background: $primary-color;
+    }
+    .ant-avatar-string {
+      color: white;
+    }
+    .plusSign {
+      display: flex;
+      align-items: center;
+      h2,
+      p {
+        color: $primary-color;
+        margin: 0;
+      }
+    }
+    .avatarBox {
+      .avatar {
+        border: 2px solid white;
+        margin-left: -9px !important;
+        z-index: 2;
+      }
+      .avatar-overlap {
+        margin-right: -0.5px !important;
+        border: 2px solid white;
+        z-index: 1;
+      }
+    }
+  }
+}

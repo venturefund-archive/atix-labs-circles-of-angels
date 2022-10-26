@@ -1,4 +1,4 @@
-@import "../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .Login {
   display: flex;
@@ -31,8 +31,11 @@
     @include primary-text($h2, $grey, 400);
     text-transform: uppercase;
   }
-  .ant-btn.Alternative, .ant-btn.Alternative:active, .ant-btn.Alternative:focus, .ant-btn.Alternative:hover {
-    border:none;
+  .ant-btn.Alternative,
+  .ant-btn.Alternative:active,
+  .ant-btn.Alternative:focus,
+  .ant-btn.Alternative:hover {
+    border: none;
   }
   .ant-btn {
     margin: 0 auto;

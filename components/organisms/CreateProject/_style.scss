@@ -1,45 +1,44 @@
-@import '../css/general_styling.scss';
-.CreateWrapper{
+@import 'css/general_styling.scss';
+.CreateWrapper {
   padding: 2em 3em;
   @include breakpoint(sm) {
     padding: 1em;
   }
 }
-.ProjectsItems{
-  .Items{
+.ProjectsItems {
+  .Items {
     padding: 1em;
-    border:1px solid $border;
+    border: 1px solid $border;
     border-radius: 4px;
     margin: 0.5em 0;
-    h3{
+    h3 {
       @include primary-text($labelbig, $on-surface, 400);
-
     }
-    h5{
+    h5 {
       @include primary-text($medium, $on-surface-medium, 400);
     }
-    .ant-col-sm-1{
+    .ant-col-sm-1 {
       @include breakpoint(sm) {
-        display:none;
+        display: none;
       }
     }
-    .BlockButton{
-      .CustomButton{
-        width:100%;
+    .BlockButton {
+      .CustomButton {
+        width: 100%;
       }
     }
   }
-      .ant-breadcrumb{
-      position:absolute;
-      top:0;
-      @include breakpoint(sm) {
-        position:relative;
-      }
+  .ant-breadcrumb {
+    position: absolute;
+    top: 0;
+    @include breakpoint(sm) {
+      position: relative;
     }
-      .ProjectsCardsContainer{
+  }
+  .ProjectsCardsContainer {
     @include breakpoint(sm) {
       height: 60%;
-      margin:1em 0;
+      margin: 1em 0;
       overflow-y: auto;
     }
   }

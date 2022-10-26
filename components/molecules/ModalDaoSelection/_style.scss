@@ -1,4 +1,4 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
 
 .flex {
   display: flex;
@@ -20,7 +20,7 @@
 }
 
 .daoSelection {
-  padding:1em;
+  padding: 1em;
   p {
     margin: 1em 0;
   }

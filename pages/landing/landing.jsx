@@ -9,7 +9,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Row, Col, message } from 'antd';
-import { useHistory } from 'react-router';
+/* import { useHistory } from 'react-router'; */
+import { useRouter } from 'next/router';
 import TopBar from '../../components/organisms/TopBar/TopBar';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
@@ -20,7 +21,8 @@ import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
 function Landing() {
   const [visibility, setVisibility] = useState(false);
   const [featuredProjects, setFeaturedProjects] = useState([]);
-  const history = useHistory();
+  const router = useRouter();
+  /* const history = useHistory(); */
 
   const fecthFeaturedProjects = async () => {
     try {
@@ -72,12 +74,12 @@ function Landing() {
           </h2>
           <Col className="BlockActions">
             <CustomButton
-              onClick={() => history.push('/register?role=entrepreneur')}
+              onClick={() => router.push('/register?role=entrepreneur')}
               buttonText="I´ve got a project!"
               theme="Primary"
             />
             <CustomButton
-              onClick={() => history.push('/register?role=supporter')}
+              onClick={() => router.push('/register?role=supporter')}
               buttonText="I want to fund!"
               theme="White"
             />
