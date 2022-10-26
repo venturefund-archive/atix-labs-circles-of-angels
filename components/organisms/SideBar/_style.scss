@@ -17,6 +17,9 @@
   height:8vh;
   border-bottom: 1px solid $border;
   background: #4c7ff7;
+  img {
+    width: 60px;
+  }
   @include breakpoint(sm) {
     position: relative;
     width: 60px;
