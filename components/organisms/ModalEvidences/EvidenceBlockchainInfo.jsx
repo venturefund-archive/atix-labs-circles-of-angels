@@ -47,7 +47,7 @@ const EvidenceBlockchainInfo = ({ onLoad, extraData, noDataMessage }) => {
             <h1>
               What is saved on the <b>Blockchain?</b>
             </h1>
-            <img src="/static/images/rsk-small.svg" alt="rsk-logo" />
+            <img src="images/rsk-small.svg" alt="rsk-logo" />
           </div>
           <Spin spinning={loading}>
             <div className="flex Rows">

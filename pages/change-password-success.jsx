@@ -13,7 +13,7 @@ function ChangePasswordSuccess() {
     <Row
       className="Landing"
       style={{
-        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundImage: 'url(images/COA-Login-Image-Background.png)',
         backgroundSize: 'cover',
         backgroundPositionX: 'center'
       }}
@@ -25,11 +25,11 @@ function ChangePasswordSuccess() {
         closable={false}
         maskClosable={false}
         className="ChangePasswordSuccess"
-        footer={(
+        footer={
           <Button className="ant-btn ant-btn-primary" onClick={goToLogin}>
             Continue
           </Button>
-)}
+        }
       >
         <LogoWrapper textTitle="The password was changed succesfully" />
       </Modal>

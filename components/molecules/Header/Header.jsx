@@ -12,8 +12,6 @@ import customConfig from 'custom-config';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { useUserContext } from '../../utils/UserContext';
 
-import './_style.scss';
-
 const Header = () => {
   const { getLoggedUser } = useUserContext();
   const user = getLoggedUser();

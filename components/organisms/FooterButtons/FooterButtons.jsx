@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
-import './_style.scss';
 
 const FooterButtons = ({ finishButton, nextStepButton, prevStepButton }) => (
   <Row

@@ -9,8 +9,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
-import './_style.scss';
-import './_back-office-projects.scss';
 import TableBOProjects from '../components/organisms/TableBOProjects/TableBOProjects';
 import { getProjects, publish, updateProjectStatus } from '../api/projectApi';
 import { projectStatuses } from '../constants/constants';

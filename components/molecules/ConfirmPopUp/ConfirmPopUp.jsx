@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
-import './_style.scss';
-
 class ConfirmPopUp extends React.Component {
   state = { visible: false };
 
@@ -56,7 +54,7 @@ class ConfirmPopUp extends React.Component {
           cancelText="cancel"
           className="ConfirmModal"
         >
-          <img src="/static/images/icon-modal.svg" alt="Modal Icon" />
+          <img src="images/icon-modal.svg" alt="Modal Icon" />
           <h1> Sign Agreement</h1>
           <h2>Are you sure you want to sign this agreement?</h2>
         </Modal>

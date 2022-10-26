@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'antd';
-import './_style.scss';
 
 const DownloadAgreement = ({ subtitle, text, click }) => (
   <div className="DownloadAgreementContainer">

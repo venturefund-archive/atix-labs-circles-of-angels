@@ -9,7 +9,6 @@
 
 import React, { useState } from 'react';
 import { Modal, Form, Input, Divider, Button } from 'antd';
-import './_style.scss';
 import { recoverPassword } from '../../../api/userApi';
 import { showModalError, showModalSuccess } from '../../utils/Modals';
 import CustomButton from '../../atoms/CustomButton/CustomButton';

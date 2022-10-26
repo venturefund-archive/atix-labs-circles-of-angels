@@ -21,7 +21,7 @@ const NewExperience = ({ onCreate }) => {
   return (
     <Col className="CardNewExperience vertical" xs={24} lg={24}>
       <button type="button" onClick={onShowModal}>
-        <img src="./static/images/new-experience.svg" alt="new-experience" />
+        <img src="images/new-experience.svg" alt="new-experience" />
         Add New Experience
       </button>
       <CustomFormModal

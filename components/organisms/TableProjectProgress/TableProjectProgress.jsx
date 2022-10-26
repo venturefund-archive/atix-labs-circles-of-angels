@@ -15,7 +15,6 @@ import MilestoneActivityStatus from '../../../constants/MilestoneActivityStatus'
 import { claimMilestoneStatus } from '../../../constants/constants';
 import MilestoneBudgetStatusMap from '../../../model/milestoneBudgetStatusMap';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_tablestyle.scss';
 
 const TableProjectProgress = ({
   dataSource,

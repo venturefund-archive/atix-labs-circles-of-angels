@@ -29,7 +29,6 @@ import { showModalError } from '../../utils/Modals';
 import { options } from './proposalOptions';
 import { proposalTypes } from '../../../constants/constants';
 import { useUserContext } from '../../utils/UserContext';
-import './_style.scss';
 
 const ProposalModal = ({
   daoId,

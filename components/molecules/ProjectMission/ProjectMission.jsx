@@ -11,7 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
-import './_style.scss';
 
 const ProjectMission = ({ mission, problem, proposal }) => (
   <Col className="ProjectMission" span={24}>

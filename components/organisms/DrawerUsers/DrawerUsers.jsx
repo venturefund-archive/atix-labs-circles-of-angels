@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Drawer } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';
-import './_style.scss';
 
 const DrawerUsers = ({ users, visible, onClose, title, onClick }) => (
   <div>

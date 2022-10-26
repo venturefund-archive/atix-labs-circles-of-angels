@@ -13,8 +13,6 @@ import { Table, Select, Divider, Modal, Icon, Form, Input, Button } from 'antd';
 import { isNaN } from 'lodash';
 import { withUser } from '../../utils/UserContext';
 import EditableCell from '../../molecules/EditableCell/EditableCell';
-import '../TableProjectProgress/_tablestyle.scss';
-import './_style.scss';
 
 const { TextArea } = Input;
 

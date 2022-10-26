@@ -11,7 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import TableAdminTransfers from './TableAdminTransfers';
-import './_style.scss';
 
 const TableAdminProjects = ({ data, fetchTransfers }) => {
   const columns = [

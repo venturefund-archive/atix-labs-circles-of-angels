@@ -1,6 +1,6 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
 
-.WrapperModalMigration{
+.WrapperModalMigration {
   width: 68vw !important;
   border-radius: 20px;
   overflow: hidden;
@@ -9,9 +9,9 @@
     width: 95vw !important;
     border-radius: 10px;
   }
-  .ant-modal-body{
+  .ant-modal-body {
     height: 85vh;
-    background: url(/static/images/bg-overlay.png);
+    background: url(/images/bg-overlay.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,27 +19,29 @@
       height: auto;
     }
   }
-  .Container{
+  .Container {
     height: 100%;
-    padding:2.5em;
+    padding: 2.5em;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     @include breakpoint(sm) {
-      padding:1em;
-     }
-    .Body{
-      flex:1;
-      h1,h2,h3{
-          text-align:center;
+      padding: 1em;
+    }
+    .Body {
+      flex: 1;
+      h1,
+      h2,
+      h3 {
+        text-align: center;
       }
-      h1{
+      h1 {
         @include primary-text(36px, $primary-color, 500);
       }
-      h2{
+      h2 {
         @include primary-text($titlepage, $on-surface, 500);
       }
-      h3{
+      h3 {
         @include primary-text(14px, $on-surface, 400);
         width: 80%;
         margin: 1em auto;
@@ -47,49 +49,49 @@
           width: 100%;
         }
       }
-      .BlockContainer{
+      .BlockContainer {
         margin-top: 4em;
         display: flex;
         justify-content: center;
         @include breakpoint(sm) {
-          flex-direction:column;
-         }
-        .Card{
+          flex-direction: column;
+        }
+        .Card {
           @include breakpoint(sm) {
-           margin: 1em 0;
+            margin: 1em 0;
           }
-          h1{
+          h1 {
             @include primary-text(17px, $on-surface, 500);
             text-align: left;
             padding-top: 0.5em;
           }
-          .ImageCard{
+          .ImageCard {
             box-shadow: $shadow;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 6px;
-            img{
-              width:100%;
+            img {
+              width: 100%;
             }
           }
         }
       }
     }
-    .Footer{
+    .Footer {
       width: 100%;
       margin: 1em auto 0;
       display: flex;
       justify-content: center;
       @include breakpoint(sm) {
-       flex-direction: column;
-       margin: 1em 0;
+        flex-direction: column;
+        margin: 1em 0;
       }
-      .CustomButton{
+      .CustomButton {
         margin: 0 0.5em;
         min-width: 23%;
-        @include breakpoint(sm) { 
+        @include breakpoint(sm) {
           margin: 0.5em 0;
           width: 100%;
         }

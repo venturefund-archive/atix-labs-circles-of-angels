@@ -14,9 +14,6 @@ import { Icon, Breadcrumb, Divider, Button, Tooltip } from 'antd';
 import { uniqWith, isEqual, isEmpty } from 'lodash';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
-import './_style.scss';
-import './_concensus.scss';
-import './_steps.scss';
 import TableProjectProgress from '../components/organisms/TableProjectProgress/TableProjectProgress';
 import {
   getProjectMilestones,
@@ -28,9 +25,7 @@ import { showModalError } from '../components/utils/Modals';
 import BlockchainStatus from '../constants/BlockchainStatus';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
-const HashIcon = () => (
-  <img src="/static/images/hashIcon.svg" alt="hash" width="15" />
-);
+const HashIcon = () => <img src="images/hashIcon.svg" alt="hash" width="15" />;
 
 class ProjectProgress extends React.Component {
   constructor(props) {

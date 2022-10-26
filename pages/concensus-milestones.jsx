@@ -20,9 +20,6 @@ import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import StepsIf from '../components/molecules/StepsIf/StepsIf';
 import FileUploadStatus from '../constants/FileUploadStatus';
-import './_style.scss';
-import './_concensus.scss';
-import './_steps.scss';
 /* import './_transfer-funds-confirmation.scss'; */
 import TableMilestones from '../components/organisms/TableMilestones/TableMilestones';
 import {
@@ -701,7 +698,7 @@ class ConcensusMilestones extends Component {
           <h1>{projectName}</h1>
           <div className="TransferConfirmationContent">
             {/*             <img
-              src="./static/images/funds-pending.svg"
+              src="images/funds-pending.svg"
               alt="Clock"
               width="40"
             /> */}

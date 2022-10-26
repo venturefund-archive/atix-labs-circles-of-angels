@@ -8,8 +8,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import './_style.scss';
-import './_back-office-projects.scss';
 import { message } from 'antd';
 import TableBOMilestones from '../components/organisms/TableBOMilestones/TableBOMilestones';
 import { getMilestones, transferredMilestone } from '../api/milestonesApi';

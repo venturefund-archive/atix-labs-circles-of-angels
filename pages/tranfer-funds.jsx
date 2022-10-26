@@ -20,10 +20,6 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { sendTransferInformation } from '../api/transferApi';
 import { withUser } from '../components/utils/UserContext';
 
-import './_style.scss';
-import './_transfer-funds.scss';
-import './_steps.scss';
-
 class TransferFunds extends React.Component {
   constructor(props) {
     super(props);

@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Modal } from 'antd';
-import './_style.scss';
 import LogoWrapper from '../../atoms/LogoWrapper';
 
 const FormPassword = ({ form, onSubmit }) => {
@@ -56,11 +55,11 @@ const FormPassword = ({ form, onSubmit }) => {
       maskClosable={false}
       width="400"
       className="ModalLogin ResetPassword"
-      footer={(
+      footer={
         <Button className="ant-btn ant-btn-primary" onClick={submit}>
           Change password
         </Button>
-      )}
+      }
     >
       <LogoWrapper textTitle="Change password" />
       <Form className="recovery-form changepassword-form" onSubmit={submit}>

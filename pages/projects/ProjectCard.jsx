@@ -4,7 +4,7 @@ import { Tag, Row, Col } from 'antd';
 const ProjectCard = () => (
   <Col className="CardProject" span={8}>
     <div className="BlockImage ">
-      <img src="./static/images/Img-card1.png" alt="imgproject1" />
+      <img src="images/Img-card1.png" alt="imgproject1" />
     </div>
     <Row
       type="flex"

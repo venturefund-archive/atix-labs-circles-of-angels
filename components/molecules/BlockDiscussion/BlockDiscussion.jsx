@@ -8,14 +8,13 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Row, Col, Avatar, Badge, Button } from 'antd';
 
 const BlockDiscussion = () => (
   <Row className="BlockDiscussion">
     <Col span={24} className="MessageContent BlockVisible">
       <Col span={24} className="flex">
-        <Avatar src="./static/images/user4.png" />
+        <Avatar src="images/user4.png" />
         <h3>Annette Bell </h3>
         <span>12 July 2019</span>
       </Col>
@@ -31,7 +30,7 @@ const BlockDiscussion = () => (
         <Button type="link">Respond</Button>
       </Col>
       <Col span={1} className="flex">
-        <img src="/static/images/chat.svg" alt="chatimage" />
+        <img src="images/chat.svg" alt="chatimage" />
         <Badge
           count={3}
           style={{
@@ -44,7 +43,7 @@ const BlockDiscussion = () => (
     </Col>
     <Col span={20} offset={4} className="MessageContent Answer">
       <Col span={24} className="flex">
-        <Avatar src="./static/images/user4.png" />
+        <Avatar src="images/user4.png" />
         <h3>Annette Bell </h3>
         <span>12 July 2019</span>
       </Col>

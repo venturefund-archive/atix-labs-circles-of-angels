@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { Tooltip, Avatar } from 'antd';
 import { getInitials } from '../../../helpers/formatter';
 import { userAvatarPropTypes } from '../../../helpers/proptypes';

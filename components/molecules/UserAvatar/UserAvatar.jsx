@@ -14,8 +14,6 @@ import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SettingsMenu from '../../atoms/SettingsMenu/SettingsMenu';
 import { getInitials } from '../../../helpers/formatter';
 
-import './_style.scss';
-
 const UserAvatar = ({ user }) => {
   const fullName = `${user.firstName} ${user.lastName}`;
   return (

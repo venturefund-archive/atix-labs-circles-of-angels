@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Form } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import TitlePage from '../../atoms/TitlePage/TitlePage';

@@ -7,7 +7,7 @@ function Login() {
     <Row
       className="Landing"
       style={{
-        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundImage: 'url(images/COA-Login-Image-Background.png)',
         backgroundSize: 'cover',
         backgroundPositionX: 'center'
       }}

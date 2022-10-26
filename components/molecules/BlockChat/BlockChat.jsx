@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Row, Col, Input, Button } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 

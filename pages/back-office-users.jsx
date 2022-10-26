@@ -8,8 +8,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import './_style.scss';
-import './_back-office-users.scss';
 import { message } from 'antd';
 import TableBOUsers from '../components/organisms/TableBOUsers/TableBOUsers';
 import { getUsers } from '../api/userApi';

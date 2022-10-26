@@ -10,7 +10,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Tooltip } from 'antd';
-import './_style.scss';
 
 const InfoItem = ({ subtitle, title, img, xs, sm, lg }) => {
   const [overflowTooltip, setOverflowTooltip] = useState(false);

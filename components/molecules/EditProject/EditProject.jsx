@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
-import '../../../pages/_steps.scss';
-import './_style.scss';
 
 const webform = {
   form: {}

@@ -11,8 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EditProject from '../components/molecules/EditProject/EditProject';
-import './_style.scss';
-import './_back-office-edit-project.scss';
 import { updateProject, getProject } from '../api/projectApi';
 import { getPhoto } from '../api/photoApi';
 import { withUser } from '../components/utils/UserContext';

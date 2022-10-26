@@ -16,10 +16,6 @@ import mime from 'mime-types';
 import Header from '../components/molecules/Header/Header';
 import SideBar from '../components/organisms/SideBar/SideBar';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import './_style.scss';
-import './_concensus.scss';
-import './_project-evidence.scss';
-import './_steps.scss';
 import Label from '../components/atoms/Label/Label';
 import DragUploadFile from '../components/molecules/DragUploadFile/DragUploadFile';
 import TableEvidence from '../components/organisms/TableEvidence/TableEvidence';
@@ -40,9 +36,7 @@ import FileType from '../constants/FileTypes';
 import { withUser } from '../components/utils/UserContext';
 import MilestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
-const HashIcon = () => (
-  <img src="/static/images/hashIcon.svg" alt="hash" width="15" />
-);
+const HashIcon = () => <img src="images/hashIcon.svg" alt="hash" width="15" />;
 
 const BreadCrumb = query => (
   <Breadcrumb>

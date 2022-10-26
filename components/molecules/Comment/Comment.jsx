@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Avatar, Button } from 'antd';
 import CommentReply from '../../atoms/CommentReply/CommentReply';
 import ReplyWriting from '../../atoms/ReplyWriting/ReplyWriting';

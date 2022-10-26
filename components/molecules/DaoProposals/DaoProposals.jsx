@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import CardDaoDetail from '../CardDaoDetail/CardDaoDetail';
 
 const DaoProposals = ({ proposals, completed, onClick }) => {

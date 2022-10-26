@@ -1,12 +1,12 @@
 import moment from 'moment';
 
-const ADDRESS_ICON = '/static/images/icon-number.svg';
-const DATE_ICON = '/static/images/icon-date.svg';
-const BLOCK_ICON = '/static/images/icon-block.svg';
-const TX_ICON = '/static/images/icon-transaction.svg';
-const AGREEMENT_ICON = '/static/images/icon-agreement.svg';
-const LINK_ICON = '/static/images/icon-link.svg';
-const USER_ICON = '/static/images/icon-user.svg';
+const ADDRESS_ICON = 'images/icon-number.svg';
+const DATE_ICON = 'images/icon-date.svg';
+const BLOCK_ICON = 'images/icon-block.svg';
+const TX_ICON = 'images/icon-transaction.svg';
+const AGREEMENT_ICON = 'images/icon-agreement.svg';
+const LINK_ICON = 'images/icon-link.svg';
+const USER_ICON = 'images/icon-user.svg';
 
 export const buildProjectBlockchainData = ({
   address,

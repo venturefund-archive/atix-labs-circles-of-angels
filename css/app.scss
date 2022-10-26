@@ -6,47 +6,48 @@ body {
   background-color: white;
   color: $on-surface;
   font-family: 'Rubik', sans-serif;
- }
- h1{
+}
+h1 {
   font-size: $h1;
- }
- .separator {
+}
+.separator {
   border-right: 1px solid $medium-grey;
   margin: 0 0.5em;
- }
- h3{
-  @include primary-text($labels,$on-surface ,400)
- }
- a{
-   color: $primary-color;
- }
- p{
-  @include primary-text($body,$on-surface ,400)
- }
- b{
-  @include primary-text($body,$on-surface ,500)
- }
- span{
-    @include primary-text($body,$on-surface-medium ,400)
- }
- .ant-input, .ant-select-selection{
-border: 1px solid $border;
- }
+}
+h3 {
+  @include primary-text($labels, $on-surface, 400);
+}
+a {
+  color: $primary-color;
+}
+p {
+  @include primary-text($body, $on-surface, 400);
+}
+b {
+  @include primary-text($body, $on-surface, 500);
+}
+span {
+  @include primary-text($body, $on-surface-medium, 400);
+}
+.ant-input,
+.ant-select-selection {
+  border: 1px solid $border;
+}
 
- // Buttons
- 
- button {
+// Buttons
+
+button {
   border: none;
   background-color: transparent;
   cursor: pointer;
   &:focus {
     outline: none;
   }
- }
- .ant-form-item-label label::after{
-   display:none;
- }
-  .ControlSteps.StepOne,
+}
+.ant-form-item-label label::after {
+  display: none;
+}
+.ControlSteps.StepOne,
 .SubmitProject.StepOne {
   justify-content: flex-end;
 }
@@ -55,26 +56,25 @@ button.ant-btn {
 }
 // GENERAL CLASSES
 
-.w100{
-  width: 100%
+.w100 {
+  width: 100%;
 }
-.h100{
-  height: 100%
+.h100 {
+  height: 100%;
 }
-.scrollY{
-overflow-y:scroll;
-
+.scrollY {
+  overflow-y: scroll;
 }
 .flex {
   display: flex;
   align-items: center;
 }
-.AlignCenter{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.AlignCenter {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .flex-wrap {
   display: flex;
@@ -85,7 +85,7 @@ overflow-y:scroll;
   display: flex;
   flex-wrap: wrap;
 }
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
 }
@@ -97,8 +97,8 @@ overflow-y:scroll;
   align-items: center;
   justify-content: center;
 }
-.TextRed{
- color:$danger-color;
+.TextRed {
+  color: $danger-color;
 }
 .space-between {
   display: flex;
@@ -113,8 +113,8 @@ overflow-y:scroll;
 .opacity {
   opacity: 0.7;
 }
-.txtright{
-text-align: right;
+.txtright {
+  text-align: right;
 }
 .ant-breadcrumb {
   padding: 1em 0 0 0;
@@ -130,3 +130,133 @@ text-align: right;
   overflow: hidden;
   max-width: 144px;
 }
+
+// Global imports
+
+/* ATOMS */
+@import 'components/atoms/AvatarUser/_style.scss';
+@import 'components/atoms/ButtonUpload/_style.scss';
+@import 'components/atoms/CommentReply/_style.scss';
+@import 'components/atoms/CustomButton/_style.scss';
+@import 'components/atoms/CustomExpandableParagraph/_style.scss';
+@import 'components/atoms/Field/_FieldFileStyle.scss';
+@import 'components/atoms/GeneralItem/_style.scss';
+@import 'components/atoms/InfoItem/_style.scss';
+@import 'components/atoms/ItemBlockchain/_style.scss';
+@import 'components/atoms/Label/_style.scss';
+@import 'components/atoms/LogoWrapper/_style.scss';
+@import 'components/atoms/ReplyWriting/_style.scss';
+@import 'components/atoms/SecurityKey/_style.scss';
+@import 'components/atoms/SettingsMenu/_style.scss';
+@import 'components/atoms/SignatureLabel/_style.scss';
+@import 'components/atoms/TitlePage/_style.scss';
+@import 'components/atoms/TransferLabel/_style.scss';
+@import 'components/atoms/UserLabel/_style.scss';
+
+/* MOLECULES */
+@import 'components/molecules/BlockChat/_style.scss';
+@import 'components/molecules/BlockDiscussion/_style.scss';
+@import 'components/molecules/BlockUpload/_style.scss';
+@import 'components/molecules/CardDao/_style.scss';
+@import 'components/molecules/CardDaoDetail/_style.scss';
+@import 'components/molecules/CardExperience/_style.scss';
+@import 'components/molecules/CardMember/_style.scss';
+@import 'components/molecules/CardProject/_style.scss';
+@import 'components/molecules/Comment/_style.scss';
+@import 'components/molecules/ConfirmPopUp/_style.scss';
+@import 'components/molecules/DaoMembers/_style.scss';
+@import 'components/molecules/DaoProposals/_style.scss';
+@import 'components/molecules/DownloadAgreement/_style.scss';
+@import 'components/molecules/DownloadFile/_style.scss';
+@import 'components/molecules/DownloadTemplate/_style.scss';
+@import 'components/molecules/DragUploadFile/_style.scss';
+@import 'components/molecules/EditableCell/_style.scss';
+@import 'components/molecules/EditProject/_style.scss';
+@import 'components/molecules/FileVerificationList/_style.scss';
+@import 'components/molecules/FormTransfer/_style.scss';
+@import 'components/molecules/Header/_style.scss';
+@import 'components/molecules/ImageBox/_style.scss';
+@import 'components/molecules/ImageExperience/_style.scss';
+@import 'components/molecules/Loading/_style.scss';
+@import 'components/molecules/MemberList/_style.scss';
+@import 'components/molecules/MemberListCard/_style.scss';
+@import 'components/molecules/ModalCreateActivity/_style.scss';
+@import 'components/molecules/ModalCreateMilestone/_style.scss';
+@import 'components/molecules/ModalDaoSelection/_style.scss';
+@import 'components/molecules/ModalMemberSelection/_style.scss';
+@import 'components/molecules/ModalRoleSelection/_style.scss';
+@import 'components/molecules/Profile/_style.scss';
+@import 'components/molecules/ProfileReadOnly/_style.scss';
+@import 'components/molecules/ProjectMission/_style.scss';
+@import 'components/molecules/ProjectThumbnailForm/_style.scss';
+@import 'components/molecules/ProposalModal/_style.scss';
+@import 'components/molecules/ProposalOption/_style.scss';
+@import 'components/molecules/SecurityKeySection/_style.scss';
+@import 'components/molecules/SignatoryItem/_style.scss';
+@import 'components/molecules/Steps/_style.scss';
+@import 'components/molecules/StepsIf/_style.scss';
+@import 'components/molecules/StepsProject/_style.scss';
+@import 'components/molecules/StepsSe/_style.scss';
+@import 'components/molecules/UploadCardImage/_style.scss';
+@import 'components/molecules/UserAvatar/_style.scss';
+@import 'components/molecules/WebFormProject/_style.scss';
+@import 'components/molecules/Steps/_style.scss';
+
+/* ORGANISMS */
+@import 'components/organisms/CardNewProyect/_style.scss';
+@import 'components/organisms/CreateMilestonesFormContainer/_steps-milestones.scss';
+@import 'components/organisms/CreateProject/_style.scss';
+@import 'components/organisms/CustomFormModal/_style.scss';
+@import 'components/organisms/DrawerBlockchain/_style.scss';
+@import 'components/organisms/DrawerUsers/_style.scss';
+@import 'components/organisms/Faq/_style.scss';
+@import 'components/organisms/FooterButtons/_style.scss';
+@import 'components/organisms/FormLogin/_style.scss';
+@import 'components/organisms/FormRegister/_style.scss';
+@import 'components/organisms/ModalEvidences/_style.scss';
+@import 'components/organisms/ModalLogin/_style.scss';
+@import 'components/organisms/ModalMigration/_style.scss';
+@import 'components/organisms/ModalPasswordRequest/_style.scss';
+@import 'components/organisms/ModalProjectCreated/_style.scss';
+@import 'components/organisms/ModalRecovery/_style.scss';
+@import 'components/organisms/ProjectBrowser/_style.scss';
+@import 'components/organisms/ProjectDetailFormContainer/_style.scss';
+@import 'components/organisms/ProjectProposalFormContainer/_style.scss';
+@import 'components/organisms/RowMilestones/_style.scss';
+@import 'components/organisms/SeccionExperiences/_style.scss';
+@import 'components/organisms/SideBar/_style.scss';
+@import 'components/organisms/TableAdmin/_style.scss';
+@import 'components/organisms/TableBOMilestones/_style.scss';
+@import 'components/organisms/TableBOProjects/_style.scss';
+@import 'components/organisms/TableBOUsers/_style.scss';
+@import 'components/organisms/TableMilestones/_style.scss';
+@import 'components/organisms/TableProjectProgress/_tablestyle.scss';
+@import 'components/organisms/TableTransfer/_style.scss';
+@import 'components/organisms/TopBar/_style.scss';
+@import 'components/organisms/FormRegister/steps/RegisterStep3/_style.scss';
+
+/* PAGES */
+
+@import 'pages/dao/_style.scss';
+@import 'pages/landing/_landing.scss';
+@import 'pages/registerSteps/_register-steps.scss';
+@import 'pages/_back-office-edit-project.scss';
+@import 'pages/_back-office-projec-detail.scss';
+@import 'pages/_back-office-projects.scss';
+@import 'pages/_back-office-users.scss';
+@import 'pages/_concensus.scss';
+@import 'pages/_consensusv2.scss';
+@import 'pages/_createproject.scss';
+@import 'pages/_createprojectsteps.scss';
+@import 'pages/_explore-projects.scss';
+@import 'pages/_fund-administration.scss';
+@import 'pages/_login.scss';
+@import 'pages/_project-detail.scss';
+@import 'pages/_project-evidence.scss';
+@import 'pages/_register.scss';
+@import 'pages/_steps.scss';
+@import 'pages/_style.scss';
+@import 'pages/_transfer-funds-confirmation.scss';
+@import 'pages/_transfer-funds.scss';
+@import 'pages/_transferStatusStyle.scss';
+@import 'pages/_transferSubmitStyle.scss';

@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 
 const Label = ({ labelText, theme }) => {
   const classname = `Label ${theme}`;

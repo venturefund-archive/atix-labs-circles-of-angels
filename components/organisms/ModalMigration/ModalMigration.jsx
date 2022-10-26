@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Col, Row } from 'antd';
-import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 const ModalMigration = ({ visible, onClose, onRedirect }) => (
@@ -37,13 +36,13 @@ const ModalMigration = ({ visible, onClose, onRedirect }) => (
           <Row className="BlockContainer" gutter={22}>
             <Col lg={8} md={8} xs={24} className="Card">
               <div span={24} className="ImageCard">
-                <img src="/static/images/wedu.jpg" alt="img" />
+                <img src="images/wedu.jpg" alt="img" />
               </div>
               <h1>Wedu Global Fisa</h1>
             </Col>
             <Col lg={8} md={8} xs={24} className="Card">
               <div span={24} className="ImageCard">
-                <img src="/static/images/hammock.jpg" alt="img" />
+                <img src="images/hammock.jpg" alt="img" />
               </div>
               <h1>Yellow Leaf Hammock</h1>
             </Col>

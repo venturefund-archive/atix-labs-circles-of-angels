@@ -10,7 +10,6 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { Button } from 'antd';
 import { linkPropTypes } from '../../../helpers/proptypes';
 

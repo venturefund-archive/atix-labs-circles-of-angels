@@ -10,7 +10,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
-import './_style.scss';
 import { useHistory } from 'react-router';
 import { useUserContext } from '../../utils/UserContext';
 import DynamicForm from '../FormLogin/FormLogin';

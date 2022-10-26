@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Avatar } from 'antd';
 
 const ReplyWriting = () => (

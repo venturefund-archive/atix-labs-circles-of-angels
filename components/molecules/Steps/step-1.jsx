@@ -16,8 +16,6 @@ import BlockUpload from '../BlockUpload/BlockUpload';
 import WebFormProject from '../WebFormProject/WebFormProject';
 import DownloadTemplate from '../DownloadTemplate/DownloadTemplate';
 import { downloadProposalTemplate } from '../../../api/projectApi';
-import '../../../pages/_steps.scss';
-import './_style.scss';
 import { showModalError } from '../../utils/Modals';
 
 const webform = {

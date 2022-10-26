@@ -7,7 +7,11 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-const withSass = require('@zeit/next-sass');
+module.exports = {
+  /* config options here */
+};
+
+/* const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
 
 const {
@@ -38,4 +42,4 @@ module.exports = withSass(
       NEXT_PUBLIC_BACKEND_URL: NEXT_PUBLIC_URL_HOST
     }
   })
-);
+); */

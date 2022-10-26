@@ -5,7 +5,6 @@ import InfoItem from '../../atoms/InfoItem/InfoItem';
 import Field from '../../atoms/Field/Field';
 import { toBase64 } from '../../utils/FileUtils';
 import { fieldPropType } from '../../../helpers/proptypes';
-import './_style.scss';
 
 const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
   const [photoPreview, setPhotoPreview] = useState();
@@ -76,7 +75,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
             <img
               width="700"
               height="400"
-              src={photoPreview || './static/images/thumbnail-example.png'}
+              src={photoPreview || 'images/thumbnail-example.png'}
               alt="thumbnail"
             />
           </Col>
@@ -153,7 +152,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
                         <h3>{fields.goalAmount.label}</h3>
                       </Col>
                       <div className="Alert">
-                        <img src="/static/images/alert.svg" alt="alertsign" />
+                        <img src="images/alert.svg" alt="alertsign" />
                         <span>
                           The goal amount will be calculated from the{' '}
                           <b>milestones budget</b>

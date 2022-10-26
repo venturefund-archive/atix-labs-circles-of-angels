@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../../pages/_style.scss';
 import '../../../pages/registerSteps/registersteps';
 import { Steps } from 'antd';
 

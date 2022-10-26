@@ -9,7 +9,6 @@
 import React from 'react';
 import { Avatar } from 'antd';
 import { CopyFilled } from '@ant-design/icons';
-import './_style.scss';
 
 const MemberListCard = () => (
   <div className="BoxMemberList flex">

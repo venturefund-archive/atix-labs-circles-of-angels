@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Form, Button, Modal } from 'antd';
 import CustomButton from '../CustomButton/CustomButton';
-import './_FieldFileStyle.scss';
 import GeneralItem from '../GeneralItem/GeneralItem';
 import LinkButton from '../LinkButton/LinkButton';
 

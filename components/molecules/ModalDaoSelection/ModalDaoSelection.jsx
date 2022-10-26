@@ -10,7 +10,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Form } from 'antd';
-import './_style.scss';
 
 const { TextArea } = Input;
 

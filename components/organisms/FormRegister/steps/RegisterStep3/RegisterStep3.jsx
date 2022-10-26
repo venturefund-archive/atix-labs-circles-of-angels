@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import { Form, Row, Col } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
 import Field from '../../../../atoms/Field/Field';
-import './_style.scss';
 
 let callingCode;
 // TODO: Questions and answers should be de-hardcoded
@@ -283,7 +282,7 @@ const RegisterStep3 = ({ fields, setFields, handleChange }) => {
   return (
     <div>
       <div className="InfoStep">
-        <img src="./static/images/adicional-info.svg" alt="Circles of Angels" />
+        <img src="images/adicional-info.svg" alt="Circles of Angels" />
         <h2>Additional Information</h2>
         <h4>Please answer these questions</h4>
       </div>

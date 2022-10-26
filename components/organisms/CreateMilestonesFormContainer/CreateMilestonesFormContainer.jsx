@@ -10,8 +10,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Steps, message, Spin } from 'antd';
-import './_steps-milestones.scss';
-import '../../../pages/_style.scss';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
 import FooterButtons from '../FooterButtons/FooterButtons';
 import CreateMilestonesStep1 from './Steps/CreateMilestonesStep1';

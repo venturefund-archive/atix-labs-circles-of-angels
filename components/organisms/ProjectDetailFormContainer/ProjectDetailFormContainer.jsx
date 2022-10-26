@@ -11,13 +11,10 @@
 import React, { Fragment, useEffect } from 'react';
 import { message } from 'antd';
 import PropTypes from 'prop-types';
-import '../../../pages/_createproject.scss';
-import '../../../pages/_style.scss';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import FooterButtons from '../FooterButtons/FooterButtons';
 import { detailsFormInputs } from '../../../helpers/createProjectFormFields';
 import useMultiStepForm from '../../../hooks/useMultiStepForm';
-import './_style.scss';
 import ProjectDetailForm from '../../molecules/ProjectDetailForm/ProjectDetailForm';
 import { updateProjectDetail } from '../../../api/projectApi';
 

@@ -10,6 +10,8 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../css/app.scss';
+import 'react-image-lightbox/style.css';
+import 'react-quill/dist/quill.snow.css';
 import { Container } from 'next/app';
 import { UserProvider } from '../components/utils/UserContext';
 import Router from '../components/organisms/Router/Router';

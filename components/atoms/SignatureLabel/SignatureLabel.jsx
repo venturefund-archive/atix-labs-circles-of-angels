@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 
 const SignatureLabel = ({ theme, text, iconStatus }) => {
   const classname = `SignatureLabel ${theme}`;

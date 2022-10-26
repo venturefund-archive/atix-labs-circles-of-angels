@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
-import './_style.scss';
 import UserAnswer from './UserAnswer';
 
 const TableBOUsers = ({ data, filters }) => {

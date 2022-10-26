@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Steps } from 'antd';
-import './_style.scss';
 
 const { Step } = Steps;
 

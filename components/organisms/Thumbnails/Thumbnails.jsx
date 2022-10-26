@@ -10,9 +10,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
-import '../../../pages/_createproject.scss';
-import '../../../pages/_style.scss';
-
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import FooterButtons from '../FooterButtons/FooterButtons';

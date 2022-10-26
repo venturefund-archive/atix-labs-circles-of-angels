@@ -68,20 +68,20 @@ const ProjectDetailHeader = ({
       key: 1,
       label: 'Country of Impact',
       value: locationsNames(),
-      img: './static/images/world-icon.svg'
+      img: 'images/world-icon.svg'
     },
     {
       key: 2,
       label: 'Timeframe',
       value: formatTimeframeValue(timeframe),
-      img: './static/images/calendar-icon.svg'
+      img: 'images/calendar-icon.svg'
     },
     {
       key: 3,
       label: 'Goal Amount',
       value: goalAmount,
       extra: 'USD',
-      img: './static/images/amount-icon.svg'
+      img: 'images/amount-icon.svg'
     },
     {
       key: 4,
@@ -111,7 +111,7 @@ const ProjectDetailHeader = ({
     <div className="ProjectHeader">
       <img
         className="Banner"
-        src={coverPhotoPath || './static/images/cover-project.jpg'}
+        src={coverPhotoPath || 'images/cover-project.jpg'}
         alt="Circles of Angels"
       />
       <div className="ProjectEnterprice">

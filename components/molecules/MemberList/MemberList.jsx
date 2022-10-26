@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import MemberListCard from '../MemberListCard/MemberListCard';

@@ -11,8 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { useGetPublicProjects } from '../api/projectApi';
-import './_style.scss';
-import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import Roles from '../constants/RolesMap';
 

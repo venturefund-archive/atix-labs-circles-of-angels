@@ -11,7 +11,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, message } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_style.scss';
 import Field from '../../atoms/Field/Field';
 import Captcha from '../../atoms/Captcha/Captcha';
 

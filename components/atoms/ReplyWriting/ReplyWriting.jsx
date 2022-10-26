@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import './_style.scss';
 import { Avatar, Input } from 'antd';
 import CustomButton from '../CustomButton/CustomButton';
 

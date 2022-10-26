@@ -13,7 +13,6 @@ import { useHistory, useLocation } from 'react-router';
 import { Layout, Menu } from 'antd';
 import customConfig from 'custom-config';
 import menuItems from './MenuItems';
-import './_style.scss';
 
 const { Sider } = Layout;
 

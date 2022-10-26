@@ -13,7 +13,6 @@ import customConfig from 'custom-config';
 import { Spin } from 'antd';
 import queryString from 'query-string';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import './_login.scss';
 import DynamicFormForgotPassword from '../components/organisms/FormLogin/FormForgotPassword';
 import { changeRecoverPassword, getMnemonicFromToken } from '../api/userApi';
 import {

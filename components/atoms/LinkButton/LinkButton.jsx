@@ -6,7 +6,7 @@ const LinkButton = ({ text }) => (
   <>
     <img
       style={{ height: '80%' }}
-      src="./static/images/download-file.svg"
+      src="images/download-file.svg"
       alt="download"
     />
     {text}

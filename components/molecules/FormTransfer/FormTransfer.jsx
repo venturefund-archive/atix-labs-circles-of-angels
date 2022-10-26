@@ -11,7 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Icon } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_style.scss';
 
 const FormTransfer = ({ onTransferChange, onAmountChange, submitTransfer }) => (
   <div className="FormTrasnfer">

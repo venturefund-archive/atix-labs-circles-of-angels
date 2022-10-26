@@ -10,8 +10,6 @@
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import TableAdminProjects from '../components/organisms/TableAdmin/TableAdminProjects';
-import './_style.scss';
-import './_fund-administration.scss';
 import { getTransferListOfProject } from '../api/transferApi';
 import { getFundingProjects } from '../api/projectApi';
 

@@ -13,7 +13,6 @@ import { Avatar } from 'antd';
 import { daoCardDetailPropTypes } from '../../../helpers/proptypes';
 import { parseDate } from '../../../helpers/daoDates';
 import { proposalTypeEnum } from '../../../constants/constants';
-import './_style.scss';
 
 const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
   const txPendingStatus = proposal.txStatus === 'sent';
@@ -47,11 +46,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
     if (!showStatus && !txPendingStatus) {
       return (
         <div className="flex">
-          <img
-            className="marginRight"
-            src="../static/images/icon-time.png"
-            alt="img"
-          />
+          <img className="marginRight" src="images/icon-time.png" alt="img" />
           <p className="text">{parseDate(proposal)}</p>
         </div>
       );
@@ -62,9 +57,9 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
     const notPassedMessage = "Status: Didn't Pass";
     const passedMessage = 'Status: Passed';
     const pendingMessage = 'Status: Pending Transaction';
-    const passedIcon = '../static/images/icon-vote-green.png';
-    const notPassedIcon = '../static/images/icon-vote-red.svg';
-    // const pendingIcon = '../static/images/icon-vote-red.svg';
+    const passedIcon = 'images/icon-vote-green.png';
+    const notPassedIcon = 'images/icon-vote-red.svg';
+    // const pendingIcon = 'images/icon-vote-red.svg';
     const passedClass = 'flex passed';
     const notPassedClass = 'flex notPassed';
     // const pendingClass = 'flex pending';
@@ -118,7 +113,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
       >
         <div className="flex voteBox">
           <div className="imgVote">
-            <img alt="img" src="../static/images/icon-yes-vote.png" />
+            <img alt="img" src="images/icon-yes-vote.png" />
           </div>
           <div className="column">
             <p className="text">Yes Votes</p>
@@ -129,7 +124,7 @@ const CardDaoDetail = ({ proposal, showStatus, onClick }) => {
         </div>
         <div className="flex voteBox">
           <div className="imgVote">
-            <img alt="img" src="../static/images/icon-no-vote.png" />
+            <img alt="img" src="images/icon-no-vote.png" />
           </div>
           <div className="column">
             <p className="text">No Votes</p>

@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import CardMember from '../CardMember/CardMember';
 
 const DaoMembers = ({ users }) => (

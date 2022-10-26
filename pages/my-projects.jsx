@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { intersectionBy, unionBy } from 'lodash';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-import './_style.scss';
-import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { projectStatuses, SUPPORTER } from '../constants/constants';

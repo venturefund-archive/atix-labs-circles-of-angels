@@ -13,7 +13,6 @@ import { Avatar } from 'antd';
 import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SignatureLabel from '../../atoms/SignatureLabel/SignatureLabel';
 import TransferLabel from '../../atoms/TransferLabel/TransferLabel';
-import './_style.scss';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import SignStatus from '../../../constants/SignStatus';
 import Label from '../../atoms/Label/Label';

@@ -10,7 +10,7 @@ export const step1Inputs = {
         value: 'entrepreneur',
         usertype: 'Social Entrepreneur',
         title: 'Create a project',
-        image: './static/images/create-project.svg'
+        image: 'images/create-project.svg'
       },
       // TODO define wording for each role
       {
@@ -18,7 +18,7 @@ export const step1Inputs = {
         value: 'supporter',
         usertype: 'Project Supporter',
         title: 'Fund or monitor a project',
-        image: './static/images/fund-project.svg'
+        image: 'images/fund-project.svg'
       }
     ],
     rules: [

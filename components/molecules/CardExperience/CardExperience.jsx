@@ -5,7 +5,6 @@ import { Col } from 'antd';
 import { experiencePropType } from '../../../helpers/proptypes';
 import ImageExperience from '../ImageExperience/ImageExperience';
 import CustomExpandableParagraph from '../../atoms/CustomExpandableParagraph/CustomExpandableParagraph';
-import './_style.scss';
 
 const CardExperience = ({ experience }) => (
   <Col xs={24} lg={8}>

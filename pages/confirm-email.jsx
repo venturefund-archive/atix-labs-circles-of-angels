@@ -12,7 +12,6 @@ import { useHistory } from 'react-router';
 import { Spin, Button } from 'antd';
 import customConfig from 'custom-config';
 import useQuery from '../hooks/useQuery';
-import './_login.scss';
 import { confirmEmail } from '../api/userApi';
 
 function ConfirmEmail() {

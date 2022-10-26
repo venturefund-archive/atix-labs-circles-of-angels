@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Tag } from 'antd';
-import './_style.scss';
 import EvidenceBlockchainInfo from './EvidenceBlockchainInfo';
 import ImageBox from '../../molecules/ImageBox/ImageBox';
 import { getEvidenceBlockchainData } from '../../../api/activityApi';
@@ -37,12 +36,12 @@ const EvidenceItem = ({ id, approved, createdAt, description, proof }) => {
             >
               <img
                 className="BlockGray"
-                src="/static/images/block-gray.svg"
+                src="images/block-gray.svg"
                 alt="blockchainicon"
               />
               <img
                 className="BlockBlue"
-                src="/static/images/block-blue.svg"
+                src="images/block-blue.svg"
                 alt="blockchainicon"
               />
             </button>

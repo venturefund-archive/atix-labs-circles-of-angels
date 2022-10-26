@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SecurityKey from '../../atoms/SecurityKey/SecurityKey';
-import './_style.scss';
 
 const SecurityKeySection = ({ words }) => (
   <div className="SecurityKeySection">

@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
-import './_style.scss';
 import { evidencePropTypes } from '../../../helpers/proptypes';
 import EvidenceItem from './EvidenceItem';
 

@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { Row, Col, Tag, Tabs } from 'antd';
 import TitlePage from '../components/atoms/TitlePage/TitlePage';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import './_consensusv2.scss';
-import './_style.scss';
 import DrawerUsers from '../components/organisms/DrawerUsers/DrawerUsers';
 import RowMilestones from '../components/organisms/RowMilestones/RowMilestones';
 import AvatarUser from '../components/atoms/AvatarUser/AvatarUser';
@@ -88,43 +86,31 @@ const Consensusv2 = () => (
         <DrawerUsers />
       </Col>
       <Col span={24}>
-        <AvatarUser
-          tooltipText="UserName"
-          avatarImage="./static/images/user1.png"
-        />
-        <AvatarUser
-          tooltipText="UserName"
-          avatarImage="./static/images/user2.png"
-        />
-        <AvatarUser
-          tooltipText="UserName"
-          avatarImage="./static/images/user3.png"
-        />
-        <AvatarUser
-          tooltipText="UserName"
-          avatarImage="./static/images/user4.png"
-        />
+        <AvatarUser tooltipText="UserName" avatarImage="images/user1.png" />
+        <AvatarUser tooltipText="UserName" avatarImage="images/user2.png" />
+        <AvatarUser tooltipText="UserName" avatarImage="images/user3.png" />
+        <AvatarUser tooltipText="UserName" avatarImage="images/user4.png" />
       </Col>
       <Cards
         theme="Orange"
         category="Project Social"
         user="Entrepreneur"
         usersName="Jenny Steward"
-        avatarImage="./static/images/user1.png"
+        avatarImage="images/user1.png"
       />
       <Cards
         theme="Blue"
         category="Interested in"
         user="Funding"
         usersName="Marvin Mccoy"
-        avatarImage="./static/images/user2.png"
+        avatarImage="images/user2.png"
       />
       <Cards
         theme="Red"
         category="Interested in being"
         user="Oracles"
         usersName="Jorge Howard"
-        avatarImage="./static/images/user3.png"
+        avatarImage="images/user3.png"
       />
       <Col span={24} className="BlockActions">
         <Col span={24}>

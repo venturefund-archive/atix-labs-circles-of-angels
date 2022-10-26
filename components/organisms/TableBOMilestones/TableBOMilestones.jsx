@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import { Button, Table, Tag } from 'antd';
 import { claimMilestoneStatus } from '../../../constants/constants';
 import claimMilestoneStatusMap from '../../../model/claimMilestoneStatusMap';
-import './_style.scss';
 
 const TableBOMilestones = ({ data, onFundsTransferred }) => {
   const columns = [

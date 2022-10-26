@@ -11,9 +11,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { Tabs, Col, Row, message } from 'antd';
-import './_style.scss';
-import './_steps.scss';
-import './_project-detail.scss';
 import {
   followProject,
   unfollowProject,

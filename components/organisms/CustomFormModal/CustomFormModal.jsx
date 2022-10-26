@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import { Modal, Spin } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import useForm from '../../../hooks/useForm';
-import './_style.scss';
 import CustomForm from '../CustomForm/CustomForm';
 
 const CustomFormModal = ({

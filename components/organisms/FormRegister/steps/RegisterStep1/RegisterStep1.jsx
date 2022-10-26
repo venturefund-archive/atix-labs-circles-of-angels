@@ -12,7 +12,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
 import TitlePage from '../../../../atoms/TitlePage/TitlePage';
-import '../_style2.scss';
 import RoleOption from './RoleOption';
 import RegisterStep3, { questionsByRole } from '../RegisterStep3/RegisterStep3';
 
@@ -37,7 +36,7 @@ const RegisterStep1 = ({ fields, setFields, setNextStep, handleChange }) => {
   return (
     <div className=" h100">
       <div className="InfoStep">
-        <img src="./static/images/select-user.svg" alt="platformusers" />
+        <img src="images/select-user.svg" alt="platformusers" />
         <h2>Platform User</h2>
         <h4>Please select a role</h4>
       </div>

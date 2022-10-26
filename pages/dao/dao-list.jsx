@@ -10,9 +10,6 @@
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
-import '../_style.scss';
-import './_style.scss';
-import '../_transfer-funds.scss';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import { getDaos } from '../../api/daoApi';
 import CardDao from '../../components/molecules/CardDao/CardDao';

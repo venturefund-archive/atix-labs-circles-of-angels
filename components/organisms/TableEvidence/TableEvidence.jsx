@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Divider, Button } from 'antd';
-import '../TableProjectProgress/_tablestyle.scss';
 
 const TableEvidence = ({
   data,

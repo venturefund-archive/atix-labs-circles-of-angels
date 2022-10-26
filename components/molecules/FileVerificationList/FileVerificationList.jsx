@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { Icon, Spin } from 'antd';
 import { isEmpty } from 'lodash';
 
-import './_style.scss';
-
 const FileVerificationList = ({ errors, loading }) => {
   const iconType = isEmpty(errors) ? 'exclamation-circle' : 'close-circle';
   const iconColor = isEmpty(errors) ? '#728099' : '#FF0050'; // "#15D380"

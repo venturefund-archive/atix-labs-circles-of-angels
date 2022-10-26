@@ -95,7 +95,7 @@ const Milestone = ({
         <div className="flex Contentbox">
           {/* <div className="flex Box">
             <img
-              src="/static/images/calendarMilestone.svg"
+              src="images/calendarMilestone.svg"
               alt="calendarMilestone"
               width="35px"
             />
@@ -109,14 +109,14 @@ const Milestone = ({
             </div>
           </div> */}
           <div className="flex Box">
-            <img src="/static/images/budget.svg" alt="budget" width="30px" />
+            <img src="images/budget.svg" alt="budget" width="30px" />
             <div className="vertical">
               <RowLabel text="Budget" />
               <Info value={`${calculateMilestoneBudget()} USD`} />
             </div>
           </div>
           <div className="flex Box">
-            <img src="/static/images/category.svg" alt="budget" width="35px" />
+            <img src="images/category.svg" alt="budget" width="35px" />
             <div className="vertical">
               <RowLabel text="Expenditure Category" />
               <EditableInfo

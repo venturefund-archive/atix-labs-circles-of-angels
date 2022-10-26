@@ -21,9 +21,6 @@ import CustomButton from '../components/atoms/CustomButton/CustomButton';
 import { withUser } from '../components/utils/UserContext';
 import ProjectStatus from '../constants/ProjectStatus';
 
-import './_style.scss';
-import './_back-office-projec-detail.scss';
-
 class BackofficeProjectDetail extends React.Component {
   constructor(props) {
     super(props);

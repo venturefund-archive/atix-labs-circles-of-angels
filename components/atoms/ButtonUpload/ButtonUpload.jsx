@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Button, Icon } from 'antd';
-import './_style.scss';
 
 const ButtonUpload = ({
   change,

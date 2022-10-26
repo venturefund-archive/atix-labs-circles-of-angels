@@ -11,7 +11,6 @@ import React, { Fragment } from 'react';
 import { Input } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import Comment from '../../molecules/Comment/Comment';
-import './_style.scss';
 
 const { TextArea } = Input;
 

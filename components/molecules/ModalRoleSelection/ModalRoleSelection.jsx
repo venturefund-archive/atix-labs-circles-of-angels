@@ -11,7 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Form } from 'antd';
 import { proposalTypes, newRolesEnum } from '../../../constants/constants';
-import './_style.scss';
 
 const { Option } = Select;
 const { TextArea } = Input;

@@ -14,8 +14,6 @@ import { Table, Tag } from 'antd';
 import { transferPropType } from '../../../helpers/proptypes';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';
-import '../TableProjectProgress/_tablestyle.scss';
-import './_style.scss';
 import DrawerBlockchain from '../DrawerBlockchain/DrawerBlockchain';
 import { buildTransferBlockchainData } from '../../../helpers/blockchainData';
 

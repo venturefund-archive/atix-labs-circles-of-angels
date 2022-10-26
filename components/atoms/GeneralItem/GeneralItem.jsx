@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { Button } from 'antd';
 
 const GeneralItem = ({ value, label, img, type, extra, url, className }) => (

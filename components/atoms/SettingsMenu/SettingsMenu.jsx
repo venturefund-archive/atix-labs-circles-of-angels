@@ -12,8 +12,6 @@ import { useHistory } from 'react-router';
 import { Menu, Dropdown, Icon, Button } from 'antd';
 import { useUserContext } from '../../utils/UserContext';
 
-import './_style.scss';
-
 const SettingsMenu = () => {
   const { removeUser } = useUserContext();
   const history = useHistory();

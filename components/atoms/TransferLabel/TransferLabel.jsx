@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 
 const TransferLabel = ({ theme, text, iconStatus }) => {
   const classname = `TransferLabel ${theme}`;

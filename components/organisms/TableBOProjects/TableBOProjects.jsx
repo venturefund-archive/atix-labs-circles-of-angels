@@ -9,7 +9,6 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { Table, Tag, Dropdown, Menu, Icon, message, Modal, Button } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';

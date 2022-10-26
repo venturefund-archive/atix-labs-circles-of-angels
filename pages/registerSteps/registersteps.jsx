@@ -12,8 +12,6 @@ import { message } from 'antd';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
 import RegisterForm from '../../components/organisms/FormRegister/FormRegister';
-import './_register-steps.scss';
-import '../_style.scss';
 import RegisterStepsHeader from './RegisterStepsHeader';
 
 import RegisterStep1 from '../../components/organisms/FormRegister/steps/RegisterStep1/RegisterStep1';

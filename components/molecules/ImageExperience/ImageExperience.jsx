@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 import { Col } from 'antd';
-import './_style.scss';
 import { photoPropType } from '../../../helpers/proptypes';
 
 const ImageExperience = ({ images, imageTitle }) => {

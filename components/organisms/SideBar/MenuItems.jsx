@@ -12,23 +12,19 @@ const menuItems = [
   {
     route: '/explore-projects',
     key: 'explore-projects',
-    content: (
-      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
-    ),
+    content: <img src="images/projects-icon-navbar.svg" alt="projects" />,
     allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
   },
   {
     route: '/my-projects',
     key: 'my-projects',
-    content: (
-      <img src="./static/images/dashboard-icon-navbar.svg" alt="myprojects" />
-    ),
+    content: <img src="images/dashboard-icon-navbar.svg" alt="myprojects" />,
     allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
   },
   {
     route: '/dao-list',
     key: 'dao-list',
-    content: <img src="./static/images/daos-icon-navbar.svg" alt="daolist" />,
+    content: <img src="images/daos-icon-navbar.svg" alt="daolist" />,
     allowedRoles: [
       Roles.ENTREPRENEUR,
       Roles.PROJECT_SUPPORTER,
@@ -38,9 +34,7 @@ const menuItems = [
   {
     route: '/back-office-projects',
     key: 'back-office-projects',
-    content: (
-      <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
-    ),
+    content: <img src="images/projects-icon-navbar.svg" alt="projects" />,
     allowedRoles: [Roles.PROJECT_CURATOR, Roles.COA_ADMIN]
   },
   {

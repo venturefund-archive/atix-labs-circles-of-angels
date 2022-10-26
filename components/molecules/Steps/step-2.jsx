@@ -18,7 +18,6 @@ import { withUser } from '../../utils/UserContext';
 import { downloadMilestonesTemplate } from '../../../api/projectApi';
 // import { showModalError } from '../../utils/Modals';
 
-import './_style.scss';
 import FileVerificationList from '../FileVerificationList/FileVerificationList';
 
 class Step2 extends React.Component {

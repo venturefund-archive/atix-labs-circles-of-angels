@@ -10,7 +10,6 @@
 
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { Table, Tag, Col, message, Button, Row } from 'antd';
 import transferStatusesMap from '../../../model/transferStatusesMap';
 import TransferStatuses from '../../../constants/TransferStatuses';

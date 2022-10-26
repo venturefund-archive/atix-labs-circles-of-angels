@@ -9,7 +9,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_style.scss';
 
 const UserLabel = ({ userName, userRole }) => (
   <div className="UserLabel">

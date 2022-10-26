@@ -10,14 +10,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Divider } from 'antd';
-import './_style.scss';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { walletPasswordFormItems } from '../../../helpers/walletPasswordFormFields';
 
 const Title = () => (
   <div className="ModalPasswordRequest">
     <div className="flex Title">
-      <img src="./static/images/password-lock.svg" alt="passwordlock" />
+      <img src="images/password-lock.svg" alt="passwordlock" />
       <div>
         <h1>Password required</h1>
         <h3>Enter your password to authorize this operation</h3>

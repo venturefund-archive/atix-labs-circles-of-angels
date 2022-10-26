@@ -9,7 +9,6 @@ import {
   PROJECT_FORM_NAMES,
   projectStatuses
 } from '../../../constants/constants';
-import './_style.scss';
 
 const ALLOW_DELETE_STATUSES = [projectStatuses.REJECTED, projectStatuses.NEW];
 
@@ -17,11 +16,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <Col className="Items flex" sm={24} md={24} lg={24}>
     <Col xs={3} sm={2} md={2} lg={1}>
       <img
-        src={
-          completed
-            ? './static/images/checked.svg'
-            : './static/images/unchecked.svg'
-        }
+        src={completed ? 'images/checked.svg' : 'images/unchecked.svg'}
         alt="unchecked"
       />
     </Col>

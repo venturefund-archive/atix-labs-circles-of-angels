@@ -4,7 +4,6 @@ import { Row, Col, Modal } from 'antd';
 import Field from '../../atoms/Field/Field';
 import { fieldPropType } from '../../../helpers/proptypes';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
-import './_style.scss';
 
 const ModalCreateMilestone = ({
   visibility,

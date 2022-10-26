@@ -16,9 +16,6 @@ import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
 import { getTransferStatus } from '../api/transferApi';
 import { withUser } from '../components/utils/UserContext';
 import CustomButton from '../components/atoms/CustomButton/CustomButton';
-import './_style.scss';
-import './_transfer-funds-confirmation.scss';
-import './_steps.scss';
 
 const statusMap = {
   '-1': 'theme-cancel',
@@ -66,7 +63,7 @@ class TransferFundsConfirmation extends React.Component {
             <p className="LabelSteps">Project Name</p>
             <h1>Lorem Ipsum</h1>
             <div className="TransferConfirmationContent">
-              <img src="./static/images/funds-pending.svg" alt="Clock" />
+              <img src="images/funds-pending.svg" alt="Clock" />
               {status ? (
                 <TransferLabel
                   text={status.name}

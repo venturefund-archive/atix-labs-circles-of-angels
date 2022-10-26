@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, message } from 'antd';
-import './_style.scss';
 import CardProject from '../../molecules/CardProject/CardProject';
 import CardNewProyect from '../CardNewProyect/CardNewProyect';
 import TitlePage from '../../atoms/TitlePage/TitlePage';

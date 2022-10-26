@@ -11,8 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Icon, Form } from 'antd';
 
-import './_style.scss';
-
 const { TextArea } = Input;
 
 const fieldsName = {
@@ -113,13 +111,13 @@ class WebFormProject extends React.Component {
                 <Input
                   placeholder="Project Duration"
                   // eslint-disable-next-line prettier/prettier
-                  prefix={(
+                  prefix={
                     <Icon
                       type="calendar"
                       style={{ color: 'rgba(0,0,0,.25)' }}
                     />
                     // eslint-disable-next-line prettier/prettier
-                  )}
+                  }
                 />
               )}
             </Form.Item>

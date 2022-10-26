@@ -9,7 +9,6 @@
 
 import React, { useLayoutEffect, useState } from 'react';
 import { Row, Col } from 'antd';
-import './_style.scss';
 import { MenuOutlined } from '@ant-design/icons';
 import customConfig from 'custom-config';
 import CustomButton from 'components/atoms/CustomButton/CustomButton';

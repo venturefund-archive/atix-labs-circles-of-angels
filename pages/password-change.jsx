@@ -12,7 +12,6 @@ import { useHistory } from 'react-router';
 import { Spin } from 'antd';
 import customConfig from 'custom-config';
 import { showModalError, showModalSuccess } from '../components/utils/Modals';
-import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import { changePassword, getWallet } from '../api/userApi';
 import {

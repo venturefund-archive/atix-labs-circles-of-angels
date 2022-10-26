@@ -12,7 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tag, Divider, Row, Col, Icon, Button } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
-import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 import { formatTimeframeValue } from '../../../helpers/formatter';
@@ -61,7 +60,7 @@ const CardProject = ({
           </Button>
         )}
         <div className="ProjectDescription">
-          <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
+          <img src={cardPhotoPath || 'images/empty-img.svg'} />
           <div className="BlockTags">
             {status && (
               <Tag color={projectStatusMap[status].color}>

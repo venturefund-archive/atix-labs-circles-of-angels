@@ -15,9 +15,6 @@ import { showModalError } from '../../components/utils/Modals';
 import { useUserContext } from '../../components/utils/UserContext';
 import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../helpers/blockchain/wallet';
-import '../_style.scss';
-import './_style.scss';
-import '../_transfer-funds.scss';
 import useQuery from '../../hooks/useQuery';
 import TitlePage from '../../components/atoms/TitlePage/TitlePage';
 import {
@@ -291,11 +288,7 @@ function DaoProposalDetail() {
     if (!currentProposal.processed) {
       return (
         <div className="flex">
-          <img
-            className="marginRight"
-            src="../static/images/icon-time.png"
-            alt="img"
-          />
+          <img className="marginRight" src="images/icon-time.png" alt="img" />
           <p className="text">{parseDate(currentProposal)}</p>
         </div>
       );
@@ -381,7 +374,7 @@ function DaoProposalDetail() {
             <div className="flex space-between">
               <div className="flex voteBox">
                 <div className="imgVote">
-                  <img alt="img" src="../static/images/yes.svg" />
+                  <img alt="img" src="images/yes.svg" />
                 </div>
                 <div className="column">
                   <p className="voteBold">
@@ -393,7 +386,7 @@ function DaoProposalDetail() {
               </div>
               <div className="flex voteBox">
                 <div className="imgVote">
-                  <img alt="img" src="../static/images/no.svg" />
+                  <img alt="img" src="images/no.svg" />
                 </div>
                 <div className="column">
                   <p className="voteBold">

@@ -12,8 +12,6 @@ import { useHistory } from 'react-router';
 import { Row, Spin } from 'antd';
 import queryString from 'query-string';
 import { showModalError } from '../components/utils/Modals';
-import './_login.scss';
-import './landing/_landing.scss';
 import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import TopBar from '../components/organisms/TopBar/TopBar';
 import { getMnemonicFromToken, resetPassword } from '../api/userApi';
@@ -93,7 +91,7 @@ function ResetPassword() {
     <Row
       className="Landing"
       style={{
-        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundImage: 'url(/images/COA-Login-Image-Background.png)',
         backgroundSize: 'cover',
         backgroundPositionX: 'center'
       }}

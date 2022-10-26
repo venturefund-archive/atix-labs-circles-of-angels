@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'antd';
-import './_style.scss';
 
 const ToggleDrawer = ({ onClick }) => (
   <>
@@ -10,7 +9,7 @@ const ToggleDrawer = ({ onClick }) => (
         <button type="button" onClick={onClick}>
           <img
             className="BlockGray"
-            src="/static/images/buttondrawer.svg"
+            src="images/buttondrawer.svg"
             alt="blockchainIcon"
           />
         </button>
@@ -20,7 +19,7 @@ const ToggleDrawer = ({ onClick }) => (
       <button type="button" onClick={onClick}>
         <img
           className="BlockGray"
-          src="/static/images/miniblock.svg"
+          src="images/miniblock.svg"
           alt="blockchainIcon"
         />
         Blockchain Details {'>'}

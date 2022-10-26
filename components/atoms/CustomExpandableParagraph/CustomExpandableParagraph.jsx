@@ -7,7 +7,6 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import './_style.scss';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Typography } from 'antd';

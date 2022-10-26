@@ -10,7 +10,6 @@
 import React, { useState, useEffect } from 'react';
 import { message, Avatar } from 'antd';
 import PropTypes from 'prop-types';
-import './_style.scss';
 import { getDaoUsers } from '../../../api/daoApi';
 import { daoCardPropTypes } from '../../../helpers/proptypes';
 

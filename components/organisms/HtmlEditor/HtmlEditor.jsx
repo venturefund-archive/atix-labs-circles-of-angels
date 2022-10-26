@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'react-quill/dist/quill.snow.css';
 
 const htmlEditorModules = {
   toolbar: [[{ size: [] }], ['bold', 'italic'], [{ list: '' }]],

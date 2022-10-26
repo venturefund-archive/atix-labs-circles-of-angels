@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
-import './_style.scss';
 import Milestone from './Milestone';
 import { milestonePropType, userPropTypes } from '../../../helpers/proptypes';
 

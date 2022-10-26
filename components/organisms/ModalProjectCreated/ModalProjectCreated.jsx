@@ -9,7 +9,6 @@
 
 import React from 'react';
 import { Modal } from 'antd';
-import './_style.scss';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 
 class ModalProjectCreated extends React.Component {
@@ -48,10 +47,7 @@ class ModalProjectCreated extends React.Component {
           width="400"
           footer={null}
         >
-          <img
-            src="./static/images/icon-project-created.svg"
-            alt="ProjectCreated"
-          />
+          <img src="images/icon-project-created.svg" alt="ProjectCreated" />
 
           <h1>Project Created Successfully!</h1>
           <p>Lorem ipsum dolor sit amet concerquetcut</p>

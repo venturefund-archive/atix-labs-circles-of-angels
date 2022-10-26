@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import { Form, Icon, Input } from 'antd';
 import { useHistory } from 'react-router';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import './_style.scss';
 
 const FormRecovery = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Drawer, Spin } from 'antd';
 import ItemBlockchain from '../../atoms/ItemBlockchain/ItemBlockchain';
-import './_style.scss';
 import ToggleDrawer from './ToggleDrawer';
 import { blockchainInfoPropTypes } from '../../../helpers/proptypes';
 
@@ -49,7 +48,7 @@ const DrawerBlockchain = ({
           <div>
             <img
               className="TitleImage"
-              src="/static/images/blockchain.svg"
+              src="images/blockchain.svg"
               alt="blockchain"
             />
             <h1>{title}</h1>
@@ -71,7 +70,7 @@ const DrawerBlockchain = ({
             <h1>{noDataMessage}</h1>
           </div>
         )}
-        <img src="/static/images/rsk.svg" alt="certified" />
+        <img src="images/rsk.svg" alt="certified" />
       </Drawer>
     </div>
   );

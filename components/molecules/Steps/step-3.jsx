@@ -9,7 +9,6 @@
 
 import React from 'react';
 import animationData from './success.json';
-import './_style.scss';
 import LottieFiles from '../LottieFiles';
 
 const Step3 = () => (

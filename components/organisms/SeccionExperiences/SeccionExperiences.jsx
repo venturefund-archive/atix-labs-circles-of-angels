@@ -13,7 +13,6 @@ import { isEmpty } from 'lodash';
 import { Col, Row } from 'antd';
 import NewExperience from '../../../pages/new-experience';
 import CardExperience from '../../molecules/CardExperience/CardExperience';
-import './_style.scss';
 import { experiencePropType } from '../../../helpers/proptypes';
 
 const SeccionExperience = ({ experiences, onCreate, showCreateExperience }) => (
