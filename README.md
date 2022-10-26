@@ -1,38 +1,34 @@
-# Circles of Angels
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Circles of Angels is a platform that brings Social Entrepreneurs and Funders around the world closer while ensuring the transparency of investments and donations through blockchain technology, which allows for traceability of operations, tracking and visualization of the real impact that entrepreneurs are generating in their communities.
+## Getting Started
 
-## Prerequisites
+First, run the development server:
 
-- Node v10.15.3
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-## Tools and frameworks
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- react@16.8.3
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-- next@9.1.2
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-- antd@3.17.0
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-- fastify@1.14.3
+## Learn More
 
-## Contributing
+To learn more about Next.js, take a look at the following resources:
 
-Clone the repository by running `git@gitlab.com:atixlabs-oss/circles-of-angels.git` and create a new branch from the latest development branch
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Development
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-- #### Setup environment
+## Deploy on Vercel
 
-  - Run `npm install` to install the dependencies
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- #### Running a Development build
-
-  - Run `npm run dev` to run the app in development mode
-  - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-- #### Running a Production build
-
-  - Run `npm run build` to create an optimized production build
-  - Run `npm start` to start the app
-  - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
