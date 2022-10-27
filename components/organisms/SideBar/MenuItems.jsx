@@ -17,14 +17,14 @@ const menuItems = [
     content: <Icon className="icon" type="team" />,
     allowedRoles: [Roles.COA_ADMIN]
   },
-  //{
-    //route: '/explore-projects',
-    //key: 'explore-projects',
-    //content: (
-      //<img src="./static/images/projects-icon-navbar.svg" alt="projects" />
-    //),
-    //allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
-  //},
+  // {
+    // route: '/explore-projects',
+    // key: 'explore-projects',
+    // content: (
+      // <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+    // ),
+    // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
+  // },
   {
     route: '/dao-list',
     key: 'dao-list',

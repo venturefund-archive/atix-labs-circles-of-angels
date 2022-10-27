@@ -25,7 +25,6 @@ import {
   deleteProject,
   getProjectMilestones
 } from '../api/projectApi';
-import useQuery from '../hooks/useQuery';
 import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
