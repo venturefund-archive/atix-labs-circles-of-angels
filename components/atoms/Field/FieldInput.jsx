@@ -14,7 +14,8 @@ export default function FieldInput(props) {
     handleChange,
     type,
     maxLength,
-    disabled
+    disabled,
+    style
   } = props;
 
   return (
@@ -32,6 +33,7 @@ export default function FieldInput(props) {
         onChange={handleChange}
         disabled={disabled}
         maxLength={maxLength}
+        style={style}
       />
     </Form.Item>
   );
