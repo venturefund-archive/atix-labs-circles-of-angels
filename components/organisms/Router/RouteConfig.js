@@ -103,7 +103,7 @@ export const routesConfig = [
     component: CreateProject,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR]
+      roles: [ENTREPRENEUR, COA_ADMIN]
     }
   },
   {
@@ -127,7 +127,7 @@ export const routesConfig = [
     component: MyProjects,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER]
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, COA_ADMIN]
     }
   },
   {

@@ -12,7 +12,8 @@ export default function FieldTextArea(props) {
     valid,
     errorMessage,
     handleChange,
-    rows
+    rows,
+    ...rest
   } = props;
 
   return (
@@ -28,6 +29,7 @@ export default function FieldTextArea(props) {
         value={value}
         size="large"
         onChange={handleChange}
+        {...rest}
       />
     </Form.Item>
   );
