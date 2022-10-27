@@ -71,75 +71,91 @@ export const thumbnailsFormInputs = {
 };
 
 export const detailsFormInputs = {
-  mission: {
+  about: {
     type: 'textArea',
-    name: 'mission',
+    name: 'about',
     rows: 4,
     label: (
       <div className="LabelDescription">
-        Project Mission
+        About the project
         <span>
-          Share your Project Mission, the impact you have made so far and what
-          your project is about
+          Share your information about the entrepreneurs and the project
         </span>
       </div>
     ),
-    placeholder: 'Project mission',
+    placeholder: '',
     rules: [
       {
         required: true,
-        message: 'Please input the mission of this project!',
+        message: 'Please input the about of this project!',
         whitespace: true
       }
     ]
   },
-  problemAddressed: {
-    type: 'textArea',
-    name: 'problemAddressed',
-    rows: 4,
-    label: (
-      <div className="LabelDescription">
-        The Problem
-        <span>
-          Share with us the problem that you are tackling, what you are trying
-          to solve and how the funds will help support your goal
-        </span>
-      </div>
-    ),
-    placeholder: 'The problem',
+  currencyType: {
+    type: 'select',
+    name: 'currencyType',
+    label: <div className="LabelDescription">Currency Type</div>,
+    placeholder: 'Select currency type',
+    options: [
+      { name: 'FIAT', value: 'fiat' },
+      { name: 'CRYPTO', value: 'crypto' }
+    ],
+    defaultValue: undefined,
     rules: [
       {
         required: true,
-        message: 'Please input the problem that your project aims to solve!',
+        message: 'Please select a currency type',
         whitespace: true
       }
     ]
   },
-  coverPhotoPath: {
-    name: 'coverPhotoPath',
-    label: 'Click to upload',
-    type: 'file',
+  accountInformation: {
+    type: 'textArea',
+    name: 'about',
+    rows: 4,
+    label: (
+      <div className="LabelDescription">
+        Account information
+        <span>Fill in your bank account information</span>
+      </div>
+    ),
+    placeholder: '',
     rules: [
       {
         required: true,
-        message: 'Please upload a background image for your project!',
-        validator: (rule, value) => {
-          const checkValue = value || '';
-          if (checkValue.length > 0) return true;
-          if (checkValue.file && checkValue.file instanceof File) return true;
-          return false;
-        }
+        message: 'Please input the account information of this project!',
+        whitespace: true
+      }
+    ]
+  },
+  walletAddress: {
+    type: 'input',
+    name: 'walletAddress',
+    rows: 4,
+    label: (
+      <div className="LabelDescription">
+        Address
+        <span>Enter your wallet address here</span>
+      </div>
+    ),
+    placeholder: '',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the wallet address of this project!',
+        whitespace: true
       }
     ]
   },
   agreementFile: {
     name: 'agreementFile',
-    label: 'Click to upload',
+    label: 'Upload Legal Agreement',
     type: 'file',
     valid: true,
     rules: [
       {
-        required: false,
+        required: true,
         message: 'Please upload a valid agreement file!',
         validator: (rule, value) => {
           if (!value || value.length === 0) return !rule.required;
@@ -148,16 +164,81 @@ export const detailsFormInputs = {
           return false;
         }
       }
+    ],
+    uploadButtonText: 'Upload Legal Agreement',
+    changeButtonText: 'Change Legal Agreement'
+  },
+  missionAndVision: {
+    type: 'textArea',
+    name: 'missionAndVision',
+    rows: 4,
+    label: (
+      <div className="LabelDescription">
+        Our mission and vision
+        <span>
+          Share your Project Mission, the impact you have made so far and what
+          your project is about
+        </span>
+      </div>
+    ),
+    placeholder: '',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the mission and vision of this project!',
+        whitespace: true
+      }
+    ]
+  },
+  currency: {
+    type: 'select',
+    name: 'currency',
+    label: <div className="LabelDescription">Currency</div>,
+    placeholder: 'Select currency',
+    options: [
+      { name: 'BTC', value: 'btc' },
+      { name: 'ETH', value: 'eth' },
+      { name: 'USDT', value: 'usdt' },
+      { name: 'ETC', value: 'etc' }
+    ],
+    defaultValue: undefined,
+    rules: [
+      {
+        required: true,
+        message: 'Please select a currency'
+      }
+    ]
+  },
+  budget: {
+    type: 'input',
+    name: 'budget',
+    rows: 4,
+    label: (
+      <div className="LabelDescription">
+        Budget
+        <span>
+          Here the sum recorded in the milestones and activities will be
+          displayed
+        </span>
+      </div>
+    ),
+    placeholder: '0,00',
+    rules: [
+      {
+        required: true,
+        message: 'Please input the budget of this project!',
+        whitespace: true
+      }
     ]
   },
   proposalFile: {
     name: 'proposalFile',
-    label: 'Click to upload',
+    label: 'Upload Project Proposal',
     type: 'file',
     valid: true,
     rules: [
       {
-        required: false,
+        required: true,
         message: 'Please upload a valid proposal file!',
         validator: (rule, value) => {
           if (!value || value.length === 0) return !rule.required;
@@ -166,7 +247,9 @@ export const detailsFormInputs = {
           return false;
         }
       }
-    ]
+    ],
+    uploadButtonText: 'Upload Project Proposal',
+    changeButtonText: 'Change Project Proposal'
   }
 };
 
