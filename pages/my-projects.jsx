@@ -21,8 +21,7 @@ import {
   getFollowedProjects,
   getAppliedProjects
 } from '../api/userApi';
-import { getProjects } from '../api/projectApi';
-import { createProject } from '../api/projectApi';
+import { createProject, getProjects } from '../api/projectApi';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
