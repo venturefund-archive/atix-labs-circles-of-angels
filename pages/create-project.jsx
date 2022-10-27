@@ -37,7 +37,7 @@ const wizards = {
 
 const getIdFromPath = () => {
   const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length -1];
+  return pathParts[pathParts.length - 1];
 }
 
 const CreateProjectContainer = () => {
@@ -53,12 +53,10 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
-  useEffect(() => {
-    console.log(id)
-    
-  }, [])
+  useEffect(() => console.log(id), [id])
   const fetchProject = useCallback(
     async projectId => {
+      console.log(projectId, 'Project id')
       const response = await getProject(projectId);
       if (response.errors || !response.data) {
         message.error('An error occurred while fetching the project');
@@ -82,13 +80,14 @@ const CreateProjectContainer = () => {
     [history]
   );
 
+  useEffect(() => { console.log(project) }, [project, setProject])
   const checkStepsStatus = async projectToCheck => {
     const { id: projectId, projectName, mission, proposal } = projectToCheck;
 
     const response = await getProjectMilestones(projectId);
 
     const stepsStatus = {
-      thumbnails: !!projectName,
+      thumbnails: !!projectName && projectName !== 'Untitled',
       details: !!mission,
       proposal: !!proposal,
       milestones: !response.errors && response.data.length > 0

@@ -36,6 +36,7 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(project, 'thumbnails')
     if (!project || !project.id) return;
 
     const projectFields = { ...fields };

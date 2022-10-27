@@ -19,8 +19,8 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
       <img
         src={
           completed
-            ? './images/checked.svg'
-            : './images/unchecked.svg'
+            ? '/static/images/checked.svg'
+            : '/static/images/unchecked.svg'
         }
         alt="unchecked"
       />
@@ -92,10 +92,6 @@ const CreateProject = ({
   };
 
   const deleteProjectButton = () => {
-    // TODO: the user shouldn't be able to actually enter this page at all
-    //       if the project is not NEW or REJECTED
-    if (!id || !ALLOW_DELETE_STATUSES.includes(status)) return;
-
     return (
       <CustomButton
         buttonText="Delete Project"
@@ -126,29 +122,29 @@ const CreateProject = ({
         >
           <Col className="ProjectsItems" sm={24} md={24} lg={24}>
             <Items
-              title="Thumbnails"
-              subtitle="Here you can upload the thumbnails of your project"
+              title="Basic Information"
+              subtitle="Here you can assign or create users to different roles"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
               disabled={status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             />
             <Items
               title="Project Detail"
-              subtitle="Here you can upload your project detail"
+              subtitle="Here you can complete the project information"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
               disabled={!id || status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             />
             <Items
-              title="Project Proposal"
-              subtitle="Here you can upload your project proposal"
+              title="Project Users"
+              subtitle="Here you can assign or create users to different roles"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
               disabled={!id}
               completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             />
             <Items
               title="Project Milestones"
-              subtitle="Upload milestones and edit them"
+              subtitle="Here you can upload the required milestones for your project"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
               disabled={!id}
               completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}

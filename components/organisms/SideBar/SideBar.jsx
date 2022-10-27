@@ -37,7 +37,7 @@ const SideBar = ({ role, hasDaos }) => {
   return (
     <Sider width="60" breakpoint="sm" collapsedWidth="0">
       <div className="logo">
-        <img src={customConfig.LOGO_PATH} alt={`${customConfig.NAME} logo`} />
+        <img src={'/static/images/isologo.svg'} alt={`${customConfig.NAME} logo`} />
       </div>
       <Menu
         theme="dark"
