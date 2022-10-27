@@ -141,7 +141,7 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   return (
     <Fragment>
       <div className="ThumbnailsWrapper">
-        <TitlePage textTitle="Complete Project's Thumbnail" />
+        <TitlePage textTitle="Complete Basic Information" style={{ fontWeight: "bold", fontSize: "24px" }}/>
         <ProjectThumbnailForm
           fields={fields}
           handleChange={handleChange}
