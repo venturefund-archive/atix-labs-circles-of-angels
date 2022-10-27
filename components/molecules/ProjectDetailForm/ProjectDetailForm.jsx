@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Skeleton, Divider, message } from 'antd';
+import { Row, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
 import { fieldPropType } from '../../../helpers/proptypes';
 
-const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
+const ProjectDetailForm = ({ fields, handleChange }) => {
   return (
     <>
       <Row gutter={22}>
@@ -13,7 +13,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
           <Field {...fields.about} handleChange={handleChange} />
         </Col>
         <Col className="InputTwoLabel" span={12}>
-          <Field {...fields.missionAndVision} handleChange={handleChange} />
+          <Field {...fields.mission} handleChange={handleChange} />
         </Col>
       </Row>
       <Row gutter={22}>
@@ -34,7 +34,12 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
       </Row>
       <Row gutter={22}>
         <Col className="InputTwoLabel" span={12}>
-          <Field {...fields.accountInformation} handleChange={handleChange} />
+          {fields.currencyType.value === 'fiat' && (
+            <Field {...fields.accountInformation} handleChange={handleChange} />
+          )}
+          {fields.currencyType.value === 'crypto' && (
+            <Field {...fields.walletAddress} handleChange={handleChange} />
+          )}
         </Col>
         <Col className="InputTwoLabel" span={12}>
           <Field {...fields.budget} handleChange={handleChange} />
@@ -45,7 +50,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
           <Row>
             <Col span={12}>
               <Field
-                {...fields.agreementFile}
+                {...fields.legalAgreementFile}
                 handleChange={handleChange}
                 showPreviouslyUploadedList
                 label="Upload Legal Agreement"
@@ -54,7 +59,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
             </Col>
             <Col span={12}>
               <h3>Legal Agreement</h3>
-              <span>Format: PDF, DOC or DOCX</span>
+              <span>Format: PDF, up to 20 MB.</span>
             </Col>
           </Row>
         </Col>
@@ -62,7 +67,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
           <Row>
             <Col span={12}>
               <Field
-                {...fields.proposalFile}
+                {...fields.projectProposalFile}
                 handleChange={handleChange}
                 showPreviouslyUploadedList
                 label="Upload Project Proposal"
@@ -71,7 +76,7 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
             </Col>
             <Col span={12}>
               <h3>Project Proposal</h3>
-              <span>Format: PDF, DOC or DOCX</span>
+              <span>Format: PDF, up to 20 MB.</span>
             </Col>
           </Row>
         </Col>

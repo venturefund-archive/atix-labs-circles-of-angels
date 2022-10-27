@@ -1,3 +1,4 @@
+import { onlyAlphanumerics } from 'constants/Regex';
 import React from 'react';
 
 export const thumbnailsFormInputs = {
@@ -89,8 +90,13 @@ export const detailsFormInputs = {
         required: true,
         message: 'Please input the about of this project!',
         whitespace: true
+      },
+      {
+        regex: onlyAlphanumerics,
+        message: 'Please input only alphanumeric characters'
       }
-    ]
+    ],
+    maxLength: 500
   },
   currencyType: {
     type: 'select',
@@ -112,7 +118,7 @@ export const detailsFormInputs = {
   },
   accountInformation: {
     type: 'textArea',
-    name: 'about',
+    name: 'accountInformation',
     rows: 4,
     label: (
       <div className="LabelDescription">
@@ -126,8 +132,13 @@ export const detailsFormInputs = {
         required: true,
         message: 'Please input the account information of this project!',
         whitespace: true
+      },
+      {
+        regex: onlyAlphanumerics,
+        message: 'Please input only alphanumeric characters'
       }
-    ]
+    ],
+    maxLength: 50
   },
   walletAddress: {
     type: 'input',
@@ -145,14 +156,20 @@ export const detailsFormInputs = {
         required: true,
         message: 'Please input the wallet address of this project!',
         whitespace: true
+      },
+      {
+        regex: onlyAlphanumerics,
+        message: 'Please input only alphanumeric characters'
       }
-    ]
+    ],
+    maxLength: 50
   },
-  agreementFile: {
-    name: 'agreementFile',
+  legalAgreementFile: {
+    name: 'legalAgreementFile',
     label: 'Upload Legal Agreement',
     type: 'file',
     valid: true,
+    fileType: 'pdf',
     rules: [
       {
         required: true,
@@ -168,9 +185,9 @@ export const detailsFormInputs = {
     uploadButtonText: 'Upload Legal Agreement',
     changeButtonText: 'Change Legal Agreement'
   },
-  missionAndVision: {
+  mission: {
     type: 'textArea',
-    name: 'missionAndVision',
+    name: 'mission',
     rows: 4,
     label: (
       <div className="LabelDescription">
@@ -187,20 +204,19 @@ export const detailsFormInputs = {
         required: true,
         message: 'Please input the mission and vision of this project!',
         whitespace: true
+      },
+      {
+        regex: onlyAlphanumerics,
+        message: 'Please input only alphanumeric characters'
       }
-    ]
+    ],
+    maxLength: 500
   },
   currency: {
     type: 'select',
     name: 'currency',
     label: <div className="LabelDescription">Currency</div>,
     placeholder: 'Select currency',
-    options: [
-      { name: 'BTC', value: 'btc' },
-      { name: 'ETH', value: 'eth' },
-      { name: 'USDT', value: 'usdt' },
-      { name: 'ETC', value: 'etc' }
-    ],
     defaultValue: undefined,
     rules: [
       {
@@ -222,20 +238,22 @@ export const detailsFormInputs = {
         </span>
       </div>
     ),
+    disabled: true,
     placeholder: '0,00',
     rules: [
       {
-        required: true,
+        required: false,
         message: 'Please input the budget of this project!',
         whitespace: true
       }
     ]
   },
-  proposalFile: {
-    name: 'proposalFile',
+  projectProposalFile: {
+    name: 'projectProposalFile',
     label: 'Upload Project Proposal',
     type: 'file',
     valid: true,
+    fileType: 'pdf',
     rules: [
       {
         required: true,
