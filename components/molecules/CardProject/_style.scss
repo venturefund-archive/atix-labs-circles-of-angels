@@ -1,16 +1,9 @@
 @import "../../../css/general_styling.scss";
 
-.CardProject {
-  margin-bottom: 2em;
-  cursor: pointer;
-  position: relative;
-
-  .ant-col-1{
-    margin: 0 0.5em;
-  }
-  .ant-divider, .ant-divider-vertical{
-    height: 2em;
-  }
+.ProjectCard {
+  min-height: 374px;
+  margin-bottom: 8px;
+  
   .ProjectDescription {
     width: 100%;
     height: 270px;
@@ -20,7 +13,7 @@
     border-radius: 4px;
     overflow: hidden;
     img {
-      border-radius: 5px;
+      border-radius: 4px;
       height: 100%;
       width: 100%;
     }
@@ -39,39 +32,31 @@
       }
     }
   }
-  .ProjectSummery {
-    padding-top: 0.5em;
-    h1{
-      @include primary-text($titlecard, $on-surface, 500);
+  > div {
+    height: 100%;
+  }
+  .ProjectSummary {
+    padding-top: 8px;
+    .ProjectName {
+      font-weight: bold;
+      font-size: 20px;
     }
   }
-}
-.CardProject:last-child{
-  margin-right:0; 
-}
-.CardProject:hover {
-  .hoverText {
-    display: inline-block;
+  .ContentContainer {
+    height: 373px !important;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 1px 6px rgba(0, 1, 1, 0.17);
+    padding: 8px;
+    align-items: center;
+    height: 100%;
+    transition: 0.3s;
+    background: $surface;
+    cursor: pointer;
+    justify-content: center;
+    &:hover{
+      box-shadow: $shadow-big;
+    }
   }
-}
-.hoverText {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-  position: absolute;
-  z-index: 1;
-}
-
-@media screen and (max-width: 768px) {
-    .CardProject {
-        width: 48%;
-    }
-}
-
-@media screen and (max-width: 450px) {
-    .CardProject {
-        width: 100%;
-    }
 }

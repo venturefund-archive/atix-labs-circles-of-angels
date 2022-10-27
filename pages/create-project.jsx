@@ -36,8 +36,13 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
+const getIdFromPath = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length -1];
+}
+
 const CreateProjectContainer = () => {
-  const { id } = useQuery();
+  const id = getIdFromPath()
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [formValues, setFormValues] = useState({});
@@ -61,6 +66,7 @@ const CreateProjectContainer = () => {
       const thumbnailsData = {
         projectName: data.projectName,
         timeframe: data.timeframe,
+        timeframeUnit: 'months',
         goalAmount: data.goalAmount,
         cardPhotoPath: data.cardPhotoPath,
         location: data.location

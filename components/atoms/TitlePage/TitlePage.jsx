@@ -11,9 +11,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 
-const TitlePage = ({ textTitle }) => (
+const TitlePage = ({ textTitle, ...props }) => (
   <div className="TitlePage">
-    <h1>{textTitle}</h1>
+    <h1 {...props}>{textTitle}</h1>
   </div>
 );
 export default TitlePage;

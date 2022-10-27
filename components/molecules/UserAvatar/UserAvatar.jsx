@@ -21,7 +21,7 @@ const UserAvatar = ({ user }) => {
   return (
     <div className="UserAvatar">
       <div className="UserData">
-        <Avatar style={{ color: '#0055FF', backgroundColor: '#B3CCFF' }}>
+        <Avatar style={{ color: '#0055FF', backgroundColor: 'rgba(0, 85, 255, 0.3)', height: '30px', width: '30px' }}>
           {getInitials(fullName)}
         </Avatar>
         <UserLabel userName={fullName} userRole={user.role} />

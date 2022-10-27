@@ -18,24 +18,20 @@ import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowse
 import { userPropTypes } from '../helpers/proptypes';
 import { projectStatuses, SUPPORTER } from '../constants/constants';
 import {
-  getMyProjects,
   getFollowedProjects,
   getAppliedProjects
 } from '../api/userApi';
+import { getProjects } from '../api/projectApi';
+import { createProject } from '../api/projectApi';
 
 const MyProjects = ({ user }) => {
   const history = useHistory();
   const [projects, setProjects] = useState([]);
 
   const fetchMyProjects = async () => {
-    const response = await getMyProjects();
+    const response = await getProjects();
 
-    if (response.errors || !response.data) {
-      message.error('An error occurred while getting the projects');
-      return [];
-    }
-
-    return response.data;
+    return response;
   };
 
   const fetchFollowedProjects = async () => {
@@ -71,10 +67,10 @@ const MyProjects = ({ user }) => {
     const state = { projectId: project.id };
     const { status } = project;
     if (
-      status === projectStatuses.NEW ||
+      status === projectStatuses.DRAFT ||
       (status === projectStatuses.REJECTED && user.role !== SUPPORTER)
     ) {
-      history.push(`/create-project?id=${project.id}`, state);
+      history.push(`/project/edit/${project.id}`, state);
     } else {
       history.push(`/project-detail?id=${project.id}`, state);
     }
@@ -84,7 +80,10 @@ const MyProjects = ({ user }) => {
     // TODO: go to project-progress page
   };
 
-  const goToNewProject = () => history.push('/create-project');
+  const goToNewProject = async () => {
+    const { projectId } = await createProject()
+    history.push(`/project/edit/${projectId}`)
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {

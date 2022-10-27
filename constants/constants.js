@@ -60,6 +60,7 @@ export const publicProjectStatuses = {
 
 export const privateProjectStatuses = {
   NEW: 'new',
+  DRAFT: 'draft',
   TO_REVIEW: 'toreview',
   REJECTED: 'rejected'
 };
