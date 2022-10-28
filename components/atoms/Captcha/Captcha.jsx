@@ -9,7 +9,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReCAPTCHA from 'react-google-recaptcha';
+
+import {
+  GoogleReCaptcha
+} from 'react-google-recaptcha-v3';
+
 
 const Captcha = ({ onChange }) => (
   <div
@@ -19,9 +23,12 @@ const Captcha = ({ onChange }) => (
       margin: '16px auto 32px auto'
     }}
   >
-    <ReCAPTCHA
-      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-      onChange={() => onChange(true)}
+    <GoogleReCaptcha
+      onVerify={(token) => {
+        console.info('captch verified: ', token);
+        onChange(true);
+      }}
+      refreshReCaptcha
     />
   </div>
 );

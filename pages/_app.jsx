@@ -9,6 +9,8 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
 import '../css/app.scss';
 import { Container } from 'next/app';
 import { UserProvider } from '../components/utils/UserContext';
@@ -19,11 +21,23 @@ import { routesConfig } from '../components/organisms/Router/RouteConfig';
 
 const MyApp = props => (
   <Container>
-    <UserProvider>
-      <StorageProvider>
-        <Router {...props} routesConfig={routesConfig} />
-      </StorageProvider>
-    </UserProvider>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+      useEnterprise
+      useRecaptchaNet
+      scriptProps={{
+        async: false, // optional, default to false,
+        defer: false, // optional, default to false
+        appendTo: 'head', // optional, default to "head", can be "head" or "body",
+        nonce: undefined // optional, default undefined
+      }}
+    >
+      <UserProvider>
+        <StorageProvider>
+          <Router {...props} routesConfig={routesConfig} />
+        </StorageProvider>
+      </UserProvider>
+    </GoogleReCaptchaProvider>
   </Container>
 );
 
