@@ -38,10 +38,10 @@ const wizards = {
 const getIdFromPath = () => {
   const pathParts = window.location.pathname.split('/');
   return pathParts[pathParts.length - 1];
-}
+};
 
 const CreateProjectContainer = () => {
-  const id = getIdFromPath()
+  const id = getIdFromPath();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [formValues, setFormValues] = useState({});
@@ -53,10 +53,9 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
-  useEffect(() => console.log(id), [id])
+  useEffect(() => console.log(id), [id]);
   const fetchProject = useCallback(
     async projectId => {
-      console.log(projectId, 'Project id')
       const response = await getProject(projectId);
       if (response.errors || !response.data) {
         message.error('An error occurred while fetching the project');
@@ -80,7 +79,6 @@ const CreateProjectContainer = () => {
     [history]
   );
 
-  useEffect(() => { console.log(project) }, [project, setProject])
   const checkStepsStatus = async projectToCheck => {
     const { id: projectId, projectName, mission, proposal } = projectToCheck;
 
@@ -106,9 +104,9 @@ const CreateProjectContainer = () => {
     setFormValues(newFormValues);
   };
 
-  const successCallback = (res, successMsg) => {
+  const successCallback = async (res, successMsg) => {
     setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    fetchProject(res.projectId);
+    await fetchProject(res.projectId);
     message.success(successMsg || 'Saved successfully');
     return res;
   };
