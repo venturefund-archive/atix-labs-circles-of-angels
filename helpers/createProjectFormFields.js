@@ -104,8 +104,8 @@ export const detailsFormInputs = {
     label: <div className="LabelDescription">Currency Type</div>,
     placeholder: 'Select currency type',
     options: [
-      { name: 'FIAT', value: 'fiat' },
-      { name: 'CRYPTO', value: 'crypto' }
+      { name: 'FIAT', value: 'Fiat' },
+      { name: 'CRYPTO', value: 'Crypto' }
     ],
     defaultValue: undefined,
     rules: [

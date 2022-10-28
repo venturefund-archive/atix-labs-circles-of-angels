@@ -32,11 +32,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
     <Col className="BlockButton" xs={6} sm={6} md={4} lg={2}>
       <CustomButton
         buttonText={completed ? 'Edit' : 'Upload'}
-        theme={
-          (disabled && 'disabled') || (completed && 'Primary') || 'Alternative'
-        }
         onClick={onClick}
-        disabled={disabled}
       />
     </Col>
   </Col>
@@ -132,7 +128,6 @@ const CreateProject = ({
               title="Project Detail"
               subtitle="Here you can complete the project information"
               onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
-              disabled={!id || status === projectStatuses.CONSENSUS}
               completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             />
             <Items

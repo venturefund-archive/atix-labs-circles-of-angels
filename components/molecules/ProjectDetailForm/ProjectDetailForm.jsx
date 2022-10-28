@@ -34,10 +34,10 @@ const ProjectDetailForm = ({ fields, handleChange }) => {
       </Row>
       <Row gutter={22}>
         <Col className="InputTwoLabel" span={12}>
-          {fields.currencyType.value === 'fiat' && (
+          {fields.currencyType.value?.toLowerCase() === 'fiat' && (
             <Field {...fields.accountInformation} handleChange={handleChange} />
           )}
-          {fields.currencyType.value === 'crypto' && (
+          {fields.currencyType.value?.toLowerCase() === 'crypto' && (
             <Field {...fields.walletAddress} handleChange={handleChange} />
           )}
         </Col>

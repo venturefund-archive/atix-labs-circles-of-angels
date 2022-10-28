@@ -53,7 +53,6 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
-  useEffect(() => console.log(id), [id]);
   const fetchProject = useCallback(
     async projectId => {
       const response = await getProject(projectId);
@@ -72,8 +71,9 @@ const CreateProjectContainer = () => {
         location: data.location
       };
 
+      console.log({ ...data, id });
       submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
-      setProject(data);
+      setProject({ ...data, id });
       await checkStepsStatus(data);
     },
     [history]
@@ -158,8 +158,8 @@ const CreateProjectContainer = () => {
   const CurrentComponent = wizards[currentWizard];
   const props = {};
 
-  if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
+  /* if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
+    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS]; */
 
   if (currentWizard === PROJECT_FORM_NAMES.MAIN)
     props.completedSteps = completedSteps;

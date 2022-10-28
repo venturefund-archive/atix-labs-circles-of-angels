@@ -58,7 +58,7 @@ const ProjectDetailFormContainer = ({
   );
 
   useEffect(() => {
-    if (fields.currencyType.value === 'fiat') {
+    if (fields.currencyType.value?.toLowerCase() === 'fiat') {
       const { currency, walletAddress, ...restFields } = fields;
       const updatedFields = {
         ...restFields,
@@ -79,7 +79,7 @@ const ProjectDetailFormContainer = ({
         }
       ]);
     }
-    if (fields.currencyType.value === 'crypto') {
+    if (fields.currencyType.value?.toLowerCase() === 'crypto') {
       const { currency, accountInformation, ...restFields } = fields;
       const updatedFields = {
         ...restFields,
@@ -103,6 +103,7 @@ const ProjectDetailFormContainer = ({
   }, [fields.currencyType.value]);
 
   useEffect(() => {
+    console.log({ project });
     if (!project || !project.id) return goBack();
   }, [setFields, project, goBack]);
 
@@ -133,7 +134,7 @@ const ProjectDetailFormContainer = ({
     /* clearFields(); */
     try {
       if (project && project.id) {
-        const response = await updateProjectDetail(3, data);
+        const response = await updateProjectDetail(project.id, data);
         if (response.errors) {
           return onError(response.errors);
         }

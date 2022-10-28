@@ -24,53 +24,7 @@ export const createProjectThumbnail = saveData => {
   return doPost(`${baseURL}/description`, saveData, config);
 };
 
-/* export const createProject = () => apiCall('post', `${baseURL}`); */
-
-export const createProject = () => {
-  const projects = localStorage.getItem('projects');
-  const projectGenerated = {
-    projectName: 'Untitled',
-    mission: null,
-    problemAddressed: null,
-    location: null,
-    timeframe: null,
-    timeframeUnit: null,
-    dataComplete: 0,
-    proposal: null,
-    faqLink: null,
-    agreementJson: null,
-    coverPhotoPath: null,
-    cardPhotoPath: null,
-    milestonePath: null,
-    proposalFilePath: null,
-    agreementFileHash: null,
-    goalAmount: '0',
-    status: 'draft',
-    createdAt: '2022-10-21T03:00:00.000Z',
-    address: null,
-    consensusSeconds: 864000,
-    fundingSeconds: 864000,
-    lastUpdatedStatusAt: '2022-10-21T16:06:36.024Z',
-    id: 1,
-    txHash: null,
-    rejectionReason: null,
-    owner: '6ef6da68-04e7-486c-bcf3-09eca7cee81c',
-    nextStatusUpdateAt: null
-  };
-  if (projects) {
-    const projectsParsed = JSON.parse(projects);
-    const updatedProjects = [...projectsParsed, projectGenerated];
-    localStorage.setItem('projects', JSON.stringify(updatedProjects));
-  }
-  if (!projects) {
-    localStorage.setItem('projects', JSON.stringify([projectGenerated]));
-  }
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ projectId: projectGenerated.id });
-    });
-  });
-};
+export const createProject = () => apiCall('post', `${baseURL}`);
 
 export const putBasicInformation = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -82,46 +36,9 @@ export const updateProjectThumbnail = (projectId, saveData) => {
   return doPut(`${baseURL}/${projectId}/description`, saveData, config);
 };
 
-/* export const updateProjectDetail = (projectId, saveData) => {
-  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
-}; */
-
 export const updateProjectDetail = (projectId, saveData) => {
-  const projects = JSON.parse(localStorage.getItem('projects'));
-  const projectFound = projects?.find(
-    project => project.id.toString() === projectId.toString()
-  );
-
-  let saveDataObj = {};
-  // eslint-disable-next-line no-restricted-syntax
-  for (const pair of saveData.entries()) {
-    saveDataObj = { ...saveDataObj, [pair[0]]: pair[1] };
-  }
-
-  const projectDetailsGenerated = {
-    ...saveDataObj,
-    proposalFilePath: 'thisIsAnUrl',
-    agreementFileHash: 'thisIsAnUrl'
-  };
-
-  const projectFoundUpdated = {
-    ...projectFound,
-    ...projectDetailsGenerated
-  };
-
-  const updatedProjects = projects.map(project => {
-    if (project.id === projectId) return projectFoundUpdated;
-    return project;
-  });
-
-  localStorage.setItem('projects', JSON.stringify(updatedProjects));
-
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ data: { projectId } });
-    });
-  });
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  return doPut(`${baseURL}/${projectId}/details`, saveData, config);
 };
 
 export const updateProjectProposal = (projectId, saveData) =>
@@ -135,19 +52,7 @@ export const processProjectMilestones = (projectId, saveData) => {
 export const getProjectMilestones = projectId =>
   doGet(`${baseURL}/${projectId}/milestones`);
 
-//export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
-
-export const getProject = projectId => {
-  const projects = JSON.parse(localStorage.getItem('projects'));
-  const projectFound = projects?.find(
-    project => project.id.toString() === projectId.toString()
-  );
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ data: projectFound });
-    });
-  });
-};
+export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
 
 export const useGetPublicProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects/public');
