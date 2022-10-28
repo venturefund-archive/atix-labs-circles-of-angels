@@ -101,8 +101,11 @@ const FormProjectDetailContent = ({
       <TitlePage textTitle="Complete Project´s Details" />
       <Form className="recovery-form changepassword-form" onSubmit={submit}>
         <Row gutter={22}>
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             <Form.Item label="About the project">
+              <p>
+                Share your information about the entrepreneurs and the project
+              </p>
               {getFieldDecorator('problemAddressed', {
                 rules: [
                   {
@@ -118,8 +121,12 @@ const FormProjectDetailContent = ({
             </Form.Item>
           </Col>
 
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             <Form.Item label="Our mission and vision">
+              <p>
+                Share your Project Mission, the impact you have made so far and
+                what your project is about
+              </p>
               {getFieldDecorator('mission', {
                 rules: [
                   {
@@ -137,7 +144,7 @@ const FormProjectDetailContent = ({
           </Col>
         </Row>
         <Row gutter={22}>
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             <Form.Item label="Currency Type">
               {getFieldDecorator('currencyType', {
                 rules: [
@@ -158,7 +165,7 @@ const FormProjectDetailContent = ({
               )}
             </Form.Item>
           </Col>
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             <Form.Item label="Currency">
               {getFieldDecorator('currency', {
                 rules: [
@@ -181,9 +188,10 @@ const FormProjectDetailContent = ({
           </Col>
         </Row>
         <Row gutter={22}>
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             {currentCurrencyType?.toLowerCase() === 'fiat' && (
               <Form.Item label="Account Information">
+                <p>Fill in your bank account information</p>
                 {getFieldDecorator('additionalCurrencyInformation', {
                   rules: [
                     {
@@ -201,6 +209,7 @@ const FormProjectDetailContent = ({
             )}
             {currentCurrencyType?.toLowerCase() === 'crypto' && (
               <Form.Item label="Address">
+                <p>Enter your wallet address here</p>
                 {getFieldDecorator('password', {
                   rules: [
                     {
@@ -216,8 +225,12 @@ const FormProjectDetailContent = ({
               </Form.Item>
             )}
           </Col>
-          <Col className="InputTwoLabel" span={12}>
+          <Col span={12}>
             <Form.Item label="Budget">
+              <p>
+                Here the sum recorded in the milestones and activities will be
+                displayed
+              </p>
               <Input placeholder="0.00" disabled />
             </Form.Item>
           </Col>
@@ -245,7 +258,9 @@ const FormProjectDetailContent = ({
               </Col>
               <Col span={12}>
                 <h3>Legal Agreement</h3>
-                <span>Format: PDF, up to 20 MB.</span>
+                <span>
+                  Recomended document files. Format: PDF, up to 20 MB.
+                </span>
               </Col>
             </Row>
           </Col>
@@ -271,7 +286,9 @@ const FormProjectDetailContent = ({
               </Col>
               <Col span={12}>
                 <h3>Project Proposal</h3>
-                <span>Format: PDF, up to 20 MB.</span>
+                <span>
+                  Recomended document files. Format: PDF, up to 20 MB.
+                </span>
               </Col>
             </Row>
           </Col>
