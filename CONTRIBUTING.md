@@ -1,6 +1,6 @@
 ## What do I need to know to help?
 
-If you are looking to help to with a code contribution our project uses \_React, Next. If you don't feel ready to make a code contribution yet, no problem! You can also check out the documentation issues [issues](https://gitlab.com/atixlabs-oss/coa-v2/circles-of-angels-api-v2/-/issues) or the design issues that we have
+If you are looking to help to with a code contribution our project uses _React & Next_. If you don't feel ready to make a code contribution yet, no problem! You can also check out the documentation issues [issues](https://gitlab.com/atixlabs-oss/coa-v2/circles-of-angels-api-v2/-/issues) or the design issues that we have
 
 If you are interested in making a code contribution and would like to learn more about the technologies that we use, check out the list below.
 
