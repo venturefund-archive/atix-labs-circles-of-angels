@@ -11,8 +11,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
-/* import './_createproject.scss'; */
-/* import './_style.scss'; */
+import './_createproject.scss';
+import './_style.scss';
+import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
 import Thumbnails from '../components/organisms/Thumbnails/Thumbnails';
 import ProjectDetailFormContainer from '../components/organisms/ProjectDetailFormContainer/ProjectDetailFormContainer';
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
@@ -30,7 +31,7 @@ import { showModalConfirm } from '../components/utils/Modals';
 const wizards = {
   main: CreateProject,
   thumbnails: Thumbnails,
-  details: ProjectDetailFormContainer,
+  details: FormProjectDetail,
   proposal: ProjectProposalFormContainer,
   milestones: CreateMilestonesFormContainer
 };
@@ -71,7 +72,6 @@ const CreateProjectContainer = () => {
         location: data.location
       };
 
-      console.log({ ...data, id });
       submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
       setProject({ ...data, id });
       await checkStepsStatus(data);
@@ -80,13 +80,17 @@ const CreateProjectContainer = () => {
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { id: projectId, projectName, mission, proposal } = projectToCheck;
+    const { id: projectId, projectName, details, proposal } = projectToCheck;
 
     const response = await getProjectMilestones(projectId);
 
     const stepsStatus = {
       thumbnails: !!projectName && projectName !== 'Untitled',
-      details: !!mission,
+      details:
+        details?.mission &&
+        details?.problemAddressed &&
+        details?.currency &&
+        details?.currencyType,
       proposal: !!proposal,
       milestones: !response.errors && response.data.length > 0
     };
