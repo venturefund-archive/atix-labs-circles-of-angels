@@ -11,7 +11,7 @@ export default function useMultiStepForm(
 ) {
   // FIXME : it should validate initial state.
   const [fields, setFields] = useState(formFields);
-  const [steps] = useState(formSteps);
+  const [steps, setSteps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
   // TODO : This should replace all steps!
@@ -166,10 +166,9 @@ export default function useMultiStepForm(
     const isDisabled = disabled || !isFormValid();
     return (
       <CustomButton
-        theme={isDisabled ? 'disabled' : 'Primary'}
+        theme="Primary"
         buttonText={isLast(current) ? lastText : 'Next'}
         onClick={nextStep}
-        disabled={isDisabled}
       />
     );
   }
@@ -191,7 +190,7 @@ export default function useMultiStepForm(
     }
   }, [shouldSubmit, submitCallback, fields]);
 
-  return [
+  return {
     fields,
     setFields,
     steps,
@@ -201,6 +200,7 @@ export default function useMultiStepForm(
     handleChange,
     getNextStepButton,
     getPrevStepButton,
-    validateFields
-  ];
+    validateFields,
+    setSteps
+  };
 }

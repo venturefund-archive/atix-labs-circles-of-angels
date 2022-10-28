@@ -39,18 +39,16 @@ const ProjectDetailFormContainer = ({
   onSuccess
 }) => {
   // why multistep form instead of the simple one?
-  const [
+  const {
     fields,
     setFields,
-    ,
-    ,
     currentStep,
-    ,
     handleChange,
     getNextStepButton,
     getPrevStepButton,
-    validateFields
-  ] = useMultiStepForm(
+    validateFields,
+    setSteps
+  } = useMultiStepForm(
     formFields,
     formSteps,
     0,
@@ -60,45 +58,71 @@ const ProjectDetailFormContainer = ({
   );
 
   useEffect(() => {
+    if (fields.currencyType.value?.toLowerCase() === 'fiat') {
+      const { currency, walletAddress, ...restFields } = fields;
+      const updatedFields = {
+        ...restFields,
+        currency: {
+          ...currency,
+          options: [
+            { name: 'USD', value: 'USD' },
+            { name: 'EUR', value: 'EUR' },
+            { name: 'CHF', value: 'CHF' },
+            { name: 'GBP', value: 'GBP' }
+          ]
+        }
+      };
+      setFields(updatedFields);
+      setSteps([
+        {
+          fields: Object.keys(updatedFields)
+        }
+      ]);
+    }
+    if (fields.currencyType.value?.toLowerCase() === 'crypto') {
+      const { currency, accountInformation, ...restFields } = fields;
+      const updatedFields = {
+        ...restFields,
+        currency: {
+          ...currency,
+          options: [
+            { name: 'BTC', value: 'BTC' },
+            { name: 'ETH', value: 'ETH' },
+            { name: 'USDT', value: 'USDT' },
+            { name: 'ETC', value: 'ETC' }
+          ]
+        }
+      };
+      setFields(updatedFields);
+      setSteps([
+        {
+          fields: Object.keys(updatedFields)
+        }
+      ]);
+    }
+  }, [fields.currencyType.value]);
+
+  useEffect(() => {
+    console.log({ project });
     if (!project || !project.id) return goBack();
-
-    clearFields();
-    const projectFields = { ...fields };
-    const {
-      mission,
-      problemAddressed,
-      coverPhotoPath,
-      agreementFilePath,
-      proposalFilePath
-    } = project;
-
-    if (
-      !mission &&
-      !problemAddressed &&
-      !coverPhotoPath &&
-      !agreementFilePath &&
-      !proposalFilePath
-    )
-      return;
-
-    projectFields.mission.value = mission;
-    projectFields.problemAddressed.value = problemAddressed;
-    projectFields.coverPhotoPath.value = coverPhotoPath;
-    projectFields.agreementFile.value = agreementFilePath;
-    projectFields.proposalFile.value = proposalFilePath;
-
-    setFields({ ...projectFields });
-    validateFields();
   }, [setFields, project, goBack]);
 
   const onSubmit = async values => {
+    const { accountInformation, walletAddress, about, ...restValues } = values;
+    const valuesProcessed = { ...restValues, problemAddressed: about };
+
+    if (accountInformation)
+      valuesProcessed.additionalCurrencyInformation = accountInformation;
+    if (walletAddress)
+      valuesProcessed.additionalCurrencyInformation = walletAddress;
+
     const data = new FormData();
-    Object.values(values).forEach(field => {
+    Object.entries(valuesProcessed).forEach(([key, field]) => {
       if (field.value) {
         if (field.type === 'file' && Array.isArray(field.value)) {
-          field.value.forEach(file => data.append(field.name, file));
+          field.value.forEach(file => data.append(key, file));
         } else if (field.type !== 'file') {
-          data.set(field.name, field.value);
+          data.set(key, field.value);
         }
       }
     });
@@ -107,7 +131,7 @@ const ProjectDetailFormContainer = ({
     data.forEach((value, key) => {
       formData[key] = value;
     });
-    clearFields();
+    /* clearFields(); */
     try {
       if (project && project.id) {
         const response = await updateProjectDetail(project.id, data);

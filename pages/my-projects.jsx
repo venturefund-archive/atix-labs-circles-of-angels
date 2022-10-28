@@ -17,10 +17,7 @@ import './_explore-projects.scss';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { projectStatuses, SUPPORTER } from '../constants/constants';
-import {
-  getFollowedProjects,
-  getAppliedProjects
-} from '../api/userApi';
+import { getFollowedProjects, getAppliedProjects } from '../api/userApi';
 import { createProject, getProjects } from '../api/projectApi';
 
 const MyProjects = ({ user }) => {
@@ -80,8 +77,8 @@ const MyProjects = ({ user }) => {
   };
 
   const goToNewProject = async () => {
-    const { projectId } = await createProject()
-    history.push(`/project/edit/${projectId}`)
+    const { projectId } = await createProject();
+    history.push(`/project/edit/${projectId}`);
   };
 
   useEffect(() => {

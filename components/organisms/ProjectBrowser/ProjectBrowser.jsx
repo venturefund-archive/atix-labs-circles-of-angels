@@ -45,7 +45,7 @@ const ProjectBrowser = ({
           <TitlePage textTitle={title} style={{ fontWeight: '700' }} />
         </Col>
       </Row>
-      <Row gutter={16}>
+      <Row className="ProjectsCardsContainer" gutter={16}>
         {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
           <CardNewProject onClick={onNewProject} />
         )}

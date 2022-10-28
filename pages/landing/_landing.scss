@@ -32,11 +32,11 @@
 
   .BlockBanner {
     height: 95vh;
-    background: linear-gradient(90deg,
+    /* background: linear-gradient(90deg,
         rgb(0, 0, 0) 0%,
         rgba(19, 19, 19, 0.78) 35%,
         rgba(0, 0, 0, 0.052) 100%),
-      url(/static/images/background-banner.png);
+      url(/static/images/background-banner.png); */
 
     h1 {
       @include primary-text($titlebanner, $white, 500);
@@ -109,7 +109,7 @@
   }
 
   .ant-btn.CustomButton {
-    display: inline-block
+    display: inline-block;
   }
 
   .ant-btn.CustomButton.Secondary span {

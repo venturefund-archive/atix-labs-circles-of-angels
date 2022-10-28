@@ -19,11 +19,6 @@ const Header = () => {
   const user = getLoggedUser();
   return (
     <div className="HeaderContainer">
-      <img
-        className="Logo"
-        src={customConfig.TEXT_LOGO_PATH}
-        alt={`${customConfig.NAME} text logo`}
-      />
       <div className="RightSide">
         {user && user.role ? <UserAvatar user={user} /> : ''}
       </div>

@@ -29,7 +29,7 @@ export const createProject = () => apiCall('post', `${baseURL}`);
 export const putBasicInformation = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
   return doPost(`${baseURL}/${projectId}/basic-information`, saveData, config);
-}
+};
 
 export const updateProjectThumbnail = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -38,7 +38,7 @@ export const updateProjectThumbnail = (projectId, saveData) => {
 
 export const updateProjectDetail = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
+  return doPut(`${baseURL}/${projectId}/details`, saveData, config);
 };
 
 export const updateProjectProposal = (projectId, saveData) =>
