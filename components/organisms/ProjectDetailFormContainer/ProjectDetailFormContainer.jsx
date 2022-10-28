@@ -133,7 +133,7 @@ const ProjectDetailFormContainer = ({
     /* clearFields(); */
     try {
       if (project && project.id) {
-        const response = await updateProjectDetail(project.id, data);
+        const response = await updateProjectDetail(3, data);
         if (response.errors) {
           return onError(response.errors);
         }
