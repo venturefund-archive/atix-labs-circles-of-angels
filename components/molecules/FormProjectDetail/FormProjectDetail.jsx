@@ -9,23 +9,13 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Col,
-  Upload,
-  Icon,
-  Select
-} from 'antd';
-import './_style.scss';
+import { Button, Form, Input, Row, Col, Upload, Icon, Select } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import LogoWrapper from '../../atoms/LogoWrapper';
-import { updateProjectDetail } from '../../../api/projectApi';
+import { updateProjectDetail } from 'api/projectApi';
+import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
+import Styles from './form-project-detail.module.scss';
 
 const { Option } = Select;
 
@@ -38,24 +28,40 @@ const FormProjectDetailContent = ({
 }) => {
   const { getFieldDecorator, setFieldsValue } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
-  const [currentCurrencies, setCurrentCurrencies] = useState([]);
+
+  const {
+    problemAddressed,
+    mission,
+    currencyType,
+    currency,
+    additionalCurrencyInformation,
+    legalAgreementFile,
+    projectProposalFile
+  } = project?.details;
 
   useEffect(() => {
-    setCurrentCurrencyType(project?.details?.currencyType);
-    setFieldsValue({
-      ...project?.details,
-      projectProposalFile: [{ url: project?.proposalFilePath }]
-    });
-  }, [project]);
+    if (currencyType) {
+      setCurrentCurrencyType(currencyType.toLowerCase());
+    }
+  }, [currencyType]);
 
-  const submit = () => {
-    form.validateFields(async (err, values) => {
+  const submit = e => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
       if (!err) {
+        const {
+          projectProposalFile: _projectProposalFile,
+          legalAgreementFile: _legalAgreementFile,
+          ...restValues
+        } = values;
         const valuesProcessed = {
-          ...values,
-          projectProposalFile: values.projectProposalFile.file,
-          legalAgreementFile: values.legalAgreementFile.file
+          ...restValues
         };
+
+        if (_projectProposalFile)
+          valuesProcessed.projectProposalFile = _projectProposalFile.file;
+        if (_legalAgreementFile)
+          valuesProcessed.legalAgreementFile = _legalAgreementFile.file;
 
         const formData = new FormData();
 
@@ -63,43 +69,58 @@ const FormProjectDetailContent = ({
           formData.append(key, valuesProcessed[key]);
         });
 
-        const response = await updateProjectDetail(project.id, formData);
-
-        if (response.errors) {
-          return onError(response.errors);
-        }
-
-        onSuccess(response.data);
-        goBack();
+        updateProjectProcess(project.id, formData);
       }
     });
   };
 
-  const validAlphanumericField = (_rule, value, callback) => {
-    const alphanumericRegex = new RegExp(onlyAlphanumerics);
-    if (value && !alphanumericRegex.test(value)) {
-      callback('Please input an alphanumeric value for this field.');
-    } else {
-      callback();
+  const updateProjectProcess = async (projectId, formData) => {
+    const response = await updateProjectDetail(projectId, formData);
+
+    if (response.errors) {
+      return onError(response.errors);
     }
+
+    onSuccess(response.data);
+    goBack();
   };
 
-  const handleChangeCurrencyType = value => {
-    setCurrentCurrencyType(value);
-    const lowerCasedValue = value.toLowerCase();
-    setCurrentCurrencies(CURRENCIES[lowerCasedValue]);
+  const validFileSize = (_rule, value, callback) => {
+    if (value?.file.size / 1000000 > 20)
+      return callback(
+        '* The file is invalid. Review the recommendations and try again'
+      );
+    return callback();
   };
 
   const uploadProps = {
     name: 'file',
     beforeUpload: () => false,
-    accept: '.pdf'
+    accept: '.pdf',
+    multiple: false
   };
+
+  const filesRules = initialValue =>
+    initialValue
+      ? [
+          {
+            validator: validFileSize
+          }
+        ]
+      : [
+          {
+            required: true,
+            message: 'Please upload a valid agreement file!'
+          },
+          {
+            validator: validFileSize
+          }
+        ];
 
   return (
     <>
-      <TitlePage textTitle="Complete Project´s Details" />
-      <Form className="recovery-form changepassword-form" onSubmit={submit}>
+      <TitlePage textTitle="Complete Project's Details" />
+      <Form onSubmit={submit}>
         <Row gutter={22}>
           <Col span={12}>
             <Form.Item label="About the project">
@@ -114,9 +135,12 @@ const FormProjectDetailContent = ({
                     whitespace: true
                   },
                   {
-                    validator: validAlphanumericField
+                    pattern: onlyAlphanumerics,
+                    message:
+                      'Please input an alphanumeric value for this field.'
                   }
-                ]
+                ],
+                initialValue: problemAddressed
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
           </Col>
@@ -136,9 +160,12 @@ const FormProjectDetailContent = ({
                     whitespace: true
                   },
                   {
-                    validator: validAlphanumericField
+                    pattern: onlyAlphanumerics,
+                    message:
+                      'Please input an alphanumeric value for this field.'
                   }
-                ]
+                ],
+                initialValue: mission
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
           </Col>
@@ -153,11 +180,19 @@ const FormProjectDetailContent = ({
                     message: 'Please select a currency type',
                     whitespace: true
                   }
-                ]
+                ],
+                initialValue: currencyType
               })(
                 <Select
                   placeholder="Select currency type"
-                  onChange={handleChangeCurrencyType}
+                  onChange={value => {
+                    setCurrentCurrencyType(value?.toLowerCase());
+                    if (value !== currentCurrencyType)
+                      setFieldsValue({
+                        currency: null,
+                        additionalCurrencyInformation: ''
+                      });
+                  }}
                 >
                   <Option value="Fiat">FIAT</Option>
                   <Option value="Crypto">CRYPTO</Option>
@@ -174,10 +209,11 @@ const FormProjectDetailContent = ({
                     message: 'Please select a currency',
                     whitespace: true
                   }
-                ]
+                ],
+                initialValue: currency
               })(
                 <Select placeholder="Select currency">
-                  {currentCurrencies.map(({ label, value }) => (
+                  {CURRENCIES[currentCurrencyType]?.map(({ label, value }) => (
                     <Option value={value} key={value}>
                       {label}
                     </Option>
@@ -189,7 +225,7 @@ const FormProjectDetailContent = ({
         </Row>
         <Row gutter={22}>
           <Col span={12}>
-            {currentCurrencyType?.toLowerCase() === 'fiat' && (
+            {currentCurrencyType === 'fiat' && (
               <Form.Item label="Account Information">
                 <p>Fill in your bank account information</p>
                 {getFieldDecorator('additionalCurrencyInformation', {
@@ -201,16 +237,19 @@ const FormProjectDetailContent = ({
                       whitespace: true
                     },
                     {
-                      validator: validAlphanumericField
+                      pattern: onlyAlphanumerics,
+                      message:
+                        'Please input an alphanumeric value for this field.'
                     }
-                  ]
+                  ],
+                  initialValue: additionalCurrencyInformation
                 })(<Input.TextArea placeholder="" maxLength={50} />)}
               </Form.Item>
             )}
-            {currentCurrencyType?.toLowerCase() === 'crypto' && (
+            {currentCurrencyType === 'crypto' && (
               <Form.Item label="Address">
                 <p>Enter your wallet address here</p>
-                {getFieldDecorator('password', {
+                {getFieldDecorator('additionalCurrencyInformation', {
                   rules: [
                     {
                       required: true,
@@ -218,9 +257,12 @@ const FormProjectDetailContent = ({
                       whitespace: true
                     },
                     {
-                      validator: validAlphanumericField
+                      pattern: onlyAlphanumerics,
+                      message:
+                        'Please input an alphanumeric value for this field.'
                     }
-                  ]
+                  ],
+                  initialValue: additionalCurrencyInformation
                 })(<Input placeholder="New Password" maxLength={50} />)}
               </Form.Item>
             )}
@@ -241,12 +283,7 @@ const FormProjectDetailContent = ({
               <Col span={12}>
                 <Form.Item label="">
                   {getFieldDecorator('legalAgreementFile', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please upload a valid agreement file!'
-                      }
-                    ]
+                    rules: filesRules(legalAgreementFile)
                   })(
                     <Upload {...uploadProps}>
                       <Button>
@@ -259,7 +296,7 @@ const FormProjectDetailContent = ({
               <Col span={12}>
                 <h3>Legal Agreement</h3>
                 <span>
-                  Recomended document files. Format: PDF, up to 20 MB.
+                  Recommended document files. Format: PDF, up to 20 MB.
                 </span>
               </Col>
             </Row>
@@ -269,12 +306,7 @@ const FormProjectDetailContent = ({
               <Col span={12}>
                 <Form.Item label="">
                   {getFieldDecorator('projectProposalFile', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please upload a valid proposal file!'
-                      }
-                    ]
+                    rules: filesRules(projectProposalFile)
                   })(
                     <Upload {...uploadProps}>
                       <Button>
@@ -287,19 +319,27 @@ const FormProjectDetailContent = ({
               <Col span={12}>
                 <h3>Project Proposal</h3>
                 <span>
-                  Recomended document files. Format: PDF, up to 20 MB.
+                  Recommended document files. Format: PDF, up to 20 MB.
                 </span>
               </Col>
             </Row>
           </Col>
         </Row>
       </Form>
-      <Button className="ant-btn ant-btn-primary" onClick={goBack}>
-        Back
-      </Button>
-      <Button className="ant-btn ant-btn-primary" onClick={submit}>
-        Save and continue
-      </Button>
+      <FooterButtons
+        prevStepButton={(() => (
+          <Button onClick={goBack}>Back</Button>
+        ))()}
+        nextStepButton={(() => (
+          <Button
+            type="primary"
+            onClick={submit}
+            className={Styles.form__footer}
+          >
+            Save and continue
+          </Button>
+        ))()}
+      />
     </>
   );
 };
@@ -309,6 +349,16 @@ export const FormProjectDetail = Form.create({ name: 'FormProjectDetail' })(
 );
 
 FormProjectDetailContent.propTypes = {
-  form: PropTypes.element.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSuccess: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  project: PropTypes.shape({
+    details: PropTypes.shape({
+      problemAddressed: PropTypes.string,
+      mission: PropTypes.string,
+      currencyType: PropTypes.string,
+      currency: PropTypes.string,
+      additionalCurrencyInformation: PropTypes.string
+    })
+  }).isRequired,
+  onError: PropTypes.func.isRequired
 };
