@@ -166,3 +166,18 @@ export const CURRENCIES = {
     }
   ]
 };
+
+export const TIMEFRAME_UNITS = [
+  {
+    label: 'Days',
+    value: 'days'
+  },
+  {
+    label: 'Months',
+    value: 'months'
+  },
+  {
+    label: 'Years',
+    value: 'years'
+  }
+];

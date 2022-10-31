@@ -31,10 +31,7 @@ const BackOfficeMilestones = () => {
   const fetchMilestones = async () => {
     // TODO filters should be defined and added
     const response = await getMilestones({
-      claimStatus: [
-        claimMilestoneStatus.CLAIMED,
-        claimMilestoneStatus.TRANSFERRED
-      ]
+      claimStatus: [claimMilestoneStatus.CLAIMED, claimMilestoneStatus.TRANSFERRED]
     });
 
     if (response.errors) {
@@ -42,9 +39,7 @@ const BackOfficeMilestones = () => {
       return;
     }
 
-    const filteredMilestones = filterAbortedProjects(
-      response ? response.data : []
-    );
+    const filteredMilestones = filterAbortedProjects(response ? response.data : []);
 
     setMilestones(filteredMilestones);
   };
@@ -63,7 +58,7 @@ const BackOfficeMilestones = () => {
   };
 
   useEffect(() => {
-    fetchMilestones();
+    /* fetchMilestones(); */
   }, []);
 
   useEffect(() => {
@@ -73,10 +68,7 @@ const BackOfficeMilestones = () => {
   return (
     <div className="TableContainer">
       <h1>Milestones Administration</h1>
-      <TableBOMilestones
-        data={milestones}
-        onFundsTransferred={setSelectedMilestone}
-      />
+      <TableBOMilestones data={milestones} onFundsTransferred={setSelectedMilestone} />
       <CustomFormModal
         title="Upload Transfer Receipt"
         onConfirm={onFundsTransferred}

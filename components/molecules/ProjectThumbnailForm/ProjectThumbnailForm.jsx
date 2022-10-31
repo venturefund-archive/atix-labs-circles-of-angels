@@ -66,7 +66,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
     <Fragment>
       <Row
         type="flex"
-        justify="space-around"
+        justify="space-between"
         align="middle"
         className="centered"
       >
@@ -75,8 +75,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
           <Col className="BlockImage" sm={24} md={24} lg={24}>
             <img
               width="700"
-              height="400"
-              src={photoPreview || './static/images/thumbnail-example.png'}
+              src={photoPreview || '/static/images/thumbnail-default.svg'}
               alt="thumbnail"
             />
           </Col>

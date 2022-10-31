@@ -14,7 +14,7 @@ const CardNewProject = ({ onClick }) => (
   "
   >
     <div className="ContentContainer">
-      <img src="/static/images/new-project.png" alt="" />
+      <img src="/static/images/new-project.png" alt="New project" />
       <h1>New Project</h1>
     </div>
   </Col>
