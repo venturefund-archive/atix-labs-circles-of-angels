@@ -36,7 +36,7 @@ const CreateProject = ({
   completedSteps,
   deleteProject
 }) => {
-  const { id, status, projectName } = project;
+  const { status, projectName } = project;
 
   const getContinueLaterButton = () => (
     <CustomButton
@@ -72,17 +72,15 @@ const CreateProject = ({
     );
   };
 
-  const deleteProjectButton = () => {
-    return (
-      <CustomButton
-        buttonText="Delete Project"
-        theme="Alternative"
-        classNameIcon="iconDisplay"
-        icon="delete"
-        onClick={deleteProject}
-      />
-    );
-  };
+  const deleteProjectButton = () => (
+    <CustomButton
+      buttonText="Delete Project"
+      theme="Alternative"
+      classNameIcon="iconDisplay"
+      icon="delete"
+      onClick={deleteProject}
+    />
+  );
 
   return (
     <Fragment>

@@ -8,7 +8,7 @@
  */
 
 import React, { useState } from 'react';
-import { Row, Col } from 'antd';
+import { Row } from 'antd';
 import '../_style.scss';
 import './_landing.scss';
 import customConfig from 'custom-config';
@@ -27,11 +27,7 @@ function Landing() {
         theme="Secondary"
         onClick={() => setVisibility(true)}
       />
-      <ModalLogin
-        data-testid="modal"
-        setVisibility={setVisibility}
-        visibility={visibility}
-      />
+      <ModalLogin data-testid="modal" setVisibility={setVisibility} visibility={visibility} />
     </div>
   );
 

@@ -9,7 +9,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Row, Col, Upload, Icon, Select, Divider, Skeleton, Tag } from 'antd';
+import { Button, Form, Input, Row, Col, Upload, Icon, Select, Divider } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
@@ -22,7 +22,6 @@ const { Option } = Select;
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
   const { getFieldDecorator } = form;
-  const [setCurrentCurrencyType] = useState();
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({});
   const {
@@ -33,15 +32,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     country
   } = currentBasicInformation;
 
-  const {
-    problemAddressed,
-    mission,
-    currencyType,
-    currency,
-    additionalCurrencyInformation,
-    legalAgreementFile,
-    projectProposalFile
-  } = project?.details;
+  const { problemAddressed } = project?.details;
 
   const submit = e => {
     e.preventDefault();
