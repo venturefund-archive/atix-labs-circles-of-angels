@@ -19,10 +19,7 @@ import FooterButtons from '../FooterButtons/FooterButtons';
 import { thumbnailsFormInputs } from '../../../helpers/createProjectFormFields';
 import { PROJECT_FORM_NAMES } from '../../../constants/constants';
 import useForm from '../../../hooks/useForm';
-import {
-  createProjectThumbnail,
-  updateProjectThumbnail
-} from '../../../api/projectApi';
+import { createProjectThumbnail, updateProjectThumbnail } from '../../../api/projectApi';
 import ProjectThumbnailForm from '../../molecules/ProjectThumbnailForm/ProjectThumbnailForm';
 import { getCountries } from '../../../api/userApi';
 
@@ -36,21 +33,16 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(project, 'thumbnails')
+    console.log(project, 'thumbnails');
     if (!project || !project.id) return;
 
     const projectFields = { ...fields };
 
-    projectFields.projectName.value =
-      project.projectName || projectFields.projectName.value;
-    projectFields.timeframe.value =
-      project.timeframe || projectFields.timeframe.value;
-    projectFields.goalAmount.value =
-      project.goalAmount || projectFields.goalAmount.value;
-    projectFields.cardPhotoPath.value =
-      project.cardPhotoPath || projectFields.cardPhotoPath.value;
-    projectFields.location.value =
-      project.location.split(',') || projectFields.location.value;
+    projectFields.projectName.value = project.projectName || projectFields.projectName.value;
+    projectFields.timeframe.value = project.timeframe || projectFields.timeframe.value;
+    projectFields.goalAmount.value = project.goalAmount || projectFields.goalAmount.value;
+    projectFields.cardPhotoPath.value = project.cardPhotoPath || projectFields.cardPhotoPath.value;
+    projectFields.location.value = project.location.split(',') || projectFields.location.value;
 
     setFields({
       ...projectFields
@@ -61,8 +53,7 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   const onSubmit = async data => {
     const formData = {};
     data.forEach((value, key) => {
-      if (key !== thumbnailsFormInputs.cardPhotoPath.name)
-        formData[key] = value;
+      if (key !== thumbnailsFormInputs.cardPhotoPath.name) formData[key] = value;
     });
     submitForm(PROJECT_FORM_NAMES.THUMBNAILS, formData);
     clearFields();
@@ -141,16 +132,12 @@ const Thumbnails = ({ project, goBack, submitForm, onError, onSuccess }) => {
   return (
     <Fragment>
       <div className="ThumbnailsWrapper">
-        <TitlePage textTitle="Complete Basic Information" style={{ fontWeight: "bold", fontSize: "24px" }}/>
-        <ProjectThumbnailForm
-          fields={fields}
-          handleChange={handleChange}
-          loading={loading}
+        <TitlePage
+          textTitle="Complete Basic Information"
+          style={{ fontWeight: 'bold', fontSize: '24px' }}
         />
-        <FooterButtons
-          nextStepButton={getNextStepButton()}
-          prevStepButton={getPrevStepButton()}
-        />
+        <ProjectThumbnailForm fields={fields} handleChange={handleChange} loading={loading} />
+        <FooterButtons nextStepButton={getNextStepButton()} prevStepButton={getPrevStepButton()} />
       </div>
     </Fragment>
   );

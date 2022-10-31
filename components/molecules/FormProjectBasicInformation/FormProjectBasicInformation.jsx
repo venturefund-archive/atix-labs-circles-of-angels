@@ -68,12 +68,6 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     goBack();
   };
 
-  const validFileSize = (_rule, value, callback) => {
-    if (value?.file.size / 1000000 > 20)
-      return callback('* The file is invalid. Review the recommendations and try again');
-    return callback();
-  };
-
   const uploadProps = {
     name: 'file',
     beforeUpload: () => false,
