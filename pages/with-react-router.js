@@ -1,10 +1,10 @@
 import React from 'react';
 
-const App = App =>
+const App = AppComponent =>
   class AppWithReactRouter extends React.Component {
     render() {
       const isServer = typeof window === 'undefined';
-      return !isServer && <App {...this.props} />;
+      return !isServer && <AppComponent {...this.props} />;
     }
   };
 

@@ -127,3 +127,42 @@ export const SHOW_BLOCKCHAIN_INFO_STATUS = [
   projectStatuses.CHANGING_SCOPE,
   projectStatuses.ABORTED
 ];
+
+export const CURRENCIES = {
+  fiat: [
+    {
+      value: 'USD',
+      label: 'USD'
+    },
+    {
+      value: 'EUR',
+      label: 'EUR'
+    },
+    {
+      value: 'CHF',
+      label: 'CHF'
+    },
+    {
+      value: 'GBP',
+      label: 'GBP'
+    }
+  ],
+  crypto: [
+    {
+      value: 'BTC',
+      label: 'BTC'
+    },
+    {
+      value: 'ETH',
+      label: 'ETH'
+    },
+    {
+      value: 'USDT',
+      label: 'USDT'
+    },
+    {
+      value: 'ETC',
+      label: 'ETC'
+    }
+  ]
+};

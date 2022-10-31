@@ -14,10 +14,6 @@ import Cookies from 'js-cookie';
 
 export const UserContext = React.createContext({});
 
-export function useUserContext() {
-  return useContext(UserContext);
-}
-
 export const withUser = c => c;
 
 const USER_KEY = 'user';
@@ -51,6 +47,12 @@ const context = {
   isFunder: false,
   isOracle: false
 };
+
+export function useUserContext() {
+  // return useContext(UserContext);
+  return context;
+}
+
 
 export const UserProvider = ({ children }) => (
   <UserContext.Provider value={context}>{children}</UserContext.Provider>
