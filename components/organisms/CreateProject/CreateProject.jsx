@@ -30,10 +30,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
       <h5>{subtitle}</h5>
     </Col>
     <Col className="BlockButton" xs={6} sm={6} md={4} lg={2}>
-      <CustomButton
-        buttonText={completed ? 'Edit' : 'Upload'}
-        onClick={onClick}
-      />
+      <CustomButton buttonText="Edit" onClick={onClick} />
     </Col>
   </Col>
 );

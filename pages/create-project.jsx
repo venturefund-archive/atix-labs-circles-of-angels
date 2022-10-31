@@ -14,8 +14,7 @@ import { useHistory } from 'react-router';
 import './_createproject.scss';
 import './_style.scss';
 import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
-import Thumbnails from '../components/organisms/Thumbnails/Thumbnails';
-import ProjectDetailFormContainer from '../components/organisms/ProjectDetailFormContainer/ProjectDetailFormContainer';
+import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
@@ -30,7 +29,7 @@ import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
   main: CreateProject,
-  thumbnails: Thumbnails,
+  thumbnails: FormProjectBasicInformation,
   details: FormProjectDetail,
   proposal: ProjectProposalFormContainer,
   milestones: CreateMilestonesFormContainer
