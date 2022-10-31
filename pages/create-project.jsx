@@ -19,12 +19,7 @@ import ProjectProposalFormContainer from '../components/organisms/ProjectProposa
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
-import {
-  getProject,
-  sendToReview,
-  deleteProject,
-  getProjectMilestones
-} from '../api/projectApi';
+import { getProject, sendToReview, deleteProject, getProjectMilestones } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
@@ -79,17 +74,14 @@ const CreateProjectContainer = () => {
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { id: projectId, projectName, details, proposal } = projectToCheck;
+    const { id: projectId, details, proposal, basicInformation } = projectToCheck;
 
     const response = await getProjectMilestones(projectId);
 
     const stepsStatus = {
-      thumbnails: !!projectName && projectName !== 'Untitled',
+      thumbnails: !!basicInformation?.projectName && basicInformation?.projectName !== 'Untitled',
       details:
-        details?.mission &&
-        details?.problemAddressed &&
-        details?.currency &&
-        details?.currencyType,
+        details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: !!proposal,
       milestones: !response.errors && response.data.length > 0
     };
@@ -97,9 +89,7 @@ const CreateProjectContainer = () => {
     setCompletedSteps(stepsStatus);
   };
 
-  const submitForm = useCallback((formKey, values) =>
-    updateFormValues(values, formKey)
-  );
+  const submitForm = useCallback((formKey, values) => updateFormValues(values, formKey));
 
   const updateFormValues = (values, formKey) => {
     const newFormValues = { ...formValues };
@@ -164,8 +154,7 @@ const CreateProjectContainer = () => {
   /* if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
     props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS]; */
 
-  if (currentWizard === PROJECT_FORM_NAMES.MAIN)
-    props.completedSteps = completedSteps;
+  if (currentWizard === PROJECT_FORM_NAMES.MAIN) props.completedSteps = completedSteps;
 
   // TODO add loading when "isSubmitting"
   return (
