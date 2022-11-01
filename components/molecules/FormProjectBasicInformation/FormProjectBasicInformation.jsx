@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -9,14 +10,27 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Row, Col, Upload, Icon, Select, Divider } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Row,
+  Col,
+  Upload,
+  Icon,
+  Select,
+  Divider,
+  Tag,
+  InputNumber
+} from 'antd';
+import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
+import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
-import Styles from './form-project-basic-information.module.scss';
 
 const { Option } = Select;
 
@@ -28,17 +42,32 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     projectName = 'Project Name',
     timeframe = 'Time',
     timeframeUnit = 'unit',
-    thumbnailPhoto = '/static/images/thumbnail-default.svg',
-    country
+    thumbnailPhoto,
+    location
   } = currentBasicInformation;
 
-  const { problemAddressed } = project?.details;
+  useEffect(() => {
+    const getAndSetCountriesAvailable = async () => {
+      setCountriesAvailable({ loading: true });
+      const _countries = await getCountries();
+      setCountriesAvailable({
+        content: _countries,
+        loading: false
+      });
+    };
+    getAndSetCountriesAvailable();
+    setCurrentBasicInformation(project?.basicInformation);
+  }, []);
 
   const submit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        const valuesProcessed = { ...values, thumbnailPhoto: values.thumbnailPhoto?.file };
+        console.log({ values });
+        const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
+        const valuesProcessed = { ...restValues };
+
+        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto.file;
         const formData = new FormData();
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
@@ -66,32 +95,73 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     multiple: false
   };
 
-  const getAndSetCountriesAvailable = async () => {
-    setCountriesAvailable({ ...countriesAvailable, loading: true });
-    const _countries = await getCountries();
-    setCountriesAvailable({
-      content: _countries,
-      loading: false
-    });
+  const handleThumbnailChange = async value => {
+    if (value?.file?.status !== 'removed') {
+      const b64Photo = await toBase64(value?.file);
+      setCurrentBasicInformation({ ...currentBasicInformation, thumbnailPhoto: b64Photo });
+    }
   };
 
-  useEffect(() => {
-    getAndSetCountriesAvailable();
-  }, []);
+  const handleThumbnailRemove = () => {
+    const {
+      thumbnailPhoto: _thumbnailPhoto,
+      ...restCurrentBasicInformation
+    } = currentBasicInformation;
+    setCurrentBasicInformation({ ...restCurrentBasicInformation });
+  };
+
+  const validateImageSize = async (_rule, value, callback) => {
+    if (value?.file?.status === 'removed') return callback();
+    if (value?.file) {
+      const fileSize = value?.file.size;
+      if (fileSize / 1000 > 500)
+        return callback('The uploaded file does not meet the requirements. Check it and try again');
+      return callback();
+    }
+    return callback();
+  };
+
+  const thumbnailRules = initialValue =>
+    initialValue
+      ? [
+          {
+            validator: validateImageSize
+          }
+        ]
+      : [
+          {
+            required: true,
+            message: 'Please upload a valid agreement file!'
+          },
+          {
+            validator: validateImageSize
+          }
+        ];
 
   return (
     <>
-      <TitlePage textTitle="Complete Basic Information" />
       <Form onSubmit={submit}>
-        <Row>
-          <Col span={12}>
+        <Row gutter={22}>
+          <Col span={8}>
+            <TitlePage textTitle="Complete Basic Information" />
             <h3>This is the resume</h3>
-            <img width="700" src={thumbnailPhoto} alt="thumbnail" />
-            <p>{projectName || 'Project Name'}</p>
+            <img
+              src={thumbnailPhoto || '/static/images/thumbnail-default.svg'}
+              alt="thumbnail"
+              className="formProjectBasicInformation__thumbnailPhoto"
+            />
+            <Row type="flex" justify="space-between">
+              <Col>
+                <p>{projectName || 'Project Name'}</p>
+              </Col>
+              <Col>
+                <Tag color="#D2D2D2">Draft</Tag>
+              </Col>
+            </Row>
             <Row>
               <Col span={6}>
                 <p>Country</p>
-                <p>{country || 'Country of impact'}</p>
+                <p>{location || 'Country of impact'}</p>
               </Col>
               <Col span={6}>
                 <p>Time</p>
@@ -109,21 +179,22 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               </Col>
             </Row>
           </Col>
-          <Divider type="vertical" />
-          <Col span={12}>
+          <Col span={16}>
             <Form.Item label="Project Name">
               {getFieldDecorator('projectName', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the about of this project!',
+                    message: 'Please input the name of this project!',
                     whitespace: true
                   },
                   {
                     pattern: onlyAlphanumerics,
                     message: 'Please input an alphanumeric value for this field.'
                   }
-                ]
+                ],
+                initialValue: projectName,
+                maxLength: 50
               })(
                 <Input
                   placeholder="Input Text Example"
@@ -145,7 +216,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                     whitespace: true
                   }
                 ],
-                initialValue: problemAddressed
+                initialValue: location
               })(
                 <Select
                   placeholder="Select the country or region"
@@ -153,7 +224,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   onChange={value =>
                     setCurrentBasicInformation({
                       ...currentBasicInformation,
-                      country: value
+                      location: value
                     })
                   }
                 >
@@ -165,75 +236,76 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 </Select>
               )}
             </Form.Item>
-            <div>
-              <Form.Item label="Timeframe">
-                {getFieldDecorator('timeframe', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input the about of this project!',
-                      whitespace: true
-                    },
-                    {
-                      pattern: onlyAlphanumerics,
-                      message: 'Please input an alphanumeric value for this field.'
-                    }
-                  ],
-                  initialValue: problemAddressed
-                })(
-                  <Input
-                    placeholder="Input Text Example"
-                    onChange={({ currentTarget: { value } }) =>
-                      setCurrentBasicInformation({
-                        ...currentBasicInformation,
-                        timeframe: value
-                      })
-                    }
-                  />
-                )}
-              </Form.Item>
-              <Form.Item label="">
-                {getFieldDecorator('timeframeUnit', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input the about of this project!',
-                      whitespace: true
-                    }
-                  ],
-                  initialValue: problemAddressed
-                })(
-                  <Select
-                    placeholder="Type"
-                    onChange={value =>
-                      setCurrentBasicInformation({
-                        ...currentBasicInformation,
-                        timeframeUnit: value
-                      })
-                    }
-                  >
-                    {TIMEFRAME_UNITS.map(({ value, label }) => (
-                      <Option value={value} key={value}>
-                        {label}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
-            </div>
+            <Form.Item label="Timeframe">
+              <Row>
+                <Col span={2}>
+                  {getFieldDecorator('timeframe', {
+                    initialValue: parseInt?.(timeframe, 10),
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input the timeframe of this project!'
+                      },
+                      {
+                        type: 'number',
+                        message: 'Please input a correct number of timeframe'
+                      }
+                    ]
+                  })(
+                    <InputNumber
+                      min={0}
+                      placeholder={0}
+                      onChange={value =>
+                        setCurrentBasicInformation({
+                          ...currentBasicInformation,
+                          timeframe: value
+                        })
+                      }
+                    />
+                  )}
+                </Col>
+                <Col span={4}>
+                  {getFieldDecorator('timeframeUnit', {
+                    initialValue: timeframeUnit,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input the timeframe of this project!',
+                        whitespace: true
+                      }
+                    ]
+                  })(
+                    <Select
+                      placeholder="Type"
+                      onChange={value =>
+                        setCurrentBasicInformation({
+                          ...currentBasicInformation,
+                          timeframeUnit: value
+                        })
+                      }
+                    >
+                      {TIMEFRAME_UNITS.map(({ value, label }) => (
+                        <Option value={value} key={value}>
+                          {label}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </Col>
+              </Row>
+            </Form.Item>
 
-            <Form.Item
-              label="Thumbnail Image"
-              help={
-                <>
-                  <h3>Recommended Image Size:</h3>
-                  <span>1400x720px. Format: PNG or JPG.</span>
-                </>
-              }
-            >
-              {getFieldDecorator('thumbnailPhoto')(
-                <Upload {...uploadProps}>
-                  <Button>
+            <Form.Item label="Thumbnail Image">
+              {getFieldDecorator('thumbnailPhoto', {
+                initialValue: thumbnailPhoto,
+                rules: thumbnailRules(thumbnailPhoto)
+              })(
+                <Upload
+                  {...uploadProps}
+                  onChange={handleThumbnailChange}
+                  onRemove={handleThumbnailRemove}
+                >
+                  <Button disabled={currentBasicInformation?.thumbnailPhoto}>
                     <Icon type="upload" /> Click to Upload
                   </Button>
                 </Upload>
@@ -247,7 +319,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           <Button onClick={goBack}>Back</Button>
         ))()}
         nextStepButton={(() => (
-          <Button type="primary" onClick={submit} className={Styles.form__footer}>
+          <Button type="primary" onClick={submit} className="formProjectBasicInformation__footer">
             Save and continue
           </Button>
         ))()}

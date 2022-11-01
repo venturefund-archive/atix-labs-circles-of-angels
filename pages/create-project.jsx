@@ -76,14 +76,16 @@ const CreateProjectContainer = () => {
   const checkStepsStatus = async projectToCheck => {
     const { id: projectId, details, proposal, basicInformation } = projectToCheck;
 
-    const response = await getProjectMilestones(projectId);
+    /* const response = await getProjectMilestones(projectId); */
+
+    console.log({ basicInformation });
 
     const stepsStatus = {
       thumbnails: !!basicInformation?.projectName && basicInformation?.projectName !== 'Untitled',
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: !!proposal,
-      milestones: !response.errors && response.data.length > 0
+      milestones: false
     };
 
     setCompletedSteps(stepsStatus);
