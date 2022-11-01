@@ -78,10 +78,8 @@ const CreateProjectContainer = () => {
 
     /* const response = await getProjectMilestones(projectId); */
 
-    console.log({ basicInformation });
-
     const stepsStatus = {
-      thumbnails: !!basicInformation?.projectName && basicInformation?.projectName !== 'Untitled',
+      thumbnails: basicInformation?.location,
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: !!proposal,

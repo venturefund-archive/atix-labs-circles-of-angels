@@ -4,4 +4,7 @@
     height: 25rem;
     object-fit: cover;
   }
+  &__tag {
+    text-transform: capitalize;
+  }
 }

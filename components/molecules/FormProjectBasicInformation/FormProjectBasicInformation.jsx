@@ -31,20 +31,48 @@ import { getCountries } from 'api/countriesApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
+import { formatCurrency } from 'helpers/formatter';
 
 const { Option } = Select;
+
+const TAG_COLORS = {
+  'in execution': 'blue',
+  draft: '#d2d2d2',
+  'in revision': 'gold',
+  canceled: 'red',
+  completed: 'green'
+};
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
   const { getFieldDecorator } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({});
+  const { projectName = 'Project Name', timeframe, thumbnailPhoto } = currentBasicInformation;
+
+  let { timeframeUnit, location } = currentBasicInformation;
+
+  timeframeUnit = timeframeUnit || undefined;
+  location = location || undefined;
+
+  const thumbnailPhotoCompleteUrl = thumbnailPhoto
+    ? `${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto}`
+    : undefined;
+
   const {
-    projectName = 'Project Name',
-    timeframe = 'Time',
-    timeframeUnit = 'unit',
-    thumbnailPhoto,
-    location
-  } = currentBasicInformation;
+    status,
+    beneficiary: { firstName: beneficiaryFirstName, lastName: beneficiaryLastName } = {
+      firstName: undefined,
+      lastName: undefined
+    }
+  } = project;
+
+  let {
+    details: { currency },
+    budget
+  } = project;
+
+  currency = currency || 'USD';
+  budget = budget || 0;
 
   useEffect(() => {
     const getAndSetCountriesAvailable = async () => {
@@ -56,18 +84,20 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       });
     };
     getAndSetCountriesAvailable();
-    setCurrentBasicInformation(project?.basicInformation);
+    setCurrentBasicInformation({
+      ...project?.basicInformation,
+      thumbnailPhoto: thumbnailPhotoCompleteUrl
+    });
   }, []);
 
   const submit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log({ values });
         const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
         const valuesProcessed = { ...restValues };
 
-        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto.file;
+        if (_thumbnailPhoto?.file) valuesProcessed.thumbnailPhoto = _thumbnailPhoto.file;
         const formData = new FormData();
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
@@ -131,7 +161,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       : [
           {
             required: true,
-            message: 'Please upload a valid agreement file!'
+            message: 'Please upload a valid thumbnail image!'
           },
           {
             validator: validateImageSize
@@ -155,7 +185,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 <p>{projectName || 'Project Name'}</p>
               </Col>
               <Col>
-                <Tag color="#D2D2D2">Draft</Tag>
+                <Tag
+                  color={TAG_COLORS[status?.toLowerCase()]}
+                  className="formProjectBasicInformation__tag"
+                >
+                  {status}
+                </Tag>
               </Col>
             </Row>
             <Row>
@@ -170,12 +205,14 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 </p>
               </Col>
               <Col span={6}>
-                <p>$ 0.00</p>
+                <p>{formatCurrency(currency, budget)}</p>
                 <p>Budget</p>
               </Col>
               <Col span={6}>
                 <p>Name</p>
-                <p>Beneficiary Name</p>
+                <p>
+                  {beneficiaryFirstName} {beneficiaryLastName}
+                </p>
               </Col>
             </Row>
           </Col>
@@ -240,7 +277,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               <Row>
                 <Col span={2}>
                   {getFieldDecorator('timeframe', {
-                    initialValue: parseInt?.(timeframe, 10),
+                    initialValue: timeframe && parseInt?.(timeframe, 10),
                     rules: [
                       {
                         required: true,
@@ -297,7 +334,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
             <Form.Item label="Thumbnail Image">
               {getFieldDecorator('thumbnailPhoto', {
-                initialValue: thumbnailPhoto,
+                initialValue: [{ url: thumbnailPhotoCompleteUrl }],
                 rules: thumbnailRules(thumbnailPhoto)
               })(
                 <Upload

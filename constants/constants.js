@@ -108,18 +108,9 @@ export const SHOW_FUNDS_STATUSES = [
   projectStatuses.ABORTED
 ];
 
-export const SHOW_CLAIM_STATUS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
-export const SHOW_TASK_EVIDENCE_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
-export const SHOW_MILESTONE_STATUS_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
+export const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+export const SHOW_TASK_EVIDENCE_ACTIONS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+export const SHOW_MILESTONE_STATUS_ACTIONS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
 export const SHOW_BLOCKCHAIN_INFO_STATUS = [
   projectStatuses.FUNDING,
   projectStatuses.EXECUTING,
