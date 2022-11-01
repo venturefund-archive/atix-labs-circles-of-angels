@@ -51,7 +51,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   let { timeframeUnit, location } = currentBasicInformation;
 
-  timeframeUnit = timeframeUnit || undefined;
+  timeframeUnit = timeframeUnit || 'months';
   location = location || undefined;
 
   const thumbnailPhotoCompleteUrl = thumbnailPhoto
@@ -231,7 +231,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   }
                 ],
                 initialValue: projectName,
-                maxLength: 50
+                maxLength: 50,
+                validateTrigger: 'onSubmit'
               })(
                 <Input
                   placeholder="Input Text Example"
@@ -253,7 +254,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                     whitespace: true
                   }
                 ],
-                initialValue: location
+                initialValue: location,
+                validateTrigger: 'onSubmit'
               })(
                 <Select
                   placeholder="Select the country or region"
@@ -287,7 +289,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                         type: 'number',
                         message: 'Please input a correct number of timeframe'
                       }
-                    ]
+                    ],
+                    validateTrigger: 'onSubmit'
                   })(
                     <InputNumber
                       min={0}
@@ -310,7 +313,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                         message: 'Please input the timeframe of this project!',
                         whitespace: true
                       }
-                    ]
+                    ],
+                    validateTrigger: 'onSubmit'
                   })(
                     <Select
                       placeholder="Type"
@@ -335,7 +339,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             <Form.Item label="Thumbnail Image">
               {getFieldDecorator('thumbnailPhoto', {
                 initialValue: [{ url: thumbnailPhotoCompleteUrl }],
-                rules: thumbnailRules(thumbnailPhoto)
+                rules: thumbnailRules(thumbnailPhoto),
+                validateTrigger: 'onSubmit'
               })(
                 <Upload
                   {...uploadProps}
