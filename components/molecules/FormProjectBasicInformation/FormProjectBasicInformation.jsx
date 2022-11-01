@@ -10,28 +10,17 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Form,
-  Input,
-  Row,
-  Col,
-  Upload,
-  Icon,
-  Select,
-  Divider,
-  Tag,
-  InputNumber
-} from 'antd';
+import { Button, Form, Input, Row, Col, Upload, Icon, Select, Tag, InputNumber } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
-import { TIMEFRAME_UNITS } from 'constants/constants';
+import { ERROR_MESSAGES, ERROR_TYPES, TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
 import { formatCurrency } from 'helpers/formatter';
+import { getErrorMessagesField, getErrorMessagesFields } from 'helpers/utils';
 
 const { Option } = Select;
 
@@ -44,10 +33,13 @@ const TAG_COLORS = {
 };
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator } = form;
+  const { getFieldDecorator, getFieldsError, getFieldError } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({});
   const { projectName = 'Project Name', timeframe, thumbnailPhoto } = currentBasicInformation;
+
+  const projectNameError = getFieldError('projectName');
+  const thumbnailPhotoError = getFieldError('thumbnailPhoto');
 
   let { timeframeUnit, location } = currentBasicInformation;
 
@@ -102,7 +94,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
         });
-        updateProjectProcess(project.id, formData);
+        console.log({ values });
+        /* updateProjectProcess(project.id, formData); */
       }
     });
   };
@@ -144,8 +137,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     if (value?.file?.status === 'removed') return callback();
     if (value?.file) {
       const fileSize = value?.file.size;
-      if (fileSize / 1000 > 500)
-        return callback('The uploaded file does not meet the requirements. Check it and try again');
+      if (fileSize / 1000 > 500) return callback(ERROR_MESSAGES.IMAGE);
       return callback();
     }
     return callback();
@@ -161,7 +153,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       : [
           {
             required: true,
-            message: 'Please upload a valid thumbnail image!'
+            message: ERROR_TYPES.EMPTY
           },
           {
             validator: validateImageSize
@@ -217,17 +209,30 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             </Row>
           </Col>
           <Col span={16}>
-            <Form.Item label="Project Name">
+            <Form.Item
+              label="Project Name"
+              help={
+                <>
+                  {getErrorMessagesField(projectNameError, [ERROR_TYPES.ALPHANUMERIC]).map(
+                    errorMessage => errorMessage
+                  )}
+                </>
+              }
+            >
               {getFieldDecorator('projectName', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the name of this project!',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   },
                   {
                     pattern: onlyAlphanumerics,
-                    message: 'Please input an alphanumeric value for this field.'
+                    message: ERROR_TYPES.ALPHANUMERIC
+                  },
+                  {
+                    pattern: onlyAlphanumerics,
+                    message: 'ERROR_TYPES.ALPHANUMERIC'
                   }
                 ],
                 initialValue: projectName,
@@ -245,12 +250,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 />
               )}
             </Form.Item>
-            <Form.Item label="Country of Impact">
+            <Form.Item label="Country of Impact" help={null}>
               {getFieldDecorator('location', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please select a country',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   }
                 ],
@@ -275,19 +280,16 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 </Select>
               )}
             </Form.Item>
-            <Form.Item label="Timeframe">
-              <Row>
-                <Col span={2}>
+
+            <Row type="flex" align="bottom" gutter={18}>
+              <Col>
+                <Form.Item label="Timeframe" help={null}>
                   {getFieldDecorator('timeframe', {
                     initialValue: timeframe && parseInt?.(timeframe, 10),
                     rules: [
                       {
                         required: true,
-                        message: 'Please input the timeframe of this project!'
-                      },
-                      {
-                        type: 'number',
-                        message: 'Please input a correct number of timeframe'
+                        message: ERROR_TYPES.EMPTY
                       }
                     ],
                     validateTrigger: 'onSubmit'
@@ -303,14 +305,16 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                       }
                     />
                   )}
-                </Col>
-                <Col span={4}>
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item label="" help={null}>
                   {getFieldDecorator('timeframeUnit', {
                     initialValue: timeframeUnit,
                     rules: [
                       {
                         required: true,
-                        message: 'Please input the timeframe of this project!',
+                        message: ERROR_TYPES.EMPTY,
                         whitespace: true
                       }
                     ],
@@ -332,13 +336,22 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                       ))}
                     </Select>
                   )}
-                </Col>
-              </Row>
-            </Form.Item>
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <Form.Item label="Thumbnail Image">
+            <Form.Item
+              label="Thumbnail Image"
+              help={
+                <>
+                  {getErrorMessagesField(thumbnailPhotoError, [ERROR_TYPES.IMAGE_INVALID]).map(
+                    errorMessage => errorMessage
+                  )}
+                </>
+              }
+            >
               {getFieldDecorator('thumbnailPhoto', {
-                initialValue: [{ url: thumbnailPhotoCompleteUrl }],
+                initialValue: thumbnailPhotoCompleteUrl && [{ url: thumbnailPhotoCompleteUrl }],
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
               })(
@@ -347,7 +360,13 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   onChange={handleThumbnailChange}
                   onRemove={handleThumbnailRemove}
                 >
-                  <Button disabled={currentBasicInformation?.thumbnailPhoto}>
+                  <Button
+                    disabled={currentBasicInformation?.thumbnailPhoto}
+                    className={`formProjectBasicInformation__uploadThumbnail__button ${getErrorMessagesField(
+                      thumbnailPhotoError,
+                      [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY]
+                    ).length > 0 && '--withError'}`}
+                  >
                     <Icon type="upload" /> Click to Upload
                   </Button>
                 </Upload>
@@ -361,9 +380,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           <Button onClick={goBack}>Back</Button>
         ))()}
         nextStepButton={(() => (
-          <Button type="primary" onClick={submit} className="formProjectBasicInformation__footer">
-            Save and continue
-          </Button>
+          <div>
+            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => error)}
+            <Button type="primary" onClick={submit} className="formProjectBasicInformation__footer">
+              Save and continue
+            </Button>
+          </div>
         ))()}
       />
     </>

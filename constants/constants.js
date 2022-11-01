@@ -172,3 +172,17 @@ export const TIMEFRAME_UNITS = [
     value: 'years'
   }
 ];
+
+export const ERROR_TYPES = {
+  EMPTY: 'EMPTY',
+  ALPHANUMERIC: 'ALPHANUMERIC',
+  IMAGE_INVALID: 'IMAGE_INVALID',
+  FILE: 'FILE'
+};
+
+export const ERROR_MESSAGES = {
+  EMPTY: 'Incomplete required fields',
+  ALPHANUMERIC: 'Please input an alphanumeric value for this field.',
+  IMAGE_INVALID: 'The uploaded file does not meet the requirements. \n Check them and try again',
+  FILE: 'The file is invalid. Review the recommendations and try again'
+};
