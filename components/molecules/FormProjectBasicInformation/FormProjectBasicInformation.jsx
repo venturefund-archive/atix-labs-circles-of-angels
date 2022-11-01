@@ -36,19 +36,16 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const { getFieldDecorator, getFieldsError, getFieldError } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({});
-  const { projectName = 'Project Name', timeframe, thumbnailPhoto } = currentBasicInformation;
 
   const projectNameError = getFieldError('projectName');
   const thumbnailPhotoError = getFieldError('thumbnailPhoto');
 
-  let { timeframeUnit, location } = currentBasicInformation;
+  const { projectName = 'Project Name', timeframe } = currentBasicInformation;
+  let { timeframeUnit, location, thumbnailPhoto } = currentBasicInformation;
 
   timeframeUnit = timeframeUnit || 'months';
   location = location || undefined;
-
-  const thumbnailPhotoCompleteUrl = thumbnailPhoto
-    ? `${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto}`
-    : undefined;
+  thumbnailPhoto = thumbnailPhoto || undefined;
 
   const {
     status,
@@ -76,9 +73,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       });
     };
     getAndSetCountriesAvailable();
+
     setCurrentBasicInformation({
       ...project?.basicInformation,
-      thumbnailPhoto: thumbnailPhotoCompleteUrl
+      thumbnailPhoto: project?.basicInformation?.thumbnailPhoto
+        ? `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
+        : undefined
     });
   }, []);
 
@@ -94,8 +94,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
         });
-        console.log({ values });
-        /* updateProjectProcess(project.id, formData); */
+        updateProjectProcess(project.id, formData);
       }
     });
   };
@@ -351,7 +350,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               }
             >
               {getFieldDecorator('thumbnailPhoto', {
-                initialValue: thumbnailPhotoCompleteUrl && [{ url: thumbnailPhotoCompleteUrl }],
+                initialValue: thumbnailPhoto && [{ url: thumbnailPhoto }],
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
               })(

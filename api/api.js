@@ -8,6 +8,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
+import { message } from 'antd';
 import axios from 'axios';
 import formatError from '../helpers/errorFormatter';
 
@@ -22,6 +23,35 @@ const api = axios.create({
   credentials: 'same-origin',
   withCredentials: true
 });
+const loadingMessage = message;
+let isLoadingMessageShowed = false;
+
+api.interceptors.request.use(
+  config => {
+    if (!isLoadingMessageShowed) {
+      loadingMessage.loading('Loading...', 0);
+      isLoadingMessageShowed = true;
+    }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  response => {
+    if (isLoadingMessageShowed) {
+      loadingMessage.destroy();
+      isLoadingMessageShowed = false;
+    }
+    return Promise.resolve(response);
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
