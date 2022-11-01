@@ -24,6 +24,6 @@ export const formatCurrency = (currency, value) => {
       currency
     }).format(value);
   } catch (error) {
-    return currency;
+    return `${currency} ${Number(value).toFixed(2)}`;
   }
 };
