@@ -31,13 +31,7 @@ const formFields = {
   ...detailsFormInputs
 };
 
-const ProjectDetailFormContainer = ({
-  thumbnailsData,
-  project,
-  goBack,
-  onError,
-  onSuccess
-}) => {
+const ProjectDetailFormContainer = ({ thumbnailsData, project, goBack, onError, onSuccess }) => {
   // why multistep form instead of the simple one?
   const {
     fields,
@@ -46,16 +40,8 @@ const ProjectDetailFormContainer = ({
     handleChange,
     getNextStepButton,
     getPrevStepButton,
-    validateFields,
     setSteps
-  } = useMultiStepForm(
-    formFields,
-    formSteps,
-    0,
-    values => onSubmit(values),
-    true,
-    goBack
-  );
+  } = useMultiStepForm(formFields, formSteps, 0, values => onSubmit(values), true, goBack);
 
   useEffect(() => {
     if (fields.currencyType.value?.toLowerCase() === 'fiat') {
@@ -103,7 +89,6 @@ const ProjectDetailFormContainer = ({
   }, [fields.currencyType.value]);
 
   useEffect(() => {
-    console.log({ project });
     if (!project || !project.id) return goBack();
   }, [setFields, project, goBack]);
 
@@ -111,10 +96,8 @@ const ProjectDetailFormContainer = ({
     const { accountInformation, walletAddress, about, ...restValues } = values;
     const valuesProcessed = { ...restValues, problemAddressed: about };
 
-    if (accountInformation)
-      valuesProcessed.additionalCurrencyInformation = accountInformation;
-    if (walletAddress)
-      valuesProcessed.additionalCurrencyInformation = walletAddress;
+    if (accountInformation) valuesProcessed.additionalCurrencyInformation = accountInformation;
+    if (walletAddress) valuesProcessed.additionalCurrencyInformation = walletAddress;
 
     const data = new FormData();
     Object.entries(valuesProcessed).forEach(([key, field]) => {
@@ -144,12 +127,6 @@ const ProjectDetailFormContainer = ({
     } catch (error) {
       message.error('An error occurred when trying to save the information');
     }
-  };
-
-  const clearFields = () => {
-    Object.keys(fields).forEach(fieldName => {
-      fields[fieldName].value = '';
-    });
   };
 
   return (

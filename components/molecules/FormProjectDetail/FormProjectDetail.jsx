@@ -15,19 +15,15 @@ import { CURRENCIES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
+import { toBase64 } from 'components/utils/FileUtils';
 import Styles from './form-project-detail.module.scss';
 
 const { Option } = Select;
 
-const FormProjectDetailContent = ({
-  form,
-  onSuccess,
-  goBack,
-  project,
-  onError
-}) => {
+const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError }) => {
   const { getFieldDecorator, setFieldsValue } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
+  const [currentFiles, setCurrentFiles] = useState();
 
   const {
     problemAddressed,
@@ -58,10 +54,8 @@ const FormProjectDetailContent = ({
           ...restValues
         };
 
-        if (_projectProposalFile)
-          valuesProcessed.projectProposalFile = _projectProposalFile.file;
-        if (_legalAgreementFile)
-          valuesProcessed.legalAgreementFile = _legalAgreementFile.file;
+        if (_projectProposalFile) valuesProcessed.projectProposalFile = _projectProposalFile.file;
+        if (_legalAgreementFile) valuesProcessed.legalAgreementFile = _legalAgreementFile.file;
 
         const formData = new FormData();
 
@@ -85,11 +79,10 @@ const FormProjectDetailContent = ({
     goBack();
   };
 
-  const validFileSize = (_rule, value, callback) => {
+  const validateFileSize = (_rule, value, callback) => {
+    if (value?.file.size === 'removed') return callback();
     if (value?.file.size / 1000000 > 20)
-      return callback(
-        '* The file is invalid. Review the recommendations and try again'
-      );
+      return callback('* The file is invalid. Review the recommendations and try again');
     return callback();
   };
 
@@ -104,7 +97,7 @@ const FormProjectDetailContent = ({
     initialValue
       ? [
           {
-            validator: validFileSize
+            validator: validateFileSize
           }
         ]
       : [
@@ -113,9 +106,21 @@ const FormProjectDetailContent = ({
             message: 'Please upload a valid agreement file!'
           },
           {
-            validator: validFileSize
+            validator: validateFileSize
           }
         ];
+
+  const handleFileChange = async (value, field) => {
+    if (value?.file?.status !== 'removed') {
+      const b64Photo = await toBase64(value?.file);
+      setCurrentFiles({ ...currentFiles, [field]: b64Photo });
+    }
+  };
+
+  const handleFileRemove = field => {
+    const { [field]: dynamicField, ...restCurrentFiles } = currentFiles;
+    setCurrentFiles({ ...restCurrentFiles });
+  };
 
   return (
     <>
@@ -124,9 +129,7 @@ const FormProjectDetailContent = ({
         <Row gutter={22}>
           <Col span={12}>
             <Form.Item label="About the project">
-              <p>
-                Share your information about the entrepreneurs and the project
-              </p>
+              <p>Share your information about the entrepreneurs and the project</p>
               {getFieldDecorator('problemAddressed', {
                 rules: [
                   {
@@ -136,8 +139,7 @@ const FormProjectDetailContent = ({
                   },
                   {
                     pattern: onlyAlphanumerics,
-                    message:
-                      'Please input an alphanumeric value for this field.'
+                    message: 'Please input an alphanumeric value for this field.'
                   }
                 ],
                 initialValue: problemAddressed
@@ -148,21 +150,19 @@ const FormProjectDetailContent = ({
           <Col span={12}>
             <Form.Item label="Our mission and vision">
               <p>
-                Share your Project Mission, the impact you have made so far and
-                what your project is about
+                Share your Project Mission, the impact you have made so far and what your project is
+                about
               </p>
               {getFieldDecorator('mission', {
                 rules: [
                   {
                     required: true,
-                    message:
-                      'Please input the account information of this project!',
+                    message: 'Please input the account information of this project!',
                     whitespace: true
                   },
                   {
                     pattern: onlyAlphanumerics,
-                    message:
-                      'Please input an alphanumeric value for this field.'
+                    message: 'Please input an alphanumeric value for this field.'
                   }
                 ],
                 initialValue: mission
@@ -232,14 +232,12 @@ const FormProjectDetailContent = ({
                   rules: [
                     {
                       required: true,
-                      message:
-                        'Please input the account information of this project!',
+                      message: 'Please input the account information of this project!',
                       whitespace: true
                     },
                     {
                       pattern: onlyAlphanumerics,
-                      message:
-                        'Please input an alphanumeric value for this field.'
+                      message: 'Please input an alphanumeric value for this field.'
                     }
                   ],
                   initialValue: additionalCurrencyInformation
@@ -258,8 +256,7 @@ const FormProjectDetailContent = ({
                     },
                     {
                       pattern: onlyAlphanumerics,
-                      message:
-                        'Please input an alphanumeric value for this field.'
+                      message: 'Please input an alphanumeric value for this field.'
                     }
                   ],
                   initialValue: additionalCurrencyInformation
@@ -269,10 +266,7 @@ const FormProjectDetailContent = ({
           </Col>
           <Col span={12}>
             <Form.Item label="Budget">
-              <p>
-                Here the sum recorded in the milestones and activities will be
-                displayed
-              </p>
+              <p>Here the sum recorded in the milestones and activities will be displayed</p>
               <Input placeholder="0.00" disabled />
             </Form.Item>
           </Col>
@@ -285,8 +279,12 @@ const FormProjectDetailContent = ({
                   {getFieldDecorator('legalAgreementFile', {
                     rules: filesRules(legalAgreementFile)
                   })(
-                    <Upload {...uploadProps}>
-                      <Button>
+                    <Upload
+                      {...uploadProps}
+                      onChange={value => handleFileChange(value, 'legalAgreementFile')}
+                      onRemove={() => handleFileRemove('legalAgreementFile')}
+                    >
+                      <Button disabled={currentFiles?.legalAgreementFile}>
                         <Icon type="upload" /> Click to Upload
                       </Button>
                     </Upload>
@@ -295,9 +293,7 @@ const FormProjectDetailContent = ({
               </Col>
               <Col span={12}>
                 <h3>Legal Agreement</h3>
-                <span>
-                  Recommended document files. Format: PDF, up to 20 MB.
-                </span>
+                <span>Recommended document files. Format: PDF, up to 20 MB.</span>
               </Col>
             </Row>
           </Col>
@@ -308,8 +304,12 @@ const FormProjectDetailContent = ({
                   {getFieldDecorator('projectProposalFile', {
                     rules: filesRules(projectProposalFile)
                   })(
-                    <Upload {...uploadProps}>
-                      <Button>
+                    <Upload
+                      {...uploadProps}
+                      onChange={value => handleFileChange(value, 'projectProposalFile')}
+                      onRemove={() => handleFileRemove('projectProposalFile')}
+                    >
+                      <Button disabled={currentFiles?.projectProposalFile}>
                         <Icon type="upload" /> Click to Upload
                       </Button>
                     </Upload>
@@ -318,9 +318,7 @@ const FormProjectDetailContent = ({
               </Col>
               <Col span={12}>
                 <h3>Project Proposal</h3>
-                <span>
-                  Recommended document files. Format: PDF, up to 20 MB.
-                </span>
+                <span>Recommended document files. Format: PDF, up to 20 MB.</span>
               </Col>
             </Row>
           </Col>
@@ -331,11 +329,7 @@ const FormProjectDetailContent = ({
           <Button onClick={goBack}>Back</Button>
         ))()}
         nextStepButton={(() => (
-          <Button
-            type="primary"
-            onClick={submit}
-            className={Styles.form__footer}
-          >
+          <Button type="primary" onClick={submit} className={Styles.form__footer}>
             Save and continue
           </Button>
         ))()}

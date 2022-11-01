@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import customConfig from 'custom-config';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { useUserContext } from '../../utils/UserContext';
 
@@ -19,9 +18,7 @@ const Header = () => {
   const user = getLoggedUser();
   return (
     <div className="HeaderContainer">
-      <div className="RightSide">
-        {user && user.role ? <UserAvatar user={user} /> : ''}
-      </div>
+      <div className="RightSide">{user && user.role ? <UserAvatar user={user} /> : ''}</div>
     </div>
   );
 };
