@@ -35,9 +35,7 @@ api.interceptors.request.use(
 
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 api.interceptors.response.use(
@@ -48,9 +46,7 @@ api.interceptors.response.use(
     }
     return Promise.resolve(response);
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 export const makeApiRequest = async (method, url, body, config) => {
