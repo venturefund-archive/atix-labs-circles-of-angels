@@ -24,33 +24,29 @@ const api = axios.create({
   withCredentials: true
 });
 const loadingMessage = message;
-let isLoadingMessageShowed = false;
+let requestsInQueue = 0;
 
 api.interceptors.request.use(
   config => {
-    if (!isLoadingMessageShowed) {
+    if (requestsInQueue === 0) {
       loadingMessage.loading('Loading...', 0);
-      isLoadingMessageShowed = true;
     }
+    requestsInQueue++;
 
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 api.interceptors.response.use(
   response => {
-    if (isLoadingMessageShowed) {
+    requestsInQueue--;
+    if (requestsInQueue === 0) {
       loadingMessage.destroy();
-      isLoadingMessageShowed = false;
     }
     return Promise.resolve(response);
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 export const makeApiRequest = async (method, url, body, config) => {
