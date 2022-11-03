@@ -11,33 +11,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
-/* import './_createproject.scss'; */
-/* import './_style.scss'; */
-import Thumbnails from '../components/organisms/Thumbnails/Thumbnails';
-import ProjectDetailFormContainer from '../components/organisms/ProjectDetailFormContainer/ProjectDetailFormContainer';
+import './_createproject.scss';
+import './_style.scss';
+import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
+import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
-import {
-  getProject,
-  sendToReview,
-  deleteProject,
-  getProjectMilestones
-} from '../api/projectApi';
-import useQuery from '../hooks/useQuery';
+import { getProject, sendToReview, deleteProject, getProjectMilestones } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 
 const wizards = {
   main: CreateProject,
-  thumbnails: Thumbnails,
-  details: ProjectDetailFormContainer,
+  thumbnails: FormProjectBasicInformation,
+  details: FormProjectDetail,
   proposal: ProjectProposalFormContainer,
   milestones: CreateMilestonesFormContainer
 };
 
+const getIdFromPath = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+};
+
 const CreateProjectContainer = () => {
-  const { id } = useQuery();
+  const id = getIdFromPath();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [formValues, setFormValues] = useState({});
@@ -61,36 +60,36 @@ const CreateProjectContainer = () => {
       const thumbnailsData = {
         projectName: data.projectName,
         timeframe: data.timeframe,
+        timeframeUnit: 'months',
         goalAmount: data.goalAmount,
         cardPhotoPath: data.cardPhotoPath,
         location: data.location
       };
 
       submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
-      setProject(data);
+      setProject({ ...data, id });
       await checkStepsStatus(data);
     },
     [history]
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { id: projectId, projectName, mission, proposal } = projectToCheck;
+    const { id: projectId, details, proposal, basicInformation } = projectToCheck;
 
-    const response = await getProjectMilestones(projectId);
+    /* const response = await getProjectMilestones(projectId); */
 
     const stepsStatus = {
-      thumbnails: !!projectName,
-      details: !!mission,
+      thumbnails: basicInformation?.location,
+      details:
+        details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: !!proposal,
-      milestones: !response.errors && response.data.length > 0
+      milestones: false
     };
 
     setCompletedSteps(stepsStatus);
   };
 
-  const submitForm = useCallback((formKey, values) =>
-    updateFormValues(values, formKey)
-  );
+  const submitForm = useCallback((formKey, values) => updateFormValues(values, formKey));
 
   const updateFormValues = (values, formKey) => {
     const newFormValues = { ...formValues };
@@ -98,9 +97,9 @@ const CreateProjectContainer = () => {
     setFormValues(newFormValues);
   };
 
-  const successCallback = (res, successMsg) => {
+  const successCallback = async (res, successMsg) => {
     setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    fetchProject(res.projectId);
+    await fetchProject(res.projectId);
     message.success(successMsg || 'Saved successfully');
     return res;
   };
@@ -152,11 +151,10 @@ const CreateProjectContainer = () => {
   const CurrentComponent = wizards[currentWizard];
   const props = {};
 
-  if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS];
+  /* if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
+    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS]; */
 
-  if (currentWizard === PROJECT_FORM_NAMES.MAIN)
-    props.completedSteps = completedSteps;
+  if (currentWizard === PROJECT_FORM_NAMES.MAIN) props.completedSteps = completedSteps;
 
   // TODO add loading when "isSubmitting"
   return (

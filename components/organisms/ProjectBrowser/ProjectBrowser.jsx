@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, message } from 'antd';
 import CardProject from '../../molecules/CardProject/CardProject';
-import CardNewProyect from '../CardNewProyect/CardNewProyect';
+import CardNewProject from '../../molecules/CardProject/CardNewProject';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import Roles from '../../../constants/RolesMap';
@@ -23,9 +23,9 @@ const ProjectBrowser = ({
       const response = await getCountries();
       const countryOptions = response
         ? response.map(({ id, name }) => ({
-            value: id,
-            name
-          }))
+          value: id,
+          name
+        }))
         : [];
       setCountries(countryOptions);
     } catch (error) {
@@ -41,12 +41,12 @@ const ProjectBrowser = ({
     <div className="Content ExploreProject">
       <Row>
         <Col span={14}>
-          <TitlePage textTitle={title} />
+          <TitlePage textTitle={title} style={{ fontWeight: '700' }} />
         </Col>
       </Row>
       <Row className="ProjectsCardsContainer" gutter={16}>
-        {userRole === Roles.ENTREPRENEUR && onNewProject && (
-          <CardNewProyect onClick={onNewProject} />
+        {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
+          <CardNewProject onClick={onNewProject} />
         )}
         {projects &&
           projects.length > 0 &&

@@ -65,7 +65,7 @@ const ProjectThumbnailForm = ({ fields, handleChange, loading }) => {
     <Fragment>
       <Row
         type="flex"
-        justify="space-around"
+        justify="space-between"
         align="middle"
         className="centered"
       >

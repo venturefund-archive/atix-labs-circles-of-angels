@@ -13,9 +13,6 @@ import { Row, Col, message } from 'antd';
 import { useRouter } from 'next/router';
 import TopBar from '../../components/organisms/TopBar/TopBar';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
-import TitlePage from '../../components/atoms/TitlePage/TitlePage';
-import CardProject from '../../components/molecules/CardProject/CardProject';
-import { getFeaturedProjects } from '../../api/projectApi';
 import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
 
 function Landing() {
@@ -47,58 +44,18 @@ function Landing() {
         theme="Secondary"
         onClick={() => setVisibility(true)}
       />
-      <ModalLogin
-        data-testid="modal"
-        setVisibility={setVisibility}
-        visibility={visibility}
-      />
+      <ModalLogin data-testid="modal" setVisibility={setVisibility} visibility={visibility} />
     </div>
   );
 
-  useEffect(() => {
-    fecthFeaturedProjects();
-  }, []);
-
   return (
-    <Row className="Landing">
+    <Row
+      className="Landing"
+      style={{
+        background: `url(${customConfig.BACKGROUND_PATH}) top left / cover no-repeat`
+      }}
+    >
       <TopBar modalLogin={modalLogin} />
-      <Row type="flex" className="BlockBanner Wrapper" align="middle">
-        <Col sm={24} md={24} lg={24}>
-          <h1>
-            Making impact <br />
-            funding accesible
-          </h1>
-          <h2>
-            Enabling Purposeled companies to grow, flourish and <br /> impact
-            local communities
-          </h2>
-          <Col className="BlockActions">
-            <CustomButton
-              onClick={() => router.push('/register?role=entrepreneur')}
-              buttonText="I´ve got a project!"
-              theme="Primary"
-            />
-            <CustomButton
-              onClick={() => router.push('/register?role=supporter')}
-              buttonText="I want to fund!"
-              theme="White"
-            />
-          </Col>
-        </Col>
-      </Row>
-      <Row className="Wrapper" gutter={30} type="flex" align="middle">
-        <Col span={24}>
-          <TitlePage textTitle="Our Impact Projects" />
-        </Col>
-        {/* TODO define if landing cards projects will have this format */}
-        {featuredProjects.map(project => (
-          <CardProject
-            project={project}
-            onClick={() => setVisibility(true)}
-            hoverText="View more"
-          />
-        ))}
-      </Row>
     </Row>
   );
 }

@@ -16,3 +16,14 @@ export const formatTimeframeValue = timeframe => {
     return timeframe;
   }
 };
+
+export const formatCurrency = (currency, value) => {
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency
+    }).format(value);
+  } catch (error) {
+    return `${currency} ${Number(value).toFixed(2)}`;
+  }
+};

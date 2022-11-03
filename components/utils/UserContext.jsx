@@ -8,15 +8,11 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
 export const UserContext = React.createContext({});
-
-export function useUserContext() {
-  return useContext(UserContext);
-}
 
 export const withUser = c => c;
 
@@ -51,6 +47,11 @@ const context = {
   isFunder: false,
   isOracle: false
 };
+
+export function useUserContext() {
+  // return useContext(UserContext);
+  return context;
+}
 
 export const UserProvider = ({ children }) => (
   <UserContext.Provider value={context}>{children}</UserContext.Provider>

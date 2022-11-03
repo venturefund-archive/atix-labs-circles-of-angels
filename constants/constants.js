@@ -60,6 +60,7 @@ export const publicProjectStatuses = {
 
 export const privateProjectStatuses = {
   NEW: 'new',
+  DRAFT: 'draft',
   TO_REVIEW: 'toreview',
   REJECTED: 'rejected'
 };
@@ -107,18 +108,9 @@ export const SHOW_FUNDS_STATUSES = [
   projectStatuses.ABORTED
 ];
 
-export const SHOW_CLAIM_STATUS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
-export const SHOW_TASK_EVIDENCE_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
-export const SHOW_MILESTONE_STATUS_ACTIONS = [
-  projectStatuses.EXECUTING,
-  projectStatuses.FINISHED
-];
+export const SHOW_CLAIM_STATUS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+export const SHOW_TASK_EVIDENCE_ACTIONS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
+export const SHOW_MILESTONE_STATUS_ACTIONS = [projectStatuses.EXECUTING, projectStatuses.FINISHED];
 export const SHOW_BLOCKCHAIN_INFO_STATUS = [
   projectStatuses.FUNDING,
   projectStatuses.EXECUTING,
@@ -126,3 +118,71 @@ export const SHOW_BLOCKCHAIN_INFO_STATUS = [
   projectStatuses.CHANGING_SCOPE,
   projectStatuses.ABORTED
 ];
+
+export const CURRENCIES = {
+  fiat: [
+    {
+      value: 'USD',
+      label: 'USD'
+    },
+    {
+      value: 'EUR',
+      label: 'EUR'
+    },
+    {
+      value: 'CHF',
+      label: 'CHF'
+    },
+    {
+      value: 'GBP',
+      label: 'GBP'
+    }
+  ],
+  crypto: [
+    {
+      value: 'BTC',
+      label: 'BTC'
+    },
+    {
+      value: 'ETH',
+      label: 'ETH'
+    },
+    {
+      value: 'USDT',
+      label: 'USDT'
+    },
+    {
+      value: 'ETC',
+      label: 'ETC'
+    }
+  ]
+};
+
+export const TIMEFRAME_UNITS = [
+  {
+    label: 'Days',
+    value: 'days'
+  },
+  {
+    label: 'Months',
+    value: 'months'
+  },
+  {
+    label: 'Years',
+    value: 'years'
+  }
+];
+
+export const ERROR_TYPES = {
+  EMPTY: 'EMPTY',
+  ALPHANUMERIC: 'ALPHANUMERIC',
+  IMAGE_INVALID: 'IMAGE_INVALID',
+  FILE: 'FILE'
+};
+
+export const ERROR_MESSAGES = {
+  EMPTY: 'Incomplete required fields',
+  ALPHANUMERIC: 'Please input an alphanumeric value for this field.',
+  IMAGE_INVALID: 'The uploaded file does not meet the requirements. \n Check them and try again',
+  FILE: 'The file is invalid. Review the recommendations and try again'
+};

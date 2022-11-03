@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Skeleton, Divider, message } from 'antd';
-import InfoItem from '../../atoms/InfoItem/InfoItem';
-import { getPreviewValue } from '../../../helpers/formatter';
+import { Row, Col } from 'antd';
 import Field from '../../atoms/Field/Field';
-import { toBase64 } from '../../utils/FileUtils';
 import { fieldPropType } from '../../../helpers/proptypes';
 
 const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
@@ -136,8 +133,8 @@ const ProjectDetailForm = ({ thumbnailsData, fields, handleChange }) => {
         </Col>
       </Col>
     </Row>
-  );
-};
+  </>
+);
 
 ProjectDetailForm.defaultProps = {
   thumbnailsData: {

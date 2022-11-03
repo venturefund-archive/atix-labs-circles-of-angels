@@ -1,9 +1,9 @@
 @import 'css/general_styling.scss';
 
-.CardProject {
-  margin-bottom: 2em;
+.ProjectCard {
+  min-height: 374px;
+  margin-bottom: 8px;
   cursor: pointer;
-  position: relative;
 
   .ant-col-1 {
     margin: 0 0.5em;
@@ -21,7 +21,7 @@
     border-radius: 4px;
     overflow: hidden;
     img {
-      border-radius: 5px;
+      border-radius: 4px;
       height: 100%;
       width: 100%;
     }

@@ -32,9 +32,9 @@ const CardProject = ({
     timeframe,
     status,
     following,
-    applied
+    applied,
+    beneficiary = 'unset',
   } = project;
-
   const locationsNames = () => {
     const countriesIds = countries.filter(
       // eslint-disable-next-line radix
@@ -47,7 +47,7 @@ const CardProject = ({
   };
 
   return (
-    <Col className="CardProject" span={8}>
+    <Col className="ProjectCard" span={8} xs={24} md={12} lg={8}>
       {showTag && (
         <Tag color="orange" onClick={tagClick}>
           View my activities to verify
@@ -81,14 +81,35 @@ const CardProject = ({
             )}
           </div>
         </div>
-        <Row className="ProjectSummery">
-          <Col span={24}>
-            <h1>{projectName}</h1>
+        <Row className="ProjectSummary">
+          <Col span={20}>
+            <h1 className="ProjectName">{projectName}</h1>
+          </Col>
+          <Col span={4}>
+            <div className="BlockTags">
+              {status && (
+                <Tag color={projectStatusMap[status].color}>
+                  {projectStatusMap[status].name}
+                </Tag>
+              )}
+              {following && (
+                <Tag className="Follow" align="right">
+                  Following
+                  <Icon type="check" style={{ color: '#4C7FF77' }} />
+                </Tag>
+              )}
+              {applied && (
+                <Tag className="Applied" color="#DF5BD2" align="right">
+                  Applied
+                  <Icon type="check" style={{ color: 'white' }} />
+                </Tag>
+              )}
+            </div>
           </Col>
           <Col align="middle" span={24}>
             <InfoItem
               xs={24}
-              lg={7}
+              lg={6}
               subtitle="Country of Impact"
               title={locationsNames()}
               iconInfoItem="environment"
@@ -98,7 +119,7 @@ const CardProject = ({
             </Col>
             <InfoItem
               xs={24}
-              lg={7}
+              lg={6}
               subtitle="Timeframe"
               title={formatTimeframeValue(timeframe)}
               iconInfoItem="clock-circle"
@@ -108,10 +129,16 @@ const CardProject = ({
             </Col>
             <InfoItem
               xs={24}
-              lg={7}
+              lg={6}
               subtitle="Amount"
               title={`$ ${goalAmount}`}
               iconInfoItem="dollar"
+            />
+            <InfoItem
+              xs={24}
+              lg={6}
+              subtitle="Beneficiary name"
+              title={beneficiary}
             />
           </Col>
         </Row>

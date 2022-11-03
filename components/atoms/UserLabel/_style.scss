@@ -2,9 +2,12 @@
 
 .UserLabel {
   h4 {
-    @include primary-text($body, $secondary-color, 400);
+    @include primary-text($labels, #000, 400);
+    font-weight: 600;
+    line-height: 17px;
   }
   p {
-    @include primary-text($body, $grey, 400);
+    @include primary-text($labels, $grey, 400);
+    line-height: 14px;
   }
 }

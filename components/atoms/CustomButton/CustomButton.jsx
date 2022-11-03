@@ -20,7 +20,8 @@ const CustomButton = ({
   disabled,
   hidden,
   htmlType,
-  classNameIcon
+  classNameIcon,
+  style
 }) => {
   const classname = `CustomButton ${theme}`;
   return (
@@ -31,6 +32,7 @@ const CustomButton = ({
       disabled={disabled}
       htmlType={htmlType}
       hidden={hidden}
+      style={style}
     >
       <span>{buttonText} </span>
       {icon && <Icon type={icon} className={classNameIcon} />}

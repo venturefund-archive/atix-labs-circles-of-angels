@@ -1,6 +1,6 @@
 import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
-import ExploreProjects from '../../../pages/explore-projects';
+// import ExploreProjects from '../../../pages/explore-projects';
 import MyProjects from '../../../pages/my-projects';
 import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
@@ -90,20 +90,28 @@ export const routesConfig = [
     withHeader: false,
     withSideBar: false
   },
-  {
-    path: '/explore-projects',
-    component: ExploreProjects,
-    authentication: {
-      required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER]
-    }
-  },
+  // {
+    // path: '/explore-projects',
+    // component: ExploreProjects,
+    // authentication: {
+      // required: true,
+      // roles: [ENTREPRENEUR, PROJECT_SUPPORTER]
+    // }
+  // },
   {
     path: '/create-project',
     component: CreateProject,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR]
+      roles: [ENTREPRENEUR, COA_ADMIN]
+    }
+  },
+  {
+    path: '/project/edit/:projectId',
+    component: CreateProject,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, COA_ADMIN]
     }
   },
   {
@@ -127,7 +135,7 @@ export const routesConfig = [
     component: MyProjects,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER]
+      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, COA_ADMIN]
     }
   },
   {

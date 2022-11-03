@@ -4,5 +4,6 @@ export default {
   SIDE_LOGO_PATH: 'images/logo-angels.svg',
   TEXT_LOGO_PATH: 'images/logotipo.svg',
   DOMAIN: '',
-  NAME: 'Circle of Angels'
+  NAME: 'Circle of Angels',
+  BACKGROUND_PATH: '/static/images/coa-background.png'
 };

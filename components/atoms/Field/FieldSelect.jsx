@@ -18,7 +18,8 @@ const FieldSelect = props => {
     handleChange,
     showSearch,
     filterOption,
-    loading
+    loading,
+    style
   } = props;
 
   const handleOptionChange = selectedOption =>
@@ -40,6 +41,7 @@ const FieldSelect = props => {
         showSearch={showSearch}
         filterOption={filterOption}
         loading={loading}
+        style={style}
       >
         {options &&
           options.map(option => (
