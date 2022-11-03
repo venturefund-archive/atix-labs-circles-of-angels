@@ -1,5 +1,4 @@
 import React from 'react';
-import './_style.scss';
 import { Col } from 'antd';
 import PropTypes from 'prop-types';
 

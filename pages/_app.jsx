@@ -18,14 +18,26 @@ import Router from '../components/organisms/Router/Router';
 import withReactRouter from './with-react-router';
 import { StorageProvider } from '../components/utils/StorageContext';
 import { routesConfig } from '../components/organisms/Router/RouteConfig';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const MyApp = ({ Component, pageProps }) => (
-  <UserProvider>
-    <StorageProvider>
-      {/* <Router {...props} routesConfig={routesConfig} /> */}
-      <Component {...pageProps} />
-    </StorageProvider>
-  </UserProvider>
+  <GoogleReCaptchaProvider
+    reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+    useEnterprise
+    useRecaptchaNet
+    scriptProps={{
+      async: false, // optional, default to false,
+      defer: false, // optional, default to false
+      appendTo: 'head', // optional, default to "head", can be "head" or "body",
+      nonce: undefined // optional, default undefined
+    }}
+  >
+    <UserProvider>
+      <StorageProvider>
+        <Component {...pageProps} />
+      </StorageProvider>
+    </UserProvider>
+  </GoogleReCaptchaProvider>
 );
 
 export default MyApp;

@@ -154,6 +154,8 @@ button.ant-btn {
 @import 'components/atoms/UserLabel/_style.scss';
 
 /* MOLECULES */
+@import 'components/molecules/FormProjectBasicInformation/form-project-basic-information.scss';
+@import 'components/molecules/CardProject/_style.scss';
 @import 'components/molecules/BlockChat/_style.scss';
 @import 'components/molecules/BlockDiscussion/_style.scss';
 @import 'components/molecules/BlockUpload/_style.scss';
@@ -203,7 +205,6 @@ button.ant-btn {
 @import 'components/molecules/Steps/_style.scss';
 
 /* ORGANISMS */
-@import 'components/organisms/CardNewProyect/_style.scss';
 @import 'components/organisms/CreateMilestonesFormContainer/_steps-milestones.scss';
 @import 'components/organisms/CreateProject/_style.scss';
 @import 'components/organisms/CustomFormModal/_style.scss';

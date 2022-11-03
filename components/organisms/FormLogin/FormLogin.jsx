@@ -53,9 +53,7 @@ const getInvalidRule = (field, fields) => {
     // allow custom validators.
     const validator = rule.validator ? rule.validator : validate;
 
-    return !validator(rule, getFieldValue(field), fields)
-      ? rule.message
-      : undefined;
+    return !validator(rule, getFieldValue(field), fields) ? rule.message : undefined;
   });
 };
 
@@ -133,15 +131,8 @@ const FormLogin = ({ form, onSubmit }) => {
       <Field {...fields.email} handleChange={handleChange} />
       <Field {...fields.password} handleChange={handleChange} />
       <Form.Item>
-        <Captcha onChange={value => setIsCaptchaVerified(value)}>
-          Captcha
-        </Captcha>
-        <CustomButton
-          theme="Primary"
-          buttonText="Log In"
-          onClick={submit}
-          htmlType="submit"
-        />
+        <Captcha onChange={value => setIsCaptchaVerified(value)}>Captcha</Captcha>
+        <CustomButton theme="Primary" buttonText="Log In" onClick={submit} htmlType="submit" />
       </Form.Item>
     </Form>
   );

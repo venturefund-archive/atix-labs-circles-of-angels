@@ -11,7 +11,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Row, Col, Upload, Icon, Select, Tag, InputNumber } from 'antd';
-import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_MESSAGES, ERROR_TYPES, TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';

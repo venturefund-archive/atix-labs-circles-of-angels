@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import TopBar from '../../components/organisms/TopBar/TopBar';
 import CustomButton from '../../components/atoms/CustomButton/CustomButton';
 import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
+import customConfig from 'custom-config';
 
 function Landing() {
   const [visibility, setVisibility] = useState(false);

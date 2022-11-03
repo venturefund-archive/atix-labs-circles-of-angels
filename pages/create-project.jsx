@@ -11,8 +11,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
-import './_createproject.scss';
-import './_style.scss';
 import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
 import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';

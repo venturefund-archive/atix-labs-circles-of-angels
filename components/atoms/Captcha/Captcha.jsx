@@ -10,10 +10,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  GoogleReCaptcha
-} from 'react-google-recaptcha-v3';
-
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const Captcha = ({ onChange }) => (
   <div
@@ -24,7 +21,7 @@ const Captcha = ({ onChange }) => (
     }}
   >
     <GoogleReCaptcha
-      onVerify={(token) => {
+      onVerify={token => {
         console.info('captch verified: ', token);
         onChange(true);
       }}
