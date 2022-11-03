@@ -9,7 +9,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+import { useRouter } from 'next/router';
 import { message } from 'antd';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
@@ -17,7 +17,7 @@ import { projectStatuses, SUPPORTER } from '../constants/constants';
 import { createProject, getProjects } from '../api/projectApi';
 
 const MyProjects = ({ user }) => {
-  const history = useHistory();
+  const router = useRouter();
   const [projects, setProjects] = useState([]);
 
   const goToProjectDetail = project => {
@@ -27,9 +27,9 @@ const MyProjects = ({ user }) => {
       status === projectStatuses.DRAFT ||
       (status === projectStatuses.REJECTED && user.role !== SUPPORTER)
     ) {
-      history.push(`/project/edit/${project.id}`, state);
+      router.push(`/project/edit/${project.id}`, state);
     } else {
-      history.push(`/project-detail?id=${project.id}`, state);
+      router.push(`/project-detail?id=${project.id}`, state);
     }
   };
 
