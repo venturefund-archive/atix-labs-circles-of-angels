@@ -342,6 +342,10 @@ export const FormProjectDetail = Form.create({ name: 'FormProjectDetail' })(
   FormProjectDetailContent
 );
 
+FormProjectDetailContent.defaultProps = {
+  form: () => undefined
+};
+
 FormProjectDetailContent.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
@@ -354,5 +358,6 @@ FormProjectDetailContent.propTypes = {
       additionalCurrencyInformation: PropTypes.string
     })
   }).isRequired,
-  onError: PropTypes.func.isRequired
+  onError: PropTypes.func.isRequired,
+  form: PropTypes.func
 };

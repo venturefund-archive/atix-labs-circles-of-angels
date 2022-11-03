@@ -52,7 +52,8 @@ CustomButton.defaultProps = {
   disabled: false,
   hidden: false,
   htmlType: 'button',
-  classNameIcon: ''
+  classNameIcon: '',
+  style: {}
 };
 
 CustomButton.propTypes = {
@@ -65,4 +66,5 @@ CustomButton.propTypes = {
   hidden: PropTypes.bool,
   htmlType: PropTypes.string,
   classNameIcon: PropTypes.string,
+  style: PropTypes.shape
 };

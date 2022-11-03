@@ -395,9 +395,14 @@ export const FormProjectBasicInformation = Form.create({
   name: 'FormProjectBasicInformation'
 })(FormProjectBasicInformationContent);
 
+FormProjectBasicInformationContent.defaultProps = {
+  form: () => undefined
+};
+
 FormProjectBasicInformationContent.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  form: PropTypes.oneOfType(Form.create),
   project: PropTypes.shape({
     details: PropTypes.shape({
       problemAddressed: PropTypes.string,

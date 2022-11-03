@@ -63,7 +63,8 @@ FieldSelect.defaultProps = {
   mode: 'default',
   showSearch: false,
   filterOption: undefined,
-  loading: false
+  loading: false,
+  style: {}
 };
 
 FieldSelect.propTypes = {
@@ -79,5 +80,6 @@ FieldSelect.propTypes = {
   mode: PropTypes.string,
   showSearch: PropTypes.bool,
   filterOption: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  style: PropTypes.shape
 };

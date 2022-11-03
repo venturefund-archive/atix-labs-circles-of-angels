@@ -52,7 +52,7 @@ const FormPassword = ({ form, onSubmit }) => {
   return (
     <Modal
       visible={modalVisible}
-      closable={true}
+      closable
       mask={false}
       maskClosable
       onCancel={() => setModalVisible(false)}
