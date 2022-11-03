@@ -130,7 +130,7 @@ const FormLogin = ({ form, onSubmit }) => {
   };
 
   return (
-    <Form className="login-form" conSubmit={submit}>
+    <Form className="login-form" onSubmit={submit}>
       <Field {...fields.email} handleChange={handleChange} />
       <Field {...fields.password} handleChange={handleChange} />
       <Form.Item>
@@ -142,6 +142,7 @@ const FormLogin = ({ form, onSubmit }) => {
           buttonText="Log In"
           onClick={submit}
           htmlType="submit"
+          visible
         />
       </Form.Item>
     </Form>

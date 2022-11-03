@@ -64,5 +64,5 @@ CustomButton.propTypes = {
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
   htmlType: PropTypes.string,
-  classNameIcon: PropTypes.string
+  classNameIcon: PropTypes.string,
 };

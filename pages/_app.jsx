@@ -39,6 +39,6 @@ const MyApp = props => (
       </UserProvider>
     </GoogleReCaptchaProvider>
   </Container>
-);
+)
 
 export default withReactRouter(MyApp);

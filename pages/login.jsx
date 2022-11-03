@@ -1,8 +1,10 @@
 import { Row } from 'antd';
-import React from 'react';
-import TopBar from '../components/organisms/TopBar/TopBar';
+import Navigation from 'components/organisms/Navigation';
+import React, { useState } from 'react';
 
 function Login() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Row
       className="Landing"
@@ -12,7 +14,10 @@ function Login() {
         backgroundPositionX: 'center'
       }}
     >
-      <TopBar />
+      <Navigation
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
     </Row>
   );
 }

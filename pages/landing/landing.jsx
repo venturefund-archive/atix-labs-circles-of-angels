@@ -12,24 +12,10 @@ import { Row } from 'antd';
 import '../_style.scss';
 import './_landing.scss';
 import customConfig from 'custom-config';
-import TopBar from '../../components/organisms/TopBar/TopBar';
-import CustomButton from '../../components/atoms/CustomButton/CustomButton';
-import ModalLogin from '../../components/organisms/ModalLogin/ModalLogin';
+import Navigation from 'components/organisms/Navigation';
 
 function Landing() {
-  const [visibility, setVisibility] = useState(false);
-
-  const modalLogin = (
-    <div className="WrapperModalLogin">
-      <CustomButton
-        data-testid="loginButton"
-        buttonText="Log In"
-        theme="Secondary"
-        onClick={() => setVisibility(true)}
-      />
-      <ModalLogin data-testid="modal" setVisibility={setVisibility} visibility={visibility} />
-    </div>
-  );
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Row
@@ -38,9 +24,13 @@ function Landing() {
         background: `url(${customConfig.BACKGROUND_PATH}) top left / cover no-repeat`
       }}
     >
-      <TopBar modalLogin={modalLogin} />
-    </Row>
+      <Navigation
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
+    </Row >
   );
 }
+
 
 export default Landing;

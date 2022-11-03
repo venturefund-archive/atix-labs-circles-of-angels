@@ -80,7 +80,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         ? `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
         : undefined
     });
-  }, []);
+  }, [project.basicInformation]);
 
   const submit = e => {
     e.preventDefault();
