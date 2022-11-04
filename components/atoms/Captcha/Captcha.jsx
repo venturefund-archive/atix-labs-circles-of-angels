@@ -24,9 +24,7 @@ const Captcha = ({ onChange }) => (
     }}
   >
     <GoogleReCaptcha
-      onVerify={(token) => {
-        // eslint-disable-next-line
-        console.info('captch verified: ', token);
+      onVerify={() => {
         onChange(true);
       }}
       refreshReCaptcha

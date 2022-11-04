@@ -31,6 +31,13 @@ const MyApp = props => (
         appendTo: 'head', // optional, default to "head", can be "head" or "body",
         nonce: undefined // optional, default undefined
       }}
+      container={{ // optional to render inside custom element
+        element: 'reCapchaOwnComponent',
+        parameters: {
+          badge: 'bottomleft', // optional, default undefined
+          theme: 'dark', // optional, default undefined
+        }
+      }}
     >
       <UserProvider>
         <StorageProvider>
@@ -38,6 +45,7 @@ const MyApp = props => (
         </StorageProvider>
       </UserProvider>
     </GoogleReCaptchaProvider>
+    <div id="reCapchaOwnComponent" />
   </Container>
 )
 

@@ -36,10 +36,10 @@ $title: 20px;
 $labelbig:17px;
 $subtitle: 15.5px;
 $h1: 15.5px;
-$h2: 13.5px; 
-$labels-bigger:15px; 
-$labels:14px; 
-$medium: 13.5px; 
+$h2: 13.5px;
+$labels-bigger:15px;
+$labels:14px;
+$medium: 13.5px;
 $h3: 13.5px;
 $button: 13px;
 $body : 13px;
@@ -134,3 +134,6 @@ $screen-lg-min: 1024px;
   }
 }
 
+#reCapchaOwnComponent .grecaptcha-logo {
+  margin-bottom: 90px !important;
+}
