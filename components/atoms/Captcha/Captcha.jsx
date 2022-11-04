@@ -24,8 +24,7 @@ const Captcha = ({ onChange }) => (
     }}
   >
     <GoogleReCaptcha
-      onVerify={(token) => {
-        console.info('captch verified: ', token);
+      onVerify={() => {
         onChange(true);
       }}
       refreshReCaptcha
