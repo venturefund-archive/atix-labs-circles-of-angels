@@ -113,15 +113,14 @@ TopBarNavigation.defaultProps = {
   onMenuClick: () => undefined,
   modalOpen: false,
   setModalOpen: () => undefined,
-  setDrawerOpen: () => undefined,
 }
 
 TopBarNavigation.propTypes = {
   onMenuClick: PropTypes.func,
   modalOpen: PropTypes.bool,
   setModalOpen: PropTypes.func,
-  setDrawerOpen: PropTypes.func
 }
+
 TopBarOptions.defaultProps = {
   visibility: false,
   setVisibility: () => undefined,

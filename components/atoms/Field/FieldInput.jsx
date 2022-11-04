@@ -15,14 +15,23 @@ export default function FieldInput(props) {
     type,
     maxLength,
     disabled,
-    style
+    style,
+    hasFeedback,
   } = props;
+
+  const validateStatus = () => {
+    if (valid === undefined) {
+      return '';
+    }
+    return valid ? 'success' : 'error';
+  };
 
   return (
     <Form.Item
       label={label}
-      validateStatus={valid || valid === undefined ? 'success' : 'error'}
+      validateStatus={validateStatus()}
       help={errorMessage}
+      hasFeedback={hasFeedback}
     >
       <Input
         name={name}
@@ -48,7 +57,8 @@ FieldInput.defaultProps = {
   maxLength: 80,
   disabled: false,
   value: undefined,
-  style: {}
+  style: {},
+  hasFeedback: false
 };
 
 FieldInput.propTypes = {
@@ -62,5 +72,6 @@ FieldInput.propTypes = {
   type: PropTypes.string,
   maxLength: PropTypes.number,
   disabled: PropTypes.bool,
-  style: PropTypes.shape
+  style: PropTypes.shape,
+  hasFeedback: PropTypes.bool
 };
