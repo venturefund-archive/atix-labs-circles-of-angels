@@ -13,6 +13,7 @@ import { message } from 'antd';
 import { useHistory } from 'react-router';
 import './_createproject.scss';
 import './_style.scss';
+import { FormProjectUsers } from 'components/organisms/FormProjectUsers/FormProjectUsers';
 import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
 import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
 import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
@@ -26,7 +27,7 @@ const wizards = {
   main: CreateProject,
   thumbnails: FormProjectBasicInformation,
   details: FormProjectDetail,
-  proposal: ProjectProposalFormContainer,
+  proposal: FormProjectUsers,
   milestones: CreateMilestonesFormContainer
 };
 

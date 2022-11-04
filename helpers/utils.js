@@ -51,3 +51,8 @@ export const getErrorMessagesField = (currentErrorState = [], errorsToShow = [])
 
   return cleanedErrors;
 };
+
+export const generateQueryString = queries => {
+  const result = '?' + new URLSearchParams(queries).toString();
+  return result;
+};
