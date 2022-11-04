@@ -35,8 +35,12 @@ const ModalLogin = ({ setVisibility, visibility }) => {
   }, [onLoginRoute, setOnLoginRoute, setVisibility]);
 
   const onLoginSubmit = async (email, pwd, clearFields) => {
-    if (!email || !pwd || email === '' || pwd === '') return;
-
+    // Return an object to provide feedback after submitting
+    const result = {};
+    if (!email || !pwd || email === '' || pwd === '') {
+      result.error = 'Must add fields';
+      return result;
+    };
     try {
       const user = await loginUser(email, pwd);
       changeUser(user);
@@ -46,9 +50,14 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       else history.push(defaultRouteByRole[role]);
 
       clearFields();
+      result.user = user;
     } catch (error) {
-      message.error(error);
+      if (error !== 'Invalid user or password') {
+        message.error(error);
+      }
+      result.error = error;
     }
+    return result
   };
 
   return (
@@ -62,7 +71,6 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         mask={!onLoginRoute}
         maskClosable
         footer={null}
-        zIndex={9999}
       >
         <LogoWrapper textTitle="Log In" />
         <DynamicForm onSubmit={onLoginSubmit} />

@@ -12,13 +12,20 @@ export default function FieldPassword(props) {
     valid,
     errorMessage,
     handleChange,
-    type
+    type,
   } = props;
+
+  const validateStatus = () => {
+    if (valid === undefined) {
+      return '';
+    }
+    return valid ? 'success' : 'error';
+  };
 
   return (
     <Form.Item
       label={label}
-      validateStatus={valid || valid === undefined ? 'success' : 'error'}
+      validateStatus={validateStatus()}
       help={errorMessage}
     >
       <Input.Password
