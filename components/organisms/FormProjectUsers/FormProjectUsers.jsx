@@ -47,12 +47,36 @@ const formItemLayoutWithOutLabel = {
   }
 };
 
-const CustomCollapse = ({ children, entity, ...rest }) => {
+const CustomCollapse = ({ children, entity, form, ...rest }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userFound, setUserFound] = useState();
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
+  const { validateFields, getFieldDecorator, setFieldsValue } = form;
+
+  useEffect(() => {
+    if (userFound?.id) {
+      setFieldsValue(userFound);
+    }
+  }, [userFound]);
+
+  const handleSubmitUser = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    validateFields(async (err, values) => {
+      if (!err) {
+        const dataToSend = { ...values };
+        setUserState(USER_STATES.PENDING);
+        console.log({ dataToSend });
+        /* const response = await createUser(dataToSend);
+        if (!response.errors) {
+          setUserState(USER_STATES.PENDING);
+        } */
+      }
+    });
+  };
+
   return (
-    <div
+    <form
       onClick={() => {
         activeKey === 0 && setActiveKey(1);
         activeKey === 1 && setActiveKey(0);
@@ -72,16 +96,24 @@ const CustomCollapse = ({ children, entity, ...rest }) => {
               setUserFound={setUserFound}
               setUserState={setUserState}
               userState={userState}
+              getFieldDecorator={getFieldDecorator}
             />
           }
           key={1}
         >
-          {children(setActiveKey, userFound, setUserState, userState)}
+          {children(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser)}
         </Panel>
       </Collapse>
-    </div>
+    </form>
   );
 };
+
+export const UserForm = Form.create({
+  name: 'UserForm',
+  onValuesChange(props, values) {
+    props.onChange(values);
+  }
+})(CustomCollapse);
 
 const checkEmail = input => {
   return VALID_EMAIL_REGEX.test(input);
@@ -102,7 +134,15 @@ const USER_STATE_ICONS = {
   NO_EXIST: 'info-circle'
 };
 
-const HeaderCustom = ({ index, setActiveKey, entity, setUserFound, userState, setUserState }) => {
+const HeaderCustom = ({
+  index,
+  setActiveKey,
+  entity,
+  setUserFound,
+  userState,
+  setUserState,
+  getFieldDecorator
+}) => {
   const searchUser = async inputValue => {
     if (!checkEmail(inputValue)) return setUserState(USER_STATES.UNKNOWN);
 
@@ -128,11 +168,13 @@ const HeaderCustom = ({ index, setActiveKey, entity, setUserFound, userState, se
   return (
     <>
       <Form.Item label={`${entity} email`} className="formProjectUsers__customHeader__formItem">
-        <Input
-          placeholder={`Insert the email of the ${entity} user`}
-          onClick={e => e.stopPropagation()}
-          onChange={onChange}
-        />
+        {getFieldDecorator('email', {})(
+          <Input
+            placeholder={`Insert the email of the ${entity} user`}
+            onClick={e => e.stopPropagation()}
+            onChange={onChange}
+          />
+        )}
 
         {userState !== USER_STATES.UNKNOWN && (
           <Icon
@@ -158,35 +200,13 @@ const UserFormContent = ({
   countries = {},
   setUserState,
   userState,
-  item
+  item,
+  handleSubmitUser
 }) => {
-  const { validateFields, getFieldDecorator, setFieldsValue } = form;
-
-  //TODO:  Use here the setUsersProject
-  useEffect(() => {
-    if (userFound?.id) {
-      setFieldsValue(userFound);
-      /* setUsersProject({...usersProject, [entity]}); */
-    }
-  }, [userFound]);
-
-  const handleSubmitUser = e => {
-    e.stopPropagation();
-    e.preventDefault();
-    validateFields(async (err, values) => {
-      if (!err) {
-        const dataToSend = { ...values, email: userFound?.email };
-        setUserState(USER_STATES.PENDING);
-        /* const response = await createUser(dataToSend);
-        if (!response.errors) {
-          setUserState(USER_STATES.PENDING);
-        } */
-      }
-    });
-  };
+  const { getFieldDecorator } = form;
 
   return (
-    <Form onClick={e => e.stopPropagation()}>
+    <div onClick={e => e.stopPropagation()}>
       <Row>
         <Col span={12}>
           <Form.Item label="First name">
@@ -242,28 +262,22 @@ const UserFormContent = ({
           )}
         </Col>
       </Row>
-    </Form>
+    </div>
   );
 };
 
-export const UserForm = Form.create({
-  name: 'UserForm',
-  onValuesChange(props, values) {
-    props.onChange(values);
-  }
-})(UserFormContent);
-
-const formItems = ({ remove, keys, countries = {}, handleChangeMultipleUserForm }) => {
+const formItems = ({ remove, keys, countries = {}, handleChangeSingleUserForm }) => {
   return keys.map((item, index) => (
     <div key={item}>
-      <CustomCollapse
+      <UserForm
         defaultActiveKey={['0']}
         expandIconPosition="right"
         accordion
         entity="Auditor"
+        onChange={value => handleChangeSingleUserForm(`auditor-${item}`, value)}
       >
-        {(setActiveKey, userFound, setUserState, userState) => (
-          <UserForm
+        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
+          <UserFormContent
             remove={remove}
             entity="Auditor"
             setActiveKey={setActiveKey}
@@ -271,11 +285,12 @@ const formItems = ({ remove, keys, countries = {}, handleChangeMultipleUserForm 
             countries={countries}
             setUserState={setUserState}
             userState={userState}
-            onChange={value => handleChangeMultipleUserForm(`auditor-${item}`, value)}
             item={item}
+            form={form}
+            handleSubmitUser={handleSubmitUser}
           />
         )}
-      </CustomCollapse>
+      </UserForm>
     </div>
   ));
 };
@@ -300,13 +315,8 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
       [entity]: { ...projectUsers?.[entity], ...changedFields }
     });
 
-  const handleChangeMultipleUserForm = (entity, changedFields) =>
-    setProjectUsers({
-      ...projectUsers,
-      [entity]: { ...projectUsers?.[entity], ...changedFields }
-    });
-
   const handleSubmitAssign = e => {
+    // TODO: Check if all has id to send the request. If not, not do anything
     e.preventDefault();
     console.log({ projectUsers });
   };
@@ -346,14 +356,15 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
     <>
       <TitlePage textTitle="Assign project users" />
       <h3 className="formProjectUsers__section__title">Beneficiary</h3>
-      <CustomCollapse
+      <UserForm
         defaultActiveKey={['0']}
         expandIconPosition="right"
         accordion
         entity="Beneficiary"
+        onChange={value => handleChangeSingleUserForm('beneficiary', value)}
       >
-        {(setActiveKey, userFound, setUserState, userState) => (
-          <UserForm
+        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
+          <UserFormContent
             remove={remove}
             entity="Beneficiary"
             setActiveKey={setActiveKey}
@@ -361,19 +372,21 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             countries={countries}
             setUserState={setUserState}
             userState={userState}
-            onChange={value => handleChangeSingleUserForm('beneficiary', value)}
+            form={form}
+            handleSubmitUser={handleSubmitUser}
           />
         )}
-      </CustomCollapse>
+      </UserForm>
       <h3 className="formProjectUsers__section__title">Investor</h3>
-      <CustomCollapse
+      <UserForm
         defaultActiveKey={['0']}
         expandIconPosition="right"
         accordion
         entity="Investor"
+        onChange={value => handleChangeSingleUserForm('investor', value)}
       >
-        {(setActiveKey, userFound, setUserState, userState) => (
-          <UserForm
+        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
+          <UserFormContent
             remove={remove}
             entity="Investor"
             setActiveKey={setActiveKey}
@@ -381,17 +394,18 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             countries={countries}
             setUserState={setUserState}
             userState={userState}
-            onChange={value => handleChangeSingleUserForm('investor', value)}
+            form={form}
+            handleSubmitUser={handleSubmitUser}
           />
         )}
-      </CustomCollapse>
+      </UserForm>
       <div className="formProjectUsers__section">
         <h3 className="formProjectUsers__section__title">Auditor</h3>
         <Button type="dashed" onClick={add}>
           Add Auditor +
         </Button>
       </div>
-      {formItems({ remove, keys, countries, handleChangeMultipleUserForm })}
+      {formItems({ remove, keys, countries, handleChangeSingleUserForm })}
 
       <FooterButtons
         prevStepButton={(() => (
