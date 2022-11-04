@@ -158,13 +158,15 @@ const UserFormContent = ({
   countries = {},
   setUserState,
   userState,
-  setEntityState
+  item
 }) => {
   const { validateFields, getFieldDecorator, setFieldsValue } = form;
 
+  //TODO:  Use here the setUsersProject
   useEffect(() => {
     if (userFound?.id) {
       setFieldsValue(userFound);
+      /* setUsersProject({...usersProject, [entity]}); */
     }
   }, [userFound]);
 
@@ -183,10 +185,8 @@ const UserFormContent = ({
     });
   };
 
-  const handleFormChange = e => console.log(e);
-
   return (
-    <Form onClick={e => e.stopPropagation()} onChange={handleFormChange}>
+    <Form onClick={e => e.stopPropagation()}>
       <Row>
         <Col span={12}>
           <Form.Item label="First name">
@@ -247,10 +247,13 @@ const UserFormContent = ({
 };
 
 export const UserForm = Form.create({
-  name: 'UserForm'
+  name: 'UserForm',
+  onValuesChange(props, values) {
+    props.onChange(values);
+  }
 })(UserFormContent);
 
-const formItems = ({ remove, keys, entity, countries = {} }) => {
+const formItems = ({ remove, keys, countries = {}, handleChangeMultipleUserForm }) => {
   return keys.map((item, index) => (
     <div key={item}>
       <CustomCollapse
@@ -268,6 +271,8 @@ const formItems = ({ remove, keys, entity, countries = {} }) => {
             countries={countries}
             setUserState={setUserState}
             userState={userState}
+            onChange={value => handleChangeMultipleUserForm(`auditor-${item}`, value)}
+            item={item}
           />
         )}
       </CustomCollapse>
@@ -289,19 +294,21 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
     })();
   }, []);
 
-  const setEntityState = (entity, state) => {
-    setProjectUSers({
-      [entity]: state
+  const handleChangeSingleUserForm = (entity, changedFields) =>
+    setProjectUsers({
+      ...projectUsers,
+      [entity]: { ...projectUsers?.[entity], ...changedFields }
     });
-  };
+
+  const handleChangeMultipleUserForm = (entity, changedFields) =>
+    setProjectUsers({
+      ...projectUsers,
+      [entity]: { ...projectUsers?.[entity], ...changedFields }
+    });
 
   const handleSubmitAssign = e => {
     e.preventDefault();
-    form.validateFields((err, values) => {
-      if (!err) {
-        console.log({ values });
-      }
-    });
+    console.log({ projectUsers });
   };
 
   const updateProjectProcess = async (projectId, formData) => {
@@ -323,6 +330,12 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
     const values = [...keys];
     values.splice(indexToDelete, 1);
     setKeys(values);
+
+    /*  */
+    const updatedProjectUsers = Object.fromEntries(
+      Object.entries(projectUsers).filter(([key]) => !key.includes(`auditor-${k}`))
+    );
+    setProjectUsers(updatedProjectUsers);
   };
 
   const add = () => {
@@ -348,7 +361,7 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             countries={countries}
             setUserState={setUserState}
             userState={userState}
-            setEntityState={setEntityState}
+            onChange={value => handleChangeSingleUserForm('beneficiary', value)}
           />
         )}
       </CustomCollapse>
@@ -368,6 +381,7 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             countries={countries}
             setUserState={setUserState}
             userState={userState}
+            onChange={value => handleChangeSingleUserForm('investor', value)}
           />
         )}
       </CustomCollapse>
@@ -377,7 +391,7 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
           Add Auditor +
         </Button>
       </div>
-      {formItems({ remove, keys, countries })}
+      {formItems({ remove, keys, countries, handleChangeMultipleUserForm })}
 
       <FooterButtons
         prevStepButton={(() => (
