@@ -136,7 +136,10 @@ FieldFile.defaultProps = {
   multiple: false,
   clean: false,
   value: undefined,
-  extraInformation: undefined
+  extraInformation: undefined,
+  uploadButtonText: 'Upload',
+  changeButtonText: 'Change',
+  style: {}
 };
 
 FieldFile.propTypes = {
@@ -151,7 +154,10 @@ FieldFile.propTypes = {
   errorMessage: PropTypes.string,
   multiple: PropTypes.bool,
   clean: PropTypes.bool,
-  extraInformation: PropTypes.string
+  extraInformation: PropTypes.string,
+  uploadButtonText: PropTypes.string,
+  changeButtonText: PropTypes.string,
+  style: PropTypes.shape
 };
 
 export default FieldFile;

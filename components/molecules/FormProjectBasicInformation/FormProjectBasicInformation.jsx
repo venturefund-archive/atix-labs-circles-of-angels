@@ -80,7 +80,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         ? `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
         : undefined
     });
-  }, []);
+  }, [project.basicInformation]);
 
   const submit = e => {
     e.preventDefault();
@@ -395,9 +395,14 @@ export const FormProjectBasicInformation = Form.create({
   name: 'FormProjectBasicInformation'
 })(FormProjectBasicInformationContent);
 
+FormProjectBasicInformationContent.defaultProps = {
+  form: () => undefined
+};
+
 FormProjectBasicInformationContent.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  form: PropTypes.oneOfType(Form.create),
   project: PropTypes.shape({
     details: PropTypes.shape({
       problemAddressed: PropTypes.string,

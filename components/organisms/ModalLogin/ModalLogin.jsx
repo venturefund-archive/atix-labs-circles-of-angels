@@ -21,11 +21,18 @@ import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
-  const [onLoginRoute, setOnLoginRoute] = useState(true);
+  const [onLoginRoute, setOnLoginRoute] = useState(false);
   const history = useHistory();
+
   useEffect(() => {
     setOnLoginRoute(window.location.pathname.includes('/login'));
   }, []);
+
+  useEffect(() => {
+    if (onLoginRoute) {
+      setVisibility(true);
+    }
+  }, [onLoginRoute, setOnLoginRoute, setVisibility]);
 
   const onLoginSubmit = async (email, pwd, clearFields) => {
     if (!email || !pwd || email === '' || pwd === '') return;
@@ -51,10 +58,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         onOk={() => setVisibility(false)}
         onCancel={() => setVisibility(false)}
         className="ModalLogin"
-        mask={!onLoginRoute}
-        maskClosable={!onLoginRoute}
         closable={!onLoginRoute}
+        mask={!onLoginRoute}
+        maskClosable
         footer={null}
+        zIndex={9999}
       >
         <LogoWrapper textTitle="Log In" />
         <DynamicForm onSubmit={onLoginSubmit} />

@@ -1,5 +1,5 @@
 import RolesMap from '../constants/RolesMap';
-import { ERROR_MESSAGES, ERROR_TYPES, publicProjectStatuses } from '../constants/constants';
+import { ERROR_MESSAGES, publicProjectStatuses } from '../constants/constants';
 
 export const isOwner = (project, user) => project.owner === user.id;
 

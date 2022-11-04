@@ -47,7 +47,8 @@ FieldInput.defaultProps = {
   type: undefined,
   maxLength: 80,
   disabled: false,
-  value: undefined
+  value: undefined,
+  style: {}
 };
 
 FieldInput.propTypes = {
@@ -60,5 +61,6 @@ FieldInput.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   maxLength: PropTypes.number,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  style: PropTypes.shape
 };
