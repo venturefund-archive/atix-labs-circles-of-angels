@@ -26,6 +26,7 @@ const api = axios.create({
 const loadingMessage = message;
 let requestsInQueue = 0;
 
+/*
 api.interceptors.request.use(
   config => {
     if (requestsInQueue === 0) {
@@ -48,7 +49,7 @@ api.interceptors.response.use(
   },
   error => Promise.reject(error)
 );
-
+*/
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let headers;

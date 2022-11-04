@@ -60,9 +60,8 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         className="ModalLogin"
         closable={!onLoginRoute}
         mask={!onLoginRoute}
-        maskClosable
+        maskClosable={true}
         footer={null}
-        zIndex={9999}
       >
         <LogoWrapper textTitle="Log In" />
         <DynamicForm onSubmit={onLoginSubmit} />

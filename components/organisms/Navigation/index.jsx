@@ -89,7 +89,10 @@ const Navigation = ({ onLogin }) => {
       >
         <Title
           level={3}
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setDrawerOpen(false)
+            setModalOpen(true)
+          }}
           style={{
             cursor: 'pointer',
             color: '#4C7FF7',
@@ -110,12 +113,14 @@ TopBarNavigation.defaultProps = {
   onMenuClick: () => undefined,
   modalOpen: false,
   setModalOpen: () => undefined,
+  setDrawerOpen: () => undefined,
 }
 
 TopBarNavigation.propTypes = {
   onMenuClick: PropTypes.func,
   modalOpen: PropTypes.bool,
-  setModalOpen: PropTypes.func
+  setModalOpen: PropTypes.func,
+  setDrawerOpen: PropTypes.func
 }
 TopBarOptions.defaultProps = {
   visibility: false,
