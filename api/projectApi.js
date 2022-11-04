@@ -13,73 +13,69 @@ import api, { doGet, doPost, doPut, doDelete } from './api';
 import ProjectStatus from '../constants/ProjectStatus';
 import { useGet } from '../hooks/useRequest';
 
-const baseURL = '/projects';
+const projectsBaseURL = '/projects';
 
-export const getProjects = () => apiCall('get', `${baseURL}`);
+export const getProjects = () => apiCall('get', `${projectsBaseURL}`);
 
-export const getFundingProjects = () => doGet(`${baseURL}/funding`);
+export const getFundingProjects = () => doGet(`${projectsBaseURL}/funding`);
 
 export const createProjectThumbnail = saveData => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(`${baseURL}/description`, saveData, config);
+  return doPost(`${projectsBaseURL}/description`, saveData, config);
 };
 
-export const createProject = () => apiCall('post', `${baseURL}`);
+export const createProject = () => apiCall('post', `${projectsBaseURL}`);
 
 export const putBasicInformation = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(`${baseURL}/${projectId}/basic-information`, saveData, config);
-}
+  return doPut(`${projectsBaseURL}/${projectId}/basic-information`, saveData, config);
+};
 
 export const updateProjectThumbnail = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPut(`${baseURL}/${projectId}/description`, saveData, config);
+  return doPut(`${projectsBaseURL}/${projectId}/description`, saveData, config);
 };
 
 export const updateProjectDetail = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPut(`${baseURL}/${projectId}/detail`, saveData, config);
+  return doPut(`${projectsBaseURL}/${projectId}/details`, saveData, config);
 };
 
 export const updateProjectProposal = (projectId, saveData) =>
-  doPut(`${baseURL}/${projectId}/proposal`, saveData);
+  doPut(`${projectsBaseURL}/${projectId}/proposal`, saveData);
 
 export const processProjectMilestones = (projectId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPut(`${baseURL}/${projectId}/milestones`, saveData, config);
+  return doPut(`${projectsBaseURL}/${projectId}/milestones`, saveData, config);
 };
 
 export const getProjectMilestones = projectId =>
-  doGet(`${baseURL}/${projectId}/milestones`);
+  doGet(`${projectsBaseURL}/${projectId}/milestones`);
 
-export const getProject = async projectId => doGet(`${baseURL}/${projectId}`);
+export const getProject = async projectId => doGet(`${projectsBaseURL}/${projectId}`);
 
 export const useGetPublicProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects/public');
   return [data, isLoading, isError];
 };
 
-export const getProjectUsers = projectId =>
-  doGet(`${baseURL}/${projectId}/users`);
+export const getProjectUsers = projectId => doGet(`${projectsBaseURL}/${projectId}/users`);
 
-export const getFeaturedProjects = async () =>
-  apiCall('get', `${baseURL}/featured`);
+export const getFeaturedProjects = async () => apiCall('get', `${projectsBaseURL}/featured`);
 
-export const sendToReview = projectId =>
-  doPut(`${baseURL}/${projectId}/to-review`);
+export const sendToReview = projectId => doPut(`${projectsBaseURL}/${projectId}/to-review`);
 
-export const publish = projectId => doPut(`${baseURL}/${projectId}/publish`);
+export const publish = projectId => doPut(`${projectsBaseURL}/${projectId}/publish`);
 
 export const addProjectExperience = (projectId, experienceData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(`${baseURL}/${projectId}/experiences`, experienceData, config);
+  return doPost(`${projectsBaseURL}/${projectId}/experiences`, experienceData, config);
 };
 
 export const getProjectExperiences = async projectId =>
-  doGet(`${baseURL}/${projectId}/experiences`);
+  doGet(`${projectsBaseURL}/${projectId}/experiences`);
 
-export const deleteProject = async projectId =>
-  doDelete(`${baseURL}/${projectId}`);
+export const deleteProject = async projectId => doDelete(`${projectsBaseURL}/${projectId}`);
 
 export const useGetProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects');
@@ -87,11 +83,11 @@ export const useGetProjects = () => {
 };
 
 export const getProjectBlockchainData = projectId =>
-  doGet(`${baseURL}/${projectId}/blockchain-data`);
+  doGet(`${projectsBaseURL}/${projectId}/blockchain-data`);
 
 const getActiveProjects = async () => {
   try {
-    const response = await api.get(`${baseURL}/active`);
+    const response = await api.get(`${projectsBaseURL}/active`);
     return response;
   } catch (error) {
     return { error };
@@ -100,7 +96,7 @@ const getActiveProjects = async () => {
 
 const getProjectsPreview = async () => {
   try {
-    const response = await api.get(`${baseURL}/preview`);
+    const response = await api.get(`${projectsBaseURL}/preview`);
     return response;
   } catch (error) {
     return { error };
@@ -116,7 +112,7 @@ const confirmProject = async projectId => {
         status: ProjectStatus.PUBLISHED
       })
     );
-    const response = await api.put(`${baseURL}/${projectId}`, fd);
+    const response = await api.put(`${projectsBaseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -132,7 +128,7 @@ const rejectProject = async projectId => {
         status: ProjectStatus.REJECTED
       })
     );
-    const response = await api.put(`${baseURL}/${projectId}`, fd);
+    const response = await api.put(`${projectsBaseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -140,12 +136,12 @@ const rejectProject = async projectId => {
 };
 
 const updateProjectStatus = async (projectId, data) =>
-  apiCall('put', `${baseURL}/${projectId}/status`, data);
+  apiCall('put', `${projectsBaseURL}/${projectId}/status`, data);
 
 const downloadAgreement = async projectId => {
   try {
     const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/${projectId}/agreement`, config);
+    const response = await api.get(`${projectsBaseURL}/${projectId}/agreement`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -166,7 +162,7 @@ const downloadProposal = async projectId => {
     const config = {
       responseType: 'blob'
     };
-    const response = await api.get(`${baseURL}/${projectId}/proposal`, config);
+    const response = await api.get(`${projectsBaseURL}/${projectId}/proposal`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -190,11 +186,7 @@ const uploadAgreement = async (projectId, agreementFile) => {
     const fd = new FormData();
     fd.append('projectAgreement', agreementFile);
 
-    const response = await api.post(
-      `${baseURL}/${projectId}/agreement`,
-      fd,
-      config
-    );
+    const response = await api.post(`${projectsBaseURL}/${projectId}/agreement`, fd, config);
 
     return response;
   } catch (error) {
@@ -220,7 +212,7 @@ const downloadMilestonesTemplate = async () => {
 const downloadProposalTemplate = async () => {
   try {
     const config = { responseType: 'blob' };
-    const response = await api.get(`${baseURL}/templates/proposal`, config);
+    const response = await api.get(`${projectsBaseURL}/templates/proposal`, config);
 
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
@@ -245,7 +237,7 @@ const startProject = async projectId => {
         status: ProjectStatus.IN_PROGRESS
       })
     );
-    const response = await api.put(`${baseURL}/${projectId}`, fd);
+    const response = await api.put(`${projectsBaseURL}/${projectId}`, fd);
     return response;
   } catch (error) {
     return { error };
@@ -254,7 +246,7 @@ const startProject = async projectId => {
 
 const getProjectsAsOracle = async oracleId => {
   try {
-    const response = await api.get(`/oracles/${oracleId}${baseURL}`);
+    const response = await api.get(`/oracles/${oracleId}${projectsBaseURL}`);
     return response;
   } catch (error) {
     return { error };
@@ -274,7 +266,7 @@ const updateProject = async (project, coverPhoto, cardPhoto, projectId) => {
     }
     fd.append('project', JSON.stringify(project));
 
-    const response = await api.put(`${baseURL}/${projectId}`, fd, config);
+    const response = await api.put(`${projectsBaseURL}/${projectId}`, fd, config);
     return response;
   } catch (error) {
     return { error };
@@ -291,7 +283,7 @@ const createProjectExperience = async (experience, photos) => {
       fd.append(`photo-${i}`, photo);
     });
     const response = await api.post(
-      `${baseURL}/${experience.projectId}/experiences`,
+      `${projectsBaseURL}/${experience.projectId}/experiences`,
       fd,
       config
     );

@@ -18,7 +18,8 @@ const FieldSelect = props => {
     handleChange,
     showSearch,
     filterOption,
-    loading
+    loading,
+    style
   } = props;
 
   const handleOptionChange = selectedOption =>
@@ -40,6 +41,7 @@ const FieldSelect = props => {
         showSearch={showSearch}
         filterOption={filterOption}
         loading={loading}
+        style={style}
       >
         {options &&
           options.map(option => (
@@ -61,7 +63,8 @@ FieldSelect.defaultProps = {
   mode: 'default',
   showSearch: false,
   filterOption: undefined,
-  loading: false
+  loading: false,
+  style: {}
 };
 
 FieldSelect.propTypes = {
@@ -77,5 +80,6 @@ FieldSelect.propTypes = {
   mode: PropTypes.string,
   showSearch: PropTypes.bool,
   filterOption: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  style: PropTypes.shape
 };

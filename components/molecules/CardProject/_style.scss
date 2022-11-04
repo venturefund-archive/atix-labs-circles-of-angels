@@ -1,13 +1,14 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
 
 .ProjectCard {
   min-height: 374px;
   margin-bottom: 8px;
-  
+  cursor: pointer;
+
   .ProjectDescription {
     width: 100%;
     height: 270px;
-    background: #ECECEC;
+    background: #ececec;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 4px;
@@ -17,17 +18,17 @@
       height: 100%;
       width: 100%;
     }
-    .BlockTags{
+    .BlockTags {
       display: flex;
       justify-content: space-between;
       position: absolute;
       top: 1em;
-      left:1em;
+      left: 1em;
       z-index: 9;
-      .ant-tag{
+      .ant-tag {
         cursor: pointer;
-        .anticon{
-          margin-left:0.5em;
+        .anticon {
+          margin-left: 0.5em;
         }
       }
     }
@@ -55,7 +56,7 @@
     background: $surface;
     cursor: pointer;
     justify-content: center;
-    &:hover{
+    &:hover {
       box-shadow: $shadow-big;
     }
   }

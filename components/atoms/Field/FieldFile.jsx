@@ -18,7 +18,10 @@ const FieldFile = ({
   errorMessage,
   multiple,
   clean,
-  extraInformation
+  extraInformation,
+  uploadButtonText = 'Click to upload',
+  changeButtonText = 'Click to change',
+  style
 }) => {
   const [fileList, setFileList] = useState([]);
   const [showPrevious, setShowPrevious] = useState(showPreviouslyUploadedList);
@@ -94,8 +97,9 @@ const FieldFile = ({
         fileList={fileList}
       >
         <CustomButton
-          buttonText={value ? 'Click to change' : 'Click to upload'}
+          buttonText={value ? changeButtonText : uploadButtonText}
           theme="Alternative"
+          style={style}
         />
       </Upload>
       {extraInformation && <span>{extraInformation}</span>}
@@ -132,7 +136,10 @@ FieldFile.defaultProps = {
   multiple: false,
   clean: false,
   value: undefined,
-  extraInformation: undefined
+  extraInformation: undefined,
+  uploadButtonText: 'Upload',
+  changeButtonText: 'Change',
+  style: {}
 };
 
 FieldFile.propTypes = {
@@ -147,7 +154,10 @@ FieldFile.propTypes = {
   errorMessage: PropTypes.string,
   multiple: PropTypes.bool,
   clean: PropTypes.bool,
-  extraInformation: PropTypes.string
+  extraInformation: PropTypes.string,
+  uploadButtonText: PropTypes.string,
+  changeButtonText: PropTypes.string,
+  style: PropTypes.shape
 };
 
 export default FieldFile;

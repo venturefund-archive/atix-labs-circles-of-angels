@@ -1,5 +1,21 @@
 @import "../../../css/general_styling.scss";
 
+.loginFeedback {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #fe3030 !important;
+}
+
+.validLabel {
+  color: #728099 !important;
+}
+
+.invalidLabel { 
+  color: #fe3030 !important;
+}
+
 .FormSide {
   display: flex;
   flex-flow: column;
@@ -10,8 +26,12 @@
     width: 300px;
     margin: 0 auto;
     margin-top: 3em;
+
   }
   .login-form{
+    border: solid 1px red;
+
+
     .Primary {
       margin-top: 2em;
     }
@@ -27,12 +47,13 @@
     .ant-checkbox-wrapper{
         float: left;
     }
+
   }
 }
 
 .ResetPassword,.ChangePasswordSuccess,.ModalLogin {
   margin-top: 40px;
-  width: 470px !important;
+  width: 470px;
   .ant-modal-content {
     border-radius: 10px !important;
   }

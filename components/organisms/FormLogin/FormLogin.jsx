@@ -9,16 +9,35 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, message } from 'antd';
+import { Form, message, Typography } from 'antd';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import './_style.scss';
 import Field from '../../atoms/Field/Field';
 import Captcha from '../../atoms/Captcha/Captcha';
 
+const { Text } = Typography;
+
+const DynamicLabel = ({ valid, label }) => (
+  <p
+    className={`${valid || valid === undefined ? 'valid' : 'invalid'}Label`}
+  >
+    {label}
+  </p >
+);
+
+DynamicLabel.defaultProps = {
+  valid: undefined,
+  label: ''
+}
+
+DynamicLabel.propTypes = {
+  valid: PropTypes.bool,
+  label: PropTypes.string
+};
+
 export const formLoginInputs = {
   email: {
     name: 'email',
-    label: 'Email',
     placeholder: 'example@domain.com',
     rules: [
       {
@@ -33,7 +52,6 @@ export const formLoginInputs = {
   },
   password: {
     name: 'password',
-    label: 'Password',
     placeholder: 'Password',
     type: 'password',
     rules: [
@@ -96,6 +114,8 @@ const validate = (rule, value) => {
 const FormLogin = ({ form, onSubmit }) => {
   const [fields, setFields] = useState(formLoginInputs);
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const [feedback, setFeedback] = useState('');
+
   const clearFields = () => {
     resetFormLoginInputs();
     return setFields(formLoginInputs);
@@ -106,6 +126,8 @@ const FormLogin = ({ form, onSubmit }) => {
     const inputName = event.target.name;
     const field = fields[inputName];
 
+    setFeedback('');
+
     field.value = newValue;
     setFields({
       ...fields,
@@ -113,14 +135,31 @@ const FormLogin = ({ form, onSubmit }) => {
     });
   };
 
-  const submit = e => {
+  const submit = async (e) => {
     if (!isCaptchaVerified) {
       message.error('Please verify that you are a human with the Captcha');
       return;
     }
     e.preventDefault();
     form.validateFields();
-    onSubmit(fields.email.value, fields.password.value, clearFields);
+    const { error } = await onSubmit(fields.email.value, fields.password.value, clearFields);
+
+    if (error) {
+      setFields((oldFields) => ({
+        email: {
+          ...oldFields.email,
+          valid: false,
+        },
+        password: {
+          ...oldFields.password,
+          valid: false,
+        }
+      }));
+      // TODO: make api error response match UX specification improve source of truth
+      if (error === 'Invalid user or password') {
+        setFeedback('Invalid email or password')
+      }
+    }
   };
 
   const resetFormLoginInputs = () => {
@@ -130,9 +169,21 @@ const FormLogin = ({ form, onSubmit }) => {
   };
 
   return (
-    <Form className="login-form" conSubmit={submit}>
-      <Field {...fields.email} handleChange={handleChange} />
-      <Field {...fields.password} handleChange={handleChange} />
+    <Form className="login-form" onSubmit={submit}>
+      <Field
+        {...fields.email}
+        label={<DynamicLabel label='Email' {...fields.email} />}
+        handleChange={handleChange}
+        hasFeedback
+      />
+
+      <Field
+        {...fields.password}
+        label={<DynamicLabel label='Password' {...fields.password} />}
+        handleChange={handleChange}
+        hasFeedback
+      />
+      {feedback && <Text type="danger" className="loginFeedback">{feedback}</Text>}
       <Form.Item>
         <Captcha onChange={value => setIsCaptchaVerified(value)}>
           Captcha
@@ -142,6 +193,7 @@ const FormLogin = ({ form, onSubmit }) => {
           buttonText="Log In"
           onClick={submit}
           htmlType="submit"
+          visible
         />
       </Form.Item>
     </Form>

@@ -1,0 +1,21 @@
+.formProjectBasicInformation {
+  &__thumbnailPhoto {
+    width: 100% !important;
+    height: 25rem;
+    object-fit: cover;
+  }
+  &__tag {
+    text-transform: capitalize;
+  }
+
+  &__uploadThumbnail {
+    &__button {
+      &.--withError {
+        border: solid thin red;
+        * {
+          color: red;
+        }
+      }
+    }
+  }
+}

@@ -21,15 +21,26 @@ import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
-  const [onLoginRoute, setOnLoginRoute] = useState(true);
+  const [onLoginRoute, setOnLoginRoute] = useState(false);
   const history = useHistory();
+
   useEffect(() => {
     setOnLoginRoute(window.location.pathname.includes('/login'));
   }, []);
 
-  const onLoginSubmit = async (email, pwd, clearFields) => {
-    if (!email || !pwd || email === '' || pwd === '') return;
+  useEffect(() => {
+    if (onLoginRoute) {
+      setVisibility(true);
+    }
+  }, [onLoginRoute, setOnLoginRoute, setVisibility]);
 
+  const onLoginSubmit = async (email, pwd, clearFields) => {
+    // Return an object to provide feedback after submitting
+    const result = {};
+    if (!email || !pwd || email === '' || pwd === '') {
+      result.error = 'Must add fields';
+      return result;
+    };
     try {
       const user = await loginUser(email, pwd);
       changeUser(user);
@@ -39,9 +50,14 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       else history.push(defaultRouteByRole[role]);
 
       clearFields();
+      result.user = user;
     } catch (error) {
-      message.error(error);
+      if (error !== 'Invalid user or password') {
+        message.error(error);
+      }
+      result.error = error;
     }
+    return result
   };
 
   return (
@@ -51,9 +67,9 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         onOk={() => setVisibility(false)}
         onCancel={() => setVisibility(false)}
         className="ModalLogin"
-        mask={!onLoginRoute}
-        maskClosable={!onLoginRoute}
         closable={!onLoginRoute}
+        mask={!onLoginRoute}
+        maskClosable
         footer={null}
       >
         <LogoWrapper textTitle="Log In" />

@@ -11,7 +11,7 @@ export default function useMultiStepForm(
 ) {
   // FIXME : it should validate initial state.
   const [fields, setFields] = useState(formFields);
-  const [steps] = useState(formSteps);
+  const [steps, setSteps] = useState(formSteps);
   const [currentStep, setCurrentStep] = useState(initialStep);
 
   // TODO : This should replace all steps!
@@ -35,9 +35,7 @@ export default function useMultiStepForm(
     const v = rule.whitespace ? value.trim() : value;
 
     if (rule.required) {
-      const notEmpty = Number.isNaN(Number(v))
-        ? v.length > 0
-        : v.toString().length > 0;
+      const notEmpty = Number.isNaN(Number(v)) ? v.length > 0 : v.toString().length > 0;
 
       isValid = isValid && notEmpty;
     }
@@ -57,9 +55,7 @@ export default function useMultiStepForm(
     return field.rules.find(rule => {
       // allow custom validators.
       const validator = rule.validator ? rule.validator : validate;
-      return !validator(rule, getFieldValue(field), fields)
-        ? rule.message
-        : undefined;
+      return !validator(rule, getFieldValue(field), fields) ? rule.message : undefined;
     });
   };
 
@@ -83,10 +79,7 @@ export default function useMultiStepForm(
 
     if (event) {
       event.persist();
-      value =
-        newValue || event.target.value !== undefined
-          ? event.target.value
-          : event.target.name;
+      value = newValue || event.target.value !== undefined ? event.target.value : event.target.name;
     } else {
       value = newValue;
     }
@@ -107,12 +100,7 @@ export default function useMultiStepForm(
     if (!stepFields.length) return true;
 
     const validatedFields = steps[stepToValidate].fields.reduce(
-      (acc, fieldName) =>
-        Object.assign(
-          acc,
-          { [fieldName]: validateField(fields[fieldName]) },
-          {}
-        ),
+      (acc, fieldName) => Object.assign(acc, { [fieldName]: validateField(fields[fieldName]) }, {}),
       {}
     );
     setFields({ ...fields, ...validatedFields });
@@ -139,37 +127,14 @@ export default function useMultiStepForm(
     setCurrentStep(currentStep - 1);
   };
 
-  const isLastRegisterForm = stepRegister => {
-    const { component } = stepRegister;
-    if (!component) {
-      return false;
-    }
-    return (
-      component.name.includes('Register') && currentStep === steps.length - 1
-    );
-  };
-
-  const isFormValid = () => {
-    const stepFields = steps[currentStep].fields;
-    const lastRegisterForm = isLastRegisterForm(steps[currentStep]);
-    return (
-      !stepFields ||
-      !stepFields.length > 0 ||
-      lastRegisterForm ||
-      Object.values(stepFields).every(i => fields[i].valid)
-    );
-  };
-
   // FIXME : this should go somewhere else
-  function getNextStepButton(current, disabled) {
+  function getNextStepButton(current) {
     const lastText = hasMainPage ? 'Save & Continue!' : 'Finish!';
-    const isDisabled = disabled || !isFormValid();
     return (
       <CustomButton
-        theme={isDisabled ? 'disabled' : 'Primary'}
+        theme="Primary"
         buttonText={isLast(current) ? lastText : 'Next'}
         onClick={nextStep}
-        disabled={isDisabled}
       />
     );
   }
@@ -177,9 +142,7 @@ export default function useMultiStepForm(
   function getPrevStepButton(current) {
     if (current === 0 && !hasMainPage) return;
 
-    return (
-      <CustomButton theme="Secondary" buttonText="Back" onClick={prevStep} />
-    );
+    return <CustomButton theme="Secondary" buttonText="Back" onClick={prevStep} />;
   }
 
   const [shouldSubmit, setShouldSubmit] = useState(false);
@@ -191,7 +154,7 @@ export default function useMultiStepForm(
     }
   }, [shouldSubmit, submitCallback, fields]);
 
-  return [
+  return {
     fields,
     setFields,
     steps,
@@ -201,6 +164,7 @@ export default function useMultiStepForm(
     handleChange,
     getNextStepButton,
     getPrevStepButton,
-    validateFields
-  ];
+    validateFields,
+    setSteps
+  };
 }

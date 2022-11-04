@@ -14,14 +14,24 @@ export default function FieldInput(props) {
     handleChange,
     type,
     maxLength,
-    disabled
+    disabled,
+    style,
+    hasFeedback,
   } = props;
+
+  const validateStatus = () => {
+    if (valid === undefined) {
+      return '';
+    }
+    return valid ? 'success' : 'error';
+  };
 
   return (
     <Form.Item
       label={label}
-      validateStatus={valid || valid === undefined ? 'success' : 'error'}
+      validateStatus={validateStatus()}
       help={errorMessage}
+      hasFeedback={hasFeedback}
     >
       <Input
         name={name}
@@ -32,6 +42,7 @@ export default function FieldInput(props) {
         onChange={handleChange}
         disabled={disabled}
         maxLength={maxLength}
+        style={style}
       />
     </Form.Item>
   );
@@ -45,7 +56,9 @@ FieldInput.defaultProps = {
   type: undefined,
   maxLength: 80,
   disabled: false,
-  value: undefined
+  value: undefined,
+  style: {},
+  hasFeedback: false
 };
 
 FieldInput.propTypes = {
@@ -58,5 +71,7 @@ FieldInput.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   maxLength: PropTypes.number,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  style: PropTypes.shape,
+  hasFeedback: PropTypes.bool
 };

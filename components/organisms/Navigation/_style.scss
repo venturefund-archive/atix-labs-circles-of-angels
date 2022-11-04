@@ -1,0 +1,63 @@
+@import "../css/general_styling.scss";
+
+.LoginDrawer {
+  .ant-drawer-title {
+    width: 100%;
+    margin-right: 56px;
+  }
+  .DrawerTitle {
+    width: 100%;
+    padding: 10px 0 10px 27px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    img {
+      margin-right: calc(50% - 32px);
+    }
+  }
+  .ant-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.TopBar {
+  border-bottom: 1px solid $border;
+  min-height: 7%;
+  padding: 0;
+  .TopBarIcon {
+    display: inline-block;
+  }
+  .CustomButton.Secondary{
+    display: none;
+  }
+  .gutter-row {
+    padding: 12px 24px;
+  }
+  img {
+    width: 36px;
+    height: 36px;
+    margin-left: calc(50vw - 56px) !important;
+    margin-bottom: 0px !important;
+  }
+}
+@media (min-width: $screen-md-min) {
+  .TopBar {
+    padding: 4px 0px;
+    padding-left: 16px;
+    img {
+      margin-left: 18px !important;
+      height: 38px;
+      width: auto;
+    }
+    .TopBarIcon {
+      display: none !important;
+    }
+    .CustomButton.Secondary {
+      display: block !important;
+    }
+  }
+}

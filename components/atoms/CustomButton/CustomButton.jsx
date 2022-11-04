@@ -21,7 +21,8 @@ const CustomButton = ({
   disabled,
   hidden,
   htmlType,
-  classNameIcon
+  classNameIcon,
+  style
 }) => {
   const classname = `CustomButton ${theme}`;
   return (
@@ -32,6 +33,7 @@ const CustomButton = ({
       disabled={disabled}
       htmlType={htmlType}
       hidden={hidden}
+      style={style}
     >
       <span>{buttonText} </span>
       {icon && <Icon type={icon} className={classNameIcon} />}
@@ -50,7 +52,8 @@ CustomButton.defaultProps = {
   disabled: false,
   hidden: false,
   htmlType: 'button',
-  classNameIcon: ''
+  classNameIcon: '',
+  style: {}
 };
 
 CustomButton.propTypes = {
@@ -62,5 +65,6 @@ CustomButton.propTypes = {
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
   htmlType: PropTypes.string,
-  classNameIcon: PropTypes.string
+  classNameIcon: PropTypes.string,
+  style: PropTypes.shape
 };

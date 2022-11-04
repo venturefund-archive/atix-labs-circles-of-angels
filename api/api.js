@@ -8,6 +8,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
+import { message } from 'antd';
 import axios from 'axios';
 import formatError from '../helpers/errorFormatter';
 
@@ -22,7 +23,31 @@ const api = axios.create({
   credentials: 'same-origin',
   withCredentials: true
 });
+const loadingMessage = message;
+let requestsInQueue = 0;
 
+api.interceptors.request.use(
+  config => {
+    if (requestsInQueue === 0) {
+      loadingMessage.loading('Loading...', 0);
+    }
+    requestsInQueue++;
+
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  response => {
+    requestsInQueue--;
+    if (requestsInQueue === 0) {
+      loadingMessage.destroy();
+    }
+    return Promise.resolve(response);
+  },
+  error => Promise.reject(error)
+);
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let headers;
@@ -45,14 +70,11 @@ export const makeApiRequest = async (method, url, body, config) => {
   return { data, headers, errors };
 };
 
-export const doGet = async (url, data, config) =>
-  makeApiRequest('get', url, data, config);
+export const doGet = async (url, data, config) => makeApiRequest('get', url, data, config);
 
-export const doPost = async (url, data = {}, config) =>
-  makeApiRequest('post', url, data, config);
+export const doPost = async (url, data = {}, config) => makeApiRequest('post', url, data, config);
 
-export const doPut = async (url, data = {}, config) =>
-  makeApiRequest('put', url, data, config);
+export const doPut = async (url, data = {}, config) => makeApiRequest('put', url, data, config);
 
 export const doDelete = async url => makeApiRequest('delete', url);
 

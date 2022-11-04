@@ -8,7 +8,7 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
@@ -52,7 +52,6 @@ export function useUserContext() {
   // return useContext(UserContext);
   return context;
 }
-
 
 export const UserProvider = ({ children }) => (
   <UserContext.Provider value={context}>{children}</UserContext.Provider>

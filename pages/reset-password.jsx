@@ -11,11 +11,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Row, Spin } from 'antd';
 import queryString from 'query-string';
+import Navigation from 'components/organisms/Navigation';
 import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
 import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
-import TopBar from '../components/organisms/TopBar/TopBar';
 import { getMnemonicFromToken, resetPassword } from '../api/userApi';
 import {
   encryptWallet,
@@ -26,6 +26,7 @@ import {
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   const history = useHistory();
 
   const goToSuccessMessage = () => history.push('/change-password-success');
@@ -98,7 +99,10 @@ function ResetPassword() {
         backgroundPositionX: 'center'
       }}
     >
-      <TopBar />
+      <Navigation
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <div>{renderForm()}</div>
     </Row>
   );

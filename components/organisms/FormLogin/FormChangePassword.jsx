@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Modal } from 'antd';
 import './_style.scss';
@@ -15,6 +15,7 @@ import LogoWrapper from '../../atoms/LogoWrapper';
 
 const FormPassword = ({ form, onSubmit }) => {
   const { getFieldDecorator, getFieldProps } = form;
+  const [modalVisible, setModalVisible] = useState(true)
 
   const submit = () => {
     form.validateFields(err => {
@@ -50,11 +51,13 @@ const FormPassword = ({ form, onSubmit }) => {
 
   return (
     <Modal
-      visible
-      closable={false}
+      visible={modalVisible}
+      closable
       mask={false}
-      maskClosable={false}
+      maskClosable
+      onCancel={() => setModalVisible(false)}
       width="400"
+      zIndex={9999}
       className="ModalLogin ResetPassword"
       footer={(
         <Button className="ant-btn ant-btn-primary" onClick={submit}>
