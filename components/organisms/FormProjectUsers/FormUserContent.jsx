@@ -1,4 +1,6 @@
 import { Alert, Button, Col, Form, Input, Row, Select } from 'antd';
+import { ERROR_MESSAGES } from 'constants/constants';
+import { onlyAlphanumerics } from 'constants/Regex';
 import React from 'react';
 import { USER_STATES } from './constants';
 
@@ -48,7 +50,19 @@ export const FormUserContent = ({
             )}
           </Form.Item>
           <Form.Item label="First name">
-            {getFieldDecorator('firstName', {})(
+            {getFieldDecorator('firstName', {
+              rules: [
+                {
+                  required: true,
+                  message: ERROR_MESSAGES.EMPTY,
+                  whitespace: true
+                },
+                {
+                  pattern: onlyAlphanumerics,
+                  message: ERROR_MESSAGES.ALPHANUMERIC
+                }
+              ]
+            })(
               <Input
                 placeholder="Enter first name"
                 disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
@@ -58,7 +72,19 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <Form.Item label="Last name">
-            {getFieldDecorator('lastName', {})(
+            {getFieldDecorator('lastName', {
+              rules: [
+                {
+                  required: true,
+                  message: ERROR_MESSAGES.EMPTY,
+                  whitespace: true
+                },
+                {
+                  pattern: onlyAlphanumerics,
+                  message: ERROR_MESSAGES.ALPHANUMERIC
+                }
+              ]
+            })(
               <Input
                 placeholder="Enter last name"
                 disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}

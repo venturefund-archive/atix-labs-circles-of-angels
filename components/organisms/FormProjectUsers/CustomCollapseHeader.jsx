@@ -1,5 +1,6 @@
 import { Form, Icon, Input } from 'antd';
 import { getUsers } from 'api/userApi';
+import { ERROR_MESSAGES } from 'constants/constants';
 import { checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
@@ -42,9 +43,15 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
   return (
     <>
       <Form.Item label={`${entity} email`} className="formProjectUsers__customHeader__formItem">
-        {getFieldDecorator('email', {})(
-          <Input placeholder={`Insert the email of the ${entity} user`} onChange={onChange} />
-        )}
+        {getFieldDecorator('email', {
+          rules: [
+            {
+              required: true,
+              message: ERROR_MESSAGES.EMPTY,
+              whitespace: true
+            }
+          ]
+        })(<Input placeholder={`Insert the email of the ${entity} user`} onChange={onChange} />)}
 
         {userState !== USER_STATES.UNKNOWN && (
           <Icon

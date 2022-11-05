@@ -228,10 +228,6 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   {
                     pattern: onlyAlphanumerics,
                     message: ERROR_TYPES.ALPHANUMERIC
-                  },
-                  {
-                    pattern: onlyAlphanumerics,
-                    message: 'ERROR_TYPES.ALPHANUMERIC'
                   }
                 ],
                 initialValue: projectName,
