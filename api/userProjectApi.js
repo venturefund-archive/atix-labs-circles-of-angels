@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api from './api';
+import api, { doPost } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/userProjects';
@@ -43,20 +43,18 @@ const createUserProject = async (userId, projectId) => {
   }
 };
 
-const followProject = async projectId =>
-  apiCall('post', `/projects/${projectId}/follow`);
+const followProject = async projectId => apiCall('post', `/projects/${projectId}/follow`);
 
-const unfollowProject = async projectId =>
-  apiCall('post', `/projects/${projectId}/unfollow`);
+const unfollowProject = async projectId => apiCall('post', `/projects/${projectId}/unfollow`);
 
-const isFollower = async projectId =>
-  apiCall('get', `/projects/${projectId}/follower`);
+const isFollower = async projectId => apiCall('get', `/projects/${projectId}/follower`);
 
-const applyToProject = async (projectId, role) =>
-  apiCall('post', `/projects/${projectId}/${role}`);
+const applyToProject = async (projectId, role) => apiCall('post', `/projects/${projectId}/${role}`);
 
-const isCandidate = async projectId =>
-  apiCall('get', `/projects/${projectId}/candidate`);
+const isCandidate = async projectId => apiCall('get', `/projects/${projectId}/candidate`);
+
+const addUserToProject = async ({ projectId, userId, roleId }) =>
+  doPost('/user-project', { projectId, userId, roleId });
 
 export {
   getUsers,
@@ -66,5 +64,6 @@ export {
   unfollowProject,
   isFollower,
   applyToProject,
-  isCandidate
+  isCandidate,
+  addUserToProject
 };

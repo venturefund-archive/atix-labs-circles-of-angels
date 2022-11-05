@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable func-names */
 /**
  * AGPL License
  * Circle of Angels aims to democratize social impact financing.
@@ -9,297 +7,24 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Icon, Collapse, Row, Col, Select, Alert } from 'antd';
-
-import { onlyAlphanumerics, VALID_EMAIL_REGEX } from 'constants/Regex';
-import { ERROR_MESSAGES, ERROR_TYPES, TIMEFRAME_UNITS } from 'constants/constants';
+import { Button } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
-import { putBasicInformation } from 'api/projectApi';
-import { getErrorMessagesFields } from 'helpers/utils';
 import './form-project-users.scss';
-import _ from 'lodash';
-import { createUser, getUsers } from 'api/userApi';
-import { useEffect } from 'react';
 import { getCountries } from 'api/countriesApi';
+import { addUserToProject } from 'api/userProjectApi';
+import { cleanObject } from 'helpers/utils';
+import { ROLES_IDS } from './constants';
+import { FormUser } from './FormUser';
+import { FormUserContent } from './FormUserContent';
 
-const { Option } = Select;
-
-const { Panel } = Collapse;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 }
-  }
-};
-
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 }
-  }
-};
-
-const CustomCollapse = ({ children, entity, form, ...rest }) => {
-  const [activeKey, setActiveKey] = useState(0);
-  const [userFound, setUserFound] = useState();
-  const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
-  const { validateFields, getFieldDecorator, setFieldsValue } = form;
-
-  useEffect(() => {
-    if (userFound?.id) {
-      setFieldsValue(userFound);
-    }
-  }, [userFound]);
-
-  const handleSubmitUser = e => {
-    e.stopPropagation();
-    e.preventDefault();
-    validateFields(async (err, values) => {
-      if (!err) {
-        const dataToSend = { ...values };
-        setUserState(USER_STATES.PENDING);
-        console.log({ dataToSend });
-        /* const response = await createUser(dataToSend);
-        if (!response.errors) {
-          setUserState(USER_STATES.PENDING);
-        } */
-      }
-    });
-  };
-
-  return (
-    <form
-      onClick={() => {
-        activeKey === 0 && setActiveKey(1);
-        activeKey === 1 && setActiveKey(0);
-      }}
-    >
-      <Collapse
-        {...rest}
-        className="formProjectUsers__collapse"
-        bordered={false}
-        activeKey={activeKey}
-      >
-        <Panel
-          header={
-            <HeaderCustom
-              setActiveKey={setActiveKey}
-              entity={entity}
-              setUserFound={setUserFound}
-              setUserState={setUserState}
-              userState={userState}
-              getFieldDecorator={getFieldDecorator}
-            />
-          }
-          key={1}
-        >
-          {children(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser)}
-        </Panel>
-      </Collapse>
-    </form>
-  );
-};
-
-export const UserForm = Form.create({
-  name: 'UserForm',
-  onValuesChange(props, values) {
-    props.onChange(values);
-  }
-})(CustomCollapse);
-
-const checkEmail = input => {
-  return VALID_EMAIL_REGEX.test(input);
-};
-
-const USER_STATES = {
-  PENDING: 'PENDING',
-  EXIST: 'EXIST',
-  UNKNOWN: 'UNKNOWN',
-  LOADING: 'LOADING',
-  NO_EXIST: 'NO_EXIST'
-};
-
-const USER_STATE_ICONS = {
-  PENDING: 'clock-circle',
-  EXIST: 'check-circle',
-  LOADING: 'loading',
-  NO_EXIST: 'info-circle'
-};
-
-const HeaderCustom = ({
-  index,
-  setActiveKey,
-  entity,
-  setUserFound,
-  userState,
-  setUserState,
-  getFieldDecorator
-}) => {
-  const searchUser = async inputValue => {
-    if (!checkEmail(inputValue)) return setUserState(USER_STATES.UNKNOWN);
-
-    const users = (await getUsers({ email: inputValue }))?.data?.users;
-    if (users?.length > 0) {
-      console.log(users[0]);
-      setUserFound(users[0]);
-      setUserState(USER_STATES.EXIST);
-    } else {
-      setUserFound({ email: inputValue });
-      setUserState(USER_STATES.NO_EXIST);
-    }
-    setActiveKey(1);
-  };
-
-  const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), []);
-
-  const onChange = ({ target }) => {
-    setUserState(USER_STATES.LOADING);
-    searchUserDebounced(target.value);
-  };
-
-  return (
-    <>
-      <Form.Item label={`${entity} email`} className="formProjectUsers__customHeader__formItem">
-        {getFieldDecorator('email', {})(
-          <Input
-            placeholder={`Insert the email of the ${entity} user`}
-            onClick={e => e.stopPropagation()}
-            onChange={onChange}
-          />
-        )}
-
-        {userState !== USER_STATES.UNKNOWN && (
-          <Icon
-            type={USER_STATE_ICONS[userState]}
-            theme={userState !== USER_STATES.LOADING && 'filled'}
-            className="formProjectUsers__customHeader__icon --success"
-          />
-        )}
-        {userState === USER_STATES.NO_EXIST && (
-          <p>The {entity} is not registered. Fill in the information below</p>
-        )}
-      </Form.Item>
-    </>
-  );
-};
-
-const UserFormContent = ({
-  remove,
-  entity,
-  setActiveKey,
-  userFound,
-  form,
-  countries = {},
-  setUserState,
-  userState,
-  item,
-  handleSubmitUser
-}) => {
-  const { getFieldDecorator } = form;
-
-  return (
-    <div onClick={e => e.stopPropagation()}>
-      <Row>
-        <Col span={12}>
-          <Form.Item label="First name">
-            {getFieldDecorator('firstName', {})(
-              <Input placeholder="Enter first name" disabled={!!userFound?.id} />
-            )}
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label="Last name">
-            {getFieldDecorator('lastName', {})(
-              <Input placeholder="Enter last name" disabled={!!userFound?.id} />
-            )}
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={12}>
-          <Form.Item label="Country/Region">
-            {getFieldDecorator('country', {})(
-              <Select
-                loading={countries?.isLoading}
-                placeholder="Select country or region"
-                disabled={!!userFound?.id}
-              >
-                {countries?.content?.map(country => (
-                  <Option value={country?.id} key={country?.id}>
-                    {country?.name}
-                  </Option>
-                ))}
-              </Select>
-            )}
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          {(userState === USER_STATES.NO_EXIST || userState === USER_STATES.UNKNOWN) && (
-            <>
-              <Button
-                onClick={e => {
-                  e.preventDefault();
-                  remove(item);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button type="primary" onClick={handleSubmitUser}>
-                Invite User
-              </Button>
-            </>
-          )}
-          {userState === USER_STATES.PENDING && (
-            <Alert message="Instructions have been sent!" type="success" showIcon />
-          )}
-        </Col>
-      </Row>
-    </div>
-  );
-};
-
-const formItems = ({ remove, keys, countries = {}, handleChangeSingleUserForm }) => {
-  return keys.map((item, index) => (
-    <div key={item}>
-      <UserForm
-        defaultActiveKey={['0']}
-        expandIconPosition="right"
-        accordion
-        entity="Auditor"
-        onChange={value => handleChangeSingleUserForm(`auditor-${item}`, value)}
-      >
-        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
-          <UserFormContent
-            remove={remove}
-            entity="Auditor"
-            setActiveKey={setActiveKey}
-            userFound={userFound}
-            countries={countries}
-            setUserState={setUserState}
-            userState={userState}
-            item={item}
-            form={form}
-            handleSubmitUser={handleSubmitUser}
-          />
-        )}
-      </UserForm>
-    </div>
-  ));
-};
-
-const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, getFieldsError, getFieldValue } = form;
+export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const [keys, setKeys] = useState([0]);
   const [countries, setCountries] = useState({});
-  const [projectUsers, setProjectUsers] = useState();
+  const [projectUsers, setProjectUsers] = useState({});
+  const [formWithMissingFieldsError, setFormWithMissingFieldsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -309,30 +34,57 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
     })();
   }, []);
 
-  const handleChangeSingleUserForm = (entity, changedFields) =>
-    setProjectUsers({
+  const handleChangeUserForm = (entity, changedFields) => {
+    const _updatedProjectUsers = {
       ...projectUsers,
       [entity]: { ...projectUsers?.[entity], ...changedFields }
-    });
-
-  const handleSubmitAssign = e => {
-    // TODO: Check if all has id to send the request. If not, not do anything
-    e.preventDefault();
-    console.log({ projectUsers });
+    };
+    const _updatedProjectUsersProcessed = cleanObject(_updatedProjectUsers);
+    setProjectUsers(_updatedProjectUsersProcessed);
   };
 
-  const updateProjectProcess = async (projectId, formData) => {
-    const response = await putBasicInformation(projectId, formData);
+  const handleSubmitAssign = async e => {
+    setFormWithMissingFieldsError(false);
+    const projectId = parseInt(project?.id, 10);
+    const processedUsers = Object.entries(projectUsers).map(([key, value]) => {
+      const keyProcessed = key.split('-')[0].toLowerCase();
+      return {
+        id: value?.id,
+        roleId: ROLES_IDS[keyProcessed],
+        projectId,
+        email: value?.email
+      };
+    });
 
-    if (response.errors) {
-      return onError(response.errors);
+    const withRoleId1 = processedUsers.some(el => el.roleId === 1);
+    const withRoleId2 = processedUsers.some(el => el.roleId === 2);
+    const withRoleId3 = processedUsers.some(el => el.roleId === 3);
+
+    if (!withRoleId1 || !withRoleId2 || !withRoleId3) {
+      return setFormWithMissingFieldsError(true);
     }
 
-    onSuccess(response.data);
+    const tasks = processedUsers.map(source => addUserToProject({ ...source, userId: source?.id }));
+
+    const responses = await Promise.allSettled(tasks);
+
+    const withErrors = responses?.filter(response => response?.value?.status !== 200);
+
+    if (withErrors) {
+      const mappedUsers = withErrors.map(error => {
+        const userFound = processedUsers?.find(user => user?.id === error?.value?.body?.userId);
+        return userFound?.email;
+      });
+      return onError(
+        `Ocurrió un error al asignar los siguientes usuarios: ${mappedUsers.join(', ')}`
+      );
+    }
+
+    onSuccess(project?.id);
     goBack();
   };
 
-  const remove = k => {
+  const onRemove = k => {
     const indexToDelete = keys.indexOf(k);
     if (keys.length === 1) {
       return;
@@ -356,19 +108,14 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
     <>
       <TitlePage textTitle="Assign project users" />
       <h3 className="formProjectUsers__section__title">Beneficiary</h3>
-      <UserForm
-        defaultActiveKey={['0']}
+      <FormUser
         expandIconPosition="right"
-        accordion
         entity="Beneficiary"
-        onChange={value => handleChangeSingleUserForm('beneficiary', value)}
+        onChange={value => handleChangeUserForm('beneficiary', value)}
       >
-        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
-          <UserFormContent
-            remove={remove}
-            entity="Beneficiary"
+        {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+          <FormUserContent
             setActiveKey={setActiveKey}
-            userFound={userFound}
             countries={countries}
             setUserState={setUserState}
             userState={userState}
@@ -376,21 +123,16 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             handleSubmitUser={handleSubmitUser}
           />
         )}
-      </UserForm>
+      </FormUser>
       <h3 className="formProjectUsers__section__title">Investor</h3>
-      <UserForm
-        defaultActiveKey={['0']}
+      <FormUser
         expandIconPosition="right"
-        accordion
         entity="Investor"
-        onChange={value => handleChangeSingleUserForm('investor', value)}
+        onChange={value => handleChangeUserForm('investor', value)}
       >
-        {(setActiveKey, userFound, setUserState, userState, form, handleSubmitUser) => (
-          <UserFormContent
-            remove={remove}
-            entity="Investor"
+        {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+          <FormUserContent
             setActiveKey={setActiveKey}
-            userFound={userFound}
             countries={countries}
             setUserState={setUserState}
             userState={userState}
@@ -398,22 +140,46 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
             handleSubmitUser={handleSubmitUser}
           />
         )}
-      </UserForm>
+      </FormUser>
       <div className="formProjectUsers__section">
         <h3 className="formProjectUsers__section__title">Auditor</h3>
         <Button type="dashed" onClick={add}>
           Add Auditor +
         </Button>
       </div>
-      {formItems({ remove, keys, countries, handleChangeSingleUserForm })}
+      {keys.map(item => (
+        <div key={item}>
+          <FormUser
+            expandIconPosition="right"
+            entity="Auditor"
+            onChange={value => handleChangeUserForm(`auditor-${item}`, value)}
+          >
+            {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+              <FormUserContent
+                onRemove={onRemove}
+                setActiveKey={setActiveKey}
+                countries={countries}
+                setUserState={setUserState}
+                userState={userState}
+                item={item}
+                form={form}
+                handleSubmitUser={handleSubmitUser}
+                totalKeys={keys?.length}
+              />
+            )}
+          </FormUser>
+        </div>
+      ))}
 
       <FooterButtons
         prevStepButton={(() => (
           <Button onClick={goBack}>Back</Button>
         ))()}
         nextStepButton={(() => (
-          <div>
-            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => error)}
+          <div className="formProjectUsers__buttons__right">
+            {formWithMissingFieldsError && (
+              <p>Debes completar todos los usuarios para poder realizar la asignación</p>
+            )}
             <Button
               type="primary"
               className="formProjectUsers__footer"
@@ -428,11 +194,7 @@ const FormProjectUsersContent = ({ form, onSuccess, goBack, project, onError }) 
   );
 };
 
-export const FormProjectUsers = Form.create({
-  name: 'FormProjectUsers'
-})(FormProjectUsersContent);
-
-FormProjectUsersContent.propTypes = {
+FormProjectUsers.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   project: PropTypes.shape({

@@ -38,4 +38,14 @@
       }
     }
   }
+  &__buttons {
+    &__right {
+      display: flex;
+      align-items: center;
+      column-gap: 1rem;
+      p {
+        color: $error-color;
+      }
+    }
+  }
 }

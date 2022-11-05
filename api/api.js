@@ -61,6 +61,7 @@ export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let headers;
   let errors;
+  let status;
 
   try {
     const result = await api.request({
@@ -72,11 +73,13 @@ export const makeApiRequest = async (method, url, body, config) => {
 
     data = result.data;
     headers = result.headers;
+    status = result.status;
   } catch (error) {
     errors = formatError(error);
+    status = error.response.status;
   }
 
-  return { data, headers, errors };
+  return { data, headers, errors, body, status };
 };
 
 export const doGet = async (url, data, config) => makeApiRequest('get', url, data, config);

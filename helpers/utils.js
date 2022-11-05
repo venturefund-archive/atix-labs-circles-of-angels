@@ -1,5 +1,6 @@
+import { VALID_EMAIL_REGEX } from 'constants/Regex';
 import RolesMap from '../constants/RolesMap';
-import { ERROR_MESSAGES, ERROR_TYPES, publicProjectStatuses } from '../constants/constants';
+import { ERROR_MESSAGES, publicProjectStatuses } from '../constants/constants';
 
 export const isOwner = (project, user) => project.owner === user.id;
 
@@ -56,3 +57,22 @@ export const generateQueryString = queries => {
   const result = '?' + new URLSearchParams(queries).toString();
   return result;
 };
+
+export const cleanObject = object => {
+  const _object = { ...object };
+  Object.entries(_object).forEach(([k, v]) => {
+    if (v && typeof v === 'object') {
+      cleanObject(v);
+    }
+    if ((v && typeof v === 'object' && !Object.keys(v).length) || v === null || v === undefined) {
+      if (Array.isArray(_object)) {
+        _object.splice(k, 1);
+      } else {
+        delete _object[k];
+      }
+    }
+  });
+  return _object;
+};
+
+export const checkValidEmail = input => VALID_EMAIL_REGEX.test(input);
