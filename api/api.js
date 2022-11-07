@@ -26,6 +26,14 @@ const api = axios.create({
 const loadingMessage = message;
 let requestsInQueue = 0;
 
+const handleResponseQueue = currentRequestsInQueue => {
+  const updatedRequestsInQueue = currentRequestsInQueue - 1;
+  if (updatedRequestsInQueue === 0) {
+    loadingMessage.destroy();
+  }
+  return updatedRequestsInQueue;
+};
+
 api.interceptors.request.use(
   config => {
     if (requestsInQueue === 0) {
@@ -40,18 +48,19 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   response => {
-    requestsInQueue--;
-    if (requestsInQueue === 0) {
-      loadingMessage.destroy();
-    }
+    requestsInQueue = handleResponseQueue(requestsInQueue);
     return Promise.resolve(response);
   },
-  error => Promise.reject(error)
+  error => {
+    requestsInQueue = handleResponseQueue(requestsInQueue);
+    return Promise.reject(error);
+  }
 );
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let headers;
   let errors;
+  let status;
 
   try {
     const result = await api.request({
@@ -63,11 +72,13 @@ export const makeApiRequest = async (method, url, body, config) => {
 
     data = result.data;
     headers = result.headers;
+    status = result.status;
   } catch (error) {
     errors = formatError(error);
+    status = error.response.status;
   }
 
-  return { data, headers, errors };
+  return { data, headers, errors, body, status };
 };
 
 export const doGet = async (url, data, config) => makeApiRequest('get', url, data, config);

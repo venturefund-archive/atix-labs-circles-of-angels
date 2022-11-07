@@ -18,6 +18,8 @@
 }
 .Content {
   @include Content;
+  padding-bottom: 67px;
+
   @include breakpoint(md) {
     @include Contentxs;
   }
@@ -28,7 +30,7 @@
 .ContentComplete {
   @include ContentComplete;
   @include breakpoint(sm) {
-    overflow-y:visible;
+    overflow-y: visible;
   }
 }
 .FooterButtons {
@@ -77,10 +79,10 @@ p {
 }
 
 ::-webkit-scrollbar {
-  width:6px;
+  width: 6px;
   height: 6px;
-    @include breakpoint(sm) {
-    display:none
+  @include breakpoint(sm) {
+    display: none;
   }
 }
 ::-webkit-scrollbar-thumb {
@@ -92,9 +94,9 @@ p {
   border-radius: 20px;
 }
 ::-moz-scrollbar {
-  width:4px;
+  width: 4px;
   height: 4px;
-  display:block;
+  display: block;
   background: #bfc5ccad;
 }
 ::-moz-scrollbar-track {
@@ -107,28 +109,27 @@ p {
   border-radius: 10px;
 }
 
-
 .spacedivider {
   margin: 0.5em 0;
 }
 //LINKS TRANSITION
 
-button.redLink > span{
+button.redLink > span {
+  color: $danger-color;
+  position: relative;
+  background: transparent;
+  padding: 0.4em 0.5em;
+  &:hover {
     color: $danger-color;
-    position: relative;
-    background:transparent;
-    padding: 0.4em 0.5em;
-    &:hover{
-      color: $danger-color;
-    }
+  }
 }
 button.redLink::before {
   content: '';
   display: block;
   opacity: 0;
   position: absolute;
-  transition-duration: .15s;
-  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   z-index: -1;
   bottom: 0;
   left: 0;
@@ -137,31 +138,31 @@ button.redLink::before {
   background: $danger-color;
   border-radius: 4px;
   transform: scale(0);
-  transition-property: transform,opacity;
+  transition-property: transform, opacity;
 }
 button.redLink:hover::before {
-  opacity: .06;
+  opacity: 0.06;
   transform: scale(1);
-  opacity: .2;
+  opacity: 0.2;
   z-index: 1;
 }
 
 button.greenLink > span {
+  color: $success-color;
+  position: relative;
+  background: transparent;
+  padding: 0.4em 0.5em;
+  &:hover {
     color: $success-color;
-    position: relative;
-    background:transparent;
-    padding: 0.4em 0.5em;
-    &:hover{
-      color: $success-color;
-    }
+  }
 }
 button.greenLink::before {
   content: '';
   display: block;
   opacity: 0;
   position: absolute;
-  transition-duration: .15s;
-  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   z-index: -1;
   bottom: 0;
   left: 0;
@@ -170,32 +171,31 @@ button.greenLink::before {
   background: $success-color;
   border-radius: 4px;
   transform: scale(0);
-  transition-property: transform,opacity;
+  transition-property: transform, opacity;
 }
 button.greenLink:hover::before {
-  opacity: .06;
+  opacity: 0.06;
   transform: scale(1);
-  opacity: .2;
+  opacity: 0.2;
   z-index: 1;
 }
 
-
 button.blueLink > span {
+  color: $primary-color;
+  position: relative;
+  background: transparent;
+  padding: 0.4em 0.5em;
+  &:hover {
     color: $primary-color;
-    position: relative;
-    background:transparent;
-    padding: 0.4em 0.5em;
-    &:hover{
-      color: $primary-color;
-    }
+  }
 }
 button.blueLink::before {
   content: '';
   display: block;
   opacity: 0;
   position: absolute;
-  transition-duration: .15s;
-  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   z-index: -1;
   bottom: 0;
   left: 0;
@@ -204,37 +204,36 @@ button.blueLink::before {
   background: $primary-color;
   border-radius: 4px;
   transform: scale(0);
-  transition-property: transform,opacity;
+  transition-property: transform, opacity;
 }
 button.blueLink:hover::before {
-  opacity: .06;
+  opacity: 0.06;
   transform: scale(1);
-  opacity: .2;
+  opacity: 0.2;
   z-index: 1;
 }
 
-
 // GENERAL CLASSES
 
-.w100{
-  width: 100%
+.w100 {
+  width: 100%;
 }
-.h100{
-  height: 100%
+.h100 {
+  height: 100%;
 }
-.scrollY{
-overflow-y:scroll;
+.scrollY {
+  overflow-y: scroll;
 }
 .flex {
   display: flex;
   align-items: center;
 }
-.AlignCenter{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.AlignCenter {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .flex-wrap {
   display: flex;
@@ -245,7 +244,7 @@ overflow-y:scroll;
   display: flex;
   flex-wrap: wrap;
 }
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
 }
@@ -257,8 +256,8 @@ overflow-y:scroll;
   align-items: center;
   justify-content: center;
 }
-.TextRed{
- color:$danger-color;
+.TextRed {
+  color: $danger-color;
 }
 .space-between {
   display: flex;
@@ -273,8 +272,8 @@ overflow-y:scroll;
 .opacity {
   opacity: 0.7;
 }
-.txtright{
-text-align: right;
+.txtright {
+  text-align: right;
 }
 .ant-breadcrumb {
   padding: 1em 0 0 0;
@@ -305,18 +304,20 @@ text-align: right;
 }
 /** ant inputs */
 
-.ant-input,.ant-select-selection{
-border-radius: 2px;
-border: 1px solid $border;
+.ant-input,
+.ant-select-selection {
+  border-radius: 2px;
+  border: 1px solid $border;
 }
 .ant-select-selection__placeholder,
 .ant-select-dropdown-menu-item,
 .ant-select-selection-selected-value,
-.ant-select-selection--multiple > ul > li, .ant-select-selection--multiple .ant-select-selection__rendered > ul > li{
+.ant-select-selection--multiple > ul > li,
+.ant-select-selection--multiple .ant-select-selection__rendered > ul > li {
   font-size: $body-2;
 }
 .ant-input::placeholder,
-.ant-select::placeholder{
+.ant-select::placeholder {
   color: $border;
   font-size: 13px;
 }
@@ -334,7 +335,7 @@ border: 1px solid $border;
       white-space: normal;
     }
   }
-  .LabelDescriptionIF{
+  .LabelDescriptionIF {
     text-align: left;
     position: relative;
     top: 0px;
@@ -349,7 +350,7 @@ border: 1px solid $border;
     }
   }
 }
-.ant-form-item{
+.ant-form-item {
   margin-bottom: 1em;
 }
 /** ant tabs */
@@ -442,7 +443,6 @@ border: 1px solid $border;
   transform: rotate(-135deg);
 }
 
-
 .ant-tag {
   border-radius: 20px;
   border-color: transparent;
@@ -452,55 +452,54 @@ border: 1px solid $border;
   height: 27px;
   line-height: 23px;
   font-weight: 400;
-  b{
+  b {
     color: inherit;
     font-weight: 500;
   }
 }
-.ant-tag-cyan{
-    color: $cyan;
-    background: $cyanbg;
+.ant-tag-cyan {
+  color: $cyan;
+  background: $cyanbg;
 }
 .ant-tag-green {
-    color: #20BAC3;
-    background: #ADF8FD;
+  color: #20bac3;
+  background: #adf8fd;
 }
 .ant-tag-red {
-    color: #FF6F6F;
-    background: #FFE2E2;
+  color: #ff6f6f;
+  background: #ffe2e2;
 }
 .ant-tag-gold {
-    color: #FE9F3B;
-    background: #FFECD5;
+  color: #fe9f3b;
+  background: #ffecd5;
 }
 .ant-tag-blue {
-    color: #6F52ED;
-    background: #EAE8FD;
+  color: #6f52ed;
+  background: #eae8fd;
 }
 .ant-tag.Follow {
   color: $primary-color;
   background: rgba(76, 127, 247, 0.23);
 }
 
-
 //MODALS
 
 .ant-modal-content {
-  border-radius:20px;
-  .ant-modal-header{
-  padding:1em;
-  img{
-    margin-right: 0.5em;
+  border-radius: 20px;
+  .ant-modal-header {
+    padding: 1em;
+    img {
+      margin-right: 0.5em;
+    }
+    .ant-modal-title {
+      @include primary-text($labelbig, $on-surface, 500);
+    }
   }
-  .ant-modal-title {
- @include primary-text($labelbig, $on-surface, 500);
+  .ant-modal-body {
+    padding: 1em;
   }
-  }
-  .ant-modal-body{
-    padding:1em;
-  }
- }
- 
- .ant-modal-mask {
+}
+
+.ant-modal-mask {
   background-color: #000000a3;
 }
