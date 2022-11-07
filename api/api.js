@@ -23,6 +23,7 @@ const api = axios.create({
   credentials: 'same-origin',
   withCredentials: true
 });
+
 const loadingMessage = message;
 let requestsInQueue = 0;
 
@@ -56,6 +57,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export const makeApiRequest = async (method, url, body, config) => {
   let data;
   let headers;
