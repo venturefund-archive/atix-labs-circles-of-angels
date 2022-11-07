@@ -1,0 +1,25 @@
+@import 'css/variables.scss';
+
+.customCollapseHeader {
+  &__customHeader {
+    &__formItem {
+      .ant-form-item-children {
+        display: grid;
+        grid-template-columns: 1fr auto 3fr;
+        align-items: center;
+        column-gap: 2rem;
+      }
+    }
+    &__icon {
+      &.--success {
+        color: $success;
+      }
+      &.--pending {
+        color: $idle;
+      }
+      &.--info {
+        color: $info;
+      }
+    }
+  }
+}

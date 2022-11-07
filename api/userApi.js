@@ -15,14 +15,11 @@ const baseURL = '/users';
 
 const getMyProjects = async () => doGet(`${baseURL}/me/projects`);
 
-const getFollowedProjects = async () =>
-  apiCall('get', `${baseURL}/followed-projects`);
+const getFollowedProjects = async () => apiCall('get', `${baseURL}/followed-projects`);
 
-const getAppliedProjects = async () =>
-  apiCall('get', `${baseURL}/applied-projects`);
+const getAppliedProjects = async () => apiCall('get', `${baseURL}/applied-projects`);
 
-const loginUser = (email, pwd) =>
-  apiCall('post', `${baseURL}/login`, { email, pwd });
+const loginUser = (email, pwd) => apiCall('post', `${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {
@@ -33,7 +30,14 @@ const getOracles = async () => {
   }
 };
 
-const getUsers = () => apiCall('get', `${baseURL}`);
+const getUsers = params =>
+  doGet(
+    `${baseURL}`,
+    {},
+    {
+      params
+    }
+  );
 
 const getUser = userId => doGet(`${baseURL}/${userId}`);
 
@@ -69,8 +73,7 @@ const updatePassword = async (token, password) => {
 
 const changePassword = data => doPut(`${baseURL}/me/password`, data);
 
-const changeRecoverPassword = data =>
-  doPut(`${baseURL}/me/recover-password`, data);
+const changeRecoverPassword = data => doPut(`${baseURL}/me/recover-password`, data);
 
 const resetPassword = data => doPut(`${baseURL}/me/reset-password`, data);
 
@@ -80,8 +83,9 @@ const getMnemonicFromToken = token => doGet(`${baseURL}/mnemonic/${token}`);
 
 const getCountries = async () => apiCall('get', 'countries');
 
-const confirmEmail = async userId =>
-  doPut(`${baseURL}/${userId}/email/confirm`, {});
+const confirmEmail = async userId => doPut(`${baseURL}/${userId}/email/confirm`, {});
+
+const createUser = async user => doPost(`${baseURL}`, user);
 
 export {
   loginUser,
@@ -101,5 +105,6 @@ export {
   getAppliedProjects,
   getWallet,
   getMnemonicFromToken,
-  confirmEmail
+  confirmEmail,
+  createUser
 };

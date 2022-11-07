@@ -107,7 +107,12 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
               title={`$ ${goalAmount}`}
               iconInfoItem="dollar"
             />
-            <InfoItem xs={24} lg={6} subtitle="Beneficiary name" title={beneficiary?.name} />
+            <InfoItem
+              xs={24}
+              lg={6}
+              subtitle="Beneficiary name"
+              title={`${beneficiary?.firstName}${beneficiary?.lastName}`}
+            />
           </Col>
         </Row>
       </div>
