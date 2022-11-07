@@ -12,13 +12,13 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
-import './form-project-users.scss';
+import './assign-project-users.scss';
 import { getCountries } from 'api/countriesApi';
 import { addUserToProject } from 'api/userProjectApi';
 import { cleanObject } from 'helpers/utils';
 import { ROLES_IDS } from './constants';
-import { FormUser } from './FormUser';
-import { FormUserContent } from './FormUserContent';
+import { FormUser } from './FormUserContainer/FormUserContainer';
+import { FormUserContent } from './FormUserContent/FormUserContent';
 
 export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const [keys, setKeys] = useState([0]);
@@ -70,7 +70,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
 
     const withErrors = responses?.filter(response => response?.value?.status !== 200);
 
-    if (withErrors) {
+    if (withErrors.length) {
       const mappedUsers = withErrors.map(error => {
         const userFound = processedUsers?.find(user => user?.id === error?.value?.body?.userId);
         return userFound?.email;
@@ -80,7 +80,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       );
     }
 
-    onSuccess(project?.id);
+    onSuccess({ projectId: project?.id });
     goBack();
   };
 

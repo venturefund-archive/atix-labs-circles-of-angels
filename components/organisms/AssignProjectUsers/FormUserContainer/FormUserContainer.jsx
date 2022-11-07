@@ -1,8 +1,9 @@
 import { Collapse, Form } from 'antd';
 import { createUser } from 'api/userApi';
 import React, { useState } from 'react';
-import { USER_STATES } from './constants';
-import { CustomCollapseHeader } from './CustomCollapseHeader';
+import { USER_STATES } from '../constants';
+import { CustomCollapseHeader } from '../CustomCollapseHeader/CustomCollapseHeader';
+import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
@@ -37,7 +38,7 @@ const CustomCollapse = ({ children, entity, form, ...rest }) => {
     >
       <Collapse
         {...rest}
-        className="formProjectUsers__collapse"
+        className="formUserContainer__collapse"
         bordered={false}
         activeKey={activeKey}
       >

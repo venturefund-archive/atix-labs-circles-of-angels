@@ -1,0 +1,12 @@
+.formUserContainer {
+  &__collapse {
+    background: transparent;
+
+    .ant-collapse-content {
+      border: none;
+    }
+    .ant-collapse-item {
+      border: none;
+    }
+  }
+}

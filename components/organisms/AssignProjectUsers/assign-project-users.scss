@@ -1,0 +1,24 @@
+@import 'css/variables.scss';
+@import 'css/_general_styling.scss';
+
+.formProjectUsers {
+  &__section {
+    display: flex;
+    justify-content: space-between;
+    &__title {
+      @include primary-text(1.3rem, $black, 500);
+      line-height: 1.5rem;
+    }
+  }
+
+  &__buttons {
+    &__right {
+      display: flex;
+      align-items: center;
+      column-gap: 1rem;
+      p {
+        color: $error-color;
+      }
+    }
+  }
+}

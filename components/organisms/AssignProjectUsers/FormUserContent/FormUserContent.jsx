@@ -2,7 +2,7 @@ import { Alert, Button, Col, Form, Input, Row, Select } from 'antd';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { onlyAlphanumerics } from 'constants/Regex';
 import React from 'react';
-import { USER_STATES } from './constants';
+import { USER_STATES } from '../constants';
 
 const { Option } = Select;
 
@@ -113,13 +113,7 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <>
-            <Button
-              onClick={e => {
-                handleRemove();
-              }}
-            >
-              Cancel
-            </Button>
+            {userState !== USER_STATES.PENDING && <Button onClick={handleRemove}>Cancel</Button>}
             {(userState === USER_STATES.NO_EXIST || userState === USER_STATES.UNKNOWN) && (
               <Button
                 type="primary"

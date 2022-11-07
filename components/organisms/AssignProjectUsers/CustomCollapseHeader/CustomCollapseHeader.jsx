@@ -4,7 +4,14 @@ import { ERROR_MESSAGES } from 'constants/constants';
 import { checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
-import { USER_STATES, USER_STATE_ICONS } from './constants';
+import { USER_STATES, USER_STATE_ICONS } from '../constants';
+import './custom-collapse-header.scss';
+
+const ICON_CLASSES_BY_USER_STATE = {
+  [USER_STATES.EXIST]: 'success',
+  [USER_STATES.PENDING]: 'pending',
+  [USER_STATES.NO_EXIST]: 'info'
+};
 
 export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserState, form }) => {
   const { setFieldsValue, getFieldDecorator } = form;
@@ -35,14 +42,17 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
 
   const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), []);
 
-  const onChange = ({ target }) => {
+  const onChange = event => {
+    const {
+      target: { value }
+    } = event;
     setUserState(USER_STATES.LOADING);
-    searchUserDebounced(target.value);
+    searchUserDebounced(value);
   };
 
   return (
     <>
-      <Form.Item label={`${entity} email`} className="formProjectUsers__customHeader__formItem">
+      <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
         {getFieldDecorator('email', {
           rules: [
             {
@@ -51,13 +61,19 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
               whitespace: true
             }
           ]
-        })(<Input placeholder={`Insert the email of the ${entity} user`} onChange={onChange} />)}
+        })(
+          <Input
+            placeholder={`Insert the email of the ${entity} user`}
+            onChange={onChange}
+            onClick={e => e.stopPropagation()}
+          />
+        )}
 
         {userState !== USER_STATES.UNKNOWN && (
           <Icon
             type={USER_STATE_ICONS[userState]}
             theme={userState !== USER_STATES.LOADING && 'filled'}
-            className="formProjectUsers__customHeader__icon --success"
+            className={`customCollapseHeader__customHeader__icon --${ICON_CLASSES_BY_USER_STATE[userState]}`}
           />
         )}
         {userState === USER_STATES.NO_EXIST && (
