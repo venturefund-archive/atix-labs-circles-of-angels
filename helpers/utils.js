@@ -43,7 +43,7 @@ export const getErrorMessagesFields = (currentErrors, errorsToShow = []) => {
 
 export const getErrorMessagesField = (currentErrorState = [], errorsToShow = []) => {
   const errors = currentErrorState.map(typeOfError => {
-    errorsToShow.includes(typeOfError); //
+    errorsToShow.includes(typeOfError);
     if (errorsToShow.includes(typeOfError)) return ERROR_MESSAGES[typeOfError];
     return undefined;
   });
