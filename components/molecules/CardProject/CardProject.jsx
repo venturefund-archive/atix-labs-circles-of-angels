@@ -17,14 +17,7 @@ import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 import { formatTimeframeValue } from '../../../helpers/formatter';
 
-const CardProject = ({
-  showTag,
-  onClick,
-  tagClick,
-  project,
-  hoverText,
-  countries
-}) => {
+const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries }) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -34,7 +27,7 @@ const CardProject = ({
     status,
     following,
     applied,
-    beneficiary = 'unset',
+    beneficiary = 'unset'
   } = project;
   const locationsNames = () => {
     const countriesIds = countries.filter(
@@ -70,9 +63,7 @@ const CardProject = ({
           <Col span={4}>
             <div className="BlockTags">
               {status && (
-                <Tag color={projectStatusMap[status].color}>
-                  {projectStatusMap[status].name}
-                </Tag>
+                <Tag color={projectStatusMap[status].color}>{projectStatusMap[status].name}</Tag>
               )}
               {following && (
                 <Tag className="Follow" align="right">
@@ -116,12 +107,7 @@ const CardProject = ({
               title={`$ ${goalAmount}`}
               iconInfoItem="dollar"
             />
-            <InfoItem
-              xs={24}
-              lg={6}
-              subtitle="Beneficiary name"
-              title={beneficiary}
-            />
+            <InfoItem xs={24} lg={6} subtitle="Beneficiary name" title={beneficiary?.name} />
           </Col>
         </Row>
       </div>

@@ -186,3 +186,5 @@ export const ERROR_MESSAGES = {
   IMAGE_INVALID: 'The uploaded file does not meet the requirements. \n Check them and try again',
   FILE: 'The file is invalid. Review the recommendations and try again'
 };
+
+export const KB_FACTOR_CONVERTER = 1000;

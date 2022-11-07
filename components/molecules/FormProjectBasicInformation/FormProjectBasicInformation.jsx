@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Input, Row, Col, Upload, Icon, Select, Tag, InputNumber } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
-import { ERROR_MESSAGES, ERROR_TYPES, TIMEFRAME_UNITS } from 'constants/constants';
+import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
@@ -136,7 +136,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     if (value?.file?.status === 'removed') return callback();
     if (value?.file) {
       const fileSize = value?.file.size;
-      if (fileSize / 1000 > 500) return callback(ERROR_MESSAGES.IMAGE);
+      if (fileSize / KB_FACTOR_CONVERTER > 500) return callback(ERROR_TYPES.IMAGE_INVALID);
       return callback();
     }
     return callback();
@@ -228,17 +228,13 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   {
                     pattern: onlyAlphanumerics,
                     message: ERROR_TYPES.ALPHANUMERIC
-                  },
-                  {
-                    pattern: onlyAlphanumerics,
-                    message: 'ERROR_TYPES.ALPHANUMERIC'
                   }
                 ],
                 initialValue: projectName,
-                maxLength: 50,
                 validateTrigger: 'onSubmit'
               })(
                 <Input
+                  maxLength={50}
                   placeholder="Input Text Example"
                   onChange={({ currentTarget: { value } }) => {
                     setCurrentBasicInformation({
@@ -294,7 +290,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                     validateTrigger: 'onSubmit'
                   })(
                     <InputNumber
-                      min={0}
+                      min={1}
                       placeholder={0}
                       onChange={value =>
                         setCurrentBasicInformation({
@@ -361,10 +357,14 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 >
                   <Button
                     disabled={currentBasicInformation?.thumbnailPhoto}
-                    className={`formProjectBasicInformation__uploadThumbnail__button ${getErrorMessagesField(
-                      thumbnailPhotoError,
-                      [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY]
-                    ).length > 0 && '--withError'}`}
+                    className={`formProjectBasicInformation__uploadThumbnail__button ${
+                      getErrorMessagesField(thumbnailPhotoError, [
+                        ERROR_TYPES.IMAGE_INVALID,
+                        ERROR_TYPES.EMPTY
+                      ]).length > 0
+                        ? '--withError'
+                        : ''
+                    }`}
                   >
                     <Icon type="upload" /> Click to Upload
                   </Button>
