@@ -57,7 +57,6 @@ const FormPassword = ({ form, onSubmit }) => {
       maskClosable
       onCancel={() => setModalVisible(false)}
       width="400"
-      zIndex={9999}
       className="ModalLogin ResetPassword"
       footer={(
         <Button className="ant-btn ant-btn-primary" onClick={submit}>

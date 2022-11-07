@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Row, Spin } from 'antd';
 import queryString from 'query-string';
@@ -27,9 +27,21 @@ function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(true);
+  const [projectId, setProjectId] = useState('');
   const history = useHistory();
 
-  const goToSuccessMessage = () => history.push('/change-password-success');
+  const goToSuccessMessage = (first) => history.push(
+    `/${projectId}/change-password-success`, {
+    first,
+    projectId
+  });
+
+  useEffect(() => {
+    const pathParts = history.location.pathname.split('/')
+    if (pathParts.length > 2) {
+      setProjectId(pathParts[1])
+    }
+  }, [history.location.pathname])
 
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
@@ -61,10 +73,10 @@ function ResetPassword() {
         data = { ...data, address, mnemonic: mnemonicCreated, encryptedWallet };
       }
 
-      const { errors } = await resetPassword(data);
+      const { errors, data: first } = await resetPassword(data);
       if (!errors) {
         setSuccessfulUpdate(true);
-        goToSuccessMessage();
+        goToSuccessMessage(first, projectId);
       } else {
         showModalError('Error', errors);
       }
@@ -94,7 +106,7 @@ function ResetPassword() {
     <Row
       className="Landing"
       style={{
-        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
+        backgroundImage: 'url(/static/images/COA-Login-Image-Background.png)',
         backgroundSize: 'cover',
         backgroundPositionX: 'center'
       }}

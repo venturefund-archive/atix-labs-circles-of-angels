@@ -1,6 +1,5 @@
 import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
-// import ExploreProjects from '../../../pages/explore-projects';
 import MyProjects from '../../../pages/my-projects';
 import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
@@ -67,7 +66,7 @@ export const routesConfig = [
     }
   },
   {
-    path: '/reset-password',
+    path: '/:projectId/reset-password',
     component: ResetPassword,
     withHeader: false,
     withSideBar: false,
@@ -76,7 +75,7 @@ export const routesConfig = [
     }
   },
   {
-    path: '/change-password-success',
+    path: '/:projectId/change-password-success',
     component: ChangePasswordSuccess,
     withSideBar: false,
     authentication: {
@@ -89,22 +88,6 @@ export const routesConfig = [
     authentication: { required: false },
     withHeader: false,
     withSideBar: false
-  },
-  // {
-    // path: '/explore-projects',
-    // component: ExploreProjects,
-    // authentication: {
-      // required: true,
-      // roles: [ENTREPRENEUR, PROJECT_SUPPORTER]
-    // }
-  // },
-  {
-    path: '/create-project',
-    component: CreateProject,
-    authentication: {
-      required: true,
-      roles: [ENTREPRENEUR, COA_ADMIN]
-    }
   },
   {
     path: '/project/edit/:projectId',
@@ -194,7 +177,7 @@ export const routesConfig = [
     }
   },
   {
-    path: '/login',
+    path: '/:projectId/login',
     component: Login,
     authentication: {
       required: false
