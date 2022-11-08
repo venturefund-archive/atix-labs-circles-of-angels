@@ -19,15 +19,15 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, ...res
         setUserState(USER_STATES.PENDING);
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (!response.errors) {
-          const sendWelcomeEmailResponse = await sendWelcomeEmail({
+          /* const sendWelcomeEmailResponse = await sendWelcomeEmail({
             userId: response?.data?.id,
             projectId
           });
           if (!sendWelcomeEmailResponse.errors) {
-            setUserState(USER_STATES.PENDING);
-            return setFieldsValue({ ...dataToSend, id: response?.data?.id });
           }
-          setUserState(USER_STATES.WITH_ERROR);
+          setUserState(USER_STATES.WITH_ERROR); */
+          setUserState(USER_STATES.PENDING);
+          setFieldsValue({ ...dataToSend, id: response?.data?.id });
         } else {
           setUserState(USER_STATES.WITH_ERROR);
         }
