@@ -72,9 +72,9 @@ export const makeApiRequest = async (method, url, body, config) => {
       ...config
     });
 
-    data = result.data;
-    headers = result.headers;
-    status = result.status;
+    data = result?.data;
+    headers = result?.headers;
+    status = result?.status;
   } catch (error) {
     errors = formatError(error);
     status = error.response.status;

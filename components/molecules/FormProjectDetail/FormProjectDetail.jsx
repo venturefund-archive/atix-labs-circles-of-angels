@@ -136,10 +136,6 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                     required: true,
                     message: 'Please input the about of this project!',
                     whitespace: true
-                  },
-                  {
-                    pattern: onlyAlphanumerics,
-                    message: 'Please input an alphanumeric value for this field.'
                   }
                 ],
                 initialValue: problemAddressed
@@ -159,10 +155,6 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                     required: true,
                     message: 'Please input the account information of this project!',
                     whitespace: true
-                  },
-                  {
-                    pattern: onlyAlphanumerics,
-                    message: 'Please input an alphanumeric value for this field.'
                   }
                 ],
                 initialValue: mission

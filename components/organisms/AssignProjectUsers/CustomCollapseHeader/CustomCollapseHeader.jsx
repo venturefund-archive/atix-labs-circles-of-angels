@@ -1,10 +1,11 @@
 import { Form, Icon, Input } from 'antd';
 import { getUsers } from 'api/userApi';
+import { addUserToProject } from 'api/userProjectApi';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
-import React, { useCallback } from 'react';
-import { USER_STATES, USER_STATE_ICONS } from '../constants';
+import React, { useCallback, useEffect } from 'react';
+import { ROLES_IDS, USER_STATES, USER_STATE_ICONS } from '../constants';
 import './custom-collapse-header.scss';
 
 const ICON_CLASSES_BY_USER_STATE = {
@@ -13,7 +14,14 @@ const ICON_CLASSES_BY_USER_STATE = {
   [USER_STATES.NO_EXIST]: 'info'
 };
 
-export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserState, form }) => {
+export const CustomCollapseHeader = ({
+  setActiveKey,
+  entity,
+  userState,
+  setUserState,
+  form,
+  initialData
+}) => {
   const { setFieldsValue, getFieldDecorator } = form;
   const searchUser = async inputValue => {
     if (!checkValidEmail(inputValue)) return setUserState(USER_STATES.UNKNOWN);
@@ -27,7 +35,11 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
         lastName: users[0]?.lastName,
         country: users[0]?.country
       });
-      setUserState(USER_STATES.EXIST);
+      if (users[0]?.isActive) {
+        setUserState(USER_STATES.EXIST);
+      } else {
+        setUserState(USER_STATES.PENDING);
+      }
     } else {
       setFieldsValue({
         email: inputValue,
@@ -50,36 +62,42 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
     searchUserDebounced(value);
   };
 
-  return (
-    <>
-      <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
-        {getFieldDecorator('email', {
-          rules: [
-            {
-              required: true,
-              message: ERROR_MESSAGES.EMPTY,
-              whitespace: true
-            }
-          ]
-        })(
-          <Input
-            placeholder={`Insert the email of the ${entity} user`}
-            onChange={onChange}
-            onClick={e => e.stopPropagation()}
-          />
-        )}
+  useEffect(() => {
+    if (initialData?.isFirst !== undefined) {
+      if (!initialData.isFirst) return setUserState(USER_STATES.PENDING);
+      setUserState(USER_STATES.EXIST);
+    }
+  }, []);
 
-        {userState !== USER_STATES.UNKNOWN && (
-          <Icon
-            type={USER_STATE_ICONS[userState]}
-            theme={userState !== USER_STATES.LOADING && 'filled'}
-            className={`customCollapseHeader__customHeader__icon --${ICON_CLASSES_BY_USER_STATE[userState]}`}
-          />
-        )}
-        {userState === USER_STATES.NO_EXIST && (
-          <p>The {entity} is not registered. Fill in the information below</p>
-        )}
-      </Form.Item>
-    </>
+  return (
+    <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
+      {getFieldDecorator('email', {
+        rules: [
+          {
+            required: true,
+            message: ERROR_MESSAGES.EMPTY,
+            whitespace: true
+          }
+        ],
+        initialValue: initialData?.userEmail
+      })(
+        <Input
+          placeholder={`Insert the email of the ${entity} user`}
+          onChange={onChange}
+          onClick={e => e.stopPropagation()}
+        />
+      )}
+
+      {userState !== USER_STATES.UNKNOWN && (
+        <Icon
+          type={USER_STATE_ICONS[userState]}
+          theme={userState !== USER_STATES.LOADING && 'filled'}
+          className={`customCollapseHeader__customHeader__icon --${ICON_CLASSES_BY_USER_STATE[userState]}`}
+        />
+      )}
+      {userState === USER_STATES.NO_EXIST && (
+        <p>The {entity} is not registered. Fill in the information below</p>
+      )}
+    </Form.Item>
   );
 };

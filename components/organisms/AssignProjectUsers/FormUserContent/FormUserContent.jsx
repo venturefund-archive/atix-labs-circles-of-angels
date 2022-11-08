@@ -14,8 +14,11 @@ export const FormUserContent = ({
   setUserState,
   userState,
   item,
-  handleSubmitUser,
-  totalKeys
+  handleSubmitNewUser,
+  handleSubmitConfirmUser,
+  totalKeys,
+  initialData,
+  isFormSubmitted
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -43,11 +46,7 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="id" style={{ display: 'none' }}>
-            {getFieldDecorator('id', {})(
-              <Input
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
-              />
-            )}
+            {getFieldDecorator('id', {})(<Input />)}
           </Form.Item>
           <Form.Item label="First name">
             {getFieldDecorator('firstName', {
@@ -61,11 +60,16 @@ export const FormUserContent = ({
                   pattern: onlyAlphanumerics,
                   message: ERROR_MESSAGES.ALPHANUMERIC
                 }
-              ]
+              ],
+              initialValue: initialData?.firstName
             })(
               <Input
                 placeholder="Enter first name"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  userState === USER_STATES.PENDING
+                }
               />
             )}
           </Form.Item>
@@ -83,11 +87,16 @@ export const FormUserContent = ({
                   pattern: onlyAlphanumerics,
                   message: ERROR_MESSAGES.ALPHANUMERIC
                 }
-              ]
+              ],
+              initialValue: initialData?.lastName
             })(
               <Input
                 placeholder="Enter last name"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  userState === USER_STATES.PENDING
+                }
               />
             )}
           </Form.Item>
@@ -96,11 +105,17 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="Country/Region">
-            {getFieldDecorator('country', {})(
+            {getFieldDecorator('country', {
+              initialValue: initialData?.country
+            })(
               <Select
                 loading={countries?.isLoading}
                 placeholder="Select country or region"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  userState === USER_STATES.PENDING
+                }
               >
                 {countries?.content?.map(_country => (
                   <Option value={_country?.id} key={_country?.id}>
@@ -113,20 +128,30 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <>
-            {userState !== USER_STATES.PENDING && <Button onClick={handleRemove}>Cancel</Button>}
-            {(userState === USER_STATES.NO_EXIST || userState === USER_STATES.UNKNOWN) && (
+            {userState !== USER_STATES.PENDING && userState !== USER_STATES.LOADING && (
+              <Button onClick={handleRemove}>Cancel</Button>
+            )}
+            {
               <Button
                 type="primary"
-                onClick={handleSubmitUser}
-                disabled={!country || !firstName || !lastName || !email}
+                onClick={
+                  userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
+                }
+                disabled={!country || !firstName || !lastName || !email || isFormSubmitted}
               >
-                Invite User
+                {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
               </Button>
-            )}
+            }
           </>
 
-          {userState === USER_STATES.PENDING && (
-            <Alert message="Instructions have been sent!" type="success" showIcon />
+          {isFormSubmitted && (
+            <Alert
+              message={
+                userState === USER_STATES.PENDING ? 'Instructions have been sent!' : 'User assigned'
+              }
+              type="success"
+              showIcon
+            />
           )}
           {userState === USER_STATES.WITH_ERROR && (
             <Alert message="There was an error!" type="error" showIcon />

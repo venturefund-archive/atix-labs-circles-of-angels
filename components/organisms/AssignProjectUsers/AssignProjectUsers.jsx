@@ -14,17 +14,15 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import './assign-project-users.scss';
 import { getCountries } from 'api/countriesApi';
-import { addUserToProject } from 'api/userProjectApi';
 import { cleanObject } from 'helpers/utils';
 import { ROLES_IDS } from './constants';
-import { FormUser } from './FormUserContainer/FormUserContainer';
+import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
 export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const [keys, setKeys] = useState([0]);
   const [countries, setCountries] = useState({});
   const [projectUsers, setProjectUsers] = useState({});
-  const [formWithMissingFieldsError, setFormWithMissingFieldsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,43 +41,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
     setProjectUsers(_updatedProjectUsersProcessed);
   };
 
-  const handleSubmitAssign = async e => {
-    setFormWithMissingFieldsError(false);
-    const projectId = parseInt(project?.id, 10);
-    const processedUsers = Object.entries(projectUsers).map(([key, value]) => {
-      const keyProcessed = key.split('-')[0].toLowerCase();
-      return {
-        id: value?.id,
-        roleId: ROLES_IDS[keyProcessed],
-        projectId,
-        email: value?.email
-      };
-    });
-
-    const withRoleId1 = processedUsers.some(el => el.roleId === 1);
-    const withRoleId2 = processedUsers.some(el => el.roleId === 2);
-    const withRoleId3 = processedUsers.some(el => el.roleId === 3);
-
-    if (!withRoleId1 || !withRoleId2 || !withRoleId3) {
-      return setFormWithMissingFieldsError(true);
-    }
-
-    const tasks = processedUsers.map(source => addUserToProject({ ...source, userId: source?.id }));
-
-    const responses = await Promise.allSettled(tasks);
-
-    const withErrors = responses?.filter(response => response?.value?.status !== 200);
-
-    if (withErrors.length) {
-      const mappedUsers = withErrors.map(error => {
-        const userFound = processedUsers?.find(user => user?.id === error?.value?.body?.userId);
-        return userFound?.email;
-      });
-      return onError(
-        `Ocurrió un error al asignar los siguientes usuarios: ${mappedUsers.join(', ')}`
-      );
-    }
-
+  const handleSubmitAssign = () => {
     onSuccess({ projectId: project?.id });
     goBack();
   };
@@ -104,43 +66,99 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
     setKeys([...keys, keys[keys.length - 1] + 1]);
   };
 
+  const getUsersByRole = role =>
+    project?.users?.filter(user => user?.role === role.toString())?.[0]?.users;
+
+  const initialBeneficiaryUserData = getUsersByRole(ROLES_IDS.beneficiary)?.[0];
+  const initialInvestorUserData = getUsersByRole(ROLES_IDS.investor)?.[0];
+  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor);
+
+  useEffect(() => {
+    if (initialAuditorsUserData) {
+      const _keys = [...Array(initialAuditorsUserData.length).keys()];
+      setKeys(_keys);
+    }
+  }, [initialAuditorsUserData]);
+
   return (
     <>
       <TitlePage textTitle="Assign project users" />
       <h3 className="formProjectUsers__section__title">Beneficiary</h3>
-      <FormUser
+      <FormUserContainer
         expandIconPosition="right"
-        entity="Beneficiary"
+        entity="beneficiary"
         onChange={value => handleChangeUserForm('beneficiary', value)}
+        initialData={{
+          userEmail: initialBeneficiaryUserData?.email,
+          isFirst: initialBeneficiaryUserData?.first
+        }}
+        projectId={project?.id}
+        onError={onError}
       >
-        {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+        {({
+          setActiveKey,
+          setUserState,
+          userState,
+          form,
+          handleSubmitNewUser,
+          handleSubmitConfirmUser,
+          isFormSubmitted
+        }) => (
           <FormUserContent
             setActiveKey={setActiveKey}
             countries={countries}
             setUserState={setUserState}
             userState={userState}
             form={form}
-            handleSubmitUser={handleSubmitUser}
+            handleSubmitConfirmUser={handleSubmitConfirmUser}
+            handleSubmitNewUser={handleSubmitNewUser}
+            initialData={{
+              firstName: initialBeneficiaryUserData?.firstName,
+              lastName: initialBeneficiaryUserData?.lastName,
+              country: initialBeneficiaryUserData?.country
+            }}
+            isFormSubmitted={isFormSubmitted}
           />
         )}
-      </FormUser>
+      </FormUserContainer>
       <h3 className="formProjectUsers__section__title">Investor</h3>
-      <FormUser
+      <FormUserContainer
         expandIconPosition="right"
-        entity="Investor"
+        entity="investor"
         onChange={value => handleChangeUserForm('investor', value)}
+        initialData={{
+          userEmail: initialInvestorUserData?.email,
+          isFirst: initialInvestorUserData?.first
+        }}
+        projectId={project?.id}
+        onError={onError}
       >
-        {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+        {({
+          setActiveKey,
+          setUserState,
+          userState,
+          form,
+          handleSubmitNewUser,
+          handleSubmitConfirmUser,
+          isFormSubmitted
+        }) => (
           <FormUserContent
             setActiveKey={setActiveKey}
             countries={countries}
             setUserState={setUserState}
             userState={userState}
             form={form}
-            handleSubmitUser={handleSubmitUser}
+            handleSubmitConfirmUser={handleSubmitConfirmUser}
+            handleSubmitNewUser={handleSubmitNewUser}
+            initialData={{
+              firstName: initialInvestorUserData?.firstName,
+              lastName: initialInvestorUserData?.lastName,
+              country: initialInvestorUserData?.country
+            }}
+            isFormSubmitted={isFormSubmitted}
           />
         )}
-      </FormUser>
+      </FormUserContainer>
       <div className="formProjectUsers__section">
         <h3 className="formProjectUsers__section__title">Auditor</h3>
         <Button type="dashed" onClick={add}>
@@ -149,12 +167,26 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       {keys.map(item => (
         <div key={item}>
-          <FormUser
+          <FormUserContainer
             expandIconPosition="right"
-            entity="Auditor"
+            entity="auditor"
             onChange={value => handleChangeUserForm(`auditor-${item}`, value)}
+            initialData={{
+              userEmail: initialAuditorsUserData?.[item]?.email,
+              isFirst: initialAuditorsUserData?.[item]?.first
+            }}
+            projectId={project?.id}
+            onError={onError}
           >
-            {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
+            {({
+              setActiveKey,
+              setUserState,
+              userState,
+              form,
+              handleSubmitNewUser,
+              handleSubmitConfirmUser,
+              isFormSubmitted
+            }) => (
               <FormUserContent
                 onRemove={onRemove}
                 setActiveKey={setActiveKey}
@@ -163,11 +195,18 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                 userState={userState}
                 item={item}
                 form={form}
-                handleSubmitUser={handleSubmitUser}
+                handleSubmitConfirmUser={handleSubmitConfirmUser}
+                handleSubmitNewUser={handleSubmitNewUser}
                 totalKeys={keys?.length}
+                initialData={{
+                  firstName: initialAuditorsUserData?.[item]?.firstName,
+                  lastName: initialAuditorsUserData?.[item]?.lastName,
+                  country: initialAuditorsUserData?.[item]?.country
+                }}
+                isFormSubmitted={isFormSubmitted}
               />
             )}
-          </FormUser>
+          </FormUserContainer>
         </div>
       ))}
 
@@ -177,9 +216,6 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
         ))()}
         nextStepButton={(() => (
           <div className="formProjectUsers__buttons__right">
-            {formWithMissingFieldsError && (
-              <p>Debes completar todos los usuarios para poder realizar la asignación</p>
-            )}
             <Button
               type="primary"
               className="formProjectUsers__footer"
