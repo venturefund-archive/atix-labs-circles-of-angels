@@ -1,10 +1,11 @@
 import { Form, Icon, Input } from 'antd';
 import { getUsers } from 'api/userApi';
+import { addUserToProject } from 'api/userProjectApi';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import React, { useCallback, useEffect } from 'react';
-import { USER_STATES, USER_STATE_ICONS } from '../constants';
+import { ROLES_IDS, USER_STATES, USER_STATE_ICONS } from '../constants';
 import './custom-collapse-header.scss';
 
 const ICON_CLASSES_BY_USER_STATE = {
@@ -35,9 +36,10 @@ export const CustomCollapseHeader = ({
         country: users[0]?.country
       });
       if (users[0]?.isActive) {
-        return setUserState(USER_STATES.EXIST);
+        setUserState(USER_STATES.EXIST);
+      } else {
+        setUserState(USER_STATES.PENDING);
       }
-      setUserState(USER_STATES.PENDING);
     } else {
       setFieldsValue({
         email: inputValue,

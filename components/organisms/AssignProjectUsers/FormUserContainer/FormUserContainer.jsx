@@ -1,38 +1,62 @@
 import { Collapse, Form } from 'antd';
 import { createUser, sendWelcomeEmail } from 'api/userApi';
+import { addUserToProject } from 'api/userProjectApi';
 import React, { useState } from 'react';
-import { USER_STATES } from '../constants';
+import { ROLES_IDS, USER_STATES } from '../constants';
 import { CustomCollapseHeader } from '../CustomCollapseHeader/CustomCollapseHeader';
 import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
-const CustomCollapse = ({ children, entity, form, initialData, projectId, ...rest }) => {
+const CustomCollapse = ({ children, entity, form, initialData, projectId, onError, ...rest }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
-  const { validateFields, setFieldsValue } = form;
+  const { validateFields, setFieldsValue, getFieldValue } = form;
+  const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const userId = getFieldValue('id');
 
-  const handleSubmitUser = () => {
+  const handleError = () => {
+    setUserState(USER_STATES.WITH_ERROR);
+    onError();
+  };
+
+  const handleSubmitNewUser = () => {
     validateFields(async (err, values) => {
       if (!err) {
+        setFormSubmitted(true);
         const dataToSend = { ...values };
         setUserState(USER_STATES.PENDING);
+
         const response = await createUser({ ...dataToSend, isAdmin: false });
-        if (!response.errors) {
-          /* const sendWelcomeEmailResponse = await sendWelcomeEmail({
-            userId: response?.data?.id,
-            projectId
-          });
-          if (!sendWelcomeEmailResponse.errors) {
-          }
-          setUserState(USER_STATES.WITH_ERROR); */
-          setUserState(USER_STATES.PENDING);
-          setFieldsValue({ ...dataToSend, id: response?.data?.id });
-        } else {
-          setUserState(USER_STATES.WITH_ERROR);
-        }
+        if (response.errors) return handleError();
+
+        const addUserToProjectResponse = await addUserToProject({
+          projectId,
+          roleId: ROLES_IDS[entity],
+          userId: response?.data?.id
+        });
+        if (addUserToProjectResponse.errors) return handleError();
+
+        const sendWelcomeEmailResponse = await sendWelcomeEmail({
+          userId: response?.data?.id,
+          projectId
+        });
+        if (sendWelcomeEmailResponse.errors) return handleError();
+
+        setUserState(USER_STATES.PENDING);
+        setFieldsValue({ ...dataToSend, id: response?.data?.id });
       }
     });
+  };
+
+  const handleSubmitConfirmUser = async () => {
+    setFormSubmitted(true);
+    const addUserToProjectResponse = await addUserToProject({
+      projectId,
+      roleId: ROLES_IDS[entity],
+      userId
+    });
+    if (addUserToProjectResponse.errors) return handleError();
   };
 
   return (
@@ -62,7 +86,15 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, ...res
           }
           key={1}
         >
-          {children({ setActiveKey, setUserState, userState, form, handleSubmitUser })}
+          {children({
+            setActiveKey,
+            setUserState,
+            userState,
+            form,
+            handleSubmitNewUser,
+            handleSubmitConfirmUser,
+            isFormSubmitted
+          })}
         </Panel>
       </Collapse>
     </Form>

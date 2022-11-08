@@ -14,9 +14,11 @@ export const FormUserContent = ({
   setUserState,
   userState,
   item,
-  handleSubmitUser,
+  handleSubmitNewUser,
+  handleSubmitConfirmUser,
   totalKeys,
-  initialData
+  initialData,
+  isFormSubmitted
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -126,20 +128,30 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <>
-            {userState !== USER_STATES.PENDING && <Button onClick={handleRemove}>Cancel</Button>}
-            {(userState === USER_STATES.NO_EXIST || userState === USER_STATES.UNKNOWN) && (
+            {userState !== USER_STATES.PENDING && userState !== USER_STATES.LOADING && (
+              <Button onClick={handleRemove}>Cancel</Button>
+            )}
+            {
               <Button
                 type="primary"
-                onClick={handleSubmitUser}
-                disabled={!country || !firstName || !lastName || !email}
+                onClick={
+                  userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
+                }
+                disabled={!country || !firstName || !lastName || !email || isFormSubmitted}
               >
-                Invite User
+                {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
               </Button>
-            )}
+            }
           </>
 
-          {userState === USER_STATES.PENDING && (
-            <Alert message="Instructions have been sent!" type="success" showIcon />
+          {isFormSubmitted && (
+            <Alert
+              message={
+                userState === USER_STATES.PENDING ? 'Instructions have been sent!' : 'User assigned'
+              }
+              type="success"
+              showIcon
+            />
           )}
           {userState === USER_STATES.WITH_ERROR && (
             <Alert message="There was an error!" type="error" showIcon />
