@@ -3,7 +3,7 @@ import { getUsers } from 'api/userApi';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { USER_STATES, USER_STATE_ICONS } from '../constants';
 import './custom-collapse-header.scss';
 
@@ -13,7 +13,14 @@ const ICON_CLASSES_BY_USER_STATE = {
   [USER_STATES.NO_EXIST]: 'info'
 };
 
-export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserState, form }) => {
+export const CustomCollapseHeader = ({
+  setActiveKey,
+  entity,
+  userState,
+  setUserState,
+  form,
+  initialData
+}) => {
   const { setFieldsValue, getFieldDecorator } = form;
   const searchUser = async inputValue => {
     if (!checkValidEmail(inputValue)) return setUserState(USER_STATES.UNKNOWN);
@@ -60,7 +67,8 @@ export const CustomCollapseHeader = ({ setActiveKey, entity, userState, setUserS
               message: ERROR_MESSAGES.EMPTY,
               whitespace: true
             }
-          ]
+          ],
+          initialValue: initialData?.userEmail
         })(
           <Input
             placeholder={`Insert the email of the ${entity} user`}

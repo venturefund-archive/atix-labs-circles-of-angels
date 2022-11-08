@@ -17,7 +17,7 @@ import { getCountries } from 'api/countriesApi';
 import { addUserToProject } from 'api/userProjectApi';
 import { cleanObject } from 'helpers/utils';
 import { ROLES_IDS } from './constants';
-import { FormUser } from './FormUserContainer/FormUserContainer';
+import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
 export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
@@ -104,14 +104,31 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
     setKeys([...keys, keys[keys.length - 1] + 1]);
   };
 
+  const getUsersByRole = role =>
+    project?.users?.filter(user => user?.role === role.toString())?.[0]?.users;
+
+  const initialBeneficiaryUserData = getUsersByRole(ROLES_IDS.beneficiary)?.[0];
+  const initialInvestorUserData = getUsersByRole(ROLES_IDS.investor)?.[0];
+  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor);
+
+  useEffect(() => {
+    if (initialAuditorsUserData) {
+      const _keys = [...Array(initialAuditorsUserData.length).keys()];
+      setKeys(_keys);
+    }
+  }, [initialAuditorsUserData]);
+
   return (
     <>
       <TitlePage textTitle="Assign project users" />
       <h3 className="formProjectUsers__section__title">Beneficiary</h3>
-      <FormUser
+      <FormUserContainer
         expandIconPosition="right"
         entity="Beneficiary"
         onChange={value => handleChangeUserForm('beneficiary', value)}
+        initialData={{
+          userEmail: initialBeneficiaryUserData?.email
+        }}
       >
         {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
           <FormUserContent
@@ -121,14 +138,21 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             userState={userState}
             form={form}
             handleSubmitUser={handleSubmitUser}
+            initialData={{
+              firstName: initialBeneficiaryUserData?.firstName,
+              lastName: initialBeneficiaryUserData?.lastName
+            }}
           />
         )}
-      </FormUser>
+      </FormUserContainer>
       <h3 className="formProjectUsers__section__title">Investor</h3>
-      <FormUser
+      <FormUserContainer
         expandIconPosition="right"
         entity="Investor"
         onChange={value => handleChangeUserForm('investor', value)}
+        initialData={{
+          userEmail: initialInvestorUserData?.email
+        }}
       >
         {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
           <FormUserContent
@@ -138,9 +162,13 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             userState={userState}
             form={form}
             handleSubmitUser={handleSubmitUser}
+            initialData={{
+              firstName: initialInvestorUserData?.firstName,
+              lastName: initialInvestorUserData?.lastName
+            }}
           />
         )}
-      </FormUser>
+      </FormUserContainer>
       <div className="formProjectUsers__section">
         <h3 className="formProjectUsers__section__title">Auditor</h3>
         <Button type="dashed" onClick={add}>
@@ -149,10 +177,13 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       {keys.map(item => (
         <div key={item}>
-          <FormUser
+          <FormUserContainer
             expandIconPosition="right"
             entity="Auditor"
             onChange={value => handleChangeUserForm(`auditor-${item}`, value)}
+            initialData={{
+              userEmail: initialAuditorsUserData?.[item]?.email
+            }}
           >
             {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
               <FormUserContent
@@ -165,9 +196,13 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                 form={form}
                 handleSubmitUser={handleSubmitUser}
                 totalKeys={keys?.length}
+                initialData={{
+                  firstName: initialAuditorsUserData?.[item]?.firstName,
+                  lastName: initialAuditorsUserData?.[item]?.lastName
+                }}
               />
             )}
-          </FormUser>
+          </FormUserContainer>
         </div>
       ))}
 

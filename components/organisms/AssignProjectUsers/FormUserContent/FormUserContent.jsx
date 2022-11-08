@@ -15,7 +15,8 @@ export const FormUserContent = ({
   userState,
   item,
   handleSubmitUser,
-  totalKeys
+  totalKeys,
+  initialData
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -61,11 +62,16 @@ export const FormUserContent = ({
                   pattern: onlyAlphanumerics,
                   message: ERROR_MESSAGES.ALPHANUMERIC
                 }
-              ]
+              ],
+              initialValue: initialData?.firstName
             })(
               <Input
                 placeholder="Enter first name"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  initialData
+                }
               />
             )}
           </Form.Item>
@@ -83,11 +89,16 @@ export const FormUserContent = ({
                   pattern: onlyAlphanumerics,
                   message: ERROR_MESSAGES.ALPHANUMERIC
                 }
-              ]
+              ],
+              initialValue: initialData?.lastName
             })(
               <Input
                 placeholder="Enter last name"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  initialData
+                }
               />
             )}
           </Form.Item>
@@ -100,7 +111,11 @@ export const FormUserContent = ({
               <Select
                 loading={countries?.isLoading}
                 placeholder="Select country or region"
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
+                disabled={
+                  userState === USER_STATES.EXIST ||
+                  userState === USER_STATES.LOADING ||
+                  initialData
+                }
               >
                 {countries?.content?.map(_country => (
                   <Option value={_country?.id} key={_country?.id}>

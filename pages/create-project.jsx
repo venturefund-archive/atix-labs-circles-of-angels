@@ -16,7 +16,6 @@ import './_style.scss';
 import { FormProjectUsers } from 'components/organisms/AssignProjectUsers/AssignProjectUsers';
 import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
 import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
-import ProjectProposalFormContainer from '../components/organisms/ProjectProposalFormContainer/ProjectProposalFormContainer';
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
@@ -75,13 +74,20 @@ const CreateProjectContainer = () => {
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { details, proposal, basicInformation } = projectToCheck;
+    const { details, basicInformation, users } = projectToCheck;
+
+    const ROLES = ['1', '2', '3'];
+    const rolesCreated = users?.map(user => user?.role);
+    const containsAllUserProjectTypes = ROLES?.reduce(
+      (acc, curr) => rolesCreated?.includes(curr) && acc,
+      true
+    );
 
     const stepsStatus = {
       thumbnails: basicInformation?.location,
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
-      proposal: !!proposal,
+      proposal: containsAllUserProjectTypes,
       milestones: false
     };
 

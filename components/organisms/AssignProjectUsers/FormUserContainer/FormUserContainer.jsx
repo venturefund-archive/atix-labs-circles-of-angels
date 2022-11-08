@@ -7,7 +7,7 @@ import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
-const CustomCollapse = ({ children, entity, form, ...rest }) => {
+const CustomCollapse = ({ children, entity, form, initialData, ...rest }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue } = form;
@@ -50,6 +50,7 @@ const CustomCollapse = ({ children, entity, form, ...rest }) => {
               setUserState={setUserState}
               userState={userState}
               form={form}
+              initialData={initialData}
             />
           }
           key={1}
@@ -61,8 +62,8 @@ const CustomCollapse = ({ children, entity, form, ...rest }) => {
   );
 };
 
-export const FormUser = Form.create({
-  name: 'FormUser',
+export const FormUserContainer = Form.create({
+  name: 'FormUserContainer',
   onValuesChange(props, values) {
     props.onChange(values);
   }
