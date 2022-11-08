@@ -68,37 +68,34 @@ export const CustomCollapseHeader = ({
   }, []);
 
   return (
-    <>
-      {userState}
-      <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
-        {getFieldDecorator('email', {
-          rules: [
-            {
-              required: true,
-              message: ERROR_MESSAGES.EMPTY,
-              whitespace: true
-            }
-          ],
-          initialValue: initialData?.userEmail
-        })(
-          <Input
-            placeholder={`Insert the email of the ${entity} user`}
-            onChange={onChange}
-            onClick={e => e.stopPropagation()}
-          />
-        )}
+    <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
+      {getFieldDecorator('email', {
+        rules: [
+          {
+            required: true,
+            message: ERROR_MESSAGES.EMPTY,
+            whitespace: true
+          }
+        ],
+        initialValue: initialData?.userEmail
+      })(
+        <Input
+          placeholder={`Insert the email of the ${entity} user`}
+          onChange={onChange}
+          onClick={e => e.stopPropagation()}
+        />
+      )}
 
-        {userState !== USER_STATES.UNKNOWN && (
-          <Icon
-            type={USER_STATE_ICONS[userState]}
-            theme={userState !== USER_STATES.LOADING && 'filled'}
-            className={`customCollapseHeader__customHeader__icon --${ICON_CLASSES_BY_USER_STATE[userState]}`}
-          />
-        )}
-        {userState === USER_STATES.NO_EXIST && (
-          <p>The {entity} is not registered. Fill in the information below</p>
-        )}
-      </Form.Item>
-    </>
+      {userState !== USER_STATES.UNKNOWN && (
+        <Icon
+          type={USER_STATE_ICONS[userState]}
+          theme={userState !== USER_STATES.LOADING && 'filled'}
+          className={`customCollapseHeader__customHeader__icon --${ICON_CLASSES_BY_USER_STATE[userState]}`}
+        />
+      )}
+      {userState === USER_STATES.NO_EXIST && (
+        <p>The {entity} is not registered. Fill in the information below</p>
+      )}
+    </Form.Item>
   );
 };
