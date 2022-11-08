@@ -8,11 +8,20 @@ import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
-const CustomCollapse = ({ children, entity, form, initialData, projectId, onError, ...rest }) => {
+const CustomCollapse = ({
+  children,
+  entity,
+  form,
+  initialData,
+  projectId,
+  onError,
+  isFirst,
+  ...rest
+}) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue, getFieldValue } = form;
-  const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const [isFormSubmitted, setFormSubmitted] = useState(Boolean(initialData?.email));
   const userId = getFieldValue('id');
 
   const handleError = () => {
@@ -25,7 +34,6 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
       if (!err) {
         setFormSubmitted(true);
         const dataToSend = { ...values };
-        setUserState(USER_STATES.PENDING);
 
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (response.errors) return handleError();
@@ -41,6 +49,7 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
           userId: response?.data?.id,
           projectId
         });
+
         if (sendWelcomeEmailResponse.errors) return handleError();
 
         setUserState(USER_STATES.PENDING);

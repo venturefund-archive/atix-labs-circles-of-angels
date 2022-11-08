@@ -144,7 +144,7 @@ export const FormUserContent = ({
             }
           </>
 
-          {isFormSubmitted && (
+          {isFormSubmitted && userState !== USER_STATES.WITH_ERROR && (
             <Alert
               message={
                 userState === USER_STATES.PENDING ? 'Instructions have been sent!' : 'User assigned'

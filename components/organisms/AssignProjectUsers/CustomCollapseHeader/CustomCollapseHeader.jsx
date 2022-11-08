@@ -35,7 +35,7 @@ export const CustomCollapseHeader = ({
         lastName: users[0]?.lastName,
         country: users[0]?.country
       });
-      if (users[0]?.isActive) {
+      if (users[0]?.first) {
         setUserState(USER_STATES.EXIST);
       } else {
         setUserState(USER_STATES.PENDING);
