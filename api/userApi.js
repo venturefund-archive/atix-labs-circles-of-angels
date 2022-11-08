@@ -87,6 +87,8 @@ const confirmEmail = async userId => doPut(`${baseURL}/${userId}/email/confirm`,
 
 const createUser = async user => doPost(`${baseURL}`, user);
 
+const sendWelcomeEmail = async data => doPost(`${baseURL}/welcome-email`, data);
+
 export {
   loginUser,
   getOracles,
@@ -106,5 +108,6 @@ export {
   getWallet,
   getMnemonicFromToken,
   confirmEmail,
-  createUser
+  createUser,
+  sendWelcomeEmail
 };

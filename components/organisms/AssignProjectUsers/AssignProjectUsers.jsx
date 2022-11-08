@@ -127,8 +127,10 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
         entity="Beneficiary"
         onChange={value => handleChangeUserForm('beneficiary', value)}
         initialData={{
-          userEmail: initialBeneficiaryUserData?.email
+          userEmail: initialBeneficiaryUserData?.email,
+          isFirst: initialBeneficiaryUserData?.first
         }}
+        projectId={project?.id}
       >
         {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
           <FormUserContent
@@ -140,7 +142,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             handleSubmitUser={handleSubmitUser}
             initialData={{
               firstName: initialBeneficiaryUserData?.firstName,
-              lastName: initialBeneficiaryUserData?.lastName
+              lastName: initialBeneficiaryUserData?.lastName,
+              country: initialBeneficiaryUserData?.country
             }}
           />
         )}
@@ -151,8 +154,10 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
         entity="Investor"
         onChange={value => handleChangeUserForm('investor', value)}
         initialData={{
-          userEmail: initialInvestorUserData?.email
+          userEmail: initialInvestorUserData?.email,
+          isFirst: initialInvestorUserData?.first
         }}
+        projectId={project?.id}
       >
         {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
           <FormUserContent
@@ -164,7 +169,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             handleSubmitUser={handleSubmitUser}
             initialData={{
               firstName: initialInvestorUserData?.firstName,
-              lastName: initialInvestorUserData?.lastName
+              lastName: initialInvestorUserData?.lastName,
+              country: initialInvestorUserData?.country
             }}
           />
         )}
@@ -182,8 +188,10 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             entity="Auditor"
             onChange={value => handleChangeUserForm(`auditor-${item}`, value)}
             initialData={{
-              userEmail: initialAuditorsUserData?.[item]?.email
+              userEmail: initialAuditorsUserData?.[item]?.email,
+              isFirst: initialAuditorsUserData?.[item]?.first
             }}
+            projectId={project?.id}
           >
             {({ setActiveKey, setUserState, userState, form, handleSubmitUser }) => (
               <FormUserContent
@@ -198,7 +206,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                 totalKeys={keys?.length}
                 initialData={{
                   firstName: initialAuditorsUserData?.[item]?.firstName,
-                  lastName: initialAuditorsUserData?.[item]?.lastName
+                  lastName: initialAuditorsUserData?.[item]?.lastName,
+                  country: initialAuditorsUserData?.[item]?.country
                 }}
               />
             )}

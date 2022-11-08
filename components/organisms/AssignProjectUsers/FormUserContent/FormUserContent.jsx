@@ -44,11 +44,7 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="id" style={{ display: 'none' }}>
-            {getFieldDecorator('id', {})(
-              <Input
-                disabled={userState === USER_STATES.EXIST || userState === USER_STATES.LOADING}
-              />
-            )}
+            {getFieldDecorator('id', {})(<Input />)}
           </Form.Item>
           <Form.Item label="First name">
             {getFieldDecorator('firstName', {
@@ -70,7 +66,7 @@ export const FormUserContent = ({
                 disabled={
                   userState === USER_STATES.EXIST ||
                   userState === USER_STATES.LOADING ||
-                  initialData
+                  userState === USER_STATES.PENDING
                 }
               />
             )}
@@ -97,7 +93,7 @@ export const FormUserContent = ({
                 disabled={
                   userState === USER_STATES.EXIST ||
                   userState === USER_STATES.LOADING ||
-                  initialData
+                  userState === USER_STATES.PENDING
                 }
               />
             )}
@@ -107,14 +103,16 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="Country/Region">
-            {getFieldDecorator('country', {})(
+            {getFieldDecorator('country', {
+              initialValue: initialData?.country
+            })(
               <Select
                 loading={countries?.isLoading}
                 placeholder="Select country or region"
                 disabled={
                   userState === USER_STATES.EXIST ||
                   userState === USER_STATES.LOADING ||
-                  initialData
+                  userState === USER_STATES.PENDING
                 }
               >
                 {countries?.content?.map(_country => (

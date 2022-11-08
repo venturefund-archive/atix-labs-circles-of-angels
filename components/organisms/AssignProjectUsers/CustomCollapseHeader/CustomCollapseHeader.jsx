@@ -34,7 +34,10 @@ export const CustomCollapseHeader = ({
         lastName: users[0]?.lastName,
         country: users[0]?.country
       });
-      setUserState(USER_STATES.EXIST);
+      if (users[0]?.isActive) {
+        return setUserState(USER_STATES.EXIST);
+      }
+      setUserState(USER_STATES.PENDING);
     } else {
       setFieldsValue({
         email: inputValue,
@@ -56,6 +59,13 @@ export const CustomCollapseHeader = ({
     setUserState(USER_STATES.LOADING);
     searchUserDebounced(value);
   };
+
+  useEffect(() => {
+    if (initialData?.isFirst !== undefined) {
+      if (!initialData.isFirst) return setUserState(USER_STATES.PENDING);
+      setUserState(USER_STATES.EXIST);
+    }
+  }, [initialData, setUserState]);
 
   return (
     <>

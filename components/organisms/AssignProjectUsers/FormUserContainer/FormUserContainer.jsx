@@ -1,5 +1,5 @@
 import { Collapse, Form } from 'antd';
-import { createUser } from 'api/userApi';
+import { createUser, sendWelcomeEmail } from 'api/userApi';
 import React, { useState } from 'react';
 import { USER_STATES } from '../constants';
 import { CustomCollapseHeader } from '../CustomCollapseHeader/CustomCollapseHeader';
@@ -7,20 +7,27 @@ import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
-const CustomCollapse = ({ children, entity, form, initialData, ...rest }) => {
+const CustomCollapse = ({ children, entity, form, initialData, projectId, ...rest }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue } = form;
 
-  const handleSubmitUser = e => {
+  const handleSubmitUser = () => {
     validateFields(async (err, values) => {
       if (!err) {
         const dataToSend = { ...values };
         setUserState(USER_STATES.PENDING);
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (!response.errors) {
-          setUserState(USER_STATES.PENDING);
-          setFieldsValue({ ...dataToSend, id: response?.data?.id });
+          const sendWelcomeEmailResponse = await sendWelcomeEmail({
+            userId: response?.data?.id,
+            projectId
+          });
+          if (!sendWelcomeEmailResponse.errors) {
+            setUserState(USER_STATES.PENDING);
+            return setFieldsValue({ ...dataToSend, id: response?.data?.id });
+          }
+          setUserState(USER_STATES.WITH_ERROR);
         } else {
           setUserState(USER_STATES.WITH_ERROR);
         }
