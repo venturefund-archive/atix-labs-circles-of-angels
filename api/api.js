@@ -89,6 +89,6 @@ export const doPost = async (url, data = {}, config) => makeApiRequest('post', u
 
 export const doPut = async (url, data = {}, config) => makeApiRequest('put', url, data, config);
 
-export const doDelete = async url => makeApiRequest('delete', url);
+export const doDelete = async (url, data = {}) => makeApiRequest('delete', url, data);
 
 export default api;

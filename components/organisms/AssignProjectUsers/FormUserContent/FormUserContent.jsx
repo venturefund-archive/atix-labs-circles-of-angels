@@ -46,7 +46,7 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="id" style={{ display: 'none' }}>
-            {getFieldDecorator('id', {})(<Input />)}
+            {getFieldDecorator('id', { initialValue: initialData?.id })(<Input />)}
           </Form.Item>
           <Form.Item label="First name">
             {getFieldDecorator('firstName', {
@@ -128,16 +128,21 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <>
-            {userState !== USER_STATES.PENDING && userState !== USER_STATES.LOADING && (
-              <Button onClick={handleRemove}>Cancel</Button>
-            )}
+            {userState !== USER_STATES.LOADING && <Button onClick={handleRemove}>Cancel</Button>}
             {
               <Button
                 type="primary"
                 onClick={
                   userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
                 }
-                disabled={!country || !firstName || !lastName || !email || isFormSubmitted}
+                disabled={
+                  !country ||
+                  !firstName ||
+                  !lastName ||
+                  !email ||
+                  isFormSubmitted ||
+                  userState === USER_STATES.LOADING
+                }
               >
                 {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
               </Button>
