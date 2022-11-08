@@ -65,10 +65,11 @@ export const CustomCollapseHeader = ({
       if (!initialData.isFirst) return setUserState(USER_STATES.PENDING);
       setUserState(USER_STATES.EXIST);
     }
-  }, [initialData, setUserState]);
+  }, []);
 
   return (
     <>
+      {userState}
       <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
         {getFieldDecorator('email', {
           rules: [
