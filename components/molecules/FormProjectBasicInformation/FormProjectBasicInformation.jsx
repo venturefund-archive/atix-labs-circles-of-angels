@@ -21,10 +21,10 @@ import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
 import { formatCurrency } from 'helpers/formatter';
 import {
+  decimalCount,
   getErrorMessagesField,
   getErrorMessagesFields,
-  getExtensionFromUrl,
-  getFileNameFromUrl
+  getExtensionFromUrl
 } from 'helpers/utils';
 import _ from 'lodash';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
@@ -51,6 +51,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const projectNameError = getFieldError('projectName');
   const thumbnailPhotoError = getFieldError('thumbnailPhoto');
+  const timeframeError = getFieldError('timeframe');
 
   const { projectName = 'Project Name', timeframe } = currentBasicInformation;
   let { timeframeUnit, location, thumbnailPhoto } = currentBasicInformation;
@@ -164,6 +165,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             validator: validateImageSize
           }
         ];
+
+  const validateCurrencyValue = (_rule, value, callback) => {
+    if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
+    if (decimalCount(value) > 3) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    return callback();
+  };
 
   return (
     <>
@@ -284,19 +291,32 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
             <Row type="flex" align="bottom" gutter={18}>
               <Col>
-                <Form.Item label="Timeframe" help={null}>
+                <Form.Item
+                  className="formProjectBasicInformation__timeframe"
+                  label="Timeframe"
+                  help={
+                    <div>
+                      {getErrorMessagesField(timeframeError, [
+                        ERROR_TYPES.MORE_THAN_3_DECIMAL,
+                        ERROR_TYPES.NO_ZERO
+                      ]).map(errorMessage => errorMessage)}
+                    </div>
+                  }
+                >
                   {getFieldDecorator('timeframe', {
-                    initialValue: timeframe && parseInt?.(timeframe, 10),
+                    initialValue: timeframe && parseFloat?.(timeframe),
                     rules: [
                       {
                         required: true,
                         message: ERROR_TYPES.EMPTY
+                      },
+                      {
+                        validator: validateCurrencyValue
                       }
                     ],
                     validateTrigger: 'onSubmit'
                   })(
                     <InputNumber
-                      min={1}
                       placeholder={0}
                       onChange={value =>
                         setCurrentBasicInformation({

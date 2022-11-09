@@ -18,4 +18,11 @@
       }
     }
   }
+
+  &__timeframe {
+    .ant-form-explain {
+      position: absolute;
+      white-space: nowrap;
+    }
+  }
 }

@@ -177,14 +177,18 @@ export const ERROR_TYPES = {
   EMPTY: 'EMPTY',
   ALPHANUMERIC: 'ALPHANUMERIC',
   IMAGE_INVALID: 'IMAGE_INVALID',
-  FILE: 'FILE'
+  FILE: 'FILE',
+  MORE_THAN_3_DECIMAL: 'MORE_THAN_3_DECIMAL',
+  NO_ZERO: 'NO_ZERO'
 };
 
 export const ERROR_MESSAGES = {
   EMPTY: 'Incomplete required fields',
   ALPHANUMERIC: 'Please input an alphanumeric value for this field.',
   IMAGE_INVALID: 'The uploaded file does not meet the requirements. \n Check them and try again',
-  FILE: 'The file is invalid. Review the recommendations and try again'
+  FILE: 'The file is invalid. Review the recommendations and try again',
+  MORE_THAN_3_DECIMAL: "This value can't have more than 3 decimals",
+  NO_ZERO: "This value can't be zero"
 };
 
 export const KB_FACTOR_CONVERTER = 1000;
