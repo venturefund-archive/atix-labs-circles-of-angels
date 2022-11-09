@@ -18,6 +18,7 @@ import Roles from '../../../constants/RolesMap';
 import Login from '../../../pages/login';
 import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
+import Preview from '../../../pages/preview';
 
 const {
   COA_ADMIN,
@@ -34,6 +35,13 @@ export const routesConfig = [
     authentication: { required: false },
     withHeader: false,
     withSideBar: false
+  },
+  {
+    path: '/projects/:id/preview',
+    component: Preview,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false,
   },
   {
     path: '/landing',

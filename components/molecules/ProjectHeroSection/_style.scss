@@ -1,0 +1,120 @@
+@import 'css/general_styling';
+
+.hero {
+  background-image: linear-gradient(180deg, rgba($black, 0.7), rgba($black, 0.7)),
+  url("/static/images/hands.png");
+  border-radius: 0 0 0 40px;
+  padding: 180px 20px 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-size: cover;
+  background-position: top;
+  min-height: 100%;
+  gap: 16px;
+
+  @include respond(laptop) {
+    background-image: linear-gradient(
+                    180deg,
+                    rgba($black, 0.7),
+                    rgba($black, 0.7)
+    ),
+    url("/static/images/women.png");
+    align-items: flex-start;
+    border-radius: 0 0 0 140px;
+    padding: 180px 160px 90px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-start;
+    width: 100%;
+
+    @include respond(tablet) {
+      margin-left: 95px;
+    }
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 30px;
+
+      h3 {
+        font-family: "Rubik", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        color: #ffffff;
+      }
+
+      h1 {
+        font-family: "Rubik", sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 43px;
+        color: #ffffff;
+        @include respond(mobile) {
+          width: 385px;
+        }
+        @include respond(laptop) {
+          font-size: 64px;
+          width: 536px;
+          line-height: 76px;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+
+    @include respond(tablet) {
+      width: 100%;
+      margin-left: 95px;
+    }
+
+    .progress--btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 29px;
+      gap: 10px;
+      width: 187px;
+      height: 36px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #ffffff;
+      box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
+      border-radius: 6px;
+      margin-bottom: 40px;
+
+      span {
+        font-family: "Rubik", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #ffffff;
+      }
+    }
+
+    .backoffice {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      @include respond(tablet) {
+        gap: 100px;
+      }
+    }
+  }
+}

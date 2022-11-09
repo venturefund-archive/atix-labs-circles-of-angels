@@ -1,0 +1,14 @@
+@import 'css/general_styling';
+
+.details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 5px;
+
+  @include respond(laptop) {
+    gap: 30px;
+    align-items: flex-end;
+  }
+}
