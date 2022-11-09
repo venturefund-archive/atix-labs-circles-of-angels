@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import api, { doPost } from './api';
+import api, { doDelete, doPost } from './api';
 import apiCall from './apiCall';
 
 const baseURL = '/userProjects';
@@ -56,6 +56,9 @@ const isCandidate = async projectId => apiCall('get', `/projects/${projectId}/ca
 const addUserToProject = async ({ projectId, userId, roleId }) =>
   doPost('/user-project', { projectId, userId, roleId });
 
+const removeUserFromProject = async ({ projectId, userId, roleId }) =>
+  doDelete('/user-project', { projectId, userId, roleId });
+
 export {
   getUsers,
   signAgreement,
@@ -65,5 +68,6 @@ export {
   isFollower,
   applyToProject,
   isCandidate,
-  addUserToProject
+  addUserToProject,
+  removeUserFromProject
 };

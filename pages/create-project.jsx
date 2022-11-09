@@ -16,6 +16,7 @@ import './_style.scss';
 import { FormProjectUsers } from 'components/organisms/AssignProjectUsers/AssignProjectUsers';
 import { FormProjectDetail } from 'components/molecules/FormProjectDetail/FormProjectDetail';
 import { FormProjectBasicInformation } from 'components/molecules/FormProjectBasicInformation/FormProjectBasicInformation';
+import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
@@ -76,18 +77,26 @@ const CreateProjectContainer = () => {
   const checkStepsStatus = async projectToCheck => {
     const { details, basicInformation, users } = projectToCheck;
 
-    const ROLES = ['1', '2', '3'];
-    const rolesCreated = users?.map(user => user?.role);
-    const containsAllUserProjectTypes = ROLES?.reduce(
-      (acc, curr) => rolesCreated?.includes(curr) && acc,
-      true
-    );
+    const beneficiaries = users?.find(user => user?.role === ROLES_IDS.beneficiary.toString())
+      ?.users;
+    const investors = users?.find(user => user?.role === ROLES_IDS.investor.toString())?.users;
+    const auditors = users?.find(user => user?.role === ROLES_IDS.auditor.toString())?.users;
+
+    const containsAllUserProjectTypesActive =
+      beneficiaries?.length > 0 && investors?.length > 0 && auditors?.length > 0;
+
+    const allBeneficiariesWithFirstLogin = beneficiaries?.every(beneficiary => beneficiary?.first);
+    const allInvestorsWithFirstLogin = investors?.every(investor => investor?.first);
+    const allAuditorsWithFirstLogin = auditors?.every(auditor => auditor?.first);
+
+    const allProjectUsersHaveFirstLogin =
+      allBeneficiariesWithFirstLogin && allInvestorsWithFirstLogin && allAuditorsWithFirstLogin;
 
     const stepsStatus = {
       thumbnails: basicInformation?.location,
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
-      proposal: containsAllUserProjectTypes,
+      proposal: containsAllUserProjectTypesActive && allProjectUsersHaveFirstLogin,
       milestones: false
     };
 

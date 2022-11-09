@@ -18,7 +18,8 @@ export const FormUserContent = ({
   handleSubmitConfirmUser,
   totalKeys,
   initialData,
-  isFormSubmitted
+  isFormSubmitted,
+  removeCurrentUserFromProject
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -26,10 +27,12 @@ export const FormUserContent = ({
   const lastName = getFieldValue('lastName');
   const email = getFieldValue('email');
 
-  const handleRemove = () => {
-    if (item && totalKeys !== 1) {
-      return onRemove(item);
+  const handleRemove = async () => {
+    if (item !== undefined && totalKeys !== 1) {
+      await removeCurrentUserFromProject();
+      return onRemove();
     }
+    await removeCurrentUserFromProject();
     setFieldsValue({
       id: undefined,
       firstName: undefined,
@@ -46,7 +49,7 @@ export const FormUserContent = ({
       <Row>
         <Col span={12}>
           <Form.Item label="id" style={{ display: 'none' }}>
-            {getFieldDecorator('id', {})(<Input />)}
+            {getFieldDecorator('id', { initialValue: initialData?.id })(<Input />)}
           </Form.Item>
           <Form.Item label="First name">
             {getFieldDecorator('firstName', {
@@ -128,23 +131,28 @@ export const FormUserContent = ({
         </Col>
         <Col span={12}>
           <>
-            {userState !== USER_STATES.PENDING && userState !== USER_STATES.LOADING && (
-              <Button onClick={handleRemove}>Cancel</Button>
-            )}
+            {userState !== USER_STATES.LOADING && <Button onClick={handleRemove}>Cancel</Button>}
             {
               <Button
                 type="primary"
                 onClick={
                   userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
                 }
-                disabled={!country || !firstName || !lastName || !email || isFormSubmitted}
+                disabled={
+                  !country ||
+                  !firstName ||
+                  !lastName ||
+                  !email ||
+                  isFormSubmitted ||
+                  userState === USER_STATES.LOADING
+                }
               >
                 {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
               </Button>
             }
           </>
 
-          {isFormSubmitted && (
+          {isFormSubmitted && userState !== USER_STATES.WITH_ERROR && (
             <Alert
               message={
                 userState === USER_STATES.PENDING ? 'Instructions have been sent!' : 'User assigned'

@@ -1,6 +1,6 @@
 import { Collapse, Form } from 'antd';
 import { createUser, sendWelcomeEmail } from 'api/userApi';
-import { addUserToProject } from 'api/userProjectApi';
+import { addUserToProject, removeUserFromProject } from 'api/userProjectApi';
 import React, { useState } from 'react';
 import { ROLES_IDS, USER_STATES } from '../constants';
 import { CustomCollapseHeader } from '../CustomCollapseHeader/CustomCollapseHeader';
@@ -8,12 +8,22 @@ import './form-user-container.scss';
 
 const { Panel } = Collapse;
 
-const CustomCollapse = ({ children, entity, form, initialData, projectId, onError, ...rest }) => {
+const CustomCollapse = ({
+  children,
+  entity,
+  form,
+  initialData,
+  projectId,
+  onError,
+  setCanAddAdditionalAuditor,
+  ...rest
+}) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue, getFieldValue } = form;
-  const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(Boolean(initialData?.email));
   const userId = getFieldValue('id');
+  const [currentUserId, setCurrentUserId] = useState(initialData?.id);
 
   const handleError = () => {
     setUserState(USER_STATES.WITH_ERROR);
@@ -23,10 +33,16 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
   const handleSubmitNewUser = () => {
     validateFields(async (err, values) => {
       if (!err) {
-        setFormSubmitted(true);
+        setIsFormSubmitted(true);
         const dataToSend = { ...values };
-        setUserState(USER_STATES.PENDING);
 
+        if (initialData?.id !== undefined || currentUserId === userId) {
+          await removeUserFromProject({
+            projectId,
+            roleId: ROLES_IDS[entity],
+            userId: currentUserId
+          });
+        }
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (response.errors) return handleError();
 
@@ -41,22 +57,40 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
           userId: response?.data?.id,
           projectId
         });
+
         if (sendWelcomeEmailResponse.errors) return handleError();
 
         setUserState(USER_STATES.PENDING);
         setFieldsValue({ ...dataToSend, id: response?.data?.id });
+        if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
+        setCurrentUserId(userId);
       }
     });
   };
 
+  const removeCurrentUserFromProject = () => {
+    const _userId = getFieldValue('id');
+    removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId: _userId });
+  };
+
   const handleSubmitConfirmUser = async () => {
-    setFormSubmitted(true);
+    setIsFormSubmitted(true);
+
+    if (initialData?.id) {
+      await removeUserFromProject({
+        projectId,
+        roleId: ROLES_IDS[entity],
+        userId: currentUserId
+      });
+    }
     const addUserToProjectResponse = await addUserToProject({
       projectId,
       roleId: ROLES_IDS[entity],
       userId
     });
     if (addUserToProjectResponse.errors) return handleError();
+    if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
+    setCurrentUserId(userId);
   };
 
   return (
@@ -82,6 +116,7 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
               userState={userState}
               form={form}
               initialData={initialData}
+              setIsFormSubmitted={setIsFormSubmitted}
             />
           }
           key={1}
@@ -93,7 +128,8 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
             form,
             handleSubmitNewUser,
             handleSubmitConfirmUser,
-            isFormSubmitted
+            isFormSubmitted,
+            removeCurrentUserFromProject
           })}
         </Panel>
       </Collapse>
@@ -102,8 +138,5 @@ const CustomCollapse = ({ children, entity, form, initialData, projectId, onErro
 };
 
 export const FormUserContainer = Form.create({
-  name: 'FormUserContainer',
-  onValuesChange(props, values) {
-    props.onChange(values);
-  }
+  name: 'FormUserContainer'
 })(CustomCollapse);

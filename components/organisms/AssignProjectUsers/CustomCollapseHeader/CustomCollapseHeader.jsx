@@ -20,7 +20,8 @@ export const CustomCollapseHeader = ({
   userState,
   setUserState,
   form,
-  initialData
+  initialData,
+  setIsFormSubmitted
 }) => {
   const { setFieldsValue, getFieldDecorator } = form;
   const searchUser = async inputValue => {
@@ -35,7 +36,7 @@ export const CustomCollapseHeader = ({
         lastName: users[0]?.lastName,
         country: users[0]?.country
       });
-      if (users[0]?.isActive) {
+      if (users[0]?.first) {
         setUserState(USER_STATES.EXIST);
       } else {
         setUserState(USER_STATES.PENDING);
@@ -55,6 +56,7 @@ export const CustomCollapseHeader = ({
   const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), []);
 
   const onChange = event => {
+    setIsFormSubmitted(false);
     const {
       target: { value }
     } = event;
@@ -63,8 +65,8 @@ export const CustomCollapseHeader = ({
   };
 
   useEffect(() => {
-    if (initialData?.isFirst !== undefined) {
-      if (!initialData.isFirst) return setUserState(USER_STATES.PENDING);
+    if (initialData?.first !== undefined) {
+      if (!initialData.first) return setUserState(USER_STATES.PENDING);
       setUserState(USER_STATES.EXIST);
     }
   }, []);
@@ -79,7 +81,7 @@ export const CustomCollapseHeader = ({
             whitespace: true
           }
         ],
-        initialValue: initialData?.userEmail
+        initialValue: initialData?.email
       })(
         <Input
           placeholder={`Insert the email of the ${entity} user`}
