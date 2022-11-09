@@ -68,6 +68,11 @@ const CustomCollapse = ({
     });
   };
 
+  const removeCurrentUserFromProject = () => {
+    const _userId = getFieldValue('id');
+    removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId: _userId });
+  };
+
   const handleSubmitConfirmUser = async () => {
     setIsFormSubmitted(true);
 
@@ -123,7 +128,8 @@ const CustomCollapse = ({
             form,
             handleSubmitNewUser,
             handleSubmitConfirmUser,
-            isFormSubmitted
+            isFormSubmitted,
+            removeCurrentUserFromProject
           })}
         </Panel>
       </Collapse>

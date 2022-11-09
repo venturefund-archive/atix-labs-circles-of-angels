@@ -13,15 +13,14 @@ import { Button } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import './assign-project-users.scss';
+import _ from 'lodash';
 import { getCountries } from 'api/countriesApi';
 import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
 export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
-  const [keys, setKeys] = useState([0]);
   const [countries, setCountries] = useState({});
-  const [projectUsers, setProjectUsers] = useState({});
 
   const getUsersByRole = role =>
     project?.users?.filter(user => user?.role === role.toString())?.[0]?.users;
@@ -29,6 +28,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const initialBeneficiaryUserData = getUsersByRole(ROLES_IDS.beneficiary)?.[0];
   const initialInvestorUserData = getUsersByRole(ROLES_IDS.investor)?.[0];
   const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor);
+
+  const [currentAuditorsElements, setCurrentAuditorsElements] = useState([_.uniqueId()]);
 
   const [canAddAdditionalAuditor, setCanAddAdditionalAuditor] = useState(
     initialAuditorsUserData?.length > 0
@@ -48,43 +49,40 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   };
 
   const onRemove = k => {
-    const indexToDelete = keys.indexOf(k);
-    if (keys.length === 1) {
+    if (currentAuditorsElements.length === 1) {
       return;
     }
-    const values = [...keys];
-    values.splice(indexToDelete, 1);
-    setKeys(values);
 
-    /*  */
-    const updatedProjectUsers = Object.fromEntries(
-      Object.entries(projectUsers).filter(([key]) => !key.includes(`auditor-${k}`))
-    );
-    setProjectUsers(updatedProjectUsers);
+    const updatedArray = currentAuditorsElements.filter(key => key !== k);
+
+    setCurrentAuditorsElements([...updatedArray]);
   };
 
   const add = () => {
-    setKeys([...keys, keys[keys.length - 1] + 1]);
+    setCurrentAuditorsElements([...currentAuditorsElements, _.uniqueId()]);
     setCanAddAdditionalAuditor(false);
-  };
-
-  const initialData = {
-    [ROLES_IDS.beneficiary]: initialBeneficiaryUserData,
-    [ROLES_IDS.investor]: initialInvestorUserData,
-    [ROLES_IDS.auditor]: initialAuditorsUserData
   };
 
   useEffect(() => {
     if (initialAuditorsUserData) {
-      const _keys = [...Array(initialAuditorsUserData.length).keys()];
-      setKeys(_keys);
+      const _keys = initialAuditorsUserData?.map(
+        initialAuditorUserData => initialAuditorUserData?.id
+      );
+
+      setCurrentAuditorsElements([..._keys]);
     }
   }, [initialAuditorsUserData]);
+
+  const initialData = [
+    initialBeneficiaryUserData,
+    initialInvestorUserData,
+    initialAuditorsUserData
+  ];
 
   return (
     <>
       <TitlePage textTitle="Assign project users" />
-      {Object.keys(ROLES_IDS).map(key => (
+      {Object.keys(ROLES_IDS).map((key, index) => (
         <div key={key}>
           <div className="formProjectUsers__section">
             <h3 className="formProjectUsers__section__title">{key}</h3>
@@ -98,7 +96,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             <FormUserContainer
               expandIconPosition="right"
               entity={key}
-              initialData={initialData[ROLES_IDS[key]]}
+              initialData={initialData[index]}
               projectId={project?.id}
               onError={onError}
             >
@@ -109,7 +107,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                 form,
                 handleSubmitNewUser,
                 handleSubmitConfirmUser,
-                isFormSubmitted
+                isFormSubmitted,
+                removeCurrentUserFromProject
               }) => (
                 <FormUserContent
                   setActiveKey={setActiveKey}
@@ -119,22 +118,27 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   form={form}
                   handleSubmitConfirmUser={handleSubmitConfirmUser}
                   handleSubmitNewUser={handleSubmitNewUser}
-                  initialData={initialData[ROLES_IDS[key]]}
+                  initialData={{}}
                   isFormSubmitted={isFormSubmitted}
+                  removeCurrentUserFromProject={removeCurrentUserFromProject}
                 />
               )}
             </FormUserContainer>
           )}
           {ROLES_IDS[key] === ROLES_IDS.auditor &&
-            keys.map((item, index) => (
-              <div key={item}>
+            currentAuditorsElements.map(item => {
+              const _initialData = initialData[index]?.find(
+                _initialAuditorsUserData => _initialAuditorsUserData?.id === item
+              );
+              return (
                 <FormUserContainer
                   expandIconPosition="right"
                   entity={key}
-                  initialData={initialData[ROLES_IDS[key]]?.[index]}
+                  initialData={_initialData}
                   projectId={project?.id}
                   onError={onError}
                   setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
+                  key={item}
                 >
                   {({
                     setActiveKey,
@@ -143,10 +147,12 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     form,
                     handleSubmitNewUser,
                     handleSubmitConfirmUser,
-                    isFormSubmitted
+                    isFormSubmitted,
+                    removeCurrentUserFromProject
                   }) => (
                     <FormUserContent
-                      onRemove={onRemove}
+                      removeCurrentUserFromProject={removeCurrentUserFromProject}
+                      onRemove={() => onRemove(item)}
                       setActiveKey={setActiveKey}
                       countries={countries}
                       setUserState={setUserState}
@@ -155,14 +161,14 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                       form={form}
                       handleSubmitConfirmUser={handleSubmitConfirmUser}
                       handleSubmitNewUser={handleSubmitNewUser}
-                      totalKeys={keys?.length}
-                      initialData={initialData[ROLES_IDS[key]]?.[index]}
+                      totalKeys={currentAuditorsElements?.length}
+                      initialData={_initialData}
                       isFormSubmitted={isFormSubmitted}
                     />
                   )}
                 </FormUserContainer>
-              </div>
-            ))}
+              );
+            })}
         </div>
       ))}
 

@@ -18,7 +18,8 @@ export const FormUserContent = ({
   handleSubmitConfirmUser,
   totalKeys,
   initialData,
-  isFormSubmitted
+  isFormSubmitted,
+  removeCurrentUserFromProject
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -26,10 +27,12 @@ export const FormUserContent = ({
   const lastName = getFieldValue('lastName');
   const email = getFieldValue('email');
 
-  const handleRemove = () => {
-    if (item && totalKeys !== 1) {
-      return onRemove(item);
+  const handleRemove = async () => {
+    if (item !== undefined && totalKeys !== 1) {
+      await removeCurrentUserFromProject();
+      return onRemove();
     }
+    await removeCurrentUserFromProject();
     setFieldsValue({
       id: undefined,
       firstName: undefined,
