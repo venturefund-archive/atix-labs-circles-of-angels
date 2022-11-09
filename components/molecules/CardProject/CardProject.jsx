@@ -54,7 +54,13 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
           </Button>
         )}
         <div className="ProjectDescription">
-          <img src={cardPhotoPath || '/static/images/empty-img.svg'} />
+          <img
+            src={
+              cardPhotoPath
+                ? `${process.env.NEXT_PUBLIC_URL_HOST}${cardPhotoPath}`
+                : '/static/images/empty-img.svg'
+            }
+          />
         </div>
         <Row className="ProjectSummary">
           <Col span={20}>

@@ -22,9 +22,10 @@ const CustomButton = ({
   hidden,
   htmlType,
   classNameIcon,
+  className,
   style
 }) => {
-  const classname = `CustomButton ${theme}`;
+  const classname = `CustomButton ${theme} ${className}`;
   return (
     <Button
       id={id}
@@ -53,7 +54,8 @@ CustomButton.defaultProps = {
   hidden: false,
   htmlType: 'button',
   classNameIcon: '',
-  style: {}
+  style: {},
+  className: ''
 };
 
 CustomButton.propTypes = {
@@ -66,5 +68,6 @@ CustomButton.propTypes = {
   hidden: PropTypes.bool,
   htmlType: PropTypes.string,
   classNameIcon: PropTypes.string,
-  style: PropTypes.shape
+  style: PropTypes.shape,
+  className: PropTypes.string
 };

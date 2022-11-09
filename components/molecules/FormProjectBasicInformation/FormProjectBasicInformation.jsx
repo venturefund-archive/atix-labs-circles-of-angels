@@ -20,7 +20,14 @@ import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
 import { formatCurrency } from 'helpers/formatter';
-import { getErrorMessagesField, getErrorMessagesFields } from 'helpers/utils';
+import {
+  getErrorMessagesField,
+  getErrorMessagesFields,
+  getExtensionFromUrl,
+  getFileNameFromUrl
+} from 'helpers/utils';
+import _ from 'lodash';
+import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 
 const { Option } = Select;
 
@@ -33,9 +40,14 @@ const TAG_COLORS = {
 };
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, getFieldsError, getFieldError } = form;
+  const { getFieldDecorator, getFieldsError, getFieldError, setFieldsValue } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
-  const [currentBasicInformation, setCurrentBasicInformation] = useState({});
+  const [currentBasicInformation, setCurrentBasicInformation] = useState({
+    ...project?.basicInformation,
+    thumbnailPhoto:
+      project?.basicInformation?.thumbnailPhoto &&
+      `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
+  });
 
   const projectNameError = getFieldError('projectName');
   const thumbnailPhotoError = getFieldError('thumbnailPhoto');
@@ -73,23 +85,17 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       });
     };
     getAndSetCountriesAvailable();
-
-    setCurrentBasicInformation({
-      ...project?.basicInformation,
-      thumbnailPhoto: project?.basicInformation?.thumbnailPhoto
-        ? `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
-        : undefined
-    });
-  }, [project.basicInformation]);
+  }, []);
 
   const submit = e => {
     e.preventDefault();
+
     form.validateFields((err, values) => {
       if (!err) {
         const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
         const valuesProcessed = { ...restValues };
 
-        if (_thumbnailPhoto?.file) valuesProcessed.thumbnailPhoto = _thumbnailPhoto.file;
+        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto;
         const formData = new FormData();
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
@@ -133,9 +139,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   };
 
   const validateImageSize = async (_rule, value, callback) => {
-    if (value?.file?.status === 'removed') return callback();
-    if (value?.file) {
-      const fileSize = value?.file.size;
+    if (value?.status === 'removed') return callback();
+    if (value) {
+      const fileSize = value.size;
       if (fileSize / KB_FACTOR_CONVERTER > 500) return callback(ERROR_TYPES.IMAGE_INVALID);
       return callback();
     }
@@ -336,6 +342,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             </Row>
 
             <Form.Item
+              valuePropName="fileList"
               label="Thumbnail Image"
               help={
                 <>
@@ -346,29 +353,30 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               }
             >
               {getFieldDecorator('thumbnailPhoto', {
-                initialValue: thumbnailPhoto && [{ url: thumbnailPhoto }],
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
               })(
-                <Upload
-                  {...uploadProps}
+                <CustomUpload
+                  uploadProps={uploadProps}
+                  getErrorMessagesField={getErrorMessagesField}
                   onChange={handleThumbnailChange}
                   onRemove={handleThumbnailRemove}
-                >
-                  <Button
-                    disabled={currentBasicInformation?.thumbnailPhoto}
-                    className={`formProjectBasicInformation__uploadThumbnail__button ${
-                      getErrorMessagesField(thumbnailPhotoError, [
-                        ERROR_TYPES.IMAGE_INVALID,
-                        ERROR_TYPES.EMPTY
-                      ]).length > 0
-                        ? '--withError'
-                        : ''
-                    }`}
-                  >
-                    <Icon type="upload" /> Click to Upload
-                  </Button>
-                </Upload>
+                  currentError={thumbnailPhotoError}
+                  setFieldValue={value => {
+                    setFieldsValue({ thumbnailPhoto: value });
+                  }}
+                  initial={
+                    thumbnailPhoto
+                      ? [
+                          {
+                            uid: _.uniqueId(),
+                            url: thumbnailPhoto,
+                            name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
+                          }
+                        ]
+                      : []
+                  }
+                />
               )}
             </Form.Item>
           </Col>
