@@ -1,6 +1,8 @@
 // Colors
 $background: #f1f3f8;
 $surface: #fff;
+$primary-green: #0AB52F;
+$coa-blue-200: #309BFE;
 
 
 $primary-color: #4C7FF7;
@@ -12,6 +14,7 @@ $on-surface: #26385B;
 $success-color: #15d380;
 $success-color-light: #6FCF97;
 $danger-color: #FF6F6F;
+
 
 $light-green:rgba(32, 186, 195, 0.1);
 
@@ -100,6 +103,31 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: $border-color;
+}
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (min-width: 425px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tablet {
+    @media (min-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == laptop {
+    @media (min-width: 1024px) {
+      @content;
+    }
+  }
+  @if $breakpoint == desktop {
+    @media (min-width: 1440px) {
+      @content;
+    }
+  }
 }
 
 //Separator

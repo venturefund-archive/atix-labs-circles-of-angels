@@ -1,0 +1,57 @@
+@import 'css/general_styling';
+
+.download {
+  display: flex;
+  align-items: flex-end;
+
+  @include respond(laptop) {
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 80px;
+  }
+
+  .download-btn--mobile {
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #ffffff;
+    box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond(tablet) {
+      display: none;
+    }
+  }
+
+  .proposal--btn,
+  .agreement--btn {
+    display: none;
+
+    @include respond(tablet) {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 14px;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #ffffff;
+      box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
+      border-radius: 6px;
+      margin: 0 10px;
+
+      span {
+        font-family: "Rubik", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: #ffffff;
+      }
+    }
+  }
+}
