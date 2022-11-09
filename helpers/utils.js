@@ -54,7 +54,7 @@ export const getErrorMessagesField = (currentErrorState = [], errorsToShow = [])
 };
 
 export const generateQueryString = queries => {
-  const result = '?' + new URLSearchParams(queries).toString();
+  const result = `?${ new URLSearchParams(queries).toString()}`;
   return result;
 };
 
@@ -76,3 +76,7 @@ export const cleanObject = object => {
 };
 
 export const checkValidEmail = input => VALID_EMAIL_REGEX.test(input);
+
+export const getFileNameFromUrl = url => url?.split('/').pop();
+
+export const getExtensionFromUrl = url => url?.split('.')?.at(-1);

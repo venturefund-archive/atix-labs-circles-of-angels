@@ -118,7 +118,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   form={form}
                   handleSubmitConfirmUser={handleSubmitConfirmUser}
                   handleSubmitNewUser={handleSubmitNewUser}
-                  initialData={{}}
+                  initialData={initialData[index]}
                   isFormSubmitted={isFormSubmitted}
                   removeCurrentUserFromProject={removeCurrentUserFromProject}
                 />

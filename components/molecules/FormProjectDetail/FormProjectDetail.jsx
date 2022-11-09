@@ -9,21 +9,27 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Row, Col, Upload, Icon, Select } from 'antd';
+import { Button, Form, Input, Row, Col, Select } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
+import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
+import _ from 'lodash';
+import { getExtensionFromUrl } from 'helpers/utils';
 import Styles from './form-project-detail.module.scss';
 
 const { Option } = Select;
 
 const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, setFieldsValue } = form;
+  const { getFieldDecorator, setFieldsValue, getFieldError } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
+
+  const legalAgreementError = getFieldError('legalAgreementFile');
+  const projectProposalError = getFieldError('projectProposalFile');
 
   const {
     problemAddressed,
@@ -34,6 +40,11 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
     legalAgreementFile,
     projectProposalFile
   } = project?.details;
+
+  const legalAgreementFileCompletePath =
+    legalAgreementFile && `${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`;
+  const projectProposalFileCompletePath =
+    projectProposalFile && `${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`;
 
   useEffect(() => {
     if (currencyType) {
@@ -271,15 +282,28 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                   {getFieldDecorator('legalAgreementFile', {
                     rules: filesRules(legalAgreementFile)
                   })(
-                    <Upload
-                      {...uploadProps}
+                    <CustomUpload
+                      uploadProps={uploadProps}
                       onChange={value => handleFileChange(value, 'legalAgreementFile')}
                       onRemove={() => handleFileRemove('legalAgreementFile')}
-                    >
-                      <Button disabled={currentFiles?.legalAgreementFile}>
-                        <Icon type="upload" /> Click to Upload
-                      </Button>
-                    </Upload>
+                      currentError={legalAgreementError}
+                      setFieldValue={value => {
+                        setFieldsValue({ thumbnailPhoto: value });
+                      }}
+                      initial={
+                        legalAgreementFileCompletePath
+                          ? [
+                              {
+                                uid: _.uniqueId(),
+                                url: legalAgreementFileCompletePath,
+                                name: `legal-agreement.${getExtensionFromUrl(
+                                  legalAgreementFileCompletePath
+                                )}`
+                              }
+                            ]
+                          : []
+                      }
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -294,17 +318,31 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
               <Col span={12}>
                 <Form.Item label="">
                   {getFieldDecorator('projectProposalFile', {
-                    rules: filesRules(projectProposalFile)
+                    rules: filesRules(projectProposalFile),
+                    validateTrigger: 'onSubmit'
                   })(
-                    <Upload
-                      {...uploadProps}
+                    <CustomUpload
+                      uploadProps={uploadProps}
                       onChange={value => handleFileChange(value, 'projectProposalFile')}
                       onRemove={() => handleFileRemove('projectProposalFile')}
-                    >
-                      <Button disabled={currentFiles?.projectProposalFile}>
-                        <Icon type="upload" /> Click to Upload
-                      </Button>
-                    </Upload>
+                      currentError={projectProposalError}
+                      setFieldValue={value => {
+                        setFieldsValue({ thumbnailPhoto: value });
+                      }}
+                      initial={
+                        projectProposalFileCompletePath
+                          ? [
+                              {
+                                uid: _.uniqueId(),
+                                url: projectProposalFileCompletePath,
+                                name: `project-proposal.${getExtensionFromUrl(
+                                  projectProposalFileCompletePath
+                                )}`
+                              }
+                            ]
+                          : []
+                      }
+                    />
                   )}
                 </Form.Item>
               </Col>
