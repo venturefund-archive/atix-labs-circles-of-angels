@@ -7,11 +7,12 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { Row, Spin } from 'antd';
+import React, { useState } from 'react';
+import { Spin } from 'antd';
 import queryString from 'query-string';
 import Navigation from 'components/organisms/Navigation';
+import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
+import ModalLogin from 'components/organisms/ModalLogin/ModalLogin';
 import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
@@ -26,22 +27,7 @@ import {
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(true);
-  const [projectId, setProjectId] = useState('');
-  const history = useHistory();
-
-  const goToSuccessMessage = (first) => history.push(
-    `/${projectId}/change-password-success`, {
-    first,
-    projectId
-  });
-
-  useEffect(() => {
-    const pathParts = history.location.pathname.split('/')
-    if (pathParts.length > 2) {
-      setProjectId(pathParts[1])
-    }
-  }, [history.location.pathname])
+  const [modalOpen, setModalOpen] = useState(false);
 
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
@@ -73,10 +59,9 @@ function ResetPassword() {
         data = { ...data, address, mnemonic: mnemonicCreated, encryptedWallet };
       }
 
-      const { errors, data: first } = await resetPassword(data);
+      const { errors } = await resetPassword(data);
       if (!errors) {
         setSuccessfulUpdate(true);
-        goToSuccessMessage(first, projectId);
       } else {
         showModalError('Error', errors);
       }
@@ -103,20 +88,17 @@ function ResetPassword() {
   );
 
   return (
-    <Row
-      className="Landing"
-      style={{
-        backgroundImage: 'url(/static/images/COA-Login-Image-Background.png)',
-        backgroundSize: 'cover',
-        backgroundPositionX: 'center'
-      }}
-    >
+    <BackgroundLanding>
       <Navigation
-        modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
+      <ModalLogin
+        visibility={modalOpen}
+        setVisibility={setModalOpen}
+      >
+      </ModalLogin>
       <div>{renderForm()}</div>
-    </Row>
+    </BackgroundLanding>
   );
 }
 

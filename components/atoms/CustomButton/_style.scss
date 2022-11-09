@@ -90,6 +90,13 @@
     display: none;
   }
 }
+
+.ant-btn.Secondary.Left {
+  .anticon {
+      margin-left: 0px;
+      margin-right: 8px;
+  }
+}
 .ant-btn.Secondary .anticon.iconDisplay{
   display:block;
   color: $primary-color;

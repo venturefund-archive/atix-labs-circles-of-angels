@@ -1,24 +1,22 @@
-import { Row } from 'antd';
+import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
+import ModalLogin from 'components/organisms/ModalLogin/ModalLogin';
 import Navigation from 'components/organisms/Navigation';
 import React, { useState } from 'react';
 
 function Login() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   return (
-    <Row
-      className="Landing"
-      style={{
-        backgroundImage: 'url(./static/images/COA-Login-Image-Background.png)',
-        backgroundSize: 'cover',
-        backgroundPositionX: 'center'
-      }}
-    >
+    <BackgroundLanding>
       <Navigation
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
-    </Row>
+      <ModalLogin
+        visibility={modalOpen}
+        setVisibility={setModalOpen}
+      />
+    </BackgroundLanding>
   );
 }
 

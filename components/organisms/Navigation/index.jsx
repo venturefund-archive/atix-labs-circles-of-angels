@@ -5,7 +5,6 @@ import { Drawer, Row, Col } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import CustomButton from 'components/atoms/CustomButton/CustomButton'
 import customConfig from 'custom-config';
-import ModalLogin from '../ModalLogin/ModalLogin'
 import './_style.scss';
 
 const DrawerTitle = () => (
@@ -17,8 +16,6 @@ const DrawerTitle = () => (
 
 
 const TopBarOptions = ({
-  visibility,
-  setVisibility,
   onLoginClick,
 }) => (
   <div className="TopBarOptions">
@@ -28,17 +25,10 @@ const TopBarOptions = ({
       theme="Secondary"
       onClick={onLoginClick}
     />
-
-    <ModalLogin
-      data-testid="modal"
-      visibility={visibility}
-      setVisibility={setVisibility}
-    />
   </div>
 )
 const TopBarNavigation = ({
   onMenuClick,
-  modalOpen,
   setModalOpen,
 }) => (
   <Row className="TopBar" type="flex" justify="space-between" align="middle">
@@ -57,8 +47,6 @@ const TopBarNavigation = ({
       </picture>
     </Col>
     <TopBarOptions
-      visibility={modalOpen}
-      setVisibility={setModalOpen}
       onLoginClick={() => {
         setModalOpen(true)
       }}
@@ -66,14 +54,12 @@ const TopBarNavigation = ({
   </Row>
 );
 
-const Navigation = ({ onLogin }) => {
-  const [modalOpen, setModalOpen] = useState(onLogin);
+const Navigation = ({ onLogin, setModalOpen }) => {
   const [drawerOpen, setDrawerOpen] = useState(onLogin);
 
   return (
     <>
       <TopBarNavigation
-        modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         onMenuClick={() => setDrawerOpen(true)}
       />
@@ -111,32 +97,28 @@ export default Navigation;
 
 TopBarNavigation.defaultProps = {
   onMenuClick: () => undefined,
-  modalOpen: false,
   setModalOpen: () => undefined,
 }
 
 TopBarNavigation.propTypes = {
   onMenuClick: PropTypes.func,
-  modalOpen: PropTypes.bool,
   setModalOpen: PropTypes.func,
 }
 
 TopBarOptions.defaultProps = {
-  visibility: false,
-  setVisibility: () => undefined,
   onLoginClick: () => undefined,
 }
 
 TopBarOptions.propTypes = {
-  visibility: PropTypes.bool,
-  setVisibility: PropTypes.func,
   onLoginClick: PropTypes.func
 }
 
 Navigation.defaultProps = {
-  onLogin: false
+  onLogin: false,
+  setModalOpen: () => undefined
 };
 
 Navigation.propTypes = {
-  onLogin: PropTypes.bool
+  onLogin: PropTypes.bool,
+  setModalOpen: PropTypes.func
 };

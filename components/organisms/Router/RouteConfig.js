@@ -1,3 +1,4 @@
+import SecretKey from 'pages/secret-key';
 import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
 import MyProjects from '../../../pages/my-projects';
@@ -63,6 +64,16 @@ export const routesConfig = [
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
+    }
+  },
+  {
+    path: '/:projectId/secret-key',
+    component: SecretKey,
+    withHeader: false,
+    withSideBar: false,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR,COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
     }
   },
   {
@@ -183,4 +194,4 @@ export const routesConfig = [
       required: false
     }
   }
-];
+]
