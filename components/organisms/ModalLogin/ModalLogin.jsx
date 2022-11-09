@@ -16,23 +16,24 @@ import { useUserContext } from '../../utils/UserContext';
 import DynamicForm from '../FormLogin/FormLogin';
 import ModalRecovery from '../ModalRecovery/ModalRecovery';
 import { loginUser } from '../../../api/userApi';
-import { defaultRouteByRole } from '../../../constants/DefaultRouteByRole';
 import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
   const { changeUser } = useUserContext();
   const [onLoginRoute, setOnLoginRoute] = useState(false);
+  const [closable, setClosable] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
-    setOnLoginRoute(window.location.pathname.includes('/login'));
-  }, []);
+    setOnLoginRoute(history.location.pathname.includes('/login'));
+  }, [history.location.pathname]);
 
   useEffect(() => {
     if (onLoginRoute) {
       setVisibility(true);
+      setClosable(false);
     }
-  }, [onLoginRoute, setOnLoginRoute, setVisibility]);
+  }, [onLoginRoute, setVisibility]);
 
   const onLoginSubmit = async (email, pwd, clearFields) => {
     // Return an object to provide feedback after submitting
@@ -43,42 +44,50 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     };
     try {
       const user = await loginUser(email, pwd);
+      result.user = user;
       changeUser(user);
-      const { role, forcePasswordChange } = user;
+      const { isAdmin, forcePasswordChange, first = true } = user;
 
-      if (forcePasswordChange) history.push('/password-change');
-      else history.push(defaultRouteByRole[role]);
+      let nextRoute = '/';
+
+      if (first) {
+        nextRoute = 'secret-key';
+      } else if (forcePasswordChange) {
+        nextRoute = '/password-change';
+      } else if (isAdmin) {
+        nextRoute = '/my-projects';
+      } else {
+        nextRoute = '/'
+      }
 
       clearFields();
-      result.user = user;
-    } catch (error) {
-      if (error !== 'Invalid user or password') {
-        message.error(error);
+      history.push(nextRoute);
+    } catch (e) {
+      if (e !== 'Invalid user or password') {
+        message.error(e)
       }
-      result.error = error;
+      result.error = e
     }
     return result
   };
 
   return (
-    <div>
-      <Modal
-        visible={visibility}
-        onOk={() => setVisibility(false)}
-        onCancel={() => setVisibility(false)}
-        className="ModalLogin"
-        closable={!onLoginRoute}
-        mask={!onLoginRoute}
-        maskClosable
-        footer={null}
-      >
-        <LogoWrapper textTitle="Log In" />
-        <DynamicForm onSubmit={onLoginSubmit} />
-        <div className="flex link">
-          <ModalRecovery />
-        </div>
-      </Modal>
-    </div>
+    <Modal
+      visible={visibility}
+      onOk={() => setVisibility(false)}
+      onCancel={() => setVisibility(false)}
+      className="ModalLogin"
+      closable={closable}
+      mask={!onLoginRoute}
+      maskClosable={closable}
+      footer={null}
+    >
+      <LogoWrapper textTitle="Log In" />
+      <DynamicForm onSubmit={onLoginSubmit} />
+      <div className="flex link">
+        <ModalRecovery />
+      </div>
+    </Modal>
   );
 };
 

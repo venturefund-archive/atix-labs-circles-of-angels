@@ -8,27 +8,25 @@
  */
 
 import React, { useState } from 'react';
-import { Row } from 'antd';
 import '../_style.scss';
 import './_landing.scss';
-import customConfig from 'custom-config';
 import Navigation from 'components/organisms/Navigation';
+import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
+import ModalLogin from 'components/organisms/ModalLogin/ModalLogin';
 
 function Landing() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <Row
-      className="Landing"
-      style={{
-        background: `url(${customConfig.BACKGROUND_PATH}) top left / cover no-repeat`
-      }}
-    >
+    <BackgroundLanding>
       <Navigation
-        modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
-    </Row >
+      <ModalLogin
+        visibility={modalOpen}
+        setVisibility={setModalOpen}
+      />
+    </BackgroundLanding>
   );
 }
 
