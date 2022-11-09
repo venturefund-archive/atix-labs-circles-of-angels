@@ -1,10 +1,17 @@
 @import '../../../css/general_styling.scss';
+@import '../../../css/variables.scss';
+
 
 .ProjectCard {
   min-height: 374px;
   margin-bottom: 8px;
   cursor: pointer;
 
+  .ant-tag-blue {
+    color: $blue-tag-color;
+    background: $blue-tag-background;
+    border-color: $blue-tag-color;
+  }
   .ProjectDescription {
     width: 100%;
     height: 270px;

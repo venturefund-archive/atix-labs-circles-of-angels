@@ -8,7 +8,6 @@
  */
 
 const projectStatusMap = {
-  new: { name: 'New', color: 'blue' },
   draft: { name: 'Draft', color: 'blue' },
   toreview: { name: 'To Review' },
   rejected: { name: 'Rejected', color: 'red' },
