@@ -54,7 +54,7 @@ export const getErrorMessagesField = (currentErrorState = [], errorsToShow = [])
 };
 
 export const generateQueryString = queries => {
-  const result = '?' + new URLSearchParams(queries).toString();
+  const result = `?${ new URLSearchParams(queries).toString()}`;
   return result;
 };
 
