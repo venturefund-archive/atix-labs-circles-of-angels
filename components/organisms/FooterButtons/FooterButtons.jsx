@@ -7,7 +7,7 @@ const FooterButtons = ({ finishButton, nextStepButton, prevStepButton }) => (
   <Row
     className="FooterButtons"
     type="flex"
-    justify="space-between"
+    justify="space-around"
     align="middle"
   >
     <Row type="flex" justify="start">
