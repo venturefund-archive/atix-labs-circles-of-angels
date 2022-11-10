@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
+import { useHistory } from 'react-router';
 
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
@@ -12,11 +13,13 @@ const getIdFromPath = () => {
     return pathParts[pathParts.length - 1];
 };
 
-const goBack = () => window.history.goBack();
-
 
 const PreviewProject = () => {
     const id = getIdFromPath();
+    const history = useHistory();
+
+    const goBack = () => history.push('/');
+
     const [loading, setLoading] = useState(true);
     const [project, setProject] = useState({
         title: '',
@@ -28,7 +31,6 @@ const PreviewProject = () => {
         if (response.errors || !response.data) {
             message.error('An error occurred while fetching the project');
             goBack();
-            setLoading((prevState) => !prevState);
             return;
         }
 
@@ -44,6 +46,8 @@ const PreviewProject = () => {
 
     useEffect(() => {
         fetchProject(id);
+
+        // eslint-disable-next-line
     }, [id]);
 
     if (loading) return <Loading />;
