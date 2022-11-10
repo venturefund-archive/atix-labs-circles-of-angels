@@ -7,17 +7,72 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
-import { Typography, Button, Modal, Divider } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Typography, Button, Modal, Divider, Form } from 'antd';
 import CustomButton from 'components/atoms/CustomButton/CustomButton';
 import Field from 'components/atoms/Field/Field';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
+import jsPDF from 'jspdf';
+import customConfig from 'custom-config';
+import { parseInt } from 'lodash';
 
-// const generatePin = () => Math.floor(100000 + Math.random() * 900000);
+function SecretKeyValidator({ secretKey, onSuccess }) {
+  const [field, setField] = useState({
+    type: 'password',
+    name: 'secret-key',
+    placeholder: 'Enter your secret key',
+    value: '',
+    validateStatus: '',
+    help: ''
+  });
 
+  const isValid = (value, _secretKey) => parseInt(value) === _secretKey;
+  const handleChange = (e) => {
+    const { value } = e.target
+    const valid = isValid(value, secretKey);
+    setField(oldField => ({
+      ...oldField,
+      value,
+      validateStatus: valid ? 'success' : 'error',
+      help: !valid ? 'Must match Secret Key' : '',
+    }))
+  }
+
+  useEffect(() => {
+    if (isValid(field.value, secretKey)) {
+      onSuccess()
+    }
+  }, [field.value, onSuccess, secretKey])
+
+  return (
+    <Form>
+      <Field {...field} handleChange={handleChange} />
+    </Form>
+  )
+}
+
+const generatePDF = (content) => {
+  const doc = jsPDF();
+  doc.text(`${content}`, 10, 10);
+  return doc
+}
 function ModalSecretKey({ modalOpen, onSuccess }) {
   const [first] = useState(false);
+  const [pin, setPin] = useState();
+  const [doc, setDoc] = useState();
+  const [disabled, setDisabled] = useState(true);
+
+
+  useEffect(() => {
+    const _pin = Math.floor(100000 + Math.random() * 900000);
+    setPin(_pin)
+    setDoc(generatePDF(_pin))
+  }, []);
+
+  const saveSecretKey = () => {
+    doc.save(`${customConfig.NAME} - secret key.pdf`);
+  }
 
   return (
     <Modal
@@ -27,7 +82,11 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       maskClosable={false}
       className={`ChangePasswordSuccess ${first ? 'First' : ''}`}
       footer={(
-        <Button className="ant-btn ant-btn-primary" onClick={onSuccess}>
+        <Button
+          className="ant-btn ant-btn-primary"
+          disabled={disabled}
+          onClick={onSuccess}
+        >
           Confirm
         </Button>
       )}
@@ -43,6 +102,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
         icon="download"
         classNameIcon='iconDisplay'
         theme='Secondary Left'
+        onClick={saveSecretKey}
         style={{
           display: 'flex',
           border: 'solid 1px #4c7ff7',
@@ -62,18 +122,24 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       >
         Secret Key
       </Typography.Text>
-      <Field
-        name='secretKey'
-        placeholder='Enter your secret key'
-        type='password'
-      />
+      <SecretKeyValidator secretKey={pin} onSuccess={() => setDisabled(false)} />
     </Modal>
   );
 };
 
+SecretKeyValidator.defaultProps = {
+  secretKey: NaN,
+  onSuccess: () => undefined,
+}
+
+SecretKeyValidator.propTypes = {
+  secretKey: PropTypes.number,
+  onSuccess: PropTypes.func
+}
+
 ModalSecretKey.defaultProps = {
   modalOpen: false,
-  onSuccess: () => undefined
+  onSuccess: () => undefined,
 };
 
 ModalSecretKey.propTypes = {

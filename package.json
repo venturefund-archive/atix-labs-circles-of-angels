@@ -26,6 +26,7 @@
     "conf": "2.2.0",
     "ethers": "git+https://github.com/atixlabs/ethers.js.git#v4.0.45",
     "js-cookie": "2.2.0",
+    "jspdf": "^2.5.1",
     "linkifyjs": "2.1.8",
     "lodash": "4.17.11",
     "moment": "2.24.0",
