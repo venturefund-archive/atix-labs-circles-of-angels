@@ -444,38 +444,37 @@ button.blueLink:hover::before {
 }
 
 .ant-tag {
-  border-radius: 20px;
-  border-color: transparent;
-  font-size: 12.5px;
-  border-radius: 30px;
-  padding: 0 0.8em;
-  height: 27px;
-  line-height: 23px;
-  font-weight: 400;
-  b {
-    color: inherit;
-    font-weight: 500;
-  }
+  font-size: 10px;
+  line-height: 12px;
+  padding: 5px 10px;
+  border-radius: 40px;
+  color: $tag-grey-color;
+  background: $tag-grey-bg;
+  border: solid 1px $tag-grey-color;
 }
 .ant-tag-cyan {
   color: $cyan;
   background: $cyanbg;
 }
 .ant-tag-green {
-  color: #20bac3;
-  background: #adf8fd;
+  color: $tag-green-color;
+  background: $tag-green-bg;
+  border: solid 1px $tag-green-color;
 }
 .ant-tag-red {
-  color: #ff6f6f;
-  background: #ffe2e2;
+  color: $tag-red-color;
+  background: $tag-red-bg;
+  border: solid 1px $tag-red-color;
 }
-.ant-tag-gold {
-  color: #fe9f3b;
-  background: #ffecd5;
+.ant-tag-yellow {
+  color: $tag-yellow-color;
+  background: $tag-yellow-bg;
+  border: solid 1px $tag-yellow-color;
 }
 .ant-tag-blue {
-  color: #6f52ed;
-  background: #eae8fd;
+  color: $tag-blue-color;
+  background: $tag-blue-bg;
+  border: solid 1px $tag-blue-color;
 }
 .ant-tag.Follow {
   color: $primary-color;

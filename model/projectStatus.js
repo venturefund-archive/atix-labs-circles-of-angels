@@ -8,13 +8,11 @@
  */
 
 const projectStatusMap = {
-  new: { name: 'New', color: 'blue' },
-  draft: { name: 'Draft', color: 'blue' },
-  toreview: { name: 'To Review' },
+  draft: { name: 'Draft' },
   rejected: { name: 'Rejected', color: 'red' },
   deleted: { name: 'Deleted', color: 'red' },
   published: { name: 'Published', color: 'green' },
-  consensus: { name: 'Consensus', color: 'gold' },
+  consensus: { name: 'Consensus', color: 'yellow' },
   funding: { name: 'Funding', color: 'blue' },
   executing: { name: 'Executing', color: 'green' },
   changingscope: { name: 'Changing Scope', color: 'gold' },
