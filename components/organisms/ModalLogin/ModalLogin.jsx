@@ -46,11 +46,11 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       const user = await loginUser(email, pwd);
       result.user = user;
       changeUser(user);
-      const { isAdmin, forcePasswordChange, first = true } = user;
+      const { isAdmin, forcePasswordChange, pin } = user;
 
       let nextRoute = '/';
 
-      if (first) {
+      if (!pin) {
         nextRoute = 'secret-key';
       } else if (forcePasswordChange) {
         nextRoute = '/password-change';
