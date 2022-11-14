@@ -40,7 +40,7 @@ api.interceptors.request.use(
 
     const _config = config;
 
-    if (accessToken) _config.headers.authorization = `Bearer ${accessToken}`;
+    if (accessToken) _config.headers.authorization = accessToken;
 
     if (requestsInQueue === 0) loadingMessage.loading('Loading...', 0);
     requestsInQueue++;

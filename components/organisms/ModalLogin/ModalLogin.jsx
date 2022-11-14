@@ -47,7 +47,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       const response = await loginUser(email, pwd);
       const user = response?.data;
       const authorization = response?.headers?.authorization;
-      sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
+      if (authorization) sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
       result.user = user;
       changeUser(user);
       const { isAdmin, forcePasswordChange, pin } = user;
