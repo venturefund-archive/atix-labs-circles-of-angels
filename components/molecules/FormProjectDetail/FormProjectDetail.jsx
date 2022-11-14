@@ -39,7 +39,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
     additionalCurrencyInformation,
     legalAgreementFile,
     projectProposalFile
-  } = project?.details;
+  } = project?.details || {};
 
   const legalAgreementFileCompletePath =
     legalAgreementFile && `${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`;

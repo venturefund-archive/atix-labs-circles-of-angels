@@ -53,28 +53,17 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const thumbnailPhotoError = getFieldError('thumbnailPhoto');
   const timeframeError = getFieldError('timeframe');
 
-  const { projectName = 'Project Name', timeframe } = currentBasicInformation;
-  let { timeframeUnit, location, thumbnailPhoto } = currentBasicInformation;
+  const projectName = currentBasicInformation?.projectName || 'Project Name';
+  const timeframe = currentBasicInformation?.timeframe;
+  const timeframeUnit = currentBasicInformation?.timeframeUnit || 'months';
+  const location = currentBasicInformation?.location;
+  const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
-  timeframeUnit = timeframeUnit || 'months';
-  location = location || undefined;
-  thumbnailPhoto = thumbnailPhoto || undefined;
-
-  const {
-    status,
-    beneficiary: { firstName: beneficiaryFirstName, lastName: beneficiaryLastName } = {
-      firstName: undefined,
-      lastName: undefined
-    }
-  } = project;
-
-  let {
-    details: { currency },
-    budget
-  } = project;
-
-  currency = currency || 'USD';
-  budget = budget || 0;
+  const status = project?.status;
+  const beneficiaryFirstName = project?.beneficiary?.firstName;
+  const beneficiaryLastName = project?.beneficiary?.lastName;
+  const currency = project?.details?.currency || 'USD';
+  const budget = project?.budget || 0;
 
   useEffect(() => {
     const getAndSetCountriesAvailable = async () => {
@@ -213,10 +202,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 <p>Budget</p>
               </Col>
               <Col span={6}>
-                <p>Name</p>
                 <p>
                   {beneficiaryFirstName} {beneficiaryLastName}
                 </p>
+                <p>Beneficiary name</p>
               </Col>
             </Row>
           </Col>
