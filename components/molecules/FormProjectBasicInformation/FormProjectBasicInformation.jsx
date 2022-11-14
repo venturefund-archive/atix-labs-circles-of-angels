@@ -202,10 +202,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 <p>Budget</p>
               </Col>
               <Col span={6}>
-                <p>Name</p>
                 <p>
                   {beneficiaryFirstName} {beneficiaryLastName}
                 </p>
+                <p>Beneficiary name</p>
               </Col>
             </Row>
           </Col>
