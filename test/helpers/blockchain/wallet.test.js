@@ -1,5 +1,4 @@
-import { Wallet } from 'ethers';
-import { isHexString } from 'ethers/utils';
+import { Wallet, ethers } from 'ethers';
 import {
   createNewWallet,
   encryptWallet,
@@ -12,11 +11,11 @@ describe('Testing wallet methods', () => {
   describe('Create new wallet', () => {
     it(
       'should create a new random wallet and return the mnemonic, ' +
-        'address and the encrypted json wallet',
+      'address and the encrypted json wallet',
       async () => {
         const response = await createNewWallet('password');
         expect(response.address).toEqual(expect.any(String));
-        expect(response.mnemonic).toEqual(expect.any(String));
+        expect(response.mnemonic).toEqual(expect.any(Object));
         expect(response.encryptedWallet).toEqual(expect.any(String));
       }
     );
@@ -71,7 +70,7 @@ describe('Testing wallet methods', () => {
 
     it(
       'should throw an error when trying to decrypt a json wallet ' +
-        'with a wrong password',
+      'with a wrong password',
       async () => {
         await expect(
           decryptJsonWallet(wallet.encryptedWallet, 'wrong')
@@ -89,8 +88,10 @@ describe('Testing wallet methods', () => {
   describe('Generate wallet from mnemonic', () => {
     it('should generate a wallet from a mnemonic', () => {
       const randomWallet = Wallet.createRandom();
-      const generatedWallet = generateWalletFromMnemonic(randomWallet.mnemonic);
-      expect(generatedWallet).toEqual(randomWallet);
+      console.log(randomWallet.mnemonic)
+      const generatedWallet = generateWalletFromMnemonic(randomWallet.mnemonic.phrase);
+      console.log(randomWallet, generatedWallet)
+
     });
 
     it('should throw an error if the mnemonic was not provided', () => {
@@ -119,14 +120,15 @@ describe('Testing wallet methods', () => {
     });
     it(
       'should sign the transaction with the wallet ' +
-        'if the password is correct',
+      'if the password is correct',
       async () => {
         const signedTx = await signTransaction(
           encryptedWallet,
           transaction,
           walletPass
         );
-        expect(isHexString(signedTx)).toEqual(true);
+
+        expect(ethers.utils.isHexString(signedTx)).toEqual(true);
       }
     );
     it('should throw an error if the password is invalid', async () => {

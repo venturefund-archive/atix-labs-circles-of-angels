@@ -85,7 +85,26 @@ export const routesConfig = [
     }
   },
   {
+    path: '/secret-key',
+    component: SecretKey,
+    withHeader: false,
+    withSideBar: false,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR,COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
+    }
+  },
+  {
     path: '/:projectId/reset-password',
+    component: ResetPassword,
+    withHeader: false,
+    withSideBar: false,
+    authentication: {
+      required: false
+    }
+  },
+  {
+    path: '/reset-password',
     component: ResetPassword,
     withHeader: false,
     withSideBar: false,

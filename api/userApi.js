@@ -89,6 +89,10 @@ const createUser = async user => doPost(`${baseURL}`, user);
 
 const sendWelcomeEmail = async data => doPost(`${baseURL}/welcome-email`, data);
 
+const setPin = async () => doPut(`${baseURL}/pin`);
+
+const setWallet = async (data) => doPost(`${baseURL}/wallet`, data);
+
 export {
   loginUser,
   getOracles,
@@ -109,5 +113,7 @@ export {
   getMnemonicFromToken,
   confirmEmail,
   createUser,
-  sendWelcomeEmail
+  sendWelcomeEmail,
+  setPin,
+  setWallet
 };

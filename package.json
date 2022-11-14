@@ -24,7 +24,7 @@
     "axios": "0.18.0",
     "blob-to-buffer": "1.2.8",
     "conf": "2.2.0",
-    "ethers": "git+https://github.com/atixlabs/ethers.js.git#v4.0.45",
+    "ethers": "^5.0.19",
     "js-cookie": "2.2.0",
     "jspdf": "^2.5.1",
     "linkifyjs": "2.1.8",

@@ -85,7 +85,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
         <Button
           className="ant-btn ant-btn-primary"
           disabled={disabled}
-          onClick={onSuccess}
+          onClick={() => onSuccess(pin)}
         >
           Confirm
         </Button>
@@ -113,6 +113,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       <Divider />
       <Typography.Paragraph>
         Enter the secret key you downloaded in the previous step.
+        {pin}
       </Typography.Paragraph>
       <Typography.Text
         style={{
