@@ -11,6 +11,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import { ACCESS_TOKEN_KEY } from 'constants/constants';
 
 export const UserContext = React.createContext({});
 
@@ -24,6 +25,7 @@ const changeUser = user => {
 
 const removeUser = () => {
   Cookies.remove(USER_KEY);
+  sessionStorage.removeItem(ACCESS_TOKEN_KEY);
 };
 
 const getLoggedUser = () => {

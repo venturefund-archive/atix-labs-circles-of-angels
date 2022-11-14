@@ -19,7 +19,7 @@ const getFollowedProjects = async () => apiCall('get', `${baseURL}/followed-proj
 
 const getAppliedProjects = async () => apiCall('get', `${baseURL}/applied-projects`);
 
-const loginUser = (email, pwd) => apiCall('post', `${baseURL}/login`, { email, pwd });
+const loginUser = (email, pwd) => doPost(`${baseURL}/login`, { email, pwd });
 
 const getOracles = async () => {
   try {
