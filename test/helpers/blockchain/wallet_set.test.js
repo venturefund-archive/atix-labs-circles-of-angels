@@ -2,7 +2,8 @@ import { Wallet } from 'ethers';
 import { generateWalletFromPin } from 'helpers/blockchain/wallet';
 
 describe('Generate wallet from pin', () => {
-  let pin, generated
+  let pin;
+  let generated;
   beforeEach(async () => {
     pin = '123456'
     generated = await generateWalletFromPin(pin)

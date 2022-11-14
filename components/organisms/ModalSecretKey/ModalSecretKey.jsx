@@ -113,7 +113,6 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       <Divider />
       <Typography.Paragraph>
         Enter the secret key you downloaded in the previous step.
-        {pin}
       </Typography.Paragraph>
       <Typography.Text
         style={{

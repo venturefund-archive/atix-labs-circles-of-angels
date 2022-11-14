@@ -14,9 +14,10 @@ describe('Testing wallet methods', () => {
       'address and the encrypted json wallet',
       async () => {
         const response = await createNewWallet('password');
+        console.log(response)
         expect(response.address).toEqual(expect.any(String));
         expect(response.mnemonic).toEqual(expect.any(Object));
-        expect(response.encryptedWallet).toEqual(expect.any(String));
+        expect(response.wallet).toEqual(expect.any(String));
       }
     );
     it('should throw an error if no password was provided', async () => {
@@ -62,7 +63,7 @@ describe('Testing wallet methods', () => {
     });
     it('should decrypt a json wallet with a password and match the address', async () => {
       const decrypted = await decryptJsonWallet(
-        wallet.encryptedWallet,
+        wallet.wallet,
         walletPass
       );
       expect(decrypted.address).toEqual(wallet.address);
@@ -73,13 +74,13 @@ describe('Testing wallet methods', () => {
       'with a wrong password',
       async () => {
         await expect(
-          decryptJsonWallet(wallet.encryptedWallet, 'wrong')
+          decryptJsonWallet(wallet.wallet, 'wrong')
         ).rejects.toThrow('invalid password');
       }
     );
 
     it('should throw an error is the password is not provided', async () => {
-      await expect(decryptJsonWallet(wallet.encryptedWallet)).rejects.toThrow(
+      await expect(decryptJsonWallet(wallet.wallet)).rejects.toThrow(
         'a password is required to decrypt a wallet'
       );
     });
@@ -88,10 +89,9 @@ describe('Testing wallet methods', () => {
   describe('Generate wallet from mnemonic', () => {
     it('should generate a wallet from a mnemonic', () => {
       const randomWallet = Wallet.createRandom();
-      console.log(randomWallet.mnemonic)
       const generatedWallet = generateWalletFromMnemonic(randomWallet.mnemonic.phrase);
-      console.log(randomWallet, generatedWallet)
 
+      expect(generatedWallet.address).toEqual(randomWallet.address);
     });
 
     it('should throw an error if the mnemonic was not provided', () => {
@@ -116,7 +116,7 @@ describe('Testing wallet methods', () => {
     const walletPass = 'password';
     let encryptedWallet;
     beforeAll(async () => {
-      ({ encryptedWallet } = await createNewWallet(walletPass));
+      ({ wallet: encryptedWallet } = await createNewWallet(walletPass));
     });
     it(
       'should sign the transaction with the wallet ' +

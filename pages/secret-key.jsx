@@ -10,22 +10,26 @@ import { useHistory } from 'react-router';
 
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
-  const user = useUserContext();
+  const { getLoggedUser } = useUserContext();
   const history = useHistory()
 
   const savePin = async (pin) => {
     const success = await setPin();
     const wallet = await generateWalletFromPin(pin)
-    let route = '/'
-    if (success) {
-      if (user.isBackofficeAdmin) {
-        route = '/my-proyects'
-      }
-      const { data } = await setWallet(wallet)
-      if (data.id) {
-        history.push(route)
-      }
+    const user = getLoggedUser()
+    const { data } = await setWallet(wallet)
+
+    if (success && data.id) {
+      redirect(user)
     }
+  }
+
+  const redirect = (user) => {
+    let route = '/'
+    if (user.isAdmin) {
+      route = '/my-proyects'
+    }
+    history.push(route)
   }
 
   return (
