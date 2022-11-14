@@ -10,6 +10,7 @@
 
 import { message } from 'antd';
 import axios from 'axios';
+import { ACCESS_TOKEN_KEY } from 'constants/constants';
 import formatError from '../helpers/errorFormatter';
 
 export const getBaseURL = () => process.env.NEXT_PUBLIC_URL_HOST;
@@ -19,9 +20,7 @@ const baseURL = getBaseURL();
 const api = axios.create({
   baseURL,
   timeout: 60000,
-  headers: { 'content-type': 'application/json' },
-  credentials: 'same-origin',
-  withCredentials: true
+  headers: { 'content-type': 'application/json' }
 });
 
 const loadingMessage = message;
@@ -37,12 +36,16 @@ const handleResponseQueue = currentRequestsInQueue => {
 
 api.interceptors.request.use(
   config => {
-    if (requestsInQueue === 0) {
-      loadingMessage.loading('Loading...', 0);
-    }
+    const accessToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
+
+    const _config = config;
+
+    if (accessToken) _config.headers.authorization = `Bearer ${accessToken}`;
+
+    if (requestsInQueue === 0) loadingMessage.loading('Loading...', 0);
     requestsInQueue++;
 
-    return config;
+    return _config;
   },
   error => Promise.reject(error)
 );

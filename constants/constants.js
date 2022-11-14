@@ -192,3 +192,5 @@ export const ERROR_MESSAGES = {
 };
 
 export const KB_FACTOR_CONVERTER = 1000;
+
+export const ACCESS_TOKEN_KEY = 'accessToken';

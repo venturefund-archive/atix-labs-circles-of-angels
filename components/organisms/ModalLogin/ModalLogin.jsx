@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import './_style.scss';
 import { useHistory } from 'react-router';
+import { ACCESS_TOKEN_KEY } from 'constants/constants';
 import { useUserContext } from '../../utils/UserContext';
 import DynamicForm from '../FormLogin/FormLogin';
 import ModalRecovery from '../ModalRecovery/ModalRecovery';
@@ -41,9 +42,12 @@ const ModalLogin = ({ setVisibility, visibility }) => {
     if (!email || !pwd || email === '' || pwd === '') {
       result.error = 'Must add fields';
       return result;
-    };
+    }
     try {
-      const user = await loginUser(email, pwd);
+      const response = await loginUser(email, pwd);
+      const user = response?.data;
+      const authorization = response?.headers?.authorization;
+      sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
       result.user = user;
       changeUser(user);
       const { isAdmin, forcePasswordChange, pin } = user;
@@ -57,18 +61,18 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       } else if (isAdmin) {
         nextRoute = '/my-projects';
       } else {
-        nextRoute = '/'
+        nextRoute = '/';
       }
 
       clearFields();
       history.push(nextRoute);
     } catch (e) {
       if (e !== 'Invalid user or password') {
-        message.error(e)
+        message.error(e);
       }
-      result.error = e
+      result.error = e;
     }
-    return result
+    return result;
   };
 
   return (
