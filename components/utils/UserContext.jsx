@@ -10,21 +10,18 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
-import { ACCESS_TOKEN_KEY } from 'constants/constants';
+import { ACCESS_TOKEN_KEY, USER_KEY } from 'constants/constants';
 
 export const UserContext = React.createContext({});
 
 export const withUser = c => c;
 
-const USER_KEY = 'user';
-
 const changeUser = user => {
-  Cookies.set(USER_KEY, user);
+  sessionStorage.setItem(USER_KEY, JSON.stringify(user));
 };
 
 const removeUser = () => {
-  Cookies.remove(USER_KEY);
+  sessionStorage.removeItem(USER_KEY);
   sessionStorage.removeItem(ACCESS_TOKEN_KEY);
 };
 
@@ -32,7 +29,7 @@ const getLoggedUser = () => {
   let user;
 
   try {
-    user = Cookies.getJSON(USER_KEY);
+    user = JSON.parse(sessionStorage.getItem(USER_KEY));
   } catch (error) {
     user = {};
   }
