@@ -357,7 +357,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
       <FooterButtons
         prevStepButton={(() => (
           <CoaButton onClick={goBack} type="secondary">
-            Back
+            <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
         nextStepButton={(() => (

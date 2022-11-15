@@ -9,10 +9,11 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import './assign-project-users.scss';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import _ from 'lodash';
 import { getCountries } from 'api/countriesApi';
 import { ROLES_IDS } from './constants';
@@ -175,17 +176,19 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       <FooterButtons
         prevStepButton={(() => (
-          <Button onClick={goBack}>Back</Button>
+          <CoaButton type="secondary" onClick={goBack}>
+            <Icon type="arrow-left" /> Back
+          </CoaButton>
         ))()}
         nextStepButton={(() => (
           <div className="formProjectUsers__buttons__right">
-            <Button
+            <CoaButton
               type="primary"
               className="formProjectUsers__footer"
               onClick={handleSubmitAssign}
             >
               Save and continue
-            </Button>
+            </CoaButton>
           </div>
         ))()}
       />

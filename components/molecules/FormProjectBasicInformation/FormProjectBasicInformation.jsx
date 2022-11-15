@@ -443,7 +443,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       <FooterButtons
         prevStepButton={(() => (
           <CoaButton onClick={goBack} type="secondary">
-            Back
+            <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
         nextStepButton={(() => (
