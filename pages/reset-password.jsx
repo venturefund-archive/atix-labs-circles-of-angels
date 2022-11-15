@@ -47,7 +47,7 @@ function ResetPassword() {
 
       if (mnemonic) {
         const decrypted = generateWalletFromMnemonic(mnemonic);
-        const encryptedWallet = await encryptWallet(decrypted);
+        const encryptedWallet = await encryptWallet(decrypted, newPassword);
         const { address } = decrypted;
         data = { ...data, address, mnemonic, encryptedWallet };
       } else {
