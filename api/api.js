@@ -80,7 +80,7 @@ export const makeApiRequest = async (method, url, body, config) => {
     status = result?.status;
   } catch (error) {
     errors = formatError(error);
-    status = error.response.status;
+    status = error?.response?.status;
   }
 
   return { data, headers, errors, body, status };
