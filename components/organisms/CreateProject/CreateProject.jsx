@@ -1,31 +1,36 @@
-import React, { Fragment } from 'react';
-import { Col, Breadcrumb, Row, Button } from 'antd';
+import React from 'react';
+import { Breadcrumb, Icon } from 'antd';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
+import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import FooterButtons from '../FooterButtons/FooterButtons';
 import ModalProjectCreated from '../ModalProjectCreated/ModalProjectCreated';
-import CustomButton from '../../atoms/CustomButton/CustomButton';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constants';
 import './_style.scss';
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
-  <Col className="Items flex" sm={24} md={24} lg={24}>
-    <Col xs={3} sm={2} md={2} lg={1}>
+  <div className="createProject__content__steps__step">
+    <div className="createProject__content__steps__step__left">
       <img
         src={completed ? '/static/images/checked.svg' : '/static/images/unchecked.svg'}
         alt="unchecked"
       />
-    </Col>
-    <Col className="vertical" xs={15} sm={16} md={18} lg={21}>
-      <h3>{title}</h3>
-      <h5>{subtitle}</h5>
-    </Col>
-    <Col className="BlockButton" xs={6} sm={6} md={4} lg={2}>
-      <Button onClick={onClick} disabled={disabled} type="primary">
-        Edit
-      </Button>
-    </Col>
-  </Col>
+      <div>
+        <h3>{title}</h3>
+        <h4>{subtitle}</h4>
+      </div>
+    </div>
+
+    <CoaButton
+      type="ghost"
+      className="createProject__content__steps__step__button"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      Edit
+    </CoaButton>
+  </div>
 );
 
 const CreateProject = ({
@@ -36,15 +41,11 @@ const CreateProject = ({
   completedSteps,
   deleteProject
 }) => {
-  const { status, projectName } = project;
+  const { status, basicInformation } = project || {};
+  const projectName = basicInformation?.projectName || 'My project';
 
   const getContinueLaterButton = () => (
-    <CustomButton
-      buttonText={getContinueLaterLabel()}
-      theme="Secondary"
-      // TODO: show saved message? warn about losing non-saved changes?
-      onClick={goToMyProjects}
-    />
+    <CoaTextButton onClick={goToMyProjects}>{getContinueLaterLabel()}</CoaTextButton>
   );
 
   const getContinueLaterLabel = () => {
@@ -61,84 +62,70 @@ const CreateProject = ({
     const disabled = Object.values(completedSteps).some(completed => !completed);
 
     return (
-      <CustomButton
-        buttonText="Send to Review"
-        theme={disabled ? 'disabled' : 'Primary'}
-        classNameIcon="iconDisplay"
-        icon="arrow-right"
-        onClick={sendToReview}
-        disabled={disabled}
-      />
+      <CoaButton type="primary" onClick={sendToReview} disabled={disabled}>
+        Publish project <Icon type="arrow-right" />
+      </CoaButton>
     );
   };
 
   const deleteProjectButton = () => (
-    <CustomButton
-      buttonText="Delete Project"
-      theme="Alternative"
-      classNameIcon="iconDisplay"
-      icon="delete"
-      onClick={deleteProject}
-    />
+    <CoaButton type="secondary" icon="delete" onClick={deleteProject}>
+      Delete Project
+    </CoaButton>
   );
 
   return (
-    <Fragment>
-      <div className="CreateWrapper">
+    <>
+      <div className="createProject__content">
         <Breadcrumb>
           <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           <Breadcrumb.Item>
             <a href="/">Create Project</a>
           </Breadcrumb.Item>
         </Breadcrumb>
-        <TitlePage textTitle={projectName || 'My project'} />
-        <Row
-          // className="ProjectsCardsContainer"
-          type="flex"
-          justify="space-around"
-          align="middle"
-          gutter={16}
-        >
-          <Col className="ProjectsItems" sm={24} md={24} lg={24}>
-            <Items
-              title="Basic Information"
-              subtitle="Here you can assign or create users to different roles"
-              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
-              disabled={status === projectStatuses.CONSENSUS}
-              completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
-            />
-            <Items
-              title="Project Detail"
-              subtitle="Here you can complete the project information"
-              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
-              completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
-              disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
-            />
-            <Items
-              title="Project Users"
-              subtitle="Here you can assign or create users to different roles"
-              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
-              disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
-              completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
-            />
-            <Items
-              title="Project Milestones"
-              subtitle="Here you can upload the required milestones for your project"
-              onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
-              disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
-              completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
-            />
-          </Col>
-        </Row>
-        <FooterButtons
-          finishButton={sendToReviewButton()}
-          nextStepButton={getContinueLaterButton()}
-          prevStepButton={deleteProjectButton()}
-        >
-          <ModalProjectCreated />
-        </FooterButtons>
+        <TitlePage textTitle={projectName} />
+
+        <div className="createProject__content__steps">
+          <Items
+            title="Basic Information"
+            subtitle="Here you can assign or create users to different roles"
+            onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
+            disabled={status === projectStatuses.CONSENSUS}
+            completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+          />
+
+          <Items
+            title="Project Detail"
+            subtitle="Here you can complete the project information"
+            onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
+            completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
+            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+          />
+
+          <Items
+            title="Project Users"
+            subtitle="Here you can assign or create users to different roles"
+            onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
+            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+            completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
+          />
+          <Items
+            title="Project Milestones"
+            subtitle="Here you can upload the required milestones for your project"
+            onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
+            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+            completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
+          />
+        </div>
       </div>
-    </Fragment>
+      <FooterButtons
+        finishButton={sendToReviewButton()}
+        nextStepButton={getContinueLaterButton()}
+        prevStepButton={deleteProjectButton()}
+      >
+        <ModalProjectCreated />
+      </FooterButtons>
+    </>
   );
 };
 

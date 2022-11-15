@@ -2,21 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SideBar from '../SideBar/SideBar';
 import Header from '../../molecules/Header/Header';
+import './main-layout.scss';
 
-const MainLayout = ({
-  children,
-  user,
-  withHeader,
-  withSideBar,
-  authenticated
-}) => (
+const MainLayout = ({ children, user, withHeader, withSideBar, authenticated }) => (
   <div className="AppContainer">
     {withSideBar && authenticated && (
       <SideBar hasDaos={user && user.hasDaos} role={user && user.role} />
     )}
     <div className="MainContent">
       {withHeader && authenticated && <Header />}
-      <div>{children}</div>
+      <div className="mainContent__content">{children}</div>
     </div>
   </div>
 );

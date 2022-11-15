@@ -1,47 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
 // Colors
 $background: #f1f3f8;
 $surface: #fff;
-$primary-green: #0AB52F;
-$coa-blue-200: #309BFE;
+$primary-green: #0ab52f;
+$coa-blue-200: #309bfe;
 
-
-$primary-color: #4C7FF7;
-$primary-light:#dbe5fd;
-$primary-color-light:#F8FCFF;
+$primary-color: #4c7ff7;
+$primary-light: #dbe5fd;
+$primary-color-light: #f8fcff;
 $secondary-color: rgba(0, 0, 0, 0.76);
 $on-surface-medium: #728099;
-$on-surface: #26385B;
+$on-surface: #26385b;
 $success-color: #15d380;
-$success-color-light: #6FCF97;
-$danger-color: #FF6F6F;
+$success-color-light: #6fcf97;
+$danger-color: #ff6f6f;
 
-
-$light-green:rgba(32, 186, 195, 0.1);
+$light-green: rgba(32, 186, 195, 0.1);
 
 $black: #000;
 $white: #fff;
 $grey: #8b91a4;
 $medium-grey: #b1b4cc;
-$light-gray:#F3F4FB;
+$light-gray: #f3f4fb;
 $theme-color-1: linear-gradient(to bottom, #2a3890, #0083e2);
-$cyan:#E2FEFD;
-$alert-bg:#ff5722;
-$cyanbg:rgba(32, 186, 195, 0.5);
-$border: #E5E6ED;
+$cyan: #e2fefd;
+$alert-bg: #ff5722;
+$cyanbg: rgba(32, 186, 195, 0.5);
+$border: #e5e6ed;
 
 // Tag colors
-$tag-green-color: #04B100;
-$tag-blue-color: #309BFE;
-$tag-yellow-color: #FE9F30;
-$tag-red-color: #FE3030;
-$tag-grey-color: #FAF7F7;
+$tag-green-color: #04b100;
+$tag-blue-color: #309bfe;
+$tag-yellow-color: #fe9f30;
+$tag-red-color: #fe3030;
+$tag-grey-color: #faf7f7;
 
 // Tag background
-$tag-green-bg: #D1FFC6;
-$tag-blue-bg: #D4E3FF;
-$tag-red-bg: #FFD4D4;
-$tag-yellow-bg: #FFECD4;
-$tag-grey-bg: #D2D2D2;
+$tag-green-bg: #d1ffc6;
+$tag-blue-bg: #d4e3ff;
+$tag-red-bg: #ffd4d4;
+$tag-yellow-bg: #ffecd4;
+$tag-grey-bg: #d2d2d2;
 
 // Typographic Scale
 $titlebanner: 90px;
@@ -50,16 +50,16 @@ $titlemedium: 26px;
 $titlepage: 22px;
 $titlecard: 19px;
 $title: 20px;
-$labelbig:17px;
+$labelbig: 17px;
 $subtitle: 15.5px;
 $h1: 15.5px;
 $h2: 13.5px;
-$labels-bigger:15px;
-$labels:14px;
+$labels-bigger: 15px;
+$labels: 14px;
 $medium: 13.5px;
 $h3: 13.5px;
 $button: 13px;
-$body : 13px;
+$body: 13px;
 $body-2: 13px;
 $tabs: 10px;
 $label: 11px;
@@ -68,16 +68,16 @@ $label: 11px;
 $shadow: 0 3px 7px rgba(30, 30, 31, 0.05), 0 1px 3px rgba(27, 28, 29, 0.07);
 $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136, 0.15);
 
-
 // Fonts
 
-@mixin primary-text($font-size, $font-color, $font-weight) {
+@mixin primary-text($font-size, $font-color, $font-weight, $line-height: normal) {
   margin: 0;
   font-size: $font-size;
   font-weight: $font-weight;
   @if $font-color {
     color: $font-color;
   }
+  line-height: $line-height;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -85,15 +85,14 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
 
 @mixin container() {
   background: #fff;
-  box-shadow: 0 1px 6px rgba(147, 141, 158, 0.16),
-    0 2px 6px rgba(52, 53, 62, 0.28);
+  box-shadow: 0 1px 6px rgba(147, 141, 158, 0.16), 0 2px 6px rgba(52, 53, 62, 0.28);
   border-radius: 6px;
   padding: 1em;
 }
 @mixin Content {
-    height: 92vh;
-    padding: 2em 3em;
-    overflow-y: auto;
+  height: 92vh;
+  padding: 2em 3em;
+  overflow-y: auto;
 }
 @mixin Contentxs {
   height: 92vh;
@@ -163,16 +162,21 @@ $screen-lg-min: 1024px;
 
 @mixin breakpoint($media) {
   @if $media == xs {
-    @media only screen and (max-width: $screen-xs-min) { @content; }
-  }
-  @else if $media == sm {
-    @media only screen and (max-width: $screen-sm-min) { @content; }
-  }
-  @else if $media == md {
-    @media only screen and (max-width: $screen-md-min) { @content; }
-  }
-  @else if $media == lg {
-    @media only screen and (max-width: $screen-lg-min) { @content; }
+    @media only screen and (max-width: $screen-xs-min) {
+      @content;
+    }
+  } @else if $media == sm {
+    @media only screen and (max-width: $screen-sm-min) {
+      @content;
+    }
+  } @else if $media == md {
+    @media only screen and (max-width: $screen-md-min) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media only screen and (max-width: $screen-lg-min) {
+      @content;
+    }
   }
 }
 

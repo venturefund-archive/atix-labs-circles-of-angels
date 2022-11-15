@@ -1,17 +1,25 @@
-@import '../../../css/general_styling.scss';
+@import 'css/general_styling.scss';
 
-.FooterButtons {
-  width: 100%;
-  padding: 1em;
-  background: $light-gray;
-  border-top: 1px solid #e5e6ed;
-  @include breakpoint(sm) {
-    padding: 0.5em 1em;
-  }
-}
+.footerButtons {
+  &__container {
+    padding-inline: 3rem;
 
-.RightFooterButtons {
-  @include breakpoint(sm) {
-    flex-flow: column wrap;
+    display: flex;
+    justify-content: space-between;
+
+    @include breakpoint(sm) {
+      flex-direction: column;
+    }
+    align-items: center;
+    background: $light-gray;
+    border-top: 1px solid #e5e6ed;
+    @include breakpoint(sm) {
+      padding: 0.5em 1em;
+    }
+
+    &__right {
+      display: flex;
+      column-gap: 3.3rem;
+    }
   }
 }

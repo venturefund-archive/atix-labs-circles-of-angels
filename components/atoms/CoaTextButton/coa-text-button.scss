@@ -1,0 +1,8 @@
+@import 'css/variables';
+@import 'css/_general_styling.scss';
+
+.customTextButton {
+  * {
+    @include primary-text(0.875rem, $coa-blue-100, 500, 1.8rem);
+  }
+}

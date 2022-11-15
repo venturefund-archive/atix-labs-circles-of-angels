@@ -1,5 +1,13 @@
-@import 'css/variables.scss';
+@import 'css/_variables.scss';
 @import 'css/_general_styling.scss';
+
+.assignProjectUsers {
+  &__content {
+    overflow-y: auto;
+    padding-inline: 2.5rem;
+    padding-block: 2.125rem;
+  }
+}
 
 .formProjectUsers {
   &__section {

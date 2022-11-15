@@ -1,3 +1,51 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+
+.formProjectDetail {
+  &__content {
+    overflow-y: auto;
+    padding-inline: 2.5rem;
+    padding-block: 2.125rem;
+    &__form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1.5rem;
+      &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2rem;
+
+        .ant-form-item-label {
+          line-height: 1rem;
+        }
+
+        label,
+        &__label {
+          @include primary-text(0.87rem, $dark-gray, 500, 1rem);
+        }
+        .ant-form-item-label,
+        &__label {
+          margin-bottom: 0.37rem;
+        }
+
+        @include breakpoint(sm) {
+          grid-template-columns: 1fr;
+        }
+
+        &__uploadContainer {
+          display: flex;
+          column-gap: 1.75rem;
+          align-items: center;
+        }
+
+        &__note {
+          @include primary-text(0.87rem, $dark-gray, 400, 1rem);
+        }
+      }
+    }
+  }
+}
+
 .form__footer {
   background: #f3f4fb;
   padding: 1.3rem 0 1.3rem 3.7rem;

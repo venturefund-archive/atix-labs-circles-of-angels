@@ -1,9 +1,10 @@
 /* eslint-disable func-names */
-import { Button, Icon, Upload } from 'antd';
+import { Upload } from 'antd';
 import { ERROR_TYPES } from 'constants/constants';
 import { getErrorMessagesField } from 'helpers/utils';
 import _ from 'lodash';
 import React, { useState } from 'react';
+import { CoaButton } from '../CoaButton/CoaButton';
 
 export const CustomUpload = ({
   onChange,
@@ -11,7 +12,9 @@ export const CustomUpload = ({
   currentError,
   uploadProps,
   initial,
-  setFieldValue
+  setFieldValue,
+  children,
+  buttonType = 'primary'
 }) => {
   const [fileList, setFileList] = useState(initial);
   const handleChange = e => {
@@ -29,7 +32,8 @@ export const CustomUpload = ({
 
   return (
     <Upload {...uploadProps} onChange={handleChange} onRemove={handleRemove} fileList={fileList}>
-      <Button
+      <CoaButton
+        type={buttonType}
         className={`formProjectBasicInformation__uploadThumbnail__button ${
           getErrorMessagesField(currentError, [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY])
             .length > 0
@@ -37,8 +41,8 @@ export const CustomUpload = ({
             : ''
         }`}
       >
-        <Icon type="upload" /> Click to Upload
-      </Button>
+        {children}
+      </CoaButton>
     </Upload>
   );
 };

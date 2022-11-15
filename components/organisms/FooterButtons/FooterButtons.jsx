@@ -1,23 +1,15 @@
 import React from 'react';
-import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import './_style.scss';
 
 const FooterButtons = ({ finishButton, nextStepButton, prevStepButton }) => (
-  <Row
-    className="FooterButtons"
-    type="flex"
-    justify="space-around"
-    align="middle"
-  >
-    <Row type="flex" justify="start">
-      <Col>{prevStepButton}</Col>
-    </Row>
-    <Row className="RightFooterButtons" type="flex" justify="end">
-      <Col>{nextStepButton}</Col>
-      {!!finishButton && <Col>{finishButton}</Col>}
-    </Row>
-  </Row>
+  <div className="footerButtons__container">
+    <div>{prevStepButton}</div>
+    <div className="footerButtons__container__right">
+      {nextStepButton}
+      {!!finishButton && <div>{finishButton}</div>}
+    </div>
+  </div>
 );
 
 FooterButtons.defaultProps = {
