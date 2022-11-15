@@ -166,28 +166,24 @@ const CreateProjectContainer = () => {
   const props = {};
 
   /* if (currentWizard === PROJECT_FORM_NAMES.DETAILS)
-    props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS]; */
+     props.thumbnailsData = formValues[PROJECT_FORM_NAMES.THUMBNAILS]; */
 
   if (currentWizard === PROJECT_FORM_NAMES.MAIN) props.completedSteps = completedSteps;
 
   // TODO add loading when "isSubmitting"
   return (
-    <div className="CreateProjectWrapper">
-      <div className="Content">
-        <CurrentComponent
-          project={project}
-          setCurrentWizard={setCurrentWizard}
-          goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
-          onError={errorCallback}
-          onSuccess={successCallback}
-          submitForm={submitForm}
-          goToMyProjects={goToMyProjects}
-          sendToReview={sendProjectToReview}
-          deleteProject={askDeleteConfirmation}
-          {...props}
-        />
-      </div>
-    </div>
+    <CurrentComponent
+      project={project}
+      setCurrentWizard={setCurrentWizard}
+      goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
+      onError={errorCallback}
+      onSuccess={successCallback}
+      submitForm={submitForm}
+      goToMyProjects={goToMyProjects}
+      sendToReview={sendProjectToReview}
+      deleteProject={askDeleteConfirmation}
+      {...props}
+    />
   );
 };
 export default CreateProjectContainer;

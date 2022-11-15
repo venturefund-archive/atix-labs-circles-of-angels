@@ -7,75 +7,73 @@ body {
   color: $on-surface;
   font-family: 'Rubik', sans-serif;
   box-sizing: border-box;
- }
- h1{
+}
+h1 {
   font-size: $h1;
- }
- .separator {
+}
+.separator {
   border-right: 1px solid $medium-grey;
   margin: 0 0.5em;
- }
- h3{
-  @include primary-text($labels,$on-surface ,400)
- }
- a{
-   color: $primary-color;
- }
- p{
-  @include primary-text($body,$on-surface ,400)
- }
- b{
-  @include primary-text($body,$on-surface ,500)
- }
- span{
-    @include primary-text($body,$on-surface-medium ,400)
- }
- .ant-input, .ant-select-selection{
-border: 1px solid $border;
- }
+}
+h3 {
+  @include primary-text($labels, $on-surface, 400);
+}
+a {
+  color: $primary-color;
+}
+p {
+  @include primary-text($body, $on-surface, 400);
+}
+b {
+  @include primary-text($body, $on-surface, 500);
+}
+span {
+  @include primary-text($body, $on-surface-medium, 400);
+}
+.ant-input,
+.ant-select-selection {
+  border: 1px solid $border;
+}
 
- // Buttons
+// Buttons
 
- button {
+button {
   border: none;
   background-color: transparent;
   cursor: pointer;
   &:focus {
     outline: none;
   }
- }
- .ant-form-item-label label::after{
-   display:none;
- }
-  .ControlSteps.StepOne,
+}
+.ant-form-item-label label::after {
+  display: none;
+}
+.ControlSteps.StepOne,
 .SubmitProject.StepOne {
   justify-content: flex-end;
 }
-button.ant-btn {
-  border-radius: 50px;
-}
+
 // GENERAL CLASSES
 
-.w100{
-  width: 100%
+.w100 {
+  width: 100%;
 }
-.h100{
-  height: 100%
+.h100 {
+  height: 100%;
 }
-.scrollY{
-overflow-y:scroll;
-
+.scrollY {
+  overflow-y: scroll;
 }
 .flex {
   display: flex;
   align-items: center;
 }
-.AlignCenter{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.AlignCenter {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .flex-wrap {
   display: flex;
@@ -86,7 +84,7 @@ overflow-y:scroll;
   display: flex;
   flex-wrap: wrap;
 }
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
 }
@@ -98,8 +96,8 @@ overflow-y:scroll;
   align-items: center;
   justify-content: center;
 }
-.TextRed{
- color:$danger-color;
+.TextRed {
+  color: $danger-color;
 }
 .space-between {
   display: flex;
@@ -114,8 +112,8 @@ overflow-y:scroll;
 .opacity {
   opacity: 0.7;
 }
-.txtright{
-text-align: right;
+.txtright {
+  text-align: right;
 }
 .ant-breadcrumb {
   padding: 1em 0 0 0;

@@ -1,0 +1,46 @@
+@import 'css/variables';
+@import 'css/_general_styling.scss';
+
+.coaButton {
+  &.ghost {
+    * {
+      @include primary-text(0.875rem, $coa-blue-100, 500, 1.8rem);
+    }
+    border: 1px solid $coa-blue-100;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.--disabled {
+      opacity: 0.2;
+      background: $coa-blue-100;
+      * {
+        color: $white;
+      }
+      &:hover {
+        background: $coa-blue-100;
+      }
+    }
+  }
+  &.primary {
+    background: $coa-blue-100;
+    * {
+      color: $white;
+    }
+
+    &.--disabled {
+      opacity: 0.4;
+
+      &:hover {
+        background: $coa-blue-100;
+      }
+    }
+  }
+  &.secondary {
+    background: $dark-gray;
+    * {
+      color: $white;
+    }
+  }
+}
