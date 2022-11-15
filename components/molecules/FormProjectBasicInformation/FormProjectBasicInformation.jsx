@@ -91,6 +91,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         const valuesProcessed = { ...restValues };
 
         if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto;
+
         const formData = new FormData();
         Object.keys(valuesProcessed).forEach(key => {
           formData.append(key, valuesProcessed[key]);
@@ -402,14 +403,14 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               </>
             }
           >
-            {getFieldDecorator('thumbnailPhoto', {
-              rules: thumbnailRules(thumbnailPhoto),
-              validateTrigger: 'onSubmit'
-            })(
-              <div className="formProjectBasicInformation__content__right__uploadItemContainer">
-                <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                  Recommended Image Size: 1400x720px. Format: PNG or JPG.
-                </p>
+            <div className="formProjectBasicInformation__content__right__uploadItemContainer">
+              <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                Recommended Image Size: 1400x720px. Format: PNG or JPG.
+              </p>
+              {getFieldDecorator('thumbnailPhoto', {
+                rules: thumbnailRules(thumbnailPhoto),
+                validateTrigger: 'onSubmit'
+              })(
                 <CustomUpload
                   uploadProps={uploadProps}
                   getErrorMessagesField={getErrorMessagesField}
@@ -432,10 +433,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   }
                   buttonType="ghost"
                 >
-                  Upload Project Proposal <Icon type="upload" />
+                  Click to upload <Icon type="upload" />
                 </CustomUpload>
-              </div>
-            )}
+              )}
+            </div>
           </Form.Item>
         </Form>
       </div>
