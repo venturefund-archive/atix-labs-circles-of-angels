@@ -8,6 +8,8 @@ import ModalProjectCreated from '../ModalProjectCreated/ModalProjectCreated';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constants';
 import './_style.scss';
+import ModalConfirmProjectCreation from '../ModalConfirmProjectCreation/ModalConfirmProjectCreation';
+import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK'
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <div className="createProject__content__steps__step">
@@ -32,6 +34,11 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
     </CoaButton>
   </div>
 );
+
+const nextModal = (prevModal, nextModal) => {
+  prevModal(false);
+  nextModal(true)
+}
 
 const CreateProject = ({
   project,
