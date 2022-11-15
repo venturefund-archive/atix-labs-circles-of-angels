@@ -195,7 +195,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               </div>
               <div className="formProjectBasicInformation__content__left__preview__info__description">
                 <div>
-                  <p>{location || 'Country of impact'}</p>
+                  <p className="formProjectBasicInformation__content__left__preview__info__description__value">
+                    {location || 'Country of impact'}
+                  </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Country
                   </h5>
@@ -205,7 +207,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   className="formProjectBasicInformation__content__left__preview__info__divider"
                 />
                 <div>
-                  <p>
+                  <p className="formProjectBasicInformation__content__left__preview__info__description__value">
                     {timeframe} {timeframeUnit}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
@@ -217,7 +219,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   className="formProjectBasicInformation__content__left__preview__info__divider"
                 />
                 <div>
-                  <p>{formatCurrency(currency, budget)}</p>
+                  <p className="formProjectBasicInformation__content__left__preview__info__description__value">
+                    {formatCurrency(currency, budget)}
+                  </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Budget
                   </h5>
@@ -227,7 +231,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   className="formProjectBasicInformation__content__left__preview__info__divider"
                 />
                 <div>
-                  <p>{beneficiaryCompleteName}</p>
+                  <p className="formProjectBasicInformation__content__left__preview__info__description__value">
+                    {beneficiaryCompleteName}
+                  </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Beneficiary name
                   </h5>

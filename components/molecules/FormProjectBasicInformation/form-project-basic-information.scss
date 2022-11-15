@@ -54,8 +54,12 @@
           &__description {
             display: flex;
             justify-content: space-between;
+
+            &__value {
+              @include primary-text(0.81rem, $on-surface, 500);
+            }
             &__title {
-              @include primary-text(0.81rem, $dark-gray, 500);
+              @include primary-text(0.81rem, $dark-gray, 400);
             }
           }
 
