@@ -81,97 +81,98 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
 
   return (
     <>
-      <TitlePage textTitle="Assign project users" />
-      {Object.keys(ROLES_IDS).map((key, index) => (
-        <div key={key}>
-          <div className="formProjectUsers__section">
-            <h3 className="formProjectUsers__section__title">{key}</h3>
-            {ROLES_IDS[key] === ROLES_IDS.auditor && (
-              <Button type="dashed" onClick={add} disabled={!canAddAdditionalAuditor}>
-                Add Auditor +
-              </Button>
-            )}
-          </div>
-          {ROLES_IDS[key] !== ROLES_IDS.auditor && (
-            <FormUserContainer
-              expandIconPosition="right"
-              entity={key}
-              initialData={initialData[index]}
-              projectId={project?.id}
-              onError={onError}
-            >
-              {({
-                setActiveKey,
-                setUserState,
-                userState,
-                form,
-                handleSubmitNewUser,
-                handleSubmitConfirmUser,
-                isFormSubmitted,
-                removeCurrentUserFromProject
-              }) => (
-                <FormUserContent
-                  setActiveKey={setActiveKey}
-                  countries={countries}
-                  setUserState={setUserState}
-                  userState={userState}
-                  form={form}
-                  handleSubmitConfirmUser={handleSubmitConfirmUser}
-                  handleSubmitNewUser={handleSubmitNewUser}
-                  initialData={initialData[index]}
-                  isFormSubmitted={isFormSubmitted}
-                  removeCurrentUserFromProject={removeCurrentUserFromProject}
-                />
+      <div className="assignProjectUsers__content">
+        <TitlePage textTitle="Assign project users" />
+        {Object.keys(ROLES_IDS).map((key, index) => (
+          <div key={key}>
+            <div className="formProjectUsers__section">
+              <h3 className="formProjectUsers__section__title">{key}</h3>
+              {ROLES_IDS[key] === ROLES_IDS.auditor && (
+                <Button type="dashed" onClick={add} disabled={!canAddAdditionalAuditor}>
+                  Add Auditor +
+                </Button>
               )}
-            </FormUserContainer>
-          )}
-          {ROLES_IDS[key] === ROLES_IDS.auditor &&
-            currentAuditorsElements.map(item => {
-              const _initialData = initialData[index]?.find(
-                _initialAuditorsUserData => _initialAuditorsUserData?.id === item
-              );
-              return (
-                <FormUserContainer
-                  expandIconPosition="right"
-                  entity={key}
-                  initialData={_initialData}
-                  projectId={project?.id}
-                  onError={onError}
-                  setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
-                  key={item}
-                >
-                  {({
-                    setActiveKey,
-                    setUserState,
-                    userState,
-                    form,
-                    handleSubmitNewUser,
-                    handleSubmitConfirmUser,
-                    isFormSubmitted,
-                    removeCurrentUserFromProject
-                  }) => (
-                    <FormUserContent
-                      removeCurrentUserFromProject={removeCurrentUserFromProject}
-                      onRemove={() => onRemove(item)}
-                      setActiveKey={setActiveKey}
-                      countries={countries}
-                      setUserState={setUserState}
-                      userState={userState}
-                      item={item}
-                      form={form}
-                      handleSubmitConfirmUser={handleSubmitConfirmUser}
-                      handleSubmitNewUser={handleSubmitNewUser}
-                      totalKeys={currentAuditorsElements?.length}
-                      initialData={_initialData}
-                      isFormSubmitted={isFormSubmitted}
-                    />
-                  )}
-                </FormUserContainer>
-              );
-            })}
-        </div>
-      ))}
-
+            </div>
+            {ROLES_IDS[key] !== ROLES_IDS.auditor && (
+              <FormUserContainer
+                expandIconPosition="right"
+                entity={key}
+                initialData={initialData[index]}
+                projectId={project?.id}
+                onError={onError}
+              >
+                {({
+                  setActiveKey,
+                  setUserState,
+                  userState,
+                  form,
+                  handleSubmitNewUser,
+                  handleSubmitConfirmUser,
+                  isFormSubmitted,
+                  removeCurrentUserFromProject
+                }) => (
+                  <FormUserContent
+                    setActiveKey={setActiveKey}
+                    countries={countries}
+                    setUserState={setUserState}
+                    userState={userState}
+                    form={form}
+                    handleSubmitConfirmUser={handleSubmitConfirmUser}
+                    handleSubmitNewUser={handleSubmitNewUser}
+                    initialData={initialData[index]}
+                    isFormSubmitted={isFormSubmitted}
+                    removeCurrentUserFromProject={removeCurrentUserFromProject}
+                  />
+                )}
+              </FormUserContainer>
+            )}
+            {ROLES_IDS[key] === ROLES_IDS.auditor &&
+              currentAuditorsElements.map(item => {
+                const _initialData = initialData[index]?.find(
+                  _initialAuditorsUserData => _initialAuditorsUserData?.id === item
+                );
+                return (
+                  <FormUserContainer
+                    expandIconPosition="right"
+                    entity={key}
+                    initialData={_initialData}
+                    projectId={project?.id}
+                    onError={onError}
+                    setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
+                    key={item}
+                  >
+                    {({
+                      setActiveKey,
+                      setUserState,
+                      userState,
+                      form,
+                      handleSubmitNewUser,
+                      handleSubmitConfirmUser,
+                      isFormSubmitted,
+                      removeCurrentUserFromProject
+                    }) => (
+                      <FormUserContent
+                        removeCurrentUserFromProject={removeCurrentUserFromProject}
+                        onRemove={() => onRemove(item)}
+                        setActiveKey={setActiveKey}
+                        countries={countries}
+                        setUserState={setUserState}
+                        userState={userState}
+                        item={item}
+                        form={form}
+                        handleSubmitConfirmUser={handleSubmitConfirmUser}
+                        handleSubmitNewUser={handleSubmitNewUser}
+                        totalKeys={currentAuditorsElements?.length}
+                        initialData={_initialData}
+                        isFormSubmitted={isFormSubmitted}
+                      />
+                    )}
+                  </FormUserContainer>
+                );
+              })}
+          </div>
+        ))}
+      </div>
       <FooterButtons
         prevStepButton={(() => (
           <Button onClick={goBack}>Back</Button>
