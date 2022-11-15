@@ -1,19 +1,35 @@
 
+import { setPin, setWallet } from 'api/userApi';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
-import ModalFirstLoginSuccess from 'components/organisms/ModalFirstLoginSuccess/ModalFirsLoginSuccess';
 import ModalSecretKey from 'components/organisms/ModalSecretKey/ModalSecretKey';
 import Navigation from 'components/organisms/Navigation';
 import { useUserContext } from 'components/utils/UserContext';
+import { generateWalletFromPin } from 'helpers/blockchain/wallet';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
-  const user = useUserContext();
+  const { getLoggedUser } = useUserContext();
+  const history = useHistory()
 
-  const openNextModal = (prevModal, nextModal) => {
-    prevModal(false);
-    nextModal(true);
+  const savePin = async (pin) => {
+    const success = await setPin();
+    const wallet = await generateWalletFromPin(pin)
+    const user = getLoggedUser()
+    const { data } = await setWallet(wallet)
+
+    if (success && data.id) {
+      redirect(user)
+    }
+  }
+
+  const redirect = (user) => {
+    let route = '/'
+    if (user.isAdmin) {
+      route = '/my-proyects'
+    }
+    history.push(route)
   }
 
   return (
@@ -25,12 +41,7 @@ function SecretKey() {
       <ModalSecretKey
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        onSuccess={() => openNextModal(setModalOpen, setSuccessModalOpen)}
-      />
-      <ModalFirstLoginSuccess
-        modalOpen={successModalOpen}
-        setModalOpen={setSuccessModalOpen}
-        admin={user.isBackofficeAdmin}
+        onSuccess={savePin}
       />
     </BackgroundLanding>
   );

@@ -85,7 +85,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
         <Button
           className="ant-btn ant-btn-primary"
           disabled={disabled}
-          onClick={onSuccess}
+          onClick={() => onSuccess(pin)}
         >
           Confirm
         </Button>

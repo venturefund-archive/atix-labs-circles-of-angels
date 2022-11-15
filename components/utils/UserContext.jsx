@@ -47,7 +47,8 @@ const context = {
   isBackofficeAdmin: false,
   isSocialEntrepreneur: false,
   isFunder: false,
-  isOracle: false
+  isOracle: false,
+  isAdmin: false
 };
 
 export function useUserContext() {
