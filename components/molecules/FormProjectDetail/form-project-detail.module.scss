@@ -1,3 +1,27 @@
+@import 'css/_general_styling.scss';
+
+.formProjectDetail {
+  &__content {
+    overflow-y: auto;
+    padding-inline: 2.5rem;
+    padding-block: 2.125rem;
+    &__form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1.5rem;
+      &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2rem;
+
+        @include breakpoint(sm) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
 .form__footer {
   background: #f3f4fb;
   padding: 1.3rem 0 1.3rem 3.7rem;

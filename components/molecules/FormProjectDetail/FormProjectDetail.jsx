@@ -9,7 +9,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Row, Col, Select } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
@@ -19,6 +19,7 @@ import { toBase64 } from 'components/utils/FileUtils';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import _ from 'lodash';
 import { getExtensionFromUrl } from 'helpers/utils';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Styles from './form-project-detail.module.scss';
 
 const { Option } = Select;
@@ -135,10 +136,10 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
 
   return (
     <>
-      <TitlePage textTitle="Complete Project's Details" />
-      <Form onSubmit={submit}>
-        <Row gutter={22}>
-          <Col span={12}>
+      <div className="formProjectDetail__content">
+        <TitlePage textTitle="Complete Project's Details" />
+        <Form onSubmit={submit} className="formProjectDetail__content__form">
+          <div className="formProjectDetail__content__form__row">
             <Form.Item label="About the project">
               <p>Share your information about the entrepreneurs and the project</p>
               {getFieldDecorator('problemAddressed', {
@@ -152,9 +153,6 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 initialValue: problemAddressed
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
-          </Col>
-
-          <Col span={12}>
             <Form.Item label="Our mission and vision">
               <p>
                 Share your Project Mission, the impact you have made so far and what your project is
@@ -171,10 +169,8 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 initialValue: mission
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={22}>
-          <Col span={12}>
+          </div>
+          <div className="formProjectDetail__content__form__row">
             <Form.Item label="Currency Type">
               {getFieldDecorator('currencyType', {
                 rules: [
@@ -202,8 +198,6 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </Select>
               )}
             </Form.Item>
-          </Col>
-          <Col span={12}>
             <Form.Item label="Currency">
               {getFieldDecorator('currency', {
                 rules: [
@@ -224,144 +218,138 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </Select>
               )}
             </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={22}>
-          <Col span={12}>
-            {currentCurrencyType === 'fiat' && (
-              <Form.Item label="Account Information">
-                <p>Fill in your bank account information</p>
-                {getFieldDecorator('additionalCurrencyInformation', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input the account information of this project!',
-                      whitespace: true
-                    },
-                    {
-                      pattern: onlyAlphanumerics,
-                      message: 'Please input an alphanumeric value for this field.'
-                    }
-                  ],
-                  initialValue: additionalCurrencyInformation
-                })(<Input.TextArea placeholder="" maxLength={50} />)}
-              </Form.Item>
-            )}
-            {currentCurrencyType === 'crypto' && (
-              <Form.Item label="Address">
-                <p>Enter your wallet address here</p>
-                {getFieldDecorator('additionalCurrencyInformation', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your new password!',
-                      whitespace: true
-                    },
-                    {
-                      pattern: onlyAlphanumerics,
-                      message: 'Please input an alphanumeric value for this field.'
-                    }
-                  ],
-                  initialValue: additionalCurrencyInformation
-                })(<Input placeholder="New Password" maxLength={50} />)}
-              </Form.Item>
-            )}
-          </Col>
-          <Col span={12}>
+          </div>
+          <div className="formProjectDetail__content__form__row">
+            <div>
+              {!currentCurrencyType && (
+                <>
+                  <p>Account Information</p>
+                  <p>First you must select the type of currency to complete this option</p>
+                </>
+              )}
+              {currentCurrencyType === 'fiat' && (
+                <Form.Item label="Account Information">
+                  <p>Fill in your bank account information</p>
+                  {getFieldDecorator('additionalCurrencyInformation', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input the account information of this project!',
+                        whitespace: true
+                      },
+                      {
+                        pattern: onlyAlphanumerics,
+                        message: 'Please input an alphanumeric value for this field.'
+                      }
+                    ],
+                    initialValue: additionalCurrencyInformation
+                  })(<Input.TextArea placeholder="" maxLength={50} />)}
+                </Form.Item>
+              )}
+              {currentCurrencyType === 'crypto' && (
+                <Form.Item label="Address">
+                  <p>Enter your wallet address here</p>
+                  {getFieldDecorator('additionalCurrencyInformation', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your new password!',
+                        whitespace: true
+                      },
+                      {
+                        pattern: onlyAlphanumerics,
+                        message: 'Please input an alphanumeric value for this field.'
+                      }
+                    ],
+                    initialValue: additionalCurrencyInformation
+                  })(<Input placeholder="New Password" maxLength={50} />)}
+                </Form.Item>
+              )}
+            </div>
             <Form.Item label="Budget">
               <p>Here the sum recorded in the milestones and activities will be displayed</p>
               <Input placeholder="0.00" disabled />
             </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={22}>
-          <Col span={12}>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="">
-                  {getFieldDecorator('legalAgreementFile', {
-                    rules: filesRules(legalAgreementFile)
-                  })(
-                    <CustomUpload
-                      uploadProps={uploadProps}
-                      onChange={value => handleFileChange(value, 'legalAgreementFile')}
-                      onRemove={() => handleFileRemove('legalAgreementFile')}
-                      currentError={legalAgreementError}
-                      setFieldValue={value => {
-                        setFieldsValue({ thumbnailPhoto: value });
-                      }}
-                      initial={
-                        legalAgreementFileCompletePath
-                          ? [
-                              {
-                                uid: _.uniqueId(),
-                                url: legalAgreementFileCompletePath,
-                                name: `legal-agreement.${getExtensionFromUrl(
-                                  legalAgreementFileCompletePath
-                                )}`
-                              }
-                            ]
-                          : []
-                      }
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <h3>Legal Agreement</h3>
-                <span>Recommended document files. Format: PDF, up to 20 MB.</span>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={12}>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="">
-                  {getFieldDecorator('projectProposalFile', {
-                    rules: filesRules(projectProposalFile),
-                    validateTrigger: 'onSubmit'
-                  })(
-                    <CustomUpload
-                      uploadProps={uploadProps}
-                      onChange={value => handleFileChange(value, 'projectProposalFile')}
-                      onRemove={() => handleFileRemove('projectProposalFile')}
-                      currentError={projectProposalError}
-                      setFieldValue={value => {
-                        setFieldsValue({ thumbnailPhoto: value });
-                      }}
-                      initial={
-                        projectProposalFileCompletePath
-                          ? [
-                              {
-                                uid: _.uniqueId(),
-                                url: projectProposalFileCompletePath,
-                                name: `project-proposal.${getExtensionFromUrl(
-                                  projectProposalFileCompletePath
-                                )}`
-                              }
-                            ]
-                          : []
-                      }
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <h3>Project Proposal</h3>
-                <span>Recommended document files. Format: PDF, up to 20 MB.</span>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Form>
+          </div>
+          <div className="formProjectDetail__content__form__row">
+            <div>
+              <Form.Item label="">
+                {getFieldDecorator('legalAgreementFile', {
+                  rules: filesRules(legalAgreementFile)
+                })(
+                  <CustomUpload
+                    uploadProps={uploadProps}
+                    onChange={value => handleFileChange(value, 'legalAgreementFile')}
+                    onRemove={() => handleFileRemove('legalAgreementFile')}
+                    currentError={legalAgreementError}
+                    setFieldValue={value => {
+                      setFieldsValue({ thumbnailPhoto: value });
+                    }}
+                    initial={
+                      legalAgreementFileCompletePath
+                        ? [
+                            {
+                              uid: _.uniqueId(),
+                              url: legalAgreementFileCompletePath,
+                              name: `legal-agreement.${getExtensionFromUrl(
+                                legalAgreementFileCompletePath
+                              )}`
+                            }
+                          ]
+                        : []
+                    }
+                  />
+                )}
+              </Form.Item>
+              <h3>Legal Agreement</h3>
+              <span>Recommended document files. Format: PDF, up to 20 MB.</span>
+            </div>
+            <div>
+              <Form.Item label="">
+                {getFieldDecorator('projectProposalFile', {
+                  rules: filesRules(projectProposalFile),
+                  validateTrigger: 'onSubmit'
+                })(
+                  <CustomUpload
+                    uploadProps={uploadProps}
+                    onChange={value => handleFileChange(value, 'projectProposalFile')}
+                    onRemove={() => handleFileRemove('projectProposalFile')}
+                    currentError={projectProposalError}
+                    setFieldValue={value => {
+                      setFieldsValue({ thumbnailPhoto: value });
+                    }}
+                    initial={
+                      projectProposalFileCompletePath
+                        ? [
+                            {
+                              uid: _.uniqueId(),
+                              url: projectProposalFileCompletePath,
+                              name: `project-proposal.${getExtensionFromUrl(
+                                projectProposalFileCompletePath
+                              )}`
+                            }
+                          ]
+                        : []
+                    }
+                  />
+                )}
+              </Form.Item>
+              <h3>Project Proposal</h3>
+              <span>Recommended document files. Format: PDF, up to 20 MB.</span>
+            </div>
+          </div>
+        </Form>
+      </div>
       <FooterButtons
         prevStepButton={(() => (
-          <Button onClick={goBack}>Back</Button>
+          <CoaButton onClick={goBack} type="secondary">
+            Back
+          </CoaButton>
         ))()}
         nextStepButton={(() => (
-          <Button type="primary" onClick={submit} className={Styles.form__footer}>
+          <CoaButton type="primary" onClick={submit} className={Styles.form__footer}>
             Save and continue
-          </Button>
+          </CoaButton>
         ))()}
       />
     </>
