@@ -9,7 +9,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select } from 'antd';
+import { Form, Icon, Input, Select } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
@@ -141,7 +141,9 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
         <Form onSubmit={submit} className="formProjectDetail__content__form">
           <div className="formProjectDetail__content__form__row">
             <Form.Item label="About the project">
-              <p>Share your information about the entrepreneurs and the project</p>
+              <p className="formProjectDetail__content__form__row__note">
+                Share your information about the entrepreneurs and the project
+              </p>
               {getFieldDecorator('problemAddressed', {
                 rules: [
                   {
@@ -154,7 +156,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
             <Form.Item label="Our mission and vision">
-              <p>
+              <p className="formProjectDetail__content__form__row__note">
                 Share your Project Mission, the impact you have made so far and what your project is
                 about
               </p>
@@ -223,13 +225,19 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
             <div>
               {!currentCurrencyType && (
                 <>
-                  <p>Account Information</p>
-                  <p>First you must select the type of currency to complete this option</p>
+                  <p className="formProjectDetail__content__form__row__label">
+                    Account Information
+                  </p>
+                  <p className="formProjectDetail__content__form__row__note">
+                    First you must select the type of currency to complete this option
+                  </p>
                 </>
               )}
               {currentCurrencyType === 'fiat' && (
                 <Form.Item label="Account Information">
-                  <p>Fill in your bank account information</p>
+                  <p className="formProjectDetail__content__form__row__note">
+                    Fill in your bank account information
+                  </p>
                   {getFieldDecorator('additionalCurrencyInformation', {
                     rules: [
                       {
@@ -248,7 +256,9 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
               )}
               {currentCurrencyType === 'crypto' && (
                 <Form.Item label="Address">
-                  <p>Enter your wallet address here</p>
+                  <p className="formProjectDetail__content__form__row__note">
+                    Enter your wallet address here
+                  </p>
                   {getFieldDecorator('additionalCurrencyInformation', {
                     rules: [
                       {
@@ -267,12 +277,14 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
               )}
             </div>
             <Form.Item label="Budget">
-              <p>Here the sum recorded in the milestones and activities will be displayed</p>
+              <p className="formProjectDetail__content__form__row__note">
+                Here the sum recorded in the milestones and activities will be displayed
+              </p>
               <Input placeholder="0.00" disabled />
             </Form.Item>
           </div>
           <div className="formProjectDetail__content__form__row">
-            <div>
+            <div className="formProjectDetail__content__form__row__uploadContainer">
               <Form.Item label="">
                 {getFieldDecorator('legalAgreementFile', {
                   rules: filesRules(legalAgreementFile)
@@ -298,13 +310,14 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                           ]
                         : []
                     }
-                  />
+                  >
+                    <Icon type="upload" /> Upload Project Agreement
+                  </CustomUpload>
                 )}
               </Form.Item>
-              <h3>Legal Agreement</h3>
               <span>Recommended document files. Format: PDF, up to 20 MB.</span>
             </div>
-            <div>
+            <div className="formProjectDetail__content__form__row__uploadContainer">
               <Form.Item label="">
                 {getFieldDecorator('projectProposalFile', {
                   rules: filesRules(projectProposalFile),
@@ -331,10 +344,11 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                           ]
                         : []
                     }
-                  />
+                  >
+                    <Icon type="upload" /> Upload Project Proposal
+                  </CustomUpload>
                 )}
               </Form.Item>
-              <h3>Project Proposal</h3>
               <span>Recommended document files. Format: PDF, up to 20 MB.</span>
             </div>
           </div>
