@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Row, Col, Upload, Icon, Select, Tag, InputNumber } from 'antd';
+import { Form, Input, Select, Tag, InputNumber, Divider } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
@@ -28,6 +28,7 @@ import {
 } from 'helpers/utils';
 import _ from 'lodash';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 
 const { Option } = Select;
 
@@ -62,6 +63,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const status = project?.status;
   const beneficiaryFirstName = project?.beneficiary?.firstName;
   const beneficiaryLastName = project?.beneficiary?.lastName;
+  const beneficiaryCompleteName =
+    beneficiaryFirstName || beneficiaryLastName
+      ? `${beneficiaryFirstName} ${beneficiaryLastName}`
+      : 'No name';
   const currency = project?.details?.currency || 'USD';
   const budget = project?.budget || 0;
 
@@ -163,244 +168,284 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   return (
     <>
-      <Form onSubmit={submit}>
-        <Row gutter={22}>
-          <Col span={8}>
-            <TitlePage textTitle="Complete Basic Information" />
-            <h3>This is the resume</h3>
+      <div className="formProjectBasicInformation__content">
+        <div className="formProjectBasicInformation__content__left">
+          <TitlePage textTitle="Complete Basic Information" />
+          <div className="formProjectBasicInformation__content__left__preview">
+            <h3 className="formProjectBasicInformation__content__left__preview__title">
+              This is the resume
+            </h3>
             <img
               src={thumbnailPhoto || '/static/images/thumbnail-default.svg'}
               alt="thumbnail"
-              className="formProjectBasicInformation__thumbnailPhoto"
+              className="formProjectBasicInformation__content__left__preview__thumbnailPhoto"
             />
-            <Row type="flex" justify="space-between">
-              <Col>
-                <p>{projectName || 'Project Name'}</p>
-              </Col>
-              <Col>
+            <div className="formProjectBasicInformation__content__left__preview__info">
+              <div className="formProjectBasicInformation__content__left__preview__info__main">
+                <h4 className="formProjectBasicInformation__content__left__preview__info__main__title">
+                  {projectName || 'Project Name'}
+                </h4>
+
                 <Tag
                   color={TAG_COLORS[status?.toLowerCase()]}
-                  className="formProjectBasicInformation__tag"
+                  className="formProjectBasicInformation__left__preview__tag"
                 >
                   {status}
                 </Tag>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={6}>
-                <p>Country</p>
-                <p>{location || 'Country of impact'}</p>
-              </Col>
-              <Col span={6}>
-                <p>Time</p>
-                <p>
-                  {timeframe} {timeframeUnit}
-                </p>
-              </Col>
-              <Col span={6}>
-                <p>{formatCurrency(currency, budget)}</p>
-                <p>Budget</p>
-              </Col>
-              <Col span={6}>
-                <p>
-                  {beneficiaryFirstName} {beneficiaryLastName}
-                </p>
-                <p>Beneficiary name</p>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={16}>
+              </div>
+              <div className="formProjectBasicInformation__content__left__preview__info__description">
+                <div>
+                  <p>{location || 'Country of impact'}</p>
+                  <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
+                    Country
+                  </h5>
+                </div>
+                <Divider
+                  type="vertical"
+                  className="formProjectBasicInformation__content__left__preview__info__divider"
+                />
+                <div>
+                  <p>
+                    {timeframe} {timeframeUnit}
+                  </p>
+                  <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
+                    Time
+                  </h5>
+                </div>
+                <Divider
+                  type="vertical"
+                  className="formProjectBasicInformation__content__left__preview__info__divider"
+                />
+                <div>
+                  <p>{formatCurrency(currency, budget)}</p>
+                  <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
+                    Budget
+                  </h5>
+                </div>
+                <Divider
+                  type="vertical"
+                  className="formProjectBasicInformation__content__left__preview__info__divider"
+                />
+                <div>
+                  <p>{beneficiaryCompleteName}</p>
+                  <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
+                    Beneficiary name
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Divider type="vertical" className="formProjectBasicInformation__content__divider" />
+        <Form onSubmit={submit} className="formProjectBasicInformation__content__right">
+          <Form.Item
+            className="formProjectBasicInformation__content__right__item"
+            label="Project Name"
+            help={
+              <>
+                {getErrorMessagesField(projectNameError, [ERROR_TYPES.ALPHANUMERIC]).map(
+                  errorMessage => errorMessage
+                )}
+              </>
+            }
+          >
+            {getFieldDecorator('projectName', {
+              rules: [
+                {
+                  required: true,
+                  message: ERROR_TYPES.EMPTY,
+                  whitespace: true
+                },
+                {
+                  pattern: onlyAlphanumerics,
+                  message: ERROR_TYPES.ALPHANUMERIC
+                }
+              ],
+              initialValue: projectName,
+              validateTrigger: 'onSubmit'
+            })(
+              <Input
+                maxLength={50}
+                placeholder="Input Text Example"
+                onChange={({ currentTarget: { value } }) => {
+                  setCurrentBasicInformation({
+                    ...currentBasicInformation,
+                    projectName: value
+                  });
+                }}
+              />
+            )}
+          </Form.Item>
+          <Form.Item
+            label="Country of Impact"
+            help={null}
+            className="formProjectBasicInformation__content__right__item"
+          >
+            {getFieldDecorator('location', {
+              rules: [
+                {
+                  required: true,
+                  message: ERROR_TYPES.EMPTY,
+                  whitespace: true
+                }
+              ],
+              initialValue: location,
+              validateTrigger: 'onSubmit'
+            })(
+              <Select
+                placeholder="Select the country or region"
+                loading={countriesAvailable?.loading}
+                onChange={value =>
+                  setCurrentBasicInformation({
+                    ...currentBasicInformation,
+                    location: value
+                  })
+                }
+              >
+                {countriesAvailable?.content?.map(({ id, name }) => (
+                  <Option value={name} key={id}>
+                    {name}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
+
+          <div className="formProjectBasicInformation__content__right__timeframeContainer">
             <Form.Item
-              label="Project Name"
+              className="formProjectBasicInformation__content__right__item"
+              label="Timeframe"
               help={
-                <>
-                  {getErrorMessagesField(projectNameError, [ERROR_TYPES.ALPHANUMERIC]).map(
-                    errorMessage => errorMessage
-                  )}
-                </>
+                <div>
+                  {getErrorMessagesField(timeframeError, [
+                    ERROR_TYPES.MORE_THAN_3_DECIMAL,
+                    ERROR_TYPES.NO_ZERO
+                  ]).map(errorMessage => errorMessage)}
+                </div>
               }
             >
-              {getFieldDecorator('projectName', {
+              {getFieldDecorator('timeframe', {
+                initialValue: timeframe && parseFloat?.(timeframe),
                 rules: [
                   {
                     required: true,
-                    message: ERROR_TYPES.EMPTY,
-                    whitespace: true
+                    message: ERROR_TYPES.EMPTY
                   },
                   {
-                    pattern: onlyAlphanumerics,
-                    message: ERROR_TYPES.ALPHANUMERIC
+                    validator: validateCurrencyValue
                   }
                 ],
-                initialValue: projectName,
                 validateTrigger: 'onSubmit'
               })(
-                <Input
-                  maxLength={50}
-                  placeholder="Input Text Example"
-                  onChange={({ currentTarget: { value } }) => {
-                    setCurrentBasicInformation({
-                      ...currentBasicInformation,
-                      projectName: value
-                    });
-                  }}
-                />
-              )}
-            </Form.Item>
-            <Form.Item label="Country of Impact" help={null}>
-              {getFieldDecorator('location', {
-                rules: [
-                  {
-                    required: true,
-                    message: ERROR_TYPES.EMPTY,
-                    whitespace: true
-                  }
-                ],
-                initialValue: location,
-                validateTrigger: 'onSubmit'
-              })(
-                <Select
-                  placeholder="Select the country or region"
-                  loading={countriesAvailable?.loading}
+                <InputNumber
+                  placeholder={0}
                   onChange={value =>
                     setCurrentBasicInformation({
                       ...currentBasicInformation,
-                      location: value
+                      timeframe: value
+                    })
+                  }
+                />
+              )}
+            </Form.Item>
+
+            <Form.Item
+              label=""
+              help={null}
+              className="formProjectBasicInformation__content__right__item"
+            >
+              {getFieldDecorator('timeframeUnit', {
+                initialValue: timeframeUnit,
+                rules: [
+                  {
+                    required: true,
+                    message: ERROR_TYPES.EMPTY,
+                    whitespace: true
+                  }
+                ],
+                validateTrigger: 'onSubmit'
+              })(
+                <Select
+                  placeholder="Type"
+                  onChange={value =>
+                    setCurrentBasicInformation({
+                      ...currentBasicInformation,
+                      timeframeUnit: value
                     })
                   }
                 >
-                  {countriesAvailable?.content?.map(({ id, name }) => (
-                    <Option value={name} key={id}>
-                      {name}
+                  {TIMEFRAME_UNITS.map(({ value, label }) => (
+                    <Option value={value} key={value}>
+                      {label}
                     </Option>
                   ))}
                 </Select>
               )}
             </Form.Item>
+          </div>
 
-            <Row type="flex" align="bottom" gutter={18}>
-              <Col>
-                <Form.Item
-                  className="formProjectBasicInformation__timeframe"
-                  label="Timeframe"
-                  help={
-                    <div>
-                      {getErrorMessagesField(timeframeError, [
-                        ERROR_TYPES.MORE_THAN_3_DECIMAL,
-                        ERROR_TYPES.NO_ZERO
-                      ]).map(errorMessage => errorMessage)}
-                    </div>
-                  }
-                >
-                  {getFieldDecorator('timeframe', {
-                    initialValue: timeframe && parseFloat?.(timeframe),
-                    rules: [
-                      {
-                        required: true,
-                        message: ERROR_TYPES.EMPTY
-                      },
-                      {
-                        validator: validateCurrencyValue
-                      }
-                    ],
-                    validateTrigger: 'onSubmit'
-                  })(
-                    <InputNumber
-                      placeholder={0}
-                      onChange={value =>
-                        setCurrentBasicInformation({
-                          ...currentBasicInformation,
-                          timeframe: value
-                        })
-                      }
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item label="" help={null}>
-                  {getFieldDecorator('timeframeUnit', {
-                    initialValue: timeframeUnit,
-                    rules: [
-                      {
-                        required: true,
-                        message: ERROR_TYPES.EMPTY,
-                        whitespace: true
-                      }
-                    ],
-                    validateTrigger: 'onSubmit'
-                  })(
-                    <Select
-                      placeholder="Type"
-                      onChange={value =>
-                        setCurrentBasicInformation({
-                          ...currentBasicInformation,
-                          timeframeUnit: value
-                        })
-                      }
-                    >
-                      {TIMEFRAME_UNITS.map(({ value, label }) => (
-                        <Option value={value} key={value}>
-                          {label}
-                        </Option>
-                      ))}
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
+          <Form.Item
+            className="formProjectBasicInformation__content__right__item"
+            valuePropName="fileList"
+            label="Thumbnail Image"
+            help={
+              <>
+                {getErrorMessagesField(thumbnailPhotoError, [ERROR_TYPES.IMAGE_INVALID]).map(
+                  errorMessage => errorMessage
+                )}
+              </>
+            }
+          >
+            {getFieldDecorator('thumbnailPhoto', {
+              rules: thumbnailRules(thumbnailPhoto),
+              validateTrigger: 'onSubmit'
+            })(
+              <CustomUpload
+                uploadProps={uploadProps}
+                getErrorMessagesField={getErrorMessagesField}
+                onChange={handleThumbnailChange}
+                onRemove={handleThumbnailRemove}
+                currentError={thumbnailPhotoError}
+                setFieldValue={value => {
+                  setFieldsValue({ thumbnailPhoto: value });
+                }}
+                initial={
+                  thumbnailPhoto
+                    ? [
+                        {
+                          uid: _.uniqueId(),
+                          url: thumbnailPhoto,
+                          name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
+                        }
+                      ]
+                    : []
+                }
+              />
+            )}
+          </Form.Item>
+        </Form>
+      </div>
 
-            <Form.Item
-              valuePropName="fileList"
-              label="Thumbnail Image"
-              help={
-                <>
-                  {getErrorMessagesField(thumbnailPhotoError, [ERROR_TYPES.IMAGE_INVALID]).map(
-                    errorMessage => errorMessage
-                  )}
-                </>
-              }
-            >
-              {getFieldDecorator('thumbnailPhoto', {
-                rules: thumbnailRules(thumbnailPhoto),
-                validateTrigger: 'onSubmit'
-              })(
-                <CustomUpload
-                  uploadProps={uploadProps}
-                  getErrorMessagesField={getErrorMessagesField}
-                  onChange={handleThumbnailChange}
-                  onRemove={handleThumbnailRemove}
-                  currentError={thumbnailPhotoError}
-                  setFieldValue={value => {
-                    setFieldsValue({ thumbnailPhoto: value });
-                  }}
-                  initial={
-                    thumbnailPhoto
-                      ? [
-                          {
-                            uid: _.uniqueId(),
-                            url: thumbnailPhoto,
-                            name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
-                          }
-                        ]
-                      : []
-                  }
-                />
-              )}
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
       <FooterButtons
         prevStepButton={(() => (
-          <Button onClick={goBack}>Back</Button>
+          <CoaButton onClick={goBack} type="secondary">
+            Back
+          </CoaButton>
         ))()}
         nextStepButton={(() => (
-          <div>
-            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => error)}
-            <Button type="primary" onClick={submit} className="formProjectBasicInformation__footer">
+          <div className="formProjectBasicInformation__content__footerButtons__right">
+            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => (
+              <div className="formProjectBasicInformation__content__footerButtons__right__error">
+                {error}
+              </div>
+            ))}
+            <CoaButton
+              onClick={submit}
+              className="formProjectBasicInformation__footer"
+              type="primary"
+            >
               Save and continue
-            </Button>
+            </CoaButton>
           </div>
         ))()}
       />

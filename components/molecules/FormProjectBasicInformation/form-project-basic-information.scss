@@ -1,28 +1,138 @@
-.formProjectBasicInformation {
-  &__thumbnailPhoto {
-    width: 100% !important;
-    height: 25rem;
-    object-fit: cover;
-  }
-  &__tag {
-    text-transform: capitalize;
-  }
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
 
-  &__uploadThumbnail {
-    &__button {
-      &.--withError {
-        border: solid thin red;
-        * {
-          color: red;
+.formProjectBasicInformation {
+  &__content {
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1.5fr 12.5rem 2fr;
+
+    @include breakpoint(sm) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    &__left {
+      padding-left: 2.5rem;
+      padding-block: 2.125rem 6.6rem;
+
+      @include breakpoint(sm) {
+        padding-inline: 0.8rem;
+      }
+
+      &__preview {
+        margin-top: 2.87rem;
+
+        &__title {
+          @include primary-text(0.875rem, $dark-gray, 500);
+          margin-bottom: 1rem;
+        }
+        &__thumbnailPhoto {
+          width: 100%;
+          height: 25rem;
+          object-fit: cover;
+          margin-bottom: 0.56rem;
+
+          border: 1px solid #e5e6ed;
+          border-radius: 4px;
+        }
+
+        &__info {
+          display: flex;
+          flex-direction: column;
+          row-gap: 0.8rem;
+          height: 2rem;
+
+          &__main {
+            display: flex;
+            justify-content: space-between;
+
+            &__title {
+              @include primary-text(1.25rem, $black, 700);
+            }
+          }
+          &__description {
+            display: flex;
+            justify-content: space-between;
+            &__title {
+              @include primary-text(0.81rem, $dark-gray, 500);
+            }
+          }
+
+          &__divider {
+            margin-inline: 1.37rem;
+            height: 80%;
+          }
+        }
+        &__tag {
+          text-transform: capitalize;
         }
       }
     }
-  }
+    &__right {
+      padding-right: 2.5rem;
+      padding-top: 7.75rem;
+      padding-bottom: 2.125rem;
 
-  &__timeframe {
-    .ant-form-explain {
-      position: absolute;
-      white-space: nowrap;
+      @include breakpoint(sm) {
+        padding-block: 1rem;
+        padding-inline: 0.8rem;
+      }
+
+      &__timeframeContainer {
+        display: flex;
+        align-items: flex-end;
+        column-gap: 0.75rem;
+
+        .ant-form-explain {
+          position: absolute;
+          white-space: nowrap;
+        }
+      }
+
+      &__item {
+        label {
+          @include primary-text(0.875rem, $dark-gray, 500);
+        }
+      }
+
+      &__uploadThumbnail {
+        &__button {
+          &.--withError {
+            border: solid thin red;
+            * {
+              color: red;
+            }
+          }
+        }
+      }
+
+      &__timeframe {
+        .ant-form-explain {
+          position: absolute;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    &__divider {
+      height: 100%;
+      justify-self: center;
+
+      @include breakpoint(sm) {
+        display: none;
+      }
+    }
+
+    &__footerButtons {
+      &__right {
+        display: flex;
+        column-gap: 2rem;
+        align-items: center;
+        &__error {
+          color: $error-color;
+        }
+      }
     }
   }
 }
