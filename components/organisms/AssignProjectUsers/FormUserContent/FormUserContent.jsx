@@ -1,5 +1,5 @@
-import { Alert, Button, Col, Form, Input, Row, Select } from 'antd';
-import CustomButton from 'components/atoms/CustomButton/CustomButton';
+import { Alert, Form, Input, Select } from 'antd';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { onlyAlphanumerics } from 'constants/Regex';
 import React from 'react';
@@ -128,11 +128,10 @@ export const FormUserContent = ({
         )}
       </Form.Item>
       <div>
-        {userState !== USER_STATES.LOADING && <Button onClick={handleRemove}>Cancel</Button>}
+        {userState !== USER_STATES.LOADING && <CoaButton onClick={handleRemove}>Cancel</CoaButton>}
         {
-          <CustomButton
+          <CoaButton
             theme="Primary"
-            buttonText={userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
             onClick={
               userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
             }
@@ -146,7 +145,9 @@ export const FormUserContent = ({
               isFormSubmitted ||
               userState === USER_STATES.LOADING
             }
-          />
+          >
+            {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Confirm'}
+          </CoaButton>
         }
 
         {isFormSubmitted && userState !== USER_STATES.WITH_ERROR && (
