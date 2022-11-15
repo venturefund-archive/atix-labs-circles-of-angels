@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select, Tag, InputNumber, Divider } from 'antd';
+import { Form, Input, Select, Tag, InputNumber, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
@@ -400,27 +400,35 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               rules: thumbnailRules(thumbnailPhoto),
               validateTrigger: 'onSubmit'
             })(
-              <CustomUpload
-                uploadProps={uploadProps}
-                getErrorMessagesField={getErrorMessagesField}
-                onChange={handleThumbnailChange}
-                onRemove={handleThumbnailRemove}
-                currentError={thumbnailPhotoError}
-                setFieldValue={value => {
-                  setFieldsValue({ thumbnailPhoto: value });
-                }}
-                initial={
-                  thumbnailPhoto
-                    ? [
-                        {
-                          uid: _.uniqueId(),
-                          url: thumbnailPhoto,
-                          name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
-                        }
-                      ]
-                    : []
-                }
-              />
+              <div className="formProjectBasicInformation__content__right__uploadItemContainer">
+                <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                  Recommended Image Size: 1400x720px. Format: PNG or JPG.
+                </p>
+                <CustomUpload
+                  uploadProps={uploadProps}
+                  getErrorMessagesField={getErrorMessagesField}
+                  onChange={handleThumbnailChange}
+                  onRemove={handleThumbnailRemove}
+                  currentError={thumbnailPhotoError}
+                  setFieldValue={value => {
+                    setFieldsValue({ thumbnailPhoto: value });
+                  }}
+                  initial={
+                    thumbnailPhoto
+                      ? [
+                          {
+                            uid: _.uniqueId(),
+                            url: thumbnailPhoto,
+                            name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
+                          }
+                        ]
+                      : []
+                  }
+                  buttonType="ghost"
+                >
+                  Upload Project Proposal <Icon type="upload" />
+                </CustomUpload>
+              </div>
             )}
           </Form.Item>
         </Form>

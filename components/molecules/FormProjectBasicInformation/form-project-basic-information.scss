@@ -79,6 +79,16 @@
         padding-inline: 0.8rem;
       }
 
+      &__uploadItemContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__note {
+          @include primary-text(0.87rem, $dark-gray, 400, 1.06rem);
+        }
+      }
+
       &__timeframeContainer {
         display: flex;
         align-items: flex-end;

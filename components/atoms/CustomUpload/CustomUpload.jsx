@@ -13,7 +13,8 @@ export const CustomUpload = ({
   uploadProps,
   initial,
   setFieldValue,
-  children
+  children,
+  buttonType = 'primary'
 }) => {
   const [fileList, setFileList] = useState(initial);
   const handleChange = e => {
@@ -32,7 +33,7 @@ export const CustomUpload = ({
   return (
     <Upload {...uploadProps} onChange={handleChange} onRemove={handleRemove} fileList={fileList}>
       <CoaButton
-        type="primary"
+        type={buttonType}
         className={`formProjectBasicInformation__uploadThumbnail__button ${
           getErrorMessagesField(currentError, [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY])
             .length > 0
