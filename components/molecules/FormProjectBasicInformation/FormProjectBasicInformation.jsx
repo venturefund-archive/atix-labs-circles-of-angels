@@ -209,7 +209,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 />
                 <div>
                   <p className="formProjectBasicInformation__content__left__preview__info__description__value">
-                    {timeframe} {timeframeUnit}
+                    {parseFloat(timeframe)?.toFixed(1)} {timeframeUnit}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Time
@@ -345,6 +345,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 validateTrigger: 'onSubmit'
               })(
                 <InputNumber
+                  step="0.1"
                   placeholder={0}
                   onChange={value =>
                     setCurrentBasicInformation({
