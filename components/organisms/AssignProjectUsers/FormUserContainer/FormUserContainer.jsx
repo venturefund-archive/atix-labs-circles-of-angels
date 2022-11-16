@@ -22,7 +22,7 @@ const CustomCollapse = ({
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue, getFieldValue } = form;
-  const [isFormSubmitted, setIsFormSubmitted] = useState(Boolean(initialData?.email));
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const userId = getFieldValue('id');
   const [currentUserId, setCurrentUserId] = useState(initialData?.id);
 
@@ -92,7 +92,8 @@ const CustomCollapse = ({
     if (addUserToProjectResponse.errors) return handleError();
     if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
     setCurrentUserId(userId);
-    setUserState(USER_STATES.EXIST);
+    if (userState === USER_STATES.PENDING_WITH_TEXT) return setUserState(USER_STATES.PENDING);
+    return setUserState(USER_STATES.EXIST);
   };
 
   return (

@@ -163,7 +163,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const validateCurrencyValue = (_rule, value, callback) => {
     if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
-    if (decimalCount(value) > 3) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
     return callback();
   };
 
@@ -209,7 +209,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 />
                 <div>
                   <p className="formProjectBasicInformation__content__left__preview__info__description__value">
-                    {timeframe} {timeframeUnit}
+                    {parseFloat(timeframe)?.toFixed(1)} {timeframeUnit}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Time
@@ -345,6 +345,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                 validateTrigger: 'onSubmit'
               })(
                 <InputNumber
+                  step="0.1"
                   placeholder={0}
                   onChange={value =>
                     setCurrentBasicInformation({
