@@ -163,7 +163,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const validateCurrencyValue = (_rule, value, callback) => {
     if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
-    if (decimalCount(value) > 3) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
     return callback();
   };
 
