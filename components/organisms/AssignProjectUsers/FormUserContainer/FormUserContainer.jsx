@@ -154,7 +154,11 @@ CustomCollapse.defaultProps = {
 };
 
 CustomCollapse.propTypes = {
-  children: React.ReactNode,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.func
+  ]),
   entity: PropTypes.string,
   form: PropTypes.objectOf(PropTypes.any),
   initialData: PropTypes.objectOf(PropTypes.any),

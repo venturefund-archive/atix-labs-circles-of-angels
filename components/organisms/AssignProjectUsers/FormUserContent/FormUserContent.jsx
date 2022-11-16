@@ -145,7 +145,6 @@ export const FormUserContent = ({
             userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
           }
           htmlType="submit"
-          visible
           disabled={
             !country ||
             !firstName ||
@@ -205,13 +204,15 @@ FormUserContent.propTypes = {
   }),
   countries: PropTypes.shape({
     isLoading: PropTypes.bool,
-    content: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string
-    })
+    content: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string
+      })
+    )
   }),
   setUserState: PropTypes.func,
-  userState: PropTypes.func,
+  userState: PropTypes.string,
   item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   handleSubmitNewUser: PropTypes.func,
   handleSubmitConfirmUser: PropTypes.func,

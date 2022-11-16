@@ -29,7 +29,7 @@ export const FeedbackMessage = ({ message, type, seconds, show, className }) => 
   return (
     <div className={`feedbackMessage__container ${showMessage ? '--show' : '--hide'} ${className}`}>
       <Icon
-        type={FEEDBACK_MESSAGE_ICONS[type]}
+        type={FEEDBACK_MESSAGE_ICONS[type] || 'close-circle'}
         theme="filled"
         className={`feedbackMessage__container__icon --${ICON_CLASSES_BY_FEEDBACK_TYPE[type]}`}
       />
@@ -40,7 +40,7 @@ export const FeedbackMessage = ({ message, type, seconds, show, className }) => 
 
 FeedbackMessage.defaultProps = {
   message: undefined,
-  type: undefined,
+  type: '',
   seconds: undefined,
   show: false,
   className: ''

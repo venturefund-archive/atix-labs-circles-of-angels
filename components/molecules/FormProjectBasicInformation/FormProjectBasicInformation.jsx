@@ -479,7 +479,7 @@ FormProjectBasicInformationContent.defaultProps = {
 FormProjectBasicInformationContent.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  form: PropTypes.oneOfType(Form.create),
+  form: PropTypes.objectOf(PropTypes.any),
   project: PropTypes.shape({
     details: PropTypes.shape({
       problemAddressed: PropTypes.string,

@@ -19,9 +19,9 @@ FooterButtons.defaultProps = {
 };
 
 FooterButtons.propTypes = {
-  finishButton: PropTypes.func,
-  prevStepButton: PropTypes.func,
-  nextStepButton: PropTypes.func
+  finishButton: PropTypes.oneOfType([PropTypes.func, PropTypes.objectOf(PropTypes.any)]),
+  prevStepButton: PropTypes.oneOfType([PropTypes.func, PropTypes.objectOf(PropTypes.any)]),
+  nextStepButton: PropTypes.oneOfType([PropTypes.func, PropTypes.objectOf(PropTypes.any)])
 };
 
 export default FooterButtons;
