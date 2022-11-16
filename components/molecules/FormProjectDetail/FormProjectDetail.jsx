@@ -391,5 +391,5 @@ FormProjectDetailContent.propTypes = {
     })
   }).isRequired,
   onError: PropTypes.func.isRequired,
-  form: PropTypes.func
+  form: PropTypes.objectOf(PropTypes.any)
 };

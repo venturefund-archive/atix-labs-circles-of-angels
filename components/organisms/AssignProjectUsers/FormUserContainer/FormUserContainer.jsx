@@ -2,6 +2,7 @@ import { Collapse, Form } from 'antd';
 import { createUser, sendWelcomeEmail } from 'api/userApi';
 import { addUserToProject, removeUserFromProject } from 'api/userProjectApi';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ROLES_IDS, USER_STATES } from '../constants';
 import { CustomCollapseHeader } from '../CustomCollapseHeader/CustomCollapseHeader';
 import './form-user-container.scss';
@@ -91,6 +92,7 @@ const CustomCollapse = ({
     if (addUserToProjectResponse.errors) return handleError();
     if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
     setCurrentUserId(userId);
+    setUserState(USER_STATES.EXIST);
   };
 
   return (
@@ -140,3 +142,27 @@ const CustomCollapse = ({
 export const FormUserContainer = Form.create({
   name: 'FormUserContainer'
 })(CustomCollapse);
+
+CustomCollapse.defaultProps = {
+  children: undefined,
+  entity: '',
+  form: undefined,
+  initialData: undefined,
+  projectId: undefined,
+  onError: undefined,
+  setCanAddAdditionalAuditor: undefined
+};
+
+CustomCollapse.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  entity: PropTypes.string,
+  form: PropTypes.objectOf(PropTypes.any),
+  initialData: PropTypes.objectOf(PropTypes.any),
+  projectId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onError: PropTypes.func,
+  setCanAddAdditionalAuditor: PropTypes.func
+};

@@ -59,7 +59,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
     setCurrentAuditorsElements([...updatedArray]);
   };
 
-  const add = () => {
+  const addAuditor = () => {
     setCurrentAuditorsElements([...currentAuditorsElements, _.uniqueId()]);
     setCanAddAdditionalAuditor(false);
   };
@@ -89,7 +89,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
             <div className="formProjectUsers__section">
               <h3 className="formProjectUsers__section__title">{key}</h3>
               {ROLES_IDS[key] === ROLES_IDS.auditor && (
-                <Button type="dashed" onClick={add} disabled={!canAddAdditionalAuditor}>
+                <Button type="dashed" onClick={addAuditor} disabled={!canAddAdditionalAuditor}>
                   Add Auditor +
                 </Button>
               )}

@@ -26,7 +26,7 @@ CoaButton.defaultProps = {
 };
 
 CoaButton.propTypes = {
-  children: React.ReactNode,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   disabled: PropTypes.bool,
   className: PropTypes.string,
   type: PropTypes.string

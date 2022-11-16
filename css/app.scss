@@ -129,3 +129,10 @@ button {
   overflow: hidden;
   max-width: 144px;
 }
+
+.ant-tooltip-inner {
+  padding: 0;
+}
+.ant-tooltip-arrow {
+  display: none;
+}
