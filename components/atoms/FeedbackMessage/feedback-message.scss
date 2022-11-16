@@ -1,0 +1,31 @@
+@import 'css/_variables.scss';
+
+.feedbackMessage {
+  &__container {
+    display: flex;
+    align-items: center;
+    column-gap: 0.4rem;
+
+    &.--hide {
+      display: none;
+    }
+    &.--show {
+      display: flex;
+    }
+
+    &__icon {
+      &.--success {
+        color: $success;
+      }
+      &.--pending {
+        color: $idle;
+      }
+      &.--info {
+        color: $info;
+      }
+      &.--error {
+        color: $error-color;
+      }
+    }
+  }
+}

@@ -1,21 +1,62 @@
 export const USER_STATES = {
   PENDING: 'PENDING',
+  PENDING_WITH_TEXT: 'PENDING_WITH_TEXT',
   EXIST: 'EXIST',
+  EXIST_WITH_TEXT: 'EXIST_WITH_TEXT',
   UNKNOWN: 'UNKNOWN',
   LOADING: 'LOADING',
   NO_EXIST: 'NO_EXIST',
   WITH_ERROR: 'WITH_ERROR'
 };
 
-export const USER_STATE_ICONS = {
-  PENDING: 'clock-circle',
-  EXIST: 'check-circle',
-  LOADING: 'loading',
-  NO_EXIST: 'info-circle'
-};
-
 export const ROLES_IDS = {
   beneficiary: 1,
   investor: 2,
   auditor: 3
+};
+
+export const FEEDBACK_MESSAGE_TYPES = {
+  SUCCESS: 'SUCCESS',
+  INFO: 'INFO',
+  PENDING: 'PENDING',
+  ERROR: 'ERROR'
+};
+
+export const FEEDBACK_MESSAGE_TYPES_BY_USER_STATE = {
+  [USER_STATES.EXIST]: FEEDBACK_MESSAGE_TYPES.SUCCESS,
+  [USER_STATES.EXIST_WITH_TEXT]: FEEDBACK_MESSAGE_TYPES.SUCCESS,
+  [USER_STATES.NO_EXIST]: FEEDBACK_MESSAGE_TYPES.INFO,
+  [USER_STATES.PENDING]: FEEDBACK_MESSAGE_TYPES.PENDING,
+  [USER_STATES.PENDING_WITH_TEXT]: FEEDBACK_MESSAGE_TYPES.PENDING,
+  [USER_STATES.WITH_ERROR]: FEEDBACK_MESSAGE_TYPES.ERROR
+};
+
+export const FEEDBACK_MESSAGE_ICONS = {
+  [FEEDBACK_MESSAGE_TYPES.PENDING]: 'clock-circle',
+  [FEEDBACK_MESSAGE_TYPES.SUCCESS]: 'check-circle',
+  [FEEDBACK_MESSAGE_TYPES.INFO]: 'info-circle',
+  [FEEDBACK_MESSAGE_TYPES.ERROR]: 'close-circle'
+};
+
+export const ICON_CLASSES_BY_FEEDBACK_TYPE = {
+  [FEEDBACK_MESSAGE_TYPES.SUCCESS]: 'success',
+  [FEEDBACK_MESSAGE_TYPES.PENDING]: 'pending',
+  [FEEDBACK_MESSAGE_TYPES.INFO]: 'info',
+  [FEEDBACK_MESSAGE_TYPES.ERROR]: 'error'
+};
+
+export const FEEDBACK_MESSAGE_BY_USER_STATE = entity => ({
+  [USER_STATES.EXIST]: '',
+  [USER_STATES.EXIST_WITH_TEXT]: `The ${entity} is already registered`,
+  [USER_STATES.NO_EXIST]: `The ${entity} is not registered. Fill in the information below`,
+  [USER_STATES.PENDING]: '',
+  [USER_STATES.PENDING_WITH_TEXT]:
+    'An email invitation has been sent for the user to enter the platform.'
+});
+
+export const TOOLTIP_TITLES_BY_USER_STATE = {
+  [USER_STATES.EXIST]: 'Registered User',
+  [USER_STATES.EXIST_WITH_TEXT]: 'Registered User',
+  [USER_STATES.PENDING]: 'Pending User',
+  [USER_STATES.PENDING_WITH_TEXT]: 'Pending User'
 };

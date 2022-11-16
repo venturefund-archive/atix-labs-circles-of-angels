@@ -1,4 +1,5 @@
 @import 'css/_variables.scss';
+@import 'css/_general_styling.scss';
 
 .customCollapseHeader {
   &__customHeader {
@@ -19,6 +20,24 @@
       }
       &.--info {
         color: $info;
+      }
+    }
+    &__tooltip {
+      background: $white;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.28rem;
+
+      &__title {
+        p {
+          @include primary-text(0.87rem, $on-surface, 700);
+        }
+        display: flex;
+        column-gap: 0.45rem;
+      }
+      &__description {
+        @include primary-text(0.87rem, $on-surface, 400);
       }
     }
   }
