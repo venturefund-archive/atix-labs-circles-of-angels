@@ -85,9 +85,9 @@ const CreateProjectContainer = () => {
     const containsAllUserProjectTypesActive =
       beneficiaries?.length > 0 && investors?.length > 0 && auditors?.length > 0;
 
-    const allBeneficiariesWithFirstLogin = beneficiaries?.every(beneficiary => beneficiary?.first);
-    const allInvestorsWithFirstLogin = investors?.every(investor => investor?.first);
-    const allAuditorsWithFirstLogin = auditors?.every(auditor => auditor?.first);
+    const allBeneficiariesWithFirstLogin = beneficiaries?.every(beneficiary => !beneficiary?.first);
+    const allInvestorsWithFirstLogin = investors?.every(investor => !investor?.first);
+    const allAuditorsWithFirstLogin = auditors?.every(auditor => !auditor?.first);
 
     const allProjectUsersHaveFirstLogin =
       allBeneficiariesWithFirstLogin && allInvestorsWithFirstLogin && allAuditorsWithFirstLogin;

@@ -38,7 +38,7 @@ export const CustomCollapseHeader = ({
         lastName: users[0]?.lastName,
         country: users[0]?.country
       });
-      if (users[0]?.first) {
+      if (!users[0]?.first) {
         setUserState(USER_STATES.EXIST_WITH_TEXT);
       } else {
         setUserState(USER_STATES.PENDING_WITH_TEXT);
@@ -68,7 +68,7 @@ export const CustomCollapseHeader = ({
 
   useEffect(() => {
     if (initialData?.first !== undefined) {
-      if (!initialData.first) return setUserState(USER_STATES.PENDING);
+      if (initialData.first) return setUserState(USER_STATES.PENDING);
       setUserState(USER_STATES.EXIST);
     }
   }, []);
