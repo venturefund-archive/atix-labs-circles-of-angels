@@ -9,16 +9,15 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import './_style.scss';
 
-const InfoItem = ({ subtitle, title, img, xs, sm, lg }) => {
+const InfoItem = ({ subtitle, title, img }) => {
   const [overflowTooltip, setOverflowTooltip] = useState(false);
 
   const titleRef = useRef();
 
-  const isTextOverflow = element =>
-    element && element.clientWidth < element.scrollWidth;
+  const isTextOverflow = element => element && element.clientWidth < element.scrollWidth;
 
   const checkOverflow = () => {
     const element = titleRef.current;
@@ -36,7 +35,7 @@ const InfoItem = ({ subtitle, title, img, xs, sm, lg }) => {
   const h2Title = () => <h2 ref={titleRef}>{title}</h2>;
 
   return (
-    <Col xs={xs} sm={sm} lg={lg} className="InfoItem">
+    <div className="InfoItem">
       <div className="InfoItemData">
         <p>{subtitle}</p>
         {overflowTooltip ? (
@@ -48,7 +47,7 @@ const InfoItem = ({ subtitle, title, img, xs, sm, lg }) => {
         )}
         {img}
       </div>
-    </Col>
+    </div>
   );
 };
 
@@ -57,17 +56,11 @@ export default InfoItem;
 InfoItem.defaultProps = {
   subtitle: '',
   title: '',
-  img: '',
-  xs: 24,
-  sm: 24,
-  lg: 24
+  img: ''
 };
 
 InfoItem.propTypes = {
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  img: PropTypes.node,
-  xs: PropTypes.number,
-  sm: PropTypes.number,
-  lg: PropTypes.number
+  img: PropTypes.node
 };

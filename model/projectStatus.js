@@ -8,11 +8,11 @@
  */
 
 const projectStatusMap = {
-  draft: { name: 'Draft' },
-  executing: { name: 'Rejected', color: 'red' },
-  review: { name: 'In review', color: 'blue' },
-  cancel: { name: 'Cancel', color: 'red' },
-  finished: { name: 'Finished', color: 'green' }
+  draft: { name: 'Draft', color: 'gray' },
+  executing: { name: 'In Progress', color: 'yellow' },
+  review: { name: 'In review', color: 'orange' },
+  cancel: { name: 'Rejected', color: 'red' },
+  finished: { name: 'Completed', color: 'green' }
 };
 
 export default projectStatusMap;
