@@ -35,7 +35,7 @@ $coa-white-100: #ffffff;
    =============== */
 
 @mixin title-large-22($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 1.5rem;
@@ -44,7 +44,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin title-medium-16($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 1rem;
@@ -53,7 +53,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin title-small-14($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 0.875rem;
@@ -62,7 +62,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin body-large-16($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -71,7 +71,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin body-medium-14($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.875rem;
@@ -80,7 +80,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin body-small-12($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.75rem;
@@ -89,7 +89,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin label-large-14($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -98,7 +98,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin label-medium-12($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.875rem;
@@ -107,7 +107,7 @@ $coa-white-100: #ffffff;
 }
 
 @mixin label-small-10($color: $original-black) {
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.75rem;
