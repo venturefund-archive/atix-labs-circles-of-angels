@@ -2,7 +2,7 @@
 import { Form, Icon, Input, Tooltip } from 'antd';
 import { getUsers } from 'api/userApi';
 import { ERROR_MESSAGES } from 'constants/constants';
-import { checkValidEmail } from 'helpers/utils';
+import { capitalizeFirstLetter, checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
 import React, { useCallback, useEffect } from 'react';
@@ -74,7 +74,10 @@ export const CustomCollapseHeader = ({
   }, []);
 
   return (
-    <Form.Item label={`${entity} email`} className="customCollapseHeader__customHeader__formItem">
+    <Form.Item
+      label={`${capitalizeFirstLetter(entity)} email`}
+      className="customCollapseHeader__customHeader__formItem"
+    >
       {getFieldDecorator('email', {
         rules: [
           {
@@ -122,6 +125,7 @@ export const CustomCollapseHeader = ({
         >
           {userState === USER_STATES.LOADING && <Icon type="loading" />}
           <FeedbackMessage
+            className="customCollapseHeader__customHeader__feedbackMessage"
             message={FEEDBACK_MESSAGE_BY_USER_STATE(entity)[userState]}
             show={userState !== USER_STATES.UNKNOWN && userState !== USER_STATES.LOADING}
             type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}

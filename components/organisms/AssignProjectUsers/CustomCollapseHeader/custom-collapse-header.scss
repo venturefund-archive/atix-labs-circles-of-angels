@@ -10,6 +10,9 @@
         align-items: center;
         column-gap: 2rem;
       }
+      label {
+        @include primary-text(0.87rem, $dark-gray, 500, 1.06rem);
+      }
     }
     &__icon {
       &.--success {
@@ -39,6 +42,9 @@
       &__description {
         @include primary-text(0.87rem, $on-surface, 400);
       }
+    }
+    &__feedbackMessage {
+      @include primary-text(0.87rem, $dark-gray, 400, 1.06rem);
     }
   }
 }

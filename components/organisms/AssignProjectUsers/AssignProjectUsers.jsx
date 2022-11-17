@@ -9,13 +9,14 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'antd';
+import { Divider, Icon } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import './assign-project-users.scss';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import _ from 'lodash';
 import { getCountries } from 'api/countriesApi';
+import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
@@ -85,13 +86,15 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       <div className="assignProjectUsers__content">
         <TitlePage textTitle="Assign project users" />
         {Object.keys(ROLES_IDS).map((key, index) => (
-          <div key={key}>
-            <div className="formProjectUsers__section">
-              <h3 className="formProjectUsers__section__title">{key}</h3>
+          <div key={key} className="assignProjectUsers__content__itemsContainer">
+            <div className="assignProjectUsers__content__itemsContainer__titleContainer">
+              <h3 className="assignProjectUsers__content__itemsContainer__titleContainer__title">
+                {key}
+              </h3>
               {ROLES_IDS[key] === ROLES_IDS.auditor && (
-                <Button type="dashed" onClick={addAuditor} disabled={!canAddAdditionalAuditor}>
-                  Add Auditor +
-                </Button>
+                <CoaTextButton onClick={addAuditor} disabled={!canAddAdditionalAuditor}>
+                  <Icon type="plus" /> Add Auditor
+                </CoaTextButton>
               )}
             </div>
             {ROLES_IDS[key] !== ROLES_IDS.auditor && (
@@ -171,6 +174,9 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   </FormUserContainer>
                 );
               })}
+            {index + 1 < Object.keys(ROLES_IDS).length && (
+              <Divider type="horizontal" className="assignProjectUsers__content__divider" />
+            )}
           </div>
         ))}
       </div>
@@ -181,12 +187,8 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
           </CoaButton>
         ))()}
         nextStepButton={(() => (
-          <div className="formProjectUsers__buttons__right">
-            <CoaButton
-              type="primary"
-              className="formProjectUsers__footer"
-              onClick={handleSubmitAssign}
-            >
+          <div className="footerButtonsContainer__right">
+            <CoaButton type="primary" onClick={handleSubmitAssign}>
               Save and continue
             </CoaButton>
           </div>

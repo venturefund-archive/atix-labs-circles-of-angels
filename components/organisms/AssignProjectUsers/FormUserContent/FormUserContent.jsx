@@ -57,7 +57,7 @@ export const FormUserContent = ({
       <Form.Item label="id" style={{ display: 'none' }}>
         {getFieldDecorator('id', { initialValue: initialData?.id })(<Input />)}
       </Form.Item>
-      <Form.Item label="First name">
+      <Form.Item className="formUserContent__container__formItem" label="First name">
         {getFieldDecorator('firstName', {
           rules: [
             {
@@ -84,7 +84,7 @@ export const FormUserContent = ({
           />
         )}
       </Form.Item>
-      <Form.Item label="Last name">
+      <Form.Item className="formUserContent__container__formItem" label="Last name">
         {getFieldDecorator('lastName', {
           rules: [
             {
@@ -111,9 +111,16 @@ export const FormUserContent = ({
           />
         )}
       </Form.Item>
-      <Form.Item label="Country/Region">
+      <Form.Item className="formUserContent__container__formItem" label="Country/Region">
         {getFieldDecorator('country', {
-          initialValue: initialData?.country
+          initialValue: initialData?.country,
+          rules: [
+            {
+              required: true,
+              message: ERROR_MESSAGES.EMPTY,
+              whitespace: true
+            }
+          ]
         })(
           <Select
             loading={countries?.isLoading}
@@ -159,7 +166,7 @@ export const FormUserContent = ({
 
         <FeedbackMessage
           message={
-            userState === USER_STATES.PENDING || USER_STATES.PENDING_WITH_TEXT
+            userState === USER_STATES.PENDING || userState === USER_STATES.PENDING_WITH_TEXT
               ? 'Invitation and instructions have been sent!'
               : 'User assigned successfully'
           }

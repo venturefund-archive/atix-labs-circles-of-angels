@@ -1,9 +1,17 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+
 .formUserContent {
   &__container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     column-gap: 2rem;
+    &__formItem {
+      label {
+        @include primary-text(0.87rem, $dark-gray, 500, 1.06rem);
+      }
+    }
     &__buttonsContainer {
       grid-row: 3/4;
       display: flex;
