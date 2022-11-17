@@ -88,3 +88,6 @@ export const decimalCount = num => {
   }
   return 0;
 };
+
+export const capitalizeFirstLetter = (string = '') =>
+  string.charAt?.(0)?.toUpperCase() + string?.slice(1);

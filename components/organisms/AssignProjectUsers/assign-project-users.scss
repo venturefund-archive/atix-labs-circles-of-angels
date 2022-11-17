@@ -6,20 +6,28 @@
     overflow-y: auto;
     padding-inline: 2.5rem;
     padding-block: 2.125rem;
-  }
-}
 
-.formProjectUsers {
-  &__section {
-    display: flex;
-    justify-content: space-between;
-    &__title {
-      @include primary-text(1.3rem, $black, 500);
-      line-height: 1.5rem;
+    &__itemsContainer {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.87rem;
+
+      &__titleContainer {
+        display: flex;
+        justify-content: space-between;
+
+        &__title {
+          @include primary-text(1.3rem, $on-surface, 500);
+          line-height: 1.5rem;
+          text-transform: capitalize;
+        }
+      }
+    }
+    &__divider {
+      background: $dark-gray;
     }
   }
-
-  &__buttons {
+  &__footerButtonsContainer {
     &__right {
       display: flex;
       align-items: center;
