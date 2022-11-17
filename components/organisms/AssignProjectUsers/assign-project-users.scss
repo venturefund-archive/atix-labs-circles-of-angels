@@ -37,4 +37,13 @@
       }
     }
   }
+  &__warningAlert {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+
+    &__icon {
+      font-size: 1rem;
+    }
+  }
 }
