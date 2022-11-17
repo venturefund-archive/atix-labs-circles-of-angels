@@ -23,6 +23,7 @@
     "antd": "3.17.0",
     "axios": "0.18.0",
     "blob-to-buffer": "1.2.8",
+    "classnames": "^2.3.2",
     "conf": "2.2.0",
     "ethers": "^5.0.19",
     "js-cookie": "2.2.0",

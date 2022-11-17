@@ -2,15 +2,30 @@ $success: #00b460;
 $idle: #ffec41;
 $error-color: rgba(208, 2, 27, 0.8);
 $info: rgba(62, 160, 251, 1);
-
 $black: #303034;
-$white: #ffffff;
-$dark-gray: #728099;
-$light-gray: rgba(229, 230, 237, 1);
-
-$coa-blue-100: rgba(76, 127, 247, 1);
+$light-gray: #e2e2e2;
 $coa-red-100: rgba(254, 48, 48, 1);
-
 $border: #e5e6ed;
-
 $on-surface: #26385b;
+
+/* ===============
+   COA COLORS 
+   =============== */
+
+$original-black: #000000;
+$coa-blue-100: #4c7ff7;
+$coa-light-blue-100: #f1f3ff;
+$coa-dark-gray-100: #26385b;
+$coa-medium-gray-100: #525b6b;
+$coa-grey-100: #728099;
+$coa-green-100: #54d085;
+$coa-light-green-100: #ddf6e7;
+$coa-yellow-100: #ffb84e;
+$coa-light-yellow-100: #fff4e3;
+$coa-orange-100: #ff8642;
+$coa-light-orange-100: #ffece1;
+$coa-red-100: #ff6666;
+$coa-light-red-100: #ffe0e0;
+$coa-light-blue-100: #5caefa;
+$coa-ultralight-blue-100: #deeffe;
+$coa-white-100: #ffffff;

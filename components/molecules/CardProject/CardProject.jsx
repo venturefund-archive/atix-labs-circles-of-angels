@@ -11,6 +11,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tag, Divider, Row, Col, Icon, Button } from 'antd';
+import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
@@ -63,62 +64,69 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
           />
         </div>
         <Row className="ProjectSummary">
-          <Col span={20}>
-            <h1 className="ProjectName">{projectName}</h1>
-          </Col>
-          <Col span={4}>
-            <div className="BlockTags">
-              {status && (
-                <Tag color={projectStatusMap[status].color}>{projectStatusMap[status].name}</Tag>
-              )}
-              {following && (
-                <Tag className="Follow" align="right">
-                  Following
-                  <Icon type="check" style={{ color: '#4C7FF77' }} />
-                </Tag>
-              )}
-              {applied && (
-                <Tag className="Applied" color="#DF5BD2" align="right">
-                  Applied
-                  <Icon type="check" style={{ color: 'white' }} />
-                </Tag>
-              )}
-            </div>
+          <Col span={24}>
+            <Row justify="space-between" type="flex" align="middle">
+              <Col>
+                <h1 className="ProjectName">{projectName}</h1>
+              </Col>
+              <Col>
+                <div className="BlockTags">
+                  {status && (
+                    <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
+                      {projectStatusMap[status].name}
+                    </CoaTag>
+                  )}
+                  {following && (
+                    <Tag className="Follow" align="right">
+                      Following
+                      <Icon type="check" style={{ color: '#4C7FF77' }} />
+                    </Tag>
+                  )}
+                  {applied && (
+                    <Tag className="Applied" color="#DF5BD2" align="right">
+                      Applied
+                      <Icon type="check" style={{ color: 'white' }} />
+                    </Tag>
+                  )}
+                </div>
+              </Col>
+            </Row>
           </Col>
           <Col align="middle" span={24}>
-            <InfoItem
-              xs={24}
-              lg={6}
-              subtitle="Country of Impact"
-              title={locationsNames()}
-              iconInfoItem="environment"
-            />
-            <Col span={1} xs={0}>
-              <Divider type="vertical" />
-            </Col>
-            <InfoItem
-              xs={24}
-              lg={6}
-              subtitle="Timeframe"
-              title={formatTimeframeValue(timeframe)}
-              iconInfoItem="clock-circle"
-            />
-            <Col span={1} xs={0}>
-              <Divider type="vertical" />
-            </Col>
-            <InfoItem
-              xs={24}
-              lg={6}
-              subtitle="Amount"
-              title={`$ ${goalAmount}`}
-              iconInfoItem="dollar"
-            />
-            <InfoItem
-              xs={24}
-              lg={6}
-              subtitle="Beneficiary name"
-              title={`${beneficiary?.firstName}${beneficiary?.lastName}`}
-            />
+            <Row>
+              <Col xs={24} lg={6}>
+                <InfoItem
+                  subtitle="Country of Impact"
+                  title={locationsNames()}
+                  iconInfoItem="environment"
+                />
+              </Col>
+              <Col lg={1} xs={0}>
+                <Divider type="vertical" className="ProjectSummary__divider" />
+              </Col>
+              <Col xs={24} lg={4}>
+                <InfoItem
+                  subtitle="Timeframe"
+                  title={formatTimeframeValue(timeframe)}
+                  iconInfoItem="clock-circle"
+                />
+              </Col>
+              <Col lg={1} xs={0}>
+                <Divider type="vertical" className="ProjectSummary__divider" />
+              </Col>
+              <Col xs={24} lg={5}>
+                <InfoItem subtitle="Amount" title={`$ ${goalAmount}`} iconInfoItem="dollar" />
+              </Col>
+              <Col lg={1} xs={0}>
+                <Divider type="vertical" className="ProjectSummary__divider" />
+              </Col>
+              <Col xs={24} lg={6}>
+                <InfoItem
+                  subtitle="Beneficiary name"
+                  title={`${beneficiary?.firstName}${beneficiary?.lastName}`}
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>

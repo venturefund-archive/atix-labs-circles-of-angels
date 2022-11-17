@@ -9,7 +9,7 @@
     column-gap: 2rem;
     &__formItem {
       label {
-        @include primary-text(0.87rem, $dark-gray, 500, 1.06rem);
+        @include primary-text(0.87rem, $coa-grey-100, 500, 1.06rem);
       }
     }
     &__buttonsContainer {

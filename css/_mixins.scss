@@ -1,0 +1,84 @@
+/* ===============
+   FONTS 
+   =============== */
+
+@mixin title-large-22($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
+  color: $color;
+}
+
+@mixin title-medium-16($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.1875rem;
+  color: $color;
+}
+
+@mixin title-small-14($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: $color;
+}
+
+@mixin body-large-16($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.1875rem;
+  color: $color;
+}
+
+@mixin body-medium-14($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  color: $color;
+}
+
+@mixin body-small-12($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  color: $color;
+}
+
+@mixin label-large-14($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.1875rem;
+  color: $color;
+}
+
+@mixin label-medium-12($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  color: $color;
+}
+
+@mixin label-small-10($color: $original-black) {
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  color: $color;
+}

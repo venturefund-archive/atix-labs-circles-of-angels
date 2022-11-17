@@ -1,0 +1,45 @@
+@import 'css/_variables.scss';
+
+.coaTag {
+  margin: 0;
+
+  &.--big {
+    padding-inline: 0.93rem;
+    padding-block: 0.5rem;
+  }
+  &.--small {
+    padding-inline: 0.625rem;
+    padding-block: 0.3125rem;
+  }
+
+  &.--green {
+    color: $coa-green-100;
+    border: solid 1px $coa-green-100;
+    background: $coa-light-green-100;
+  }
+  &.--orange {
+    color: $coa-orange-100;
+    border: solid 1px $coa-orange-100;
+    background: $coa-light-orange-100;
+  }
+  &.--yellow {
+    color: $coa-yellow-100;
+    border: solid 1px $coa-yellow-100;
+    background: $coa-light-yellow-100;
+  }
+  &.--gray {
+    color: $coa-grey-100;
+    border: solid 1px $coa-grey-100;
+    background: $light-gray;
+  }
+  &.--blue {
+    color: $coa-light-blue-100;
+    border: solid 1px $coa-light-blue-100;
+    background: $coa-ultralight-blue-100;
+  }
+  &.--red {
+    color: $coa-red-100;
+    border: solid 1px $coa-red-100;
+    background: $coa-light-red-100;
+  }
+}

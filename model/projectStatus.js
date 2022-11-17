@@ -8,18 +8,11 @@
  */
 
 const projectStatusMap = {
-  draft: { name: 'Draft' },
-  rejected: { name: 'Rejected', color: 'red' },
-  deleted: { name: 'Deleted', color: 'red' },
-  published: { name: 'Published', color: 'green' },
-  consensus: { name: 'Consensus', color: 'yellow' },
-  funding: { name: 'Funding', color: 'blue' },
-  executing: { name: 'Executing', color: 'green' },
-  changingscope: { name: 'Changing Scope', color: 'gold' },
-  finished: { name: 'Finished', color: 'green' },
-  aborted: { name: 'Aborted', color: 'red' },
-  archived: { name: 'Archived', color: 'green' },
-  cancelled: { name: 'Cancelled', color: 'red' }
+  draft: { name: 'Draft', color: 'gray' },
+  executing: { name: 'In Progress', color: 'yellow' },
+  review: { name: 'In review', color: 'orange' },
+  cancel: { name: 'Rejected', color: 'red' },
+  finished: { name: 'Completed', color: 'green' }
 };
 
 export default projectStatusMap;
