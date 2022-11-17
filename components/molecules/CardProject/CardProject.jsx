@@ -63,27 +63,33 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
           />
         </div>
         <Row className="ProjectSummary">
-          <Col span={20}>
-            <h1 className="ProjectName">{projectName}</h1>
-          </Col>
-          <Col span={4}>
-            <div className="BlockTags">
-              {status && (
-                <Tag color={projectStatusMap[status].color}>{projectStatusMap[status].name}</Tag>
-              )}
-              {following && (
-                <Tag className="Follow" align="right">
-                  Following
-                  <Icon type="check" style={{ color: '#4C7FF77' }} />
-                </Tag>
-              )}
-              {applied && (
-                <Tag className="Applied" color="#DF5BD2" align="right">
-                  Applied
-                  <Icon type="check" style={{ color: 'white' }} />
-                </Tag>
-              )}
-            </div>
+          <Col span={24}>
+            <Row justify="space-between" type="flex">
+              <Col>
+                <h1 className="ProjectName">{projectName}</h1>
+              </Col>
+              <Col>
+                <div className="BlockTags">
+                  {status && (
+                    <Tag color={projectStatusMap[status].color}>
+                      {projectStatusMap[status].name}
+                    </Tag>
+                  )}
+                  {following && (
+                    <Tag className="Follow" align="right">
+                      Following
+                      <Icon type="check" style={{ color: '#4C7FF77' }} />
+                    </Tag>
+                  )}
+                  {applied && (
+                    <Tag className="Applied" color="#DF5BD2" align="right">
+                      Applied
+                      <Icon type="check" style={{ color: 'white' }} />
+                    </Tag>
+                  )}
+                </div>
+              </Col>
+            </Row>
           </Col>
           <Col align="middle" span={24}>
             <InfoItem

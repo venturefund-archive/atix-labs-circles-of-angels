@@ -21,7 +21,7 @@
 
         label,
         &__label {
-          @include primary-text(0.87rem, $dark-gray, 500, 1rem);
+          @include primary-text(0.87rem, $coa-grey-100, 500, 1rem);
         }
         .ant-form-item-label,
         &__label {
@@ -39,7 +39,7 @@
         }
 
         &__note {
-          @include primary-text(0.87rem, $dark-gray, 400, 1rem);
+          @include primary-text(0.87rem, $coa-grey-100, 400, 1rem);
         }
       }
     }

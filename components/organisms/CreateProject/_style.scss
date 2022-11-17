@@ -40,7 +40,7 @@
             margin-bottom: 0.18rem;
           }
           h4 {
-            @include primary-text(0.875rem, $dark-gray, 500, 1rem);
+            @include primary-text(0.875rem, $coa-grey-100, 500, 1rem);
             opacity: 0.8;
             font-style: italic;
           }

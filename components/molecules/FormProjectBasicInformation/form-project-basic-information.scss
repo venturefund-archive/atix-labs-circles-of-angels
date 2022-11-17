@@ -24,7 +24,7 @@
         margin-top: 2.87rem;
 
         &__title {
-          @include primary-text(0.875rem, $dark-gray, 500);
+          @include primary-text(0.875rem, $coa-grey-100, 500);
           margin-bottom: 1rem;
         }
         &__thumbnailPhoto {
@@ -59,7 +59,7 @@
               @include primary-text(0.81rem, $on-surface, 500);
             }
             &__title {
-              @include primary-text(0.81rem, $dark-gray, 400);
+              @include primary-text(0.81rem, $coa-grey-100, 400);
             }
           }
 
@@ -89,7 +89,7 @@
         align-items: center;
 
         &__note {
-          @include primary-text(0.87rem, $dark-gray, 400, 1.06rem);
+          @include primary-text(0.87rem, $coa-grey-100, 400, 1.06rem);
         }
       }
 
@@ -106,7 +106,7 @@
 
       &__item {
         label {
-          @include primary-text(0.875rem, $dark-gray, 500);
+          @include primary-text(0.875rem, $coa-grey-100, 500);
         }
       }
 
