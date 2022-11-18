@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select, Tag, InputNumber, Divider, Icon } from 'antd';
+import { Form, Input, Select, InputNumber, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
@@ -29,18 +29,12 @@ import {
 import _ from 'lodash';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import projectStatusMap from 'model/projectStatus';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 
 const { Option } = Select;
-
-const TAG_COLORS = {
-  'in execution': 'blue',
-  draft: '#d2d2d2',
-  'in revision': 'gold',
-  canceled: 'red',
-  completed: 'green'
-};
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
   const { getFieldDecorator, getFieldsError, getFieldError, setFieldsValue } = form;
@@ -190,12 +184,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   {projectName || 'Project Name'}
                 </h4>
 
-                <Tag
-                  color={TAG_COLORS[status?.toLowerCase()]}
+                <CoaTag
+                  predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}
                   className="formProjectBasicInformation__left__preview__tag"
                 >
-                  {status}
-                </Tag>
+                  {projectStatusMap[status].name}
+                </CoaTag>
               </div>
               <div className="formProjectBasicInformation__content__left__preview__info__description">
                 <div>

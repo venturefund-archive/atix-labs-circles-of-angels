@@ -82,3 +82,14 @@
   line-height: 0.875rem;
   color: $color;
 }
+
+@mixin primary-text($font-size, $font-color, $font-weight, $line-height: normal) {
+  margin: 0;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  @if $font-color {
+    color: $font-color;
+  }
+  line-height: $line-height;
+  font-family: 'Rubik', sans-serif;
+}

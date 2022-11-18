@@ -1,4 +1,5 @@
 @import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
 
 .coaTag {
   margin: 0;
@@ -13,32 +14,32 @@
   }
 
   &.--green {
-    color: $coa-green-100;
+    @include primary-text(0.625rem, $coa-green-100, 500, 0.75rem);
     border: solid 1px $coa-green-100;
     background: $coa-light-green-100;
   }
   &.--orange {
-    color: $coa-orange-100;
+    @include primary-text(0.625rem, $coa-orange-100, 500, 0.75rem);
     border: solid 1px $coa-orange-100;
     background: $coa-light-orange-100;
   }
   &.--yellow {
-    color: $coa-yellow-100;
+    @include primary-text(0.625rem, $coa-yellow-100, 500, 0.75rem);
     border: solid 1px $coa-yellow-100;
     background: $coa-light-yellow-100;
   }
   &.--gray {
-    color: $coa-grey-100;
+    @include primary-text(0.625rem, $coa-grey-100, 500, 0.75rem);
     border: solid 1px $coa-grey-100;
     background: $light-gray;
   }
   &.--blue {
-    color: $coa-light-blue-100;
+    @include primary-text(0.625rem, $coa-light-blue-100, 500, 0.75rem);
     border: solid 1px $coa-light-blue-100;
     background: $coa-ultralight-blue-100;
   }
   &.--red {
-    color: $coa-red-100;
+    @include primary-text(0.625rem, $coa-red-100, 500, 0.75rem);
     border: solid 1px $coa-red-100;
     background: $coa-light-red-100;
   }
