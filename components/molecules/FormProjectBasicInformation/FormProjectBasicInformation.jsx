@@ -31,6 +31,8 @@ import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import projectStatusMap from 'model/projectStatus';
+import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 
 const { Option } = Select;
 
@@ -55,8 +57,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
   const status = project?.status;
-  const beneficiaryFirstName = project?.beneficiary?.firstName;
-  const beneficiaryLastName = project?.beneficiary?.lastName;
+  const beneficiary = getUsersByRole(ROLES_IDS.beneficiary, project?.users)?.[0];
+  const beneficiaryFirstName = beneficiary?.firstName;
+  const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
@@ -442,21 +445,15 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
+        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
         nextStepButton={(() => (
-          <div className="formProjectBasicInformation__content__footerButtons__right">
-            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => (
-              <div className="formProjectBasicInformation__content__footerButtons__right__error">
-                {error}
-              </div>
-            ))}
-            <CoaButton
-              onClick={submit}
-              className="formProjectBasicInformation__footer"
-              type="primary"
-            >
-              Save and continue
-            </CoaButton>
-          </div>
+          <CoaButton
+            onClick={submit}
+            className="formProjectBasicInformation__footer"
+            type="primary"
+          >
+            Save and continue
+          </CoaButton>
         ))()}
       />
     </>
