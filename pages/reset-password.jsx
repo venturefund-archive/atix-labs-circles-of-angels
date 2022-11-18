@@ -17,12 +17,7 @@ import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
 import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
-import { getMnemonicFromToken, resetPassword } from '../api/userApi';
-import {
-  encryptWallet,
-  createNewWallet,
-  generateWalletFromMnemonic
-} from '../helpers/blockchain/wallet';
+import { resetPassword } from '../api/userApi';
 
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
@@ -32,33 +27,10 @@ function ResetPassword() {
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
 
-  const fetchMnemonic = async () => {
-    const { data, errors } = await getMnemonicFromToken(token);
-    if (errors) throw new Error(errors);
-    const mnemonic = data;
-    return mnemonic;
-  };
-
   const updatePassword = async newPassword => {
     let data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { mnemonic } = await fetchMnemonic();
-
-      if (mnemonic) {
-        const decrypted = generateWalletFromMnemonic(mnemonic);
-        const encryptedWallet = await encryptWallet(decrypted, newPassword);
-        const { address } = decrypted;
-        data = { ...data, address, mnemonic, encryptedWallet };
-      } else {
-        const {
-          mnemonic: mnemonicCreated,
-          address,
-          encryptedWallet
-        } = await createNewWallet(newPassword);
-        data = { ...data, address, mnemonic: mnemonicCreated, encryptedWallet };
-      }
-
       const { errors } = await resetPassword(data);
       if (!errors) {
         setSuccessfulUpdate(true);
