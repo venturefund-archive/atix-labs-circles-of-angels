@@ -448,21 +448,15 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
+        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
         nextStepButton={(() => (
-          <div className="formProjectBasicInformation__content__footerButtons__right">
-            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => (
-              <div className="formProjectBasicInformation__content__footerButtons__right__error">
-                {error}
-              </div>
-            ))}
-            <CoaButton
-              onClick={submit}
-              className="formProjectBasicInformation__footer"
-              type="primary"
-            >
-              Save and continue
-            </CoaButton>
-          </div>
+          <CoaButton
+            onClick={submit}
+            className="formProjectBasicInformation__footer"
+            type="primary"
+          >
+            Save and continue
+          </CoaButton>
         ))()}
       />
     </>

@@ -11,21 +11,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Icon, Input, Select } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
-import { CURRENCIES } from 'constants/constants';
+import { CURRENCIES, ERROR_TYPES, MB_FACTOR_CONVERTER } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import _ from 'lodash';
-import { getExtensionFromUrl } from 'helpers/utils';
+import { getErrorMessagesField, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Styles from './form-project-detail.module.scss';
 
 const { Option } = Select;
 
 const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, setFieldsValue, getFieldError } = form;
+  const { getFieldDecorator, setFieldsValue, getFieldError, getFieldsError } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
 
@@ -93,8 +93,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
 
   const validateFileSize = (_rule, value, callback) => {
     if (value?.file.size === 'removed') return callback();
-    if (value?.file.size / 1000000 > 20)
-      return callback('* The file is invalid. Review the recommendations and try again');
+    if (value?.file.size / MB_FACTOR_CONVERTER > 2) return callback(ERROR_TYPES.INVALID_FILE);
     return callback();
   };
 
@@ -115,7 +114,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
       : [
           {
             required: true,
-            message: 'Please upload a valid agreement file!'
+            message: ERROR_TYPES.EMPTY_FILE
           },
           {
             validator: validateFileSize
@@ -140,7 +139,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
         <TitlePage textTitle="Complete Project's Details" />
         <Form onSubmit={submit} className="formProjectDetail__content__form">
           <div className="formProjectDetail__content__form__row">
-            <Form.Item label="About the project">
+            <Form.Item label="About the project" help={null}>
               <p className="formProjectDetail__content__form__row__note">
                 Share your information about the entrepreneurs and the project
               </p>
@@ -148,14 +147,14 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the about of this project!',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   }
                 ],
                 initialValue: problemAddressed
               })(<Input.TextArea placeholder="" maxLength={500} />)}
             </Form.Item>
-            <Form.Item label="Our mission and vision">
+            <Form.Item label="Our mission and vision" help={null}>
               <p className="formProjectDetail__content__form__row__note">
                 Share your Project Mission, the impact you have made so far and what your project is
                 about
@@ -164,7 +163,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 rules: [
                   {
                     required: true,
-                    message: 'Please input the account information of this project!',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   }
                 ],
@@ -173,12 +172,12 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
             </Form.Item>
           </div>
           <div className="formProjectDetail__content__form__row">
-            <Form.Item label="Currency Type">
+            <Form.Item label="Currency Type" help={null}>
               {getFieldDecorator('currencyType', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please select a currency type',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   }
                 ],
@@ -200,12 +199,12 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </Select>
               )}
             </Form.Item>
-            <Form.Item label="Currency">
+            <Form.Item label="Currency" help={null}>
               {getFieldDecorator('currency', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please select a currency',
+                    message: ERROR_TYPES.EMPTY,
                     whitespace: true
                   }
                 ],
@@ -234,7 +233,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </>
               )}
               {currentCurrencyType === 'fiat' && (
-                <Form.Item label="Account Information">
+                <Form.Item label="Account Information" help={null}>
                   <p className="formProjectDetail__content__form__row__note">
                     Fill in your bank account information
                   </p>
@@ -242,7 +241,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                     rules: [
                       {
                         required: true,
-                        message: 'Please input the account information of this project!',
+                        message: ERROR_TYPES.EMPTY,
                         whitespace: true
                       },
                       {
@@ -255,7 +254,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </Form.Item>
               )}
               {currentCurrencyType === 'crypto' && (
-                <Form.Item label="Address">
+                <Form.Item label="Address" help={null}>
                   <p className="formProjectDetail__content__form__row__note">
                     Enter your wallet address here
                   </p>
@@ -263,7 +262,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                     rules: [
                       {
                         required: true,
-                        message: 'Please input your new password!',
+                        message: ERROR_TYPES.EMPTY,
                         whitespace: true
                       },
                       {
@@ -285,9 +284,20 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
           </div>
           <div className="formProjectDetail__content__form__row">
             <div className="formProjectDetail__content__form__row__uploadContainer">
-              <Form.Item label="">
+              <Form.Item
+                label=""
+                help={
+                  <>
+                    {getErrorMessagesField(legalAgreementError, [
+                      ERROR_TYPES.EMPTY_FILE,
+                      ERROR_TYPES.INVALID_FILE
+                    ]).map(errorMessage => errorMessage)}
+                  </>
+                }
+              >
                 {getFieldDecorator('legalAgreementFile', {
-                  rules: filesRules(legalAgreementFile)
+                  rules: filesRules(legalAgreementFile),
+                  validateTrigger: 'onSubmit'
                 })(
                   <CustomUpload
                     uploadProps={uploadProps}
@@ -318,7 +328,17 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
               <span>Recommended document files. Format: PDF, up to 20 MB.</span>
             </div>
             <div className="formProjectDetail__content__form__row__uploadContainer">
-              <Form.Item label="">
+              <Form.Item
+                label=""
+                help={
+                  <>
+                    {getErrorMessagesField(projectProposalError, [
+                      ERROR_TYPES.EMPTY_FILE,
+                      ERROR_TYPES.INVALID_FILE
+                    ]).map(errorMessage => errorMessage)}
+                  </>
+                }
+              >
                 {getFieldDecorator('projectProposalFile', {
                   rules: filesRules(projectProposalFile),
                   validateTrigger: 'onSubmit'
@@ -355,6 +375,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
         </Form>
       </div>
       <FooterButtons
+        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
         prevStepButton={(() => (
           <CoaButton onClick={goBack} type="secondary">
             <Icon type="arrow-left" /> Back
