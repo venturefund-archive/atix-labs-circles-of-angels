@@ -24,3 +24,6 @@ export const checkProjectHasAnyUserWithoutFirstLogin = ({ beneficiaries, investo
   const allAuditorsWithFirstLogin = auditors?.some(auditor => auditor?.first);
   return allBeneficiariesWithFirstLogin || allInvestorsWithFirstLogin || allAuditorsWithFirstLogin;
 };
+
+export const getUsersByRole = (role, users) =>
+  users?.filter(user => user?.role === role.toString())?.[0]?.users;

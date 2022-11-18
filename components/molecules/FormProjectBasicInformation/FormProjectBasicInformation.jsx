@@ -29,6 +29,8 @@ import {
 import _ from 'lodash';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 
 const { Option } = Select;
 
@@ -61,8 +63,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
   const status = project?.status;
-  const beneficiaryFirstName = project?.beneficiary?.firstName;
-  const beneficiaryLastName = project?.beneficiary?.lastName;
+  const beneficiary = getUsersByRole(ROLES_IDS.beneficiary, project?.users)?.[0];
+  const beneficiaryFirstName = beneficiary?.firstName;
+  const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
