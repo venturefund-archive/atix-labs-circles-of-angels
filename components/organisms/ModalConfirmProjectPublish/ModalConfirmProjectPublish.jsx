@@ -10,10 +10,10 @@
 import { Button, Modal, Typography } from "antd";
 import LogoWrapper from "components/atoms/LogoWrapper";
 
-const ModalConfirmProjectCreation = ({ modalOpen, onSuccess }) => {
+const ModalConfirmProjectPublish = ({ visible, onSuccess }) => {
   return (
     <Modal
-      visible={modalOpen}
+      visible={visible}
       maskClosable={false}
       className='CustomModal'
       closable={false}
@@ -31,4 +31,4 @@ const ModalConfirmProjectCreation = ({ modalOpen, onSuccess }) => {
   )
 }
 
-export default ModalConfirmProjectCreation
+export default ModalConfirmProjectPublish
