@@ -28,7 +28,7 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
     status,
     following,
     applied,
-    beneficiary = 'unset'
+    beneficiary
   } = project;
   const locationsNames = () => {
     const countriesIds = countries.filter(
@@ -40,6 +40,12 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
     }
     return countriesIds.map(country => country.name).join(', ');
   };
+
+  const beneficiaryFirstName = beneficiary?.firstName || '';
+  const beneficiaryLastName = beneficiary?.lastName || '';
+  const beneficiaryCompleteName = beneficiary
+    ? `${beneficiaryFirstName} ${beneficiaryLastName}`
+    : 'Not set';
 
   return (
     <Col className="ProjectCard" span={8} xs={24} md={12} lg={8}>
@@ -121,10 +127,7 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
                 <Divider type="vertical" className="ProjectSummary__divider" />
               </Col>
               <Col xs={24} lg={6}>
-                <InfoItem
-                  subtitle="Beneficiary name"
-                  title={`${beneficiary?.firstName}${beneficiary?.lastName}`}
-                />
+                <InfoItem subtitle="Beneficiary name" title={beneficiaryCompleteName} />
               </Col>
             </Row>
           </Col>
