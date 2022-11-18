@@ -18,11 +18,13 @@ import './_login.scss';
 import './landing/_landing.scss';
 import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import { resetPassword } from '../api/userApi';
+import ModalChangePasswordSuccess from 'components/organisms/ModalChangePasswordSuccess/ModalChangePasswordSuccess';
 
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
@@ -31,8 +33,11 @@ function ResetPassword() {
     let data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { errors } = await resetPassword(data);
+      const { errors, first = true } = await resetPassword(data);
       if (!errors) {
+        if (first) {
+          setSuccessModalOpen(true)
+        }
         setSuccessfulUpdate(true);
       } else {
         showModalError('Error', errors);
@@ -70,6 +75,7 @@ function ResetPassword() {
       >
       </ModalLogin>
       <div>{renderForm()}</div>
+      <ModalChangePasswordSuccess visible={successModalOpen} />
     </BackgroundLanding>
   );
 }
