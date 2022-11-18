@@ -19,7 +19,10 @@ import { getCountries } from 'api/countriesApi';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import { SentIcon } from 'components/atoms/CustomIcons/SentIcon';
-import { checkProjectHasAnyUserWithoutFirstLogin } from 'helpers/modules/projectUsers';
+import {
+  checkProjectHasAnyUserWithoutFirstLogin,
+  getUsersByRole
+} from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
@@ -28,12 +31,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const [countries, setCountries] = useState({});
   const [hasPendingUsers, setHasPendingUsers] = useState(false);
 
-  const getUsersByRole = role =>
-    project?.users?.filter(user => user?.role === role.toString())?.[0]?.users;
-
-  const initialBeneficiariesUserData = getUsersByRole(ROLES_IDS.beneficiary);
-  const initialInvestorsUserData = getUsersByRole(ROLES_IDS.investor);
-  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor);
+  const initialBeneficiariesUserData = getUsersByRole(ROLES_IDS.beneficiary, project?.users);
+  const initialInvestorsUserData = getUsersByRole(ROLES_IDS.investor, project?.users);
+  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor, project?.users);
 
   const [currentAuditorsElements, setCurrentAuditorsElements] = useState([_.uniqueId()]);
 

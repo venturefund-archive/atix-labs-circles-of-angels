@@ -73,6 +73,7 @@ export const FormUserContent = ({
           initialValue: initialData?.firstName
         })(
           <Input
+            maxLength={50}
             placeholder="Enter first name"
             disabled={
               userState === USER_STATES.EXIST ||
@@ -100,6 +101,7 @@ export const FormUserContent = ({
           initialValue: initialData?.lastName
         })(
           <Input
+            maxLength={50}
             placeholder="Enter last name"
             disabled={
               userState === USER_STATES.EXIST ||
