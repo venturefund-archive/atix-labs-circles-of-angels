@@ -27,7 +27,7 @@ function SecretKey() {
   const redirect = (user) => {
     let route = '/'
     if (user.isAdmin) {
-      route = '/my-proyects'
+      route = '/my-projects'
     }
     history.push(route)
   }

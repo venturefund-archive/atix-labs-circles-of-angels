@@ -23,8 +23,8 @@ function Landing() {
         setModalOpen={setModalOpen}
       />
       <ModalLogin
-        visibility={modalOpen}
-        setVisibility={setModalOpen}
+        visible={modalOpen}
+        setVisible={setModalOpen}
       />
     </BackgroundLanding>
   );

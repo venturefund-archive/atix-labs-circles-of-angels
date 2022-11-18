@@ -57,12 +57,12 @@ const generatePDF = (content) => {
   doc.text(`${content}`, 10, 10);
   return doc
 }
-function ModalSecretKey({ modalOpen, onSuccess }) {
+
+function ModalSecretKey({ visible, onSuccess }) {
   const [first] = useState(false);
   const [pin, setPin] = useState();
   const [doc, setDoc] = useState();
   const [disabled, setDisabled] = useState(true);
-
 
   useEffect(() => {
     const _pin = Math.floor(100000 + Math.random() * 900000);
@@ -76,7 +76,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
 
   return (
     <Modal
-      visible={modalOpen}
+      visible={visible}
       mask={false}
       closable={false}
       maskClosable={false}

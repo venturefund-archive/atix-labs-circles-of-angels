@@ -38,8 +38,8 @@ export const signTransaction = async (jsonWallet, transaction, password) => {
   return wallet.signTransaction(transaction);
 };
 
-export const generateWalletFromPin = async (pin) => {
-  const _wallet = await createNewWallet(pin)
+export const generateWalletFromPin = async (pin, password) => {
+  const _wallet = await createNewWallet(`${pin}/${password}`);
   const { iv } = JSON.parse(_wallet.wallet).Crypto.cipherparams
   const newWallet = {
     wallet: _wallet.wallet,
