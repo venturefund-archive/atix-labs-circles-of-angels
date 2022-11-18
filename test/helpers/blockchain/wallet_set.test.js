@@ -6,18 +6,18 @@ describe('Generate wallet from pin', () => {
   let generated;
   beforeEach(async () => {
     pin = '123456'
-    generated = await generateWalletFromPin(pin)
+    generated = await generateWalletFromPin(pin, 'password');
   })
   it('is able to decrypt generated wallet with a valid pin', async () => {
-    const decripted = await Wallet.fromEncryptedJson(generated.wallet, pin)
+    const decripted = await Wallet.fromEncryptedJson(generated.wallet, `${pin}/password`);
 
-    expect(decripted.address).toEqual(generated.address)
+    expect(decripted.address).toEqual(generated.address);
   })
   it('fails to decript with an invalid pin', async () => {
     await expect(
       Wallet.fromEncryptedJson(
         generated.wallet,
-        '1234')
+        '1234/password')
     )
       .rejects
       .toThrow();

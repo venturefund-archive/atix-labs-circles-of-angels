@@ -23,21 +23,21 @@ const handleUserRedirection = (user, history) => {
   const { isAdmin, forcePasswordChange } = user
   let nextRoute = '/'
   if (forcePasswordChange) {
-    nextRoute = 'change-password'
+    nextRoute = 'reset-password'
   } else if (isAdmin) {
     nextRoute = 'my-projects'
   }
-  console.log('routing to', nextRoute)
   history.push(nextRoute);
 }
 
-const updateAuthState = (response, changeUser) => {
-  const { data: { user }, headers: { authorization } } = response
-  if (authorization) sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
-  changeUser(user);
+const updateAuthState = (authorization, user, changeUser) => {
+  if (authorization) {
+    sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
+    changeUser(user);
+  };
 }
 
-const ModalLogin = ({ setVisible, visible, nextModal}) => {
+const ModalLogin = ({ setVisible, visible, nextModal }) => {
   const { changeUser } = useUserContext();
   const [onLoginRoute, setOnLoginRoute] = useState(false);
   const [closable, setClosable] = useState(true);
@@ -69,30 +69,16 @@ const ModalLogin = ({ setVisible, visible, nextModal}) => {
         message.error(errors);
         return { error: errors };
       }
+
       if (!user) return { error: 'User not found' };
 
-      changeUser(user);
-      const authorization = headers?.authorization;
-      if (authorization) sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
+      updateAuthState(headers.authorization, user, changeUser);
       result.user = user;
 
-      const { isAdmin, forcePasswordChange, pin } = user;
-
-      let nextRoute = '/';
-
-      if (!pin) {
-        nextRoute = 'secret-key';
-      } else if (forcePasswordChange) {
-        nextRoute = '/password-change';
-      } else if (isAdmin) {
-        nextRoute = '/my-projects';
-      }
-
-      updateAuthState(response, changeUser)
-      clearFields();
       if (!user.pin) {
-        nextModal({...user, password: pwd});
+        nextModal({ ...user, password: pwd });
       } else {
+        clearFields();
         handleUserRedirection(user, history)
       }
     } catch (e) {
@@ -127,10 +113,12 @@ const ModalLogin = ({ setVisible, visible, nextModal}) => {
 export default ModalLogin;
 
 ModalLogin.defaultProps = {
-  visibility: false
+  visible: false,
+  nextModal: () => undefined
 };
 
 ModalLogin.propTypes = {
-  setVisibility: PropTypes.func.isRequired,
-  visibility: PropTypes.bool
+  setVisible: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+  nextModal: PropTypes.func
 };

@@ -5,16 +5,18 @@ import ModalSecretKey from 'components/organisms/ModalSecretKey/ModalSecretKey';
 import Navigation from 'components/organisms/Navigation';
 import { generateWalletFromPin } from 'helpers/blockchain/wallet';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 function Login() {
   const [modalOpen, setModalOpen] = useState(true);
   const [secretKeyOpen, setSecretKeyOpen] = useState(false);
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
+  const history = useHistory();
 
-  const openSecretKey = (user) => {
+  const openSecretKey = (_user) => {
     setSecretKeyOpen(true);
     setModalOpen(false);
-    setUser(user);
+    setUser(_user);
   }
 
   const savePin = async (pin) => {
@@ -27,9 +29,9 @@ function Login() {
     }
   }
 
-  const redirect = (user) => {
+  const redirect = (_user) => {
     let route = '/'
-    if (user.isAdmin) {
+    if (_user.isAdmin) {
       route = '/my-projects'
     }
     history.push(route)

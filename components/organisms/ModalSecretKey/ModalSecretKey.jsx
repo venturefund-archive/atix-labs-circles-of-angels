@@ -138,12 +138,12 @@ SecretKeyValidator.propTypes = {
 }
 
 ModalSecretKey.defaultProps = {
-  modalOpen: false,
+  visible: false,
   onSuccess: () => undefined,
 };
 
 ModalSecretKey.propTypes = {
-  modalOpen: PropTypes.bool,
+  visible: PropTypes.bool,
   onSuccess: PropTypes.func
 };
 
