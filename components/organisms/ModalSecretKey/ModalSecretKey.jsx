@@ -8,61 +8,42 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Modal, Divider, Form } from 'antd';
+import { Typography, Button, Modal, Divider, Form, Input } from 'antd';
 import CustomButton from 'components/atoms/CustomButton/CustomButton';
-import Field from 'components/atoms/Field/Field';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
 import customConfig from 'custom-config';
-import { parseInt } from 'lodash';
-
-function SecretKeyValidator({ secretKey, onSuccess }) {
-  const [field, setField] = useState({
-    type: 'password',
-    name: 'secret-key',
-    placeholder: 'Enter your secret key',
-    value: '',
-    validateStatus: '',
-    help: ''
-  });
-
-  const isValid = (value, _secretKey) => parseInt(value) === _secretKey;
-  const handleChange = (e) => {
-    const { value } = e.target
-    const valid = isValid(value, secretKey);
-    setField(oldField => ({
-      ...oldField,
-      value,
-      validateStatus: valid ? 'success' : 'error',
-      help: !valid ? 'Must match Secret Key' : '',
-    }))
-  }
-
-  useEffect(() => {
-    if (isValid(field.value, secretKey)) {
-      onSuccess()
-    }
-  }, [field.value, onSuccess, secretKey])
-
-  return (
-    <Form>
-      <Field {...field} handleChange={handleChange} />
-    </Form>
-  )
-}
 
 const generatePDF = (content) => {
   const doc = jsPDF();
   doc.text(`${content}`, 10, 10);
   return doc
 }
-function ModalSecretKey({ modalOpen, onSuccess }) {
+
+function FormModalSecretKey({ form, modalOpen, onSuccess }) {
+  const { getFieldDecorator, getFieldProps, validateFields } = form
   const [first] = useState(false);
   const [pin, setPin] = useState();
   const [doc, setDoc] = useState();
-  const [disabled, setDisabled] = useState(true);
 
+  const validPin = (_rule, value, callback) => {
+    if (value && parseInt(value) !== pin) {
+      callback('Secret key do not match');
+    } else {
+      callback();
+    }
+  }
+
+  const submit = () => {
+    validateFields(err => {
+      if (!err) {
+        return onSuccess(
+          getFieldProps('pin').value
+        );
+      }
+    })
+  }
 
   useEffect(() => {
     const _pin = Math.floor(100000 + Math.random() * 900000);
@@ -84,8 +65,7 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       footer={(
         <Button
           className="ant-btn ant-btn-primary"
-          disabled={disabled}
-          onClick={() => onSuccess(pin)}
+          onClick={submit}
         >
           Confirm
         </Button>
@@ -114,37 +94,39 @@ function ModalSecretKey({ modalOpen, onSuccess }) {
       <Typography.Paragraph>
         Enter the secret key you downloaded in the previous step.
       </Typography.Paragraph>
-      <Typography.Text
-        style={{
-          fontWeight: 'bold',
-          fontSize: '14px'
-        }}
-      >
-        Secret Key
-      </Typography.Text>
-      <SecretKeyValidator secretKey={pin} onSuccess={() => setDisabled(false)} />
+
+      <Form>
+        <Form.Item label="Secret Key">
+          {
+            getFieldDecorator('pin', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your secret key'
+                },
+                {
+                  validator: validPin,
+                }
+              ]
+            })(<Input.Password placeholder='Enter your secret key' />)
+          }
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
 
-SecretKeyValidator.defaultProps = {
-  secretKey: NaN,
-  onSuccess: () => undefined,
-}
-
-SecretKeyValidator.propTypes = {
-  secretKey: PropTypes.number,
-  onSuccess: PropTypes.func
-}
-
-ModalSecretKey.defaultProps = {
+FormModalSecretKey.defaultProps = {
   modalOpen: false,
   onSuccess: () => undefined,
+  pin: NaN
 };
 
-ModalSecretKey.propTypes = {
+FormModalSecretKey.propTypes = {
   modalOpen: PropTypes.bool,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  pin: PropTypes.number
 };
 
+const ModalSecretKey = Form.create({name: 'SecretKeyForm'})(FormModalSecretKey)
 export default ModalSecretKey;
