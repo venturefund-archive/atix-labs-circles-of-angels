@@ -192,7 +192,8 @@ export const ERROR_MESSAGES = {
   MORE_THAN_3_DECIMAL: "This value can't have more than 3 decimals",
   NO_ZERO: "This value can't be zero",
   EMPTY_FILE: '* You must upload the required file before continuing',
-  INVALID_FILE: '* The file is invalid. Review the recommendations and try again'
+  INVALID_FILE: '* The file is invalid. Review the recommendations and try again',
+  INVALID_EMAIL: 'The current value is not a valid email'
 };
 
 export const KB_FACTOR_CONVERTER = 1000;

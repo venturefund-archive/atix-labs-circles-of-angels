@@ -8,6 +8,7 @@ import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/Conditio
 import React, { useCallback, useEffect } from 'react';
 import { FeedbackMessage } from 'components/atoms/FeedbackMessage/FeedbackMessage';
 import PropTypes from 'prop-types';
+import { VALID_EMAIL_REGEX } from 'constants/Regex';
 import {
   FEEDBACK_MESSAGE_BY_USER_STATE,
   FEEDBACK_MESSAGE_TYPES_BY_USER_STATE,
@@ -84,6 +85,10 @@ export const CustomCollapseHeader = ({
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
+          },
+          {
+            pattern: VALID_EMAIL_REGEX,
+            message: ERROR_MESSAGES.INVALID_EMAIL
           }
         ],
         initialValue: initialData?.email
