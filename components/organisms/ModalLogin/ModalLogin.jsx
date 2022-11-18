@@ -44,12 +44,19 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       return result;
     }
     try {
-      const response = await loginUser(email, pwd);
-      const user = response?.data;
-      const authorization = response?.headers?.authorization;
+      const { status, errors, data: user, headers } = await loginUser(email, pwd);
+
+      if (status !== 200) {
+        message.error(errors);
+        return { error: errors };
+      }
+      if (!user) return { error: 'User not found' };
+
+      changeUser(user);
+      const authorization = headers?.authorization;
       if (authorization) sessionStorage.setItem(ACCESS_TOKEN_KEY, authorization);
       result.user = user;
-      changeUser(user);
+
       const { isAdmin, forcePasswordChange, pin } = user;
 
       let nextRoute = '/';
@@ -60,8 +67,6 @@ const ModalLogin = ({ setVisibility, visibility }) => {
         nextRoute = '/password-change';
       } else if (isAdmin) {
         nextRoute = '/my-projects';
-      } else {
-        nextRoute = '/';
       }
 
       clearFields();
