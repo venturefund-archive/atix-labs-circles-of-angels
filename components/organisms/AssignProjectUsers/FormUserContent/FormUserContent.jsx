@@ -10,6 +10,37 @@ import './form-user-content.module.scss';
 
 const { Option } = Select;
 
+const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign }) => ({
+  [USER_STATES.NO_EXIST]: {
+    func: inviteAndAssign,
+    text: 'Invite & Assign user'
+  },
+  [USER_STATES.PENDING_WITH_TEXT]: {
+    func: assign,
+    text: 'Assign user'
+  },
+  [USER_STATES.EXIST_WITH_TEXT]: {
+    func: assign,
+    text: 'Assign user'
+  },
+  [USER_STATES.PENDING]: {
+    func: unassign,
+    text: 'Unassign user'
+  },
+  [USER_STATES.EXIST]: {
+    func: unassign,
+    text: 'Unassign user'
+  },
+  [USER_STATES.UNKNOWN]: {
+    func: () => {},
+    text: 'Assign user'
+  },
+  [USER_STATES.LOADING]: {
+    func: () => {},
+    text: 'Assign user'
+  }
+});
+
 export const FormUserContent = ({
   onRemove,
   setActiveKey,
@@ -18,12 +49,12 @@ export const FormUserContent = ({
   setUserState,
   userState,
   item,
-  handleSubmitNewUser,
-  handleSubmitConfirmUser,
+  handleCreateAndAssignUser,
+  handleAssignUser,
+  handleUnassignUser,
   totalKeys,
   initialData,
-  isFormSubmitted,
-  removeCurrentUserFromProject
+  isFormSubmitted
 }) => {
   const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
   const country = getFieldValue('country');
@@ -33,10 +64,10 @@ export const FormUserContent = ({
 
   const handleRemove = async () => {
     if (item !== undefined && totalKeys !== 1) {
-      await removeCurrentUserFromProject();
+      await handleUnassignUser();
       return onRemove();
     }
-    await removeCurrentUserFromProject();
+    await handleUnassignUser();
     setFieldsValue({
       id: undefined,
       firstName: undefined,
@@ -143,26 +174,28 @@ export const FormUserContent = ({
         )}
       </Form.Item>
       <div className="formUserContent__container__buttonsContainer">
-        <CoaButton onClick={handleRemove} type="ghost" disabled={userState === USER_STATES.LOADING}>
-          Cancel
-        </CoaButton>
-
         <CoaButton
           type="primary"
           onClick={
-            userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
+            SUBMIT_BUTTON_DICT({
+              assign: handleAssignUser,
+              inviteAndAssign: handleCreateAndAssignUser,
+              unassign: handleRemove
+            })[userState]?.func
           }
           htmlType="submit"
           disabled={
-            !country ||
-            !firstName ||
-            !lastName ||
-            !email ||
-            isFormSubmitted ||
+            ((!country || !firstName || !lastName || !email) && !initialData) ||
             userState === USER_STATES.LOADING
           }
         >
-          {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Assign user'}
+          {
+            SUBMIT_BUTTON_DICT({
+              assign: handleAssignUser,
+              inviteAndAssign: handleCreateAndAssignUser,
+              unassign: handleRemove
+            })[userState]?.text
+          }
         </CoaButton>
 
         <FeedbackMessage
@@ -196,12 +229,12 @@ FormUserContent.defaultProps = {
   setUserState: undefined,
   userState: undefined,
   item: undefined,
-  handleSubmitNewUser: undefined,
-  handleSubmitConfirmUser: undefined,
+  handleCreateAndAssignUser: undefined,
+  handleAssignUser: undefined,
   totalKeys: undefined,
   initialData: undefined,
   isFormSubmitted: undefined,
-  removeCurrentUserFromProject: undefined
+  handleUnassignUser: undefined
 };
 
 FormUserContent.propTypes = {
@@ -224,10 +257,10 @@ FormUserContent.propTypes = {
   setUserState: PropTypes.func,
   userState: PropTypes.string,
   item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  handleSubmitNewUser: PropTypes.func,
-  handleSubmitConfirmUser: PropTypes.func,
+  handleCreateAndAssignUser: PropTypes.func,
+  handleAssignUser: PropTypes.func,
   totalKeys: PropTypes.number,
   initialData: PropTypes.objectOf(PropTypes.any),
   isFormSubmitted: PropTypes.bool,
-  removeCurrentUserFromProject: PropTypes.func
+  handleUnassignUser: PropTypes.func
 };

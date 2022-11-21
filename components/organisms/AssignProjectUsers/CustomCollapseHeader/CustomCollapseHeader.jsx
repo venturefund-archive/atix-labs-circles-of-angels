@@ -9,6 +9,7 @@ import React, { useCallback, useEffect } from 'react';
 import { FeedbackMessage } from 'components/atoms/FeedbackMessage/FeedbackMessage';
 import PropTypes from 'prop-types';
 import { VALID_EMAIL_REGEX } from 'constants/Regex';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import {
   FEEDBACK_MESSAGE_BY_USER_STATE,
   FEEDBACK_MESSAGE_TYPES_BY_USER_STATE,
@@ -24,7 +25,8 @@ export const CustomCollapseHeader = ({
   setUserState,
   form,
   initialData,
-  setIsFormSubmitted
+  setIsFormSubmitted,
+  handleResendEmail
 }) => {
   const { setFieldsValue, getFieldDecorator } = form;
   const searchUser = async inputValue => {
@@ -100,43 +102,52 @@ export const CustomCollapseHeader = ({
         />
       )}
 
-      {
-        <ConditionalWrapper
-          condition={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
-          wrapper={children => (
-            <Tooltip
-              placement="top"
-              title={
-                <div className="customCollapseHeader__customHeader__tooltip">
-                  <FeedbackMessage
-                    className="customCollapseHeader__customHeader__tooltip__title"
-                    show
-                    message={TOOLTIP_TITLES_BY_USER_STATE[userState]}
-                    type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
-                  />
-                  {/* </p> */}
-                  <p className="customCollapseHeader__customHeader__tooltip__description">
-                    {userState === USER_STATES.EXIST &&
-                      'The user is already registered on the platform and will be assigned to the project in the chosen role.'}
-                    {userState === USER_STATES.PENDING &&
-                      'An email invitation has been sent for the user to enter the platform.'}
-                  </p>
-                </div>
-              }
-            >
-              {children}
-            </Tooltip>
-          )}
+      <ConditionalWrapper
+        condition={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
+        wrapper={children => (
+          <Tooltip
+            placement="top"
+            title={
+              <div className="customCollapseHeader__customHeader__tooltip">
+                <FeedbackMessage
+                  className="customCollapseHeader__customHeader__tooltip__title"
+                  show
+                  message={TOOLTIP_TITLES_BY_USER_STATE[userState]}
+                  type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
+                />
+                {/* </p> */}
+                <p className="customCollapseHeader__customHeader__tooltip__description">
+                  {userState === USER_STATES.EXIST &&
+                    'The user is already registered on the platform and will be assigned to the project in the chosen role.'}
+                  {userState === USER_STATES.PENDING &&
+                    'An email invitation has been sent for the user to enter the platform.'}
+                </p>
+              </div>
+            }
+          >
+            {children}
+          </Tooltip>
+        )}
+      >
+        {userState === USER_STATES.LOADING && <Icon type="loading" />}
+        <FeedbackMessage
+          className="customCollapseHeader__customHeader__feedbackMessage"
+          message={FEEDBACK_MESSAGE_BY_USER_STATE(entity)[userState]}
+          show={userState !== USER_STATES.UNKNOWN && userState !== USER_STATES.LOADING}
+          type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
+        />
+      </ConditionalWrapper>
+      {userState === USER_STATES.PENDING && (
+        <CoaButton
+          type="ghost"
+          className="custom"
+          style={{ width: 'fit-content', display: 'flex', alignItems: 'center' }}
+          onClick={handleResendEmail}
         >
-          {userState === USER_STATES.LOADING && <Icon type="loading" />}
-          <FeedbackMessage
-            className="customCollapseHeader__customHeader__feedbackMessage"
-            message={FEEDBACK_MESSAGE_BY_USER_STATE(entity)[userState]}
-            show={userState !== USER_STATES.UNKNOWN && userState !== USER_STATES.LOADING}
-            type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
-          />
-        </ConditionalWrapper>
-      }
+          <Icon type="mail" />
+          Resend Invitation
+        </CoaButton>
+      )}
     </Form.Item>
   );
 };
@@ -148,7 +159,8 @@ CustomCollapseHeader.defaultProps = {
   setUserState: undefined,
   form: {},
   initialData: undefined,
-  setIsFormSubmitted: undefined
+  setIsFormSubmitted: undefined,
+  handleResendEmail: undefined
 };
 
 CustomCollapseHeader.propTypes = {
@@ -158,5 +170,6 @@ CustomCollapseHeader.propTypes = {
   setUserState: PropTypes.func,
   form: PropTypes.objectOf(PropTypes.any),
   initialData: PropTypes.objectOf(PropTypes.any),
-  setIsFormSubmitted: PropTypes.func
+  setIsFormSubmitted: PropTypes.func,
+  handleResendEmail: PropTypes.func
 };

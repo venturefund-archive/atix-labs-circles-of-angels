@@ -4,7 +4,7 @@
 .coaButton {
   &.ghost {
     * {
-      @include primary-text(0.875rem, $coa-blue-100, 500, 1.8rem);
+      @include primary-text(0.875rem, $coa-blue-100, 500);
     }
     border: 1px solid $coa-blue-100;
     border-radius: 4px;

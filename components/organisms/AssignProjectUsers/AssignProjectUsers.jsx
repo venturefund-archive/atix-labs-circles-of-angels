@@ -130,8 +130,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   setUserState,
                   userState,
                   form,
-                  handleSubmitNewUser,
-                  handleSubmitConfirmUser,
+                  handleCreateAndAssignUser,
+                  handleAssignUser,
+                  handleUnassignUser,
                   isFormSubmitted,
                   removeCurrentUserFromProject
                 }) => (
@@ -141,8 +142,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     setUserState={setUserState}
                     userState={userState}
                     form={form}
-                    handleSubmitConfirmUser={handleSubmitConfirmUser}
-                    handleSubmitNewUser={handleSubmitNewUser}
+                    handleAssignUser={handleAssignUser}
+                    handleCreateAndAssignUser={handleCreateAndAssignUser}
+                    handleUnassignUser={handleUnassignUser}
                     initialData={initialData[index]}
                     isFormSubmitted={isFormSubmitted}
                     removeCurrentUserFromProject={removeCurrentUserFromProject}
@@ -170,8 +172,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                       setUserState,
                       userState,
                       form,
-                      handleSubmitNewUser,
-                      handleSubmitConfirmUser,
+                      handleCreateAndAssignUser,
+                      handleAssignUser,
+                      handleUnassignUser,
                       isFormSubmitted,
                       removeCurrentUserFromProject
                     }) => (
@@ -184,8 +187,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                         userState={userState}
                         item={item}
                         form={form}
-                        handleSubmitConfirmUser={handleSubmitConfirmUser}
-                        handleSubmitNewUser={handleSubmitNewUser}
+                        handleAssignUser={handleAssignUser}
+                        handleCreateAndAssignUser={handleCreateAndAssignUser}
+                        handleUnassignUser={handleUnassignUser}
                         totalKeys={currentAuditorsElements?.length}
                         initialData={_initialData}
                         isFormSubmitted={isFormSubmitted}

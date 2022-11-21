@@ -1,4 +1,4 @@
-import { Collapse, Form } from 'antd';
+import { Collapse, Form, message } from 'antd';
 import { createUser, sendWelcomeEmail } from 'api/userApi';
 import { addUserToProject, removeUserFromProject } from 'api/userProjectApi';
 import React, { useState } from 'react';
@@ -31,7 +31,7 @@ const CustomCollapse = ({
     onError();
   };
 
-  const handleSubmitNewUser = () => {
+  const handleCreateAndAssignUser = () => {
     validateFields(async (err, values) => {
       if (!err) {
         setIsFormSubmitted(true);
@@ -69,12 +69,16 @@ const CustomCollapse = ({
     });
   };
 
-  const removeCurrentUserFromProject = () => {
-    const _userId = getFieldValue('id');
-    removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId: _userId });
+  const handleUnassignUser = async () => {
+    try {
+      await removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId });
+      message.success('Unassigned successful');
+    } catch (error) {
+      message.error(error);
+    }
   };
 
-  const handleSubmitConfirmUser = async () => {
+  const handleAssignUser = async () => {
     setIsFormSubmitted(true);
 
     if (initialData?.id) {
@@ -94,6 +98,10 @@ const CustomCollapse = ({
     setCurrentUserId(userId);
     if (userState === USER_STATES.PENDING_WITH_TEXT) return setUserState(USER_STATES.PENDING);
     return setUserState(USER_STATES.EXIST);
+  };
+
+  const handleResendEmail = async () => {
+    await sendWelcomeEmail({ userId, projectId });
   };
 
   return (
@@ -120,6 +128,7 @@ const CustomCollapse = ({
               form={form}
               initialData={initialData}
               setIsFormSubmitted={setIsFormSubmitted}
+              handleResendEmail={handleResendEmail}
             />
           }
           key={1}
@@ -129,10 +138,10 @@ const CustomCollapse = ({
             setUserState,
             userState,
             form,
-            handleSubmitNewUser,
-            handleSubmitConfirmUser,
+            handleCreateAndAssignUser,
+            handleAssignUser,
             isFormSubmitted,
-            removeCurrentUserFromProject
+            handleUnassignUser
           })}
         </Panel>
       </Collapse>
