@@ -139,8 +139,7 @@ export const CustomCollapseHeader = ({
       {userState === USER_STATES.PENDING && (
         <CoaButton
           type="ghost"
-          className="custom"
-          style={{ width: 'fit-content', display: 'flex', alignItems: 'center' }}
+          className="customCollapseHeader__customHeader__resendButton"
           onClick={handleResendEmail}
         >
           <Icon type="mail" />

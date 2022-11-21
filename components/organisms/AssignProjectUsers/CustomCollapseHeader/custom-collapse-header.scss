@@ -46,5 +46,10 @@
     &__feedbackMessage {
       @include primary-text(0.87rem, $coa-grey-100, 400, 1.06rem);
     }
+    &__resendButton {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+    }
   }
 }
