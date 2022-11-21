@@ -402,9 +402,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             }
           >
             <div className="formProjectBasicInformation__content__right__uploadItemContainer">
-              <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                Recommended Image Size: 1400x720px. Format: PNG or JPG.
-              </p>
+              <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                <p>Recommended Image Size: 1400x720px. Format: PNG or JPG.</p>
+                <p>Max size: 500kb</p>
+              </div>
               {getFieldDecorator('thumbnailPhoto', {
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
