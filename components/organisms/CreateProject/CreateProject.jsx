@@ -9,6 +9,7 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constants';
 import './_style.scss';
 import ModalConfirmProjectPublish from '../ModalConfirmProjectPublish/ModalConfirmProjectPublish';
+import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <div className="createProject__content__steps__step">
@@ -43,7 +44,7 @@ const CreateProject = ({
   deleteProject
 }) => {
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
-  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
+  const [secretKeyVisible, setSecretKeyVisible] = useState(true);
 
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
@@ -71,7 +72,7 @@ const CreateProject = ({
     const disabled = Object.values(completedSteps).some(completed => !completed);
 
     return (
-      <CoaButton type="primary" onClick={() =>goToNextModal((b) => b, setConfirmPublishVisible)} disabled={false}>
+      <CoaButton type="primary" onClick={() => setConfirmPublishVisible(true)} disabled={false}>
         Publish project <Icon type="arrow-right" />
       </CoaButton>
     );
@@ -134,7 +135,15 @@ const CreateProject = ({
       >
         <ModalProjectCreated />
       </FooterButtons>
-      <ModalConfirmProjectPublish visible={confirmPublishVisible} onSuccess={() => alert('secret key here')} />
+      <ModalConfirmProjectPublish
+        visible={confirmPublishVisible}
+        onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
+        onCancel={() => setSecretKeyVisible(false)}
+      />
+      <ModalConfirmWithSK
+        visible={secretKeyVisible}
+        onSuccess={() => alert('foo')}
+      />
     </>
   );
 };
