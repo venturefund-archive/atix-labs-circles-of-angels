@@ -25,7 +25,6 @@ export const CustomCollapseHeader = ({
   setUserState,
   form,
   initialData,
-  setIsFormSubmitted,
   handleResendEmail
 }) => {
   const { setFieldsValue, getFieldDecorator } = form;
@@ -61,7 +60,6 @@ export const CustomCollapseHeader = ({
   const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), []);
 
   const onChange = event => {
-    setIsFormSubmitted(false);
     const {
       target: { value }
     } = event;
@@ -99,6 +97,7 @@ export const CustomCollapseHeader = ({
           placeholder={`Insert the email of the ${entity} user`}
           onChange={onChange}
           onClick={e => e.stopPropagation()}
+          disabled={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
         />
       )}
 
@@ -159,7 +158,6 @@ CustomCollapseHeader.defaultProps = {
   setUserState: undefined,
   form: {},
   initialData: undefined,
-  setIsFormSubmitted: undefined,
   handleResendEmail: undefined
 };
 
@@ -170,6 +168,5 @@ CustomCollapseHeader.propTypes = {
   setUserState: PropTypes.func,
   form: PropTypes.objectOf(PropTypes.any),
   initialData: PropTypes.objectOf(PropTypes.any),
-  setIsFormSubmitted: PropTypes.func,
   handleResendEmail: PropTypes.func
 };

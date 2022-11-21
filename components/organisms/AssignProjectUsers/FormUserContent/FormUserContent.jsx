@@ -178,9 +178,7 @@ export const FormUserContent = ({
 
         <FeedbackMessage
           message={
-            userState === USER_STATES.PENDING ||
-            userState === USER_STATES.PENDING_WITH_TEXT ||
-            userState === USER_STATES.NO_EXIST
+            userState === USER_STATES.PENDING || userState === USER_STATES.PENDING_WITH_TEXT
               ? 'Invitation and instructions have been sent!'
               : 'User assigned successfully'
           }

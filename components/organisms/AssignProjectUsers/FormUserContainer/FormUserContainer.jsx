@@ -27,7 +27,6 @@ const CustomCollapse = ({
   const { validateFields, setFieldsValue, getFieldValue } = form;
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const userId = getFieldValue('id');
-  const [currentUserId, setCurrentUserId] = useState(initialData?.id);
 
   const handleError = () => {
     setUserState(USER_STATES.WITH_ERROR);
@@ -40,13 +39,6 @@ const CustomCollapse = ({
         setIsFormSubmitted(true);
         const dataToSend = { ...values };
 
-        if (initialData?.id !== undefined || currentUserId === userId) {
-          await removeUserFromProject({
-            projectId,
-            roleId: ROLES_IDS[entity],
-            userId: currentUserId
-          });
-        }
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (response.errors) return handleError();
 
@@ -67,13 +59,13 @@ const CustomCollapse = ({
         setUserState(USER_STATES.PENDING);
         setFieldsValue({ ...dataToSend, id: response?.data?.id });
         if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
-        setCurrentUserId(userId);
       }
     });
   };
 
   const handleUnassignUser = async () => {
     try {
+      setIsFormSubmitted(false);
       const _userId = getFieldValue('id');
       const { status } = await removeUserFromProject({
         projectId,
@@ -99,14 +91,6 @@ const CustomCollapse = ({
 
   const handleAssignUser = async () => {
     setIsFormSubmitted(true);
-
-    if (initialData?.id) {
-      await removeUserFromProject({
-        projectId,
-        roleId: ROLES_IDS[entity],
-        userId: currentUserId
-      });
-    }
     const addUserToProjectResponse = await addUserToProject({
       projectId,
       roleId: ROLES_IDS[entity],
@@ -114,7 +98,6 @@ const CustomCollapse = ({
     });
     if (addUserToProjectResponse.errors) return handleError();
     if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
-    setCurrentUserId(userId);
     if (userState === USER_STATES.PENDING_WITH_TEXT) return setUserState(USER_STATES.PENDING);
     return setUserState(USER_STATES.EXIST);
   };
