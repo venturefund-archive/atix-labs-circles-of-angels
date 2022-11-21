@@ -10,7 +10,7 @@
 import { Button, Modal, Typography } from "antd";
 import LogoWrapper from "components/atoms/LogoWrapper";
 
-const ModalConfirmProjectPublish = ({ visible, onSuccess }) => {
+const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => {
   return (
     <Modal
       visible={visible}
@@ -19,7 +19,12 @@ const ModalConfirmProjectPublish = ({ visible, onSuccess }) => {
       closable={false}
       mask={true}
       footer={[
-        <Button className='ant-btn ant-btn-secondary'>No</Button>,
+        <Button
+          className='ant-btn ant-btn-secondary'
+          onClick={onCancel}
+        >
+          No
+        </Button>,
         <Button className='ant-btn ant-btn-primary' onClick={onSuccess}>
           yes
         </Button>
