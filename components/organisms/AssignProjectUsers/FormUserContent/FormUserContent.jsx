@@ -42,42 +42,20 @@ const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign }) => ({
 });
 
 export const FormUserContent = ({
-  onRemove,
-  setActiveKey,
   form,
   countries = {},
-  setUserState,
   userState,
-  item,
   handleCreateAndAssignUser,
   handleAssignUser,
   handleUnassignUser,
-  totalKeys,
   initialData,
   isFormSubmitted
 }) => {
-  const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
+  const { getFieldDecorator, getFieldValue } = form;
   const country = getFieldValue('country');
   const firstName = getFieldValue('firstName');
   const lastName = getFieldValue('lastName');
   const email = getFieldValue('email');
-
-  const handleRemove = async () => {
-    if (item !== undefined && totalKeys !== 1) {
-      await handleUnassignUser();
-      return onRemove();
-    }
-    await handleUnassignUser();
-    setFieldsValue({
-      id: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      country: undefined,
-      email: undefined
-    });
-    setUserState(USER_STATES.UNKNOWN);
-    setActiveKey(0);
-  };
 
   return (
     <div
@@ -180,7 +158,7 @@ export const FormUserContent = ({
             SUBMIT_BUTTON_DICT({
               assign: handleAssignUser,
               inviteAndAssign: handleCreateAndAssignUser,
-              unassign: handleRemove
+              unassign: handleUnassignUser
             })[userState]?.func
           }
           htmlType="submit"
@@ -193,7 +171,7 @@ export const FormUserContent = ({
             SUBMIT_BUTTON_DICT({
               assign: handleAssignUser,
               inviteAndAssign: handleCreateAndAssignUser,
-              unassign: handleRemove
+              unassign: handleUnassignUser
             })[userState]?.text
           }
         </CoaButton>
@@ -222,24 +200,17 @@ export const FormUserContent = ({
 };
 
 FormUserContent.defaultProps = {
-  onRemove: undefined,
-  setActiveKey: undefined,
   form: undefined,
   countries: undefined,
-  setUserState: undefined,
   userState: undefined,
-  item: undefined,
   handleCreateAndAssignUser: undefined,
   handleAssignUser: undefined,
-  totalKeys: undefined,
   initialData: undefined,
   isFormSubmitted: undefined,
   handleUnassignUser: undefined
 };
 
 FormUserContent.propTypes = {
-  onRemove: PropTypes.func,
-  setActiveKey: PropTypes.func,
   form: PropTypes.shape({
     getFieldDecorator: PropTypes.func,
     setFieldsValue: PropTypes.func,
@@ -254,12 +225,9 @@ FormUserContent.propTypes = {
       })
     )
   }),
-  setUserState: PropTypes.func,
   userState: PropTypes.string,
-  item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   handleCreateAndAssignUser: PropTypes.func,
   handleAssignUser: PropTypes.func,
-  totalKeys: PropTypes.number,
   initialData: PropTypes.objectOf(PropTypes.any),
   isFormSubmitted: PropTypes.bool,
   handleUnassignUser: PropTypes.func

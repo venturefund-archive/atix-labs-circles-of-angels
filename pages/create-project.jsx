@@ -170,12 +170,17 @@ const CreateProjectContainer = () => {
 
   if (currentWizard === PROJECT_FORM_NAMES.MAIN) props.completedSteps = completedSteps;
 
+  const handleGoBack = async ({ withUpdate } = { withUpdate: false }) => {
+    if (withUpdate) await fetchProject(project.id);
+    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
+  };
+
   // TODO add loading when "isSubmitting"
   return (
     <CurrentComponent
       project={project}
       setCurrentWizard={setCurrentWizard}
-      goBack={() => setCurrentWizard(PROJECT_FORM_NAMES.MAIN)}
+      goBack={handleGoBack}
       onError={errorCallback}
       onSuccess={successCallback}
       submitForm={submitForm}

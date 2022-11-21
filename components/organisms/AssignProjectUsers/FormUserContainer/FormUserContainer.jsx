@@ -17,6 +17,9 @@ const CustomCollapse = ({
   projectId,
   onError,
   setCanAddAdditionalAuditor,
+  item,
+  totalKeys,
+  onRemove,
   ...rest
 }) => {
   const [activeKey, setActiveKey] = useState(0);
@@ -71,8 +74,24 @@ const CustomCollapse = ({
 
   const handleUnassignUser = async () => {
     try {
-      await removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId });
-      message.success('Unassigned successful');
+      const _userId = getFieldValue('id');
+      const { status } = await removeUserFromProject({
+        projectId,
+        roleId: ROLES_IDS[entity],
+        userId: _userId
+      });
+      if (status !== 200) return message.error('Unassigned failed');
+      if (status === 200) message.success('Unassigned successful');
+      if (item !== undefined && totalKeys !== 1) return onRemove();
+      setFieldsValue({
+        id: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        country: undefined,
+        email: undefined
+      });
+      setUserState(USER_STATES.UNKNOWN);
+      setActiveKey(0);
     } catch (error) {
       message.error(error);
     }
@@ -160,7 +179,10 @@ CustomCollapse.defaultProps = {
   initialData: undefined,
   projectId: undefined,
   onError: undefined,
-  setCanAddAdditionalAuditor: undefined
+  setCanAddAdditionalAuditor: undefined,
+  totalKeys: undefined,
+  item: undefined,
+  onRemove: undefined
 };
 
 CustomCollapse.propTypes = {
@@ -174,5 +196,8 @@ CustomCollapse.propTypes = {
   initialData: PropTypes.objectOf(PropTypes.any),
   projectId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onError: PropTypes.func,
-  setCanAddAdditionalAuditor: PropTypes.func
+  setCanAddAdditionalAuditor: PropTypes.func,
+  totalKeys: PropTypes.number,
+  item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onRemove: PropTypes.func
 };

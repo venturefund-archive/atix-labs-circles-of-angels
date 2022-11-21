@@ -166,6 +166,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     onError={onError}
                     setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
                     key={item}
+                    totalKeys={currentAuditorsElements?.length}
+                    item={item}
+                    onRemove={() => onRemove(item)}
                   >
                     {({
                       setActiveKey,
@@ -180,17 +183,14 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     }) => (
                       <FormUserContent
                         removeCurrentUserFromProject={removeCurrentUserFromProject}
-                        onRemove={() => onRemove(item)}
                         setActiveKey={setActiveKey}
                         countries={countries}
                         setUserState={setUserState}
                         userState={userState}
-                        item={item}
                         form={form}
                         handleAssignUser={handleAssignUser}
                         handleCreateAndAssignUser={handleCreateAndAssignUser}
                         handleUnassignUser={handleUnassignUser}
-                        totalKeys={currentAuditorsElements?.length}
                         initialData={_initialData}
                         isFormSubmitted={isFormSubmitted}
                       />
@@ -206,7 +206,7 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       <FooterButtons
         prevStepButton={(() => (
-          <CoaButton type="secondary" onClick={goBack}>
+          <CoaButton type="secondary" onClick={() => goBack({ withUpdate: true })}>
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
