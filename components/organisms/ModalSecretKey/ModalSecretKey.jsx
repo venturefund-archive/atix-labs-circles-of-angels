@@ -28,7 +28,7 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
   const [doc, setDoc] = useState();
 
   const validPin = (_rule, value, callback) => {
-    if (value && parseInt(value) !== pin) {
+    if (value && parseInt(value, 10) !== pin) {
       callback('Secret key do not match');
     } else {
       callback();
@@ -117,16 +117,16 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
 };
 
 FormModalSecretKey.defaultProps = {
+  form: null,
   modalOpen: false,
   onSuccess: () => undefined,
-  pin: NaN
 };
 
 FormModalSecretKey.propTypes = {
+  form: PropTypes.element,
   modalOpen: PropTypes.bool,
   onSuccess: PropTypes.func,
-  pin: PropTypes.number
 };
 
-const ModalSecretKey = Form.create({name: 'SecretKeyForm'})(FormModalSecretKey)
+const ModalSecretKey = Form.create({ name: 'SecretKeyForm' })(FormModalSecretKey)
 export default ModalSecretKey;

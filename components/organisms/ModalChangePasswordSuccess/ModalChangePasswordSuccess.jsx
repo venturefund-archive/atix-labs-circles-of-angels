@@ -11,6 +11,7 @@ import React from 'react';
 import { Typography, Button, Modal } from 'antd';
 import { useHistory } from 'react-router';
 import LogoWrapper from 'components/atoms/LogoWrapper';
+import PropTypes from 'prop-types';
 
 function ModalChangePasswordSuccess({ visible }) {
   const history = useHistory();
@@ -25,7 +26,7 @@ function ModalChangePasswordSuccess({ visible }) {
       mask={false}
       closable={false}
       maskClosable={false}
-      className={`ChangePasswordSuccess`}
+      className='ChangePasswordSuccess'
       footer={(
         <Button className="ant-btn ant-btn-primary" onClick={goToLogin}>
           Continue
@@ -41,3 +42,11 @@ function ModalChangePasswordSuccess({ visible }) {
 }
 
 export default ModalChangePasswordSuccess;
+
+ModalChangePasswordSuccess.defaultProps = {
+  visible: false,
+}
+
+ModalChangePasswordSuccess.propTypes = {
+  visible: PropTypes.bool
+}

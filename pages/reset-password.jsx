@@ -13,12 +13,12 @@ import queryString from 'query-string';
 import Navigation from 'components/organisms/Navigation';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
 import ModalLogin from 'components/organisms/ModalLogin/ModalLogin';
+import ModalChangePasswordSuccess from 'components/organisms/ModalChangePasswordSuccess/ModalChangePasswordSuccess';
+import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
-import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import { resetPassword } from '../api/userApi';
-import ModalChangePasswordSuccess from 'components/organisms/ModalChangePasswordSuccess/ModalChangePasswordSuccess';
 
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
@@ -30,7 +30,7 @@ function ResetPassword() {
   const { token } = query || {};
 
   const updatePassword = async newPassword => {
-    let data = { token, password: newPassword };
+    const data = { token, password: newPassword };
     setLoading(true);
     try {
       const { errors, first = true } = await resetPassword(data);
