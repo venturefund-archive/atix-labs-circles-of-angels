@@ -160,7 +160,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const validateCurrencyValue = (_rule, value, callback) => {
     if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
-    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_1_DECIMAL);
     return callback();
   };
 
@@ -322,7 +322,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               help={
                 <div>
                   {getErrorMessagesField(timeframeError, [
-                    ERROR_TYPES.MORE_THAN_3_DECIMAL,
+                    ERROR_TYPES.MORE_THAN_1_DECIMAL,
                     ERROR_TYPES.NO_ZERO
                   ]).map(errorMessage => errorMessage)}
                 </div>
