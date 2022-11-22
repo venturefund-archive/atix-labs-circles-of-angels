@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Breadcrumb, Icon } from 'antd';
+import { Breadcrumb, Icon, message } from 'antd';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
@@ -10,6 +10,8 @@ import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constant
 import './_style.scss';
 import ModalConfirmProjectPublish from '../ModalConfirmProjectPublish/ModalConfirmProjectPublish';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
+import ModalPublishSuccess from '../ModalPublishSuccess/ModalPublishSuccess';
+import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <div className="createProject__content__steps__step">
@@ -45,6 +47,8 @@ const CreateProject = ({
 }) => {
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(true);
+  const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
@@ -72,11 +76,24 @@ const CreateProject = ({
     const disabled = Object.values(completedSteps).some(completed => !completed);
 
     return (
-      <CoaButton type="primary" onClick={() => setConfirmPublishVisible(true)} disabled={false}>
+      <CoaButton type="primary" onClick={() => setConfirmPublishVisible(true)} disabled={disabled}>
         Publish project <Icon type="arrow-right" />
       </CoaButton>
     );
   };
+
+  const publishProject = async () => {
+    setSecretKeyVisible(false);
+    setLoadinModalVisible(true);
+    const { errors } = await sendToReview();
+    if (!errors) {
+      message.error(errors);
+      setLoadinModalVisible(false);
+      return;
+    }
+    setLoadinModalVisible(false);
+    setSuccessModalVisible(true);
+  }
 
   const deleteProjectButton = () => (
     <CoaButton type="secondary" icon="delete" onClick={deleteProject}>
@@ -142,8 +159,11 @@ const CreateProject = ({
       />
       <ModalConfirmWithSK
         visible={secretKeyVisible}
-        onSuccess={() => alert('foo')}
+        setVisible={setSecretKeyVisible}
+        onSuccess={publishProject}
       />
+      <ModalPublishLoading visible={loadingModalVisible} />
+      <ModalPublishSuccess visible={successModalVisible} />
     </>
   );
 };

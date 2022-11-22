@@ -6,49 +6,38 @@
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
-import { Button, Modal, Typography, Form, Input } from "antd";
-import { getWallet } from "api/userApi";
-import Field from "components/atoms/Field/Field";
-import LogoWrapper from "components/atoms/LogoWrapper";
-import { useUserContext } from "components/utils/UserContext";
-import { decryptJsonWallet } from "helpers/blockchain/wallet";
-import React, { useState, useEffect } from "react";
+import { Button, Modal, Typography, Form, Input } from 'antd';
+import { getWallet } from 'api/userApi';
+import LogoWrapper from 'components/atoms/LogoWrapper';
+import { useUserContext } from 'components/utils/UserContext';
+import { decryptJsonWallet } from 'helpers/blockchain/wallet';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const ConfirmKeyForm = () => {
-  return (
-    <Form
-      name='secret-key-confirmation'
-    >
-      <Field name='password' label='Password' />
-      <Field name='password' label='Secret Key' />
-    </Form>
-  )
-}
-const FormModalConfirmWithSK = ({ form, visible, onSuccess }) => {
-  const { getFieldDecorator, getFieldProps, validateFields } = form
+const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
+  const { getFieldDecorator, getFieldProps, validateFields } = form;
   const { getLoggedUser } = useUserContext();
   const [wallet, setWallet] = useState({});
 
   const user = getLoggedUser()
-  const keySuffix = `${user.id}-${user.email}`
+  const keySuffix = `${user.id}-${user.email}`;
 
   const setUserWallet = async () => {
-    const { data: userWallet } = await getWallet()
-    if (userWallet) setWallet(userWallet)
-  }
+    const { data: userWallet } = await getWallet();
+    if (userWallet) setWallet(userWallet);
+  };
 
   useEffect(() => {
-    setUserWallet()
-  }, [])
+    setUserWallet();
+  }, []);
 
   const validPinAndPassword = async (_rule, value, callback) => {
     try {
-      const decrypted = await decryptJsonWallet(wallet, `${value}-${keySuffix}`)
-      console.log(decrypted)
+      const key = `${value}-${keySuffix}`;
+      await decryptJsonWallet(JSON.stringify(wallet), key)
       callback()
     } catch (e) {
-      console.log(e)
-      callback('Cannot decrypt password')
+      callback(e)
     }
   }
 
@@ -69,9 +58,9 @@ const FormModalConfirmWithSK = ({ form, visible, onSuccess }) => {
       maskClosable={false}
       className='CustomModal'
       closable={false}
-      mask={true}
+      mask
       footer={[
-        <Button className='ant-btn ant-btn-secondary'>No</Button>,
+        <Button className='ant-btn ant-btn-secondary' onClick={() => setVisible(false)}>No</Button>,
         <Button className='ant-btn ant-btn-primary' onClick={submit}>
           yes
         </Button>
@@ -108,5 +97,18 @@ const FormModalConfirmWithSK = ({ form, visible, onSuccess }) => {
   )
 }
 
+FormModalConfirmWithSK.defaultProps = {
+  form: null,
+  visible: false,
+  setVisible: () => undefined,
+  onSuccess: () => undefined
+}
+
+FormModalConfirmWithSK.propTypes = {
+  form: PropTypes.element,
+  visible: PropTypes.bool,
+  setVisible: PropTypes.func,
+  onSuccess: PropTypes.func
+}
 const ModalConfirmWithSK = Form.create({ name: 'FormConfirmWithSK' })(FormModalConfirmWithSK)
 export default ModalConfirmWithSK
