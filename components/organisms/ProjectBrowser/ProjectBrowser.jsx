@@ -9,14 +9,7 @@ import { projectCardPropType } from '../../../helpers/proptypes';
 import Roles from '../../../constants/RolesMap';
 import { getCountries } from '../../../api/userApi';
 
-const ProjectBrowser = ({
-  title,
-  userRole,
-  projects,
-  onTagClick,
-  onCardClick,
-  onNewProject
-}) => {
+const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, onNewProject }) => {
   const [countries, setCountries] = useState([]);
 
   const fetchCountries = async () => {
@@ -24,9 +17,9 @@ const ProjectBrowser = ({
       const response = await getCountries();
       const countryOptions = response
         ? response.map(({ id, name }) => ({
-          value: id,
-          name
-        }))
+            value: id,
+            name
+          }))
         : [];
       setCountries(countryOptions);
     } catch (error) {
@@ -45,7 +38,7 @@ const ProjectBrowser = ({
           <TitlePage textTitle={title} style={{ fontWeight: '700' }} />
         </Col>
       </Row>
-      <Row className="ProjectsCardsContainer" gutter={16}>
+      <div className="projectBrowser__cardsContainer">
         {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
           <CardNewProject onClick={onNewProject} />
         )}
@@ -63,7 +56,7 @@ const ProjectBrowser = ({
                 />
               )
           )}
-      </Row>
+      </div>
     </div>
   );
 };
