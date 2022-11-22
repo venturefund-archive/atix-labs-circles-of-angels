@@ -46,6 +46,7 @@
           &__main {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
 
             &__title {
               @include primary-text(1.25rem, $black, 700);
