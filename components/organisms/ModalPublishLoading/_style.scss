@@ -1,0 +1,15 @@
+.o-ModalWrapper {
+  display: flex;
+  justify-content: space-around;
+  &__SpinWrapper {
+    width: 100px;
+    margin: 0;
+  }
+  &__Spin {
+    position: static!important;
+    & span {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

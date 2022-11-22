@@ -20,7 +20,10 @@ function SecretKey() {
     const success = await setPin();
 
     // Wallet generated only after pin validation
-    const wallet = await generateWalletFromPin(`${pin}-${user.id}-${user.email}`);
+    const key = `${pin}-${user.id}-${user.email}`;
+
+    const wallet = await generateWalletFromPin(key);
+
     const { data } = await setWallet(wallet);
 
     if (success && data.id) {
