@@ -130,8 +130,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   setUserState,
                   userState,
                   form,
-                  handleSubmitNewUser,
-                  handleSubmitConfirmUser,
+                  handleCreateAndAssignUser,
+                  handleAssignUser,
+                  handleUnassignUser,
                   isFormSubmitted,
                   removeCurrentUserFromProject
                 }) => (
@@ -141,8 +142,9 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     setUserState={setUserState}
                     userState={userState}
                     form={form}
-                    handleSubmitConfirmUser={handleSubmitConfirmUser}
-                    handleSubmitNewUser={handleSubmitNewUser}
+                    handleAssignUser={handleAssignUser}
+                    handleCreateAndAssignUser={handleCreateAndAssignUser}
+                    handleUnassignUser={handleUnassignUser}
                     initialData={initialData[index]}
                     isFormSubmitted={isFormSubmitted}
                     removeCurrentUserFromProject={removeCurrentUserFromProject}
@@ -164,29 +166,31 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     onError={onError}
                     setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
                     key={item}
+                    totalKeys={currentAuditorsElements?.length}
+                    item={item}
+                    onRemove={() => onRemove(item)}
                   >
                     {({
                       setActiveKey,
                       setUserState,
                       userState,
                       form,
-                      handleSubmitNewUser,
-                      handleSubmitConfirmUser,
+                      handleCreateAndAssignUser,
+                      handleAssignUser,
+                      handleUnassignUser,
                       isFormSubmitted,
                       removeCurrentUserFromProject
                     }) => (
                       <FormUserContent
                         removeCurrentUserFromProject={removeCurrentUserFromProject}
-                        onRemove={() => onRemove(item)}
                         setActiveKey={setActiveKey}
                         countries={countries}
                         setUserState={setUserState}
                         userState={userState}
-                        item={item}
                         form={form}
-                        handleSubmitConfirmUser={handleSubmitConfirmUser}
-                        handleSubmitNewUser={handleSubmitNewUser}
-                        totalKeys={currentAuditorsElements?.length}
+                        handleAssignUser={handleAssignUser}
+                        handleCreateAndAssignUser={handleCreateAndAssignUser}
+                        handleUnassignUser={handleUnassignUser}
                         initialData={_initialData}
                         isFormSubmitted={isFormSubmitted}
                       />
@@ -202,7 +206,7 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       <FooterButtons
         prevStepButton={(() => (
-          <CoaButton type="secondary" onClick={goBack}>
+          <CoaButton type="secondary" onClick={() => goBack({ withUpdate: true })}>
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}

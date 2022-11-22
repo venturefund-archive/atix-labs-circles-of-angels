@@ -3,10 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './coa-button.scss';
 
-// Si es ghost que tome el estilo del project create
-// Si es primary lo normal - solo opacity
-// Si es seocndary -- solo opacity
-
 export const CoaButton = ({ children, disabled, className, type, ...rest }) => (
   <Button
     disabled={disabled}

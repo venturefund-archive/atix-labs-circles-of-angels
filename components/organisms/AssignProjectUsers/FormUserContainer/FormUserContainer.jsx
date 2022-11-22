@@ -1,4 +1,4 @@
-import { Collapse, Form } from 'antd';
+import { Collapse, Form, message } from 'antd';
 import { createUser, sendWelcomeEmail } from 'api/userApi';
 import { addUserToProject, removeUserFromProject } from 'api/userProjectApi';
 import React, { useState } from 'react';
@@ -17,6 +17,9 @@ const CustomCollapse = ({
   projectId,
   onError,
   setCanAddAdditionalAuditor,
+  item,
+  totalKeys,
+  onRemove,
   ...rest
 }) => {
   const [activeKey, setActiveKey] = useState(0);
@@ -24,26 +27,18 @@ const CustomCollapse = ({
   const { validateFields, setFieldsValue, getFieldValue } = form;
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const userId = getFieldValue('id');
-  const [currentUserId, setCurrentUserId] = useState(initialData?.id);
 
   const handleError = () => {
     setUserState(USER_STATES.WITH_ERROR);
     onError();
   };
 
-  const handleSubmitNewUser = () => {
+  const handleCreateAndAssignUser = () => {
     validateFields(async (err, values) => {
       if (!err) {
         setIsFormSubmitted(true);
         const dataToSend = { ...values };
 
-        if (initialData?.id !== undefined || currentUserId === userId) {
-          await removeUserFromProject({
-            projectId,
-            roleId: ROLES_IDS[entity],
-            userId: currentUserId
-          });
-        }
         const response = await createUser({ ...dataToSend, isAdmin: false });
         if (response.errors) return handleError();
 
@@ -64,26 +59,38 @@ const CustomCollapse = ({
         setUserState(USER_STATES.PENDING);
         setFieldsValue({ ...dataToSend, id: response?.data?.id });
         if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
-        setCurrentUserId(userId);
       }
     });
   };
 
-  const removeCurrentUserFromProject = () => {
-    const _userId = getFieldValue('id');
-    removeUserFromProject({ projectId, roleId: ROLES_IDS[entity], userId: _userId });
-  };
-
-  const handleSubmitConfirmUser = async () => {
-    setIsFormSubmitted(true);
-
-    if (initialData?.id) {
-      await removeUserFromProject({
+  const handleUnassignUser = async () => {
+    try {
+      setIsFormSubmitted(false);
+      const _userId = getFieldValue('id');
+      const { status } = await removeUserFromProject({
         projectId,
         roleId: ROLES_IDS[entity],
-        userId: currentUserId
+        userId: _userId
       });
+      if (status !== 200) return message.error('Unassigned failed');
+      if (status === 200) message.success('Unassigned successful');
+      if (item !== undefined && totalKeys !== 1) return onRemove();
+      setFieldsValue({
+        id: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        country: undefined,
+        email: undefined
+      });
+      setUserState(USER_STATES.UNKNOWN);
+      setActiveKey(0);
+    } catch (error) {
+      message.error(error);
     }
+  };
+
+  const handleAssignUser = async () => {
+    setIsFormSubmitted(true);
     const addUserToProjectResponse = await addUserToProject({
       projectId,
       roleId: ROLES_IDS[entity],
@@ -91,9 +98,12 @@ const CustomCollapse = ({
     });
     if (addUserToProjectResponse.errors) return handleError();
     if (setCanAddAdditionalAuditor) setCanAddAdditionalAuditor(true);
-    setCurrentUserId(userId);
     if (userState === USER_STATES.PENDING_WITH_TEXT) return setUserState(USER_STATES.PENDING);
     return setUserState(USER_STATES.EXIST);
+  };
+
+  const handleResendEmail = async () => {
+    await sendWelcomeEmail({ userId, projectId });
   };
 
   return (
@@ -120,6 +130,7 @@ const CustomCollapse = ({
               form={form}
               initialData={initialData}
               setIsFormSubmitted={setIsFormSubmitted}
+              handleResendEmail={handleResendEmail}
             />
           }
           key={1}
@@ -129,10 +140,10 @@ const CustomCollapse = ({
             setUserState,
             userState,
             form,
-            handleSubmitNewUser,
-            handleSubmitConfirmUser,
+            handleCreateAndAssignUser,
+            handleAssignUser,
             isFormSubmitted,
-            removeCurrentUserFromProject
+            handleUnassignUser
           })}
         </Panel>
       </Collapse>
@@ -151,7 +162,10 @@ CustomCollapse.defaultProps = {
   initialData: undefined,
   projectId: undefined,
   onError: undefined,
-  setCanAddAdditionalAuditor: undefined
+  setCanAddAdditionalAuditor: undefined,
+  totalKeys: undefined,
+  item: undefined,
+  onRemove: undefined
 };
 
 CustomCollapse.propTypes = {
@@ -165,5 +179,8 @@ CustomCollapse.propTypes = {
   initialData: PropTypes.objectOf(PropTypes.any),
   projectId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onError: PropTypes.func,
-  setCanAddAdditionalAuditor: PropTypes.func
+  setCanAddAdditionalAuditor: PropTypes.func,
+  totalKeys: PropTypes.number,
+  item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onRemove: PropTypes.func
 };
