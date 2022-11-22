@@ -11,12 +11,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import { Divider } from 'antd';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 import { formatTimeframeValue } from '../../../helpers/formatter';
-import { Divider } from 'antd';
 
 const CardProject = ({ onClick, project, countries }) => {
   const {
@@ -64,8 +64,8 @@ const CardProject = ({ onClick, project, countries }) => {
         />
       </div>
       <div className="m-cardProject__body">
-        <div className="m-cardProject__body__title">
-          <h1 className="ProjectName">{projectName}</h1>
+        <div className="m-cardProject__body__titleContainer">
+          <h1 className="m-cardProject__body__titleContainer__title">{projectName}</h1>
           <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
             {projectStatusMap[status].name}
           </CoaTag>
@@ -75,106 +75,42 @@ const CardProject = ({ onClick, project, countries }) => {
             subtitle="Country of Impact"
             title={locationsNames()}
             iconInfoItem="environment"
+            className="m-cardProject__body__description__country"
           />
           <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
             subtitle="Timeframe"
             title={formatTimeframeValue(timeframe)}
             iconInfoItem="clock-circle"
+            className="m-cardProject__body__description__timeframe"
           />
           <Divider type="vertical" className="m-cardProject__body__divider" />
-          <InfoItem subtitle="Budget" title={`$ ${goalAmount}`} iconInfoItem="dollar" />
+          <InfoItem
+            subtitle="Budget"
+            title={`$ ${goalAmount}`}
+            iconInfoItem="dollar"
+            className="m-cardProject__body__description__budget"
+          />
           <Divider type="vertical" className="m-cardProject__body__divider" />
-          <InfoItem subtitle="Beneficiary name" title={beneficiaryCompleteName} />
+          <InfoItem
+            subtitle="Beneficiary name"
+            title={beneficiaryCompleteName}
+            className="m-cardProject__body__description__beneficiary"
+          />
         </div>
       </div>
-      {/* <Row className="ProjectSummary">
-          <Col span={24}>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              <h1 className="ProjectName">{projectName}</h1>
-              <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
-                {projectStatusMap[status].name}
-              </CoaTag>
-            </div>
-            <Row justify="space-between" type="flex" align="top">
-              <Col span={20}>
-                <h1 className="ProjectName">{projectName}</h1>
-              </Col>
-              <Col>
-                <div className="BlockTags">
-                  {status && (
-                    <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
-                      {projectStatusMap[status].name}
-                    </CoaTag>
-                  )}
-                  {following && (
-                    <Tag className="Follow" align="right">
-                      Following
-                      <Icon type="check" style={{ color: '#4C7FF77' }} />
-                    </Tag>
-                  )}
-                  {applied && (
-                    <Tag className="Applied" color="#DF5BD2" align="right">
-                      Applied
-                      <Icon type="check" style={{ color: 'white' }} />
-                    </Tag>
-                  )}
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col align="middle" span={24}>
-            <Row>
-              <Col xs={24} lg={6}>
-                <InfoItem
-                  subtitle="Country of Impact"
-                  title={locationsNames()}
-                  iconInfoItem="environment"
-                />
-              </Col>
-              <Col lg={1} xs={0}>
-                <Divider type="vertical" className="ProjectSummary__divider" />
-              </Col>
-              <Col xs={24} lg={4}>
-                <InfoItem
-                  subtitle="Timeframe"
-                  title={formatTimeframeValue(timeframe)}
-                  iconInfoItem="clock-circle"
-                />
-              </Col>
-              <Col lg={1} xs={0}>
-                <Divider type="vertical" className="ProjectSummary__divider" />
-              </Col>
-              <Col xs={24} lg={5}>
-                <InfoItem subtitle="Amount" title={`$ ${goalAmount}`} iconInfoItem="dollar" />
-              </Col>
-              <Col lg={1} xs={0}>
-                <Divider type="vertical" className="ProjectSummary__divider" />
-              </Col>
-              <Col xs={24} lg={6}>
-                <InfoItem subtitle="Beneficiary name" title={beneficiaryCompleteName} />
-              </Col>
-            </Row>
-          </Col>
-        </Row> */}
     </div>
   );
 };
 
 CardProject.defaultProps = {
-  showTag: false,
   onClick: () => null,
-  tagClick: () => null,
-  hoverText: null,
   countries: []
 };
 
 CardProject.propTypes = {
   project: PropTypes.shape(projectCardPropType).isRequired,
   onClick: PropTypes.func,
-  tagClick: PropTypes.func,
-  showTag: PropTypes.bool,
-  hoverText: PropTypes.string,
   countries: PropTypes.arrayOf({
     name: PropTypes.string,
     value: PropTypes.number
