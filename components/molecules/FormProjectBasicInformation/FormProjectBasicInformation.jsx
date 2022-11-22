@@ -160,7 +160,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const validateCurrencyValue = (_rule, value, callback) => {
     if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
-    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_1_DECIMAL);
     return callback();
   };
 
@@ -322,7 +322,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               help={
                 <div>
                   {getErrorMessagesField(timeframeError, [
-                    ERROR_TYPES.MORE_THAN_3_DECIMAL,
+                    ERROR_TYPES.MORE_THAN_1_DECIMAL,
                     ERROR_TYPES.NO_ZERO
                   ]).map(errorMessage => errorMessage)}
                 </div>
@@ -402,9 +402,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             }
           >
             <div className="formProjectBasicInformation__content__right__uploadItemContainer">
-              <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                Recommended Image Size: 1400x720px. Format: PNG or JPG.
-              </p>
+              <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                <p>Recommended Image Size: 1400x720px. Format: PNG or JPG.</p>
+                <p>Max size: 500kb</p>
+              </div>
               {getFieldDecorator('thumbnailPhoto', {
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
