@@ -1,23 +1,18 @@
 import React from 'react';
 import './_style.scss';
-import { Col } from 'antd';
 import PropTypes from 'prop-types';
 
 const CardNewProject = ({ onClick }) => (
-  <Col
+  <div
+    className="m-cardProject --empty"
     onClick={onClick}
-    span={8}
-    xs={24}
-    md={12}
-    lg={8}
-    className="ProjectCard ProjectCardCreate
-  "
+    role="button"
+    onKeyPress={onClick}
+    tabIndex="0"
   >
-    <div className="ContentContainer">
-      <img src="/static/images/new-project.png" alt="New project" />
-      <h1>New Project</h1>
-    </div>
-  </Col>
+    <img src="/static/images/new-project.png" alt="New project" />
+    <h1>New Project</h1>
+  </div>
 );
 
 export default CardNewProject;

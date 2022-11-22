@@ -10,15 +10,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Divider, Row, Col, Icon, Button } from 'antd';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
 import { formatTimeframeValue } from '../../../helpers/formatter';
+import { Divider } from 'antd';
 
-const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries }) => {
+const CardProject = ({ onClick, project, countries }) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -26,11 +26,10 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
     projectName,
     timeframe,
     status,
-    following,
-    applied,
     beneficiary
   } = project;
   const locationsNames = () => {
+    if (!location) return 'Not set';
     const countriesIds = countries.filter(
       // eslint-disable-next-line radix
       country => location.split(',').includes(String(country.value))
@@ -48,31 +47,57 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
     : 'Not set';
 
   return (
-    <Col className="ProjectCard" span={8} xs={24} md={12} lg={8}>
-      {showTag && (
-        <Tag color="orange" onClick={tagClick}>
-          View my activities to verify
-        </Tag>
-      )}
-      <div onClick={onClick} role="presentation">
-        {hoverText && (
-          <Button type="text" className="hoverText">
-            {hoverText}
-          </Button>
-        )}
-        <div className="ProjectDescription">
-          <img
-            src={
-              cardPhotoPath
-                ? `${process.env.NEXT_PUBLIC_URL_HOST}${cardPhotoPath}`
-                : '/static/images/empty-img.svg'
-            }
-          />
+    <div
+      onClick={onClick}
+      role="button"
+      className="m-cardProject"
+      onKeyPress={onClick}
+      tabIndex="0"
+    >
+      <div className="m-cardProject__cover">
+        <img
+          src={
+            cardPhotoPath
+              ? `${process.env.NEXT_PUBLIC_URL_HOST}${cardPhotoPath}`
+              : '/static/images/empty-img.svg'
+          }
+        />
+      </div>
+      <div className="m-cardProject__body">
+        <div className="m-cardProject__body__title">
+          <h1 className="ProjectName">{projectName}</h1>
+          <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
+            {projectStatusMap[status].name}
+          </CoaTag>
         </div>
-        <Row className="ProjectSummary">
+        <div className="m-cardProject__body__description">
+          <InfoItem
+            subtitle="Country of Impact"
+            title={locationsNames()}
+            iconInfoItem="environment"
+          />
+          <Divider type="vertical" className="m-cardProject__body__divider" />
+          <InfoItem
+            subtitle="Timeframe"
+            title={formatTimeframeValue(timeframe)}
+            iconInfoItem="clock-circle"
+          />
+          <Divider type="vertical" className="m-cardProject__body__divider" />
+          <InfoItem subtitle="Budget" title={`$ ${goalAmount}`} iconInfoItem="dollar" />
+          <Divider type="vertical" className="m-cardProject__body__divider" />
+          <InfoItem subtitle="Beneficiary name" title={beneficiaryCompleteName} />
+        </div>
+      </div>
+      {/* <Row className="ProjectSummary">
           <Col span={24}>
-            <Row justify="space-between" type="flex" align="middle">
-              <Col>
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+              <h1 className="ProjectName">{projectName}</h1>
+              <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
+                {projectStatusMap[status].name}
+              </CoaTag>
+            </div>
+            <Row justify="space-between" type="flex" align="top">
+              <Col span={20}>
                 <h1 className="ProjectName">{projectName}</h1>
               </Col>
               <Col>
@@ -131,9 +156,8 @@ const CardProject = ({ showTag, onClick, tagClick, project, hoverText, countries
               </Col>
             </Row>
           </Col>
-        </Row>
-      </div>
-    </Col>
+        </Row> */}
+    </div>
   );
 };
 
