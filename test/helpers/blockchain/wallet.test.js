@@ -14,7 +14,6 @@ describe('Testing wallet methods', () => {
       'address and the encrypted json wallet',
       async () => {
         const response = await createNewWallet('password');
-        console.log(response)
         expect(response.address).toEqual(expect.any(String));
         expect(response.mnemonic).toEqual(expect.any(Object));
         expect(response.wallet).toEqual(expect.any(String));

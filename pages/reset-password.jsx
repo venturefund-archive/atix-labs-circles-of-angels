@@ -13,26 +13,31 @@ import queryString from 'query-string';
 import Navigation from 'components/organisms/Navigation';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
 import ModalLogin from 'components/organisms/ModalLogin/ModalLogin';
+import ModalChangePasswordSuccess from 'components/organisms/ModalChangePasswordSuccess/ModalChangePasswordSuccess';
+import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import { showModalError } from '../components/utils/Modals';
 import './_login.scss';
 import './landing/_landing.scss';
-import DynamicFormChangePassword from '../components/organisms/FormLogin/FormChangePassword';
 import { resetPassword } from '../api/userApi';
 
 function ResetPassword() {
   const [successfulUpdate, setSuccessfulUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
 
   const updatePassword = async newPassword => {
-    let data = { token, password: newPassword };
+    const data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { errors } = await resetPassword(data);
+      const { errors, first = true } = await resetPassword(data);
       if (!errors) {
+        if (first) {
+          setSuccessModalOpen(true)
+        }
         setSuccessfulUpdate(true);
       } else {
         showModalError('Error', errors);
@@ -70,6 +75,7 @@ function ResetPassword() {
       >
       </ModalLogin>
       <div>{renderForm()}</div>
+      <ModalChangePasswordSuccess visible={successModalOpen} />
     </BackgroundLanding>
   );
 }
