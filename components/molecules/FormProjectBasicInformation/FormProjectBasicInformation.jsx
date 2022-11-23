@@ -364,6 +364,13 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           </div>
 
           <CoaFormItemUpload
+            buttonContent={
+              <div className="formProjectBasicInformation__content__right__uploadItemContainer__buttonContent">
+                Click to upload
+                <Icon type="upload" />
+              </div>
+            }
+            contentContainerClassName="formProjectBasicInformation__content__right__uploadItemContainer"
             form={form}
             formItemProps={{
               label: 'Thumbnail Image',

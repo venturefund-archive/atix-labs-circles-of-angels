@@ -2,18 +2,19 @@
 @import 'css/mixins/_fonts.scss';
 
 .coaFormItemUpload {
-  &.--withError {
-    label {
-      color: $error-color;
-    }
-  }
-  .anticon-close {
-    display: none;
-  }
-
   &__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    &__button {
+      &.--withError {
+        &.--ghost {
+          border: solid thin $error-color;
+          * {
+            color: $error-color;
+          }
+        }
+      }
+    }
+    .anticon-close {
+      display: none;
+    }
   }
 }

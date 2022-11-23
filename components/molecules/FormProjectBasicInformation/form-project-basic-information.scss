@@ -89,6 +89,12 @@
         justify-content: space-between;
         align-items: center;
 
+        &__buttonContent {
+          display: flex;
+          column-gap: 0.625rem;
+          @include primary-text(0.875rem, $coa-grey-100, 600);
+        }
+
         &__note {
           p {
             @include primary-text(0.87rem, $coa-grey-100, 400, 1.06rem);

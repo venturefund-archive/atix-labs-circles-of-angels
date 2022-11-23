@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, Upload } from 'antd';
+import { Upload } from 'antd';
 import classNames from 'classnames';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
@@ -18,7 +18,9 @@ export const CoaFormItemUpload = ({
   onChange,
   onRemove,
   Note,
-  withErrorFeedback
+  withErrorFeedback,
+  contentContainerClassName,
+  buttonContent
 }) => {
   const { getFieldDecorator, getFieldError } = form;
   const uploadError = getFieldError(name) || [];
@@ -41,8 +43,7 @@ export const CoaFormItemUpload = ({
       formItemProps={{ ...formItemProps, valuePropName: 'fileList' }}
       {...{ withErrorFeedback, errorsToShow, name, form }}
     >
-      <div className="coaFormItemUpload__content">
-        <div className="coaFormItemUpload__content__noteContainer">{Note}</div>
+      <div className={classNames('coaFormItemUpload__content', contentContainerClassName)}>
         {getFieldDecorator(name, {
           ...fieldDecoratorOptions
         })(
@@ -54,14 +55,19 @@ export const CoaFormItemUpload = ({
           >
             <CoaButton
               type={buttonType}
-              className={classNames('uploadThumbnail__button', {
-                '--withError': hasErrors
-              })}
+              className={classNames(
+                'coaFormItemUpload__content__button',
+                {
+                  '--withError': hasErrors
+                },
+                `--${buttonType}`
+              )}
             >
-              Click to upload <Icon type="upload" />
+              {buttonContent}
             </CoaButton>
           </Upload>
         )}
+        <div className="coaFormItemUpload__content__noteContainer">{Note}</div>
       </div>
     </CoaFormItem>
   );
@@ -79,7 +85,9 @@ CoaFormItemUpload.defaultProps = {
   uploadProps: undefined,
   onChange: undefined,
   onRemove: undefined,
-  Note: undefined
+  Note: undefined,
+  contentContainerClassName: '',
+  buttonContent: undefined
 };
 
 CoaFormItemUpload.propTypes = {
@@ -95,5 +103,7 @@ CoaFormItemUpload.propTypes = {
   uploadProps: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
-  Note: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  Note: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  contentContainerClassName: PropTypes.string,
+  buttonContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
