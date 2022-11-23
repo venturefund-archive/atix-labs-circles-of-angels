@@ -22,7 +22,7 @@ const MyProjects = ({ user }) => {
   const [projects, setProjects] = useState([]);
 
   const goToProjectDetail = project => {
-    const state = { projectId: project.id };
+    const state = { projectId: project?.id };
     const { status } = project;
     if (
       status === projectStatuses.DRAFT ||

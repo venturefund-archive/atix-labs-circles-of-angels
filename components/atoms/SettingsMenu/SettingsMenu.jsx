@@ -28,7 +28,7 @@ const SettingsMenu = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="2" onClick={changePassword}>
+      <Menu.Item key="1" onClick={changePassword}>
         Change Password
       </Menu.Item>
       <Menu.Item key="2" onClick={logout}>
