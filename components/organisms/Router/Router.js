@@ -34,8 +34,9 @@ Router.defaultProps = {
   routesConfig: []
 };
 
+
 Router.propTypes = {
-  routesConfig: PropTypes.arrayOf({
+  routesConfig: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string,
     component: PropTypes.elementType,
     authentication: PropTypes.shape({
@@ -44,5 +45,5 @@ Router.propTypes = {
     }),
     withHeader: PropTypes.bool,
     withSideBar: PropTypes.bool
-  })
+  }))
 };

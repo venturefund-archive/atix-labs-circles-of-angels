@@ -39,7 +39,7 @@ function ResetPassword() {
     return mnemonic;
   };
 
-  const updatePassword = async newPassword => {
+  const updatePassword = async (newPassword) => {
     let data = { token, password: newPassword };
     setLoading(true);
     try {
@@ -71,8 +71,9 @@ function ResetPassword() {
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const renderForm = () => (
@@ -95,8 +96,7 @@ function ResetPassword() {
       <ModalLogin
         visibility={modalOpen}
         setVisibility={setModalOpen}
-      >
-      </ModalLogin>
+      />
       <div>{renderForm()}</div>
     </BackgroundLanding>
   );
