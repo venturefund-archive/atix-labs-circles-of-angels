@@ -90,7 +90,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
 
   const validateFileSize = (_rule, value, callback) => {
     if (value?.file.size === 'removed') return callback();
-    if (value?.file.size / MB_FACTOR_CONVERTER > 2) return callback(ERROR_TYPES.INVALID_FILE);
+    if (value?.file.size / MB_FACTOR_CONVERTER > 20) return callback(ERROR_TYPES.INVALID_FILE);
     return callback();
   };
 
