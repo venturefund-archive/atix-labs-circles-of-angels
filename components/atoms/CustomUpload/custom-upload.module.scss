@@ -1,0 +1,12 @@
+@import 'css/_variables.scss';
+
+.uploadThumbnail {
+  &__button {
+    &.--withError {
+      border: solid thin $error-color;
+      * {
+        color: $error-color;
+      }
+    }
+  }
+}

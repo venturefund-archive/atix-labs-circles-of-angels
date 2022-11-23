@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select, InputNumber, Divider, Icon } from 'antd';
+import { Form, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
@@ -20,24 +20,20 @@ import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
 import { formatCurrency } from 'helpers/formatter';
-import {
-  decimalCount,
-  getErrorMessagesField,
-  getErrorMessagesFields,
-  getExtensionFromUrl
-} from 'helpers/utils';
+import { decimalCount, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import _ from 'lodash';
-import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import projectStatusMap from 'model/projectStatus';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
-
-const { Option } = Select;
+import { CoaFormItemInput } from '../CoaFormItems/CoaFormItemInput/CoaFormItemInput';
+import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
+import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
+import { CoaFormItemInputNumber } from '../CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, getFieldsError, getFieldError, setFieldsValue } = form;
+  const { getFieldsError } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({
     ...project?.basicInformation,
@@ -45,10 +41,6 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
       project?.basicInformation?.thumbnailPhoto &&
       `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
   });
-
-  const projectNameError = getFieldError('projectName');
-  const thumbnailPhotoError = getFieldError('thumbnailPhoto');
-  const timeframeError = getFieldError('timeframe');
 
   const projectName = currentBasicInformation?.projectName || 'Project Name';
   const timeframe = currentBasicInformation?.timeframe;
@@ -87,7 +79,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
         const valuesProcessed = { ...restValues };
 
-        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto;
+        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto?.file;
 
         const formData = new FormData();
         Object.keys(valuesProcessed).forEach(key => {
@@ -242,18 +234,15 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
         </div>
         <Divider type="vertical" className="formProjectBasicInformation__content__divider" />
         <Form onSubmit={submit} className="formProjectBasicInformation__content__right">
-          <Form.Item
-            className="formProjectBasicInformation__content__right__item"
-            label="Project Name"
-            help={
-              <>
-                {getErrorMessagesField(projectNameError, [ERROR_TYPES.ALPHANUMERIC]).map(
-                  errorMessage => errorMessage
-                )}
-              </>
-            }
-          >
-            {getFieldDecorator('projectName', {
+          <CoaFormItemInput
+            withErrorFeedback
+            name="projectName"
+            form={form}
+            formItemProps={{
+              label: 'Project Name',
+              className: 'formProjectBasicInformation__content__right__item'
+            }}
+            fieldDecoratorOptions={{
               rules: [
                 {
                   required: true,
@@ -267,25 +256,29 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               ],
               initialValue: projectName,
               validateTrigger: 'onSubmit'
-            })(
-              <Input
-                maxLength={50}
-                placeholder="Input Text Example"
-                onChange={({ currentTarget: { value } }) => {
-                  setCurrentBasicInformation({
-                    ...currentBasicInformation,
-                    projectName: value
-                  });
-                }}
-              />
-            )}
-          </Form.Item>
-          <Form.Item
-            label="Country of Impact"
-            help={null}
-            className="formProjectBasicInformation__content__right__item"
-          >
-            {getFieldDecorator('location', {
+            }}
+            errorsToShow={[ERROR_TYPES.ALPHANUMERIC]}
+            inputProps={{
+              maxLength: 50,
+              placeholder: 'Input Text Example',
+              onChange: ({ currentTarget: { value } }) => {
+                setCurrentBasicInformation({
+                  ...currentBasicInformation,
+                  projectName: value
+                });
+              }
+            }}
+          />
+          <CoaFormItemSelect
+            withErrorFeedback
+            form={form}
+            name="location"
+            formItemProps={{
+              label: 'Country of Impact',
+              className: 'formProjectBasicInformation__content__right__item'
+            }}
+            errorsToShow={[]}
+            fieldDecoratorOptions={{
               rules: [
                 {
                   required: true,
@@ -295,41 +288,28 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               ],
               initialValue: location,
               validateTrigger: 'onSubmit'
-            })(
-              <Select
-                placeholder="Select the country or region"
-                loading={countriesAvailable?.loading}
-                onChange={value =>
-                  setCurrentBasicInformation({
-                    ...currentBasicInformation,
-                    location: value
-                  })
-                }
-              >
-                {countriesAvailable?.content?.map(({ id, name }) => (
-                  <Option value={name} key={id}>
-                    {name}
-                  </Option>
-                ))}
-              </Select>
-            )}
-          </Form.Item>
-
+            }}
+            selectProps={{
+              placeholder: 'Select the country or region',
+              loading: countriesAvailable?.loading,
+              onChange: value =>
+                setCurrentBasicInformation({
+                  ...currentBasicInformation,
+                  location: value
+                })
+            }}
+            options={countriesAvailable?.content}
+          />
           <div className="formProjectBasicInformation__content__right__timeframeContainer">
-            <Form.Item
-              className="formProjectBasicInformation__content__right__item"
-              label="Timeframe"
-              help={
-                <div>
-                  {getErrorMessagesField(timeframeError, [
-                    ERROR_TYPES.MORE_THAN_1_DECIMAL,
-                    ERROR_TYPES.NO_ZERO
-                  ]).map(errorMessage => errorMessage)}
-                </div>
-              }
-            >
-              {getFieldDecorator('timeframe', {
-                initialValue: timeframe && parseFloat?.(timeframe),
+            <CoaFormItemInputNumber
+              form={form}
+              formItemProps={{
+                className: 'formProjectBasicInformation__content__right__item',
+                label: 'Timeframe'
+              }}
+              errorsToShow={[ERROR_TYPES.MORE_THAN_1_DECIMAL, ERROR_TYPES.NO_ZERO]}
+              name="timeframe"
+              fieldDecoratorOptions={{
                 rules: [
                   {
                     required: true,
@@ -339,27 +319,28 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                     validator: validateCurrencyValue
                   }
                 ],
-                validateTrigger: 'onSubmit'
-              })(
-                <InputNumber
-                  step="0.1"
-                  placeholder={0}
-                  onChange={value =>
-                    setCurrentBasicInformation({
-                      ...currentBasicInformation,
-                      timeframe: value
-                    })
-                  }
-                />
-              )}
-            </Form.Item>
+                validateTrigger: 'onSubmit',
+                initialValue: timeframe && parseFloat?.(timeframe)
+              }}
+              inputNumberProps={{
+                step: '0.1',
+                placeholder: 0,
+                onChange: value =>
+                  setCurrentBasicInformation({
+                    ...currentBasicInformation,
+                    timeframe: value
+                  })
+              }}
+            />
 
-            <Form.Item
-              label=""
-              help={null}
-              className="formProjectBasicInformation__content__right__item"
-            >
-              {getFieldDecorator('timeframeUnit', {
+            <CoaFormItemSelect
+              name="timeframeUnit"
+              form={form}
+              formItemProps={{
+                className: 'formProjectBasicInformation__content__right__item',
+                label: ''
+              }}
+              fieldDecoratorOptions={{
                 initialValue: timeframeUnit,
                 rules: [
                   {
@@ -369,74 +350,53 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   }
                 ],
                 validateTrigger: 'onSubmit'
-              })(
-                <Select
-                  placeholder="Type"
-                  onChange={value =>
-                    setCurrentBasicInformation({
-                      ...currentBasicInformation,
-                      timeframeUnit: value
-                    })
-                  }
-                >
-                  {TIMEFRAME_UNITS.map(({ value, label }) => (
-                    <Option value={value} key={value}>
-                      {label}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </Form.Item>
+              }}
+              selectProps={{
+                placeholder: 'Type',
+                onChange: value =>
+                  setCurrentBasicInformation({
+                    ...currentBasicInformation,
+                    timeframeUnit: value
+                  })
+              }}
+              options={TIMEFRAME_UNITS}
+            />
           </div>
 
-          <Form.Item
-            className="formProjectBasicInformation__content__right__item"
-            valuePropName="fileList"
-            label="Thumbnail Image"
-            help={
-              <>
-                {getErrorMessagesField(thumbnailPhotoError, [ERROR_TYPES.IMAGE_INVALID]).map(
-                  errorMessage => errorMessage
-                )}
-              </>
+          <CoaFormItemUpload
+            form={form}
+            formItemProps={{
+              label: 'Thumbnail Image',
+              className: 'formProjectBasicInformation__content__right__item'
+            }}
+            fieldDecoratorOptions={{
+              rules: thumbnailRules(thumbnailPhoto),
+              validateTrigger: 'onSubmit'
+            }}
+            name="thumbnailPhoto"
+            errorsToShow={[ERROR_TYPES.IMAGE_INVALID]}
+            initialValue={
+              thumbnailPhoto
+                ? [
+                    {
+                      uid: _.uniqueId(),
+                      url: thumbnailPhoto,
+                      name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
+                    }
+                  ]
+                : []
             }
-          >
-            <div className="formProjectBasicInformation__content__right__uploadItemContainer">
+            buttonType="ghost"
+            onChange={handleThumbnailChange}
+            onRemove={handleThumbnailRemove}
+            uploadProps={uploadProps}
+            Note={
               <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
                 <p>Recommended Image Size: 1400x720px. Format: PNG or JPG.</p>
                 <p>Max size: 500kb</p>
               </div>
-              {getFieldDecorator('thumbnailPhoto', {
-                rules: thumbnailRules(thumbnailPhoto),
-                validateTrigger: 'onSubmit'
-              })(
-                <CustomUpload
-                  uploadProps={uploadProps}
-                  getErrorMessagesField={getErrorMessagesField}
-                  onChange={handleThumbnailChange}
-                  onRemove={handleThumbnailRemove}
-                  currentError={thumbnailPhotoError}
-                  setFieldValue={value => {
-                    setFieldsValue({ thumbnailPhoto: value });
-                  }}
-                  initial={
-                    thumbnailPhoto
-                      ? [
-                          {
-                            uid: _.uniqueId(),
-                            url: thumbnailPhoto,
-                            name: `thumbnail-image.${getExtensionFromUrl(thumbnailPhoto)}`
-                          }
-                        ]
-                      : []
-                  }
-                  buttonType="ghost"
-                >
-                  Click to upload <Icon type="upload" />
-                </CustomUpload>
-              )}
-            </div>
-          </Form.Item>
+            }
+          />
         </Form>
       </div>
 

@@ -1,10 +1,11 @@
 /* eslint-disable func-names */
 import { Upload } from 'antd';
+import classNames from 'classnames';
 import { ERROR_TYPES } from 'constants/constants';
 import { getErrorMessagesField } from 'helpers/utils';
-import _ from 'lodash';
 import React, { useState } from 'react';
 import { CoaButton } from '../CoaButton/CoaButton';
+import './custom-upload.module.scss';
 
 export const CustomUpload = ({
   onChange,
@@ -34,12 +35,11 @@ export const CustomUpload = ({
     <Upload {...uploadProps} onChange={handleChange} onRemove={handleRemove} fileList={fileList}>
       <CoaButton
         type={buttonType}
-        className={`formProjectBasicInformation__uploadThumbnail__button ${
-          getErrorMessagesField(currentError, [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY])
-            .length > 0
-            ? '--withError'
-            : ''
-        }`}
+        className={classNames('uploadThumbnail__button', {
+          '--withError':
+            getErrorMessagesField(currentError, [ERROR_TYPES.IMAGE_INVALID, ERROR_TYPES.EMPTY])
+              .length > 0
+        })}
       >
         {children}
       </CoaButton>
