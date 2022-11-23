@@ -48,8 +48,9 @@ function ResetPassword() {
         ? error.response.data.error
         : error.message;
       showModalError(title, content);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const renderForm = () => (
@@ -72,8 +73,7 @@ function ResetPassword() {
       <ModalLogin
         visibility={modalOpen}
         setVisibility={setModalOpen}
-      >
-      </ModalLogin>
+      />
       <div>{renderForm()}</div>
       <ModalChangePasswordSuccess visible={successModalOpen} />
     </BackgroundLanding>

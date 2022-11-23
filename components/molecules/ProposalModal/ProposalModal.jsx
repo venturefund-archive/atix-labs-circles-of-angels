@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import {
@@ -28,7 +28,7 @@ import ProposalOption from '../ProposalOption/ProposalOption';
 import { showModalError } from '../../utils/Modals';
 import { options } from './proposalOptions';
 import { proposalTypes } from '../../../constants/constants';
-import { useUserContext } from '../../utils/UserContext';
+import { UserContext } from '../../utils/UserContext';
 import './_style.scss';
 
 const ProposalModal = ({
@@ -49,8 +49,8 @@ const ProposalModal = ({
   const [selectedUser, setSelectedUser] = useState(undefined);
   const [selectedRole, setSelectedRole] = useState(undefined);
 
-  const { getLoggedUser } = useUserContext();
-  const loggedUser = getLoggedUser();
+  const { user } = useContext(UserContext);
+  const loggedUser = user;
 
   const fetchUsers = async () => {
     try {
@@ -66,7 +66,7 @@ const ProposalModal = ({
   };
 
   const getCurrentUser = useCallback(() => {
-    const userFound = usersData.find(user => user.id === loggedUser.id);
+    const userFound = usersData.find((u) => u.id === loggedUser.id);
     setCurrentUser(userFound);
   }, [loggedUser.id, usersData]);
 

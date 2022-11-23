@@ -6,17 +6,22 @@
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
+import React, {
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { Button, Modal, Typography, Form, Input } from 'antd';
 import { getWallet } from 'api/userApi';
 import LogoWrapper from 'components/atoms/LogoWrapper';
-import { useUserContext } from 'components/utils/UserContext';
+import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
-import React, { useState, useEffect } from 'react';
+
 import PropTypes from 'prop-types';
 
 const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
   const { getFieldDecorator, getFieldProps, validateFields } = form;
-  const { getLoggedUser } = useUserContext();
+  const { getLoggedUser } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
 
   const user = getLoggedUser()

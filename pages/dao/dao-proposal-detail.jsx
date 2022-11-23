@@ -7,12 +7,17 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import { message, Popover, Avatar, Progress, Button } from 'antd';
 import { LeftOutlined, CopyFilled } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { showModalError } from '../../components/utils/Modals';
-import { useUserContext } from '../../components/utils/UserContext';
+import { UserContext } from '../../components/utils/UserContext';
 import ModalPasswordRequest from '../../components/organisms/ModalPasswordRequest/ModalPasswordRequest';
 import { signTransaction } from '../../helpers/blockchain/wallet';
 import '../_style.scss';
@@ -46,8 +51,7 @@ function DaoProposalDetail() {
   const [daoUsers, setDaoUsers] = useState([]);
   const history = useHistory();
   const { daoId, proposalId } = useQuery();
-  const { getLoggedUser } = useUserContext();
-  const user = getLoggedUser();
+  const { user } = useContext(UserContext);
   const fetchCurrentProposal = async () => {
     try {
       const response = await getProposalsByDaoId(daoId);

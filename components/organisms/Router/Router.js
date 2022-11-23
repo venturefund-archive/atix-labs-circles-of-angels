@@ -7,21 +7,27 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Switch, BrowserRouter } from 'react-router-dom';
+import { UserContext } from '../../utils/UserContext';
+
 import PrivateRoute from '../../utils/PrivateRoute';
 import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = ({ routesConfig }) => {
-  const routes = routesConfig.map(route => (
-    <PrivateRoute key={route.path} {...route} />
-  ));
+  const context = useContext(UserContext);
+  const { user } = context;
+  const authenticated = !!user;
 
   return (
     <BrowserRouter>
       <Switch>
-        {routes}
+        {routesConfig.map(route => (
+          <PrivateRoute key={route.path} {...route} authenticated={authenticated} role={user ? user.role : ''} user={user} />
+        ))}
         <DefaultRoute />
       </Switch>
     </BrowserRouter>
@@ -34,8 +40,9 @@ Router.defaultProps = {
   routesConfig: []
 };
 
+
 Router.propTypes = {
-  routesConfig: PropTypes.arrayOf({
+  routesConfig: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string,
     component: PropTypes.elementType,
     authentication: PropTypes.shape({
@@ -44,5 +51,5 @@ Router.propTypes = {
     }),
     withHeader: PropTypes.bool,
     withSideBar: PropTypes.bool
-  })
+  }))
 };

@@ -1,17 +1,22 @@
+import React, {
+  useState,
+  useContext,
+} from 'react';
+import { useHistory } from 'react-router';
 import { setPin, setWallet } from 'api/userApi';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
 import ModalSecretKey from 'components/organisms/ModalSecretKey/ModalSecretKey';
 import Navigation from 'components/organisms/Navigation';
-import { useUserContext } from 'components/utils/UserContext';
+import { UserContext } from 'components/utils/UserContext';
 import { generateWalletFromPin } from 'helpers/blockchain/wallet';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+
+
 import ModalSKSuccess from 'components/organisms/ModalSKSucess/ModalSKSuccess';
 
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
-  const { getLoggedUser } = useUserContext();
+  const { getLoggedUser } = useContext(UserContext);
 
   const user = getLoggedUser();
   const history = useHistory()

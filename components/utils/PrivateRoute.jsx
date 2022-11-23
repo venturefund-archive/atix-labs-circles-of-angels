@@ -1,31 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { useUserContext } from './UserContext';
+// import { useUserContext } from './UserContext';
 import MainLayout from '../organisms/MainLayout/MainLayout';
-import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
+// import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
 
-const PrivateRoute = routeProps => {
+function PrivateRoute(routeProps) {
   const {
     component: Component,
     exact,
     path,
     authentication,
     withHeader,
-    withSideBar
+    withSideBar,
+    authenticated,
+    role,
+    user,
   } = routeProps;
-  const { getLoggedUser } = useUserContext();
-  const user = getLoggedUser();
-  const authenticated = !!user;
+  // const { getLoggedUser } = useUserContext();
+  // const user = getLoggedUser();
+  // const authenticated = !!user;
 
   const { required, roles } = authentication;
+  // console.info('PrivateRoute called: ', path, exact, Component, authentication);
   if (required && !authenticated) return <Redirect push from={path} to="/" />;
 
-  if (required && authenticated && !roles.includes(user.role))
-    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+  if (required && authenticated && !roles.includes(role)) {
+    return (<div>{`This route required a role (${roles.join(',')}): ${role}`}</div>)
+    // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+  }
 
-  if (!required && authenticated)
-    return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+  if (!required && authenticated) {
+    // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
+    // return <Redirect push from={path} to="/" />;
+  }
+
 
   return (
     <Route
@@ -38,12 +47,12 @@ const PrivateRoute = routeProps => {
           withSideBar={withSideBar}
           authenticated={authenticated}
         >
-          <Component {...props} {...routeProps} user={user} />
+          <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
         </MainLayout>
       )}
     />
   );
-};
+}
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,

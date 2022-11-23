@@ -7,20 +7,25 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import './_style.scss';
 import { useHistory } from 'react-router';
 import { ACCESS_TOKEN_KEY } from 'constants/constants';
-import { useUserContext } from '../../utils/UserContext';
+import { UserContext } from '../../utils/UserContext';
 import DynamicForm from '../FormLogin/FormLogin';
 import ModalRecovery from '../ModalRecovery/ModalRecovery';
 import { loginUser } from '../../../api/userApi';
 import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
-  const { changeUser } = useUserContext();
+  const context = useContext(UserContext);
+  const { changeUser } = context || { changeUser: () => {} };
   const [onLoginRoute, setOnLoginRoute] = useState(false);
   const [closable, setClosable] = useState(true);
   const history = useHistory();
@@ -64,12 +69,13 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       if (!pin) {
         nextRoute = 'secret-key';
       } else if (forcePasswordChange) {
-        nextRoute = '/password-change';
+        nextRoute = '/u/password-change';
       } else if (isAdmin) {
         nextRoute = '/my-projects';
       }
 
       clearFields();
+      setVisibility(false);
       history.push(nextRoute);
     } catch (e) {
       if (e !== 'Invalid user or password') {

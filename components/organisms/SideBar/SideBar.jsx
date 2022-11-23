@@ -23,7 +23,7 @@ const SideBar = ({ role, hasDaos }) => {
 
   const goToRoute = route => history.push(route);
 
-  const getMenuItems = userRole => {
+  const getMenuItems = (userRole) => {
     const daosKey = 'dao-list';
     let items = menuItems.filter(({ allowedRoles }) =>
       allowedRoles.includes(userRole)
