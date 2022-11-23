@@ -98,7 +98,7 @@ CoaFormItemUpload.propTypes = {
   errorsToShow: PropTypes.arrayOf(PropTypes.string),
   fieldDecoratorOptions: PropTypes.objectOf(PropTypes.any),
   withErrorFeedback: PropTypes.bool,
-  initialValue: PropTypes.objectOf(PropTypes.any),
+  initialValue: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
   buttonType: PropTypes.string,
   uploadProps: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,

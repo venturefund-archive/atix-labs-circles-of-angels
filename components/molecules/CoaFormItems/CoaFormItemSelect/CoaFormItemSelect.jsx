@@ -52,5 +52,5 @@ CoaFormItemSelect.propTypes = {
   errorsToShow: PropTypes.arrayOf(PropTypes.string),
   fieldDecoratorOptions: PropTypes.objectOf(PropTypes.any),
   withErrorFeedback: PropTypes.bool,
-  options: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any))
 };

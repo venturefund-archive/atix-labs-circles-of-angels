@@ -298,7 +298,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   location: value
                 })
             }}
-            options={countriesAvailable?.content}
+            options={countriesAvailable?.content?.map(country => ({
+              label: country?.name,
+              value: country?.name
+            }))}
           />
           <div className="formProjectBasicInformation__content__right__timeframeContainer">
             <CoaFormItemInputNumber
