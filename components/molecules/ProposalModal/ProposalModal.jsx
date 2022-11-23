@@ -66,7 +66,7 @@ const ProposalModal = ({
   };
 
   const getCurrentUser = useCallback(() => {
-    const userFound = usersData.find(user => user.id === loggedUser.id);
+    const userFound = usersData.find((u) => u.id === loggedUser.id);
     setCurrentUser(userFound);
   }, [loggedUser.id, usersData]);
 

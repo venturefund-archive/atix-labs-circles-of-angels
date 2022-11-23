@@ -19,22 +19,14 @@ import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = ({ routesConfig }) => {
   const context = useContext(UserContext);
-  console.info('context: ', context);
   const { user } = context;
   const authenticated = !!user;
-  let role = null;
-  let forcePasswordChange = false;
-
-  if (user) {
-    role = user.role;
-    forcePasswordChange = user.forcePasswordChange;
-  }
 
   return (
     <BrowserRouter>
       <Switch>
         {routesConfig.map(route => (
-          <PrivateRoute key={route.path} {...route} authenticated={authenticated} role={role} user={user} />
+          <PrivateRoute key={route.path} {...route} authenticated={authenticated} role={user ? user.role : ''} user={user} />
         ))}
         <DefaultRoute />
       </Switch>

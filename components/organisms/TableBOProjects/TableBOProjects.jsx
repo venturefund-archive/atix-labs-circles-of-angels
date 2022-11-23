@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Dropdown, Menu, Icon, message, Modal, Button } from 'antd';
@@ -19,13 +19,12 @@ import projectStatusesTransitionAdmin from '../../../constants/ProjectStatusesTr
 import userRole from '../../../constants/RolesMap';
 import { downloadFileFromPath } from '../../utils/FileUtils';
 import { updateProjectStatus } from '../../../api/projectApi';
-import { useUserContext } from '../../utils/UserContext';
+import { UserContext } from '../../utils/UserContext';
 import CustomFormModal from '../CustomFormModal/CustomFormModal';
 import { newProjectFormItems } from '../../../helpers/createProjectFormFields';
 
 const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
-  const { getLoggedUser } = useUserContext();
-  const user = getLoggedUser();
+  const { user } = useContext(UserContext);
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [statusSelected, setStatusSelected] = useState(null);

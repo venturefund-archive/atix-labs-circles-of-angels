@@ -84,16 +84,7 @@ function Navigation({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { user, removeUser } = useContext(UserContext);
   const authenticated = !!user;
-  let role = null;
-  let forcePasswordChange = false;
-
-  if (user) {
-    role = user.role;
-    forcePasswordChange = user.forcePasswordChange;
-  }
-  console.info(user, role, authenticated);
   function handleLogout() {
-    console.info('logout called');
     removeUser();
   }
 
