@@ -399,7 +399,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             uploadProps={uploadProps}
             Note={
               <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                <p>Recommended Image Size: 1400x720px. Format: PNG or JPG.</p>
+                <p>Recommended Image Dimensions: 1400x720px. Format: PNG or JPG.</p>
                 <p>Max size: 500kb</p>
               </div>
             }
