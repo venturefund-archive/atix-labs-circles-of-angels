@@ -82,7 +82,9 @@ function Navigation({
   setModalOpen,
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { user, removeUser } = useContext(UserContext);
+  // console.info('UserContext');
+  const context = useContext(UserContext);
+  const { user, removeUser } = context || {};
   const authenticated = !!user;
   function handleLogout() {
     removeUser();

@@ -24,7 +24,8 @@ import { loginUser } from '../../../api/userApi';
 import LogoWrapper from '../../atoms/LogoWrapper';
 
 const ModalLogin = ({ setVisibility, visibility }) => {
-  const { changeUser } = useContext(UserContext);
+  const context = useContext(UserContext);
+  const { changeUser } = context || { changeUser: () => {} };
   const [onLoginRoute, setOnLoginRoute] = useState(false);
   const [closable, setClosable] = useState(true);
   const history = useHistory();
