@@ -369,8 +369,8 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           <CoaFormItemUpload
             buttonContent={
               <div className="formProjectBasicInformation__content__right__uploadItemContainer__buttonContent">
-                Click to upload
                 <Icon type="upload" />
+                Click to upload
               </div>
             }
             contentContainerClassName="formProjectBasicInformation__content__right__uploadItemContainer"
@@ -401,10 +401,11 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             onRemove={handleThumbnailRemove}
             uploadProps={uploadProps}
             Note={
-              <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                <p>Recommended Image Dimensions: 1400x720px. Format: PNG or JPG.</p>
-                <p>Max size: 500kb</p>
-              </div>
+              <ul className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                <li>Recommended image Dimensions: 1400x720px. </li>
+                <li>Format: PNG or JPG.</li>
+                <li>Max size: 500kb.</li>
+              </ul>
             }
           />
         </Form>
