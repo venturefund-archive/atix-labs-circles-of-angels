@@ -46,7 +46,7 @@ const CreateProject = ({
   deleteProject
 }) => {
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
-  const [secretKeyVisible, setSecretKeyVisible] = useState(true);
+  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
