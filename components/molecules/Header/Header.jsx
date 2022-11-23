@@ -7,15 +7,16 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import { useUserContext } from '../../utils/UserContext';
+import { UserContext } from '../../utils/UserContext';
 
 import './_style.scss';
 
 const Header = () => {
-  const { getLoggedUser } = useUserContext();
-  const user = getLoggedUser();
+  const { user } = useContext(UserContext);
   return (
     <div className="HeaderContainer">
       <div className="RightSide">{user && user.role ? <UserAvatar user={user} /> : ''}</div>

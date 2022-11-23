@@ -1,25 +1,26 @@
 import SecretKey from 'pages/secret-key';
-import BackofficeProjects from '../../../pages/back-office-projects';
+// import BackofficeProjects from '../../../pages/back-office-projects';
 import CreateProject from '../../../pages/create-project';
 import MyProjects from '../../../pages/my-projects';
-import FundAdministration from '../../../pages/fund-administration';
+// import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
-import PasswordChange from '../../../pages/password-change';
-import ForgotPassword from '../../../pages/forgot-password';
+// import PasswordChange from '../../../pages/password-change';
+// import ForgotPassword from '../../../pages/forgot-password';
 import Landing from '../../../pages/landing/landing';
-import Dao from '../../../pages/dao/dao-list';
-import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
-import DaoDetail from '../../../pages/dao/dao-detail';
-import Recovery from '../../../pages/recovery';
-import RegisterSteps from '../../../pages/registerSteps/registersteps';
-import ProjectDetail from '../../../pages/project-detail';
-import ConfirmEmail from '../../../pages/confirm-email';
+// import Dao from '../../../pages/dao/dao-list';
+// import DaoProposalDetail from '../../../pages/dao/dao-proposal-detail';
+// import DaoDetail from '../../../pages/dao/dao-detail';
+// import Recovery from '../../../pages/recovery';
+// import RegisterSteps from '../../../pages/registerSteps/registersteps';
+// import ProjectDetail from '../../../pages/project-detail';
+// import ConfirmEmail from '../../../pages/confirm-email';
 import Roles from '../../../constants/RolesMap';
 import Login from '../../../pages/login';
 import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
+
 
 const {
   COA_ADMIN,
@@ -38,12 +39,20 @@ export const routesConfig = [
     withSideBar: false
   },
   {
+    path: '/:id',
+    component: Preview,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
     path: '/projects/:id/preview',
     component: Preview,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false,
   },
+  /*
   {
     path: '/landing',
     component: Landing,
@@ -51,41 +60,9 @@ export const routesConfig = [
     withHeader: false,
     withSideBar: false
   },
-  {
-    path: '/recovery',
-    component: Recovery,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
-  },
-  {
-    path: '/forgot-password',
-    component: ForgotPassword,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
-  },
-  {
-    path: '/password-change',
-    component: PasswordChange,
-    withSideBar: false,
-    authentication: {
-      required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
-    }
-  },
+  */
   {
     path: '/:projectId/secret-key',
-    component: SecretKey,
-    withHeader: false,
-    withSideBar: false,
-    authentication: {
-      required: true,
-      roles: [ENTREPRENEUR,COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
-    }
-  },
-  {
-    path: '/secret-key',
     component: SecretKey,
     withHeader: false,
     withSideBar: false,
@@ -104,28 +81,12 @@ export const routesConfig = [
     }
   },
   {
-    path: '/reset-password',
-    component: ResetPassword,
-    withHeader: false,
-    withSideBar: false,
-    authentication: {
-      required: false
-    }
-  },
-  {
     path: '/:projectId/change-password-success',
     component: ChangePasswordSuccess,
     withSideBar: false,
     authentication: {
       required: false
     }
-  },
-  {
-    path: '/register',
-    component: RegisterSteps,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
   },
   {
     path: '/project/edit/:projectId',
@@ -135,6 +96,7 @@ export const routesConfig = [
       roles: [ENTREPRENEUR, COA_ADMIN]
     }
   },
+  /*
   {
     path: '/project-detail',
     component: ProjectDetail,
@@ -143,6 +105,8 @@ export const routesConfig = [
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
     }
   },
+  */
+  /*
   {
     path: '/back-office-projects',
     component: BackofficeProjects,
@@ -151,14 +115,16 @@ export const routesConfig = [
       roles: [PROJECT_CURATOR, COA_ADMIN]
     }
   },
+  */
   {
     path: '/my-projects',
     component: MyProjects,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR, PROJECT_SUPPORTER, COA_ADMIN]
+      roles: [COA_ADMIN]
     }
   },
+  /*
   {
     path: '/fund-administration',
     component: FundAdministration,
@@ -167,6 +133,7 @@ export const routesConfig = [
       roles: [BANK_OPERATOR]
     }
   },
+  */
   {
     path: '/back-office-users',
     component: BackOfficeUsers,
@@ -183,6 +150,7 @@ export const routesConfig = [
       roles: [BANK_OPERATOR]
     }
   },
+  /*
   {
     path: '/dao-list',
     component: Dao,
@@ -207,6 +175,8 @@ export const routesConfig = [
       roles: [ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR]
     }
   },
+  */
+  /*
   {
     path: '/confirm',
     component: ConfirmEmail,
@@ -214,6 +184,7 @@ export const routesConfig = [
       required: false
     }
   },
+  */
   {
     path: '/:projectId/login',
     component: Login,

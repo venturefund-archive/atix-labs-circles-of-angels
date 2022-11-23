@@ -178,8 +178,10 @@ export const ERROR_TYPES = {
   ALPHANUMERIC: 'ALPHANUMERIC',
   IMAGE_INVALID: 'IMAGE_INVALID',
   FILE: 'FILE',
-  MORE_THAN_3_DECIMAL: 'MORE_THAN_3_DECIMAL',
-  NO_ZERO: 'NO_ZERO'
+  MORE_THAN_1_DECIMAL: 'MORE_THAN_1_DECIMAL',
+  NO_ZERO: 'NO_ZERO',
+  EMPTY_FILE: 'EMPTY_FILE',
+  INVALID_FILE: 'INVALID_FILE'
 };
 
 export const ERROR_MESSAGES = {
@@ -187,11 +189,15 @@ export const ERROR_MESSAGES = {
   ALPHANUMERIC: 'Please input an alphanumeric value for this field.',
   IMAGE_INVALID: 'The uploaded file does not meet the requirements. \n Check them and try again',
   FILE: 'The file is invalid. Review the recommendations and try again',
-  MORE_THAN_3_DECIMAL: "This value can't have more than 3 decimals",
-  NO_ZERO: "This value can't be zero"
+  MORE_THAN_1_DECIMAL: "This value can't have more than 1 decimals",
+  NO_ZERO: "This value can't be zero",
+  EMPTY_FILE: '* You must upload the required file before continuing',
+  INVALID_FILE: '* The file is invalid. Review the recommendations and try again',
+  INVALID_EMAIL: 'The current value is not a valid email'
 };
 
 export const KB_FACTOR_CONVERTER = 1000;
+export const MB_FACTOR_CONVERTER = 1000000;
 
 export const ACCESS_TOKEN_KEY = 'accessToken';
 export const USER_KEY = 'user';

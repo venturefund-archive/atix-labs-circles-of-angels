@@ -1,30 +1,43 @@
-
+import React, {
+  useState,
+  useContext,
+} from 'react';
+import { useHistory } from 'react-router';
 import { setPin, setWallet } from 'api/userApi';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
 import ModalSecretKey from 'components/organisms/ModalSecretKey/ModalSecretKey';
 import Navigation from 'components/organisms/Navigation';
-import { useUserContext } from 'components/utils/UserContext';
+import { UserContext } from 'components/utils/UserContext';
 import { generateWalletFromPin } from 'helpers/blockchain/wallet';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+
+
+import ModalSKSuccess from 'components/organisms/ModalSKSucess/ModalSKSuccess';
 
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
-  const { getLoggedUser } = useUserContext();
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const { getLoggedUser } = useContext(UserContext);
+
+  const user = getLoggedUser();
   const history = useHistory()
 
   const savePin = async (pin) => {
     const success = await setPin();
-    const wallet = await generateWalletFromPin(pin)
-    const user = getLoggedUser()
-    const { data } = await setWallet(wallet)
+
+    // Wallet generated only after pin validation
+    const key = `${pin}-${user.id}-${user.email}`;
+
+    const wallet = await generateWalletFromPin(key);
+
+    const { data } = await setWallet(wallet);
 
     if (success && data.id) {
-      redirect(user)
+      setModalOpen(false);
+      setSuccessModalOpen(true);
     }
   }
 
-  const redirect = (user) => {
+  const redirect = () => {
     let route = '/'
     if (user.isAdmin) {
       route = '/my-proyects'
@@ -42,6 +55,10 @@ function SecretKey() {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         onSuccess={savePin}
+      />
+      <ModalSKSuccess
+        visible={successModalOpen}
+        onSuccess={redirect}
       />
     </BackgroundLanding>
   );

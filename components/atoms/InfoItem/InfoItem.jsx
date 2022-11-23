@@ -11,8 +11,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'antd';
 import './_style.scss';
+import classNames from 'classnames';
 
-const InfoItem = ({ subtitle, title, img }) => {
+const InfoItem = ({ subtitle, title, img, className }) => {
   const [overflowTooltip, setOverflowTooltip] = useState(false);
 
   const titleRef = useRef();
@@ -35,18 +36,16 @@ const InfoItem = ({ subtitle, title, img }) => {
   const h2Title = () => <h2 ref={titleRef}>{title}</h2>;
 
   return (
-    <div className="InfoItem">
-      <div className="InfoItemData">
-        <p>{subtitle}</p>
-        {overflowTooltip ? (
-          <Tooltip placement="bottom" title={title}>
-            {h2Title()}
-          </Tooltip>
-        ) : (
-          h2Title()
-        )}
-        {img}
-      </div>
+    <div className={classNames('InfoItem', className)}>
+      {overflowTooltip ? (
+        <Tooltip placement="bottom" title={title}>
+          {h2Title()}
+        </Tooltip>
+      ) : (
+        h2Title()
+      )}
+      <p>{subtitle}</p>
+      {img}
     </div>
   );
 };
@@ -56,11 +55,13 @@ export default InfoItem;
 InfoItem.defaultProps = {
   subtitle: '',
   title: '',
-  img: ''
+  img: '',
+  className: ''
 };
 
 InfoItem.propTypes = {
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  img: PropTypes.node
+  img: PropTypes.node,
+  className: PropTypes.string
 };

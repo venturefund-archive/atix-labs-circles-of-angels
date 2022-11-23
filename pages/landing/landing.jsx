@@ -7,7 +7,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
+import React, {
+  useState,
+} from 'react';
 import '../_style.scss';
 import './_landing.scss';
 import Navigation from 'components/organisms/Navigation';

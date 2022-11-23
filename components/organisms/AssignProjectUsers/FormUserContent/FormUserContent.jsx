@@ -10,43 +10,52 @@ import './form-user-content.module.scss';
 
 const { Option } = Select;
 
+const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign }) => ({
+  [USER_STATES.NO_EXIST]: {
+    func: inviteAndAssign,
+    text: 'Invite & Assign user'
+  },
+  [USER_STATES.PENDING_WITH_TEXT]: {
+    func: assign,
+    text: 'Assign user'
+  },
+  [USER_STATES.EXIST_WITH_TEXT]: {
+    func: assign,
+    text: 'Assign user'
+  },
+  [USER_STATES.PENDING]: {
+    func: unassign,
+    text: 'Unassign user'
+  },
+  [USER_STATES.EXIST]: {
+    func: unassign,
+    text: 'Unassign user'
+  },
+  [USER_STATES.UNKNOWN]: {
+    func: () => {},
+    text: 'Assign user'
+  },
+  [USER_STATES.LOADING]: {
+    func: () => {},
+    text: 'Assign user'
+  }
+});
+
 export const FormUserContent = ({
-  onRemove,
-  setActiveKey,
   form,
   countries = {},
-  setUserState,
   userState,
-  item,
-  handleSubmitNewUser,
-  handleSubmitConfirmUser,
-  totalKeys,
+  handleCreateAndAssignUser,
+  handleAssignUser,
+  handleUnassignUser,
   initialData,
-  isFormSubmitted,
-  removeCurrentUserFromProject
+  isFormSubmitted
 }) => {
-  const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
+  const { getFieldDecorator, getFieldValue } = form;
   const country = getFieldValue('country');
   const firstName = getFieldValue('firstName');
   const lastName = getFieldValue('lastName');
   const email = getFieldValue('email');
-
-  const handleRemove = async () => {
-    if (item !== undefined && totalKeys !== 1) {
-      await removeCurrentUserFromProject();
-      return onRemove();
-    }
-    await removeCurrentUserFromProject();
-    setFieldsValue({
-      id: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      country: undefined,
-      email: undefined
-    });
-    setUserState(USER_STATES.UNKNOWN);
-    setActiveKey(0);
-  };
 
   return (
     <div
@@ -73,6 +82,7 @@ export const FormUserContent = ({
           initialValue: initialData?.firstName
         })(
           <Input
+            maxLength={50}
             placeholder="Enter first name"
             disabled={
               userState === USER_STATES.EXIST ||
@@ -100,6 +110,7 @@ export const FormUserContent = ({
           initialValue: initialData?.lastName
         })(
           <Input
+            maxLength={50}
             placeholder="Enter last name"
             disabled={
               userState === USER_STATES.EXIST ||
@@ -141,33 +152,33 @@ export const FormUserContent = ({
         )}
       </Form.Item>
       <div className="formUserContent__container__buttonsContainer">
-        <CoaButton onClick={handleRemove} type="ghost" disabled={userState === USER_STATES.LOADING}>
-          Cancel
-        </CoaButton>
-
         <CoaButton
           type="primary"
           onClick={
-            userState === USER_STATES.NO_EXIST ? handleSubmitNewUser : handleSubmitConfirmUser
+            SUBMIT_BUTTON_DICT({
+              assign: handleAssignUser,
+              inviteAndAssign: handleCreateAndAssignUser,
+              unassign: handleUnassignUser
+            })[userState]?.func
           }
           htmlType="submit"
           disabled={
-            !country ||
-            !firstName ||
-            !lastName ||
-            !email ||
-            isFormSubmitted ||
+            ((!country || !firstName || !lastName || !email) && !initialData) ||
             userState === USER_STATES.LOADING
           }
         >
-          {userState === USER_STATES.NO_EXIST ? 'Invite User' : 'Assign user'}
+          {
+            SUBMIT_BUTTON_DICT({
+              assign: handleAssignUser,
+              inviteAndAssign: handleCreateAndAssignUser,
+              unassign: handleUnassignUser
+            })[userState]?.text
+          }
         </CoaButton>
 
         <FeedbackMessage
           message={
-            userState === USER_STATES.PENDING ||
-            userState === USER_STATES.PENDING_WITH_TEXT ||
-            userState === USER_STATES.NO_EXIST
+            userState === USER_STATES.PENDING || userState === USER_STATES.PENDING_WITH_TEXT
               ? 'Invitation and instructions have been sent!'
               : 'User assigned successfully'
           }
@@ -187,24 +198,17 @@ export const FormUserContent = ({
 };
 
 FormUserContent.defaultProps = {
-  onRemove: undefined,
-  setActiveKey: undefined,
   form: undefined,
   countries: undefined,
-  setUserState: undefined,
   userState: undefined,
-  item: undefined,
-  handleSubmitNewUser: undefined,
-  handleSubmitConfirmUser: undefined,
-  totalKeys: undefined,
+  handleCreateAndAssignUser: undefined,
+  handleAssignUser: undefined,
   initialData: undefined,
   isFormSubmitted: undefined,
-  removeCurrentUserFromProject: undefined
+  handleUnassignUser: undefined
 };
 
 FormUserContent.propTypes = {
-  onRemove: PropTypes.func,
-  setActiveKey: PropTypes.func,
   form: PropTypes.shape({
     getFieldDecorator: PropTypes.func,
     setFieldsValue: PropTypes.func,
@@ -219,13 +223,10 @@ FormUserContent.propTypes = {
       })
     )
   }),
-  setUserState: PropTypes.func,
   userState: PropTypes.string,
-  item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  handleSubmitNewUser: PropTypes.func,
-  handleSubmitConfirmUser: PropTypes.func,
-  totalKeys: PropTypes.number,
+  handleCreateAndAssignUser: PropTypes.func,
+  handleAssignUser: PropTypes.func,
   initialData: PropTypes.objectOf(PropTypes.any),
   isFormSubmitted: PropTypes.bool,
-  removeCurrentUserFromProject: PropTypes.func
+  handleUnassignUser: PropTypes.func
 };

@@ -7,15 +7,17 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
 import { useHistory } from 'react-router';
 import { Menu, Dropdown, Icon, Button } from 'antd';
-import { useUserContext } from '../../utils/UserContext';
+import { UserContext } from '../../utils/UserContext';
 
 import './_style.scss';
 
 const SettingsMenu = () => {
-  const { removeUser } = useUserContext();
+  const { removeUser } = useContext(UserContext);
   const history = useHistory();
   const logout = () => {
     removeUser();

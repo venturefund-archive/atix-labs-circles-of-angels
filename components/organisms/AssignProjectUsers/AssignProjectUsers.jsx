@@ -17,19 +17,23 @@ import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import _ from 'lodash';
 import { getCountries } from 'api/countriesApi';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
+import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
+import { SentIcon } from 'components/atoms/CustomIcons/SentIcon';
+import {
+  checkProjectHasAnyUserWithoutFirstLogin,
+  getUsersByRole
+} from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
-export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
+export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   const [countries, setCountries] = useState({});
+  const [hasPendingUsers, setHasPendingUsers] = useState(false);
 
-  const getUsersByRole = role =>
-    project?.users?.filter(user => user?.role === role.toString())?.[0]?.users;
-
-  const initialBeneficiaryUserData = getUsersByRole(ROLES_IDS.beneficiary)?.[0];
-  const initialInvestorUserData = getUsersByRole(ROLES_IDS.investor)?.[0];
-  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor);
+  const initialBeneficiariesUserData = getUsersByRole(ROLES_IDS.beneficiary, project?.users);
+  const initialInvestorsUserData = getUsersByRole(ROLES_IDS.investor, project?.users);
+  const initialAuditorsUserData = getUsersByRole(ROLES_IDS.auditor, project?.users);
 
   const [currentAuditorsElements, setCurrentAuditorsElements] = useState([_.uniqueId()]);
 
@@ -43,7 +47,14 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       const _countries = await getCountries();
       setCountries({ content: _countries, isLoading: false });
     })();
-  }, []);
+
+    const projectHasAnyUserWithoutFirstLogin = checkProjectHasAnyUserWithoutFirstLogin({
+      auditors: initialAuditorsUserData,
+      beneficiaries: initialBeneficiariesUserData,
+      investors: initialInvestorsUserData
+    });
+    setHasPendingUsers(projectHasAnyUserWithoutFirstLogin);
+  }, [initialBeneficiariesUserData, initialAuditorsUserData, initialInvestorsUserData]);
 
   const handleSubmitAssign = () => {
     onSuccess({ projectId: project?.id });
@@ -76,13 +87,22 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   }, [initialAuditorsUserData]);
 
   const initialData = [
-    initialBeneficiaryUserData,
-    initialInvestorUserData,
+    initialBeneficiariesUserData?.[0],
+    initialInvestorsUserData?.[0],
     initialAuditorsUserData
   ];
 
   return (
     <>
+      <CoaAlert
+        className="assignProjectUsers__warningAlert"
+        Icon={<Icon className="assignProjectUsers__warningAlert__icon" component={SentIcon} />}
+        highlightedText="You have pending users!"
+        message="The indicated users have not entered the platform for their first login yet. The project cannot be published until all users have registered."
+        customColor="yellow"
+        closable
+        show={hasPendingUsers}
+      />
       <div className="assignProjectUsers__content">
         <TitlePage textTitle="Assign project users" />
         {Object.keys(ROLES_IDS).map((key, index) => (
@@ -110,8 +130,9 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                   setUserState,
                   userState,
                   form,
-                  handleSubmitNewUser,
-                  handleSubmitConfirmUser,
+                  handleCreateAndAssignUser,
+                  handleAssignUser,
+                  handleUnassignUser,
                   isFormSubmitted,
                   removeCurrentUserFromProject
                 }) => (
@@ -121,8 +142,9 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     setUserState={setUserState}
                     userState={userState}
                     form={form}
-                    handleSubmitConfirmUser={handleSubmitConfirmUser}
-                    handleSubmitNewUser={handleSubmitNewUser}
+                    handleAssignUser={handleAssignUser}
+                    handleCreateAndAssignUser={handleCreateAndAssignUser}
+                    handleUnassignUser={handleUnassignUser}
                     initialData={initialData[index]}
                     isFormSubmitted={isFormSubmitted}
                     removeCurrentUserFromProject={removeCurrentUserFromProject}
@@ -144,29 +166,31 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
                     onError={onError}
                     setCanAddAdditionalAuditor={setCanAddAdditionalAuditor}
                     key={item}
+                    totalKeys={currentAuditorsElements?.length}
+                    item={item}
+                    onRemove={() => onRemove(item)}
                   >
                     {({
                       setActiveKey,
                       setUserState,
                       userState,
                       form,
-                      handleSubmitNewUser,
-                      handleSubmitConfirmUser,
+                      handleCreateAndAssignUser,
+                      handleAssignUser,
+                      handleUnassignUser,
                       isFormSubmitted,
                       removeCurrentUserFromProject
                     }) => (
                       <FormUserContent
                         removeCurrentUserFromProject={removeCurrentUserFromProject}
-                        onRemove={() => onRemove(item)}
                         setActiveKey={setActiveKey}
                         countries={countries}
                         setUserState={setUserState}
                         userState={userState}
-                        item={item}
                         form={form}
-                        handleSubmitConfirmUser={handleSubmitConfirmUser}
-                        handleSubmitNewUser={handleSubmitNewUser}
-                        totalKeys={currentAuditorsElements?.length}
+                        handleAssignUser={handleAssignUser}
+                        handleCreateAndAssignUser={handleCreateAndAssignUser}
+                        handleUnassignUser={handleUnassignUser}
                         initialData={_initialData}
                         isFormSubmitted={isFormSubmitted}
                       />
@@ -182,7 +206,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
       </div>
       <FooterButtons
         prevStepButton={(() => (
-          <CoaButton type="secondary" onClick={goBack}>
+          <CoaButton type="secondary" onClick={() => goBack({ withUpdate: true })}>
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
@@ -198,7 +222,7 @@ export const FormProjectUsers = ({ onSuccess, goBack, project, onError }) => {
   );
 };
 
-FormProjectUsers.propTypes = {
+AssignProjectUsers.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   project: PropTypes.shape({

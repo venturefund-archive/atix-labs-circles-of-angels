@@ -7,21 +7,35 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Switch, BrowserRouter } from 'react-router-dom';
+import { UserContext } from '../../utils/UserContext';
+
 import PrivateRoute from '../../utils/PrivateRoute';
 import DefaultRoute from '../../utils/DefaultRoute';
 
 const Router = ({ routesConfig }) => {
-  const routes = routesConfig.map(route => (
-    <PrivateRoute key={route.path} {...route} />
-  ));
+  const context = useContext(UserContext);
+  console.info('context: ', context);
+  const { user } = context;
+  const authenticated = !!user;
+  let role = null;
+  let forcePasswordChange = false;
+
+  if (user) {
+    role = user.role;
+    forcePasswordChange = user.forcePasswordChange;
+  }
 
   return (
     <BrowserRouter>
       <Switch>
-        {routes}
+        {routesConfig.map(route => (
+          <PrivateRoute key={route.path} {...route} authenticated={authenticated} role={role} user={user} />
+        ))}
         <DefaultRoute />
       </Switch>
     </BrowserRouter>

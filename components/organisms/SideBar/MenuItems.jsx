@@ -9,7 +9,8 @@ const menuItems = [
     content: (
       <img src="/static/images/dashboard-icon-navbar.svg" alt="myprojects" />
     ),
-    allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.COA_ADMIN]
+    // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.COA_ADMIN]
+    allowedRoles: [Roles.COA_ADMIN]
   },
   {
     route: '/back-office-users',
@@ -25,6 +26,7 @@ const menuItems = [
     // ),
     // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
   // },
+  /*
   {
     route: '/dao-list',
     key: 'dao-list',
@@ -35,6 +37,8 @@ const menuItems = [
       Roles.PROJECT_CURATOR
     ]
   },
+  */
+  /*
   {
     route: '/back-office-projects',
     key: 'back-office-projects',
@@ -49,6 +53,7 @@ const menuItems = [
     content: <Icon className="icon" type="fund" />,
     allowedRoles: [Roles.BANK_OPERATOR]
   },
+  */
   {
     route: '/back-office-milestones',
     key: 'back-office-milestones',

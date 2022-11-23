@@ -6,10 +6,12 @@ export const encryptWallet = async (wallet, password) => {
     throw new Error('wallet is not valid');
   return wallet.encrypt(password);
 };
+
 export const decryptJsonWallet = async (jsonWallet, password) => {
   if (!password) throw new Error('a password is required to decrypt a wallet');
   return Wallet.fromEncryptedJson(jsonWallet, password);
 };
+
 export const generateWalletFromMnemonic = mnemonic => {
   if (!mnemonic) {
     throw new Error('a mnemonic is required to generate the wallet');
@@ -39,13 +41,20 @@ export const signTransaction = async (jsonWallet, transaction, password) => {
 };
 
 export const generateWalletFromPin = async (pin) => {
-  const _wallet = await createNewWallet(pin)
-  const { iv } = JSON.parse(_wallet.wallet).Crypto.cipherparams
-  const newWallet = {
-    wallet: _wallet.wallet,
-    mnemonic: _wallet.mnemonic.phrase,
-    address: _wallet.address,
-    iv,
-  }
-  return newWallet
+  if (!pin && pin.length >= 12) throw new Error('Pin must be length 12 or longer');
+  const random = Wallet.createRandom();
+  const {
+    mnemonic: {
+      phrase
+    },
+    address,
+  } = random;
+  const encrypted = await random.encrypt(pin);
+  const { Crypto: { cipherparams: { iv } } } = JSON.parse(encrypted)
+  return {
+    address,
+    wallet: JSON.stringify(encrypted),
+    mnemonic: phrase,
+    iv
+  };
 }

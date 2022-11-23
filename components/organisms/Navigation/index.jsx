@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
-import { MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Drawer, Row, Col } from 'antd'
-import Title from 'antd/lib/typography/Title'
-import CustomButton from 'components/atoms/CustomButton/CustomButton'
 import customConfig from 'custom-config';
+import { MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Drawer, Row, Col } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import CustomButton from 'components/atoms/CustomButton/CustomButton';
+
+import { UserContext } from '../../utils/UserContext';
+
 import './_style.scss';
 
 const DrawerTitle = () => (
@@ -17,19 +24,33 @@ const DrawerTitle = () => (
 
 const TopBarOptions = ({
   onLoginClick,
+  handleLogout,
+  authenticated,
 }) => (
   <div className="TopBarOptions">
-    <CustomButton
-      data-testid="adminLoginButton"
-      buttonText="Log In"
-      theme="Secondary"
-      onClick={onLoginClick}
-    />
+    {!authenticated && (
+      <CustomButton
+        data-testid="adminLoginButton"
+        buttonText="Log In"
+        theme="Secondary"
+        onClick={onLoginClick}
+      />
+    )}
+    {authenticated && (
+      <CustomButton
+        data-testid="adminLoginButton"
+        buttonText="Logout"
+        theme="Secondary"
+        onClick={handleLogout}
+      />
+    )}
   </div>
 )
 const TopBarNavigation = ({
   onMenuClick,
   setModalOpen,
+  handleLogout = () => {},
+  authenticated = false,
 }) => (
   <Row className="TopBar" type="flex" justify="space-between" align="middle">
     <Col className="gutter-row">
@@ -50,18 +71,43 @@ const TopBarNavigation = ({
       onLoginClick={() => {
         setModalOpen(true)
       }}
+      handleLogout={handleLogout}
+      authenticated={authenticated}
     />
   </Row>
 );
 
-const Navigation = ({ onLogin, setModalOpen }) => {
-  const [drawerOpen, setDrawerOpen] = useState(onLogin);
+function Navigation({
+  onLogin = false,
+  setModalOpen,
+}) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user, removeUser } = useContext(UserContext);
+  const authenticated = !!user;
+  let role = null;
+  let forcePasswordChange = false;
+
+  if (user) {
+    role = user.role;
+    forcePasswordChange = user.forcePasswordChange;
+  }
+  console.info(user, role, authenticated);
+  function handleLogout() {
+    console.info('logout called');
+    removeUser();
+  }
+
+  useEffect(() => {
+    setDrawerOpen(onLogin);
+  }, [onLogin]);
 
   return (
     <>
       <TopBarNavigation
         setModalOpen={setModalOpen}
         onMenuClick={() => setDrawerOpen(true)}
+        handleLogout={handleLogout}
+        authenticated={authenticated}
       />
       <Drawer
         className="LoginDrawer"
@@ -73,21 +119,40 @@ const Navigation = ({ onLogin, setModalOpen }) => {
         maskClosable
         onClose={() => setDrawerOpen(false)}
       >
-        <Title
-          level={3}
-          onClick={() => {
-            setDrawerOpen(false)
-            setModalOpen(true)
-          }}
-          style={{
-            cursor: 'pointer',
-            color: '#4C7FF7',
-            fontSize: '20px',
-            fontWeight: 'bold'
-          }}
-        >
-          Log In
-        </Title>
+        {!authenticated && (
+          <Title
+            level={3}
+            onClick={() => {
+              setDrawerOpen(false)
+              setModalOpen(true)
+            }}
+            style={{
+              cursor: 'pointer',
+              color: '#4C7FF7',
+              fontSize: '20px',
+              fontWeight: 'bold'
+            }}
+          >
+            Log In
+          </Title>
+        )}
+
+        {authenticated && (
+          <Title
+            level={3}
+            onClick={() => {
+              handleLogout();
+            }}
+            style={{
+              cursor: 'pointer',
+              color: '#4C7FF7',
+              fontSize: '20px',
+              fontWeight: 'bold'
+            }}
+          >
+            Logout
+          </Title>
+        )}
       </Drawer>
     </>
   )

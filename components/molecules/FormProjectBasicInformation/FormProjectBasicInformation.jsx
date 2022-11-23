@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select, Tag, InputNumber, Divider, Icon } from 'antd';
+import { Form, Input, Select, InputNumber, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
@@ -29,16 +29,12 @@ import {
 import _ from 'lodash';
 import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import projectStatusMap from 'model/projectStatus';
+import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 
 const { Option } = Select;
-
-const TAG_COLORS = {
-  'in execution': 'blue',
-  draft: '#d2d2d2',
-  'in revision': 'gold',
-  canceled: 'red',
-  completed: 'green'
-};
 
 const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
   const { getFieldDecorator, getFieldsError, getFieldError, setFieldsValue } = form;
@@ -61,8 +57,9 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
   const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
   const status = project?.status;
-  const beneficiaryFirstName = project?.beneficiary?.firstName;
-  const beneficiaryLastName = project?.beneficiary?.lastName;
+  const beneficiary = getUsersByRole(ROLES_IDS.beneficiary, project?.users)?.[0];
+  const beneficiaryFirstName = beneficiary?.firstName;
+  const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
@@ -163,7 +160,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
 
   const validateCurrencyValue = (_rule, value, callback) => {
     if (value === 0) return callback(ERROR_TYPES.NO_ZERO);
-    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_3_DECIMAL);
+    if (decimalCount(value) > 1) return callback(ERROR_TYPES.MORE_THAN_1_DECIMAL);
     return callback();
   };
 
@@ -187,12 +184,12 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   {projectName || 'Project Name'}
                 </h4>
 
-                <Tag
-                  color={TAG_COLORS[status?.toLowerCase()]}
+                <CoaTag
+                  predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}
                   className="formProjectBasicInformation__left__preview__tag"
                 >
-                  {status}
-                </Tag>
+                  {projectStatusMap[status].name}
+                </CoaTag>
               </div>
               <div className="formProjectBasicInformation__content__left__preview__info__description">
                 <div>
@@ -325,7 +322,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
               help={
                 <div>
                   {getErrorMessagesField(timeframeError, [
-                    ERROR_TYPES.MORE_THAN_3_DECIMAL,
+                    ERROR_TYPES.MORE_THAN_1_DECIMAL,
                     ERROR_TYPES.NO_ZERO
                   ]).map(errorMessage => errorMessage)}
                 </div>
@@ -405,9 +402,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             }
           >
             <div className="formProjectBasicInformation__content__right__uploadItemContainer">
-              <p className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                Recommended Image Size: 1400x720px. Format: PNG or JPG.
-              </p>
+              <div className="formProjectBasicInformation__content__right__uploadItemContainer__note">
+                <p>Recommended Image Size: 1400x720px. Format: PNG or JPG.</p>
+                <p>Max size: 500kb</p>
+              </div>
               {getFieldDecorator('thumbnailPhoto', {
                 rules: thumbnailRules(thumbnailPhoto),
                 validateTrigger: 'onSubmit'
@@ -448,21 +446,15 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
             <Icon type="arrow-left" /> Back
           </CoaButton>
         ))()}
+        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
         nextStepButton={(() => (
-          <div className="formProjectBasicInformation__content__footerButtons__right">
-            {getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]).map(error => (
-              <div className="formProjectBasicInformation__content__footerButtons__right__error">
-                {error}
-              </div>
-            ))}
-            <CoaButton
-              onClick={submit}
-              className="formProjectBasicInformation__footer"
-              type="primary"
-            >
-              Save and continue
-            </CoaButton>
-          </div>
+          <CoaButton
+            onClick={submit}
+            className="formProjectBasicInformation__footer"
+            type="primary"
+          >
+            Save and continue
+          </CoaButton>
         ))()}
       />
     </>

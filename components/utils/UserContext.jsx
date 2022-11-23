@@ -8,54 +8,76 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
+
 import { ACCESS_TOKEN_KEY, USER_KEY } from 'constants/constants';
 
-export const UserContext = React.createContext({});
+
+export const UserContext = React.createContext();
 
 export const withUser = c => c;
 
-const changeUser = user => {
-  sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-};
-
-const removeUser = () => {
-  sessionStorage.removeItem(USER_KEY);
-  sessionStorage.removeItem(ACCESS_TOKEN_KEY);
-};
-
-const getLoggedUser = () => {
-  let user;
-
-  try {
-    user = JSON.parse(sessionStorage.getItem(USER_KEY));
-  } catch (error) {
-    user = {};
-  }
-
-  return user;
-};
-
-const context = {
-  changeUser,
-  removeUser,
-  getLoggedUser,
-  isBackofficeAdmin: false,
-  isSocialEntrepreneur: false,
-  isFunder: false,
-  isOracle: false,
-  isAdmin: false
-};
-
+/*
 export function useUserContext() {
   // return useContext(UserContext);
   return context;
 }
+*/
 
-export const UserProvider = ({ children }) => (
-  <UserContext.Provider value={context}>{children}</UserContext.Provider>
-);
+export function UserProvider({
+  children,
+}) {
+  const [user, setUser] = useState(null);
+  const changeUser = (nuser) => {
+    sessionStorage.setItem(USER_KEY, JSON.stringify(nuser));
+    setUser(nuser);
+  };
+
+  const removeUser = () => {
+    sessionStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+    setUser(null);
+  };
+
+  const getLoggedUser = () => {
+    let internalUser;
+    console.info('getLoggedUser called');
+    try {
+      internalUser = JSON.parse(sessionStorage.getItem(USER_KEY));
+    } catch (error) {
+      internalUser = null;
+    }
+    console.info('getLoggedUser finish: ', internalUser);
+    setUser(internalUser);
+    return internalUser;
+  };
+
+  useEffect(() => {
+    getLoggedUser();
+  }, []);
+
+  return (
+    <UserContext.Provider
+      value={{
+        changeUser,
+        removeUser,
+        getLoggedUser,
+        isBackofficeAdmin: false,
+        isSocialEntrepreneur: false,
+        isFunder: false,
+        isOracle: false,
+        isAdmin: false,
+        user,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+}
 
 UserProvider.propTypes = {
   children: PropTypes.node.isRequired

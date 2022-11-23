@@ -467,7 +467,7 @@ button.blueLink:hover::before {
 //MODALS
 
 .ant-modal-content {
-  border-radius: 20px;
+  border-radius: 10px;
   .ant-modal-header {
     padding: 1em;
     img {
@@ -484,4 +484,24 @@ button.blueLink:hover::before {
 
 .ant-modal-mask {
   background-color: #000000a3;
+}
+
+.CustomModal {
+  .ant-modal-footer {
+    display: flex;
+    justify-content: center;
+
+    .ant-btn {
+      padding-left: 4em;
+      padding-right: 4em;
+      border-radius: 4px;
+      &-secondary {
+        color: #4C7FF7;
+        border-color: #4C7FF7;
+      }
+      span {
+        font-weight: bold;
+      }
+    }
+  }
 }
