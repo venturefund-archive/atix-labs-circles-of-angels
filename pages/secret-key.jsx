@@ -16,9 +16,8 @@ import ModalSKSuccess from 'components/organisms/ModalSKSucess/ModalSKSuccess';
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
-  const { getLoggedUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  const user = getLoggedUser();
   const history = useHistory()
 
   const savePin = async (pin) => {
@@ -40,7 +39,7 @@ function SecretKey() {
   const redirect = () => {
     let route = '/'
     if (user.isAdmin) {
-      route = '/my-proyects'
+      route = '/my-projects'
     }
     history.push(route)
   }

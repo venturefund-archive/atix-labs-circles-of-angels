@@ -39,7 +39,7 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/:id',
+    path: '/:id/preview',
     component: Preview,
     authentication: { required: false },
     withHeader: false,
@@ -68,7 +68,7 @@ export const routesConfig = [
     withSideBar: false,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR,COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
+      roles: [ENTREPRENEUR, COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
     }
   },
   {

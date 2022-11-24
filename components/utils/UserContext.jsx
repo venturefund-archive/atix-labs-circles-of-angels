@@ -11,6 +11,8 @@
 import React, {
   useState,
   useEffect,
+  useCallback,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,19 +33,23 @@ export function useUserContext() {
 export function UserProvider({
   children,
 }) {
-  const [user, setUser] = useState(null);
+  const [_user, setUser] = useState(null)
+
   const changeUser = (nuser) => {
     sessionStorage.setItem(USER_KEY, JSON.stringify(nuser));
     setUser(nuser);
   };
 
   const removeUser = () => {
+    console.log('removing user')
     sessionStorage.removeItem(USER_KEY);
     sessionStorage.removeItem(ACCESS_TOKEN_KEY);
     setUser(null);
   };
 
-  const getLoggedUser = () => {
+  
+  // work with the memoized form of the user
+  const user = useMemo(() => {
     let internalUser;
     console.info('getLoggedUser called');
     try {
@@ -52,20 +58,14 @@ export function UserProvider({
       internalUser = null;
     }
     console.info('getLoggedUser finish: ', internalUser);
-    setUser(internalUser);
     return internalUser;
-  };
-
-  useEffect(() => {
-    getLoggedUser();
-  }, []);
+  }, [_user])
 
   return (
     <UserContext.Provider
       value={{
         changeUser,
         removeUser,
-        getLoggedUser,
         isBackofficeAdmin: false,
         isSocialEntrepreneur: false,
         isFunder: false,

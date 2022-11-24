@@ -28,6 +28,7 @@ const PreviewProject = () => {
 
     const fetchProject = async (projectId) => {
         const response = await getProject(projectId);
+        console.log('wtf im doing here hahahahha')
         if (response.errors || !response.data) {
             message.error('An error occurred while fetching the project');
             goBack();
