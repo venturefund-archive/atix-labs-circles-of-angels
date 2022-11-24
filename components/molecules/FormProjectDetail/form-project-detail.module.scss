@@ -36,6 +36,12 @@
           display: flex;
           column-gap: 1.75rem;
           align-items: center;
+
+          &__buttonContent {
+            display: flex;
+            column-gap: 0.625rem;
+            @include primary-text(0.875rem, $coa-grey-100, 600);
+          }
         }
 
         &__note {

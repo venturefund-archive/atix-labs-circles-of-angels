@@ -9,28 +9,25 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Icon, Input, Select } from 'antd';
+import { Form, Icon, Input } from 'antd';
 import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES, ERROR_TYPES, MB_FACTOR_CONVERTER } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
 import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
-import { CustomUpload } from 'components/atoms/CustomUpload/CustomUpload';
 import _ from 'lodash';
-import { getErrorMessagesField, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
+import { getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Styles from './form-project-detail.module.scss';
-
-const { Option } = Select;
+import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
+import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
+import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
 
 const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError }) => {
-  const { getFieldDecorator, setFieldsValue, getFieldError, getFieldsError } = form;
+  const { setFieldsValue, getFieldsError } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
-
-  const legalAgreementError = getFieldError('legalAgreementFile');
-  const projectProposalError = getFieldError('projectProposalFile');
 
   const {
     problemAddressed,
@@ -93,7 +90,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
 
   const validateFileSize = (_rule, value, callback) => {
     if (value?.file.size === 'removed') return callback();
-    if (value?.file.size / MB_FACTOR_CONVERTER > 2) return callback(ERROR_TYPES.INVALID_FILE);
+    if (value?.file.size / MB_FACTOR_CONVERTER > 20) return callback(ERROR_TYPES.INVALID_FILE);
     return callback();
   };
 
@@ -139,11 +136,19 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
         <TitlePage textTitle="Complete Project's Details" />
         <Form onSubmit={submit} className="formProjectDetail__content__form">
           <div className="formProjectDetail__content__form__row">
-            <Form.Item label="About the project" help={null}>
-              <p className="formProjectDetail__content__form__row__note">
-                Share your information about the entrepreneurs and the project
-              </p>
-              {getFieldDecorator('problemAddressed', {
+            <CoaFormItemTextArea
+              form={form}
+              errorsToShow={[]}
+              name="problemAddressed"
+              formItemProps={{
+                label: 'About the project'
+              }}
+              Note={
+                <p className="formProjectDetail__content__form__row__note">
+                  Share your information about the entrepreneurs and the project
+                </p>
+              }
+              fieldDecoratorOptions={{
                 rules: [
                   {
                     required: true,
@@ -152,14 +157,26 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                   }
                 ],
                 initialValue: problemAddressed
-              })(<Input.TextArea placeholder="" maxLength={500} />)}
-            </Form.Item>
-            <Form.Item label="Our mission and vision" help={null}>
-              <p className="formProjectDetail__content__form__row__note">
-                Share your Project Mission, the impact you have made so far and what your project is
-                about
-              </p>
-              {getFieldDecorator('mission', {
+              }}
+              inputTextAreaProps={{
+                placeholder: '',
+                maxLength: 500
+              }}
+            />
+            <CoaFormItemTextArea
+              form={form}
+              errorsToShow={[]}
+              name="mission"
+              formItemProps={{
+                label: 'Our mission and vision'
+              }}
+              Note={
+                <p className="formProjectDetail__content__form__row__note">
+                  Share your Project Mission, the impact you have made so far and what your project
+                  is about
+                </p>
+              }
+              fieldDecoratorOptions={{
                 rules: [
                   {
                     required: true,
@@ -168,12 +185,20 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                   }
                 ],
                 initialValue: mission
-              })(<Input.TextArea placeholder="" maxLength={500} />)}
-            </Form.Item>
+              }}
+              inputTextAreaProps={{
+                placeholder: '',
+                maxLength: 500
+              }}
+            />
           </div>
           <div className="formProjectDetail__content__form__row">
-            <Form.Item label="Currency Type" help={null}>
-              {getFieldDecorator('currencyType', {
+            <CoaFormItemSelect
+              form={form}
+              errorsToShow={[]}
+              name="currencyType"
+              formItemProps={{ label: 'Currency Type' }}
+              fieldDecoratorOptions={{
                 rules: [
                   {
                     required: true,
@@ -182,25 +207,26 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                   }
                 ],
                 initialValue: currencyType
-              })(
-                <Select
-                  placeholder="Select currency type"
-                  onChange={value => {
-                    setCurrentCurrencyType(value?.toLowerCase());
-                    if (value !== currentCurrencyType)
-                      setFieldsValue({
-                        currency: null,
-                        additionalCurrencyInformation: ''
-                      });
-                  }}
-                >
-                  <Option value="Fiat">FIAT</Option>
-                  <Option value="Crypto">CRYPTO</Option>
-                </Select>
-              )}
-            </Form.Item>
-            <Form.Item label="Currency" help={null}>
-              {getFieldDecorator('currency', {
+              }}
+              selectProps={{
+                placeholder: 'Select currency type',
+                onChange: value => {
+                  setCurrentCurrencyType(value?.toLowerCase());
+                  if (value !== currentCurrencyType)
+                    setFieldsValue({
+                      currency: null,
+                      additionalCurrencyInformation: ''
+                    });
+                }
+              }}
+              options={[{ label: 'FIAT', value: 'Fiat' }, { label: 'CRYPTO', value: 'Crypto' }]}
+            />
+            <CoaFormItemSelect
+              form={form}
+              errorsToShow={[]}
+              name="currency"
+              formItemProps={{ label: 'Currency' }}
+              fieldDecoratorOptions={{
                 rules: [
                   {
                     required: true,
@@ -209,16 +235,12 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                   }
                 ],
                 initialValue: currency
-              })(
-                <Select placeholder="Select currency">
-                  {CURRENCIES[currentCurrencyType]?.map(({ label, value }) => (
-                    <Option value={value} key={value}>
-                      {label}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </Form.Item>
+              }}
+              selectProps={{
+                placeholder: 'Select currency'
+              }}
+              options={CURRENCIES[currentCurrencyType]}
+            />
           </div>
           <div className="formProjectDetail__content__form__row">
             <div>
@@ -233,11 +255,19 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                 </>
               )}
               {currentCurrencyType === 'fiat' && (
-                <Form.Item label="Account Information" help={null}>
-                  <p className="formProjectDetail__content__form__row__note">
-                    Fill in your bank account information
-                  </p>
-                  {getFieldDecorator('additionalCurrencyInformation', {
+                <CoaFormItemTextArea
+                  form={form}
+                  errorsToShow={[]}
+                  name="additionalCurrencyInformation"
+                  formItemProps={{
+                    label: 'Account Information'
+                  }}
+                  Note={
+                    <p className="formProjectDetail__content__form__row__note">
+                      Fill in your bank account information
+                    </p>
+                  }
+                  fieldDecoratorOptions={{
                     rules: [
                       {
                         required: true,
@@ -250,15 +280,27 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                       }
                     ],
                     initialValue: additionalCurrencyInformation
-                  })(<Input.TextArea placeholder="" maxLength={50} />)}
-                </Form.Item>
+                  }}
+                  inputTextAreaProps={{
+                    placeholder: '',
+                    maxLength: 50
+                  }}
+                />
               )}
               {currentCurrencyType === 'crypto' && (
-                <Form.Item label="Address" help={null}>
-                  <p className="formProjectDetail__content__form__row__note">
-                    Enter your wallet address here
-                  </p>
-                  {getFieldDecorator('additionalCurrencyInformation', {
+                <CoaFormItemTextArea
+                  form={form}
+                  errorsToShow={[]}
+                  name="additionalCurrencyInformation"
+                  formItemProps={{
+                    label: 'Address'
+                  }}
+                  Note={
+                    <p className="formProjectDetail__content__form__row__note">
+                      Enter your wallet address here
+                    </p>
+                  }
+                  fieldDecoratorOptions={{
                     rules: [
                       {
                         required: true,
@@ -271,8 +313,12 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
                       }
                     ],
                     initialValue: additionalCurrencyInformation
-                  })(<Input placeholder="New Password" maxLength={50} />)}
-                </Form.Item>
+                  }}
+                  inputTextAreaProps={{
+                    placeholder: 'New Password',
+                    maxLength: 50
+                  }}
+                />
               )}
             </div>
             <Form.Item label="Budget">
@@ -283,94 +329,81 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
             </Form.Item>
           </div>
           <div className="formProjectDetail__content__form__row">
-            <div className="formProjectDetail__content__form__row__uploadContainer">
-              <Form.Item
-                label=""
-                help={
-                  <>
-                    {getErrorMessagesField(legalAgreementError, [
-                      ERROR_TYPES.EMPTY_FILE,
-                      ERROR_TYPES.INVALID_FILE
-                    ]).map(errorMessage => errorMessage)}
-                  </>
-                }
-              >
-                {getFieldDecorator('legalAgreementFile', {
-                  rules: filesRules(legalAgreementFile),
-                  validateTrigger: 'onSubmit'
-                })(
-                  <CustomUpload
-                    uploadProps={uploadProps}
-                    onChange={value => handleFileChange(value, 'legalAgreementFile')}
-                    onRemove={() => handleFileRemove('legalAgreementFile')}
-                    currentError={legalAgreementError}
-                    setFieldValue={value => {
-                      setFieldsValue({ thumbnailPhoto: value });
-                    }}
-                    initial={
-                      legalAgreementFileCompletePath
-                        ? [
-                            {
-                              uid: _.uniqueId(),
-                              url: legalAgreementFileCompletePath,
-                              name: `legal-agreement.${getExtensionFromUrl(
-                                legalAgreementFileCompletePath
-                              )}`
-                            }
-                          ]
-                        : []
-                    }
-                  >
-                    <Icon type="upload" /> Upload Project Agreement
-                  </CustomUpload>
-                )}
-              </Form.Item>
-              <span>Recommended document files. Format: PDF, up to 20 MB.</span>
-            </div>
-            <div className="formProjectDetail__content__form__row__uploadContainer">
-              <Form.Item
-                label=""
-                help={
-                  <>
-                    {getErrorMessagesField(projectProposalError, [
-                      ERROR_TYPES.EMPTY_FILE,
-                      ERROR_TYPES.INVALID_FILE
-                    ]).map(errorMessage => errorMessage)}
-                  </>
-                }
-              >
-                {getFieldDecorator('projectProposalFile', {
-                  rules: filesRules(projectProposalFile),
-                  validateTrigger: 'onSubmit'
-                })(
-                  <CustomUpload
-                    uploadProps={uploadProps}
-                    onChange={value => handleFileChange(value, 'projectProposalFile')}
-                    onRemove={() => handleFileRemove('projectProposalFile')}
-                    currentError={projectProposalError}
-                    setFieldValue={value => {
-                      setFieldsValue({ thumbnailPhoto: value });
-                    }}
-                    initial={
-                      projectProposalFileCompletePath
-                        ? [
-                            {
-                              uid: _.uniqueId(),
-                              url: projectProposalFileCompletePath,
-                              name: `project-proposal.${getExtensionFromUrl(
-                                projectProposalFileCompletePath
-                              )}`
-                            }
-                          ]
-                        : []
-                    }
-                  >
-                    <Icon type="upload" /> Upload Project Proposal
-                  </CustomUpload>
-                )}
-              </Form.Item>
-              <span>Recommended document files. Format: PDF, up to 20 MB.</span>
-            </div>
+            <CoaFormItemUpload
+              buttonContent={
+                <div className="formProjectDetail__content__form__row__uploadContainer__buttonContent">
+                  <Icon type="upload" />
+                  Upload Legal Agreement
+                </div>
+              }
+              contentContainerClassName="formProjectDetail__content__form__row__uploadContainer"
+              form={form}
+              name="legalAgreementFile"
+              formItemProps={{
+                label: ''
+              }}
+              errorsToShow={[ERROR_TYPES.EMPTY_FILE, ERROR_TYPES.INVALID_FILE]}
+              fieldDecoratorOptions={{
+                rules: filesRules(legalAgreementFile),
+                validateTrigger: 'onSubmit'
+              }}
+              initialValue={
+                legalAgreementFileCompletePath
+                  ? [
+                      {
+                        uid: _.uniqueId(),
+                        url: legalAgreementFileCompletePath,
+                        name: `legal-agreement.${getExtensionFromUrl(
+                          legalAgreementFileCompletePath
+                        )}`
+                      }
+                    ]
+                  : []
+              }
+              buttonType="primary"
+              onChange={value => handleFileChange(value, 'legalAgreementFile')}
+              onRemove={() => handleFileRemove('legalAgreementFile')}
+              uploadProps={uploadProps}
+              Note={<span>Recommended document files. Format: PDF, up to 20 MB.</span>}
+            />
+
+            <CoaFormItemUpload
+              buttonContent={
+                <div className="formProjectDetail__content__form__row__uploadContainer__buttonContent">
+                  <Icon type="upload" />
+                  Upload Project Proposal
+                </div>
+              }
+              contentContainerClassName="formProjectDetail__content__form__row__uploadContainer"
+              form={form}
+              name="projectProposalFile"
+              formItemProps={{
+                label: ''
+              }}
+              errorsToShow={[ERROR_TYPES.EMPTY_FILE, ERROR_TYPES.INVALID_FILE]}
+              fieldDecoratorOptions={{
+                rules: filesRules(projectProposalFile),
+                validateTrigger: 'onSubmit'
+              }}
+              initialValue={
+                projectProposalFileCompletePath
+                  ? [
+                      {
+                        uid: _.uniqueId(),
+                        url: projectProposalFileCompletePath,
+                        name: `project-proposal.${getExtensionFromUrl(
+                          projectProposalFileCompletePath
+                        )}`
+                      }
+                    ]
+                  : []
+              }
+              buttonType="primary"
+              onChange={value => handleFileChange(value, 'projectProposalFile')}
+              onRemove={() => handleFileRemove('projectProposalFile')}
+              uploadProps={uploadProps}
+              Note={<span>Recommended document files. Format: PDF, up to 20 MB.</span>}
+            />
           </div>
         </Form>
       </div>

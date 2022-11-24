@@ -1,0 +1,9 @@
+@import 'css/_variables.scss';
+
+.coaFormItemInput {
+  &.--withError {
+    label {
+      color: $error-color;
+    }
+  }
+}

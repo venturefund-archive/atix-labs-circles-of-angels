@@ -86,11 +86,19 @@
 
       &__uploadItemContainer {
         display: flex;
-        justify-content: space-between;
+        column-gap: 1.25rem;
         align-items: center;
 
+        &__buttonContent {
+          display: flex;
+          column-gap: 0.625rem;
+          @include primary-text(0.875rem, $coa-grey-100, 600);
+        }
+
         &__note {
-          @include primary-text(0.87rem, $coa-grey-100, 400, 1.06rem);
+          p {
+            @include primary-text(0.87rem, $coa-grey-100, 400, 1.06rem);
+          }
         }
       }
 
@@ -108,17 +116,6 @@
       &__item {
         label {
           @include primary-text(0.875rem, $coa-grey-100, 500);
-        }
-      }
-
-      &__uploadThumbnail {
-        &__button {
-          &.--withError {
-            border: solid thin red;
-            * {
-              color: red;
-            }
-          }
         }
       }
 
