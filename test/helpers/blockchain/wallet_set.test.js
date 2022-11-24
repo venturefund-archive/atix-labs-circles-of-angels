@@ -9,7 +9,7 @@ describe('Generate wallet from pin', () => {
     generated = await generateWalletFromPin(pin);
   })
   it('is able to decrypt generated wallet with a valid pin', async () => {
-    const decrypted = await Wallet.fromEncryptedJson(JSON.parse(generated.wallet), pin);
+    const decrypted = await Wallet.fromEncryptedJson(generated.wallet, pin);
     expect(decrypted.address).toEqual(generated.address);
   })
   it('fails to decript with an invalid pin', async () => {

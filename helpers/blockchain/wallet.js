@@ -44,17 +44,16 @@ export const generateWalletFromPin = async (pin) => {
   if (!pin && pin.length >= 12) throw new Error('Pin must be length 12 or longer');
   const random = Wallet.createRandom();
   const {
-    mnemonic: {
-      phrase
-    },
     address,
   } = random;
+  // Until we find the real cause mnemonic is inconsistent between environment
+  const mnemonic = typeof random.mnemonic === 'object' ? random.mnemonic.phrase : random.mnemonic
   const encrypted = await random.encrypt(pin);
   const { Crypto: { cipherparams: { iv } } } = JSON.parse(encrypted)
   return {
     address,
-    wallet: JSON.stringify(encrypted),
-    mnemonic: phrase,
+    wallet: encrypted,
+    mnemonic,
     iv
   };
 }

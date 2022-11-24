@@ -22,8 +22,9 @@ function PrivateRoute(routeProps) {
   // const authenticated = !!user;
 
   const { required, roles } = authentication;
-  // console.info('PrivateRoute called: ', path, exact, Component, authentication);
-  if (required && !authenticated) return <Redirect push from={path} to="/" />;
+  if (required && !authenticated) {
+    return <Redirect push from={path} to="/" />;
+  }
 
   if (required && authenticated && !roles.includes(role)) {
     return (<div>{`This route required a role (${roles.join(',')}): ${role}`}</div>)

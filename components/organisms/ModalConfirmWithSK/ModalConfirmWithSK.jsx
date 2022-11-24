@@ -21,10 +21,9 @@ import PropTypes from 'prop-types';
 
 const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
   const { getFieldDecorator, getFieldProps, validateFields } = form;
-  const { getLoggedUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
 
-  const user = getLoggedUser()
   const keySuffix = `${user.id}-${user.email}`;
 
   const setUserWallet = async () => {

@@ -10,7 +10,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, {
   useState,
-  useEffect,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,7 +31,8 @@ export function useUserContext() {
 export function UserProvider({
   children,
 }) {
-  const [user, setUser] = useState(null);
+  const [_user, setUser] = useState(null)
+
   const changeUser = (nuser) => {
     sessionStorage.setItem(USER_KEY, JSON.stringify(nuser));
     setUser(nuser);
@@ -43,7 +44,9 @@ export function UserProvider({
     setUser(null);
   };
 
-  const getLoggedUser = () => {
+  
+  // work with the memoized form of the user
+  const user = useMemo(() => {
     let internalUser;
     console.info('getLoggedUser called');
     try {
@@ -52,20 +55,14 @@ export function UserProvider({
       internalUser = null;
     }
     console.info('getLoggedUser finish: ', internalUser);
-    setUser(internalUser);
     return internalUser;
-  };
-
-  useEffect(() => {
-    getLoggedUser();
-  }, []);
+  }, [_user])
 
   return (
     <UserContext.Provider
       value={{
         changeUser,
         removeUser,
-        getLoggedUser,
         isBackofficeAdmin: false,
         isSocialEntrepreneur: false,
         isFunder: false,

@@ -22,6 +22,7 @@ const Router = ({ routesConfig }) => {
   const { user } = context;
   const authenticated = !!user;
 
+
   return (
     <BrowserRouter>
       <Switch>
