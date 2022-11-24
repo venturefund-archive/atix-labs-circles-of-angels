@@ -39,13 +39,6 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/:id/preview',
-    component: Preview,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
-  },
-  {
     path: '/projects/:id/preview',
     component: Preview,
     authentication: { required: false },
@@ -191,5 +184,12 @@ export const routesConfig = [
     authentication: {
       required: false
     }
+  },
+  {
+    path: '/:id',
+    component: Preview,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
   }
 ]

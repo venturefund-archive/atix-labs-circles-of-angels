@@ -10,8 +10,6 @@
 /* eslint-disable react/no-multi-comp */
 import React, {
   useState,
-  useEffect,
-  useCallback,
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -41,7 +39,6 @@ export function UserProvider({
   };
 
   const removeUser = () => {
-    console.log('removing user')
     sessionStorage.removeItem(USER_KEY);
     sessionStorage.removeItem(ACCESS_TOKEN_KEY);
     setUser(null);
