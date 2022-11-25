@@ -64,12 +64,12 @@ const ModalLogin = ({ setVisibility, visibility }) => {
 
       const { isAdmin, forcePasswordChange, pin } = user;
 
-      let nextRoute = '/';
+      let nextRoute = `/${history.location.pathname.split('/')[1]}`;
 
       if (!pin) {
         nextRoute = 'secret-key';
       } else if (forcePasswordChange) {
-        nextRoute = '/u/password-change';
+        nextRoute = 'password-change';
       } else if (isAdmin) {
         nextRoute = '/my-projects';
       }

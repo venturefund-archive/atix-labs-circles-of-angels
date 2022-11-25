@@ -163,7 +163,7 @@ const CreateProject = ({
         onSuccess={publishProject}
       />
       <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishSuccess visible={successModalVisible} />
+      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
     </>
   );
 };

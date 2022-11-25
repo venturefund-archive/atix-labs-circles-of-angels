@@ -35,13 +35,7 @@ const wizards = {
   milestones: CreateMilestonesFormContainer
 };
 
-const getIdFromPath = () => {
-  const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length - 1];
-};
-
 const CreateProjectContainer = () => {
-  const id = getIdFromPath();
   const history = useHistory();
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [formValues, setFormValues] = useState({});
@@ -52,6 +46,7 @@ const CreateProjectContainer = () => {
     proposal: false,
     milestones: false
   });
+  const id = history.location.pathname.split('/')[-1];
 
   const fetchProject = useCallback(
     async projectId => {
