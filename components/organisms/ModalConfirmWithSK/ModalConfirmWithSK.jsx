@@ -19,7 +19,7 @@ import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 
 import PropTypes from 'prop-types';
 
-const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
+function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
   const { getFieldDecorator, getFieldProps, validateFields } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
@@ -27,8 +27,8 @@ const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
   const keySuffix = `${user.id}-${user.email}`;
 
   const setUserWallet = async () => {
-    const { data: userWallet } = await getWallet();
-    if (userWallet) setWallet(userWallet);
+    const { data } = await getWallet();
+    if (data) setWallet(data.wallet);
   };
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
   const validPinAndPassword = async (_rule, value, callback) => {
     try {
       const key = `${value}-${keySuffix}`;
-      await decryptJsonWallet(JSON.stringify(wallet), key)
+      await decryptJsonWallet(wallet, key)
       callback()
     } catch (e) {
       callback(e)
@@ -46,11 +46,12 @@ const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
   }
 
   const submit = () => {
+    const { getFieldValue } = form;
     validateFields(err => {
       if (!err) {
         return onSuccess(
-          getFieldProps('pin').value,
-          getFieldProps('password').value
+          getFieldValue('secretKey').value,
+          getFieldValue('password').value
         );
       }
     })
@@ -71,7 +72,9 @@ const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
       ]}
     >
       <LogoWrapper textTitle='Do you want to confirm the creation of the project?' />
-      <Typography style={{ textAlign: 'center' }}>To confirm the process enter your administrator password and secret key</Typography>
+      <Typography style={{ textAlign: 'center' }}>
+        To confirm the process enter your administrator password and secret key
+      </Typography>
       <Form>
         <Form.Item label='Password'>
           {getFieldDecorator('password', {
@@ -94,7 +97,7 @@ const FormModalConfirmWithSK = ({ form, visible, setVisible, onSuccess }) => {
                 validator: validPinAndPassword
               }
             ]
-          })(<Input.Password placeholder='Enter your password' />)}
+          })(<Input.Password placeholder='Enter your password' name='pin'/>)}
         </Form.Item>
       </Form>
     </Modal>

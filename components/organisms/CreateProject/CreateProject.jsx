@@ -48,7 +48,7 @@ const CreateProject = ({
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
-  const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(true);
 
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
@@ -163,7 +163,7 @@ const CreateProject = ({
         onSuccess={publishProject}
       />
       <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishSuccess visible={successModalVisible} />
+      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
     </>
   );
 };
