@@ -26,10 +26,7 @@ function SecretKey() {
     // Wallet generated only after pin validation
     const key = `${pin}-${user.id}-${user.email}`;
 
-    console.log(key)
     const wallet = await generateWalletFromPin(key);
-    console.log(wallet.wallet)
-
     const { data } = await setWallet(wallet);
 
     if (success && data.id) {
@@ -39,7 +36,8 @@ function SecretKey() {
   }
 
   const redirect = () => {
-    let route = '/'
+    const id = history.location.pathname.split('/')[1]
+    let route = `/${id}`
     if (user.isAdmin) {
       route = '/my-projects'
     }

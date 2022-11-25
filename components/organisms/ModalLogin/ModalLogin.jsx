@@ -27,7 +27,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
   const context = useContext(UserContext);
   const { changeUser } = context || { changeUser: () => {} };
   const [onLoginRoute, setOnLoginRoute] = useState(false);
-  const [closable, setClosable] = useState(true);
+  const [closable, setClosable] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
