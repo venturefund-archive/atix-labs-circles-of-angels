@@ -46,7 +46,8 @@ const CreateProjectContainer = () => {
     proposal: false,
     milestones: false
   });
-  const id = history.location.pathname.split('/')[-1];
+
+  const id = history.location.pathname.split('/').pop();
 
   const fetchProject = useCallback(
     async projectId => {

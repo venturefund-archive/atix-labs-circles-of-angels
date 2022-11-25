@@ -21,17 +21,9 @@ const MyProjects = ({ user }) => {
   const history = useHistory();
   const [projects, setProjects] = useState([]);
 
-  const goToProjectDetail = project => {
+  const goToProjectDetail = (project) => {
     const state = { projectId: project?.id };
-    const { status } = project;
-    if (
-      status === projectStatuses.DRAFT ||
-      (status === projectStatuses.REJECTED && user.role !== SUPPORTER)
-    ) {
-      history.push(`/project/edit/${project.id}`, state);
-    } else {
-      history.push(`/project-detail?id=${project.id}`, state);
-    }
+    history.push(`/project/edit/${project.id}`, state);
   };
 
   const goToProjectProgress = () => {
