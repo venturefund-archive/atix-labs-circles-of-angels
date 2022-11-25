@@ -18,10 +18,10 @@ const getIdFromPath = () => {
   return pathParts[pathParts.length - 1];
 };
 
-const ModalPublishSuccess = ({ visible }) => {
+const ModalPublishSuccess = ({ visible, setVisible }) => {
   const history = useHistory();
   const id = getIdFromPath();
-  const projectRoute = `projects/${id}/preview`;
+  const projectRoute = `/${id}`;
   return (
     <Modal
       visible={visible}
@@ -32,7 +32,7 @@ const ModalPublishSuccess = ({ visible }) => {
       footer={
         <Button
         className='ant-btn ant-btn-primary'
-        onClick={() => history.push('/my-projects')}
+        onClick={() => setVisible(false)}
         >
           Continue
         </Button>}
@@ -43,7 +43,7 @@ const ModalPublishSuccess = ({ visible }) => {
         The project has been published successfully. you can see it from here.
       </Typography.Paragraph>
 
-      <Link href={projectRoute}>Project Link</Link>
+      <Link to={projectRoute}>Project Link</Link>
     </Modal>
   )
 };
