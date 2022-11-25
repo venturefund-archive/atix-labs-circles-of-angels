@@ -1,0 +1,12 @@
+.coaFormActivitiesModal {
+  &__budget {
+    display: flex;
+    column-gap: 1.625rem;
+    align-items: flex-end;
+  }
+  &__select {
+    .ant-select {
+      width: 100%;
+    }
+  }
+}

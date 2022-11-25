@@ -19,16 +19,10 @@ function Landing() {
 
   return (
     <BackgroundLanding>
-      <Navigation
-        setModalOpen={setModalOpen}
-      />
-      <ModalLogin
-        visibility={modalOpen}
-        setVisibility={setModalOpen}
-      />
+      <Navigation setModalOpen={setModalOpen} />
+      <ModalLogin visibility={modalOpen} setVisibility={setModalOpen} />
     </BackgroundLanding>
   );
 }
-
 
 export default Landing;

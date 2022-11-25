@@ -21,7 +21,7 @@ import {
   checkProjectHasAllUsersWithFirstLogin,
   getProjectUsersPerRol
 } from 'helpers/modules/projectUsers';
-import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
+import { CoaMilestonesView } from 'components/organisms/CoaMilestones/CoaMilestonesView/CoaMilestonesView';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, sendToReview, deleteProject } from '../api/projectApi';
@@ -32,7 +32,7 @@ const wizards = {
   thumbnails: FormProjectBasicInformation,
   details: FormProjectDetail,
   proposal: AssignProjectUsers,
-  milestones: CreateMilestonesFormContainer
+  milestones: CoaMilestonesView
 };
 
 const getIdFromPath = () => {
@@ -126,7 +126,7 @@ const CreateProjectContainer = () => {
     message.error(errorMsg || 'An error ocurred while saving the information');
 
   const sendProjectToReview = async () => {
-      return sendToReview(project.id);
+    return sendToReview(project.id);
   };
 
   const askDeleteConfirmation = () => {

@@ -1,0 +1,30 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.o-coaMilestoneItem {
+  &__description {
+    @include primary-text(0.875rem, $coa-medium-gray-100, 400);
+  }
+  &__addActivityButton {
+    width: 100%;
+    background: transparent;
+    padding-block: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include primary-text(0.875rem, $coa-blue-100, 400);
+    border-color: $coa-blue-100;
+  }
+
+  &__collapse {
+    background: transparent;
+    &__panel {
+      border: none !important;
+      * {
+        @include primary-text(0.875rem, $coa-blue-100, 400);
+        color: $coa-blue-100 !important;
+      }
+    }
+  }
+}
