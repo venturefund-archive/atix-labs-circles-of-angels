@@ -93,6 +93,8 @@ const setPin = async () => doPut(`${baseURL}/pin`);
 
 const setWallet = async (data) => doPost(`${baseURL}/wallet`, data);
 
+const getTokenStatus = async (token) => doGet(`${baseURL}/token/${token}`);
+
 export {
   loginUser,
   getOracles,
@@ -115,5 +117,6 @@ export {
   createUser,
   sendWelcomeEmail,
   setPin,
-  setWallet
+  setWallet,
+  getTokenStatus
 };

@@ -25,7 +25,7 @@ export const userPropTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   role: PropTypes.string
 };
 

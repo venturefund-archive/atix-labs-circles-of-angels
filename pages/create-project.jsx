@@ -125,9 +125,7 @@ const CreateProjectContainer = () => {
   const errorCallback = errorMsg =>
     message.error(errorMsg || 'An error ocurred while saving the information');
 
-  const sendProjectToReview = async () => {
-      return sendToReview(project.id);
-  };
+  const sendProjectToReview = async () => sendToReview(project.id);
 
   const askDeleteConfirmation = () => {
     if (project && project.id) {
