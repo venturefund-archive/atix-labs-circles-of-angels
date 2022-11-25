@@ -457,6 +457,7 @@ function DaoProposalDetail() {
               theme={buttonsDisable ? 'disabled' : 'Primary'}
               buttonText="Execute"
               disabled={buttonsDisable && alreadyVote}
+              hidden={buttonsDisable}
             />
           )}
         </div>
