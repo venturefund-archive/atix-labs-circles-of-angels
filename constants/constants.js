@@ -160,8 +160,8 @@ export const CURRENCIES = {
 
 export const TIMEFRAME_UNITS = [
   {
-    label: 'Days',
-    value: 'days'
+    label: 'Weeks',
+    value: 'weeks'
   },
   {
     label: 'Months',
