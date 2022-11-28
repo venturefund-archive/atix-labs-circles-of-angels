@@ -180,7 +180,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
                   predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}
                   className="formProjectBasicInformation__left__preview__tag"
                 >
-                  {projectStatusMap[status].name}
+                  {projectStatusMap?.[status]?.name}
                 </CoaTag>
               </div>
               <div className="formProjectBasicInformation__content__left__preview__info__description">
