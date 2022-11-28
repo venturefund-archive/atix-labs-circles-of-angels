@@ -66,11 +66,10 @@ const CustomCollapse = ({
   const handleUnassignUser = async () => {
     try {
       setIsFormSubmitted(false);
-      const _userId = getFieldValue('id');
       const { status } = await removeUserFromProject({
         projectId,
         roleId: ROLES_IDS[entity],
-        userId: _userId
+        userId
       });
       if (status !== 200) return message.error('Unassigned failed');
       if (status === 200) message.success('Unassigned successful');
@@ -102,7 +101,8 @@ const CustomCollapse = ({
     return setUserState(USER_STATES.EXIST);
   };
 
-  const handleResendEmail = async () => {
+  const handleResendEmail = async e => {
+    e.stopPropagation();
     await sendWelcomeEmail({ userId, projectId });
   };
 

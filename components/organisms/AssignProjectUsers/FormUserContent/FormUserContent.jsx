@@ -63,9 +63,6 @@ export const FormUserContent = ({
       aria-hidden="true"
       className="formUserContent__container"
     >
-      <Form.Item label="id" style={{ display: 'none' }}>
-        {getFieldDecorator('id', { initialValue: initialData?.id })(<Input />)}
-      </Form.Item>
       <Form.Item className="formUserContent__container__formItem" label="First name">
         {getFieldDecorator('firstName', {
           rules: [
