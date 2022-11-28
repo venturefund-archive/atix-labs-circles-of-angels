@@ -31,6 +31,11 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
 );
 
 const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) => {
+  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
+  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
+  const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(true);
+
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
 
@@ -79,6 +84,30 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
         </div>
       </div>
       {Footer()}
+      <FooterButtons
+        finishButton={sendToReviewButton()}
+        nextStepButton={getContinueLaterButton()}
+        prevStepButton={deleteProjectButton()}
+      >
+      </FooterButtons>
+      <ModalProjectCreated />
+      <ModalConfirmProjectPublish
+        visible={confirmPublishVisible}
+        onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
+        onCancel={() => setSecretKeyVisible(false)}
+      />
+      <ModalConfirmWithSK
+        visible={secretKeyVisible}
+        setVisible={setSecretKeyVisible}
+        onSuccess={publishProject}
+      />
+      <ModalPublishLoading
+        visible={loadingModalVisible}
+      />
+      <ModalPublishSuccess
+        visible={successModalVisible}
+        setVisible={setSuccessModalVisible}
+      />
     </>
   );
 };

@@ -8,7 +8,14 @@ export default function CoaModal({
   ...rest
 }) {
   return (
-    <Modal className='CoaModal' visible={visible} {...rest}>
+    <Modal
+      bodyStyle={{
+        padding: '32px 60px',
+      }}
+      className='CoaModal'
+      visible={visible} {...rest}
+      closeIcon=''
+    >
       {children}
     </Modal>
   )

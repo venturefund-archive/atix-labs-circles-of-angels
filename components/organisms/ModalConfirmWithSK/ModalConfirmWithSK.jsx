@@ -18,6 +18,7 @@ import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 
 import PropTypes from 'prop-types';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
   const { getFieldDecorator, getFieldProps, validateFields } = form;
@@ -58,16 +59,14 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
   }
 
   return (
-    <Modal
+    <CoaModal
       visible={visible}
-      maskClosable={false}
-      className='CustomModal'
-      closable={false}
+      maskClosable={true}
+      closable={true}
       mask
       footer={[
-        <Button className='ant-btn ant-btn-secondary' onClick={() => setVisible(false)}>No</Button>,
-        <Button className='ant-btn ant-btn-primary' onClick={submit}>
-          yes
+        <Button className='ant-btn ant-btn-primary CoaModal__Primary' onClick={submit}>
+          Continue
         </Button>
       ]}
     >
@@ -100,7 +99,7 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
           })(<Input.Password placeholder='Enter your password' name='pin'/>)}
         </Form.Item>
       </Form>
-    </Modal>
+    </CoaModal>
   )
 }
 

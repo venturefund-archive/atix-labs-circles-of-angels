@@ -12,6 +12,7 @@ import LogoWrapper from 'components/atoms/LogoWrapper';
 import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
 import PropTypes from 'prop-types';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 const getIdFromPath = () => {
   const pathParts = window.location.pathname.split('/');
@@ -23,28 +24,27 @@ const ModalPublishSuccess = ({ visible, setVisible }) => {
   const id = getIdFromPath();
   const projectRoute = `/${id}`;
   return (
-    <Modal
+    <CoaModal
       visible={visible}
       maskClosable={false}
-      className='CustomModal o-ModalSuccess'
       closable={false}
       mask
       footer={
         <Button
-        className='ant-btn ant-btn-primary'
-        onClick={() => setVisible(false)}
+          className='ant-btn ant-btn-primary CoaModal__Primary'
+          onClick={() => setVisible(false)}
         >
           Continue
         </Button>}
     >
       <LogoWrapper textTitle='The project has been published' />
 
-      <Typography.Paragraph className='textcenter'>
+      <Typography.Paragraph className='CoaModal__Paragraph--centered'>
         The project has been published successfully. you can see it from here.
       </Typography.Paragraph>
 
-      <Link to={projectRoute}>Project Link</Link>
-    </Modal>
+      <Link className='textcenter' style={{ textAlign: 'center', display: 'block' }} to={projectRoute}>Project Link</Link>
+    </CoaModal>
   )
 };
 
