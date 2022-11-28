@@ -1,0 +1,43 @@
+@import "../../../css/general_styling.scss";
+
+.WrapperModalMyProjects {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    .warningTitle {
+        @include primary-text(0.8rem, #4C7FF7, 400);
+        width: 91px;
+        height: 28px;
+        font-family: 'Rubik';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        letter-spacing: -0.5px;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+    }
+    .paragraph {
+        @include primary-text(0.8rem, #728099, 400);
+    }
+    .ant-btn-primary {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            .continueText {
+                width: 122px;
+                height: 16px;
+                font-family: 'Rubik';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 16px;
+                /* identical to box height, or 114% */
+                display: flex;
+                align-items: center;
+                text-align: center;
+                color: #FFFFFF;
+            }
+        }
+}

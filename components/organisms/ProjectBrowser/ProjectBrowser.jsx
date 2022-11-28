@@ -8,6 +8,7 @@ import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import Roles from '../../../constants/RolesMap';
 import { getCountries } from '../../../api/userApi';
+import ModalMyProjects from '../ModalMyProjects/ModalMyProjects';
 
 const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, onNewProject }) => {
   const [countries, setCountries] = useState([]);
@@ -57,6 +58,7 @@ const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, on
               )
           )}
       </div>
+      <ModalMyProjects/>
     </div>
   );
 };
