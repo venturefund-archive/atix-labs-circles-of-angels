@@ -24,7 +24,7 @@ const MyProjects = ({ user }) => {
   const history = useHistory();
   const [projects, setProjects] = useState([]);
   // TODO: this has to be changed
-  const [visible, setVisible] = useState(!user.seenModal && !isMobile);
+  const [visible, setVisible] = useState(!user.seenModal && isMobile);
 
   const context = useContext(UserContext);
   const { setSeenUserModal } = context || { setSeenUserModal: () => {} };
@@ -67,7 +67,6 @@ const MyProjects = ({ user }) => {
         onTagClick={goToProjectProgress}
         onNewProject={goToNewProject}
       />
-      {console.log(user)}
       <ModalMyProjects isVisible={visible} onClick={onClick} />
     </>
   );
