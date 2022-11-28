@@ -8,6 +8,17 @@
   -ms-border-radius: 30px;
   -o-border-radius: 30px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  &__collapse {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    background: $coa-white-100;
+    .ant-collapse-header {
+      padding-block: 0 !important;
+    }
+  }
   &__header {
     padding-block: 1.25rem;
     padding-inline: 1.78rem;

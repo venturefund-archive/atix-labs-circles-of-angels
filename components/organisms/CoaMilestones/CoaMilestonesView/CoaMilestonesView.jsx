@@ -100,7 +100,12 @@ export const CoaMilestonesView = ({ project }) => {
   };
 
   const handleCreateActivity = async newActivity => {
-    const { errors, data, status } = await createActivity(newActivity, currentEditedMilestone?.id);
+    const processedActivity = { ...newActivity, budget: newActivity?.budget || '0' };
+
+    const { errors, data, status } = await createActivity(
+      processedActivity,
+      currentEditedMilestone?.id
+    );
 
     if (status !== 201) return message.error(errors);
 
@@ -112,9 +117,9 @@ export const CoaMilestonesView = ({ project }) => {
     const activities = milestoneFound?.activities;
 
     activities.push({
-      ...newActivity,
+      ...processedActivity,
       id: data?.activityId,
-      auditor: { id: newActivity?.auditor }
+      auditor: { id: processedActivity?.auditor }
     });
 
     const totalBudget = activities.reduce(

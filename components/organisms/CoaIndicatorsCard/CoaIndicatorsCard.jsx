@@ -27,6 +27,7 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove }) => (
           e.stopPropagation();
           onEdit();
         }}
+        variant="muted"
       >
         <Icon type="edit" /> Edit
       </CoaTextButton>
@@ -35,6 +36,7 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove }) => (
           e.stopPropagation();
           onRemove();
         }}
+        variant="danger"
       >
         <Icon type="delete" /> Delete
       </CoaTextButton>
@@ -67,7 +69,7 @@ export const CoaIndicatorsCard = ({
       <ConditionalWrapper
         condition={isCollapsible}
         wrapper={children => (
-          <Collapse defaultActiveKey={['1']} className="test">
+          <Collapse defaultActiveKey={['1']} className="o-coaIndicatorsCard__collapse">
             <Panel
               header={<CardHeader {...{ title, onEdit, onRemove, onCreate, entity }} />}
               key="1"
@@ -78,26 +80,28 @@ export const CoaIndicatorsCard = ({
         )}
       >
         <div className="o-coaIndicatorsCard__body">
-          <div className="o-coaIndicatorsCard__body__indicators">
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, budget)}
-              </p>
+          {parseFloat(budget) > 0 && (
+            <div className="o-coaIndicatorsCard__body__indicators">
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, budget)}
+                </p>
+              </div>
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, spent)}
+                </p>
+              </div>
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, remaining)}
+                </p>
+              </div>
             </div>
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, spent)}
-              </p>
-            </div>
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, remaining)}
-              </p>
-            </div>
-          </div>
+          )}
           {additionalBody}
         </div>
       </ConditionalWrapper>
