@@ -101,7 +101,8 @@ const CustomCollapse = ({
     return setUserState(USER_STATES.EXIST);
   };
 
-  const handleResendEmail = async () => {
+  const handleResendEmail = async e => {
+    e.stopPropagation();
     await sendWelcomeEmail({ userId, projectId });
   };
 
