@@ -1,0 +1,14 @@
+.o-coaMilestonesContainer {
+  padding-inline: 2.56rem;
+  padding-block: 2.31rem;
+  &__titleContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+    margin-top: 1.875rem;
+  }
+}

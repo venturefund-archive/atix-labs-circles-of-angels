@@ -21,7 +21,7 @@ import {
   checkProjectHasAllUsersWithFirstLogin,
   getProjectUsersPerRol
 } from 'helpers/modules/projectUsers';
-import CreateMilestonesFormContainer from '../components/organisms/CreateMilestonesFormContainer/CreateMilestonesFormContainer';
+import { CoaMilestonesView } from 'components/organisms/CoaMilestones/CoaMilestonesView/CoaMilestonesView';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 import { PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, sendToReview, deleteProject } from '../api/projectApi';
@@ -32,7 +32,7 @@ const wizards = {
   thumbnails: FormProjectBasicInformation,
   details: FormProjectDetail,
   proposal: AssignProjectUsers,
-  milestones: CreateMilestonesFormContainer
+  milestones: CoaMilestonesView
 };
 
 const CreateProjectContainer = () => {
@@ -75,7 +75,7 @@ const CreateProjectContainer = () => {
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { details, basicInformation, users } = projectToCheck;
+    const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
 
     const { beneficiaries = [], investors = [], auditors = [] } = getProjectUsersPerRol(users);
 
@@ -96,7 +96,7 @@ const CreateProjectContainer = () => {
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: projectHasAllUsersRoles && projectHasAllUsersWithFirstLogin,
-      milestones: false
+      milestones: milestones?.length > 0
     };
 
     setCompletedSteps(stepsStatus);

@@ -5,4 +5,14 @@
   * {
     @include primary-text(0.875rem, $coa-blue-100, 500, 1.8rem);
   }
+  &.--danger {
+    * {
+      color: $coa-red-100;
+    }
+  }
+  &.--muted {
+    * {
+      color: $coa-grey-100;
+    }
+  }
 }

@@ -1,0 +1,66 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.o-coaIndicatorsCard {
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  overflow: hidden;
+  &__collapse {
+    background: $coa-white-100;
+    border: none;
+    .ant-collapse-header {
+      padding-block: 0 !important;
+    }
+  }
+  &__header {
+    padding-block: 1.25rem;
+    padding-inline: 1.78rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__title {
+      @include primary-text(1.125rem, $coa-medium-gray-100, 400);
+    }
+  }
+  &__divider {
+    margin: 0 !important;
+  }
+  &__body {
+    padding-block: 1.25rem;
+    padding-inline: 1.78rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.25rem;
+    &__indicators {
+      display: flex;
+      column-gap: 1.31rem;
+      align-items: center;
+      &__indicator {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.25rem;
+        &__title {
+          @include primary-text(0.875rem, $coa-medium-gray-100, 400);
+          opacity: 0.7;
+        }
+        &__value {
+          @include primary-text(1.125rem, $coa-medium-gray-100, 400);
+        }
+      }
+    }
+  }
+
+  &__iconIndicator {
+    background: $coa-medium-gray-100;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 0.5em;
+    color: $coa-white-100;
+  }
+}
