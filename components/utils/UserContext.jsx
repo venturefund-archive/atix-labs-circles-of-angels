@@ -8,14 +8,10 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React, {
-  useState,
-  useMemo,
-} from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { ACCESS_TOKEN_KEY, USER_KEY } from 'constants/constants';
-
 
 export const UserContext = React.createContext();
 
@@ -28,13 +24,11 @@ export function useUserContext() {
 }
 */
 
-export function UserProvider({
-  children,
-}) {
-  const [_user, setUser] = useState(null)
+export function UserProvider({ children }) {
+  const [_user, setUser] = useState(null);
 
-  const changeUser = (nuser) => {
-    sessionStorage.setItem(USER_KEY, JSON.stringify(nuser));
+  const changeUser = nuser => {
+    sessionStorage.setItem(USER_KEY, JSON.stringify({ ...nuser, seenModal: false }));
     setUser(nuser);
   };
 
@@ -44,7 +38,11 @@ export function UserProvider({
     setUser(null);
   };
 
-  
+  const setSeenUserModal = () => {
+    const internalUser = JSON.parse(sessionStorage.getItem(USER_KEY));
+    sessionStorage.setItem(USER_KEY, JSON.stringify({ ...internalUser, seenModal: true }));
+  };
+
   // work with the memoized form of the user
   const user = useMemo(() => {
     let internalUser;
@@ -56,7 +54,7 @@ export function UserProvider({
     }
     console.info('getLoggedUser finish: ', internalUser);
     return internalUser;
-  }, [_user])
+  }, [_user]);
 
   return (
     <UserContext.Provider
@@ -69,6 +67,7 @@ export function UserProvider({
         isOracle: false,
         isAdmin: false,
         user,
+        setSeenUserModal
       }}
     >
       {children}
