@@ -75,78 +75,82 @@ export const CustomCollapseHeader = ({
   }, []);
 
   return (
-    <Form.Item
-      label={`${capitalizeFirstLetter(entity)} email`}
-      className="customCollapseHeader__customHeader__formItem"
-    >
-      {getFieldDecorator('email', {
-        rules: [
-          {
-            required: true,
-            message: ERROR_MESSAGES.EMPTY,
-            whitespace: true
-          },
-          {
-            pattern: VALID_EMAIL_REGEX,
-            message: ERROR_MESSAGES.INVALID_EMAIL
-          }
-        ],
-        initialValue: initialData?.email
-      })(
-        <Input
-          placeholder={`Insert the email of the ${entity} user`}
-          onChange={onChange}
-          onClick={e => e.stopPropagation()}
-          disabled={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
-        />
-      )}
-
-      <ConditionalWrapper
-        condition={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
-        wrapper={children => (
-          <Tooltip
-            placement="top"
-            title={
-              <div className="customCollapseHeader__customHeader__tooltip">
-                <FeedbackMessage
-                  className="customCollapseHeader__customHeader__tooltip__title"
-                  show
-                  message={TOOLTIP_TITLES_BY_USER_STATE[userState]}
-                  type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
-                />
-                {/* </p> */}
-                <p className="customCollapseHeader__customHeader__tooltip__description">
-                  {userState === USER_STATES.EXIST &&
-                    'The user is already registered on the platform and will be assigned to the project in the chosen role.'}
-                  {userState === USER_STATES.PENDING &&
-                    'An email invitation has been sent for the user to enter the platform.'}
-                </p>
-              </div>
-            }
-          >
-            {children}
-          </Tooltip>
-        )}
+    <>
+      <Form.Item label="id" style={{ display: 'none' }}>
+        {getFieldDecorator('id', { initialValue: initialData?.id })(<Input />)}
+      </Form.Item>
+      <Form.Item
+        label={`${capitalizeFirstLetter(entity)} email`}
+        className="customCollapseHeader__customHeader__formItem"
       >
-        {userState === USER_STATES.LOADING && <Icon type="loading" />}
-        <FeedbackMessage
-          className="customCollapseHeader__customHeader__feedbackMessage"
-          message={FEEDBACK_MESSAGE_BY_USER_STATE(entity)[userState]}
-          show={userState !== USER_STATES.UNKNOWN && userState !== USER_STATES.LOADING}
-          type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
-        />
-      </ConditionalWrapper>
-      {userState === USER_STATES.PENDING && (
-        <CoaButton
-          type="ghost"
-          className="customCollapseHeader__customHeader__resendButton"
-          onClick={handleResendEmail}
+        {getFieldDecorator('email', {
+          rules: [
+            {
+              required: true,
+              message: ERROR_MESSAGES.EMPTY,
+              whitespace: true
+            },
+            {
+              pattern: VALID_EMAIL_REGEX,
+              message: ERROR_MESSAGES.INVALID_EMAIL
+            }
+          ],
+          initialValue: initialData?.email
+        })(
+          <Input
+            placeholder={`Insert the email of the ${entity} user`}
+            onChange={onChange}
+            onClick={e => e.stopPropagation()}
+            disabled={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
+          />
+        )}
+
+        <ConditionalWrapper
+          condition={userState === USER_STATES.EXIST || userState === USER_STATES.PENDING}
+          wrapper={children => (
+            <Tooltip
+              placement="top"
+              title={
+                <div className="customCollapseHeader__customHeader__tooltip">
+                  <FeedbackMessage
+                    className="customCollapseHeader__customHeader__tooltip__title"
+                    show
+                    message={TOOLTIP_TITLES_BY_USER_STATE[userState]}
+                    type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
+                  />
+                  <p className="customCollapseHeader__customHeader__tooltip__description">
+                    {userState === USER_STATES.EXIST &&
+                      'The user is already registered on the platform and will be assigned to the project in the chosen role.'}
+                    {userState === USER_STATES.PENDING &&
+                      'An email invitation has been sent for the user to enter the platform.'}
+                  </p>
+                </div>
+              }
+            >
+              {children}
+            </Tooltip>
+          )}
         >
-          <Icon type="mail" />
-          Resend Invitation
-        </CoaButton>
-      )}
-    </Form.Item>
+          {userState === USER_STATES.LOADING && <Icon type="loading" />}
+          <FeedbackMessage
+            className="customCollapseHeader__customHeader__feedbackMessage"
+            message={FEEDBACK_MESSAGE_BY_USER_STATE(entity)[userState]}
+            show={userState !== USER_STATES.UNKNOWN && userState !== USER_STATES.LOADING}
+            type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
+          />
+        </ConditionalWrapper>
+        {userState === USER_STATES.PENDING && (
+          <CoaButton
+            type="ghost"
+            className="customCollapseHeader__customHeader__resendButton"
+            onClick={handleResendEmail}
+          >
+            <Icon type="mail" />
+            Resend Invitation
+          </CoaButton>
+        )}
+      </Form.Item>
+    </>
   );
 };
 
