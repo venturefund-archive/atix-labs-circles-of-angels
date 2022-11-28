@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './coa-form-modal.scss';
 
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
@@ -39,4 +40,20 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
       {children}
     </CoaBaseModal>
   );
+};
+
+CoaFormModal.defaultProps = {
+  children: undefined,
+  title: undefined,
+  onSave: undefined,
+  onCancel: undefined,
+  form: undefined
+};
+
+CoaFormModal.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  title: PropTypes.string,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
+  form: PropTypes.objectOf(PropTypes.any)
 };

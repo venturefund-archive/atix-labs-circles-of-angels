@@ -1,6 +1,7 @@
 import React from 'react';
 import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import './coa-activity-item.scss';
+import PropTypes from 'prop-types';
 
 export const CoaActivityItem = ({ activityNumber, currency, activity, onRemove, onEdit }) => {
   const description = activity?.description;
@@ -23,15 +24,31 @@ export const CoaActivityItem = ({ activityNumber, currency, activity, onRemove, 
       additionalBody={
         <>
           <div>
-            <p>Description</p>
-            <p>{description}</p>
+            <p className="o-coaActivityItem__indicatorTitle">Description</p>
+            <p className="o-coaActivityItem__indicatorValue">{description}</p>
           </div>
           <div>
-            <p>Acceptance Criteria</p>
-            <p>{acceptanceCriteria}</p>
+            <p className="o-coaActivityItem__indicatorTitle">Acceptance Criteria</p>
+            <p className="o-coaActivityItem__indicatorValue">{acceptanceCriteria}</p>
           </div>
         </>
       }
     />
   );
+};
+
+CoaActivityItem.defaultProps = {
+  activityNumber: undefined,
+  currency: undefined,
+  activity: undefined,
+  onRemove: undefined,
+  onEdit: undefined
+};
+
+CoaActivityItem.propTypes = {
+  activityNumber: PropTypes.number,
+  currency: PropTypes.string,
+  activity: PropTypes.objectOf(PropTypes.any),
+  onRemove: PropTypes.func,
+  onEdit: PropTypes.func
 };

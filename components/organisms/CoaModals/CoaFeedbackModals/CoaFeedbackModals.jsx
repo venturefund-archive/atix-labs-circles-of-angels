@@ -2,18 +2,6 @@ import React from 'react';
 import { Icon, Modal } from 'antd';
 import './CoaFeedModals.scss';
 
-/* export const ConfirmDeleteModal = ({ title, subtitle, onOk, onCancel }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  return (
-    <CoaBaseModal {...{ onOk, onCancel }}>
-      <Icon type="delete" />
-      <h2>{title}</h2>
-      {subtitle}
-      {!subtitle && <p>This action cannot be undone</p>}
-    </CoaBaseModal>
-  );
-}; */
-
 export const CoaConfirmDeleteModal = ({ title, subtitle, onOk }) =>
   Modal.confirm({
     onOk,

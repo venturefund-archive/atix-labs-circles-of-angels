@@ -1,7 +1,14 @@
 @import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
 
 .o-coaActivityItem {
   &__card {
     background: $coa-white-100;
+  }
+  &__indicatorTitle {
+    @include primary-text(0.75rem, $coa-medium-gray-100, 700);
+  }
+  &__indicatorValue {
+    @include primary-text(0.75rem, $coa-medium-gray-100, 400);
   }
 }

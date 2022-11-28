@@ -36,6 +36,7 @@ export const CoaMilestoneItem = ({
       remaining={remaining}
       spent={spent}
       className="o-coaMilestoneItem__card"
+      alwaysShowBudget
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>
@@ -45,14 +46,16 @@ export const CoaMilestoneItem = ({
             bordered={false}
           >
             <Panel header="View Activities" className="o-coaMilestoneItem__collapse__panel">
-              {milestone?.activities.map((activity, index) => (
-                <CoaActivityItem
-                  onRemove={() => onRemoveActivity(activity?.id)}
-                  onEdit={() => onEditActivity(activity)}
-                  {...{ milestone, currency, activity }}
-                  {...{ activityNumber: index + 1 }}
-                />
-              ))}
+              <div className="o-coaMilestoneItem__cardsList">
+                {milestone?.activities.map((activity, index) => (
+                  <CoaActivityItem
+                    onRemove={() => onRemoveActivity(activity?.id)}
+                    onEdit={() => onEditActivity(activity)}
+                    {...{ milestone, currency, activity }}
+                    {...{ activityNumber: index + 1 }}
+                  />
+                ))}
+              </div>
             </Panel>
           </Collapse>
           <CoaTextButton
@@ -68,6 +71,24 @@ export const CoaMilestoneItem = ({
   );
 };
 
-CoaMilestoneItem.defaultProps = {};
+CoaMilestoneItem.defaultProps = {
+  milestoneNumber: undefined,
+  currency: undefined,
+  milestone: undefined,
+  onRemoveMilestone: undefined,
+  onEditMilestone: undefined,
+  onCreateActivity: undefined,
+  onRemoveActivity: undefined,
+  onEditActivity: undefined
+};
 
-CoaMilestoneItem.propTypes = {};
+CoaMilestoneItem.propTypes = {
+  milestoneNumber: PropTypes.number,
+  currency: PropTypes.string,
+  milestone: PropTypes.objectOf(PropTypes.any),
+  onRemoveMilestone: PropTypes.func,
+  onEditMilestone: PropTypes.func,
+  onCreateActivity: PropTypes.func,
+  onRemoveActivity: PropTypes.func,
+  onEditActivity: PropTypes.func
+};

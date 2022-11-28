@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './coa-milestones-view.scss';
-import { message } from 'antd';
+import { Icon, message } from 'antd';
 
 import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 import {
@@ -16,10 +17,11 @@ import { CoaFormMilestoneModal } from 'components/organisms/CoaMilestones/CoaFor
 import { CoaFormActivitiesModal } from 'components/organisms/CoaActivities/CoaFormActivitiesModal/CoaFormActivitiesModal';
 import { updateActivity } from 'api/activityApi';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
+import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { CoaConfirmDeleteModal } from 'components/organisms/CoaModals/CoaFeedbackModals/CoaFeedbackModals';
 import { CoaMilestoneItem } from '../CoaMilestoneItem/CoaMilestoneItem';
 
-export const CoaMilestonesView = ({ project }) => {
+export const CoaMilestonesView = ({ project, goBack, onSuccess }) => {
   const projectId = project?.id;
   const currency = project?.details?.currency || '';
   const auditors = getUsersByRole(ROLES_IDS.auditor, project?.users);
@@ -241,6 +243,25 @@ export const CoaMilestonesView = ({ project }) => {
           ))}
         </div>
       </div>
+      <FooterButtons
+        prevStepButton={(() => (
+          <CoaButton onClick={() => goBack({ withUpdate: true })} type="secondary">
+            <Icon type="arrow-left" /> Back
+          </CoaButton>
+        ))()}
+        nextStepButton={(() => (
+          <CoaButton
+            onClick={() => {
+              onSuccess({ projectId: project?.id });
+              goBack();
+            }}
+            className="formProjectBasicInformation__footer"
+            type="primary"
+          >
+            Save and continue
+          </CoaButton>
+        ))()}
+      />
       <CoaFormMilestoneModal
         visible={isFormMilestoneModalOpen}
         onCancel={handleCancelFormMilestoneModal}
@@ -257,4 +278,16 @@ export const CoaMilestonesView = ({ project }) => {
       />
     </>
   );
+};
+
+CoaMilestonesView.propTypes = {
+  project: PropTypes.objectOf(PropTypes.any),
+  goBack: PropTypes.func,
+  onSuccess: PropTypes.func
+};
+
+CoaMilestonesView.defaultProps = {
+  project: undefined,
+  goBack: undefined,
+  onSuccess: undefined
 };

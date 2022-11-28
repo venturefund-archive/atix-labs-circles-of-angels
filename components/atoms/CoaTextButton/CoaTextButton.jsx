@@ -8,9 +8,10 @@ export const CoaTextButton = ({ children, disabled, className, variant, ...rest 
   <Button
     type="link"
     disabled={disabled}
-    className={classNames('customTextButton', className, {
+    className={classNames('customTextButton', {
       '--disabled': disabled,
-      [`--${variant}`]: variant
+      [`--${variant}`]: variant,
+      className
     })}
     {...rest}
   >
@@ -21,11 +22,13 @@ export const CoaTextButton = ({ children, disabled, className, variant, ...rest 
 CoaTextButton.defaultProps = {
   children: '',
   disabled: false,
-  className: ''
+  className: undefined,
+  variant: undefined
 };
 
 CoaTextButton.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   disabled: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  variant: PropTypes.oneOf(['danger, muted'])
 };

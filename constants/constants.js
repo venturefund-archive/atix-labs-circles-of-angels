@@ -193,7 +193,8 @@ export const ERROR_MESSAGES = {
   NO_ZERO: "This value can't be zero",
   EMPTY_FILE: '* You must upload the required file before continuing',
   INVALID_FILE: '* The file is invalid. Review the recommendations and try again',
-  INVALID_EMAIL: 'The current value is not a valid email'
+  INVALID_EMAIL: 'The current value is not a valid email',
+  NUMBER: 'Input a number value for this field.'
 };
 
 export const KB_FACTOR_CONVERTER = 1000;

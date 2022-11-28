@@ -7,14 +7,10 @@
   -moz-border-radius: 30px;
   -ms-border-radius: 30px;
   -o-border-radius: 30px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
   &__collapse {
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
     background: $coa-white-100;
+    border: none;
     .ant-collapse-header {
       padding-block: 0 !important;
     }
@@ -41,6 +37,7 @@
     &__indicators {
       display: flex;
       column-gap: 1.31rem;
+      align-items: center;
       &__indicator {
         display: flex;
         flex-direction: column;
@@ -54,5 +51,16 @@
         }
       }
     }
+  }
+
+  &__iconIndicator {
+    background: $coa-medium-gray-100;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 0.5em;
+    color: $coa-white-100;
   }
 }
