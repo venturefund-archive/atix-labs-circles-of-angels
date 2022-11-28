@@ -2,6 +2,9 @@
 @import 'css/mixins/_fonts.scss';
 
 .o-coaMilestoneItem {
+  &__card {
+    background: $coa-light-sky-blue-100;
+  }
   &__description {
     @include primary-text(0.875rem, $coa-medium-gray-100, 400);
   }
@@ -21,7 +24,7 @@
     background: transparent;
     &__panel {
       border: none !important;
-      * {
+      .ant-collapse-header {
         @include primary-text(0.875rem, $coa-blue-100, 400);
         color: $coa-blue-100 !important;
       }

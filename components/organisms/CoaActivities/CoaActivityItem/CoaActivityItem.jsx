@@ -1,32 +1,30 @@
-import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import React from 'react';
+import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
+import './coa-activity-item.scss';
 
-export const CoaActivityItem = ({
-  activityNumber,
-  currency,
-  activity,
-  onRemove,
-  onEdit,
-  milestone
-}) => {
+export const CoaActivityItem = ({ activityNumber, currency, activity, onRemove, onEdit }) => {
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
   const title = activity?.title;
-  const indicators = activity?.indicators;
+  const budget = activity?.budget;
+  const spent = activity?.spent || 0;
+  const remaining = budget - spent;
   return (
     <CoaIndicatorsCard
       {...{ currency }}
-      budget={indicators?.budget}
+      className="o-coaActivityItem__card"
+      budget={budget}
       title={`Activity ${activityNumber} - ${title}`}
-      onEdit={() => onEdit(activity)}
-      onRemove={() => onRemove({ activityId: activity?.id, milestone })}
-      remaining={indicators?.remaining}
-      spent={indicators?.spent}
+      onEdit={onEdit}
+      onRemove={onRemove}
+      remaining={remaining}
+      spent={spent}
+      isCollapsible
       additionalBody={
         <>
           <div>
             <p>Description</p>
-            <p className="o-coaMilestoneItem__body__description">{description}</p>
+            <p>{description}</p>
           </div>
           <div>
             <p>Acceptance Criteria</p>

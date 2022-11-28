@@ -1,6 +1,6 @@
 import { Form } from 'antd';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
-import { CoaFormModal } from 'components/organisms/CoaFormModal/CoaFormModal';
+import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { onlyAlphanumerics } from 'constants/Regex';
 import React from 'react';

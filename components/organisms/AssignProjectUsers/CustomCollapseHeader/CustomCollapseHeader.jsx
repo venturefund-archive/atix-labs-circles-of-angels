@@ -114,7 +114,6 @@ export const CustomCollapseHeader = ({
                   message={TOOLTIP_TITLES_BY_USER_STATE[userState]}
                   type={FEEDBACK_MESSAGE_TYPES_BY_USER_STATE[userState]}
                 />
-                {/* </p> */}
                 <p className="customCollapseHeader__customHeader__tooltip__description">
                   {userState === USER_STATES.EXIST &&
                     'The user is already registered on the platform and will be assigned to the project in the chosen role.'}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Collapse, Icon } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
-import { CoaActivitiesList } from 'components/organisms/CoaActivities/CoaActivitiesList/CoaActivitiesList';
+import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
 
 export const CoaMilestoneItem = ({
   milestoneNumber,
@@ -13,12 +13,14 @@ export const CoaMilestoneItem = ({
   onRemoveMilestone,
   onEditMilestone,
   onCreateActivity,
-  onRemoveActivity
+  onRemoveActivity,
+  onEditActivity
 }) => {
   const description = milestone?.description;
   const title = milestone?.title;
   const budget = milestone?.budget;
-  const spent = milestone?.spent;
+  const spent = milestone?.spent || 0;
+  const remaining = budget - spent;
 
   const { Panel } = Collapse;
 
@@ -28,11 +30,12 @@ export const CoaMilestoneItem = ({
       budget={budget}
       title={`Milestone ${milestoneNumber} - ${title}`}
       entity="Activity"
-      onEdit={() => onEditMilestone(milestone)}
-      onRemove={() => onRemoveMilestone(milestone?.id)}
-      onCreate={() => onCreateActivity(milestone)}
-      remaining={budget - spent}
+      onEdit={onEditMilestone}
+      onRemove={onRemoveMilestone}
+      onCreate={onCreateActivity}
+      remaining={remaining}
       spent={spent}
+      className="o-coaMilestoneItem__card"
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>
@@ -42,12 +45,14 @@ export const CoaMilestoneItem = ({
             bordered={false}
           >
             <Panel header="View Activities" className="o-coaMilestoneItem__collapse__panel">
-              <CoaActivitiesList
-                data={milestone?.activities}
-                {...{ currency }}
-                onRemove={onRemoveActivity}
-                milestone={milestone}
-              />
+              {milestone?.activities.map((activity, index) => (
+                <CoaActivityItem
+                  onRemove={() => onRemoveActivity(activity?.id)}
+                  onEdit={() => onEditActivity(activity)}
+                  {...{ milestone, currency, activity }}
+                  {...{ activityNumber: index + 1 }}
+                />
+              ))}
             </Panel>
           </Collapse>
           <CoaTextButton

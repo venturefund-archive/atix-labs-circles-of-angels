@@ -12,8 +12,7 @@ import milestoneActivityStatus from '../constants/MilestoneActivityStatus';
 
 const baseURL = '/activities';
 
-export const updateTask = (taskId, saveData) =>
-  doPut(`${baseURL}/${taskId}`, saveData);
+export const updateTask = (taskId, saveData) => doPut(`${baseURL}/${taskId}`, saveData);
 
 export const deleteTask = taskId => doDelete(`${baseURL}/${taskId}`);
 
@@ -25,20 +24,12 @@ export const assignOracleToActivity = (taskId, oracleId) =>
 
 export const uploadEvidenceGetTransaction = (taskId, data, status) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(
-    `${baseURL}/${taskId}/claim/${status}/get-transaction`,
-    data,
-    config
-  );
+  return doPost(`${baseURL}/${taskId}/claim/${status}/get-transaction`, data, config);
 };
 
 export const uploadEvidenceSendTransaction = (taskId, data, status) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-  return doPost(
-    `${baseURL}/${taskId}/claim/${status}/send-transaction`,
-    data,
-    config
-  );
+  return doPost(`${baseURL}/${taskId}/claim/${status}/send-transaction`, data, config);
 };
 
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
@@ -46,34 +37,9 @@ export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 export const getEvidenceBlockchainData = evidenceId =>
   doGet(`/evidences/${evidenceId}/blockchain-data`);
 
-const updateActivity = async ({
-  budget,
-  category,
-  id,
-  impact,
-  impactCriterion,
-  keyPersonnel,
-  project,
-  quarter,
-  signsOfSuccess,
-  signsOfSuccessCriterion,
-  tasks
-}) => {
+const updateActivity = async (activityId, updatedActivity) => {
   try {
-    const response = await api.put(`${baseURL}/${id}`, {
-      activity: {
-        budget,
-        category,
-        impact,
-        impactCriterion,
-        keyPersonnel,
-        project,
-        quarter,
-        signsOfSuccess,
-        signsOfSuccessCriterion,
-        tasks
-      }
-    });
+    const response = await api.put(`${baseURL}/${activityId}`, updatedActivity);
     return response;
   } catch (error) {
     return { error };

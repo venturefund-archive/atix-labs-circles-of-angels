@@ -79,7 +79,7 @@ const CreateProjectContainer = () => {
   );
 
   const checkStepsStatus = async projectToCheck => {
-    const { details, basicInformation, users } = projectToCheck;
+    const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
 
     const { beneficiaries = [], investors = [], auditors = [] } = getProjectUsersPerRol(users);
 
@@ -100,7 +100,7 @@ const CreateProjectContainer = () => {
       details:
         details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
       proposal: projectHasAllUsersRoles && projectHasAllUsersWithFirstLogin,
-      milestones: false
+      milestones: milestones?.length > 0
     };
 
     setCompletedSteps(stepsStatus);

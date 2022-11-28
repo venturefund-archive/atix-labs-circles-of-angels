@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, InputNumber } from 'antd';
-import { CoaFormModal } from 'components/organisms/CoaFormModal/CoaFormModal';
+import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { CoaFormItemInput } from 'components/molecules/CoaFormItems/CoaFormItemInput/CoaFormItemInput';
@@ -103,7 +103,8 @@ export const CoaFormActivitiesModalContent = ({
             label: 'Budget'
           }}
           fieldDecoratorOptions={{
-            validateTrigger: 'onSubmit'
+            validateTrigger: 'onSubmit',
+            initialValue: initialData?.budget
           }}
         />
         <Form.Item label="Currency">
@@ -121,7 +122,8 @@ export const CoaFormActivitiesModalContent = ({
               message: ERROR_MESSAGES.EMPTY
             }
           ],
-          validateTrigger: 'onSubmit'
+          validateTrigger: 'onSubmit',
+          initialValue: initialData?.auditor?.id
         }}
         selectProps={{
           placeholder: 'Auditor'

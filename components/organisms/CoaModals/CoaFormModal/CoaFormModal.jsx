@@ -3,7 +3,7 @@ import './coa-form-modal.scss';
 
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import { CoaModal } from '../CoaModal/CoaModal';
+import { CoaBaseModal } from '../CoaBaseModal/CoaBaseModal';
 
 export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest }) => {
   const handleSave = () => {
@@ -22,7 +22,7 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
   };
 
   return (
-    <CoaModal
+    <CoaBaseModal
       {...rest}
       footer={
         <div className="o-coaFormModal">
@@ -37,6 +37,6 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
     >
       <TitlePage textTitle={title} />
       {children}
-    </CoaModal>
+    </CoaBaseModal>
   );
 };
