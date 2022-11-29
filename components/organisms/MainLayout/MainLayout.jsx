@@ -9,8 +9,12 @@ const MainLayout = ({ children, user, withHeader, withSideBar, authenticated }) 
     {withSideBar && authenticated && (
       <SideBar hasDaos={user && user.hasDaos} role={user && user.role} />
     )}
-    <div className="MainContent">
-      {withHeader && authenticated && <Header />}
+    <div className="mainContent">
+      {withHeader && authenticated && (
+        <div className="mainContent__header">
+          <Header />
+        </div>
+      )}
       <div className="mainContent__content">{children}</div>
     </div>
   </div>

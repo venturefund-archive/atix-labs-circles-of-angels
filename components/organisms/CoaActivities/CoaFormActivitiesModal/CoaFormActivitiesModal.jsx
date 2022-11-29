@@ -5,7 +5,7 @@ import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormIt
 import { ERROR_MESSAGES } from 'constants/constants';
 import { CoaFormItemInput } from 'components/molecules/CoaFormItems/CoaFormItemInput/CoaFormItemInput';
 import { CoaFormItemSelect } from 'components/molecules/CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
-import { onlyAlphanumerics } from 'constants/Regex';
+import { onlyAlphanumerics, ONLY_NUMBERS } from 'constants/Regex';
 import './coa-form-activities-modal.scss';
 import PropTypes from 'prop-types';
 
@@ -107,7 +107,7 @@ export const CoaFormActivitiesModalContent = ({
           initialValue: initialData?.budget,
           rules: [
             {
-              type: 'number',
+              pattern: ONLY_NUMBERS,
               message: ERROR_MESSAGES.NUMBER
             }
           ]

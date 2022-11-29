@@ -1,8 +1,14 @@
+@import 'css/_variables.scss';
+
 .mainContent {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  flex-direction: column;
+  &__header {
+    height: $header-height;
+  }
   &__content {
-    height: 92vh;
-    display: grid;
-    grid-template-rows: auto 5rem;
-    position: relative;
+    height: calc(100vh - #{$header-height});
   }
 }

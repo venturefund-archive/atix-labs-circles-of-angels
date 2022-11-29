@@ -11,7 +11,7 @@ export const CoaTextButton = ({ children, disabled, className, variant, ...rest 
     className={classNames('customTextButton', {
       '--disabled': disabled,
       [`--${variant}`]: variant,
-      className
+      [className]: Boolean(className)
     })}
     {...rest}
   >

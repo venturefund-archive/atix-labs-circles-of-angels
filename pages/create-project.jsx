@@ -8,9 +8,9 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { message } from 'antd';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { Icon, message } from 'antd';
+import { useHistory, useParams } from 'react-router';
 import './_createproject.scss';
 import './_style.scss';
 import { AssignProjectUsers } from 'components/organisms/AssignProjectUsers/AssignProjectUsers';
@@ -22,10 +22,18 @@ import {
   getProjectUsersPerRol
 } from 'helpers/modules/projectUsers';
 import { CoaMilestonesView } from 'components/organisms/CoaMilestones/CoaMilestonesView/CoaMilestonesView';
-import CreateProject from '../components/organisms/CreateProject/CreateProject';
-import { PROJECT_FORM_NAMES } from '../constants/constants';
+import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
+import ModalProjectCreated from 'components/organisms/ModalProjectCreated/ModalProjectCreated';
+import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import ModalConfirmProjectPublish from 'components/organisms/ModalConfirmProjectPublish/ModalConfirmProjectPublish';
+import ModalConfirmWithSK from 'components/organisms/ModalConfirmWithSK/ModalConfirmWithSK';
+import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalPublishLoading';
+import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
+import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, sendToReview, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
+import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
 const wizards = {
   main: CreateProject,
@@ -37,8 +45,11 @@ const wizards = {
 
 const CreateProjectContainer = () => {
   const history = useHistory();
+  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
-  const [formValues, setFormValues] = useState({});
+  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
+  const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
     thumbnails: false,
@@ -47,32 +58,7 @@ const CreateProjectContainer = () => {
     milestones: false
   });
 
-  const id = history.location.pathname.split('/').pop();
-
-  const fetchProject = useCallback(
-    async projectId => {
-      const response = await getProject(projectId);
-      if (response.errors || !response.data) {
-        message.error('An error occurred while fetching the project');
-        goToMyProjects();
-        return;
-      }
-      const { data } = response;
-      const thumbnailsData = {
-        projectName: data.projectName,
-        timeframe: data.timeframe,
-        timeframeUnit: 'months',
-        goalAmount: data.goalAmount,
-        cardPhotoPath: data.cardPhotoPath,
-        location: data.location
-      };
-
-      submitForm(PROJECT_FORM_NAMES.THUMBNAILS, thumbnailsData);
-      setProject({ ...data, id });
-      await checkStepsStatus(data);
-    },
-    [history]
-  );
+  const { projectId } = useParams();
 
   const checkStepsStatus = async projectToCheck => {
     const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
@@ -102,19 +88,19 @@ const CreateProjectContainer = () => {
     setCompletedSteps(stepsStatus);
   };
 
-  const submitForm = useCallback((formKey, values) => updateFormValues(values, formKey));
-
-  const updateFormValues = (values, formKey) => {
-    const newFormValues = { ...formValues };
-    newFormValues[formKey] = values;
-    setFormValues(newFormValues);
+  const handleGoBack = async ({ withUpdate } = { withUpdate: false }) => {
+    if (withUpdate) await fetchProject();
+    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
   };
 
-  const successCallback = async (res, successMsg) => {
-    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
-    await fetchProject(res.projectId);
-    message.success(successMsg || 'Saved successfully');
-    return res;
+  const successCallback = async onSubmit => {
+    try {
+      await onSubmit?.();
+      await handleGoBack({ withUpdate: true });
+      message.success('Saved successfully');
+    } catch (error) {
+      errorCallback(error);
+    }
   };
 
   // TODO validate with UX team
@@ -141,40 +127,129 @@ const CreateProjectContainer = () => {
         return;
       }
       message.success('Your project was successfully deleted!');
-      goToMyProjects(); // or to project detail?
+      goToMyProjects();
     }
+  };
+
+  const publishProject = async () => {
+    setSecretKeyVisible(false);
+    setLoadinModalVisible(true);
+    const { errors } = await sendToReview();
+    if (!errors) {
+      message.error(errors);
+      setLoadinModalVisible(false);
+      return;
+    }
+    setLoadinModalVisible(false);
+    setSuccessModalVisible(true);
   };
 
   const goToMyProjects = () => history.push('/my-projects');
 
+  const fetchProject = async () => {
+    const response = await getProject(projectId);
+    if (response.errors || !response.data) {
+      message.error('An error occurred while fetching the project');
+      goToMyProjects();
+    }
+    const { data } = response;
+    setProject({ ...data });
+    await checkStepsStatus(data);
+  };
+
   useEffect(() => {
-    if (id) fetchProject(id);
-  }, [id, fetchProject]);
+    fetchProject();
+  }, []);
 
   const CurrentComponent = wizards[currentWizard];
   const props = {};
 
   if (currentWizard === PROJECT_FORM_NAMES.MAIN) props.completedSteps = completedSteps;
 
-  const handleGoBack = async ({ withUpdate } = { withUpdate: false }) => {
-    if (withUpdate) await fetchProject(project.id);
-    setCurrentWizard(PROJECT_FORM_NAMES.MAIN);
+  const status = project?.status;
+
+  const isMainWizardActive = currentWizard === PROJECT_FORM_NAMES.MAIN;
+
+  const getFinishButton = onSubmit => {
+    if (status === projectStatuses.CONSENSUS) return;
+    const disabled =
+      isMainWizardActive && Object.values(completedSteps).some(completed => !completed);
+
+    return (
+      <CoaButton
+        type="primary"
+        onClick={() => (isMainWizardActive ? publishProject : successCallback(onSubmit))}
+        disabled={disabled}
+      >
+        {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
+      </CoaButton>
+    );
+  };
+
+  const getContinueLaterButton = () => {
+    if (!isMainWizardActive) return;
+    return <CoaTextButton onClick={goToMyProjects}>Save & Continue Later</CoaTextButton>;
+  };
+
+  const getPrevButton = () => {
+    const onPrevOnClick = {
+      [PROJECT_FORM_NAMES.DETAILS]: () => handleGoBack(),
+      [PROJECT_FORM_NAMES.MAIN]: () => askDeleteConfirmation(),
+      [PROJECT_FORM_NAMES.MILESTONES]: () => handleGoBack({ withUpdate: true }),
+      [PROJECT_FORM_NAMES.PROPOSAL]: () => handleGoBack({ withUpdate: true }),
+      [PROJECT_FORM_NAMES.THUMBNAILS]: () => handleGoBack()
+    };
+    return (
+      <CoaButton
+        type="secondary"
+        icon={isMainWizardActive ? 'delete' : 'arrow-left'}
+        onClick={onPrevOnClick[currentWizard]}
+      >
+        {isMainWizardActive ? 'Delete Project' : 'Back'}
+      </CoaButton>
+    );
+  };
+
+  const goToNextModal = (currentModal, nextModal) => {
+    currentModal(false);
+    nextModal(true);
   };
 
   // TODO add loading when "isSubmitting"
   return (
-    <CurrentComponent
-      project={project}
-      setCurrentWizard={setCurrentWizard}
-      goBack={handleGoBack}
-      onError={errorCallback}
-      onSuccess={successCallback}
-      submitForm={submitForm}
-      goToMyProjects={goToMyProjects}
-      sendToReview={sendProjectToReview}
-      deleteProject={askDeleteConfirmation}
-      {...props}
-    />
+    <>
+      <div className="p-createProject__container">
+        <CurrentComponent
+          project={project}
+          setCurrentWizard={setCurrentWizard}
+          goToMyProjects={goToMyProjects}
+          Footer={({ errors, onSubmit } = {}) => (
+            <FooterButtons
+              errors={errors}
+              className="p-createProject__footerButtons"
+              finishButton={getFinishButton(onSubmit)}
+              nextStepButton={getContinueLaterButton()}
+              prevStepButton={getPrevButton()}
+            >
+              <ModalProjectCreated />
+            </FooterButtons>
+          )}
+          {...props}
+        />
+      </div>
+      <ModalConfirmProjectPublish
+        visible={confirmPublishVisible}
+        onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
+        onCancel={() => setSecretKeyVisible(false)}
+      />
+      <ModalConfirmWithSK
+        visible={secretKeyVisible}
+        setVisible={setSecretKeyVisible}
+        onSuccess={publishProject}
+      />
+      <ModalPublishLoading visible={loadingModalVisible} />
+      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
+    </>
   );
 };
 export default CreateProjectContainer;

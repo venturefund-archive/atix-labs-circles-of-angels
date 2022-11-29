@@ -14,17 +14,15 @@ import { onlyAlphanumerics } from 'constants/Regex';
 import { CURRENCIES, ERROR_TYPES, MB_FACTOR_CONVERTER } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
-import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import _ from 'lodash';
 import { getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
-import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
-import Styles from './form-project-detail.module.scss';
+import './form-project-detail.module.scss';
 import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
 
-const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError }) => {
+const FormProjectDetailContent = ({ form, project, Footer }) => {
   const { setFieldsValue, getFieldsError } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
@@ -50,43 +48,38 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
     }
   }, [currencyType]);
 
-  const submit = e => {
-    e.preventDefault();
-    form.validateFields((err, values) => {
-      if (!err) {
-        const {
-          projectProposalFile: _projectProposalFile,
-          legalAgreementFile: _legalAgreementFile,
-          ...restValues
-        } = values;
-        const valuesProcessed = {
-          ...restValues
-        };
+  const onSubmit = () =>
+    new Promise((resolve, reject) => {
+      form.validateFields(async (err, values) => {
+        if (!err) {
+          const {
+            projectProposalFile: _projectProposalFile,
+            legalAgreementFile: _legalAgreementFile,
+            ...restValues
+          } = values;
+          const valuesProcessed = {
+            ...restValues
+          };
 
-        if (_projectProposalFile) valuesProcessed.projectProposalFile = _projectProposalFile.file;
-        if (_legalAgreementFile) valuesProcessed.legalAgreementFile = _legalAgreementFile.file;
+          if (_projectProposalFile) valuesProcessed.projectProposalFile = _projectProposalFile.file;
+          if (_legalAgreementFile) valuesProcessed.legalAgreementFile = _legalAgreementFile.file;
 
-        const formData = new FormData();
+          const formData = new FormData();
 
-        Object.keys(valuesProcessed).forEach(key => {
-          formData.append(key, valuesProcessed[key]);
-        });
+          Object.keys(valuesProcessed).forEach(key => {
+            formData.append(key, valuesProcessed[key]);
+          });
 
-        updateProjectProcess(project.id, formData);
-      }
+          const response = await updateProjectDetail(project?.id, formData);
+
+          if (response.errors) {
+            return reject(response.errors);
+          }
+
+          resolve();
+        }
+      });
     });
-  };
-
-  const updateProjectProcess = async (projectId, formData) => {
-    const response = await updateProjectDetail(projectId, formData);
-
-    if (response.errors) {
-      return onError(response.errors);
-    }
-
-    onSuccess(response.data);
-    goBack();
-  };
 
   const validateFileSize = (_rule, value, callback) => {
     if (value?.file.size === 'removed') return callback();
@@ -134,7 +127,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
     <>
       <div className="formProjectDetail__content">
         <TitlePage textTitle="Complete Project's Details" />
-        <Form onSubmit={submit} className="formProjectDetail__content__form">
+        <Form className="formProjectDetail__content__form">
           <div className="formProjectDetail__content__form__row">
             <CoaFormItemTextArea
               form={form}
@@ -407,19 +400,7 @@ const FormProjectDetailContent = ({ form, onSuccess, goBack, project, onError })
           </div>
         </Form>
       </div>
-      <FooterButtons
-        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
-        prevStepButton={(() => (
-          <CoaButton onClick={goBack} type="secondary">
-            <Icon type="arrow-left" /> Back
-          </CoaButton>
-        ))()}
-        nextStepButton={(() => (
-          <CoaButton type="primary" onClick={submit} className={Styles.form__footer}>
-            Save and continue
-          </CoaButton>
-        ))()}
-      />
+      {Footer({ errors: getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY]), onSubmit })}
     </>
   );
 };
@@ -429,12 +410,11 @@ export const FormProjectDetail = Form.create({ name: 'FormProjectDetail' })(
 );
 
 FormProjectDetailContent.defaultProps = {
-  form: () => undefined
+  form: () => undefined,
+  Footer: undefined
 };
 
 FormProjectDetailContent.propTypes = {
-  onSuccess: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
   project: PropTypes.shape({
     details: PropTypes.shape({
       problemAddressed: PropTypes.string,
@@ -444,6 +424,6 @@ FormProjectDetailContent.propTypes = {
       additionalCurrencyInformation: PropTypes.string
     })
   }).isRequired,
-  onError: PropTypes.func.isRequired,
-  form: PropTypes.objectOf(PropTypes.any)
+  form: PropTypes.objectOf(PropTypes.any),
+  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };

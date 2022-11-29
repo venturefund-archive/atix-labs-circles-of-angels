@@ -11,9 +11,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Icon } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import './assign-project-users.scss';
-import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import _ from 'lodash';
 import { getCountries } from 'api/countriesApi';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
@@ -27,7 +25,7 @@ import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
-export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
+export const AssignProjectUsers = ({ project, onError, Footer }) => {
   const [countries, setCountries] = useState({});
   const [hasPendingUsers, setHasPendingUsers] = useState(false);
 
@@ -55,11 +53,6 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
     });
     setHasPendingUsers(projectHasAnyUserWithoutFirstLogin);
   }, [initialBeneficiariesUserData, initialAuditorsUserData, initialInvestorsUserData]);
-
-  const handleSubmitAssign = () => {
-    onSuccess({ projectId: project?.id });
-    goBack();
-  };
 
   const onRemove = k => {
     if (currentAuditorsElements.length === 1) {
@@ -204,27 +197,16 @@ export const AssignProjectUsers = ({ onSuccess, goBack, project, onError }) => {
           </div>
         ))}
       </div>
-      <FooterButtons
-        prevStepButton={(() => (
-          <CoaButton type="secondary" onClick={() => goBack({ withUpdate: true })}>
-            <Icon type="arrow-left" /> Back
-          </CoaButton>
-        ))()}
-        nextStepButton={(() => (
-          <div className="footerButtonsContainer__right">
-            <CoaButton type="primary" onClick={handleSubmitAssign}>
-              Save and continue
-            </CoaButton>
-          </div>
-        ))()}
-      />
+      {Footer()}
     </>
   );
 };
 
+AssignProjectUsers.defaultProps = {
+  Footer: undefined
+};
+
 AssignProjectUsers.propTypes = {
-  onSuccess: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
   project: PropTypes.shape({
     details: PropTypes.shape({
       problemAddressed: PropTypes.string,
@@ -234,5 +216,6 @@ AssignProjectUsers.propTypes = {
       additionalCurrencyInformation: PropTypes.string
     })
   }).isRequired,
-  onError: PropTypes.func.isRequired
+  onError: PropTypes.func.isRequired,
+  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };

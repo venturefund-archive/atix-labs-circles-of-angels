@@ -1,5 +1,17 @@
 @import '../css/general_styling.scss';
 
+.p-createProject {
+  &__container {
+    display: grid;
+    grid-template-rows: auto 5rem;
+    height: 100%;
+  }
+  &__footerButtons {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
 .HtmlEditor {
   .quill {
     display: flex;

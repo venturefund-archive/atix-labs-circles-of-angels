@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Icon, message } from 'antd';
+import React from 'react';
+import { Breadcrumb } from 'antd';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
-import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
-import FooterButtons from '../FooterButtons/FooterButtons';
-import ModalProjectCreated from '../ModalProjectCreated/ModalProjectCreated';
 import TitlePage from '../../atoms/TitlePage/TitlePage';
 import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constants';
 import './_style.scss';
-import ModalConfirmProjectPublish from '../ModalConfirmProjectPublish/ModalConfirmProjectPublish';
-import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
-import ModalPublishSuccess from '../ModalPublishSuccess/ModalPublishSuccess';
-import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <div className="createProject__content__steps__step">
@@ -37,69 +30,9 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   </div>
 );
 
-const CreateProject = ({
-  project,
-  setCurrentWizard,
-  goToMyProjects,
-  sendToReview,
-  completedSteps,
-  deleteProject
-}) => {
-  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
-  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
-  const [loadingModalVisible, setLoadinModalVisible] = useState(false);
-  const [successModalVisible, setSuccessModalVisible] = useState(false);
-
+const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) => {
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
-
-  const getContinueLaterButton = () => (
-    <CoaTextButton onClick={goToMyProjects}>{getContinueLaterLabel()}</CoaTextButton>
-  );
-
-  const getContinueLaterLabel = () => {
-    if (anyStepCompleted()) {
-      return status === projectStatuses.CONSENSUS ? 'Save changes' : 'Save & Continue later';
-    }
-    return 'Go back';
-  };
-
-  const goToNextModal = (currentModal, nextModal) => {
-    currentModal(false);
-    nextModal(true);
-  }
-
-  const anyStepCompleted = () => Object.values(completedSteps).some(completed => completed);
-
-  const sendToReviewButton = () => {
-    if (status === projectStatuses.CONSENSUS) return;
-    const disabled = Object.values(completedSteps).some(completed => !completed);
-
-    return (
-      <CoaButton type="primary" onClick={() => setConfirmPublishVisible(true)} disabled={disabled}>
-        Publish project <Icon type="arrow-right" />
-      </CoaButton>
-    );
-  };
-
-  const publishProject = async () => {
-    setSecretKeyVisible(false);
-    setLoadinModalVisible(true);
-    const { errors } = await sendToReview();
-    if (!errors) {
-      message.error(errors);
-      setLoadinModalVisible(false);
-      return;
-    }
-    setLoadinModalVisible(false);
-    setSuccessModalVisible(true);
-  }
-
-  const deleteProjectButton = () => (
-    <CoaButton type="secondary" icon="delete" onClick={deleteProject}>
-      Delete Project
-    </CoaButton>
-  );
 
   return (
     <>
@@ -145,25 +78,7 @@ const CreateProject = ({
           />
         </div>
       </div>
-      <FooterButtons
-        finishButton={sendToReviewButton()}
-        nextStepButton={getContinueLaterButton()}
-        prevStepButton={deleteProjectButton()}
-      >
-        <ModalProjectCreated />
-      </FooterButtons>
-      <ModalConfirmProjectPublish
-        visible={confirmPublishVisible}
-        onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
-        onCancel={() => setSecretKeyVisible(false)}
-      />
-      <ModalConfirmWithSK
-        visible={secretKeyVisible}
-        setVisible={setSecretKeyVisible}
-        onSuccess={publishProject}
-      />
-      <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
+      {Footer()}
     </>
   );
 };
@@ -175,14 +90,12 @@ CreateProject.defaultProps = {
     details: false,
     proposal: false,
     milestones: false
-  }
+  },
+  Footer: undefined
 };
 
 CreateProject.propTypes = {
-  deleteProject: PropTypes.func.isRequired,
-  sendToReview: PropTypes.func.isRequired,
   setCurrentWizard: PropTypes.func.isRequired,
-  goToMyProjects: PropTypes.func.isRequired,
   project: PropTypes.shape({
     projectName: PropTypes.string.isRequired
   }),
@@ -191,7 +104,8 @@ CreateProject.propTypes = {
     details: PropTypes.bool,
     proposal: PropTypes.bool,
     milestones: PropTypes.bool
-  })
+  }),
+  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 
 Items.defaultProps = {
