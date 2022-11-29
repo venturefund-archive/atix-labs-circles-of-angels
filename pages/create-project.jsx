@@ -30,6 +30,7 @@ import ModalConfirmProjectPublish from 'components/organisms/ModalConfirmProject
 import ModalConfirmWithSK from 'components/organisms/ModalConfirmWithSK/ModalConfirmWithSK';
 import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalPublishLoading';
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
+import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, publish, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
@@ -45,11 +46,13 @@ const wizards = {
 
 const CreateProjectContainer = () => {
   const history = useHistory();
-  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
+  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
     thumbnails: false,
@@ -130,16 +133,14 @@ const CreateProjectContainer = () => {
   };
 
   const publishProject = async () => {
-    setSecretKeyVisible(false);
-    setLoadinModalVisible(true);
+    goToNextModal(setSecretKeyVisible, setLoadinModalVisible);
+
     const { errors } = await publish(project.id);
-    if (!errors) {
-      message.error(errors);
-      setLoadinModalVisible(false);
-      return;
-    }
-    setLoadinModalVisible(false);
-    setSuccessModalVisible(true);
+
+    goToNextModal(
+      setLoadinModalVisible,
+      errors ? setErrorModalVisible : setSuccessModalVisible
+    );
   };
 
   const goToMyProjects = () => history.push('/my-projects');
@@ -176,7 +177,7 @@ const CreateProjectContainer = () => {
     return (
       <CoaButton
         type="primary"
-        onClick={() => (isMainWizardActive ? publishProject : successCallback(onSubmit))}
+        onClick={() => (isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit))}
         disabled={disabled}
       >
         {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
@@ -238,11 +239,11 @@ const CreateProjectContainer = () => {
       <ModalConfirmProjectPublish
         visible={confirmPublishVisible}
         onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
-        onCancel={() => setSecretKeyVisible(false)}
+        onCancel={() => setConfirmPublishVisible(false)}
       />
       <ModalConfirmWithSK
         visible={secretKeyVisible}
-        setVisible={setSecretKeyVisible}
+        onCancel={() => setSecretKeyVisible(false)}
         onSuccess={publishProject}
       />
       <ModalPublishLoading
@@ -250,7 +251,11 @@ const CreateProjectContainer = () => {
       />
       <ModalPublishSuccess
         visible={successModalVisible}
-        setVisible={setSuccessModalVisible}
+        onCancel={() => setSuccessModalVisible(false)}
+      />
+      <ModalPublishError
+        visible={errorModalVisible}
+        onCancel={() => setErrorModalVisible(false)}
       />
     </>
   );
