@@ -57,14 +57,3 @@ export const generateWalletFromPin = async (pin) => {
     iv
   };
 }
-
-export const encrypt = async (data, key) => {
-    const iv = await crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    let encryptedText = cipher.update(data);
-    encryptedText = Buffer.concat([encryptedText, cipher.final()]);
-    return {
-      encryptedData: encryptedText.toString('hex'),
-      iv: iv.toString('hex')
-    };
-} 

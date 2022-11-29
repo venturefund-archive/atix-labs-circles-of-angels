@@ -1,10 +1,12 @@
+@import 'css/_variables.scss';
+
 .CoaModal {
-  padding: 32px 60px;
+
   &__Paragraph {
     &--centered {
       text-align: center;
     }
-    color: #728099;
+    color: $coa-grey-100;
   }
   &__Primary {
     background: #4C7FF7;
@@ -22,5 +24,12 @@
   }
   .ant-modal-content {
     border-radius: 10px;
+    .ant-form-item-required{
+      color: $coa-grey-100;
+      font-weight: 500;
+      &::before {
+        display: none;
+      }
+    }
   }
 }

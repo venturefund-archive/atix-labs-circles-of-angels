@@ -7,15 +7,15 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Modal } from 'antd';
+import React from 'react';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { Button, Form, Input } from 'antd';
 import './_style.scss';
 import LogoWrapper from '../../atoms/LogoWrapper';
 
-const FormPassword = ({ form, onSubmit }) => {
+const FormPassword = ({ form, onSubmit, visible, setVisible }) => {
   const { getFieldDecorator, getFieldProps } = form;
-  const [modalVisible, setModalVisible] = useState(true)
 
   const submit = () => {
     form.validateFields(err => {
@@ -50,16 +50,14 @@ const FormPassword = ({ form, onSubmit }) => {
   };
 
   return (
-    <Modal
-      visible={modalVisible}
+    <CoaModal
+      visible={visible}
       closable={false}
       mask={false}
       maskClosable={false}
-      onCancel={() => setModalVisible(false)}
-      width="400"
-      className="ModalLogin ResetPassword"
+      onCancel={() => setVisible(false)}
       footer={(
-        <Button className="ant-btn ant-btn-primary" onClick={submit}>
+        <Button className="CoaModal__Primary" onClick={submit}>
           Change password
         </Button>
       )}
@@ -87,7 +85,7 @@ const FormPassword = ({ form, onSubmit }) => {
           })(<Input.Password placeholder="Repeat your new password" />)}
         </Form.Item>
       </Form>
-    </Modal>
+    </CoaModal>
   );
 };
 
@@ -97,7 +95,14 @@ const DynamicFormChangePassword = Form.create({ name: 'FormChangePassword' })(
 
 export default DynamicFormChangePassword;
 
+FormPassword.defaultProps = {
+  visible: false,
+  setVisible: () => undefined
+}
+
 FormPassword.propTypes = {
   form: PropTypes.element.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+  setVisible: PropTypes.func
 };

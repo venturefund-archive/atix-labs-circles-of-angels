@@ -7,51 +7,48 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Button, Modal, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
 import PropTypes from 'prop-types';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const getIdFromPath = () => {
-  const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length - 1];
-};
-
-const ModalPublishSuccess = ({ visible, setVisible }) => {
-  const history = useHistory();
-  const id = getIdFromPath();
-  const projectRoute = `/${id}`;
+const ModalPublishSuccess = ({ visible, onCancel }) => {
+  const { push, location: { pathname } } = useHistory();
+  const id = pathname.split('/').pop();
   return (
-    <Modal
+    <CoaModal
       visible={visible}
-      maskClosable={false}
-      className='CustomModal o-ModalSuccess'
       closable={false}
+      onCancel={onCancel}
       mask
+      maskClosable
       footer={
         <Button
-        className='ant-btn ant-btn-primary'
-        onClick={() => setVisible(false)}
+          className='ant-btn ant-btn-primary CoaModal__Primary'
+          onClick={() => push('/my-projects')}
         >
           Continue
         </Button>}
     >
       <LogoWrapper textTitle='The project has been published' />
 
-      <Typography.Paragraph className='textcenter'>
+      <Typography.Paragraph className='CoaModal__Paragraph--centered'>
         The project has been published successfully. you can see it from here.
       </Typography.Paragraph>
 
-      <Link to={projectRoute}>Project Link</Link>
-    </Modal>
+      <Link className='textcenter' style={{ textAlign: 'center', display: 'block' }} to={`/${id}`}>Project Link</Link>
+    </CoaModal>
   )
 };
 
 ModalPublishSuccess.defaultProps = {
-  visible: false
+  visible: false,
+  onCancel: () => undefined
 }
 ModalPublishSuccess.propTypes = {
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  onCancel: PropTypes.func
 }
 export default ModalPublishSuccess;

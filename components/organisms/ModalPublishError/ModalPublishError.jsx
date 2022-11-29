@@ -12,40 +12,38 @@ import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => (
+const ModalPublishError = ({ visible, onCancel }) => (
   <CoaModal
     visible={visible}
     closable={false}
     onCancel={onCancel}
     mask
     maskClosable
-    footer={[
+    footer={
       <Button
-        className='ant-btn ant-btn-secondary CoaModal__Secondary'
+        className='ant-btn ant-btn-primary CoaModal__Primary'
         onClick={onCancel}
       >
-        No
-      </Button>,
-      <Button className='ant-btn ant-btn-primary CoaModal__Primary' onClick={onSuccess}>
-        yes
-      </Button>
-    ]}
+        Continue
+      </Button>}
   >
-    <LogoWrapper textTitle='Do you want to confirm the creation of the project?' />
-    <Typography style={{ textAlign: 'center' }}>This action cannot be undone</Typography>
-  </CoaModal>
-)
+    <LogoWrapper textTitle='An error ocurred' />
 
-ModalConfirmProjectPublish.defaultProps = {
+    <Typography.Paragraph className='CoaModal__Paragraph--centered'>
+      Try again later
+    </Typography.Paragraph>
+
+  </CoaModal>
+);
+
+ModalPublishError.defaultProps = {
   visible: false,
-  onSuccess: () => undefined,
   onCancel: () => undefined
 }
 
-ModalConfirmProjectPublish.propTypes = {
+ModalPublishError.propTypes = {
   visible: PropTypes.bool,
-  onSuccess: PropTypes.func,
   onCancel: PropTypes.func
 }
 
-export default ModalConfirmProjectPublish
+export default ModalPublishError;

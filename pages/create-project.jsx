@@ -30,8 +30,9 @@ import ModalConfirmProjectPublish from 'components/organisms/ModalConfirmProject
 import ModalConfirmWithSK from 'components/organisms/ModalConfirmWithSK/ModalConfirmWithSK';
 import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalPublishLoading';
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
+import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, sendToReview, deleteProject } from '../api/projectApi';
+import { getProject, publish, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -45,11 +46,13 @@ const wizards = {
 
 const CreateProjectContainer = () => {
   const history = useHistory();
-  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
+  const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
     thumbnails: false,
@@ -107,8 +110,6 @@ const CreateProjectContainer = () => {
   const errorCallback = errorMsg =>
     message.error(errorMsg || 'An error ocurred while saving the information');
 
-  const sendProjectToReview = async () => sendToReview(project.id);
-
   const askDeleteConfirmation = () => {
     if (project && project.id) {
       showModalConfirm(
@@ -132,16 +133,14 @@ const CreateProjectContainer = () => {
   };
 
   const publishProject = async () => {
-    setSecretKeyVisible(false);
-    setLoadinModalVisible(true);
-    const { errors } = await sendToReview();
-    if (!errors) {
-      message.error(errors);
-      setLoadinModalVisible(false);
-      return;
-    }
-    setLoadinModalVisible(false);
-    setSuccessModalVisible(true);
+    goToNextModal(setSecretKeyVisible, setLoadinModalVisible);
+
+    const { errors } = await publish(project.id);
+
+    goToNextModal(
+      setLoadinModalVisible,
+      errors ? setErrorModalVisible : setSuccessModalVisible
+    );
   };
 
   const goToMyProjects = () => history.push('/my-projects');
@@ -178,7 +177,7 @@ const CreateProjectContainer = () => {
     return (
       <CoaButton
         type="primary"
-        onClick={() => (isMainWizardActive ? publishProject : successCallback(onSubmit))}
+        onClick={() => (isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit))}
         disabled={disabled}
       >
         {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
@@ -240,15 +239,24 @@ const CreateProjectContainer = () => {
       <ModalConfirmProjectPublish
         visible={confirmPublishVisible}
         onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
-        onCancel={() => setSecretKeyVisible(false)}
+        onCancel={() => setConfirmPublishVisible(false)}
       />
       <ModalConfirmWithSK
         visible={secretKeyVisible}
-        setVisible={setSecretKeyVisible}
+        onCancel={() => setSecretKeyVisible(false)}
         onSuccess={publishProject}
       />
-      <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
+      <ModalPublishLoading
+        visible={loadingModalVisible}
+      />
+      <ModalPublishSuccess
+        visible={successModalVisible}
+        onCancel={() => setSuccessModalVisible(false)}
+      />
+      <ModalPublishError
+        visible={errorModalVisible}
+        onCancel={() => setErrorModalVisible(false)}
+      />
     </>
   );
 };

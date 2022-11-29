@@ -9,17 +9,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Modal, Spin } from 'antd';
+import { Spin } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import './_style.scss';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
 
 const ModalPublishLoading = ({ visible }) => (
-  <Modal
+  <CoaModal
     visible={visible}
     maskClosable={false}
-    className='CustomModal'
     closable={false}
     mask
     footer={null}
@@ -30,7 +30,7 @@ const ModalPublishLoading = ({ visible }) => (
         <Spin className='o-ModalWrapper__Spin' indicator={antIcon} />
       </div>
     </div>
-  </Modal>
+  </CoaModal>
 )
 
 ModalPublishLoading.defaultProps = {

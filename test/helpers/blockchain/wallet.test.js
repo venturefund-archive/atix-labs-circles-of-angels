@@ -2,9 +2,7 @@ import { Wallet, ethers } from 'ethers';
 import {
   createNewWallet,
   encryptWallet,
-  decryptJsonWallet,
-  generateWalletFromMnemonic,
-  signTransaction
+  decryptJsonWallet
 } from '../../../helpers/blockchain/wallet';
 
 describe('Testing wallet methods', () => {

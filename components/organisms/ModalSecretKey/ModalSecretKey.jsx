@@ -8,12 +8,13 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Modal, Divider, Form, Input } from 'antd';
+import { Typography, Button, Divider, Form, Input } from 'antd';
 import CustomButton from 'components/atoms/CustomButton/CustomButton';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
 import customConfig from 'custom-config';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 const generatePDF = (content) => {
   const doc = jsPDF();
@@ -23,7 +24,6 @@ const generatePDF = (content) => {
 
 function FormModalSecretKey({ form, modalOpen, onSuccess }) {
   const { getFieldDecorator, getFieldProps, validateFields } = form
-  const [first] = useState(false);
   const [pin, setPin] = useState();
   const [doc, setDoc] = useState();
 
@@ -56,12 +56,11 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
   }
 
   return (
-    <Modal
+    <CoaModal
       visible={modalOpen}
       mask={false}
       closable={false}
       maskClosable={false}
-      className={`ChangePasswordSuccess ${first ? 'First' : ''}`}
       footer={(
         <Button
           className="ant-btn ant-btn-primary"
@@ -112,7 +111,7 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
           }
         </Form.Item>
       </Form>
-    </Modal>
+    </CoaModal>
   );
 };
 

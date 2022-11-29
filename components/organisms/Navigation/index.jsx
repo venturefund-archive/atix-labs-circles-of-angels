@@ -49,7 +49,7 @@ const TopBarOptions = ({
 const TopBarNavigation = ({
   onMenuClick,
   setModalOpen,
-  handleLogout = () => {},
+  handleLogout = () => { },
   authenticated = false,
 }) => (
   <Row className="TopBar" type="flex" justify="space-between" align="middle">
@@ -156,19 +156,27 @@ export default Navigation;
 TopBarNavigation.defaultProps = {
   onMenuClick: () => undefined,
   setModalOpen: () => undefined,
+  authenticated: false,
+  handleLogout: () => undefined
 }
 
 TopBarNavigation.propTypes = {
   onMenuClick: PropTypes.func,
   setModalOpen: PropTypes.func,
+  authenticated: PropTypes.bool,
+  handleLogout: PropTypes.func
 }
 
 TopBarOptions.defaultProps = {
   onLoginClick: () => undefined,
+  handleLogout: () => undefined,
+  authenticated: false
 }
 
 TopBarOptions.propTypes = {
-  onLoginClick: PropTypes.func
+  authenticated: PropTypes.bool,
+  onLoginClick: PropTypes.func,
+  handleLogout: PropTypes.func
 }
 
 Navigation.defaultProps = {

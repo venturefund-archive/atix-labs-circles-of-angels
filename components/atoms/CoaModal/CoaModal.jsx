@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
+import PropTypes from 'prop-types';
 import './coa-modal.scss';
 
 export default function CoaModal({
@@ -8,9 +9,25 @@ export default function CoaModal({
   ...rest
 }) {
   return (
-    <Modal className='CoaModal' visible={visible} {...rest}>
+    <Modal
+      bodyStyle={{
+        padding: '32px 60px',
+      }}
+      className='CoaModal'
+      visible={visible} {...rest}
+      closeIcon=''
+    >
       {children}
     </Modal>
   )
 }
 
+CoaModal.defaultProps = {
+  children: null,
+  visible: false
+}
+
+CoaModal.propTypes = {
+  children: PropTypes.element,
+  visible: PropTypes.bool
+}

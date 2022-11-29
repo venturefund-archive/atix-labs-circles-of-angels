@@ -4,19 +4,25 @@ import customConfig from 'custom-config';
 import TitlePage from '../TitlePage/TitlePage';
 import './_style.scss';
 
-const LogoWrapper = ({ textTitle }) => (
-  <div className="LogoWrapper">
-    <img src={customConfig.LOGO_PATH} alt={`${customConfig.name} logo`} />
-    <TitlePage textTitle={textTitle} />
-  </div>
-);
+const LogoWrapper = ({ textTitle, image }) => {
+  const src = image || customConfig.LOGO_PATH;
+
+  return (
+    <div className="LogoWrapper">
+      <img src={src} alt={`${customConfig.NAME} logo`} />
+      <TitlePage textTitle={textTitle} />
+    </div>
+  );
+}
 
 export default LogoWrapper;
 
 LogoWrapper.defaultProps = {
-  textTitle: ''
+  textTitle: '',
+  image: ''
 };
 
 LogoWrapper.propTypes = {
-  textTitle: PropTypes.string
+  textTitle: PropTypes.string,
+  image: PropTypes.string
 };
