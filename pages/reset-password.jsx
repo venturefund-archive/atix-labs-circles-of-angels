@@ -26,14 +26,18 @@ function ResetPassword() {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
-  const [validToken, setValidToken] = useState(false);
+  const [resetModalOpen, setResetModalOpen] = useState(false);
+  const [validToken, setValidToken] = useState(true);
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
 
   const checkTokenStatus = async (_token) => {
     const response = await getTokenStatus(_token);
-    setValidToken(!response.expired && !response.errors);
+    const valid = !response.expired && !response.errors;
+    setValidToken(valid);
+    setResetModalOpen(valid);
   }
+
   useEffect(() => {
     checkTokenStatus(token);
   }, [token]);
@@ -67,7 +71,11 @@ function ResetPassword() {
       {(!successfulUpdate && validToken) && (
         <div>
           <Spin spinning={loading}>
-            <DynamicFormChangePassword onSubmit={updatePassword} />
+            <DynamicFormChangePassword
+              onSubmit={updatePassword}
+              setVisible={setResetModalOpen}
+              visible={resetModalOpen}
+            />
           </Spin>
         </div>
       )}

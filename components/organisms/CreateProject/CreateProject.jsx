@@ -33,7 +33,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
 const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) => {
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
-  
+
   return (
     <>
       <div className="createProject__content">
