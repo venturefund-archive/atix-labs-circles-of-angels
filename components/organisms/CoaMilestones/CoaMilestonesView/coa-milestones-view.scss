@@ -1,6 +1,7 @@
 .o-coaMilestonesContainer {
   padding-inline: 2.56rem;
   padding-block: 2.31rem;
+  overflow-x: hidden;
   &__titleContainer {
     display: flex;
     justify-content: space-between;

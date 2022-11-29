@@ -5,6 +5,8 @@
     display: grid;
     grid-template-rows: auto 5rem;
     height: 100%;
+    position: relative;
+    width: 100%;
   }
   &__footerButtons {
     position: sticky;
