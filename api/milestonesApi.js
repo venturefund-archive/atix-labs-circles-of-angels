@@ -15,14 +15,22 @@ const baseURL = '/milestones';
 export const updateMilestone = (milestoneId, saveData) =>
   doPut(`${baseURL}/${milestoneId}`, saveData);
 
-export const deleteMilestone = milestoneId =>
-  doDelete(`${baseURL}/${milestoneId}`);
+export const deleteMilestone = milestoneId => doDelete(`${baseURL}/${milestoneId}`);
 
 export const createMilestone = (projectId, saveData) =>
   doPost(`/projects/${projectId}${baseURL}`, saveData);
 
-export const claimMilestone = milestoneId =>
-  doPost(`${baseURL}/${milestoneId}/claim`);
+export const claimMilestone = milestoneId => doPost(`${baseURL}/${milestoneId}/claim`);
+
+export const createActivity = async (activity, milestoneId) => {
+  try {
+    const response = api.post(`${baseURL}/${milestoneId}/activities`, activity);
+
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
 
 export const transferredMilestone = (milestoneId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };

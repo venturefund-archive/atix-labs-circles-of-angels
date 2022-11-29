@@ -1,4 +1,5 @@
-@import "../../../css/general_styling.scss";
+@import 'css/general_styling.scss';
+@import 'css/_variables.scss';
 
 .HeaderContainer {
   display: flex;
@@ -8,15 +9,15 @@
   padding: 0.5em 2em 0.5em 0.5em;
   border-bottom: 1px solid $border;
   background-color: $white;
-  height: 8vh;
+  height: $header-height;
   @include breakpoint(sm) {
     justify-content: flex-end;
   }
   .Logo {
     @include breakpoint(sm) {
-      display:none
+      display: none;
     }
-  } 
+  }
   .RightSide {
     display: flex;
     justify-content: flex-end;
@@ -27,7 +28,7 @@
 @media screen and (max-width: 1024px) {
   .HeaderContainer {
     width: 93vw;
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     @include breakpoint(sm) {
@@ -49,7 +50,6 @@
 }
 @media screen and (max-width: 450px) {
   .HeaderContainer {
-
     .RightSide {
       width: 80%;
     }

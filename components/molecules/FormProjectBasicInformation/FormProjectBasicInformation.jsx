@@ -16,13 +16,11 @@ import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
-import FooterButtons from 'components/organisms/FooterButtons/FooterButtons';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
 import { formatCurrency } from 'helpers/formatter';
 import { decimalCount, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import _ from 'lodash';
-import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import projectStatusMap from 'model/projectStatus';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
@@ -32,7 +30,7 @@ import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItem
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemInputNumber } from '../CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
 
-const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, onError }) => {
+const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
   const { getFieldsError } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({
@@ -71,35 +69,27 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
     getAndSetCountriesAvailable();
   }, []);
 
-  const submit = e => {
-    e.preventDefault();
+  const onSubmit = () =>
+    new Promise((resolve, reject) => {
+      form.validateFields(async (err, values) => {
+        if (!err) {
+          const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
+          const valuesProcessed = { ...restValues };
 
-    form.validateFields((err, values) => {
-      if (!err) {
-        const { thumbnailPhoto: _thumbnailPhoto, ...restValues } = values;
-        const valuesProcessed = { ...restValues };
+          if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto?.file;
 
-        if (_thumbnailPhoto) valuesProcessed.thumbnailPhoto = _thumbnailPhoto?.file;
-
-        const formData = new FormData();
-        Object.keys(valuesProcessed).forEach(key => {
-          formData.append(key, valuesProcessed[key]);
-        });
-        updateProjectProcess(project.id, formData);
-      }
+          const formData = new FormData();
+          Object.keys(valuesProcessed).forEach(key => {
+            formData.append(key, valuesProcessed[key]);
+          });
+          const response = await putBasicInformation(project?.id, formData);
+          if (response.errors) {
+            return reject(response.errors);
+          }
+          return resolve();
+        }
+      });
     });
-  };
-
-  const updateProjectProcess = async (projectId, formData) => {
-    const response = await putBasicInformation(projectId, formData);
-
-    if (response.errors) {
-      return onError(response.errors);
-    }
-
-    onSuccess(response.data);
-    goBack();
-  };
 
   const uploadProps = {
     name: 'file',
@@ -233,7 +223,7 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           </div>
         </div>
         <Divider type="vertical" className="formProjectBasicInformation__content__divider" />
-        <Form onSubmit={submit} className="formProjectBasicInformation__content__right">
+        <Form className="formProjectBasicInformation__content__right">
           <CoaFormItemInput
             withErrorFeedback
             name="projectName"
@@ -410,24 +400,10 @@ const FormProjectBasicInformationContent = ({ form, onSuccess, goBack, project, 
           />
         </Form>
       </div>
-
-      <FooterButtons
-        prevStepButton={(() => (
-          <CoaButton onClick={goBack} type="secondary">
-            <Icon type="arrow-left" /> Back
-          </CoaButton>
-        ))()}
-        errors={getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])}
-        nextStepButton={(() => (
-          <CoaButton
-            onClick={submit}
-            className="formProjectBasicInformation__footer"
-            type="primary"
-          >
-            Save and continue
-          </CoaButton>
-        ))()}
-      />
+      {Footer({
+        onSubmit,
+        errors: getErrorMessagesFields(getFieldsError(), [ERROR_TYPES.EMPTY])
+      })}
     </>
   );
 };
@@ -437,12 +413,11 @@ export const FormProjectBasicInformation = Form.create({
 })(FormProjectBasicInformationContent);
 
 FormProjectBasicInformationContent.defaultProps = {
-  form: () => undefined
+  form: () => undefined,
+  Footer: undefined
 };
 
 FormProjectBasicInformationContent.propTypes = {
-  onSuccess: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
   form: PropTypes.objectOf(PropTypes.any),
   project: PropTypes.shape({
     details: PropTypes.shape({
@@ -453,5 +428,5 @@ FormProjectBasicInformationContent.propTypes = {
       additionalCurrencyInformation: PropTypes.string
     })
   }).isRequired,
-  onError: PropTypes.func.isRequired
+  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };

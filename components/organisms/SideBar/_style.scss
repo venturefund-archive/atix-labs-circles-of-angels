@@ -1,4 +1,5 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
+@import 'css/_variables.scss';
 
 .SideBar {
   background-color: $white;
@@ -7,14 +8,13 @@
   width: 5vw;
 }
 .logo {
-  height: 60px;
+  height: $header-height;
   display: flex;
   justify-content: center;
   cursor: pointer;
   position: absolute;
   width: 62px;
-  background:$white;
-  height:8vh;
+  background: $white;
   border-bottom: 1px solid $border;
   background: #4c7ff7;
   img {
@@ -41,11 +41,11 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 7.78vh;
-    border-top: 1px solid #E5E6ED; 
+    margin-top: $header-height;
+    border-top: 1px solid #e5e6ed;
     @include breakpoint(sm) {
       margin-top: 0;
-      border-top: none; 
+      border-top: none;
     }
   }
   li.ant-menu-item {
@@ -58,17 +58,18 @@
     img {
       padding: 0.4em 1.2em;
       border-right: 2px solid transparent;
-      opacity: 0.4
+      opacity: 0.4;
     }
   }
 }
-.ant-menu-item{
-  display:flex;
- justify-content: center;
- align-items:center;
+.ant-menu-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.ant-menu-item .anticon, .ant-menu-submenu-title .anticon{
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
   min-width: 100%;
   margin-right: 0;
   font-size: 22px;
@@ -81,7 +82,7 @@
 .ant-menu.ant-menu-dark .ant-menu-item-selected,
 .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
   background: $white;
-  img{
+  img {
     border-right: 2px solid $primary-color;
     opacity: 1;
   }
@@ -94,7 +95,6 @@
 }
 
 @media screen and (max-width: 770px) {
-
   .ant-layout-sider {
     z-index: 200;
   }
