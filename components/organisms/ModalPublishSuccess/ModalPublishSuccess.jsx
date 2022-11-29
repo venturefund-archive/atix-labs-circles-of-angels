@@ -20,10 +20,10 @@ const ModalPublishSuccess = ({ visible, onCancel }) => {
   return (
     <CoaModal
       visible={visible}
-      maskClosable={true}
       closable={false}
       onCancel={onCancel}
       mask
+      maskClosable
       footer={
         <Button
           className='ant-btn ant-btn-primary CoaModal__Primary'
@@ -44,9 +44,11 @@ const ModalPublishSuccess = ({ visible, onCancel }) => {
 };
 
 ModalPublishSuccess.defaultProps = {
-  visible: false
+  visible: false,
+  onCancel: () => undefined
 }
 ModalPublishSuccess.propTypes = {
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  onCancel: PropTypes.func
 }
 export default ModalPublishSuccess;

@@ -9,50 +9,41 @@
 import React from 'react';
 import { Button, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
-import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const getIdFromPath = () => {
-  const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length - 1];
-};
+const ModalPublishError = ({ visible, onCancel }) => (
+  <CoaModal
+    visible={visible}
+    closable={false}
+    onCancel={onCancel}
+    mask
+    maskClosable
+    footer={
+      <Button
+        className='ant-btn ant-btn-primary CoaModal__Primary'
+        onClick={onCancel}
+      >
+        Continue
+      </Button>}
+  >
+    <LogoWrapper textTitle='An error ocurred' />
 
-const ModalPublishError = ({ visible, onCancel }) => {
-  const history = useHistory();
-  const id = getIdFromPath();
-  const projectRoute = `/${id}`;
-  return (
-    <CoaModal
-      visible={visible}
-      maskClosable={true}
-      closable={false}
-      onCancel={onCancel}
-      mask
-      footer={
-        <Button
-          className='ant-btn ant-btn-primary CoaModal__Primary'
-          onClick={onCancel}
-        >
-          Continue
-        </Button>}
-    >
-      <LogoWrapper textTitle='An error ocurred' />
+    <Typography.Paragraph className='CoaModal__Paragraph--centered'>
+      Try again later
+    </Typography.Paragraph>
 
-      <Typography.Paragraph className='CoaModal__Paragraph--centered'>
-        Try again later
-      </Typography.Paragraph>
-
-    </CoaModal>
-  )
-};
+  </CoaModal>
+);
 
 ModalPublishError.defaultProps = {
   visible: false,
   onCancel: () => undefined
 }
+
 ModalPublishError.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func
 }
+
 export default ModalPublishError;

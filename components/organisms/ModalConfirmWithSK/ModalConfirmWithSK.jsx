@@ -11,7 +11,7 @@ import React, {
   useEffect,
   useContext,
 } from 'react';
-import { Button, Modal, Typography, Form, Input } from 'antd';
+import { Button, Typography, Form, Input } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import { UserContext } from 'components/utils/UserContext';
@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
-  const { getFieldDecorator, getFieldProps, validateFields } = form;
+  const { getFieldDecorator, validateFields } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
 
@@ -69,10 +69,10 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
   return (
     <CoaModal
       visible={visible}
-      maskClosable={true}
       closable={false}
       onCancel={onCancel}
       mask
+      maskClosable
       footer={[
         <Button className='ant-btn ant-btn-primary CoaModal__Primary' onClick={submit}>
           Continue
@@ -118,14 +118,14 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
 FormModalConfirmWithSK.defaultProps = {
   form: null,
   visible: false,
-  setVisible: () => undefined,
+  onCancel: () => undefined,
   onSuccess: () => undefined
 }
 
 FormModalConfirmWithSK.propTypes = {
   form: PropTypes.element,
   visible: PropTypes.bool,
-  setVisible: PropTypes.func,
+  onCancel: PropTypes.func,
   onSuccess: PropTypes.func
 }
 const ModalConfirmWithSK = Form.create({ name: 'FormConfirmWithSK' })(FormModalConfirmWithSK)

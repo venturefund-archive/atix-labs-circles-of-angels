@@ -12,7 +12,7 @@ import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel}) => (
+const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => (
   <CoaModal
     visible={visible}
     closable={false}

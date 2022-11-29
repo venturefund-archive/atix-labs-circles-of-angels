@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
+import PropTypes from 'prop-types';
 import './coa-modal.scss';
 
 export default function CoaModal({
@@ -21,3 +22,12 @@ export default function CoaModal({
   )
 }
 
+CoaModal.defaultProps = {
+  children: null,
+  visible: false
+}
+
+CoaModal.propTypes = {
+  children: PropTypes.element,
+  visible: PropTypes.bool
+}
