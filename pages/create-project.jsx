@@ -77,12 +77,15 @@ const CreateProjectContainer = () => {
       auditors
     });
 
+    const hasAMilestoneWithActivity = milestones?.some(
+      milestone => milestone?.activities?.length > 0
+    );
+
     const stepsStatus = {
       thumbnails: basicInformation?.location,
-      details:
-        details?.mission && details?.problemAddressed && details?.currency && details?.currencyType,
+      details: details?.mission,
       proposal: projectHasAllUsersRoles && projectHasAllUsersWithFirstLogin,
-      milestones: milestones?.length > 0
+      milestones: hasAMilestoneWithActivity
     };
 
     setCompletedSteps(stepsStatus);
