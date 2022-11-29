@@ -10,13 +10,18 @@ import React from 'react';
 import { Button, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import { Link, useHistory } from 'react-router-dom';
-import './_style.scss';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const ModalPublishSuccess = ({ visible, onCancel }) => {
-  const { push, location: { pathname } } = useHistory();
-  const id = pathname.split('/').pop();
+const getIdFromPath = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+};
+
+const ModalPublishError = ({ visible, onCancel }) => {
+  const history = useHistory();
+  const id = getIdFromPath();
+  const projectRoute = `/${id}`;
   return (
     <CoaModal
       visible={visible}
@@ -27,26 +32,27 @@ const ModalPublishSuccess = ({ visible, onCancel }) => {
       footer={
         <Button
           className='ant-btn ant-btn-primary CoaModal__Primary'
-          onClick={() => push('/my-projects')}
+          onClick={onCancel}
         >
           Continue
         </Button>}
     >
-      <LogoWrapper textTitle='The project has been published' />
+      <LogoWrapper textTitle='An error ocurred' />
 
       <Typography.Paragraph className='CoaModal__Paragraph--centered'>
-        The project has been published successfully. you can see it from here.
+        Try again later
       </Typography.Paragraph>
 
-      <Link className='textcenter' style={{ textAlign: 'center', display: 'block' }} to={`/${id}`}>Project Link</Link>
     </CoaModal>
   )
 };
 
-ModalPublishSuccess.defaultProps = {
-  visible: false
+ModalPublishError.defaultProps = {
+  visible: false,
+  onCancel: () => undefined
 }
-ModalPublishSuccess.propTypes = {
-  visible: PropTypes.bool
+ModalPublishError.propTypes = {
+  visible: PropTypes.bool,
+  onCancel: PropTypes.func
 }
-export default ModalPublishSuccess;
+export default ModalPublishError;

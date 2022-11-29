@@ -7,17 +7,18 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Button, Modal, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => (
+const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel}) => (
   <CoaModal
     visible={visible}
-    maskClosable={false}
     closable={false}
+    onCancel={onCancel}
     mask
+    maskClosable
     footer={[
       <Button
         className='ant-btn ant-btn-secondary CoaModal__Secondary'

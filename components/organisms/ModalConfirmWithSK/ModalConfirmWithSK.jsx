@@ -12,7 +12,7 @@ import React, {
   useContext,
 } from 'react';
 import { Button, Modal, Typography, Form, Input } from 'antd';
-import { getWallet } from 'api/userApi';
+import { getWallet, loginUser } from 'api/userApi';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
@@ -20,7 +20,7 @@ import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
+function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
   const { getFieldDecorator, getFieldProps, validateFields } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
@@ -36,7 +36,7 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
     setUserWallet();
   }, []);
 
-  const validPinAndPassword = async (_rule, value, callback) => {
+  const validPin = async (_rule, value, callback) => {
     try {
       const key = `${value}-${keySuffix}`;
       await decryptJsonWallet(wallet, key)
@@ -44,6 +44,14 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
     } catch (e) {
       callback(e)
     }
+  }
+  const validPassword = async (_rule, value, callback) => {
+    const { email } = user;
+    const res = await loginUser(email, value)
+    if (res.errors) {
+      callback('Invalid password')
+    }
+    callback()
   }
 
   const submit = () => {
@@ -62,7 +70,8 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
     <CoaModal
       visible={visible}
       maskClosable={true}
-      closable={true}
+      closable={false}
+      onCancel={onCancel}
       mask
       footer={[
         <Button className='ant-btn ant-btn-primary CoaModal__Primary' onClick={submit}>
@@ -82,6 +91,9 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
                 required: true,
                 message: 'Please input your password'
               },
+              {
+                validator: validPassword
+              }
             ]
           })(<Input.Password placeholder='Enter your password' />)}
         </Form.Item>
@@ -93,10 +105,10 @@ function FormModalConfirmWithSK({ form, visible, setVisible, onSuccess }) {
                 message: 'Please input your secret key'
               },
               {
-                validator: validPinAndPassword
+                validator: validPin
               }
             ]
-          })(<Input.Password placeholder='Enter your password' name='pin'/>)}
+          })(<Input.Password placeholder='Enter your password' name='pin' />)}
         </Form.Item>
       </Form>
     </CoaModal>

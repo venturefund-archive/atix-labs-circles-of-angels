@@ -31,7 +31,7 @@ import ModalConfirmWithSK from 'components/organisms/ModalConfirmWithSK/ModalCon
 import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalPublishLoading';
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
 import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, sendToReview, deleteProject } from '../api/projectApi';
+import { getProject, publish, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -107,8 +107,6 @@ const CreateProjectContainer = () => {
   const errorCallback = errorMsg =>
     message.error(errorMsg || 'An error ocurred while saving the information');
 
-  const sendProjectToReview = async () => sendToReview(project.id);
-
   const askDeleteConfirmation = () => {
     if (project && project.id) {
       showModalConfirm(
@@ -134,7 +132,7 @@ const CreateProjectContainer = () => {
   const publishProject = async () => {
     setSecretKeyVisible(false);
     setLoadinModalVisible(true);
-    const { errors } = await sendToReview();
+    const { errors } = await publish(project.id);
     if (!errors) {
       message.error(errors);
       setLoadinModalVisible(false);
@@ -247,8 +245,13 @@ const CreateProjectContainer = () => {
         setVisible={setSecretKeyVisible}
         onSuccess={publishProject}
       />
-      <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishSuccess visible={successModalVisible} setVisible={setSuccessModalVisible} />
+      <ModalPublishLoading
+        visible={loadingModalVisible}
+      />
+      <ModalPublishSuccess
+        visible={successModalVisible}
+        setVisible={setSuccessModalVisible}
+      />
     </>
   );
 };
