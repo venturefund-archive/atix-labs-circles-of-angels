@@ -9,18 +9,20 @@ import ModalSecretKey from 'components/organisms/ModalSecretKey/ModalSecretKey';
 import Navigation from 'components/organisms/Navigation';
 import { UserContext } from 'components/utils/UserContext';
 import { generateWalletFromPin } from 'helpers/blockchain/wallet';
-
-
 import ModalSKSuccess from 'components/organisms/ModalSKSucess/ModalSKSuccess';
+import ModalSecretKeyLoading from 'components/organisms/ModalSecretKeyLoading/ModalSecretKeyLoading';
 
 function SecretKey() {
   const [modalOpen, setModalOpen] = useState(true);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const { user } = useContext(UserContext);
 
   const history = useHistory()
 
   const savePin = async (pin) => {
+    setModalOpen(false);
+    setLoadingModalOpen(true)
     const success = await setPin();
 
     // Wallet generated only after pin validation
@@ -33,6 +35,7 @@ function SecretKey() {
       setModalOpen(false);
       setSuccessModalOpen(true);
     }
+    setLoadingModalOpen(false)
   }
 
   const redirect = () => {
@@ -59,6 +62,7 @@ function SecretKey() {
         visible={successModalOpen}
         onSuccess={redirect}
       />
+      <ModalSecretKeyLoading visible={loadingModalOpen} />
     </BackgroundLanding>
   );
 }
