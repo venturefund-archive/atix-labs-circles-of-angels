@@ -2,11 +2,11 @@
 @import 'css/mixins/_fonts.scss';
 
 .o-coaIndicatorsCard {
-  border-radius: 30px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  -ms-border-radius: 30px;
-  -o-border-radius: 30px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
   overflow: hidden;
   &__collapse {
     background: $coa-white-100;
@@ -23,6 +23,14 @@
     align-items: center;
     &__title {
       @include primary-text(1.125rem, $coa-medium-gray-100, 400);
+    }
+    &__icon {
+      color: $coa-medium-gray-100;
+    }
+    &__left {
+      display: flex;
+      align-items: center;
+      column-gap: 0.4rem;
     }
   }
   &__divider {

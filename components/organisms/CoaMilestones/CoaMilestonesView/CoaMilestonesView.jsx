@@ -49,7 +49,13 @@ export const CoaMilestonesView = ({ project, Footer }) => {
     }
     setMilestones([
       ...milestones,
-      { ...newMilestone, id: data?.milestoneId, activities: [], budget: '0' }
+      {
+        ...newMilestone,
+        id: data?.milestoneId,
+        activities: [],
+        budget: '0',
+        areActivitiesOpen: false
+      }
     ]);
     message.success('Milestone created!');
   };
@@ -128,6 +134,8 @@ export const CoaMilestonesView = ({ project, Footer }) => {
       0
     );
     milestoneFound.budget = totalBudget;
+
+    milestoneFound.areActivitiesOpen = true;
 
     setMilestones([..._milestones]);
     message.success('Activity created!');
@@ -211,6 +219,13 @@ export const CoaMilestonesView = ({ project, Footer }) => {
     setCurrentEditedActivity(undefined);
   };
 
+  const toggleAreActivitiesOpened = milestoneId => {
+    const _milestones = [...milestones];
+    const milestoneFound = _milestones.find(milestone => milestone?.id === milestoneId);
+    milestoneFound.areActivitiesOpen = !milestoneFound.areActivitiesOpen;
+    setMilestones(_milestones);
+  };
+
   return (
     <>
       <div className="o-coaMilestonesContainer">
@@ -223,6 +238,7 @@ export const CoaMilestonesView = ({ project, Footer }) => {
         <div className="o-coaMilestonesContainer__cards">
           {milestones.map((milestone, index) => (
             <CoaMilestoneItem
+              toggleAreActivitiesOpened={toggleAreActivitiesOpened}
               onRemoveMilestone={() => handleOpenConfirmDeleteMilestoneModal(milestone?.id)}
               onEditMilestone={() => handleOpenEditMilestone(milestone)}
               onCreateActivity={() => {

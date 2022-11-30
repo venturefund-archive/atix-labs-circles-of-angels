@@ -2,12 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 
-export const CoaBaseModal = ({ children, ...rest }) => <Modal {...rest}>{children}</Modal>;
+import './coa-base-modal.scss';
+import classNames from 'classnames';
+
+export const CoaBaseModal = ({ children, className, ...rest }) => (
+  <Modal {...rest} className={classNames('o-coaBaseModal', className)} closable={false}>
+    {children}
+  </Modal>
+);
 
 CoaBaseModal.defaultProps = {
-  children: undefined
+  children: undefined,
+  className: undefined
 };
 
 CoaBaseModal.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  className: PropTypes.string
 };

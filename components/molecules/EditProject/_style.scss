@@ -44,8 +44,8 @@
     flex-wrap: wrap;
     border-top: 1px solid $light-gray;
     padding-top: 1em;
-    .DownloadTemplateContainer{
-          margin-bottom: 1.4em;
+    .DownloadTemplateContainer {
+      margin-bottom: 1.4em;
     }
   }
 
@@ -83,7 +83,7 @@
   font-size: $button;
 }
 .ant-btn-primary {
-  color: #fff;
+  /* color: #fff; */
   background-color: $primary-color;
   border-color: $primary-color;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
@@ -100,7 +100,7 @@
 .UploadExcelFiles {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;  
+  flex-wrap: wrap;
 }
 
 .ProjectPhotos {

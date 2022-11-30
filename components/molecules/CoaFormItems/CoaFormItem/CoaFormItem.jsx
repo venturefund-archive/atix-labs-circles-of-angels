@@ -14,7 +14,7 @@ export const CoaFormItem = ({
   errorsToShow
 }) => {
   const { getFieldError } = form;
-  const inputError = getFieldError(name) || [];
+  const inputError = getFieldError?.(name) || [];
   const hasErrors = inputError.length > 0;
   return (
     <Form.Item
@@ -41,7 +41,7 @@ export const CoaFormItem = ({
 CoaFormItem.defaultProps = {
   children: undefined,
   withErrorFeedback: false,
-  form: undefined,
+  form: {},
   formItemProps: undefined,
   errorsToShow: undefined
 };

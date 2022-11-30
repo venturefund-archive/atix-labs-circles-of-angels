@@ -1,7 +1,18 @@
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
 
-.coaConfirmDeleteModal {
+.o-coaConfirmDeleteModal {
+  .ant-modal-confirm-btns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-inline: 3.5rem;
+    margin-top: 0;
+  }
+  .ant-modal-body {
+    padding: 2rem 1rem;
+  }
+
   &__titleContainer {
     display: flex;
     flex-direction: column;
@@ -28,5 +39,17 @@
   &__description {
     text-align: center;
     @include primary-text(0.875rem, $coa-grey-100, 400);
+  }
+
+  &__button {
+    width: 50%;
+    height: 2.5rem;
+    &.--ok {
+      background: $coa-blue-100;
+    }
+    &.--no {
+      border-color: $coa-blue-100;
+      color: $coa-blue-100;
+    }
   }
 }
