@@ -27,9 +27,9 @@ p {
 b {
   @include primary-text($body, $on-surface, 500);
 }
-span {
+/* span {
   @include primary-text($body, $on-surface-medium, 400);
-}
+} */
 .ant-input,
 .ant-select-selection {
   border: 1px solid $border;

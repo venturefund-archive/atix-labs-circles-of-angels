@@ -1,6 +1,10 @@
 @import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
 
 .coaFormItem {
+  label {
+    @include primary-text(0.875rem, $coa-grey-100, 500);
+  }
   &.--withError {
     label {
       color: $error-color;

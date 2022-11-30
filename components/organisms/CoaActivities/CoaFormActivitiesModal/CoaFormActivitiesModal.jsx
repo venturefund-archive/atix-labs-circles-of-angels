@@ -8,6 +8,7 @@ import { CoaFormItemSelect } from 'components/molecules/CoaFormItems/CoaFormItem
 import { onlyAlphanumerics, ONLY_NUMBERS } from 'constants/Regex';
 import './coa-form-activities-modal.scss';
 import PropTypes from 'prop-types';
+import { CoaFormItem } from 'components/molecules/CoaFormItems/CoaFormItem/CoaFormItem';
 
 export const CoaFormActivitiesModalContent = ({
   form,
@@ -113,9 +114,13 @@ export const CoaFormActivitiesModalContent = ({
           ]
         }}
       />
-      <Form.Item label="Currency">
+      <CoaFormItem
+        formItemProps={{
+          label: 'Currency'
+        }}
+      >
         <Input disabled value={currency} />
-      </Form.Item>
+      </CoaFormItem>
     </div>
     <CoaFormItemSelect
       name="auditor"

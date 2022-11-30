@@ -26,18 +26,21 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
     <CoaBaseModal
       {...rest}
       footer={
-        <div className="o-coaFormModal">
-          <CoaButton type="ghost" onClick={handleCancel}>
-            Cancel
+        <div className="o-coaFormModal__footerContainer">
+          <CoaButton type="ghost" onClick={handleCancel} className="o-coaFormModal__button">
+            <span className="o-coaFormModal__button__text">Cancel</span>
           </CoaButton>
-          <CoaButton type="primary" onClick={handleSave}>
-            Save
+          <CoaButton type="primary" onClick={handleSave} className="o-coaFormModal__button">
+            <span className="o-coaFormModal__button__text">Save</span>
           </CoaButton>
         </div>
       }
+      className="o-coaFormModal__container"
     >
-      <TitlePage textTitle={title} />
-      {children}
+      <div className="o-coaFormModal__content">
+        <TitlePage textTitle={title} />
+        {children}
+      </div>
     </CoaBaseModal>
   );
 };

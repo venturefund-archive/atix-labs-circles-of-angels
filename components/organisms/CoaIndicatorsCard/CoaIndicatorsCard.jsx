@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './coa-indicators-card.scss';
 import { Divider, Icon, Collapse } from 'antd';
@@ -9,9 +9,18 @@ import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/Conditio
 
 const { Panel } = Collapse;
 
-const CardHeader = ({ title, entity, onCreate, onEdit, onRemove }) => (
-  <div className="o-coaIndicatorsCard__header">
-    <div className="o-coaIndicatorsCard__header__title">{title}</div>
+const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra }) => (
+  <div
+    className="o-coaIndicatorsCard__header"
+    onClick={onClick}
+    tabIndex={0}
+    role="button"
+    onKeyDown={onClick}
+  >
+    <div className="o-coaIndicatorsCard__header__left">
+      <div className="o-coaIndicatorsCard__header__title">{title}</div>
+      {extra}
+    </div>
     <div>
       {entity && (
         <CoaTextButton
@@ -59,60 +68,84 @@ export const CoaIndicatorsCard = ({
   className,
   isCollapsible,
   alwaysShowBudget
-}) => (
-  <div className={classNames('o-coaIndicatorsCard', className)}>
-    {!isCollapsible && (
-      <>
-        <CardHeader {...{ title, onEdit, onRemove, onCreate, entity }} />
-        <Divider className="o-coaIndicatorsCard__divider" />
-      </>
-    )}
-    <ConditionalWrapper
-      condition={isCollapsible}
-      wrapper={children => (
-        <Collapse className="o-coaIndicatorsCard__collapse">
-          <Panel header={<CardHeader {...{ title, onEdit, onRemove, onCreate, entity }} />} key="1">
-            {children}
-          </Panel>
-        </Collapse>
+}) => {
+  const [isCollapseOpen, setIsCollapseOpen] = useState(false);
+  return (
+    <div className={classNames(className, 'o-coaIndicatorsCard')}>
+      {!isCollapsible && (
+        <>
+          <CardHeader {...{ title, onEdit, onRemove, onCreate, entity }} />
+          <Divider className="o-coaIndicatorsCard__divider" />
+        </>
       )}
-    >
-      <div className="o-coaIndicatorsCard__body">
-        {(parseFloat(budget) > 0 || alwaysShowBudget) && (
-          <div className="o-coaIndicatorsCard__body__indicators">
-            <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, budget)}
-              </p>
-            </div>
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, spent)}
-              </p>
-            </div>
-            <div className="o-coaIndicatorsCard__body__indicators__indicator">
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
-              <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                {formatCurrency(currency, remaining)}
-              </p>
-            </div>
-          </div>
+      <ConditionalWrapper
+        condition={isCollapsible}
+        wrapper={children => (
+          <Collapse
+            activeKey={isCollapseOpen ? '1' : '0'}
+            className="o-coaIndicatorsCard__collapse"
+            expandIcon={() => null}
+          >
+            <Panel
+              header={
+                <CardHeader
+                  extra={
+                    isCollapseOpen ? (
+                      <Icon type="down" className="o-coaIndicatorsCard__header__icon" />
+                    ) : (
+                      <Icon type="right" className="o-coaIndicatorsCard__header__icon" />
+                    )
+                  }
+                  onClick={() => setIsCollapseOpen(!isCollapseOpen)}
+                  {...{ title, onEdit, onRemove, onCreate, entity }}
+                />
+              }
+              key="1"
+            >
+              {children}
+            </Panel>
+          </Collapse>
         )}
-        {additionalBody}
-      </div>
-    </ConditionalWrapper>
-  </div>
-);
+      >
+        <div className="o-coaIndicatorsCard__body">
+          {(parseFloat(budget) > 0 || alwaysShowBudget) && (
+            <div className="o-coaIndicatorsCard__body__indicators">
+              <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, budget)}
+                </p>
+              </div>
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, spent)}
+                </p>
+              </div>
+              <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
+                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                  {formatCurrency(currency, remaining)}
+                </p>
+              </div>
+            </div>
+          )}
+          {additionalBody}
+        </div>
+      </ConditionalWrapper>
+    </div>
+  );
+};
 
 CardHeader.defaultProps = {
   title: undefined,
   entity: undefined,
   onCreate: undefined,
   onEdit: undefined,
-  onRemove: undefined
+  onRemove: undefined,
+  onClick: undefined,
+  extra: undefined
 };
 
 CardHeader.propTypes = {
@@ -120,7 +153,9 @@ CardHeader.propTypes = {
   entity: PropTypes.string,
   onCreate: PropTypes.func,
   onEdit: PropTypes.func,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
+  onClick: PropTypes.func,
+  extra: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 
 CoaIndicatorsCard.defaultProps = {
