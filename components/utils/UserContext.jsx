@@ -54,7 +54,7 @@ export function UserProvider({ children }) {
     }
     console.info('getLoggedUser finish: ', internalUser);
     return internalUser;
-  }, [_user]);
+  }, []);
 
   return (
     <UserContext.Provider
