@@ -16,7 +16,7 @@ import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import projectStatusMap from '../../../model/projectStatus';
-import { formatTimeframeValue } from '../../../helpers/formatter';
+import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
 const CardProject = ({ onClick, project, countries }) => {
   const {
@@ -26,7 +26,8 @@ const CardProject = ({ onClick, project, countries }) => {
     projectName,
     timeframe,
     status,
-    beneficiary
+    beneficiary,
+    currency
   } = project;
   const locationsNames = () => {
     if (!location) return 'Not set';
@@ -87,7 +88,7 @@ const CardProject = ({ onClick, project, countries }) => {
           <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
             subtitle="Budget"
-            title={`$ ${goalAmount}`}
+            title={formatCurrency(currency, goalAmount)}
             iconInfoItem="dollar"
             className="m-cardProject__body__description__budget"
           />
