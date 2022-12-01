@@ -24,10 +24,8 @@ export function useUserContext() {
 }
 */
 
-export function UserProvider({
-  children,
-}) {
-  const [user, setUser] = useState(null)
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(sessionStorage.getItem(USER_KEY));
 
   const changeUser = nuser => {
     sessionStorage.setItem(USER_KEY, JSON.stringify({ ...nuser, seenModal: false }));
@@ -57,11 +55,11 @@ export function UserProvider({
     console.info('getLoggedUser finish: ', internalUser);
     setUser(internalUser);
     return internalUser;
-  }
+  };
 
   useEffect(() => {
     getLoggedUser();
-  },[])
+  }, []);
 
   return (
     <UserContext.Provider
