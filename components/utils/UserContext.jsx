@@ -25,7 +25,7 @@ export function useUserContext() {
 */
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(sessionStorage.getItem(USER_KEY));
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem(USER_KEY)));
 
   const changeUser = nuser => {
     sessionStorage.setItem(USER_KEY, JSON.stringify({ ...nuser, seenModal: false }));
@@ -42,24 +42,6 @@ export function UserProvider({ children }) {
     const internalUser = JSON.parse(sessionStorage.getItem(USER_KEY));
     sessionStorage.setItem(USER_KEY, JSON.stringify({ ...internalUser, seenModal: true }));
   };
-
-  // work with the memoized form of the user
-  const getLoggedUser = () => {
-    let internalUser;
-    console.info('getLoggedUser called');
-    try {
-      internalUser = JSON.parse(sessionStorage.getItem(USER_KEY));
-    } catch (error) {
-      internalUser = null;
-    }
-    console.info('getLoggedUser finish: ', internalUser);
-    setUser(internalUser);
-    return internalUser;
-  };
-
-  useEffect(() => {
-    getLoggedUser();
-  }, []);
 
   return (
     <UserContext.Provider
