@@ -1,0 +1,270 @@
+.m-radialBarChart {
+  &__container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 215px;
+    height: 215px;
+
+    &__graph {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(1.3);
+      -webkit-transform: scale(1.3);
+      -moz-transform: scale(1.3);
+      -ms-transform: scale(1.3);
+      -o-transform: scale(1.3);
+
+      &__percent {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+
+        &.--smaller {
+          width: 111px;
+          height: 112px;
+          position: absolute;
+
+          svg {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform: rotate(270deg);
+
+            circle {
+              width: 100%;
+              height: 100%;
+              fill: transparent;
+              stroke-width: 10;
+              stroke: #ffffff;
+              transform: translate(5px, 5px);
+              -webkit-transform: translate(5px, 5px);
+              -moz-transform: translate(5px, 5px);
+              -ms-transform: translate(5px, 5px);
+              -o-transform: translate(5px, 5px);
+              &:nth-child(2) {
+                stroke: var(--clr);
+                stroke-dasharray: 315;
+                stroke-dashoffset: calc(315 - (315 * var(--num)) / 100);
+              }
+            }
+          }
+        }
+        &.--bigger {
+          width: 150px;
+          height: 150px;
+          position: absolute;
+
+          svg {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform: rotate(270deg);
+
+            circle {
+              width: 100%;
+              height: 100%;
+              fill: transparent;
+              stroke-width: 10;
+              stroke: #ffffff;
+              transform: translate(5px, 5px);
+              -webkit-transform: translate(5px, 5px);
+              -moz-transform: translate(5px, 5px);
+              -ms-transform: translate(5px, 5px);
+              -o-transform: translate(5px, 5px);
+              &:nth-child(2) {
+                stroke: var(--clr);
+                stroke-dasharray: 440;
+                stroke-dashoffset: calc(440 - (440 * var(--num)) / 100);
+                /* stroke-dasharray: 315;
+                stroke-dashoffset: calc(315 - (315 * var(--num)) / 100); */
+              }
+            }
+          }
+        }
+      }
+
+      &__dot {
+        position: absolute;
+        inset: 5px;
+        z-index: 10;
+
+        &__content {
+          position: absolute;
+          top: -8px;
+          left: 50%;
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -ms-border-radius: 50%;
+          -o-border-radius: 50%;
+          background: var(--clr);
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &.--init {
+            font-size: 0.625rem;
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+          }
+          &.--end {
+            font-size: 0.4375rem;
+            transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+            -webkit-transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+            -moz-transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+            -ms-transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+            -o-transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+            animation: animateDot 2s linear forwards;
+            -webkit-animation: animateDot 2s linear forwards;
+          }
+        }
+        &.--init {
+        }
+        &.--end {
+          transform: rotate(calc(3.6deg * var(--num)));
+          -webkit-transform: rotate(calc(3.6deg * var(--num)));
+          -moz-transform: rotate(calc(3.6deg * var(--num)));
+          -ms-transform: rotate(calc(3.6deg * var(--num)));
+          -o-transform: rotate(calc(3.6deg * var(--num)));
+        }
+      }
+    }
+
+    /*  .percent {
+      width: 150px;
+      height: 150px;
+      position: absolute;
+    }
+
+    .percent.bigger {
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      transform: scale(1.3);
+      -webkit-transform: scale(1.3);
+      -moz-transform: scale(1.3);
+      -ms-transform: scale(1.3);
+      -o-transform: scale(1.3);
+    }
+
+    .percent.smaller {
+      width: 108px;
+      height: 112px;
+      position: absolute;
+    }
+
+    .percent svg {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: rotate(270deg);
+    }
+
+    .percent svg circle {
+      width: 100%;
+      height: 100%;
+      fill: transparent;
+      stroke-width: 10;
+      stroke: #ffffff;
+      transform: translate(5px, 5px);
+      -webkit-transform: translate(5px, 5px);
+      -moz-transform: translate(5px, 5px);
+      -ms-transform: translate(5px, 5px);
+      -o-transform: translate(5px, 5px);
+    }
+
+    .percent svg circle:nth-child(2) {
+      stroke: var(--clr);
+      stroke-dasharray: 440;
+      stroke-dashoffset: calc(440 - (440 * var(--num)) / 100);      
+    }
+    .dot {
+      position: absolute;
+      inset: 5px;
+      z-index: 10;
+      transform: rotate(calc(3.6deg * var(--num)));
+      -webkit-transform: rotate(calc(3.6deg * var(--num)));
+      -moz-transform: rotate(calc(3.6deg * var(--num)));
+      -ms-transform: rotate(calc(3.6deg * var(--num)));
+      -o-transform: rotate(calc(3.6deg * var(--num)));
+    }
+
+    .init-dot {
+      position: absolute;
+      inset: 5px;
+      z-index: 10;
+    }
+
+    .init-dot-content {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--clr);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      font-size: 0.625rem;
+    }
+    .dot-content {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--clr);
+      transform: translateX(-50%) rotate(calc(360deg - 3.6deg * var(--num)));
+      font-size: 0.4375rem;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    } */
+
+    /* .number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+    } */
+
+    .text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .text .bigger {
+      color: #08ceaa;
+      font-size: 0.625rem;
+    }
+
+    .text .smaller {
+      color: #26385b;
+      font-size: 0.625rem;
+    }
+  }
+}
