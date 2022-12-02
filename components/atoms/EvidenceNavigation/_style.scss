@@ -1,0 +1,14 @@
+.goBackArrow {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 19px;
+  align-items: center;
+  color: #728099;
+
+  img {
+    width: 13px;
+    height: 13px;
+  }
+}

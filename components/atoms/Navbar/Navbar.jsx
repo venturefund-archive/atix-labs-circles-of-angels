@@ -33,11 +33,24 @@ const Navbar = () => {
             <img src='/static/images/desktop-logo.svg' alt='desktopCOA'/>
           </div>
 
-          <div className="login--btn">
-            <a href="components/atoms/Navbar/Navbar">
-              <img src='/static/images/download.svg' alt='loginIcon' />
-              <span>Log In</span>
-            </a>
+          <div className='navbar__right'>
+            <div className='navbar__right__icon'>
+              <img src="/static/images/bell.svg" alt="bell" />
+            </div>
+            <div className='navbar__right__profile'>
+              <div className='navbar__user__avatar'>
+                <img src="/static/images/avatar.svg" alt="user" />
+              </div>
+              <div className='navbar__user'>
+                <div className='user__details'>
+                  <h2>Juan Pablo Yoroi</h2>
+                  <span>Entrepreneur</span>
+                </div>
+                <div className='dropdown'>
+                  <img src="/static/images/arrow-down.svg" alt="arrow-down" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

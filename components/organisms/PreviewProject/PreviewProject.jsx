@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
@@ -8,14 +9,7 @@ import { getProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
 
 
-const getIdFromPath = () => {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1];
-};
-
-
-const PreviewProject = () => {
-    const id = getIdFromPath();
+const PreviewProject = ({ children, id }) => {
     const history = useHistory();
 
     const goBack = () => history.push('/');
@@ -56,12 +50,19 @@ const PreviewProject = () => {
 
     return (
       <Layout>
-        <ProjectHeroSection
-                title={title}
-                status={status}
-        />
+        <ProjectHeroSection title={title} status={status} />
+          {children}
       </Layout>
     )
 };
 
 export default PreviewProject;
+
+PreviewProject.defaultProps = {
+    children: <></>,
+}
+
+PreviewProject.propTypes = {
+    children: PropTypes.node,
+    id: PropTypes.string.isRequired,
+}
