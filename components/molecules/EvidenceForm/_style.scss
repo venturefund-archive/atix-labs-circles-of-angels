@@ -1,0 +1,207 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+
+.evidenceForm {
+  margin: 1.875rem 25.563rem 0 9.813rem;
+  font-family: 'Rubik', sans-serif;
+
+  &__body {
+    margin: 1.4rem 0;
+
+    &__title {
+      color: #4c7ff7;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 38px;
+      margin-bottom: 2.2rem;
+
+      span:first-of-type {
+        padding-bottom: 2px;
+        border-bottom: 3px solid #4c7ff7;
+      }
+    }
+
+    &__text {
+      max-width: 39rem;
+      font-size: 16px;
+      line-height: 22.4px;
+
+      &__top {
+        color: $on-surface;
+        margin: 0;
+        font-weight: 400 !important;
+      }
+
+      &__bottom {
+        margin: 0;
+        color: $on-surface;
+        font-weight: 500 !important;
+      }
+    }
+
+    &__form {
+      margin-top: 0.75rem;
+
+      &__group {
+        box-sizing: border-box;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #9ca6b8;
+        padding: 1.5rem 0;
+        max-width: 400px;
+        align-items: flex-start;
+        gap: 1rem;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 800px) {
+          flex-direction: row;
+          max-width: 800px;
+        }
+
+        .evidenceType,
+        .transactionType {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          gap: 1rem;
+
+          & > div {
+            box-sizing: border-box;
+            display: flex;
+            gap: 1rem;
+            max-width: 412px;
+            align-items: center;
+
+            @media (min-width: 800px) {
+              box-sizing: content-box;
+              width: 180px;
+            }
+          }
+
+          @media (min-width: 800px) {
+            flex-direction: row;
+            width: 412px;
+            flex-wrap: nowrap !important;
+          }
+        }
+
+        .formDivInput {
+          width: 100%;
+          max-width: 412px;
+
+          @media (min-width: 800px) {
+            width: 412px;
+          }
+        }
+
+        input[type='text'],
+        input[type='number'],
+        textarea {
+          box-sizing: border-box;
+          width: 100%;
+          max-width: 412px;
+          border: 1px solid #e5e6ed;
+          border-radius: 4px;
+          outline: none;
+          padding: 0.75rem;
+
+          &:focus-visible {
+            outline: navajowhite;
+          }
+
+          &::placeholder {
+            color: #728099;
+          }
+        }
+
+        .formDivBorder {
+          border: 1px solid #e5e6ed;
+          padding: 0.5rem 0.75rem;
+          border-radius: 4px;
+        }
+
+        .formDivTitle {
+          margin: 0;
+
+          color: #26385b;
+          font-weight: bold;
+
+          &::before {
+            content: '* ';
+            color: red;
+          }
+        }
+
+        .formDIvInfo {
+          max-width: 500px;
+
+          span:first-of-type {
+            font-weight: 500;
+          }
+
+          margin: 0;
+          color: #9ca6b8;
+
+          @media (min-width: 800px) {
+            max-width: 300px;
+          }
+        }
+
+        .formDivAmount {
+          display: flex;
+          gap: 1rem;
+          height: 40px;
+
+          input {
+            flex-basis: 75%;
+          }
+
+          .formCurrency {
+            background: #eff0f4;
+            border: 1px solid #e5e6ed;
+            border-radius: 4px;
+            flex-basis: 25%;
+            padding: 0.5rem;
+            color: #728099;
+          }
+        }
+
+        .uploadBtn {
+          background: #4C7FF7;
+          color: #fff;
+        }
+      }
+
+      &__btns {
+        display: flex;
+        flex-direction: row !important;
+        gap: 2rem;
+        border-bottom: transparent;
+
+        @media (min-width: 800px) {
+          justify-content: end;
+        }
+
+        button {
+          width: 150px;
+          height: 35px;
+          text-align: center;
+          border-radius: 4px;
+        }
+
+        button:first-of-type {
+          background: white;
+          border: 1px solid #4c7ff7;
+          color: #4c7ff7;
+        }
+
+        button:last-of-type {
+          background: #4c7ff7;
+          border: transparent;
+          color: white;
+        }
+      }
+    }
+  }
+}
