@@ -51,7 +51,7 @@ const PreviewProject = ({ children, id }) => {
     return (
       <Layout>
         <ProjectHeroSection title={title} status={status} />
-          {children}
+        {children}
       </Layout>
     )
 };
