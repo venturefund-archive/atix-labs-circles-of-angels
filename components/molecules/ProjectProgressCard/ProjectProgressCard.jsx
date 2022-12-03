@@ -16,6 +16,7 @@ export const ProjectProgressCard = ({
         textTitle="Project progress"
         underlinePosition="center"
         className="m-projectProgressCard__title"
+        textColor="#4C7FF7"
       />
       <RadialBarChart
         externalDonutColor="#08ceaa"

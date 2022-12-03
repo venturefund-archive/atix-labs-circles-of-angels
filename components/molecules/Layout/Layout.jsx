@@ -2,18 +2,19 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import './layout.scss';
 
-import Navbar from '../../atoms/Navbar/Navbar';
+import Navbar from 'components/atoms/Navbar/Navbar';
 
 const Layout = ({ children }) => (
   <>
     <Navbar />
-    {children}
+    <div className="layout__content">{children}</div>
   </>
 );
 
 export default Layout;
 
 Layout.propTypes = {
-    children: PropTypes.node,
-}
+  children: PropTypes.node
+};
