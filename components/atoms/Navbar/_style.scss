@@ -111,6 +111,78 @@ h5 {
       display: flex;
     }
   }
+
+  .navbar__right {
+    width: 400px;
+    height: 60px;
+    display: flex;
+
+    .navbar__right__icon {
+      width: 100px;
+      height: inherit;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar__right__profile {
+      width: 300px;
+      display: flex;
+      //justify-content: space-around;
+      align-items: center;
+      background: #F3F4FB;
+
+      .navbar__user__avatar {
+        //margin-right: 10px;
+        margin: 0 30px 0 40px;
+
+        img {
+          border-radius: 50%;
+          height: 40px;
+          width: 40px;
+        }
+      }
+
+      .navbar__user {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 120px;
+
+        .user__details {
+          font-family: 'Rubik', serif;
+          font-style: normal;
+          font-weight: 400;
+          width: 100%;
+          text-align: right;
+
+
+          h2 {
+            line-height: 14px;
+            color: #000;
+            font-size: 12px;
+          }
+
+          span {
+            font-size: 10px;
+            color: #728099;
+            letter-spacing: -0.084px;
+          }
+        }
+
+        .dropdown {
+          margin-left: 10px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+  }
+
   .login--btn {
     @include respond(laptop) {
       display: flex;

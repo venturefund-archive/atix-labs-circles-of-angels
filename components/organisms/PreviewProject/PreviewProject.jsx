@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import PropTypes from 'prop-types';
 
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
@@ -11,13 +12,8 @@ import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 
-const getIdFromPath = () => {
-  const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length - 1];
-};
-
 const PreviewProject = () => {
-  const id = getIdFromPath();
+  const { id } = useParams();
   const history = useHistory();
 
   const goBack = () => history.push('/');
@@ -82,3 +78,12 @@ const PreviewProject = () => {
 };
 
 export default PreviewProject;
+
+PreviewProject.defaultProps = {
+  children: <></>
+};
+
+PreviewProject.propTypes = {
+  children: PropTypes.node,
+  id: PropTypes.string.isRequired
+};

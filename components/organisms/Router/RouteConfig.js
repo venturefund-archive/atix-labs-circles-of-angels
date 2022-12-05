@@ -20,6 +20,7 @@ import Login from '../../../pages/login';
 import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
+import CreateEvidenceContainer from '../../../pages/create-evidence';
 
 
 const {
@@ -41,7 +42,10 @@ export const routesConfig = [
   {
     path: '/projects/:id/preview',
     component: Preview,
-    authentication: { required: false },
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, COA_ADMIN],
+    },
     withHeader: false,
     withSideBar: false,
   },
@@ -188,6 +192,13 @@ export const routesConfig = [
   {
     path: '/:id',
     component: Preview,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
+    path: '/:id/activity/:activityId/evidences/new',
+    component: CreateEvidenceContainer,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false
