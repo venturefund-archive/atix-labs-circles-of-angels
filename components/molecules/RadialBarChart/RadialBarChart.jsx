@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './radial-bar-chart.scss';
 
 export const RadialBarChart = ({
@@ -70,4 +71,30 @@ export const RadialBarChart = ({
       </div>
     </div>
   );
+};
+
+RadialBarChart.propTypes = {
+  currentExternalDonutValue: PropTypes.number,
+  totalExternalDonutValue: PropTypes.number,
+  currentInternalDonutValue: PropTypes.number,
+  totalInternalDonutValue: PropTypes.number,
+  externalDonutColor: PropTypes.string,
+  internalDonutColor: PropTypes.string,
+  externalDonutLabel: PropTypes.string,
+  internalDonutLabel: PropTypes.string,
+  externalDonutSymbol: PropTypes.string,
+  internalDonutSymbol: PropTypes.string
+};
+
+RadialBarChart.defaultProps = {
+  currentExternalDonutValue: 0,
+  totalExternalDonutValue: 0,
+  currentInternalDonutValue: 0,
+  totalInternalDonutValue: 0,
+  externalDonutColor: '#08ceaa',
+  internalDonutColor: '26385b',
+  externalDonutLabel: 'Project Progress',
+  internalDonutLabel: 'Project Balance',
+  externalDonutSymbol: '%',
+  internalDonutSymbol: '$'
 };
