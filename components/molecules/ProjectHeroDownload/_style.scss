@@ -5,7 +5,6 @@
   align-items: flex-end;
 
   @include respond(laptop) {
-    flex-direction: column;
     gap: 10px;
     padding-left: 80px;
   }

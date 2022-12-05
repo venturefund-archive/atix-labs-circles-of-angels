@@ -14,6 +14,15 @@
   min-height: 100%;
   gap: 16px;
 
+  &.compact {
+    border: solid 1px red;
+    min-height: 220px;
+    padding: 0px;
+    .content {
+      border: solid 1px green;
+    }
+  }
+
   @include respond(laptop) {
     background-image: linear-gradient(
                     180deg,
