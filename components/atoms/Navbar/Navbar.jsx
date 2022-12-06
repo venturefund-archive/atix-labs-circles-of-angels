@@ -39,7 +39,7 @@ const Navbar = () => {
             </div>
             <div className='navbar__right__profile'>
               <div className='navbar__user__avatar'>
-                <img src="/static/images/avatar.svg" alt="user" />
+                <img src="/static/images/avatar2.svg" alt="user" />
               </div>
               <div className='navbar__user'>
                 <div className='user__details'>

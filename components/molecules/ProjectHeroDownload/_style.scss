@@ -7,7 +7,7 @@
   @include respond(laptop) {
     flex-direction: column;
     gap: 10px;
-    padding-left: 80px;
+    /* padding-left: 80px; */
   }
 
   .download-btn--mobile {
@@ -44,7 +44,7 @@
       margin: 0 10px;
 
       span {
-        font-family: "Rubik", sans-serif;
+        font-family: 'Rubik', sans-serif;
         font-style: normal;
         font-weight: 500;
         font-size: 14px;

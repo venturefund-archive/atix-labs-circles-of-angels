@@ -1,13 +1,16 @@
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
+@import 'css/_general_styling.scss';
 
 .m-horizontalBlockText {
   display: flex;
   column-gap: 5.43rem;
   white-space: pre-wrap;
+  flex-wrap: wrap;
 
   &__title {
     min-width: 9.93rem;
+    width: 100%;
     h1 {
       font-size: 2rem;
     }
@@ -17,10 +20,14 @@
 .o-projectInfoSection {
   display: flex;
   column-gap: 2.25rem;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
   &__text {
+    width: 100%;
     min-height: 100%;
     position: relative;
-    padding-top: 1.875rem;
+    padding-block: 1.875rem;
     display: flex;
     flex-direction: column;
     row-gap: 1.1875rem;

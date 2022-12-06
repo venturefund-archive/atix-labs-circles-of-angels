@@ -56,7 +56,8 @@ ProjectHeroSection.defaultProps = {
   country: 'Thailand',
   timeframe: '2 Months',
   budget: '$ 48,000',
-  beneficiary: 'Joe Demin'
+  beneficiary: 'Joe Demin',
+  thumbnailPhoto: ''
 };
 
 ProjectHeroSection.propTypes = {
@@ -66,5 +67,6 @@ ProjectHeroSection.propTypes = {
   country: PropTypes.string,
   timeframe: PropTypes.string,
   budget: PropTypes.string,
-  beneficiary: PropTypes.string
+  beneficiary: PropTypes.string,
+  thumbnailPhoto: PropTypes.string
 };

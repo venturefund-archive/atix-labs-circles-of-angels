@@ -1,14 +1,17 @@
 @import 'css/general_styling';
 
-.details {
+.m-projectHeroDetails {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   row-gap: 20px;
   column-gap: 5px;
 
+  &__divider {
+    height: 3.125rem;
+  }
+
   @include respond(laptop) {
-    gap: 30px;
     align-items: flex-end;
   }
 }

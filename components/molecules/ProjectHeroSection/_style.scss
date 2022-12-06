@@ -3,9 +3,9 @@
 
 .hero {
   border-radius: 0 0 0 40px;
-  padding: 180px 20px 90px;
+
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   flex-direction: column;
   background-size: cover;
@@ -15,10 +15,11 @@
   gap: 16px;
   width: 100%;
 
-  @include respond(laptop) {
-    align-items: flex-start;
-    border-radius: 0 0 0 140px;
-    padding: 180px 160px 90px;
+  @include respond(mobile) {
+    padding-inline: 1rem;
+  }
+  @include respond(tablet) {
+    padding-inline: 9.93rem;
   }
 
   .content {
@@ -27,10 +28,6 @@
     gap: 30px;
     align-items: flex-start;
     width: 100%;
-
-    @include respond(tablet) {
-      margin-left: 95px;
-    }
 
     .text {
       display: flex;
@@ -54,14 +51,6 @@
         font-size: 40px;
         line-height: 43px;
         color: #ffffff;
-        @include respond(mobile) {
-          width: 385px;
-        }
-        @include respond(laptop) {
-          font-size: 64px;
-          width: 536px;
-          line-height: 76px;
-        }
       }
     }
   }
@@ -69,11 +58,6 @@
   .bottom {
     display: flex;
     flex-direction: column;
-
-    @include respond(tablet) {
-      width: 100%;
-      margin-left: 95px;
-    }
 
     .progress--btn {
       display: flex;
@@ -106,6 +90,7 @@
     .backoffice {
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       gap: 20px;
       @include respond(tablet) {
         gap: 100px;
