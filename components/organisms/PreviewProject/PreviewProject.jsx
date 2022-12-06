@@ -17,6 +17,9 @@ import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
+import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
+import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { ROLES_IDS } from '../AssignProjectUsers/constants';
 
 const PreviewProject = () => {
   const { id } = useParams();
@@ -55,7 +58,7 @@ const PreviewProject = () => {
 
   if (loading) return <Loading />;
 
-  const { basicInformation, status, details } = project;
+  const { basicInformation, status, details, users } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, budget, problemAddressed, mission } = details || {};
@@ -65,6 +68,9 @@ const PreviewProject = () => {
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
+  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)[0];
+  const investorUser = getUsersByRole(ROLES_IDS.investor, users)[0];
+  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users);
 
   const toggleAreActivitiesOpened = milestoneId => {
     const _milestones = [...milestones];
@@ -108,7 +114,13 @@ const PreviewProject = () => {
             balanceTotalValue={100}
           />
         </div>
-        <div className="o-previewProject__members">MEMBERS</div>
+        <div className="o-previewProject__members">
+          <CoaProjectMembersCard
+            beneficiary={beneficiaryUser}
+            investor={investorUser}
+            auditors={auditorsUsers}
+          />
+        </div>
         <div className="o-previewProject__progress">PROGRESS</div>
         <div className="o-previewProject__milestones">
           {milestones.map((milestone, index) => (
