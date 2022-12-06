@@ -105,7 +105,7 @@ const CustomCollapse = ({
     e.stopPropagation();
     const { errors } = await sendWelcomeEmail({ userId, projectId });
     if (errors) return message.error('Error when sending email');
-    return message.error('Email was sent!');
+    return message.success('Email was sent!');
   };
 
   return (

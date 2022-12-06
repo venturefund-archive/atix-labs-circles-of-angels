@@ -43,4 +43,9 @@
     border: solid 1px $coa-red-100;
     background: $coa-light-red-100;
   }
+  &.--purple {
+    @include primary-text(0.625rem, $coa-violet-100, 500, 0.75rem);
+    border: solid 1px $coa-violet-100;
+    background: $coa-light-violet-100;
+  }
 }

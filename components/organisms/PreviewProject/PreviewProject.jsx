@@ -70,8 +70,8 @@ const PreviewProject = () => {
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
-  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)[0];
-  const investorUser = getUsersByRole(ROLES_IDS.investor, users)[0];
+  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.[0];
+  const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.[0];
   const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users);
 
   const toggleAreActivitiesOpened = milestoneId => {
@@ -133,23 +133,27 @@ const PreviewProject = () => {
             textColor="#4C7FF7"
           />
         </div>
-        <div className="o-previewProject__milestones">
+        <div className="o-previewProject__milestonesSection">
           <TitlePage
             underlinePosition="none"
             textTitle="Milestones"
             className="o-previewProject__title"
             textColor="#4C7FF7"
           />
-          {milestones.map((milestone, index) => (
-            <CoaMilestoneItem
-              toggleAreActivitiesOpened={toggleAreActivitiesOpened}
-              {...{
-                currency,
-                milestone
-              }}
-              {...{ milestoneNumber: index + 1 }}
-            />
-          ))}
+          <div className="o-previewProject__milestonesSection__milestones">
+            {milestones.map((milestone, index) => (
+              <CoaMilestoneItem
+                withEvidences
+                withStateTag
+                toggleAreActivitiesOpened={toggleAreActivitiesOpened}
+                {...{
+                  currency,
+                  milestone
+                }}
+                {...{ milestoneNumber: index + 1 }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Layout>

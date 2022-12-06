@@ -10,16 +10,9 @@
     }
   }
   &__content {
-    max-width: 70.625rem;
-    @include respond(tablet) {
-      max-width: 53.93rem;
-    }
-    @include respond(laptop) {
-      max-width: 70.625rem;
-    }
-
+    padding-inline: min(1rem);
     display: grid;
-    grid-template-columns: minmax(auto, 729px) 366px;
+    grid-template-columns: minmax(auto, 900px) 366px;
     column-gap: 2.1875rem;
     grid-template-areas:
       'buttons    buttons'
@@ -51,8 +44,13 @@
   &__progress {
     grid-area: progress;
   }
-  &__milestones {
+  &__milestonesSection {
     grid-area: milestones;
+    &__milestones {
+      display: flex;
+      flex-direction: column;
+      row-gap: 2.1875rem;
+    }
   }
   &__graph {
     grid-area: graphic;
@@ -82,7 +80,7 @@
   }
   @include respond(laptop) {
     &__content {
-      grid-template-columns: minmax(auto, 729px) 366px;
+      grid-template-columns: minmax(auto, 900px) 366px;
       grid-template-areas:
         'buttons    buttons'
         'info       graphic'
@@ -90,7 +88,7 @@
         'progress   progress'
         'milestones milestones';
       row-gap: 3.125rem;
-      margin-top: 2.5rem;
+      margin-block: 2.5rem;
     }
   }
 }
