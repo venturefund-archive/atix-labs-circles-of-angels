@@ -69,8 +69,8 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
-                      onRemove={() => onRemoveActivity(activity?.id)}
-                      onEdit={() => onEditActivity(activity)}
+                      onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}
+                      onEdit={onEditActivity && (() => onEditActivity(activity))}
                       {...{ milestone, currency, activity }}
                       {...{ activityNumber: index + 1 }}
                     />
@@ -79,13 +79,15 @@ export const CoaMilestoneItem = ({
               </Panel>
             </Collapse>
           )}
-          <CoaTextButton
-            className="o-coaMilestoneItem__addActivityButton"
-            type="dashed"
-            onClick={() => onCreateActivity(milestone)}
-          >
-            <Icon type="plus" /> Add Activity
-          </CoaTextButton>
+          {onCreateActivity && (
+            <CoaTextButton
+              className="o-coaMilestoneItem__addActivityButton"
+              type="dashed"
+              onClick={() => onCreateActivity(milestone)}
+            >
+              <Icon type="plus" /> Add Activity
+            </CoaTextButton>
+          )}
         </>
       }
     />

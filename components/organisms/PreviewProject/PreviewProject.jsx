@@ -16,6 +16,7 @@ import { getProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
+import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 
 const PreviewProject = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const PreviewProject = () => {
     title: '',
     status: ''
   });
+  const [milestones, setMilestones] = useState([]);
 
   const fetchProject = async projectId => {
     const response = await getProject(projectId);
@@ -40,6 +42,7 @@ const PreviewProject = () => {
     const { data } = response;
 
     setProject(data);
+    setMilestones([...data?.milestones]);
 
     setLoading(prevState => !prevState);
   };
@@ -62,6 +65,13 @@ const PreviewProject = () => {
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
+
+  const toggleAreActivitiesOpened = milestoneId => {
+    const _milestones = [...milestones];
+    const milestoneFound = _milestones.find(milestone => milestone?.id === milestoneId);
+    milestoneFound.areActivitiesOpen = !milestoneFound.areActivitiesOpen;
+    setMilestones(_milestones);
+  };
 
   return (
     <Layout>
@@ -100,7 +110,18 @@ const PreviewProject = () => {
         </div>
         <div className="o-previewProject__members">MEMBERS</div>
         <div className="o-previewProject__progress">PROGRESS</div>
-        <div className="o-previewProject__milestones">MILESTONES</div>
+        <div className="o-previewProject__milestones">
+          {milestones.map((milestone, index) => (
+            <CoaMilestoneItem
+              toggleAreActivitiesOpened={toggleAreActivitiesOpened}
+              {...{
+                currency,
+                milestone
+              }}
+              {...{ milestoneNumber: index + 1 }}
+            />
+          ))}
+        </div>
       </div>
     </Layout>
   );

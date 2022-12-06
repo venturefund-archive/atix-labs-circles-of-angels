@@ -22,7 +22,7 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra 
       {extra}
     </div>
     <div>
-      {entity && (
+      {entity && onCreate && (
         <CoaTextButton
           onClick={e => {
             e.stopPropagation();
@@ -32,24 +32,28 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra 
           <Icon type="plus" /> {`Add ${entity}`}
         </CoaTextButton>
       )}
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onEdit();
-        }}
-        variant="muted"
-      >
-        <Icon type="edit" /> Edit
-      </CoaTextButton>
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onRemove();
-        }}
-        variant="danger"
-      >
-        <Icon type="delete" /> Delete
-      </CoaTextButton>
+      {onEdit && (
+        <CoaTextButton
+          onClick={e => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          variant="muted"
+        >
+          <Icon type="edit" /> Edit
+        </CoaTextButton>
+      )}
+      {onRemove && (
+        <CoaTextButton
+          onClick={e => {
+            e.stopPropagation();
+            onRemove();
+          }}
+          variant="danger"
+        >
+          <Icon type="delete" /> Delete
+        </CoaTextButton>
+      )}
     </div>
   </div>
 );
