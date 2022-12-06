@@ -6,12 +6,10 @@
   display: flex;
   column-gap: 5.43rem;
   white-space: pre-wrap;
-  flex-wrap: wrap;
 
   &__title {
-    min-width: 9.93rem;
-    width: 100%;
     h1 {
+      width: 9.93rem;
       font-size: 2rem;
     }
   }

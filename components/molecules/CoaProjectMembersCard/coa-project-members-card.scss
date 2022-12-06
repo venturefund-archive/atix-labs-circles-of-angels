@@ -29,6 +29,7 @@
     align-items: center;
     column-gap: 0.9375rem;
     h2 {
+      width: 6.5rem;
       @include primary-text(1.5rem, $coa-blue-100, 500);
     }
   }

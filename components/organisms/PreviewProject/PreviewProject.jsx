@@ -20,6 +20,7 @@ import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestone
 import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 const PreviewProject = () => {
   const { id } = useParams();
@@ -121,8 +122,21 @@ const PreviewProject = () => {
             auditors={auditorsUsers}
           />
         </div>
-        <div className="o-previewProject__progress">PROGRESS</div>
+        <div className="o-previewProject__progress">
+          <TitlePage
+            underlinePosition="none"
+            textTitle="Project Progress"
+            className="o-previewProject__title"
+            textColor="#4C7FF7"
+          />
+        </div>
         <div className="o-previewProject__milestones">
+          <TitlePage
+            underlinePosition="none"
+            textTitle="Milestones"
+            className="o-previewProject__title"
+            textColor="#4C7FF7"
+          />
           {milestones.map((milestone, index) => (
             <CoaMilestoneItem
               toggleAreActivitiesOpened={toggleAreActivitiesOpened}

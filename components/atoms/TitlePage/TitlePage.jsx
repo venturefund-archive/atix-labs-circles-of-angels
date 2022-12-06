@@ -25,7 +25,7 @@ const TitlePage = ({
     className={classNames(
       'TitlePage',
       {
-        [`--${underlinePosition}`]: Boolean(underlinePosition)
+        [`--${underlinePosition}`]: underlinePosition !== 'none'
       },
       className
     )}

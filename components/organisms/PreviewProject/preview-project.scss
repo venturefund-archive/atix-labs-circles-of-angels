@@ -3,10 +3,14 @@
 @import 'css/mixins/_fonts.scss';
 
 .o-previewProject {
+  &__title {
+    margin-bottom: 2rem;
+    h1 {
+      @include primary-text(2rem, $coa-blue-100, 500);
+    }
+  }
   &__content {
     max-width: 70.625rem;
-    /* padding: min(1rem); */
-
     @include respond(tablet) {
       max-width: 53.93rem;
     }
@@ -16,7 +20,6 @@
 
     display: grid;
     grid-template-columns: minmax(auto, 729px) 366px;
-    /* grid-template-rows: repeat(5, 1fr); */
     column-gap: 2.1875rem;
     grid-template-areas:
       'buttons    buttons'
@@ -86,6 +89,8 @@
         'members    members'
         'progress   progress'
         'milestones milestones';
+      row-gap: 3.125rem;
+      margin-top: 2.5rem;
     }
   }
 }
