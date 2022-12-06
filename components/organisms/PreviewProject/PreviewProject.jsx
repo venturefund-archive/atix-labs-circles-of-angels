@@ -157,12 +157,3 @@ const PreviewProject = () => {
 };
 
 export default PreviewProject;
-
-PreviewProject.defaultProps = {
-  children: <></>
-};
-
-PreviewProject.propTypes = {
-  children: PropTypes.node,
-  id: PropTypes.string.isRequired
-};
