@@ -14,7 +14,9 @@ const ProjectHeroSection = ({
   timeframe,
   budget,
   beneficiary,
-  thumbnailPhoto
+  thumbnailPhoto,
+  projectProposalUrl,
+  legalAgreementUrl
 }) => (
   <div
     className="hero"
@@ -43,7 +45,10 @@ const ProjectHeroSection = ({
           budget={budget}
           beneficiary={beneficiary}
         />
-        <ProjectHeroDownload />
+        <ProjectHeroDownload
+          projectProposalUrl={projectProposalUrl}
+          legalAgreementUrl={legalAgreementUrl}
+        />
       </div>
     </div>
   </div>

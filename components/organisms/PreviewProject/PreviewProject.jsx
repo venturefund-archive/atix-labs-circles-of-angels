@@ -59,10 +59,11 @@ const PreviewProject = () => {
 
   if (loading) return <Loading />;
 
-  const { basicInformation, status, details, users } = project;
+  const { basicInformation, status, details, users, budget } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
-  const { currency, budget, problemAddressed, mission } = details || {};
+  const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
+    details || {};
   const beneficiaryFirstName = beneficiary?.firstName;
   const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
@@ -91,6 +92,8 @@ const PreviewProject = () => {
         timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
         budget={formatCurrency(currency, budget)}
         thumbnailPhoto={thumbnailPhoto}
+        legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
+        projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
       />
       <div className="o-previewProject__content">
         <div className="o-previewProject__buttons">
