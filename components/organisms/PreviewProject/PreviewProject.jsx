@@ -10,6 +10,9 @@ import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
+import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
+import { getUsersByRole } from 'helpers/modules/projectUsers';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject } from '../../../api/projectApi';
@@ -17,10 +20,7 @@ import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
-import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
-import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
-import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 const PreviewProject = () => {
   const { id } = useParams();

@@ -1,5 +1,6 @@
 import SecretKey from 'pages/secret-key';
 // import BackofficeProjects from '../../../pages/back-office-projects';
+import EvidenceDetail from 'pages/evidence-detail';
 import CreateProject from '../../../pages/create-project';
 import MyProjects from '../../../pages/my-projects';
 // import FundAdministration from '../../../pages/fund-administration';
@@ -83,6 +84,16 @@ export const routesConfig = [
     withSideBar: false,
     authentication: {
       required: false
+    }
+  },
+  {
+    path: '/:projectId/activity/:activityId/evidences/:detailEvidenceId',
+    component: EvidenceDetail,
+    withHeader: false,
+    withSideBar: false,
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR, COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
     }
   },
   {
