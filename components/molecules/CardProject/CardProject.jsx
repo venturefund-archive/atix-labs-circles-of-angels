@@ -69,7 +69,7 @@ const CardProject = ({ onClick, project, countries }) => {
         <div className="m-cardProject__body__titleContainer">
           <h1 className="m-cardProject__body__titleContainer__title">{projectName}</h1>
           <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
-            {projectStatusMap[status].name}
+            {projectStatusMap[status]?.name}
           </CoaTag>
         </div>
         <div className="m-cardProject__body__description">
