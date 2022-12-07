@@ -41,8 +41,19 @@
   &__members {
     grid-area: members;
   }
-  &__progress {
+  &__progressSection {
     grid-area: progress;
+    &__pills {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1.25rem;
+      &__normalText {
+        @include primary-text(0.9375rem, $coa-dark-gray-100, 400);
+      }
+      &__boldText {
+        @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
+      }
+    }
   }
   &__milestonesSection {
     grid-area: milestones;

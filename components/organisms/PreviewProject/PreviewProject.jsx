@@ -11,6 +11,7 @@ import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
 import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
+import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import Layout from '../../molecules/Layout/Layout';
@@ -125,13 +126,81 @@ const PreviewProject = () => {
             auditors={auditorsUsers}
           />
         </div>
-        <div className="o-previewProject__progress">
+        <div className="o-previewProject__progressSection">
           <TitlePage
             underlinePosition="none"
             textTitle="Project Progress"
             className="o-previewProject__title"
             textColor="#4C7FF7"
           />
+          <div className="o-previewProject__progressSection__pills">
+            <CoaProjectProgressPill
+              indicator="Milestones Progress"
+              current={15}
+              total={100}
+              startBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  Project{' '}
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Started
+                  </span>
+                </p>
+              }
+              endBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  Project{' '}
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Finished !
+                  </span>
+                </p>
+              }
+              pr
+              progressBarColor="#58C984"
+            />
+            <CoaProjectProgressPill
+              indicator="Amount Income"
+              current={41.6}
+              total={100}
+              startBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Available Amount
+                  </span>{' '}
+                  $20.000
+                </p>
+              }
+              endBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Total Amount
+                  </span>{' '}
+                  $48.000
+                </p>
+              }
+              progressBarColor="#4C7FF7"
+            />
+            <CoaProjectProgressPill
+              indicator="Amount Outcome"
+              current={10}
+              total={100}
+              startBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Amount Spent
+                  </span>{' '}
+                  $4.800
+                </p>
+              }
+              endBarContent={
+                <p className="o-previewProject__progressSection__pills__normalText">
+                  <span className="o-previewProject__progressSection__pills__boldText">
+                    Goal Amount
+                  </span>{' '}
+                  $48.000
+                </p>
+              }
+            />
+          </div>
         </div>
         <div className="o-previewProject__milestonesSection">
           <TitlePage

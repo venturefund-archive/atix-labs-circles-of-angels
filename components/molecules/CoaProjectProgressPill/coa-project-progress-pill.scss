@@ -1,0 +1,51 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.m-coaProjectProgressPill {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.375rem 2.125rem;
+  background: $coa-light-sky-blue-100;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+
+  &__indicator {
+    @include primary-text(1.125rem, $coa-dark-gray-100, 400);
+    width: 7rem;
+  }
+  &__progress {
+    flex-grow: 1;
+    &__texts {
+      display: flex;
+      justify-content: space-between;
+    }
+    &__barContainer {
+      display: flex;
+      column-gap: 0.5rem;
+      align-items: center;
+    }
+  }
+  &__bar {
+    height: 0.6875rem;
+    background: $coa-white-100;
+    border-radius: 17px;
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    -ms-border-radius: 17px;
+    -o-border-radius: 17px;
+    flex-grow: 1;
+    overflow: hidden;
+
+    &__fill {
+      height: 100%;
+      display: block;
+      background: var(--progressBarColor, $coa-dark-gray-100);
+      width: var(--currentPercent, 0%);
+      transition: width 500ms ease-in-out;
+    }
+  }
+}
