@@ -111,20 +111,12 @@ const PreviewProject = () => {
         <div className="o-previewProject__infoSection">
           <ProjectInfoSection mission={mission} about={problemAddressed} />
         </div>
-        <div className="o-previewProject__graphic">
-          <ProjectProgressCard
-            progressCurrentValue={90}
-            progressTotalValue={100}
-            balanceCurrentValue={90}
-            balanceTotalValue={100}
-          />
-        </div>
         <div className="o-previewProject__members">
-          <CoaProjectMembersCard
+          {/* <CoaProjectMembersCard
             beneficiary={beneficiaryUser}
             investor={investorUser}
             auditors={auditorsUsers}
-          />
+          /> */}
         </div>
         <div className="o-previewProject__progressSection">
           <TitlePage

@@ -2,6 +2,7 @@ import React from 'react';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import './project-info-section.scss';
 import PropTypes from 'prop-types';
+import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
 
 const HorizontalBlockText = ({ title, content, orderNumber }) => (
   <div className="m-horizontalBlockText">
@@ -21,6 +22,14 @@ export const ProjectInfoSection = ({ about, mission }) => (
     <div className="o-projectInfoSection__text">
       <HorizontalBlockText title="About the Project" content={about} orderNumber="01" />
       <HorizontalBlockText title="Mission and Vision" content={mission} orderNumber="02" />
+    </div>
+    <div className="o-projectInfoSection__progressCard">
+      <ProjectProgressCard
+        progressCurrentValue={90}
+        progressTotalValue={100}
+        balanceCurrentValue={90}
+        balanceTotalValue={100}
+      />
     </div>
   </div>
 );

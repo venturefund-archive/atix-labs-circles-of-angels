@@ -22,7 +22,7 @@
   width: 100%;
   height: 100%;
   &__text {
-    width: 100%;
+    flex-grow: 1;
     min-height: 100%;
     position: relative;
     padding-block: 1.875rem;
@@ -42,6 +42,15 @@
       -moz-border-radius: 6px;
       -ms-border-radius: 6px;
       -o-border-radius: 6px;
+    }
+  }
+  &__progressCard {
+    width: 366px;
+    @include respond(mobile) {
+      width: 100%;
+    }
+    @include respond(tablet) {
+      width: 366px;
     }
   }
 }
