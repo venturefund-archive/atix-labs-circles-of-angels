@@ -8,16 +8,11 @@ export const getInitials = fullName => {
   return initials;
 };
 
-export const formatTimeframeValue = timeframe => {
-  if (!timeframe) return '-';
-  try {
-    return `${parseInt(timeframe)} month/s`;
-  } catch {
-    return timeframe;
-  }
-};
+export const formatTimeframeValue = (timeframe, timeframeUnit = '') =>
+  `${parseFloat(timeframe)?.toFixed(1)} ${timeframeUnit}`;
 
 export const formatCurrency = (currency, value) => {
+  if (!value) return 'Not set';
   try {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',

@@ -1,36 +1,36 @@
 @import 'css/general_styling';
 
-.detail {
+.a-projectHeroDetail {
   display: flex;
   flex-direction: row;
-  padding-right: 10px;
-  //align-items: flex-start;
+  /* padding-right: 10px; */
+  align-items: flex-start;
   gap: 10px;
 
-  &:not(:last-child) {
+  /* &:not(:last-child) {
     border-right: 1px solid #e5e6ed;
     height: 50px;
-  }
+  } */
 
-  .icon {
+  &__icon {
     display: none;
     @include respond(laptop) {
       display: flex;
     }
   }
 
-  .text {
+  &__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
 
-    h1 {
-      font-family: "Rubik", sans-serif;
+    h3 {
+      font-family: 'Rubik', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 18px;
-      line-height: 15px;
+      /* line-height: 15px; */
       color: #ffffff;
 
       order: 1;
@@ -41,7 +41,7 @@
 
     p {
       order: 2;
-      font-family: "Rubik", sans-serif;
+      font-family: 'Rubik', sans-serif;
       font-style: normal;
       font-weight: 400;
       font-size: 13px;

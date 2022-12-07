@@ -18,7 +18,7 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
 import { toBase64 } from 'components/utils/FileUtils';
 import { putBasicInformation } from 'api/projectApi';
-import { formatCurrency } from 'helpers/formatter';
+import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 import { decimalCount, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import _ from 'lodash';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
@@ -188,7 +188,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                 />
                 <div>
                   <p className="formProjectBasicInformation__content__left__preview__info__description__value">
-                    {parseFloat(timeframe)?.toFixed(1)} {timeframeUnit}
+                    {formatTimeframeValue(timeframe, timeframeUnit)}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
                     Time

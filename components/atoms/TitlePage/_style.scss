@@ -1,18 +1,61 @@
-@import "../../../css/general_styling.scss";
+@import '../../../css/general_styling.scss';
+@import 'css/_variables.scss';
 
-.TitlePage{
+.TitlePage {
   h1 {
-    @include primary-text($titlepage, $on-surface, 500);
+    @include primary-text($titlepage, var(--textColor, $on-surface), 500);
     position: relative;
     margin-bottom: 1em;
-    &::after {
-      background:$primary-color;
-      content:"";
-      display:block;
-      height:3px;
-      position:absolute;
-      width:30px;
-      bottom: -0.5em;
+
+    &.--withOrderNumber {
+      &::before {
+        counter-reset: variable var(--orderNumber);
+        content: counter(variable, decimal-leading-zero);
+        @include primary-text(1.25rem, var(--numberColor, $coa-blue-100), 300);
+        display: block;
+        letter-spacing: -0.5px;
+      }
+    }
+  }
+  &.--center,
+  &.--right,
+  &.--left {
+    h1 {
+      &::after {
+        background: $primary-color;
+        content: '';
+        display: block;
+        height: 3px;
+        position: absolute;
+        width: 30px;
+        bottom: -0.5em;
+      }
+    }
+  }
+  &.--center {
+    h1 {
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+      }
+    }
+  }
+  &.--right {
+    h1 {
+      &::after {
+        right: 0;
+      }
+    }
+  }
+  &.--left {
+    h1 {
+      &::after {
+        left: 0;
+      }
     }
   }
 }

@@ -5,8 +5,35 @@ import { Collapse, Icon } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
+import milestoneStatusMap from 'model/milestoneStatus';
 
 const { Panel } = Collapse;
+
+const ACTIVITY_STATUS = {
+  NEW: 'new',
+  TO_REVIEW: 'to-review',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+  IN_PROGRESS: 'in-progress'
+};
+
+const MILESTONE_STATUS = {
+  NEW: 'new',
+  APPROVED: 'approved',
+  IN_PROGRESS: 'in-progress'
+};
+
+const getMilestoneStatus = (activities = []) => {
+  const areaAllActivitiesNew = activities?.every(
+    activity => activity?.status === ACTIVITY_STATUS.NEW
+  );
+  if (areaAllActivitiesNew) return MILESTONE_STATUS.NEW;
+  const areAllActivitiesApproved = activities?.every(
+    activity => activity?.status === ACTIVITY_STATUS.APPROVED
+  );
+  if (areAllActivitiesApproved) return MILESTONE_STATUS.APPROVED;
+  return MILESTONE_STATUS.IN_PROGRESS;
+};
 
 export const CoaMilestoneItem = ({
   milestoneNumber,
@@ -17,7 +44,9 @@ export const CoaMilestoneItem = ({
   onCreateActivity,
   onRemoveActivity,
   onEditActivity,
-  toggleAreActivitiesOpened
+  toggleAreActivitiesOpened,
+  withStateTag,
+  withEvidences
 }) => {
   const description = milestone?.description;
   const title = milestone?.title;
@@ -25,10 +54,24 @@ export const CoaMilestoneItem = ({
   const spent = milestone?.spent || 0;
   const areActivitiesOpen = milestone?.areActivitiesOpen || false;
   const remaining = budget - spent;
+  const status = getMilestoneStatus(milestone?.activities);
+  const allEvidences = milestone?.activities?.reduce(
+    (curr, next) => [...curr, ...(next?.evidences || [])],
+    []
+  );
+  const transferQuantity = allEvidences?.reduce(
+    (curr, next) => (next?.type === 'transfer' ? curr + 1 : curr),
+    0
+  );
+  const impactQuantity = allEvidences?.reduce(
+    (curr, next) => (next?.type === 'impact' ? curr + 1 : curr),
+    0
+  );
 
   return (
     <CoaIndicatorsCard
       {...{ currency }}
+      stateMap={milestoneStatusMap}
       budget={budget}
       title={`Milestone ${milestoneNumber} - ${title}`}
       entity="Activity"
@@ -39,6 +82,11 @@ export const CoaMilestoneItem = ({
       spent={spent}
       className="o-coaMilestoneItem__card"
       alwaysShowBudget
+      withStateTag={withStateTag}
+      state={status}
+      transferQuantity={transferQuantity}
+      impactQuantity={impactQuantity}
+      withEvidences={withEvidences}
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>
@@ -69,8 +117,10 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
-                      onRemove={() => onRemoveActivity(activity?.id)}
-                      onEdit={() => onEditActivity(activity)}
+                      withEvidences={withEvidences}
+                      withStateTag={withStateTag}
+                      onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}
+                      onEdit={onEditActivity && (() => onEditActivity(activity))}
                       {...{ milestone, currency, activity }}
                       {...{ activityNumber: index + 1 }}
                     />
@@ -79,13 +129,15 @@ export const CoaMilestoneItem = ({
               </Panel>
             </Collapse>
           )}
-          <CoaTextButton
-            className="o-coaMilestoneItem__addActivityButton"
-            type="dashed"
-            onClick={() => onCreateActivity(milestone)}
-          >
-            <Icon type="plus" /> Add Activity
-          </CoaTextButton>
+          {onCreateActivity && (
+            <CoaTextButton
+              className="o-coaMilestoneItem__addActivityButton"
+              type="dashed"
+              onClick={() => onCreateActivity(milestone)}
+            >
+              <Icon type="plus" /> Add Activity
+            </CoaTextButton>
+          )}
         </>
       }
     />

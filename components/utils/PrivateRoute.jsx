@@ -15,7 +15,7 @@ function PrivateRoute(routeProps) {
     withSideBar,
     authenticated,
     role,
-    user,
+    user
   } = routeProps;
   // const { getLoggedUser } = useUserContext();
   // const user = getLoggedUser();
@@ -27,7 +27,7 @@ function PrivateRoute(routeProps) {
   }
 
   if (required && authenticated && !roles.includes(role)) {
-    return (<div>{`This route required a role (${roles.join(',')}): ${role}`}</div>)
+    return <div>{`This route required a role (${roles.join(',')}): ${role}`}</div>;
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
   }
 
@@ -35,7 +35,6 @@ function PrivateRoute(routeProps) {
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
     // return <Redirect push from={path} to="/" />;
   }
-
 
   return (
     <Route

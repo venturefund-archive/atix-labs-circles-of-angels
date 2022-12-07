@@ -3,6 +3,8 @@
 
 .coaButton {
   height: 2.375rem;
+  display: inline-flex;
+  align-items: center;
   &.ghost {
     * {
       @include primary-text(0.875rem, $coa-blue-100, 500);

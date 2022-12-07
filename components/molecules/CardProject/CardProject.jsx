@@ -27,7 +27,8 @@ const CardProject = ({ onClick, project, countries }) => {
     timeframe,
     status,
     beneficiary,
-    currency
+    currency,
+    timeframeUnit
   } = project;
   const locationsNames = () => {
     if (!location) return 'Not set';
@@ -81,7 +82,7 @@ const CardProject = ({ onClick, project, countries }) => {
           <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
             subtitle="Timeframe"
-            title={formatTimeframeValue(timeframe)}
+            title={formatTimeframeValue(timeframe, timeframeUnit)}
             iconInfoItem="clock-circle"
             className="m-cardProject__body__description__timeframe"
           />

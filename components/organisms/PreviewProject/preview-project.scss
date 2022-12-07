@@ -1,0 +1,105 @@
+@import 'css/general_styling';
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.o-previewProject {
+  &__title {
+    margin-bottom: 2rem;
+    h1 {
+      @include primary-text(2rem, $coa-blue-100, 500);
+    }
+  }
+  &__content {
+    padding-inline: min(1rem);
+    display: grid;
+    grid-template-columns: minmax(auto, 900px) 366px;
+    column-gap: 2.1875rem;
+    grid-template-areas:
+      'buttons    buttons'
+      'info       graphic'
+      'members    members'
+      'progress   progress'
+      'milestones milestones';
+  }
+  &__buttons {
+    grid-area: buttons;
+    display: flex;
+    column-gap: 0.9375rem;
+    &__button {
+      display: flex;
+      column-gap: 0.625rem;
+      border: none;
+      background: $coa-light-sky-blue-100;
+      @include primary-text(1.25rem, $coa-dark-gray-100, 500);
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    }
+  }
+  &__infoSection {
+    grid-area: info;
+    height: 100%;
+  }
+  &__members {
+    grid-area: members;
+  }
+  &__progressSection {
+    grid-area: progress;
+    &__pills {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1.25rem;
+      &__normalText {
+        @include primary-text(0.9375rem, $coa-dark-gray-100, 400);
+      }
+      &__boldText {
+        @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
+      }
+    }
+  }
+  &__milestonesSection {
+    grid-area: milestones;
+    &__milestones {
+      display: flex;
+      flex-direction: column;
+      row-gap: 2.1875rem;
+    }
+  }
+  &__graph {
+    grid-area: graphic;
+  }
+  @include respond(mobile) {
+    &__content {
+      grid-template-areas:
+        'buttons buttons'
+        'info info'
+        'members members'
+        'graphic graphic'
+        'progress progress'
+        'milestones milestones';
+    }
+  }
+  @include respond(tablet) {
+    &__content {
+      column-gap: 1.31rem;
+      grid-template-columns: 367px minmax(auto, 476px);
+      grid-template-areas:
+        'buttons buttons'
+        'info info'
+        'members members'
+        'graphic progress'
+        'milestones milestones';
+    }
+  }
+  @include respond(laptop) {
+    &__content {
+      grid-template-columns: minmax(auto, 900px) 366px;
+      grid-template-areas:
+        'buttons    buttons'
+        'info       graphic'
+        'members    members'
+        'progress   progress'
+        'milestones milestones';
+      row-gap: 3.125rem;
+      margin-block: 2.5rem;
+    }
+  }
+}

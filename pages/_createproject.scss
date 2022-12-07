@@ -1,9 +1,10 @@
-@import '../css/general_styling.scss';
+@import 'css/general_styling.scss';
+@import 'css/_variables.scss';
 
 .p-createProject {
   &__container {
     display: grid;
-    grid-template-rows: auto 5rem;
+    grid-template-rows: calc(100vh - #{$header-height} - #{$create-project-footer-height}) $create-project-footer-height;
     height: 100%;
     position: relative;
     width: 100%;

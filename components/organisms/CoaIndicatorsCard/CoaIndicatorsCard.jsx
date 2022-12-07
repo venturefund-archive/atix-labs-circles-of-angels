@@ -6,10 +6,23 @@ import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { formatCurrency } from 'helpers/formatter';
 import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
+import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 
 const { Panel } = Collapse;
 
-const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra }) => (
+const CardHeader = ({
+  title,
+  entity,
+  onCreate,
+  onEdit,
+  onRemove,
+  onClick,
+  extra,
+  withStateTag,
+  state,
+  stateMap,
+  onViewEvidence
+}) => (
   <div
     className="o-coaIndicatorsCard__header"
     onClick={onClick}
@@ -22,7 +35,7 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra 
       {extra}
     </div>
     <div>
-      {entity && (
+      {entity && onCreate && (
         <CoaTextButton
           onClick={e => {
             e.stopPropagation();
@@ -32,24 +45,36 @@ const CardHeader = ({ title, entity, onCreate, onEdit, onRemove, onClick, extra 
           <Icon type="plus" /> {`Add ${entity}`}
         </CoaTextButton>
       )}
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onEdit();
-        }}
-        variant="muted"
-      >
-        <Icon type="edit" /> Edit
-      </CoaTextButton>
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onRemove();
-        }}
-        variant="danger"
-      >
-        <Icon type="delete" /> Delete
-      </CoaTextButton>
+      {onEdit && (
+        <CoaTextButton
+          onClick={e => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          variant="muted"
+        >
+          <Icon type="edit" /> Edit
+        </CoaTextButton>
+      )}
+      {onRemove && (
+        <CoaTextButton
+          onClick={e => {
+            e.stopPropagation();
+            onRemove();
+          }}
+          variant="danger"
+        >
+          <Icon type="delete" /> Delete
+        </CoaTextButton>
+      )}
+      {onViewEvidence && (
+        <CoaTextButton onClick={onViewEvidence}>
+          <Icon type="eye" /> View evidences
+        </CoaTextButton>
+      )}
+      {withStateTag && (
+        <CoaTag predefinedColor={stateMap?.[state]?.color}>{stateMap?.[state]?.name}</CoaTag>
+      )}
     </div>
   </div>
 );
@@ -67,14 +92,34 @@ export const CoaIndicatorsCard = ({
   remaining,
   className,
   isCollapsible,
-  alwaysShowBudget
+  alwaysShowBudget,
+  withStateTag,
+  state,
+  stateMap,
+  transferQuantity,
+  impactQuantity,
+  withEvidences,
+  onViewEvidence
 }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
   return (
     <div className={classNames(className, 'o-coaIndicatorsCard')}>
       {!isCollapsible && (
         <>
-          <CardHeader {...{ title, onEdit, onRemove, onCreate, entity }} />
+          <CardHeader
+            {...{
+              title,
+              onEdit,
+              onRemove,
+              onCreate,
+              entity,
+              withStateTag,
+              state,
+              stateMap,
+              withEvidences,
+              onViewEvidence
+            }}
+          />
           <Divider className="o-coaIndicatorsCard__divider" />
         </>
       )}
@@ -89,6 +134,11 @@ export const CoaIndicatorsCard = ({
             <Panel
               header={
                 <CardHeader
+                  onViewEvidence={onViewEvidence}
+                  withEvidences={withEvidences}
+                  withStateTag={withStateTag}
+                  state={state}
+                  stateMap={stateMap}
                   extra={
                     isCollapseOpen ? (
                       <Icon type="down" className="o-coaIndicatorsCard__header__icon" />
@@ -129,6 +179,21 @@ export const CoaIndicatorsCard = ({
                   {formatCurrency(currency, remaining)}
                 </p>
               </div>
+              {withEvidences && (
+                <>
+                  <Divider type="vertical" style={{ height: '32px' }} />
+                  <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
+                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
+                      Evidences
+                    </p>
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                      {transferQuantity} Transfer <Icon type="right" /> {impactQuantity} Impact
+                      <Icon type="right" />
+                    </p>
+                  </div>{' '}
+                </>
+              )}
             </div>
           )}
           {additionalBody}

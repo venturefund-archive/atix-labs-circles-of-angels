@@ -10,14 +10,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
+import classNames from 'classnames';
 
-const TitlePage = ({ textTitle, ...props }) => (
-  <div className="TitlePage">
-    <h1 {...props}>{textTitle}</h1>
+const TitlePage = ({
+  textTitle,
+  underlinePosition,
+  className,
+  textClassName,
+  textColor,
+  orderNumber,
+  ...props
+}) => (
+  <div
+    className={classNames(
+      'TitlePage',
+      {
+        [`--${underlinePosition}`]: underlinePosition !== 'none'
+      },
+      className
+    )}
+    style={{ '--textColor': textColor, '--orderNumber': orderNumber }}
+  >
+    <h1
+      className={classNames(textClassName, { '--withOrderNumber': Boolean(orderNumber) })}
+      {...props}
+    >
+      {textTitle}
+    </h1>
   </div>
 );
 export default TitlePage;
 
+TitlePage.defaultProps = {
+  underlinePosition: 'left',
+  className: '',
+  textClassName: undefined
+};
+
 TitlePage.propTypes = {
-  textTitle: PropTypes.string.isRequired
+  textTitle: PropTypes.string.isRequired,
+  underlinePosition: PropTypes.oneOf(['left', 'center', 'right']),
+  className: PropTypes.string,
+  textClassName: PropTypes.string
 };
