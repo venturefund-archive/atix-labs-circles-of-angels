@@ -83,7 +83,7 @@ const PreviewProject = () => {
   };
 
   return (
-    <Layout>
+    <Layout hasBackgroundImage>
       <ProjectHeroSection
         title={projectName}
         status={status}

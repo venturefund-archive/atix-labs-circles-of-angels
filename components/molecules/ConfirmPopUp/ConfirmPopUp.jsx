@@ -56,7 +56,7 @@ class ConfirmPopUp extends React.Component {
           cancelText="cancel"
           className="ConfirmModal"
         >
-          <img src="/static/images/icon-modal.svg" alt="Modal Icon" />
+          <img src="/static/images/icon-modal.svg" alt="EvidenceModal Icon" />
           <h1> Sign Agreement</h1>
           <h2>Are you sure you want to sign this agreement?</h2>
         </Modal>

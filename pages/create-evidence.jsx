@@ -1,16 +1,15 @@
 import React from 'react';
-import PreviewProject from '../components/organisms/PreviewProject/PreviewProject';
+import { useParams } from 'react-router';
 import { EvidenceForm } from '../components/molecules/EvidenceForm/EvidenceForm';
+import ProjectHeader from '../components/organisms/ProjectHeader/ProjectHeader';
 
 const CreateEvidenceContainer = () => {
-  const pathParts = window.location.pathname.split('/');
-  const id = pathParts[1];
-
+  const { id } = useParams();
   return (
-    <PreviewProject id={id}>
+    <ProjectHeader id={id}>
       <EvidenceForm />
-    </PreviewProject>
-  );
+    </ProjectHeader>
+  )
 }
 
 export default CreateEvidenceContainer;

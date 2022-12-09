@@ -22,6 +22,7 @@ import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
 import CreateEvidenceContainer from '../../../pages/create-evidence';
+import EvidencesContainer from '../../../pages/evidences';
 
 
 const {
@@ -208,8 +209,15 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/:id/activity/:activityId/evidences/new',
+    path: '/:id/activity/:activityId/create-evidence',
     component: CreateEvidenceContainer,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
+    path: '/:id/activity/:activityId/evidences',
+    component: EvidencesContainer,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false
