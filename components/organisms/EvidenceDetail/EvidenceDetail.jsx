@@ -42,9 +42,11 @@ export function EvidenceComments({ reason, auditor }) {
               <h3 className='evidence-comments__auditor-name'>
                 {auditor?.firstName} {auditor?.lastName}
               </h3>
+              {/* Await for commentary date integration
               <h3 className='evidence-comments__date'>
                 25/09/2022
               </h3>
+                */}
             </div>
             <p className='evidence-comments__text'>
               {reason}
