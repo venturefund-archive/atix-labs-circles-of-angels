@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ArrowLeftOutlined, PaperClipOutlined } from '@ant-design/icons';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import './_style.scss';
 import { useHistory } from 'react-router';
 import evidenceStatusMap from 'model/evidenceStatus';
+import { UserContext, UserProvider } from 'components/utils/UserContext';
 
 export function GoBack() {
   const history = useHistory()
@@ -86,7 +87,7 @@ export function EvidenceDetailContainer({
         }
       </div>
       { /* Evidence indicator */}
-      <h3 className='evidence-container__indicator'>EVIDENCE N°1</h3>
+      <h3 className='evidence-container__indicator'>EVIDENCE</h3>
       { /* Evidence title */}
       <h2 className='evidence-container__title'>
         {title}
@@ -150,6 +151,8 @@ export function Breadcrumb({ route }) {
 }
 
 export default function EvidenceDetail({ evidence }) {
+  const { user: { role } } = useContext(UserContext);
+  const isAuditor = role === 'auditor'
   return (
     <div className='evidence-detail'>
       <div className='evidence-detail__container'>
@@ -160,6 +163,12 @@ export default function EvidenceDetail({ evidence }) {
         {
           evidence.files && <AttachedFiles files={files} />
         }
+        {/* invert this after ending developing */}
+        {!isAuditor && (
+          <div className='evidence-detail__auditor-options'>
+            auditor options
+          </div>
+        )}
       </div>
       <div className='evidence-detail__container'>
         <EvidenceComments {...evidence} />
