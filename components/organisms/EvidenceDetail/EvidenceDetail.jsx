@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
-import { ArrowLeftOutlined, PaperClipOutlined } from '@ant-design/icons';
+import React, { useContext, useState } from 'react';
+import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, PaperClipOutlined } from '@ant-design/icons';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import './_style.scss';
 import { useHistory } from 'react-router';
 import evidenceStatusMap from 'model/evidenceStatus';
-import { UserContext, UserProvider } from 'components/utils/UserContext';
+import { UserContext } from 'components/utils/UserContext';
+import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { Button, Form, Input, Select, Typography } from 'antd';
+import LogoWrapper from 'components/atoms/LogoWrapper';
 
 export function GoBack() {
   const history = useHistory()
@@ -105,6 +108,94 @@ export function EvidenceDetailContainer({
   )
 }
 
+// Move to organisms
+export const ModalApproveEvidence = ({ visible, setVisible, onSuccess }) => {
+  return (
+    <CoaModal
+      visible={visible}
+      closable={false}
+      maskClosable={true}
+      onCancel={() => setVisible(false)}
+      footer={[
+        <Button
+          className='ant-btn ant-btn-secondary CoaModal__Secondary'
+          onClick={() => setVisible(false)}
+        >
+          Cancel
+        </Button>,
+        <Button className='ant-btn ant-btn-primary CoaModal__primary' onClick={onSuccess}>
+          Approve
+        </Button>
+      ]}
+    >
+      <LogoWrapper textTitle='You are about to approve an evidence' />
+      <Typography.Text className='CoaModal__Paragraph--centered'>Are you sure you want to approve the following evidence?</Typography.Text>
+    </CoaModal>
+  )
+}
+
+export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }) => {
+  const { getFieldDecorator } = form;
+  return (
+    <CoaModal
+      visible={visible}
+      closable={false}
+      maskClosable={true}
+      onCancel={() => setVisible(false)}
+      footer={[
+        <Button
+          className='ant-btn ant-btn-secondary CoaModal__Secondary'
+          onClick={() => setVisible(false)}
+        >
+          Cancel
+        </Button>,
+        <Button className='ant-btn ant-btn-primary CoaModal__primary' onClick={onSuccess}>
+          Approve
+        </Button>
+      ]}
+    >
+      <LogoWrapper textTitle='You are about to reject an evidence' />
+      <Typography.Text className='CoaModal__Paragraph--centered'>
+        Please select the reason and leave a comment for the beneficiary or the founder.
+      </Typography.Text>
+      <Form>
+        <Form.Item label="Select Reason">
+          {
+            getFieldDecorator('reason', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please select a reason'
+                }
+              ]
+            })(<Select
+              key=''
+            >
+              <Select.Option value='foo'>foo</Select.Option>
+            </Select>)
+          }
+        </Form.Item>
+        <Form.Item label='Leave a comment'>
+          {
+            getFieldDecorator('comment', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Must write a reason for rejection'
+                }
+              ]
+            })(
+              <Input.TextArea/>
+            )
+          }
+        </Form.Item>
+      </Form>
+    </CoaModal>
+  )
+}
+
+const ModalRejectEvidence = Form.create({ name: 'RejectEvidence' })(FormModalRejectEvidence)
+
 export function AttachedFiles({ files }) {
   return (
     <div className='attached-files'>
@@ -151,6 +242,8 @@ export function Breadcrumb({ route }) {
 }
 
 export default function EvidenceDetail({ evidence }) {
+  const [approveModalOpen, setApproveModalOpen] = useState(false);
+  const [rejectModalOpen, setRejectModalOpen] = useState(true);
   const { user: { role } } = useContext(UserContext);
   const isAuditor = role === 'auditor'
   return (
@@ -163,16 +256,25 @@ export default function EvidenceDetail({ evidence }) {
         {
           evidence.files && <AttachedFiles files={files} />
         }
-        {/* invert this after ending developing */}
+        {/* invert this after ending development */}
         {!isAuditor && (
-          <div className='evidence-detail__auditor-options'>
-            auditor options
+          <div className='auditor-options'>
+            <button className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'>
+              <CloseOutlined className='auditor-options__icon' />
+              <span>Reject</span>
+            </button>
+            <button className='auditor-options__auditor-btn' onClick={() => setApproveModalOpen(true)}>
+              <CheckOutlined className='auditor-options__icon' />
+              <span>Approve</span>
+            </button>
           </div>
         )}
       </div>
       <div className='evidence-detail__container'>
         <EvidenceComments {...evidence} />
       </div>
+      <ModalApproveEvidence visible={approveModalOpen} setVisible={setApproveModalOpen} />
+      <ModalRejectEvidence visible={rejectModalOpen} setVisible={setRejectModalOpen} />
     </div>
   )
 }

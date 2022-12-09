@@ -14,7 +14,8 @@ export default function CoaModal({
         padding: '32px 60px',
       }}
       className='CoaModal'
-      visible={visible} {...rest}
+      visible={visible}
+      {...rest}
       closeIcon=''
     >
       {children}

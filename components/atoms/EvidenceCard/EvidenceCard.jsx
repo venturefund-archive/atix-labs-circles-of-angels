@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { addElipsesToText } from '../../utils';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
+import { useHistory } from 'react-router';
 
 const EvidenceCard = ({ evidence }) => {
-    const { title, status, createdAt, description, reason, income, outcome } = evidence;
+    const { title, status, createdAt, description, reason, income, outcome, id } = evidence;
 
+    const { push } = useHistory()
     return (
       <div className="evidenceCard">
         <div className="statusDay">
@@ -37,8 +39,8 @@ const EvidenceCard = ({ evidence }) => {
         <EvidenceButton
               text='View more details'
               variant="primary"
-              onClick={() => {}}
-              type='button'
+              onClick={() => push(`evidences/${id}`)}
+              type="button"
         />
       </div>
     );
