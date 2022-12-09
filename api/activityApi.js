@@ -35,6 +35,8 @@ export const uploadEvidenceSendTransaction = (taskId, data, status) => {
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 export const getActivityEvidences = activityId => doGet(`${baseURL}/${activityId}/evidences`);
 
+const getEvidence = evidenceId => doGet(`/evidences/${evidenceId}`);
+
 export const getEvidenceBlockchainData = evidenceId =>
   doGet(`/evidences/${evidenceId}/blockchain-data`);
 
@@ -151,4 +153,5 @@ export {
   completeActivity,
   createActivity,
   createEvidence,
+  getEvidence,
 };

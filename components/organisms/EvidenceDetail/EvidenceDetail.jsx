@@ -1,64 +1,30 @@
 import React from 'react';
 import { ArrowLeftOutlined, PaperClipOutlined } from '@ant-design/icons';
-import BlockIcon from 'components/atoms/BlockIcon/BlockIcon';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
-import ProjectHeroDetails from 'components/molecules/ProjectHeroDetails/ProjectHeroDetails';
-import ProjectHeroDownload from 'components/molecules/ProjectHeroDownload/ProjectHeroDownload';
 import './_style.scss';
 import { useHistory } from 'react-router';
+import evidenceStatusMap from 'model/evidenceStatus';
 
-export function GoBack({ backRoute }) {
-  const history = useHistory();
+export function GoBack() {
+  const history = useHistory()
   return (
     <button
       className='go-back'
       type='button'
-      onClick={() => history.push(backRoute)}>
+      onClick={() => history.goBack()}>
       <ArrowLeftOutlined />
       <h3 className='go-back__text'>Go back</h3>
     </button>
   )
 }
 
-export function EvidenceTop() {
-  return (
-    <div className='evidence-top'>
-      <div className='evidence-top__container'>
-        <div className='evidence-top__header'>
-          <CoaTag>In Progress</CoaTag>
-          <BlockIcon url='/' />
-        </div>
-        <div className='evidence-top__organization'>
-          <h3 className='evidence-top__indicator'>
-            Organization name
-          </h3>
-          <h1
-            className='evidence-top__org-name'
-          >
-            Wellness for families in Asia
-          </h1>
-          <div className='evidence-top__details'>
-            <ProjectHeroDetails
-              country='Thailand'
-              timeframe='2 Months'
-              budget='48000'
-              beneficiary='Joe Demin'
-            />
-            <ProjectHeroDownload />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function EvidenceComments({ comments }) {
+export function EvidenceComments({ reason, auditor }) {
   return (
     <div className='evidence-comments'>
       <h2 className='evidence-comments__header'>
         Auditor&apos;s Review Comments
       </h2>
-      {!comments && (
+      {!reason && (
         <div className='evidence-comments__no-comments'>
           <img
             className='evidence-comments__image'
@@ -68,44 +34,68 @@ export function EvidenceComments({ comments }) {
           </h3>
         </div>
       )}
+      {reason && (
+        <div className='evidence-comments__reason'>
+          <img src='/static/images/audit-comment.svg' />
+          <div className='evidence-comments__commentary'>
+            <div className='evidence-comments__top'>
+              <h3 className='evidence-comments__auditor-name'>
+                {auditor?.firstName} {auditor?.lastName}
+              </h3>
+              <h3 className='evidence-comments__date'>
+                25/09/2022
+              </h3>
+            </div>
+            <p className='evidence-comments__text'>
+              {reason}
+            </p>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
 
 export function EvidenceDetailContainer({
-  evidence
+  title,
+  description,
+  createdAt,
+  beneficiary,
+  status,
 }) {
+  const date = new Date(createdAt)
   return (
     <div className='evidence-container'>
       {/* Evidence header */}
       <div className='evidence-container__header'>
         <h3 className='evidence-container__date'>
-          March, 10th 2021 - 10:30
+          {date.toLocaleDateString('en-us', { month: 'long' })},
+          {date.toLocaleDateString('en-us', { day: 'numeric' })} -
+          {date.toLocaleTimeString('en-us', { hour: '2-digit', minute: '2-digit' })}
         </h3>
-        <CoaTag>New</CoaTag>
+        {
+          status &&
+          <CoaTag predefinedColor={evidenceStatusMap[status].color}>
+            {
+              evidenceStatusMap[status].name
+            }
+          </CoaTag>
+        }
       </div>
       { /* Evidence indicator */}
       <h3 className='evidence-container__indicator'>EVIDENCE N°1</h3>
       { /* Evidence title */}
       <h2 className='evidence-container__title'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        {title}
       </h2>
       <p className='evidence-container__description'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Aliquam in tellus dui. Phasellus cursus enim non tincidunt
-        elementum. Quisque eget auctor ex. Proin ut sem arcu.
-        Sed vel feugiat dui. Vestibulum ante ipsum primis in
-        faucibus orci luctus et ultrices posuere cubilia curae;
-        Duis a lacinia metus. Pellentesque ullamcorper
-        mi porttitor erat euismod blandit. Duis
-        vulputate arcu at lorem hendrerit,
-        et lacinia tortor suscipit. Curabitur ultrices
-        nisi eu sapien varius, eu dapibus enim finibus done.
+        {description}
       </p>
       {/* Evidence creator */}
       <h3 className='evidence-container__created-by'>
         Created by <b className='evidence-container__creator-name'>
-          Juan Pablo Yoroi
+          {beneficiary?.firstName} {beneficiary?.lastName}
         </b>
       </h3>
     </div>
@@ -149,52 +139,28 @@ export function AmountSpent({ currency, amount }) {
   )
 }
 
-export function Breadcrumb({ routes }) {
+export function Breadcrumb({ route }) {
   return (
     <div className='evidence-breadcrumb'>
-      {routes && routes.map((route) => (
-        <div className='evidence-breadcrumb__element' key={route.title}>
-          <h2 className='evidence-breadcrumb__title'>/ {route.title}</h2>
-        </div>
-      ))}
+      <h2 className='evidence-breadcrumb__title'>{route.title}</h2>
     </div>
   )
 }
 
-export default function EvidenceDetail() {
-  const breadcrumb = [
-    {
-      title: 'Milestone 1',
-    },
-    {
-      title: 'Activity 1',
-    },
-    {
-      title: 'Evidences',
-    },
-    {
-      title: 'Evidence N°1'
-    }
-  ]
-  const files = [
-    {
-      title: 'Deposit0028462.jpg'
-    },
-    {
-      title: 'Deposit0028462.jpg'
-    }
-  ]
+export default function EvidenceDetail({ evidence }) {
   return (
     <div className='evidence-detail'>
       <div className='evidence-detail__container'>
-        <GoBack backRoute='' />
-        <Breadcrumb routes={breadcrumb} />
-        <EvidenceDetailContainer />
-        <AmountSpent amount={5} currency='ETH' />
-        <AttachedFiles files={files} />
+        <GoBack />
+        <Breadcrumb route={{ title: 'Evidence Details' }} />
+        <EvidenceDetailContainer {...evidence} />
+        <AmountSpent amount={evidence.income} currency='ETH' />
+        {
+          evidence.files && <AttachedFiles files={files} />
+        }
       </div>
       <div className='evidence-detail__container'>
-        <EvidenceComments />
+        <EvidenceComments {...evidence} />
       </div>
     </div>
   )

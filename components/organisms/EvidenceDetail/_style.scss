@@ -2,12 +2,13 @@
 @import 'css/_general_styling.scss';
 
 .evidence-detail {
-  margin-top: 24px;
+  margin-top: 64px;
   padding: 16px;
+  padding-top: 0px;
 }
 
 .go-back {
-  display: flex;
+  display: none;
   color: $coa-grey-100;
   font-size: 16px;
   line-height: 19px;
@@ -129,7 +130,6 @@
 }
 
 .evidence-breadcrumb {
-  display: flex;
   padding: 8px 0px;
   &__title {
     color: $coa-blue-100;
@@ -141,6 +141,8 @@
 .evidence-comments {
   background: $coa-light-sky-blue-100;
   border-radius: 20px;
+  margin-top: 32px;
+  max-width: 400px;
   &__header {
     font-size: 16px;
     color: $coa-medium-gray-100;
@@ -160,6 +162,42 @@
   }
   &__image {
     width: 104px;
+  }
+  &__reason {
+    padding: 20px;
+    padding-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  &__top {
+    display: flex;
+    align-items: baseline;
+  }
+  &__auditor-name {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: $coa-dark-gray-100;
+    margin-right: 8px;
+  }
+  &__date {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: $coa-grey-100;
+  }
+  &__text {
+    margin-top: 10px;
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
   }
 }
 
@@ -200,14 +238,20 @@
 
 @media only screen and (min-width: 1024px) {
   .evidence-detail {
-    margin: 64px 64px 0px 64px;
     display: flex;
+    margin: 64px 64px 0px 64px;
     &__container {
       padding: 32px;
       max-width: 50%;
     }
   }
+  .evidence-comments {
+    margin-top: 0px;
+  }
   .evidence-top__container {
     margin: 8px 64px;
+  }
+  .go-back {
+    display: flex;
   }
 }
