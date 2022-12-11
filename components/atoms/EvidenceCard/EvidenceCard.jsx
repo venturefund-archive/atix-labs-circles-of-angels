@@ -36,7 +36,7 @@ const EvidenceCard = ({ evidence }) => {
           {amountSpent && (
             <div className="amountSpent">
               <p>
-                <img width={50} height={50} src="static/images/dollar-icon.svg" alt="icon"/>
+                <img src="/static/images/dollar-icon.svg" alt="icon"/>
                 <span>amount spent</span>
               </p>
               <p>{amountSpent} USD</p>
@@ -55,6 +55,6 @@ const EvidenceCard = ({ evidence }) => {
 export default EvidenceCard;
 
 EvidenceCard.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line react/forbid-prop-types,react/require-default-props
     evidence: PropTypes.object,
 };

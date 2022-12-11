@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/click-events-have-key-events,
+                            jsx-a11y/no-static-element-interactions,
+                             jsx-a11y/label-has-for */
+import React from 'react';
+import { Form, Input } from 'antd';
+import PropTypes from 'prop-types';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import './_style.scss';
 
 const EvidenceModal = ({ children, closeModal }) => (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   <div className="modalContainer" onClick={closeModal}>
     {children}
   </div>
@@ -30,67 +34,50 @@ const EvidenceModalInfo = ({
     </div>
 );
 
-export const EvidenceModalReviewInfo = ({ closeModal, loading, setReviewToSent }) => {
-    const [togglePassword, setTogglePassword] = useState(false);
-    const [toggleSecretKey, setToggleSecretKey] = useState(false);
-
-    return (
-      <div className="modalInfoContainer" onClick={(e) => e.stopPropagation()}>
-        <EvidenceModalInfo
-                icon="static/images/coa-modal-icon.svg"
+export const EvidenceModalReviewInfo = ({ closeModal, loading, setReviewToSent }) => (
+  <div className="modalInfoContainer" onClick={(e) => e.stopPropagation()}>
+    <EvidenceModalInfo
+                icon="/static/images/coa-modal-icon.svg"
                 modalTitle="You are about to send an activity to be reviewed by an auditor"
-                modalSubtitle="
-      To confirm the process please enter your administrator password and secret key"
+                modalSubtitle="To confirm the process please enter your administrator password and secret key"
                 titleWidth="300px"
                 subtitleWidth="250px"
-        />
-        <div className="form">
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-                        type={togglePassword ? 'text' : 'password'}
-                        placeholder="Enter your new password"
-            />
-            <span onClick={() => setTogglePassword(!togglePassword)}>
-              {togglePassword ? 'hi' : 'sh'}
-            </span>
-          </div>
-          <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-            <label htmlFor="secret_key">Secret Key</label>
-            <input
-                        type={toggleSecretKey ? 'text' : 'password'}
-                        placeholder="Repeat your secret key"
-            />
-            {/* eslint-disable-next-line max-len */}
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-            <span onClick={() => setToggleSecretKey(!toggleSecretKey)}>
-              {toggleSecretKey ? 'hi' : 'sh'}
-            </span>
-          </div>
+    />
+    <div className='form'>
+      <Form layout='vertical'>
+        <div>
+          <Form.Item label={<label htmlFor='password' style={{ color: '#728099' }}>Password</label>}>
+            <Input.Password id='password' placeholder='Enter your new password' />
+          </Form.Item>
         </div>
-
+        <div>
+            {/* eslint-disable-next-line */}
+          <Form.Item label={<label htmlFor='secret' style={{ color: '#728099' }}>Secret Key</label>}>
+            <Input.Password id='secret' placeholder='Repeat your secret key' />
+          </Form.Item>
+        </div>
         <div className="modalInfoBtn">
           <EvidenceButton type="button" text="Cancel" width variant="default" onClick={closeModal}/>
           <EvidenceButton
-                    text={loading ? 'Sending...' : 'Confirm'}
-                    width
-                    variant="primary"
-                    onClick={setReviewToSent}
-                    type="button"
+                  text={loading ? 'Sending...' : 'Confirm'}
+                  width
+                  variant="primary"
+                  onClick={setReviewToSent}
+                  type="button"
           />
         </div>
-      </div>
+      </Form>
+
+    </div>
+  </div>
     );
-};
 
 export const EvidenceModalSentSuccess = ({ closeModal }) => (
   <div className="modalInfoContainer" onClick={(e) => e.stopPropagation()}>
     <EvidenceModalInfo
-            icon="static/images/review-success.svg"
+            icon="/static/images/review-success.svg"
             modalTitle="The activity was sent successfully!"
-            modalSubtitle="
-        The evidences of the activity will be reviewed by an auditor."
+            modalSubtitle="The evidences of the activity will be reviewed by an auditor."
             titleWidth="220px"
             subtitleWidth="240px"
     />
@@ -105,3 +92,8 @@ export const EvidenceModalSentSuccess = ({ closeModal }) => (
     </div>
   </div>
 );
+
+EvidenceModal.propTypes = {
+    children: PropTypes.node.isRequired,
+    closeModal: PropTypes.func.isRequired,
+}

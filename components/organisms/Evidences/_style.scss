@@ -1,7 +1,6 @@
 .container {
-  padding: 0 1.25rem;
   max-width: 1200px;
-  margin: 0.625rem auto 0;
+  margin: 1rem auto 0;
 
   @media (min-width: 640px) {
     padding: 0 3rem;
@@ -17,7 +16,7 @@
 $inReview-status: #bc66ff;
 $inProgress-status: #ffaa29;
 
-.milestone {
+.evidences {
   .inProgress {
     color: $inProgress-status;
     border: 1px solid $inProgress-status;
@@ -44,8 +43,8 @@ $inProgress-status: #ffaa29;
 
   &Header {
     color: #4c7ff7;
-    margin-bottom: 1rem;
-    font-size: 17px;
+    margin: 1rem 0;
+    font-size: 20px;
 
     &Desktop {
       display: none;
@@ -66,7 +65,7 @@ $inProgress-status: #ffaa29;
     margin: 2rem 0;
     border-radius: 20px;
     background: #f1f3ff;
-    box-shadow: 0px 0px 8px rgba(94, 94, 94, 0.25);
+    box-shadow: 0 0 8px rgba(94, 94, 94, 0.25);
     font-size: 14px;
 
     .cardInfo {
@@ -142,7 +141,7 @@ $inProgress-status: #ffaa29;
         font-size: 0.85rem;
         padding: 0.65rem 0.7rem;
         border-radius: 4px;
-        box-shadow: 0px 1px 6px rgba(0, 1, 1, 0.17);
+        box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
         border: transparent;
       }
 

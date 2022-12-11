@@ -43,34 +43,34 @@ const Evidences = () => {
                     )}
             </EvidenceModal>
             )}
-          <div className="milestone">
-            <div className="milestoneHeader">
-              <h4 className="milestoneHeaderDesktop">
+          <div className="evidences">
+            <div className="evidencesHeader">
+              <span className="evidencesHeaderDesktop">
                         Milestone 2 / Activity 1 / Evidences
-              </h4>
-              <h4 className="milestoneHeaderMobile">Evidences</h4>
+              </span>
+              <span className="evidencesHeaderMobile">Evidences</span>
             </div>
-            <div className="milestoneCardInfoMobile">
+            <div className="evidencesCardInfoMobile">
               <p>ACTIVITY N°2</p>
               <p>Negotiate and finalize purchase orders</p>
             </div>
-            <div className="milestoneCard">
+            <div className="evidencesCard">
               <div className="cardInfo">
                 <p>
                   <span>Activity2 - </span>
                   <span>Negotiate and finalize purchase orders</span>
                 </p>
                 <div className="evidenceStatus">
-                  <button>
+                  <button type='button'>
                     <span>
-                      <img width={20} height={20} src="static/images/plus-icon.svg" alt=""/>
+                      <img src="/static/images/plus-icon.svg" alt=""/>
                     </span>
                     <span>Add evidences</span>
                   </button>
                   <p
-                                className={`progressStatus ${
-                                    progress === 'in progress' ? 'inProgress' : 'inReview'
-                                }`}
+                      className={`progressStatus ${
+                          progress === 'in progress' ? 'inProgress' : 'inReview'
+                      }`}
                   >
                     {progress}
                   </p>
@@ -84,25 +84,26 @@ const Evidences = () => {
               <div className="reviewBtn">
                 <div className="reviewBtnDesktop">
                   <button
-                                className={`btn revDeskBtn ${
-                                    progress === 'in progress' ? 'active' : 'inactive'
-                                }`}
-                                disabled={progress === 'in review'}
-                                onClick={openModal}
-                                type='button'
+                      className={`btn revDeskBtn ${
+                          progress === 'in progress' ? 'active' : 'inactive'
+                      }`}
+                      disabled={progress === 'in review'}
+                      onClick={openModal}
+                      type='button'
                   >
-                                Send for review
+                      Send for review
                   </button>
                 </div>
                 <div className="reviewBtnMobile">
                   <button
-                                className={`btn revMobBtn ${
+                      type='button'
+                      className={`btn revMobBtn ${
                                     progress === 'in progress' ? 'active' : 'inactive'
-                                }`}
-                                disabled={progress === 'in review'}
-                                onClick={openModal}
+                      }`}
+                      disabled={progress === 'in review'}
+                      onClick={openModal}
                   >
-                                Send activity to review
+                      Send activity to review
                   </button>
                 </div>
               </div>
