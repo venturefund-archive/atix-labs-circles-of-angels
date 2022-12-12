@@ -17,7 +17,7 @@ const HorizontalBlockText = ({ title, content, orderNumber }) => (
   </div>
 );
 
-export const ProjectInfoSection = ({ about, mission }) => (
+export const ProjectInfoSection = ({ about, mission, spent, budget }) => (
   <div className="o-projectInfoSection">
     <div className="o-projectInfoSection__text">
       <HorizontalBlockText title="About the Project" content={about} orderNumber="01" />
@@ -27,8 +27,8 @@ export const ProjectInfoSection = ({ about, mission }) => (
       <ProjectProgressCard
         progressCurrentValue={90}
         progressTotalValue={100}
-        balanceCurrentValue={90}
-        balanceTotalValue={100}
+        balanceCurrentValue={spent}
+        balanceTotalValue={budget}
       />
     </div>
   </div>
@@ -36,14 +36,18 @@ export const ProjectInfoSection = ({ about, mission }) => (
 
 ProjectInfoSection.propTypes = {
   about: PropTypes.string,
-  mission: PropTypes.string
+  mission: PropTypes.string,
+  spent: PropTypes.number,
+  budget: PropTypes.number
 };
 
 ProjectInfoSection.defaultProps = {
   about:
     'Having spent a lot of time volunteering for different charities across East Africa since 2008, Jacqueline got inspired by the many kids she has met over the years to launch Shule. The foundation’s ultimate goal is to bring quality education to boys who are denied this fundamental human right. \n\n Many of the children she meets on the streets of Uganda are very intelligent, despite having little to no access to education due to their family’s economic status. Resulting in their potential often being unfulfilled.',
   mission:
-    'Our mission is to empower families + communities through job creation. Each handwoven Yellow Leaf Hammock is created by an artisan from the hill-tribe communities of rural Thailand. \n\n By creating safe, high-wage weaving jobs, we divert families from toxic slash + burn agriculture and end the cycle of debt slavery. \n\n Good jobs empower + transform communities for generations.'
+    'Our mission is to empower families + communities through job creation. Each handwoven Yellow Leaf Hammock is created by an artisan from the hill-tribe communities of rural Thailand. \n\n By creating safe, high-wage weaving jobs, we divert families from toxic slash + burn agriculture and end the cycle of debt slavery. \n\n Good jobs empower + transform communities for generations.',
+  spent: 0,
+  budget: 0
 };
 
 HorizontalBlockText.propTypes = {

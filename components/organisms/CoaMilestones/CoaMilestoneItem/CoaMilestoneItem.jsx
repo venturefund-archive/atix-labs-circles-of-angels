@@ -46,7 +46,8 @@ export const CoaMilestoneItem = ({
   onEditActivity,
   toggleAreActivitiesOpened,
   withStateTag,
-  withEvidences
+  withEvidences,
+  canAddEvidences
 }) => {
   const description = milestone?.description;
   const title = milestone?.title;
@@ -117,6 +118,7 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
+                      canAddEvidences={canAddEvidences}
                       withEvidences={withEvidences}
                       withStateTag={withStateTag}
                       onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}

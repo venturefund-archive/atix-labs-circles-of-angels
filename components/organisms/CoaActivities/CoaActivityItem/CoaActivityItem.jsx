@@ -11,7 +11,8 @@ export const CoaActivityItem = ({
   onRemove,
   onEdit,
   withStateTag,
-  withEvidences
+  withEvidences,
+  canAddEvidences
 }) => {
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
@@ -51,6 +52,13 @@ export const CoaActivityItem = ({
         (e => {
           e.stopPropagation();
           console.log(`navigate to evidence for activity ${activity?.id}`);
+        })
+      }
+      onAddEvidences={
+        canAddEvidences &&
+        (e => {
+          e.stopPropagation();
+          console.log(`navigate to add evidence form for activity ${activity?.id}`);
         })
       }
       additionalBody={
