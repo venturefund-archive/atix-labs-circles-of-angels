@@ -120,6 +120,36 @@ const createActivity = async (activity, milestoneId) => {
     return { error };
   }
 };
+const createEvidence = async (activityId, data) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    const fd = new FormData();
+    fd.append('title', data.title);
+    fd.append('type', data.type);
+    fd.append('description', data.description);
+    fd.append('amount', data.amount);
+
+    if (data.files.length > 0) {
+      data.files.forEach(({ file }) => {
+        fd.append('files', file);
+      })
+    }
+
+    if (data.transferTxHash) {
+      fd.append('transferTxHash', data.transferTxHash);
+    }
+
+  console.log('GOt HERE', fd)
+
+  try {
+    const response = api.post(`${baseURL}/${activityId}/evidences`, fd, config);
+    console.log('RESON', response)
+    return response;
+  } catch (error) {
+    return { error };
+  }
+
+  // return doPost(`${baseURL}/${activityId}/evidence`, fd, config);
+};
 
 export {
   updateActivity,
@@ -128,5 +158,6 @@ export {
   deleteEvidence,
   downloadEvidence,
   completeActivity,
-  createActivity
+  createActivity,
+  createEvidence,
 };

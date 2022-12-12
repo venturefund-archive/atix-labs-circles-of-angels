@@ -1,44 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useParams } from 'react-router';
-import { message } from 'antd';
-import { getProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import customConfig from '../../../custom-config';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
+import { useProject } from '../../../hooks/useProject';
 
 const ProjectHeader = ({ children, id }) => {
-    const history = useHistory();
-    const goBack = () => history.push('/');
-
-    const [loading, setLoading] = useState(true);
-    const [project, setProject] = useState({
-        title: '',
-        status: ''
-    });
-
-    const fetchProject = async projectId => {
-        const response = await getProject(projectId);
-        if (response.errors || !response.data) {
-            message.error('An error occurred while fetching the project');
-            goBack();
-            return;
-        }
-
-        const { data } = response;
-
-        setProject(data);
-        setLoading(prevState => !prevState);
-    };
-
-    useEffect(() => {
-        fetchProject(id);
-
-        // eslint-disable-next-line
-    }, [id]);
-
+    const { loading, project } = useProject(id)
     if (loading) return <Loading />;
 
     const { basicInformation, status, details, budget } = project;
