@@ -14,7 +14,7 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
     <CoaFormItemTextArea
       form={form}
       name="title"
-      formItemProps={{ label: 'Title', showCount: true }}
+      formItemProps={{ label: 'Title' }}
       fieldDecoratorOptions={{
         rules: [
           {
@@ -28,13 +28,14 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the milestone title',
-        maxLength: 50
+        maxLength: 50,
+        showCount: true
       }}
     />
     <CoaFormItemTextArea
       form={form}
       name="description"
-      formItemProps={{ label: 'Description', showCount: true }}
+      formItemProps={{ label: 'Description' }}
       fieldDecoratorOptions={{
         rules: [
           {
@@ -48,7 +49,8 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the milestone description',
-        maxLength: 500
+        maxLength: 500,
+        showCount: true
       }}
     />
   </CoaFormModal>

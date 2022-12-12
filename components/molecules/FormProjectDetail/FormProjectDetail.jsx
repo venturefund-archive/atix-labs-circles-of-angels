@@ -136,8 +136,7 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               errorsToShow={[]}
               name="problemAddressed"
               formItemProps={{
-                label: 'About the project',
-                showCount: true
+                label: 'About the project'
               }}
               Note={
                 <p className="formProjectDetail__content__form__row__note">
@@ -156,7 +155,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               }}
               inputTextAreaProps={{
                 placeholder: '',
-                maxLength: 500
+                maxLength: 500,
+                showCount: true
               }}
             />
             <CoaFormItemTextArea
@@ -164,8 +164,7 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               errorsToShow={[]}
               name="mission"
               formItemProps={{
-                label: 'Our mission and vision',
-                showCount: true
+                label: 'Our mission and vision'
               }}
               Note={
                 <p className="formProjectDetail__content__form__row__note">
@@ -185,7 +184,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               }}
               inputTextAreaProps={{
                 placeholder: '',
-                maxLength: 500
+                maxLength: 500,
+                showCount: true
               }}
             />
           </div>

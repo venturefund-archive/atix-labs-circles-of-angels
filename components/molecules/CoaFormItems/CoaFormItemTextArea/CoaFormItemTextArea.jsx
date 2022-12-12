@@ -29,7 +29,9 @@ export const CoaFormItemTextArea = ({
           onChange={e => setCharsLength(e.target.value?.length)}
         />
       )}
-      <span className="m-coaFormItemTextArea__counter">{`${charsLength}/${inputTextAreaProps?.maxLength}`}</span>
+      {inputTextAreaProps?.showCount && (
+        <span className="m-coaFormItemTextArea__counter">{`${charsLength}/${inputTextAreaProps?.maxLength}`}</span>
+      )}
     </CoaFormItem>
   );
 };
