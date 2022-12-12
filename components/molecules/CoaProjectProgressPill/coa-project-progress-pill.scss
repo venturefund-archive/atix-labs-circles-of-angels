@@ -1,5 +1,6 @@
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
+@import 'css/_general_styling.scss';
 
 .m-coaProjectProgressPill {
   display: flex;
@@ -16,6 +17,9 @@
   &__indicator {
     @include primary-text(1.125rem, $coa-dark-gray-100, 400);
     width: 7rem;
+    @include breakpoint(md){
+      width: 100%;
+    }
   }
   &__progress {
     flex-grow: 1;
@@ -31,7 +35,7 @@
   }
   &__bar {
     height: 0.6875rem;
-    background: $coa-white-100;
+    background: var(--barColor, $coa-white-100);
     border-radius: 17px;
     -webkit-border-radius: 17px;
     -moz-border-radius: 17px;
@@ -47,5 +51,14 @@
       width: var(--currentPercent, 0%);
       transition: width 500ms ease-in-out;
     }
+  }
+
+  @include breakpoint(md){
+    flex-direction: column;
+    row-gap: 1rem;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
   }
 }

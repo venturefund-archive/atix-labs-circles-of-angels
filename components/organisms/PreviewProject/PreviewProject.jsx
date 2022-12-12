@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { message } from 'antd';
+import { message, Divider } from 'antd';
 import { useHistory, useParams } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -148,7 +148,9 @@ const PreviewProject = () => {
               }
               pr
               progressBarColor="#58C984"
+              barColor="#DEF4E6"
             />
+            <Divider type="horizontal" className="o-previewProject__progressSection__pills__divider" />
             <CoaProjectProgressPill
               indicator="Amount Income"
               current={41.6}
@@ -158,7 +160,9 @@ const PreviewProject = () => {
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Available Amount
                   </span>{' '}
-                  $20.000
+                  <span className="o-previewProject__progressSection__pills__currentAmount">
+                    $20.000
+                  </span>
                 </p>
               }
               endBarContent={
@@ -166,11 +170,15 @@ const PreviewProject = () => {
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Total Amount
                   </span>{' '}
-                  $48.000
+                  <span className="o-previewProject__progressSection__pills__targetAmount">
+                    $48.000
+                  </span>
                 </p>
               }
               progressBarColor="#4C7FF7"
+              barColor="#C1DCE9"
             />
+            <Divider type="horizontal" className="o-previewProject__progressSection__pills__divider" />
             <CoaProjectProgressPill
               indicator="Amount Outcome"
               current={10}
@@ -180,7 +188,9 @@ const PreviewProject = () => {
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Amount Spent
                   </span>{' '}
-                  $4.800
+                  <span className="o-previewProject__progressSection__pills__currentAmount">
+                    $4.800
+                  </span>
                 </p>
               }
               endBarContent={
@@ -188,9 +198,12 @@ const PreviewProject = () => {
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Goal Amount
                   </span>{' '}
-                  $48.000
+                  <span className="o-previewProject__progressSection__pills__targetAmount">
+                    $48.000
+                  </span>
                 </p>
               }
+              barColor='#EAECEF'
             />
           </div>
         </div>

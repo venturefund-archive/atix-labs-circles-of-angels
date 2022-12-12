@@ -50,6 +50,24 @@
       &__boldText {
         @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
       }
+      &__currentAmount {
+        @include breakpoint(md){
+          display: block;
+        }
+      }
+      &__targetAmount {
+        @include breakpoint(md){
+          display: block;
+          text-align: right;
+        }
+      }
+      &__divider {
+        margin: 0;
+        background-color: #9CA6B8;
+        @include respond(tablet){
+          display: none;
+        }
+      }
     }
   }
   &__milestonesSection {

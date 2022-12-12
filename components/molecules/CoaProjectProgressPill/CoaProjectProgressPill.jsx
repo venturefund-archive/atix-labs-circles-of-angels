@@ -7,7 +7,8 @@ export const CoaProjectProgressPill = ({
   current,
   startBarContent,
   endBarContent,
-  progressBarColor
+  progressBarColor,
+  barColor
 }) => {
   const currentPercent = (current / total) * 100;
   return (
@@ -20,7 +21,10 @@ export const CoaProjectProgressPill = ({
         </div>
         <div className="m-coaProjectProgressPill__progress__barContainer">
           <div>{currentPercent}%</div>
-          <div className="m-coaProjectProgressPill__bar">
+          <div
+            className="m-coaProjectProgressPill__bar"
+            style={{ '--barColor': barColor }}
+          >
             <span
               className="m-coaProjectProgressPill__bar__fill"
               style={{
