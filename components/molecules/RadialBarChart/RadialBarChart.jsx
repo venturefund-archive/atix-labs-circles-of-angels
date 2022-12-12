@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './radial-bar-chart.scss';
 
 export const RadialBarChart = ({
+  className,
   currentExternalDonutValue,
   totalExternalDonutValue,
   currentInternalDonutValue,
@@ -17,7 +18,7 @@ export const RadialBarChart = ({
   const externalDonutPercent = (currentExternalDonutValue / totalExternalDonutValue) * 100;
   const internalDonutPercent = (currentInternalDonutValue / totalInternalDonutValue) * 100;
   return (
-    <div className="m-radialBarChart__container">
+    <div className={`m-radialBarChart__container ${className}`}>
       <div className="m-radialBarChart__container__graph">
         <div
           className="m-radialBarChart__container__graph__percent --bigger"
@@ -83,7 +84,8 @@ RadialBarChart.propTypes = {
   externalDonutLabel: PropTypes.string,
   internalDonutLabel: PropTypes.string,
   externalDonutSymbol: PropTypes.string,
-  internalDonutSymbol: PropTypes.string
+  internalDonutSymbol: PropTypes.string,
+  className: PropTypes.string,
 };
 
 RadialBarChart.defaultProps = {
@@ -96,5 +98,6 @@ RadialBarChart.defaultProps = {
   externalDonutLabel: 'Project Progress',
   internalDonutLabel: 'Project Balance',
   externalDonutSymbol: '%',
-  internalDonutSymbol: '$'
+  internalDonutSymbol: '$',
+  className: '',
 };

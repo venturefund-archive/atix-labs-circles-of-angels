@@ -1,5 +1,6 @@
 @import 'css/mixins/_fonts.scss';
 @import 'css/_variables.scss';
+@import 'css/_general_styling.scss';
 
 .m-projectProgressCard {
   display: flex;
@@ -16,6 +17,31 @@
   &__title {
     margin: 0 !important;
   }
+  
+  @include breakpoint(md) {
+    margin-top: 25px;
+    padding: 1.31rem 24px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-self: center;
+    align-self: center;
+  }
+
+  &__title {
+    margin: 0 !important;
+    @include breakpoint(md) {
+      display: inline;
+      grid-column-start: 1;
+      grid-column-end: -1;
+    }
+  }
+  &__title h1::after{
+    @include breakpoint(md) {
+      left: 15px !important;
+    }   
+  }
+
   &__icon {
     border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -45,6 +71,14 @@
     display: flex;
     flex-direction: column;
     row-gap: 0.93rem;
+
+    @include breakpoint(md) {
+      justify-self: center
+    }
+    @media (max-width: 450px) {
+      grid-column-start: 1;
+      grid-column-end: -1;
+    }
   }
   &__title {
     &.--progress {
@@ -60,6 +94,22 @@
     }
     &.--expenses {
       @include primary-text(1.25rem, $coa-dark-gray-100, 500);
+    }
+  }
+
+  &__radialBarChart {
+    @media (max-width: 450px) {
+      justify-self: center;
+      grid-column-start: 1;
+      grid-column-end: -1;
+    }
+  }
+
+  &__milestoneButton {
+    @include breakpoint(md) {
+      grid-column-start: 1;
+      grid-column-end: 3;
+      justify-content: center;
     }
   }
 }

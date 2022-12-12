@@ -19,6 +19,7 @@ export const ProjectProgressCard = ({
       textColor="#4C7FF7"
     />
     <RadialBarChart
+      className="m-projectProgressCard__radialBarChart"
       externalDonutColor="#08ceaa"
       currentExternalDonutValue={progressCurrentValue}
       totalExternalDonutValue={progressTotalValue}
@@ -48,7 +49,7 @@ export const ProjectProgressCard = ({
         </div>
       </div>
     </div>
-    <CoaButton type="primary">See milestones</CoaButton>
+    <CoaButton type="primary" className="m-projectProgressCard__milestoneButton">See milestones</CoaButton>
   </div>
 );
 
