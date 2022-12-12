@@ -150,7 +150,10 @@ const PreviewProject = () => {
               progressBarColor="#58C984"
               barColor="#DEF4E6"
             />
-            <Divider type="horizontal" className="o-previewProject__progressSection__pills__divider" />
+            <Divider
+              type="horizontal"
+              className="o-previewProject__progressSection__pills__divider"
+            />
             <CoaProjectProgressPill
               indicator="Amount Income"
               current={41.6}
@@ -178,7 +181,10 @@ const PreviewProject = () => {
               progressBarColor="#4C7FF7"
               barColor="#C1DCE9"
             />
-            <Divider type="horizontal" className="o-previewProject__progressSection__pills__divider" />
+            <Divider
+              type="horizontal"
+              className="o-previewProject__progressSection__pills__divider"
+            />
             <CoaProjectProgressPill
               indicator="Amount Outcome"
               current={10}
@@ -203,7 +209,7 @@ const PreviewProject = () => {
                   </span>
                 </p>
               }
-              barColor='#EAECEF'
+              barColor="#EAECEF"
             />
           </div>
         </div>
@@ -217,6 +223,7 @@ const PreviewProject = () => {
           <div className="o-previewProject__milestonesSection__milestones">
             {milestones.map((milestone, index) => (
               <CoaMilestoneItem
+                projectId={project?.id}
                 withEvidences
                 withStateTag
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}

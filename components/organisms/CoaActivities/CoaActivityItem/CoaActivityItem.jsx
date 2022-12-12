@@ -3,6 +3,7 @@ import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaInd
 import './coa-activity-item.scss';
 import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
+import { useHistory } from 'react-router-dom';
 
 export const CoaActivityItem = ({
   activityNumber,
@@ -12,8 +13,11 @@ export const CoaActivityItem = ({
   onEdit,
   withStateTag,
   withEvidences,
-  canAddEvidences
+  canAddEvidences,
+  projectId
 }) => {
+  const history = useHistory();
+
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
   const title = activity?.title;
@@ -51,14 +55,14 @@ export const CoaActivityItem = ({
         withEvidences &&
         (e => {
           e.stopPropagation();
-          console.log(`navigate to evidence for activity ${activity?.id}`);
+          history.push(`/${projectId}/activity/${activity?.id}/evidence`);
         })
       }
       onAddEvidences={
         canAddEvidences &&
         (e => {
           e.stopPropagation();
-          console.log(`navigate to add evidence form for activity ${activity?.id}`);
+          history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
         })
       }
       additionalBody={

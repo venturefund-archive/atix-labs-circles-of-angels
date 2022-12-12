@@ -47,7 +47,8 @@ export const CoaMilestoneItem = ({
   toggleAreActivitiesOpened,
   withStateTag,
   withEvidences,
-  canAddEvidences
+  canAddEvidences,
+  projectId
 }) => {
   const description = milestone?.description;
   const title = milestone?.title;
@@ -118,6 +119,7 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
+                      projectId={projectId}
                       canAddEvidences={canAddEvidences}
                       withEvidences={withEvidences}
                       withStateTag={withStateTag}
