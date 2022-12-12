@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './_style.scss';
+import { message } from 'antd';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
-// eslint-disable-next-line import/named
-import { evidences } from './evidences';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import EvidenceModal, { EvidenceModalReviewInfo, EvidenceModalSentSuccess } from '../../atoms/EvidenceModal/EvidenceModal';
+import { getActivityEvidences } from '../../../api/activityApi';
+import Loading from '../../molecules/Loading/Loading';
 
 const Evidences = () => {
+    const activityId = window.location.pathname.split('/')[3]
     const progress = 'in progress';
+
+    const [evidences, setEvidences] = useState([]);
     const [reviewModal, setReviewModal] = useState(false);
     const [sentSuccess, setSentSuccess] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
     const [loading, setLoading] = useState(false);
+
     const openModal = () => setReviewModal(true);
     const closeModal = () => {
         setReviewModal(false);
@@ -19,12 +25,32 @@ const Evidences = () => {
     };
 
     const setReviewToSent = () => {
-        setLoading(true);
+        setButtonLoading(true);
         setTimeout(() => {
-            setLoading(false);
+            setButtonLoading(false);
             setSentSuccess(true);
         }, 2000);
     };
+
+    useEffect(() => {
+        const getEvidences = async (activity) => {
+            setLoading(true);
+            const response = await getActivityEvidences(activity);
+            if (response.errors || !response.data) {
+                message.error('An error occurred while fetching the project');
+                return;
+            }
+
+            setEvidences(response.data.evidences);
+            setLoading(false);
+        }
+
+        getEvidences(activityId);
+
+        // eslint-disable-next-line
+    }, [])
+
+    if (loading) return <Loading></Loading>;
 
     return (
       <>
@@ -37,7 +63,7 @@ const Evidences = () => {
                     ) : (
                       <EvidenceModalReviewInfo
                             closeModal={closeModal}
-                            loading={loading}
+                            loading={buttonLoading}
                             setReviewToSent={setReviewToSent}
                       />
                     )}
@@ -77,9 +103,11 @@ const Evidences = () => {
                 </div>
               </div>
               <div className="evidenceCards">
-                {evidences?.map((evidence) => (
-                  <EvidenceCard evidence={evidence} />
-                        ))}
+                {
+                    evidences.map((evidence) => (
+                      <EvidenceCard key={evidence.id} evidence={evidence} />
+                    ))
+                }
               </div>
               <div className="reviewBtn">
                 <div className="reviewBtnDesktop">

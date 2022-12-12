@@ -3,43 +3,34 @@ import './evidenceCard.scss';
 import PropTypes from 'prop-types';
 import { addElipsesToText } from '../../utils';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
+import { getDateAndTime } from '../../../helpers/utils';
 
 const EvidenceCard = ({ evidence }) => {
-    const {
-        day,
-        time,
-        amountSpent,
-        evidenceDetails,
-        evidenceTitle,
-        evidenceSubtitle,
-        status,
-    } = evidence;
+    const { title, status, createdAt, description, reason, income, outcome } = evidence;
 
     return (
       <div className="evidenceCard">
         <div className="statusDay">
           <p className="date">
-            {day} - {time}
+            {getDateAndTime(createdAt)}
           </p>
-          <p
-                    className={`status ${status}`}
-          >
+          <p className={`status ${status}`}>
             {status}
           </p>
         </div>
-        <p className="title">{evidenceTitle}</p>
-        <p className="subtitle">{evidenceSubtitle}</p>
+        <p className="title">{title}</p>
+        <p className="subtitle">{reason}</p>
         <div className="description">
-          {addElipsesToText(evidenceDetails, 150)}
+          {addElipsesToText(description, 150)}
         </div>
         <div className="amountSpentDiv">
-          {amountSpent && (
+          {(income || outcome) && (
             <div className="amountSpent">
               <p>
                 <img src="/static/images/dollar-icon.svg" alt="icon"/>
                 <span>amount spent</span>
               </p>
-              <p>{amountSpent} USD</p>
+              <p>{income || outcome} USD</p>
             </div>
                 )}
         </div>

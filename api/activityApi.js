@@ -33,6 +33,7 @@ export const uploadEvidenceSendTransaction = (taskId, data, status) => {
 };
 
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
+export const getActivityEvidences = activityId => doGet(`${baseURL}/${activityId}/evidences`);
 
 export const getEvidenceBlockchainData = evidenceId =>
   doGet(`/evidences/${evidenceId}/blockchain-data`);
@@ -138,11 +139,8 @@ const createEvidence = async (activityId, data) => {
       fd.append('transferTxHash', data.transferTxHash);
     }
 
-  console.log('GOt HERE', fd)
-
   try {
     const response = api.post(`${baseURL}/${activityId}/evidences`, fd, config);
-    console.log('RESON', response)
     return response;
   } catch (error) {
     return { error };
