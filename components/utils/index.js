@@ -1,0 +1,1 @@
+export const addElipsesToText = (text, number) => `${text.slice(0, number)}...`;

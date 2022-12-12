@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import PropTypes from 'prop-types';
 
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
@@ -83,7 +82,7 @@ const PreviewProject = () => {
   };
 
   return (
-    <Layout>
+    <Layout hasBackgroundImage>
       <ProjectHeroSection
         title={projectName}
         status={status}
