@@ -27,6 +27,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
 
+  const { budget } = project;
+
   const {
     problemAddressed,
     mission,
@@ -320,7 +322,7 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               <p className="formProjectDetail__content__form__row__note">
                 Here the sum recorded in the milestones and activities will be displayed
               </p>
-              <Input placeholder="0.00" disabled />
+              <Input placeholder="0.00" disabled value={budget} />
             </Form.Item>
           </div>
           <div className="formProjectDetail__content__form__row">
