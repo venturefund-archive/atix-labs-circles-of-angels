@@ -185,7 +185,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
                 }
               ]
             })(
-              <Input.TextArea/>
+              <Input.TextArea />
             )
           }
         </Form.Item>
@@ -259,11 +259,17 @@ export default function EvidenceDetail({ evidence }) {
         {/* invert this after ending development */}
         {!isAuditor && (
           <div className='auditor-options'>
-            <button className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'>
+            <button
+              className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'
+              onClick={() => setRejectModalOpen(true)}
+            >
               <CloseOutlined className='auditor-options__icon' />
               <span>Reject</span>
             </button>
-            <button className='auditor-options__auditor-btn' onClick={() => setApproveModalOpen(true)}>
+            <button
+              className='auditor-options__auditor-btn'
+              onClick={() => setApproveModalOpen(true)}
+            >
               <CheckOutlined className='auditor-options__icon' />
               <span>Approve</span>
             </button>
