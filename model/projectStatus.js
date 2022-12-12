@@ -9,10 +9,10 @@
 
 const projectStatusMap = {
   draft: { name: 'Draft', color: 'gray' },
-  executing: { name: 'In Progress', color: 'yellow' },
-  review: { name: 'In review', color: 'violet' },
-  cancel: { name: 'Canceled', color: 'red' },
-  finished: { name: 'Completed', color: 'green' },
+  'in progress': { name: 'In Progress', color: 'yellow' },
+  'in review': { name: 'In review', color: 'violet' },
+  canceled: { name: 'Canceled', color: 'red' },
+  completed: { name: 'Completed', color: 'green' },
   published: { name: 'Published', color: 'blue' }
 };
 
