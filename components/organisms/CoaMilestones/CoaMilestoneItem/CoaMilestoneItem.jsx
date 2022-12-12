@@ -9,32 +9,6 @@ import milestoneStatusMap from 'model/milestoneStatus';
 
 const { Panel } = Collapse;
 
-const ACTIVITY_STATUS = {
-  NEW: 'new',
-  TO_REVIEW: 'to-review',
-  APPROVED: 'approved',
-  REJECTED: 'rejected',
-  IN_PROGRESS: 'in-progress'
-};
-
-const MILESTONE_STATUS = {
-  NEW: 'new',
-  APPROVED: 'approved',
-  IN_PROGRESS: 'in-progress'
-};
-
-const getMilestoneStatus = (activities = []) => {
-  const areaAllActivitiesNew = activities?.every(
-    activity => activity?.status === ACTIVITY_STATUS.NEW
-  );
-  if (areaAllActivitiesNew) return MILESTONE_STATUS.NEW;
-  const areAllActivitiesApproved = activities?.every(
-    activity => activity?.status === ACTIVITY_STATUS.APPROVED
-  );
-  if (areAllActivitiesApproved) return MILESTONE_STATUS.APPROVED;
-  return MILESTONE_STATUS.IN_PROGRESS;
-};
-
 export const CoaMilestoneItem = ({
   milestoneNumber,
   currency,
@@ -45,16 +19,18 @@ export const CoaMilestoneItem = ({
   onRemoveActivity,
   onEditActivity,
   toggleAreActivitiesOpened,
-  withStateTag,
-  withEvidences
+  withStatusTag,
+  withEvidences,
+  canAddEvidences,
+  projectId
 }) => {
   const description = milestone?.description;
+  const status = milestone?.status;
   const title = milestone?.title;
   const budget = milestone?.budget;
   const spent = milestone?.spent || 0;
   const areActivitiesOpen = milestone?.areActivitiesOpen || false;
   const remaining = budget - spent;
-  const status = getMilestoneStatus(milestone?.activities);
   const allEvidences = milestone?.activities?.reduce(
     (curr, next) => [...curr, ...(next?.evidences || [])],
     []
@@ -71,7 +47,7 @@ export const CoaMilestoneItem = ({
   return (
     <CoaIndicatorsCard
       {...{ currency }}
-      stateMap={milestoneStatusMap}
+      statusMap={milestoneStatusMap}
       budget={budget}
       title={`Milestone ${milestoneNumber} - ${title}`}
       entity="Activity"
@@ -82,8 +58,8 @@ export const CoaMilestoneItem = ({
       spent={spent}
       className="o-coaMilestoneItem__card"
       alwaysShowBudget
-      withStateTag={withStateTag}
-      state={status}
+      withStatusTag={withStatusTag}
+      status={status}
       transferQuantity={transferQuantity}
       impactQuantity={impactQuantity}
       withEvidences={withEvidences}
@@ -117,8 +93,10 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
+                      projectId={projectId}
+                      canAddEvidences={canAddEvidences}
                       withEvidences={withEvidences}
-                      withStateTag={withStateTag}
+                      withStatusTag={withStatusTag}
                       onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}
                       onEdit={onEditActivity && (() => onEditActivity(activity))}
                       {...{ milestone, currency, activity }}

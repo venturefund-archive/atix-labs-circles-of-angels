@@ -11,18 +11,14 @@
   }
   &__content {
     padding-inline: min(1rem);
-    display: grid;
-    grid-template-columns: minmax(auto, 900px) 366px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
     column-gap: 2.1875rem;
-    grid-template-areas:
-      'buttons    buttons'
-      'info       graphic'
-      'members    members'
-      'progress   progress'
-      'milestones milestones';
   }
   &__buttons {
-    grid-area: buttons;
+    overflow: auto;
+    width: 100%;
     display: flex;
     column-gap: 0.9375rem;
     &__button {
@@ -35,14 +31,15 @@
     }
   }
   &__infoSection {
-    grid-area: info;
+    width: 100%;
     height: 100%;
   }
   &__members {
-    grid-area: members;
+    width: 100%;
   }
   &__progressSection {
-    grid-area: progress;
+    width: 100%;
+
     &__pills {
       display: flex;
       flex-direction: column;
@@ -53,51 +50,51 @@
       &__boldText {
         @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
       }
+      &__currentAmount {
+        @include breakpoint(md){
+          display: block;
+        }
+      }
+      &__targetAmount {
+        @include breakpoint(md){
+          display: block;
+          text-align: right;
+        }
+      }
+      &__divider {
+        margin: 0;
+        background-color: #9CA6B8;
+        @include respond(tablet){
+          display: none;
+        }
+      }
     }
   }
   &__milestonesSection {
-    grid-area: milestones;
+    width: 100%;
     &__milestones {
       display: flex;
       flex-direction: column;
       row-gap: 2.1875rem;
     }
   }
-  &__graph {
-    grid-area: graphic;
-  }
+
   @include respond(mobile) {
     &__content {
-      grid-template-areas:
-        'buttons buttons'
-        'info info'
-        'members members'
-        'graphic graphic'
-        'progress progress'
-        'milestones milestones';
+      margin-block: 1.5rem;
+      row-gap: 2.5rem;
+      max-width: 100%;
     }
   }
   @include respond(tablet) {
     &__content {
-      column-gap: 1.31rem;
-      grid-template-columns: 367px minmax(auto, 476px);
-      grid-template-areas:
-        'buttons buttons'
-        'info info'
-        'members members'
-        'graphic progress'
-        'milestones milestones';
+      margin-block: 2.25rem;
+      row-gap: 2.9375rem;
+      padding-inline: min(5rem);
     }
   }
   @include respond(laptop) {
     &__content {
-      grid-template-columns: minmax(auto, 900px) 366px;
-      grid-template-areas:
-        'buttons    buttons'
-        'info       graphic'
-        'members    members'
-        'progress   progress'
-        'milestones milestones';
       row-gap: 3.125rem;
       margin-block: 2.5rem;
     }

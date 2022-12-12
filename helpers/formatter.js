@@ -12,7 +12,8 @@ export const formatTimeframeValue = (timeframe, timeframeUnit = '') =>
   `${parseFloat(timeframe)?.toFixed(1)} ${timeframeUnit}`;
 
 export const formatCurrency = (currency, value) => {
-  if (!value) return 'Not set';
+  if (!value && value !== 0) return 'Not set';
+  if (!currency) return Number(value).toFixed(2);
   try {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',

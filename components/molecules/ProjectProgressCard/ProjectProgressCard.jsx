@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import './project-progress-card.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { formatCurrency } from 'helpers/formatter';
 import { RadialBarChart } from '../RadialBarChart/RadialBarChart';
 
 export const ProjectProgressCard = ({
   progressCurrentValue,
   progressTotalValue,
   balanceCurrentValue,
-  balanceTotalValue
+  balanceTotalValue,
+  currency
 }) => (
   <div className="m-projectProgressCard">
     <TitlePage
@@ -19,6 +21,7 @@ export const ProjectProgressCard = ({
       textColor="#4C7FF7"
     />
     <RadialBarChart
+      className="m-projectProgressCard__radialBarChart"
       externalDonutColor="#08ceaa"
       currentExternalDonutValue={progressCurrentValue}
       totalExternalDonutValue={progressTotalValue}
@@ -44,11 +47,15 @@ export const ProjectProgressCard = ({
         <div className="m-projectProgressCard__icon --expenses">$</div>
         <div>
           <p className="m-projectProgressCard__title --expenses">Total Expenses</p>
-          <p className="m-projectProgressCard__value --expenses">${balanceTotalValue}</p>
+          <p className="m-projectProgressCard__value --expenses">
+            {formatCurrency(currency, balanceCurrentValue)}
+          </p>
         </div>
       </div>
     </div>
-    <CoaButton type="primary">See milestones</CoaButton>
+    <CoaButton type="primary" className="m-projectProgressCard__milestoneButton">
+      See milestones
+    </CoaButton>
   </div>
 );
 

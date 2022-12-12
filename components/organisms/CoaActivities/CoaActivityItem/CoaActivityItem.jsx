@@ -3,6 +3,7 @@ import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaInd
 import './coa-activity-item.scss';
 import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
+import { useHistory } from 'react-router-dom';
 
 export const CoaActivityItem = ({
   activityNumber,
@@ -10,15 +11,19 @@ export const CoaActivityItem = ({
   activity,
   onRemove,
   onEdit,
-  withStateTag,
-  withEvidences
+  withStatusTag,
+  withEvidences,
+  canAddEvidences,
+  projectId
 }) => {
+  const history = useHistory();
+
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
   const title = activity?.title;
   const budget = activity?.budget;
   const spent = activity?.spent || 0;
-  const state = activity?.status || '-';
+  const status = activity?.status || '-';
   const remaining = budget - spent;
   const transferQuantity = activity?.evidences?.reduce(
     (curr, next) => (next?.type === 'transfer' ? curr + 1 : curr),
@@ -33,7 +38,7 @@ export const CoaActivityItem = ({
     <CoaIndicatorsCard
       {...{ currency }}
       withEvidences={withEvidences}
-      stateMap={activityStatusMap}
+      statusMap={activityStatusMap}
       className="o-coaActivityItem__card"
       budget={budget}
       title={`Activity ${activityNumber} - ${title}`}
@@ -42,15 +47,22 @@ export const CoaActivityItem = ({
       remaining={remaining}
       spent={spent}
       isCollapsible
-      withStateTag={withStateTag}
-      state={state}
+      withStatusTag={withStatusTag}
+      status={status}
       transferQuantity={transferQuantity}
       impactQuantity={impactQuantity}
       onViewEvidence={
         withEvidences &&
         (e => {
           e.stopPropagation();
-          console.log(`navigate to evidence for activity ${activity?.id}`);
+          history.push(`/${projectId}/activity/${activity?.id}/evidence`);
+        })
+      }
+      onAddEvidences={
+        canAddEvidences &&
+        (e => {
+          e.stopPropagation();
+          history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
         })
       }
       additionalBody={

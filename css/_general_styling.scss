@@ -120,7 +120,7 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
 
 @mixin respond($breakpoint) {
   @if $breakpoint == mobile {
-    @media (min-width: 425px) {
+    @media (min-width: 375px) {
       @content;
     }
   }
@@ -156,6 +156,7 @@ $shadow-big: 0 14px 28px rgba(96, 96, 107, 0.25), 0 10px 10px rgba(118, 115, 136
 }
 // Responsive
 
+$screen-xs-min: 425px;
 $screen-sm-min: 576px;
 $screen-md-min: 768px;
 $screen-lg-min: 1024px;
