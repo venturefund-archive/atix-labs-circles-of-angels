@@ -51,26 +51,20 @@ export const EvidenceModalReviewInfo = ({ closeModal, loading, setReviewToSent }
           </Form.Item>
         </div>
         <div>
-            {/* eslint-disable-next-line */}
+          {/* eslint-disable-next-line */}
           <Form.Item label={<label htmlFor='secret' style={{ color: '#728099' }}>Secret Key</label>}>
             <Input.Password id='secret' placeholder='Repeat your secret key' />
           </Form.Item>
         </div>
         <div className="modalInfoBtn">
-          <EvidenceButton type="button" text="Cancel" width variant="default" onClick={closeModal}/>
-          <EvidenceButton
-                  text={loading ? 'Sending...' : 'Confirm'}
-                  width
-                  variant="primary"
-                  onClick={setReviewToSent}
-                  type="button"
-          />
+          <EvidenceButton text="Cancel" width variant="default" onClick={closeModal}/>
+          <EvidenceButton text={loading ? 'Sending...' : 'Confirm'} width variant="primary" onClick={setReviewToSent} />
         </div>
       </Form>
 
     </div>
   </div>
-    );
+);
 
 export const EvidenceModalSentSuccess = ({ closeModal }) => (
   <div className="modalInfoContainer" onClick={(e) => e.stopPropagation()}>
@@ -93,7 +87,25 @@ export const EvidenceModalSentSuccess = ({ closeModal }) => (
   </div>
 );
 
+EvidenceModalSentSuccess.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+}
+
 EvidenceModal.propTypes = {
     children: PropTypes.node.isRequired,
     closeModal: PropTypes.func.isRequired,
+}
+
+EvidenceModalInfo.propTypes = {
+    modalTitle: PropTypes.string.isRequired,
+    modalSubtitle: PropTypes.string.isRequired,
+    titleWidth: PropTypes.number.isRequired,
+    subtitleWidth: PropTypes.number.isRequired,
+    icon: PropTypes.string.isRequired,
+}
+
+EvidenceModalReviewInfo.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    setReviewToSent: PropTypes.func.isRequired,
 }

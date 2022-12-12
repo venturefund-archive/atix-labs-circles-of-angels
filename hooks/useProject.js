@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { getProject } from '../api/projectApi';
 

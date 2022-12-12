@@ -35,10 +35,10 @@ const EvidenceCard = ({ evidence }) => {
                 )}
         </div>
         <EvidenceButton
-              text="View more details"
+              text='View more details'
               variant="primary"
-              onClick={() => console.log('click')}
-              type="button"
+              onClick={() => {}}
+              type='button'
         />
       </div>
     );
