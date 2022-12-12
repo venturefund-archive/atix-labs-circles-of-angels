@@ -139,14 +139,7 @@ const createEvidence = async (activityId, data) => {
       fd.append('transferTxHash', data.transferTxHash);
     }
 
-  try {
-    const response = api.post(`${baseURL}/${activityId}/evidences`, fd, config);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-
-  // return doPost(`${baseURL}/${activityId}/evidence`, fd, config);
+    return doPost(`${baseURL}/${activityId}/evidences`, fd, config);
 };
 
 export {

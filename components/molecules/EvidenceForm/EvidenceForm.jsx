@@ -9,9 +9,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Upload, Icon } from 'antd';
+import { Form, Button, Upload, Icon, message } from 'antd';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
 
 import './_style.scss';
@@ -25,11 +25,15 @@ import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaForm
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { toBase64 } from '../../utils/FileUtils';
 import { createEvidence } from '../../../api/activityApi';
+import { getUsersByRole } from '../../../helpers/modules/projectUsers';
+import { ROLES_IDS } from '../../organisms/AssignProjectUsers/constants';
 
 const EvidenceFormContent = ({ form }) => {
   const { id } = useParams();
+  const history = useHistory();
   const { project, loading } = useProject(id);
-  const { getFieldDecorator } = form;
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   const pathParts = window.location.pathname.split('/');
 
@@ -48,11 +52,22 @@ const EvidenceFormContent = ({ form }) => {
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
+  const [transactionType, setTransactionType] = useState('');
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     if (!loading) {
       setCurrencyType(project?.details?.currencyType.toLowerCase());
       setCurrency(project.details.currency);
+
+      const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, project.users)?.[0];
+      const investorUser = getUsersByRole(ROLES_IDS.investor, project.users)?.[0];
+
+      if (beneficiaryUser && beneficiaryUser.id === user.id) {
+        setTransactionType('sent');
+      } else if (investorUser && investorUser.id === user.id) {
+        setTransactionType('received');
+      }
     }
     // eslint-disable-next-line
   }, [loading]);
@@ -93,22 +108,22 @@ const EvidenceFormContent = ({ form }) => {
     onRemove: handleFileRemove,
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
-    form.validateFields(async (err) => {
-      if (!err) {
-        console.log('TADADADADA')
-        const response = await createEvidence(activityId, {
-          ...state,
-          amount,
-        });
-
-        console.log('RESPONSE', response)
-
-        setButtonLoading(false);
+    form.validateFields();
+      const data = { ...state, amount };
+      // TODO: get transactionHash
+      if (currencyType === 'crypto') {
+        data.transferTxHash = 'addjddjdjdjk'
       }
-    });
+
+      const response = await createEvidence(activityId, data);
+      if (response.status === 200) {
+        history.push(`/${project.id}/activity/${activityId}/evidence`)
+      }
+
+      setButtonLoading(false);
   }
 
   if (loading) return <Loading></Loading>;
@@ -291,13 +306,7 @@ const EvidenceFormContent = ({ form }) => {
                     errorsToShow={[]}
                     name="transaction"
                     fieldDecoratorOptions={{
-                      rules: [
-                        {
-                          required: true,
-                          message: ERROR_TYPES.EMPTY,
-                          whitespace: true
-                        }
-                      ],
+                      rules: [],
                     }}
                     selectProps={{
                       placeholder: 'Select the transaction',
