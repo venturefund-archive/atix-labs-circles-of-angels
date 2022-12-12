@@ -17,7 +17,15 @@ const HorizontalBlockText = ({ title, content, orderNumber }) => (
   </div>
 );
 
-export const ProjectInfoSection = ({ about, mission, spent, budget }) => (
+export const ProjectInfoSection = ({
+  about,
+  mission,
+  progressCurrentValue,
+  progressTotalValue,
+  balanceCurrentValue,
+  balanceTotalValue,
+  currency
+}) => (
   <div className="o-projectInfoSection">
     <div className="o-projectInfoSection__text">
       <HorizontalBlockText title="About the Project" content={about} orderNumber="01" />
@@ -25,10 +33,11 @@ export const ProjectInfoSection = ({ about, mission, spent, budget }) => (
     </div>
     <div className="o-projectInfoSection__progressCard">
       <ProjectProgressCard
-        progressCurrentValue={90}
-        progressTotalValue={100}
-        balanceCurrentValue={spent}
-        balanceTotalValue={budget}
+        currency={currency}
+        progressCurrentValue={progressCurrentValue}
+        progressTotalValue={progressTotalValue}
+        balanceCurrentValue={balanceCurrentValue}
+        balanceTotalValue={balanceTotalValue}
       />
     </div>
   </div>
@@ -36,9 +45,7 @@ export const ProjectInfoSection = ({ about, mission, spent, budget }) => (
 
 ProjectInfoSection.propTypes = {
   about: PropTypes.string,
-  mission: PropTypes.string,
-  spent: PropTypes.number,
-  budget: PropTypes.number
+  mission: PropTypes.string
 };
 
 ProjectInfoSection.defaultProps = {

@@ -23,6 +23,32 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 
+const ACTIVITY_STATUS = {
+  NEW: 'new',
+  TO_REVIEW: 'to-review',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+  IN_PROGRESS: 'in-progress'
+};
+
+const MILESTONE_STATUS = {
+  NEW: 'new',
+  APPROVED: 'approved',
+  IN_PROGRESS: 'in-progress'
+};
+
+const getMilestoneStatus = (activities = []) => {
+  const areaAllActivitiesNew = activities?.every(
+    activity => activity?.status === ACTIVITY_STATUS.NEW
+  );
+  if (areaAllActivitiesNew) return MILESTONE_STATUS.NEW;
+  const areAllActivitiesApproved = activities?.every(
+    activity => activity?.status === ACTIVITY_STATUS.APPROVED
+  );
+  if (areAllActivitiesApproved) return MILESTONE_STATUS.APPROVED;
+  return MILESTONE_STATUS.IN_PROGRESS;
+};
+
 const PreviewProject = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -47,7 +73,14 @@ const PreviewProject = () => {
     const { data } = response;
 
     setProject(data);
-    setMilestones([...data?.milestones]);
+
+    let _milestones = [...data?.milestones];
+    _milestones = _milestones.map(milestone => {
+      const milestoneStatus = getMilestoneStatus(milestone?.activities);
+      return { ...milestone, status: milestoneStatus };
+    });
+
+    setMilestones(_milestones);
 
     setLoading(prevState => !prevState);
   };
@@ -82,6 +115,14 @@ const PreviewProject = () => {
     setMilestones(_milestones);
   };
 
+  const totalMilestonesQuantity = milestones?.length;
+  const approvedMilestonesQuantity = milestones?.filter(
+    milestone => milestone?.status === MILESTONE_STATUS.APPROVED
+  );
+
+  const totalCurrentDeposited = milestones?.reduce((prev, curr) => prev + curr?.deposited, 0);
+  const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + curr?.spent, 0);
+
   return (
     <Layout>
       <ProjectHeroSection
@@ -109,7 +150,15 @@ const PreviewProject = () => {
           </CoaButton>
         </div>
         <div className="o-previewProject__infoSection">
-          <ProjectInfoSection mission={mission} about={problemAddressed} />
+          <ProjectInfoSection
+            mission={mission}
+            about={problemAddressed}
+            progressCurrentValue={approvedMilestonesQuantity}
+            progressTotalValue={totalMilestonesQuantity}
+            balanceCurrentValue={totalCurrentSpent}
+            balanceTotalValue={budget}
+            currency={currency}
+          />
         </div>
         <div className="o-previewProject__members">
           {/* <CoaProjectMembersCard
@@ -128,8 +177,8 @@ const PreviewProject = () => {
           <div className="o-previewProject__progressSection__pills">
             <CoaProjectProgressPill
               indicator="Milestones Progress"
-              current={15}
-              total={100}
+              current={approvedMilestonesQuantity}
+              total={totalMilestonesQuantity}
               startBarContent={
                 <p className="o-previewProject__progressSection__pills__normalText">
                   Project{' '}
@@ -146,7 +195,6 @@ const PreviewProject = () => {
                   </span>
                 </p>
               }
-              pr
               progressBarColor="#58C984"
               barColor="#DEF4E6"
             />
@@ -156,15 +204,15 @@ const PreviewProject = () => {
             />
             <CoaProjectProgressPill
               indicator="Amount Income"
-              current={41.6}
-              total={100}
+              current={totalCurrentDeposited}
+              total={budget}
               startBarContent={
                 <p className="o-previewProject__progressSection__pills__normalText">
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Available Amount
                   </span>{' '}
                   <span className="o-previewProject__progressSection__pills__currentAmount">
-                    $20.000
+                    {formatCurrency(currency, totalCurrentDeposited)}
                   </span>
                 </p>
               }
@@ -174,7 +222,7 @@ const PreviewProject = () => {
                     Total Amount
                   </span>{' '}
                   <span className="o-previewProject__progressSection__pills__targetAmount">
-                    $48.000
+                    {formatCurrency(currency, budget)}
                   </span>
                 </p>
               }
@@ -187,15 +235,15 @@ const PreviewProject = () => {
             />
             <CoaProjectProgressPill
               indicator="Amount Outcome"
-              current={10}
-              total={100}
+              current={totalCurrentSpent}
+              total={budget}
               startBarContent={
                 <p className="o-previewProject__progressSection__pills__normalText">
                   <span className="o-previewProject__progressSection__pills__boldText">
                     Amount Spent
                   </span>{' '}
                   <span className="o-previewProject__progressSection__pills__currentAmount">
-                    $4.800
+                    {formatCurrency(currency, totalCurrentSpent)}
                   </span>
                 </p>
               }
@@ -205,7 +253,7 @@ const PreviewProject = () => {
                     Goal Amount
                   </span>{' '}
                   <span className="o-previewProject__progressSection__pills__targetAmount">
-                    $48.000
+                    {formatCurrency(currency, budget)}
                   </span>
                 </p>
               }
@@ -225,7 +273,7 @@ const PreviewProject = () => {
               <CoaMilestoneItem
                 projectId={project?.id}
                 withEvidences
-                withStateTag
+                withStatusTag
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}
                 {...{
                   currency,
