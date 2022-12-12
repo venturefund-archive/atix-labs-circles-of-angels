@@ -21,7 +21,8 @@ const CardHeader = ({
   withStateTag,
   state,
   stateMap,
-  onViewEvidence
+  onViewEvidence,
+  onAddEvidences
 }) => (
   <div
     className="o-coaIndicatorsCard__header"
@@ -72,6 +73,11 @@ const CardHeader = ({
           <Icon type="eye" /> View evidences
         </CoaTextButton>
       )}
+      {onAddEvidences && (
+        <CoaTextButton onClick={onViewEvidence}>
+          <Icon type="plus" /> Add evidences
+        </CoaTextButton>
+      )}
       {withStateTag && (
         <CoaTag predefinedColor={stateMap?.[state]?.color}>{stateMap?.[state]?.name}</CoaTag>
       )}
@@ -99,7 +105,8 @@ export const CoaIndicatorsCard = ({
   transferQuantity,
   impactQuantity,
   withEvidences,
-  onViewEvidence
+  onViewEvidence,
+  onAddEvidences
 }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
   return (
@@ -117,7 +124,8 @@ export const CoaIndicatorsCard = ({
               state,
               stateMap,
               withEvidences,
-              onViewEvidence
+              onViewEvidence,
+              onAddEvidences
             }}
           />
           <Divider className="o-coaIndicatorsCard__divider" />
@@ -134,6 +142,7 @@ export const CoaIndicatorsCard = ({
             <Panel
               header={
                 <CardHeader
+                  onAddEvidences={onAddEvidences}
                   onViewEvidence={onViewEvidence}
                   withEvidences={withEvidences}
                   withStateTag={withStateTag}
