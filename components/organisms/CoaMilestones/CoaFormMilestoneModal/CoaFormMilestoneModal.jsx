@@ -4,7 +4,6 @@ import { Form } from 'antd';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
 import { ERROR_MESSAGES } from 'constants/constants';
-import { onlyAlphanumerics } from 'constants/Regex';
 
 export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialData, ...rest }) => (
   <CoaFormModal
@@ -22,10 +21,6 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
-          },
-          {
-            pattern: onlyAlphanumerics,
-            message: ERROR_MESSAGES.ALPHANUMERIC
           }
         ],
         validateTrigger: 'onSubmit',
@@ -33,7 +28,8 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the milestone title',
-        maxLength: 50
+        maxLength: 50,
+        showCount: true
       }}
     />
     <CoaFormItemTextArea
@@ -46,18 +42,15 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
-          },
-          {
-            pattern: onlyAlphanumerics,
-            message: ERROR_MESSAGES.ALPHANUMERIC
           }
         ],
         validateTrigger: 'onSubmit',
         initialValue: initialData?.description
       }}
       inputTextAreaProps={{
-        placeholder: 'Enter the milestone title',
-        maxLength: 500
+        placeholder: 'Enter the milestone description',
+        maxLength: 500,
+        showCount: true
       }}
     />
   </CoaFormModal>
