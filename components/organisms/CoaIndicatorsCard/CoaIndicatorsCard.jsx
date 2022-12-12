@@ -160,38 +160,43 @@ export const CoaIndicatorsCard = ({
         <div className="o-coaIndicatorsCard__body">
           {(parseFloat(budget) > 0 || alwaysShowBudget) && (
             <div className="o-coaIndicatorsCard__body__indicators">
-              <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
-              <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                  {formatCurrency(currency, budget)}
-                </p>
-              </div>
-              <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                  {formatCurrency(currency, spent)}
-                </p>
-              </div>
-              <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
-                <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                  {formatCurrency(currency, remaining)}
-                </p>
+              <div className="o-coaIndicatorsCard__body__indicators__container" >
+                <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
+                <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                    {formatCurrency(currency, budget)}
+                  </p>
+                </div>
+                <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                    {formatCurrency(currency, spent)}
+                  </p>
+                </div>
+                <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                    {formatCurrency(currency, remaining)}
+                  </p>
+                </div>
               </div>
               {withEvidences && (
                 <>
-                  <Divider type="vertical" style={{ height: '32px' }} />
-                  <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
-                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
-                      Evidences
-                    </p>
-                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                      {transferQuantity} Transfer <Icon type="right" /> {impactQuantity} Impact
-                      <Icon type="right" />
-                    </p>
-                  </div>{' '}
+                  <Divider type="vertical" style={{ height: '32px', margin: '0 1.31rem' }} />
+                  <div className="o-coaIndicatorsCard__body__indicators__container" >
+
+                    <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
+                    <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                      <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
+                        Evidences
+                      </p>
+                      <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                        {transferQuantity} Transfer <Icon type="right" /> {impactQuantity} Impact
+                        <Icon type="right" />
+                      </p>
+                    </div>{' '}
+                  </div>
                 </>
               )}
             </div>

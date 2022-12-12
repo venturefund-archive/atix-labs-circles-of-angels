@@ -1,5 +1,6 @@
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
+@import 'css/_general_styling.scss';
 
 .o-coaIndicatorsCard {
   border-radius: 10px;
@@ -44,8 +45,15 @@
     row-gap: 1.25rem;
     &__indicators {
       display: flex;
-      column-gap: 1.31rem;
-      align-items: center;
+      justify-content: flex-start;
+      @include breakpoint(md){
+        flex-direction: column;
+      }
+      &__container {
+        display: flex;
+        column-gap: 1.31rem;
+        align-items: center;
+      }
       &__indicator {
         display: flex;
         flex-direction: column;
