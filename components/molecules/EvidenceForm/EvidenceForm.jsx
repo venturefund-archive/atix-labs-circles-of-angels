@@ -89,18 +89,25 @@ const EvidenceFormContent = ({ form }) => {
     e.preventDefault();
     setButtonLoading(true);
     form.validateFields();
-      const data = { ...state, amount };
-      // TODO: get transactionHash
-      if (currencyType === 'crypto') {
-        data.transferTxHash = 'addjddjdjdjk'
-      }
+    const data = { ...state, amount };
+    // TODO: get transactionHash
+    if (currencyType === 'crypto') {
+      data.transferTxHash = 'addjddjdjdjk'
+    }
 
+<<<<<<< HEAD
       const response = await createEvidence(activityId, data);
       if (response.status === 200) {
         history.push(`/${project.id}/activity/${activityId}/evidence`);
       }
+=======
+    const response = await createEvidence(activityId, data);
+    if (response.status === 200) {
+      history.push(`/${project.id}/activity/${activityId}/evidence`)
+    }
+>>>>>>> 1a3d6733 (feat/evidence-api: files)
 
-      setButtonLoading(false);
+    setButtonLoading(false);
   }
 
   if (loading) return <Loading></Loading>;
@@ -139,12 +146,12 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                        type="radio"
-                        name="evidenceType"
-                        id=""
-                        checked={type === 'transfer'}
-                        value='transfer'
-                        onChange={(e) => setState({ ...state, type: e.target.value })}
+                      type="radio"
+                      name="evidenceType"
+                      id=""
+                      checked={type === 'transfer'}
+                      value='transfer'
+                      onChange={(e) => setState({ ...state, type: e.target.value })}
                     />
                     <div className="customRadio">
                       <div></div>
@@ -155,12 +162,12 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                        type="radio"
-                        name="evidenceType"
-                        id=""
-                        value='impact'
-                        checked={type === 'impact'}
-                        onChange={(e) => setState({ ...state, type: e.target.value })}
+                      type="radio"
+                      name="evidenceType"
+                      id=""
+                      value='impact'
+                      checked={type === 'impact'}
+                      onChange={(e) => setState({ ...state, type: e.target.value })}
                     />
                     <div className="customRadio">
                       <div></div>
@@ -173,6 +180,7 @@ const EvidenceFormContent = ({ form }) => {
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Evidence Title</p>
               <div className="formDivInput itemInput">
+<<<<<<< HEAD
                 <Form.Item>
                   {getFieldDecorator('title', {
                     rules: [
@@ -194,11 +202,44 @@ const EvidenceFormContent = ({ form }) => {
                     />
                   )}
                 </Form.Item>
+=======
+                <CoaFormItemInput
+                  withErrorFeedback
+                  name="title"
+                  form={form}
+                  fieldDecoratorOptions={{
+                    rules: [
+                      {
+                        required: true,
+                        message: ERROR_TYPES.EMPTY,
+                        whitespace: true
+                      },
+                      {
+                        pattern: onlyAlphanumerics,
+                        message: ERROR_TYPES.ALPHANUMERIC
+                      }
+                    ],
+                    validateTrigger: 'onSubmit'
+                  }}
+                  errorsToShow={[ERROR_TYPES.ALPHANUMERIC]}
+                  inputProps={{
+                    maxLength: 50,
+                    placeholder: 'Enter the evidence title',
+                    onChange: ({ currentTarget: { value } }) => {
+                      setState({
+                        ...state,
+                        title: value
+                      });
+                    }
+                  }}
+                />
+>>>>>>> 1a3d6733 (feat/evidence-api: files)
               </div>
             </div>
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Evidence Description</p>
               <div className="formDivInput">
+<<<<<<< HEAD
                 <Form.Item>
                   {getFieldDecorator('description', {
                     rules: [
@@ -222,6 +263,33 @@ const EvidenceFormContent = ({ form }) => {
                     />
                   )}
                 </Form.Item>
+=======
+                <CoaFormItemTextArea
+                  form={form}
+                  errorsToShow={[]}
+                  name="description"
+                  fieldDecoratorOptions={{
+                    rules: [
+                      {
+                        required: true,
+                        message: ERROR_TYPES.EMPTY,
+                        whitespace: true
+                      }
+                    ],
+                  }}
+                  inputTextAreaProps={{
+                    placeholder: 'Enter the description',
+                    maxLength: 500,
+                    rows: 5,
+                    onChange: ({ currentTarget: { value } }) => {
+                      setState({
+                        ...state,
+                        description: value
+                      });
+                    }
+                  }}
+                />
+>>>>>>> 1a3d6733 (feat/evidence-api: files)
               </div>
             </div>
             <div className="evidenceForm__body__form__group">
@@ -253,13 +321,13 @@ const EvidenceFormContent = ({ form }) => {
               <p className="formDivTitle formDivInfo">Amount Spent</p>
               <div className="formDivInput formDivAmount">
                 <input
-                    type="number"
-                    name="amount_spent"
-                    value={amount}
-                    id=""
-                    placeholder="Enter the amount spent"
-                    disabled={type === 'impact'}
-                    onChange={onChangeAmount}
+                  type="number"
+                  name="amount_spent"
+                  value={amount}
+                  id=""
+                  placeholder="Enter the amount spent"
+                  disabled={type === 'impact'}
+                  onChange={onChangeAmount}
                 />
                 <div className="formCurrency">{currency}</div>
               </div>
@@ -268,15 +336,15 @@ const EvidenceFormContent = ({ form }) => {
               <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
               <div className="formDivInput itemInput">
                 <CoaFormItemSelect
-                    form={form}
-                    errorsToShow={[]}
-                    name="transaction"
-                    fieldDecoratorOptions={{
-                      rules: [],
-                    }}
-                    selectProps={{
-                      placeholder: 'Select the transaction',
-                    }}
+                  form={form}
+                  errorsToShow={[]}
+                  name="transaction"
+                  fieldDecoratorOptions={{
+                    rules: [],
+                  }}
+                  selectProps={{
+                    placeholder: 'Select the transaction',
+                  }}
                 />
               </div>
             </div>)}
@@ -291,6 +359,7 @@ const EvidenceFormContent = ({ form }) => {
               <div className="formDivInput">
                 <div className="uploadBtnDiv">
                   <Form.Item>
+<<<<<<< HEAD
                     {getFieldDecorator('files', {
                       rules: [
                         {
@@ -305,6 +374,13 @@ const EvidenceFormContent = ({ form }) => {
                           </Button>
                         </Upload>
                     )}
+=======
+                    <Upload {...uploadProps}>
+                      <Button className="uploadBtn">
+                        <Icon type="upload" /> Click to upload
+                      </Button>
+                    </Upload>
+>>>>>>> 1a3d6733 (feat/evidence-api: files)
                   </Form.Item>
                 </div>
               </div>

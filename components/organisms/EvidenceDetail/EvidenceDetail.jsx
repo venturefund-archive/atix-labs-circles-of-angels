@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, PaperClipOutlined } from '@ant-design/icons';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
-import './_style.scss';
 import { useHistory } from 'react-router';
 import evidenceStatusMap from 'model/evidenceStatus';
 import { UserContext } from 'components/utils/UserContext';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
-import { Button, Form, Input, Select, Typography } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
+import { updateEvidenceStatus } from 'api/activityApi';
+import './_style.scss';
 
 export function GoBack() {
   const history = useHistory()
@@ -136,6 +137,14 @@ export const ModalApproveEvidence = ({ visible, setVisible, onSuccess }) => {
 
 export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }) => {
   const { getFieldDecorator } = form;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { comment } = await form.validateFields()
+    if (comment) {
+      onSuccess(comment)
+    }
+  }
   return (
     <CoaModal
       visible={visible}
@@ -149,7 +158,10 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
         >
           Cancel
         </Button>,
-        <Button className='ant-btn ant-btn-primary CoaModal__primary' onClick={onSuccess}>
+        <Button
+          className='ant-btn ant-btn-primary CoaModal__primary'
+          onClick={handleSubmit}
+        >
           Approve
         </Button>
       ]}
@@ -158,23 +170,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
       <Typography.Text className='CoaModal__Paragraph--centered'>
         Please select the reason and leave a comment for the beneficiary or the founder.
       </Typography.Text>
-      <Form>
-        <Form.Item label="Select Reason">
-          {
-            getFieldDecorator('reason', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please select a reason'
-                }
-              ]
-            })(<Select
-              key=''
-            >
-              <Select.Option value='foo'>foo</Select.Option>
-            </Select>)
-          }
-        </Form.Item>
+      <Form onSubmit={handleSubmit}>
         <Form.Item label='Leave a comment'>
           {
             getFieldDecorator('comment', {
@@ -185,7 +181,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
                 }
               ]
             })(
-              <Input.TextArea />
+              <Input.TextArea rows={5} />
             )
           }
         </Form.Item>
@@ -202,12 +198,17 @@ export function AttachedFiles({ files }) {
       <h2 className='attached-files__header'>Attached Files</h2>
       {
         files && files.map((file) => (
-          <div className='attached-files__file' key={file.title}>
+          <div className='attached-files__file' key={file.name}>
             <div className='attached-files__file-left'>
               <PaperClipOutlined />
-              <h4 className='attached-files__file-title'>{file.title}</h4>
+              <h4 className='attached-files__file-title'>{file.name}</h4>
             </div>
-            <a className='attached-files__file-download' href='/'>
+            <a
+              className='attached-files__file-download'
+              href={`${process.env.NEXT_PUBLIC_URL_HOST}${file.path}`}
+              target="_blank"
+              download
+            >
               Download
             </a>
           </div>
@@ -243,21 +244,36 @@ export function Breadcrumb({ route }) {
 
 export default function EvidenceDetail({ evidence }) {
   const [approveModalOpen, setApproveModalOpen] = useState(false);
-  const [rejectModalOpen, setRejectModalOpen] = useState(true);
-  const { user: { role } } = useContext(UserContext);
-  const isAuditor = role === 'auditor'
+  const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const { user: { id } } = useContext(UserContext);
+  const isAuditor = id == evidence?.auditor?.id;
+
+  const rejectEvidence = async (reason) => {
+    const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
+    if (!result.errors) {
+      setRejectModalOpen(false);
+    }
+  }
+
+  const approveEvidence = async () => {
+    const result = await updateEvidenceStatus(evidence.id, 'approved')
+    if (!result.errors) {
+      setApproveModalOpen(false);
+    }
+  }
+
   return (
     <div className='evidence-detail'>
       <div className='evidence-detail__container'>
         <GoBack />
         <Breadcrumb route={{ title: 'Evidence Details' }} />
         <EvidenceDetailContainer {...evidence} />
-        <AmountSpent amount={evidence.income} currency='ETH' />
+        <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
         {
-          evidence.files && <AttachedFiles files={files} />
+          evidence?.files && <AttachedFiles files={evidence?.files} />
         }
         {/* invert this after ending development */}
-        {!isAuditor && (
+        {isAuditor && (
           <div className='auditor-options'>
             <button
               className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'
@@ -279,8 +295,8 @@ export default function EvidenceDetail({ evidence }) {
       <div className='evidence-detail__container'>
         <EvidenceComments {...evidence} />
       </div>
-      <ModalApproveEvidence visible={approveModalOpen} setVisible={setApproveModalOpen} />
-      <ModalRejectEvidence visible={rejectModalOpen} setVisible={setRejectModalOpen} />
+      <ModalApproveEvidence visible={approveModalOpen} setVisible={setApproveModalOpen} onSuccess={approveEvidence} />
+      <ModalRejectEvidence visible={rejectModalOpen} setVisible={setRejectModalOpen} onSuccess={reason => rejectEvidence(reason)} />
     </div>
   )
 }
