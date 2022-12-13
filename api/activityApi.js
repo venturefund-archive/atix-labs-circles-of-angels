@@ -35,6 +35,9 @@ export const uploadEvidenceSendTransaction = (taskId, data, status) => {
 export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 export const getActivityEvidences = activityId => doGet(`${baseURL}/${activityId}/evidences`);
 
+const getEvidence = evidenceId => doGet(`/evidences/${evidenceId}`);
+const updateEvidenceStatus = (evidenceId, status, reason) => doPut(`/evidences/${evidenceId}`, { status, reason })
+
 export const getEvidenceBlockchainData = evidenceId =>
   doGet(`/evidences/${evidenceId}/blockchain-data`);
 
@@ -121,25 +124,26 @@ const createActivity = async (activity, milestoneId) => {
     return { error };
   }
 };
+
 const createEvidence = async (activityId, data) => {
-    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    const fd = new FormData();
-    fd.append('title', data.title);
-    fd.append('type', data.type);
-    fd.append('description', data.description);
-    fd.append('amount', data.amount);
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+  const fd = new FormData();
+  fd.append('title', data.title);
+  fd.append('type', data.type);
+  fd.append('description', data.description);
+  fd.append('amount', data.amount);
 
-    if (data.files.length > 0) {
-      data.files.forEach((file) => {
-        fd.append(`file-${file.name}`, file);
-      })
-    }
+  if (data.files.length > 0) {
+    data.files.forEach(({ file }) => {
+      fd.append('files', file);
+    })
+  }
 
-    if (data.transferTxHash) {
-      fd.append('transferTxHash', data.transferTxHash);
-    }
+  if (data.transferTxHash) {
+    fd.append('transferTxHash', data.transferTxHash);
+  }
 
-    return doPost(`${baseURL}/${activityId}/evidences`, fd, config);
+  return doPost(`${baseURL}/${activityId}/evidences`, fd, config);
 };
 
 export {
@@ -151,4 +155,6 @@ export {
   completeActivity,
   createActivity,
   createEvidence,
+  getEvidence,
+  updateEvidenceStatus,
 };
