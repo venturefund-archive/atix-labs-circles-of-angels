@@ -78,6 +78,16 @@
       row-gap: 2.1875rem;
     }
   }
+  &__members {
+    &__container {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      gap: 1rem;
+      @include breakpoint(md){
+        grid-template-columns: 100%;
+      }
+    }
+  }
 
   @include respond(mobile) {
     &__content {

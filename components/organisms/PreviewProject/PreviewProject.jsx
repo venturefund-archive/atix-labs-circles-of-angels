@@ -71,9 +71,10 @@ const PreviewProject = () => {
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
-  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.[0];
-  const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.[0];
-  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users);
+  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.map( user => ({ ...user, rol: 'Beneficiary' }))[0];
+  const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.map( user => ({ ...user, rol: 'Investor' }))[0];
+  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( user => ({ ...user, rol: 'Auditor' }));
+  const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
   const toggleAreActivitiesOpened = milestoneId => {
     const _milestones = [...milestones];
@@ -112,11 +113,21 @@ const PreviewProject = () => {
           <ProjectInfoSection mission={mission} about={problemAddressed} />
         </div>
         <div className="o-previewProject__members">
-          {/* <CoaProjectMembersCard
-            beneficiary={beneficiaryUser}
-            investor={investorUser}
-            auditors={auditorsUsers}
-          /> */}
+          <TitlePage
+            underlinePosition="none"
+            textTitle="Project Members"
+            className="o-previewProject__title"
+            textColor="#4C7FF7"
+          />
+          <div className='o-previewProject__members__container'>
+            {
+              members.map( (member) => (
+                <CoaProjectMembersCard
+                  {...member}
+                />
+              ))
+            }
+          </div>
         </div>
         <div className="o-previewProject__progressSection">
           <TitlePage
