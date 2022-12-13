@@ -18,9 +18,9 @@ const CardHeader = ({
   onRemove,
   onClick,
   extra,
-  withStateTag,
-  state,
-  stateMap,
+  withStatusTag,
+  status,
+  statusMap,
   onViewEvidence,
   onAddEvidences
 }) => (
@@ -78,8 +78,8 @@ const CardHeader = ({
           <Icon type="plus" /> Add evidences
         </CoaTextButton>
       )}
-      {withStateTag && (
-        <CoaTag predefinedColor={stateMap?.[state]?.color}>{stateMap?.[state]?.name}</CoaTag>
+      {withStatusTag && (
+        <CoaTag predefinedColor={statusMap?.[status]?.color}>{statusMap?.[status]?.name}</CoaTag>
       )}
     </div>
   </div>
@@ -99,9 +99,9 @@ export const CoaIndicatorsCard = ({
   className,
   isCollapsible,
   alwaysShowBudget,
-  withStateTag,
-  state,
-  stateMap,
+  withStatusTag,
+  status,
+  statusMap,
   transferQuantity,
   impactQuantity,
   withEvidences,
@@ -120,9 +120,9 @@ export const CoaIndicatorsCard = ({
               onRemove,
               onCreate,
               entity,
-              withStateTag,
-              state,
-              stateMap,
+              withStatusTag,
+              status,
+              statusMap,
               withEvidences,
               onViewEvidence,
               onAddEvidences
@@ -145,9 +145,9 @@ export const CoaIndicatorsCard = ({
                   onAddEvidences={onAddEvidences}
                   onViewEvidence={onViewEvidence}
                   withEvidences={withEvidences}
-                  withStateTag={withStateTag}
-                  state={state}
-                  stateMap={stateMap}
+                  withStatusTag={withStatusTag}
+                  status={status}
+                  statusMap={statusMap}
                   extra={
                     isCollapseOpen ? (
                       <Icon type="down" className="o-coaIndicatorsCard__header__icon" />
@@ -169,7 +169,7 @@ export const CoaIndicatorsCard = ({
         <div className="o-coaIndicatorsCard__body">
           {(parseFloat(budget) > 0 || alwaysShowBudget) && (
             <div className="o-coaIndicatorsCard__body__indicators">
-              <div className="o-coaIndicatorsCard__body__indicators__container" >
+              <div className="o-coaIndicatorsCard__body__indicators__container">
                 <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
                 <div className="o-coaIndicatorsCard__body__indicators__indicator">
                   <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
@@ -184,7 +184,9 @@ export const CoaIndicatorsCard = ({
                   </p>
                 </div>
                 <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Remaining</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
+                    Remaining
+                  </p>
                   <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
                     {formatCurrency(currency, remaining)}
                   </p>
@@ -193,8 +195,7 @@ export const CoaIndicatorsCard = ({
               {withEvidences && (
                 <>
                   <Divider type="vertical" style={{ height: '32px', margin: '0 1.31rem' }} />
-                  <div className="o-coaIndicatorsCard__body__indicators__container" >
-
+                  <div className="o-coaIndicatorsCard__body__indicators__container">
                     <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
                     <div className="o-coaIndicatorsCard__body__indicators__indicator">
                       <p className="o-coaIndicatorsCard__body__indicators__indicator__title">

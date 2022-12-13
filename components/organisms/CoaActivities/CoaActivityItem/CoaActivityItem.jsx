@@ -11,7 +11,7 @@ export const CoaActivityItem = ({
   activity,
   onRemove,
   onEdit,
-  withStateTag,
+  withStatusTag,
   withEvidences,
   canAddEvidences,
   projectId
@@ -23,7 +23,7 @@ export const CoaActivityItem = ({
   const title = activity?.title;
   const budget = activity?.budget;
   const spent = activity?.spent || 0;
-  const state = activity?.status || '-';
+  const status = activity?.status || '-';
   const remaining = budget - spent;
   const transferQuantity = activity?.evidences?.reduce(
     (curr, next) => (next?.type === 'transfer' ? curr + 1 : curr),
@@ -38,7 +38,7 @@ export const CoaActivityItem = ({
     <CoaIndicatorsCard
       {...{ currency }}
       withEvidences={withEvidences}
-      stateMap={activityStatusMap}
+      statusMap={activityStatusMap}
       className="o-coaActivityItem__card"
       budget={budget}
       title={`Activity ${activityNumber} - ${title}`}
@@ -47,8 +47,8 @@ export const CoaActivityItem = ({
       remaining={remaining}
       spent={spent}
       isCollapsible
-      withStateTag={withStateTag}
-      state={state}
+      withStatusTag={withStatusTag}
+      status={status}
       transferQuantity={transferQuantity}
       impactQuantity={impactQuantity}
       onViewEvidence={
