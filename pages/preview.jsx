@@ -1,11 +1,11 @@
 import React from 'react';
+import { useParams } from 'react-router';
+import useQuery from 'hooks/useQuery';
 import PreviewProject from '../components/organisms/PreviewProject/PreviewProject';
 
 const Preview = () => {
-  const pathParts = window.location.pathname.split('/');
-  const id = pathParts[pathParts.length - 1];
-  return (
-    <PreviewProject id={id} />
-  );
-}
+  const { id } = useParams();
+  const { preview } = useQuery();
+  return <PreviewProject id={id} preview={Boolean(preview)} />;
+};
 export default Preview;

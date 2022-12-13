@@ -12,8 +12,8 @@ import PropTypes from 'prop-types';
 import './_style.scss';
 import { Table, Tag, Dropdown, Menu, Icon, message, Modal, Button } from 'antd';
 import { useHistory } from 'react-router';
+import { PROJECT_STATUS_MAP } from 'model/projectStatus';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
-import projectStatusMap from '../../../model/projectStatus';
 import { projectStatuses } from '../../../constants/constants';
 import projectStatusesTransitionAdmin from '../../../constants/ProjectStatusesTransition';
 import userRole from '../../../constants/RolesMap';
@@ -59,9 +59,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     return (
       <Menu onClick={handleMenuClick}>
         {Object.keys(availablestatuses).map(key => (
-          <Menu.Item key={availablestatuses[key]}>
-            {availablestatuses[key]}
-          </Menu.Item>
+          <Menu.Item key={availablestatuses[key]}>{availablestatuses[key]}</Menu.Item>
         ))}
       </Menu>
     );
@@ -88,9 +86,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
             icon="download"
             buttonText="Download"
             classNameIcon="iconDisplay"
-            onClick={() =>
-              downloadFileFromPath(milestonePath, 'milestones.xlsx')
-            }
+            onClick={() => downloadFileFromPath(milestonePath, 'milestones.xlsx')}
           />
         ) // TODO: show something else if !milestonePath?
     },
@@ -114,8 +110,8 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       dataIndex: 'status',
       render: status => (
         <span>
-          <Tag color={projectStatusMap[status].color} key={status}>
-            {projectStatusMap[status].name}
+          <Tag color={PROJECT_STATUS_MAP[status].color} key={status}>
+            {PROJECT_STATUS_MAP[status].name}
           </Tag>
         </span>
       )
@@ -160,8 +156,8 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
       dataIndex: 'status',
       render: status => (
         <span>
-          <Tag color={projectStatusMap[status].color} key={status}>
-            {projectStatusMap[status].name}
+          <Tag color={PROJECT_STATUS_MAP[status].color} key={status}>
+            {PROJECT_STATUS_MAP[status].name}
           </Tag>
         </span>
       )
@@ -186,8 +182,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     }
   ];
 
-  const goToProjectDetail = projectId =>
-    history.push(`/project-detail?id=${projectId}`);
+  const goToProjectDetail = projectId => history.push(`/project-detail?id=${projectId}`);
 
   const handleRejectionButton = id => {
     setModalRejectVisible(true);
@@ -207,9 +202,7 @@ const TableBOProjects = ({ data, onConfirm, onReject, fetchProjects }) => {
     <>
       <Table
         dataSource={data}
-        columns={
-          user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns
-        }
+        columns={user.role === userRole.COA_ADMIN ? adminColumns : curatorColumns}
         size="middle"
         className="TableBOProjects"
       />
