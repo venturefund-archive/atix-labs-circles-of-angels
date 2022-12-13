@@ -74,7 +74,10 @@ const CardHeader = ({
         </CoaTextButton>
       )}
       {onAddEvidences && (
-        <CoaTextButton onClick={onViewEvidence}>
+        <CoaTextButton
+          onClick={onViewEvidence}
+          disabled={['to-review', 'approved'].includes(status)}
+        >
           <Icon type="plus" /> Add evidences
         </CoaTextButton>
       )}
