@@ -88,6 +88,9 @@ export const routesConfig = [
     }
   },
   {
+    // Evidences get from the api using only the evidence id.
+    // your should compact this route into
+    // /evidences/:detailEvidenceId
     path: '/:projectId/activity/:activityId/evidences/:detailEvidenceId',
     component: EvidenceDetail,
     withHeader: false,

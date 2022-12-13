@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { message, Divider, Icon } from 'antd';
 import { useHistory } from 'react-router';
-
 import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
@@ -51,11 +50,11 @@ const getMilestoneStatus = (activities = []) => {
 
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
-  const userData = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const goBack = () => history.push('/');
 
-  const isAdmin = userData?.user?.isAdmin;
+  const isAdmin = user?.isAdmin;
 
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState({
@@ -127,6 +126,10 @@ const PreviewProject = ({ id, preview }) => {
     0
   );
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
+
+  const userProject =
+    user?.projects.find(({ projectId }) => parseInt(id, 10) === parseInt(projectId, 10)) || false;
+  const canAddEvidences = userProject && !userProject.roles.includes(ROLES_IDS.auditor);
 
   return (
     <Layout hasBackgroundImage>
@@ -295,6 +298,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  canAddEvidences={canAddEvidences}
                   projectId={id}
                   withEvidences
                   withStatusTag
