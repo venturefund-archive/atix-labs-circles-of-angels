@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { message, Divider } from 'antd';
 import { useHistory, useParams } from 'react-router';
+import { UserContext } from 'components/utils/UserContext';
 
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
@@ -53,6 +54,8 @@ const PreviewProject = () => {
   const history = useHistory();
 
   const goBack = () => history.push('/');
+
+  const { user } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState({
@@ -121,6 +124,11 @@ const PreviewProject = () => {
 
   const totalCurrentDeposited = milestones?.reduce((prev, curr) => prev + curr?.deposited, 0);
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + curr?.spent, 0);
+
+  const userProject = user?.projects.find(
+    ({ projectId })=> parseInt(id, 10) === parseInt(projectId, 10)
+  ) || false;
+  const canAddEvidences = userProject && !userProject.roles.includes(ROLES_IDS.auditor);
 
   return (
     <Layout hasBackgroundImage>
@@ -273,6 +281,7 @@ const PreviewProject = () => {
                 projectId={project?.id}
                 withEvidences
                 withStatusTag
+                canAddEvidences={canAddEvidences}
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}
                 {...{
                   currency,
