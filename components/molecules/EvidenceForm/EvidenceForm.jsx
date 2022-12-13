@@ -9,7 +9,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Upload, Icon, message } from 'antd';
+import { Form, Button, Upload, Icon, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
@@ -18,22 +18,14 @@ import './_style.scss';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
-import { ERROR_TYPES } from '../../../constants/constants';
-import { onlyAlphanumerics } from '../../../constants/Regex';
-import { CoaFormItemInput } from '../CoaFormItems/CoaFormItemInput/CoaFormItemInput';
-import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
-import { toBase64 } from '../../utils/FileUtils';
 import { createEvidence } from '../../../api/activityApi';
-import { getUsersByRole } from '../../../helpers/modules/projectUsers';
-import { ROLES_IDS } from '../../organisms/AssignProjectUsers/constants';
 
 const EvidenceFormContent = ({ form }) => {
+  const { getFieldDecorator } = form;
   const { id } = useParams();
   const history = useHistory();
   const { project, loading } = useProject(id);
-
-  const user = JSON.parse(sessionStorage.getItem('user'));
 
   const pathParts = window.location.pathname.split('/');
 
@@ -52,22 +44,11 @@ const EvidenceFormContent = ({ form }) => {
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
-  const [transactionType, setTransactionType] = useState('');
-  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     if (!loading) {
       setCurrencyType(project?.details?.currencyType.toLowerCase());
       setCurrency(project.details.currency);
-
-      const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, project.users)?.[0];
-      const investorUser = getUsersByRole(ROLES_IDS.investor, project.users)?.[0];
-
-      if (beneficiaryUser && beneficiaryUser.id === user.id) {
-        setTransactionType('sent');
-      } else if (investorUser && investorUser.id === user.id) {
-        setTransactionType('received');
-      }
     }
     // eslint-disable-next-line
   }, [loading]);
@@ -79,12 +60,8 @@ const EvidenceFormContent = ({ form }) => {
 
   const handleFileChange = async (value) => {
     if (value?.file?.status !== 'removed') {
-      const b64Photo = await toBase64(value?.file);
       const { files } = state;
-      files.push({
-        file: b64Photo,
-        uid: value?.file?.uid,
-      });
+      files.push(value.file);
       setState({ ...state, files })
     }
   };
@@ -120,7 +97,7 @@ const EvidenceFormContent = ({ form }) => {
 
       const response = await createEvidence(activityId, data);
       if (response.status === 200) {
-        history.push(`/${project.id}/activity/${activityId}/evidence`)
+        history.push(`/${project.id}/activity/${activityId}/evidence`);
       }
 
       setButtonLoading(false);
@@ -196,66 +173,55 @@ const EvidenceFormContent = ({ form }) => {
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Evidence Title</p>
               <div className="formDivInput itemInput">
-                <CoaFormItemInput
-                    withErrorFeedback
-                    name="title"
-                    form={form}
-                    fieldDecoratorOptions={{
-                      rules: [
-                        {
-                          required: true,
-                          message: ERROR_TYPES.EMPTY,
-                          whitespace: true
-                        },
-                        {
-                          pattern: onlyAlphanumerics,
-                          message: ERROR_TYPES.ALPHANUMERIC
-                        }
-                      ],
-                      validateTrigger: 'onSubmit'
-                    }}
-                    errorsToShow={[ERROR_TYPES.ALPHANUMERIC]}
-                    inputProps={{
-                      maxLength: 50,
-                      placeholder: 'Enter the evidence title',
-                      onChange: ({ currentTarget: { value } }) => {
-                        setState({
-                          ...state,
-                          title: value
-                        });
-                      }
-                    }}
-                />
+                <Form.Item>
+                  {getFieldDecorator('title', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please enter title',
+                      },
+                    ],
+                  })(
+                    <Input
+                          name='title'
+                          placeholder='Enter the title'
+                          onChange={(e) => {
+                            setState({
+                              ...state,
+                              title: e.target.value,
+                            })
+                          }}
+                    />
+                  )}
+                </Form.Item>
               </div>
             </div>
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Evidence Description</p>
               <div className="formDivInput">
-                <CoaFormItemTextArea
-                    form={form}
-                    errorsToShow={[]}
-                    name="description"
-                    fieldDecoratorOptions={{
-                      rules: [
-                        {
-                          required: true,
-                          message: ERROR_TYPES.EMPTY,
-                          whitespace: true
-                        }
-                      ],
-                    }}
-                    inputTextAreaProps={{
-                      placeholder: 'Enter the description',
-                      maxLength: 500,
-                      rows: 5,
-                      onChange: ({ currentTarget: { value } }) => {
-                        setState({
-                          ...state,
-                          description: value
-                        });
-                      }
-                    }}
-                />
+                <Form.Item>
+                  {getFieldDecorator('description', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please enter description',
+                      },
+                    ],
+                  })(
+                    <Input.TextArea
+                        name='description'
+                        rows={5}
+                        maxLength={500}
+                        placeholder='Enter the description'
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            description: e.target.value,
+                          })
+                        }}
+                    />
+                  )}
+                </Form.Item>
               </div>
             </div>
             <div className="evidenceForm__body__form__group">
@@ -325,11 +291,20 @@ const EvidenceFormContent = ({ form }) => {
               <div className="formDivInput">
                 <div className="uploadBtnDiv">
                   <Form.Item>
-                    <Upload {...uploadProps}>
-                      <Button className="uploadBtn">
-                        <Icon type="upload"/> Click to upload
-                      </Button>
-                    </Upload>
+                    {getFieldDecorator('files', {
+                      rules: [
+                        {
+                          required: type === 'impact' || currencyType === 'fiat',
+                          message: 'Please select the files',
+                        }
+                      ]
+                    })(
+                        <Upload {...uploadProps}>
+                          <Button className="uploadBtn">
+                            <Icon type="upload"/> Click to upload
+                          </Button>
+                        </Upload>
+                    )}
                   </Form.Item>
                 </div>
               </div>
