@@ -1,10 +1,10 @@
 import React from 'react';
 import './evidenceCard.scss';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import { addElipsesToText } from '../../utils';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
-import { useHistory } from 'react-router';
 
 const EvidenceCard = ({ evidence }) => {
     const { title, status, createdAt, description, reason, income, outcome, id } = evidence;

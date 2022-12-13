@@ -133,19 +133,11 @@ const createEvidence = async (activityId, data) => {
   fd.append('description', data.description);
   fd.append('amount', data.amount);
 
-<<<<<<< HEAD
-    if (data.files.length > 0) {
-      data.files.forEach((file) => {
-        fd.append(`file-${file.name}`, file);
-      })
-    }
-=======
   if (data.files.length > 0) {
     data.files.forEach(({ file }) => {
       fd.append('files', file);
     })
   }
->>>>>>> 1a3d6733 (feat/evidence-api: files)
 
   if (data.transferTxHash) {
     fd.append('transferTxHash', data.transferTxHash);
