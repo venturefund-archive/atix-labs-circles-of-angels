@@ -32,9 +32,11 @@
       white-space: nowrap;
     }
   }
+
   &__avatar {
     background: var(--avatarColor, $coa-blue-100);
-    color: white !important
+    color: white !important;
   }
+  
 }
 
