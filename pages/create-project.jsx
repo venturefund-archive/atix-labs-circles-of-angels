@@ -31,6 +31,7 @@ import ModalConfirmWithSK from 'components/organisms/ModalConfirmWithSK/ModalCon
 import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalPublishLoading';
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
 import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, publish, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
@@ -140,10 +141,7 @@ const CreateProjectContainer = () => {
 
     const { errors } = await publish(project.id);
 
-    goToNextModal(
-      setLoadinModalVisible,
-      errors ? setErrorModalVisible : setSuccessModalVisible
-    );
+    goToNextModal(setLoadinModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
   const goToMyProjects = () => history.push('/my-projects');
@@ -175,12 +173,15 @@ const CreateProjectContainer = () => {
   const getFinishButton = onSubmit => {
     if (status === projectStatuses.CONSENSUS) return;
     const disabled =
-      isMainWizardActive && Object.values(completedSteps).some(completed => !completed);
+      (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)) ||
+      (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW);
 
     return (
       <CoaButton
         type="primary"
-        onClick={() => (isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit))}
+        onClick={() =>
+          isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit)
+        }
         disabled={disabled}
       >
         {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
@@ -190,7 +191,14 @@ const CreateProjectContainer = () => {
 
   const getContinueLaterButton = () => {
     if (!isMainWizardActive) return;
-    return <CoaTextButton onClick={goToMyProjects}>Save & Continue Later</CoaTextButton>;
+    return (
+      <CoaTextButton
+        disabled={status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW}
+        onClick={goToMyProjects}
+      >
+        Save & Continue Later
+      </CoaTextButton>
+    );
   };
 
   const getPrevButton = () => {
@@ -206,6 +214,7 @@ const CreateProjectContainer = () => {
         type="secondary"
         icon={isMainWizardActive ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
+        disabled={status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW}
       >
         {isMainWizardActive ? 'Delete Project' : 'Back'}
       </CoaButton>
@@ -227,6 +236,9 @@ const CreateProjectContainer = () => {
           goToMyProjects={goToMyProjects}
           Footer={({ errors, onSubmit } = {}) => (
             <FooterButtons
+              disabledButtons={
+                status !== PROJECT_STATUS_ENUM.DRAFT || status !== PROJECT_STATUS_ENUM.IN_REVIEW
+              }
               errors={errors}
               className="p-createProject__footerButtons"
               finishButton={getFinishButton(onSubmit)}
@@ -249,17 +261,12 @@ const CreateProjectContainer = () => {
         onCancel={() => setSecretKeyVisible(false)}
         onSuccess={publishProject}
       />
-      <ModalPublishLoading
-        visible={loadingModalVisible}
-      />
+      <ModalPublishLoading visible={loadingModalVisible} />
       <ModalPublishSuccess
         visible={successModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
       />
-      <ModalPublishError
-        visible={errorModalVisible}
-        onCancel={() => setErrorModalVisible(false)}
-      />
+      <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
     </>
   );
 };

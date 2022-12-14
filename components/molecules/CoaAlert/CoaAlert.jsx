@@ -11,6 +11,8 @@ export const CoaAlert = ({
   className,
   customColor,
   show,
+  closeContent,
+  closable,
   ...rest
 }) =>
   show && (
@@ -25,15 +27,15 @@ export const CoaAlert = ({
       message={
         <Row type="flex" align="middle" className="coaAlert__content" gutter={15}>
           <Col>{Icon}</Col>
-          <Col>
-            <p>
-              <span className="coaAlert__content__highlightedText">{highlightedText}</span>
-              <span className="coaAlert__content__message">{message}</span>
-            </p>
-          </Col>
+
+          <p>
+            <span className="coaAlert__content__highlightedText">{highlightedText}</span>
+            <span className="coaAlert__content__message">{message}</span>
+          </p>
         </Row>
       }
-      closable
+      closable={closable}
+      closeText={closeContent}
       {...rest}
     />
   );

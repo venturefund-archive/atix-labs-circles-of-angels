@@ -1,19 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { message, Divider } from 'antd';
-import { useHistory, useParams } from 'react-router';
+import PropTypes from 'prop-types';
+import { message, Divider, Icon } from 'antd';
+import { useHistory } from 'react-router';
 import { UserContext } from 'components/utils/UserContext';
-
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
-import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
-import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
 import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject } from '../../../api/projectApi';
@@ -49,13 +48,13 @@ const getMilestoneStatus = (activities = []) => {
   return MILESTONE_STATUS.IN_PROGRESS;
 };
 
-const PreviewProject = () => {
-  const { id } = useParams();
+const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
 
   const goBack = () => history.push('/');
 
-  const { user } = useContext(UserContext);
+  const isAdmin = user?.isAdmin;
 
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState({
@@ -122,16 +121,36 @@ const PreviewProject = () => {
     milestone => milestone?.status === MILESTONE_STATUS.APPROVED
   );
 
-  const totalCurrentDeposited = milestones?.reduce((prev, curr) => prev + curr?.deposited, 0);
-  const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + curr?.spent, 0);
+  const totalCurrentDeposited = milestones?.reduce(
+    (prev, curr) => prev + parseFloat?.(curr?.deposited),
+    0
+  );
+  const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
-  const userProject = user?.projects.find(
-    ({ projectId })=> parseInt(id, 10) === parseInt(projectId, 10)
-  ) || false;
+  const userProject =
+    user?.projects.find(({ projectId }) => parseInt(id, 10) === parseInt(projectId, 10)) || false;
   const canAddEvidences = userProject && !userProject.roles.includes(ROLES_IDS.auditor);
 
   return (
     <Layout hasBackgroundImage>
+      {preview && isAdmin && (
+        <CoaAlert
+          className="o-previewProject__previewInfoMessage"
+          message="You are viewing the preview of your project"
+          customColor="blue"
+          closable={false}
+          show={preview}
+          closeContent={
+            <CoaButton
+              onClick={() => history.push(`/project/edit/${id}`)}
+              type="ghost"
+              primaryColor="white"
+            >
+              <Icon type="arrow-left" /> Back to edit
+            </CoaButton>
+          }
+        />
+      )}
       <ProjectHeroSection
         title={projectName}
         status={status}
@@ -144,157 +163,169 @@ const PreviewProject = () => {
         legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
         projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
       />
-      <div className="o-previewProject__content">
-        <div className="o-previewProject__buttons">
-          <CoaButton shape="round" className="o-previewProject__buttons__button">
-            <ProjectDetailsIcon /> Project Details
-          </CoaButton>
-          <CoaButton shape="round" className="o-previewProject__buttons__button">
-            <MilestonesIcon /> Milestones
-          </CoaButton>
-          <CoaButton shape="round" className="o-previewProject__buttons__button">
-            <BlockchainIcon /> Blockchain History
-          </CoaButton>
-        </div>
-        <div className="o-previewProject__infoSection">
-          <ProjectInfoSection
-            mission={mission}
-            about={problemAddressed}
-            progressCurrentValue={approvedMilestonesQuantity}
-            progressTotalValue={totalMilestonesQuantity}
-            balanceCurrentValue={totalCurrentSpent}
-            balanceTotalValue={budget}
-            currency={currency}
-          />
-        </div>
-        <div className="o-previewProject__members">
-          {/* <CoaProjectMembersCard
+      {(isAdmin || !preview) && (
+        <div className="o-previewProject__content">
+          <div className="o-previewProject__buttons">
+            <CoaButton shape="round" className="o-previewProject__buttons__button">
+              <ProjectDetailsIcon /> Project Details
+            </CoaButton>
+            <CoaButton shape="round" className="o-previewProject__buttons__button">
+              <MilestonesIcon /> Milestones
+            </CoaButton>
+            <CoaButton shape="round" className="o-previewProject__buttons__button">
+              <BlockchainIcon /> Blockchain History
+            </CoaButton>
+          </div>
+          <div className="o-previewProject__infoSection">
+            <ProjectInfoSection
+              mission={mission}
+              about={problemAddressed}
+              progressCurrentValue={approvedMilestonesQuantity}
+              progressTotalValue={totalMilestonesQuantity}
+              balanceCurrentValue={totalCurrentSpent}
+              balanceTotalValue={budget}
+              currency={currency}
+            />
+          </div>
+          <div className="o-previewProject__members">
+            {/* <CoaProjectMembersCard
             beneficiary={beneficiaryUser}
             investor={investorUser}
             auditors={auditorsUsers}
           /> */}
-        </div>
-        <div className="o-previewProject__progressSection">
-          <TitlePage
-            underlinePosition="none"
-            textTitle="Project Progress"
-            className="o-previewProject__title"
-            textColor="#4C7FF7"
-          />
-          <div className="o-previewProject__progressSection__pills">
-            <CoaProjectProgressPill
-              indicator="Milestones Progress"
-              current={approvedMilestonesQuantity}
-              total={totalMilestonesQuantity}
-              startBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  Project{' '}
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Started
-                  </span>
-                </p>
-              }
-              endBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  Project{' '}
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Finished !
-                  </span>
-                </p>
-              }
-              progressBarColor="#58C984"
-              barColor="#DEF4E6"
-            />
-            <Divider
-              type="horizontal"
-              className="o-previewProject__progressSection__pills__divider"
-            />
-            <CoaProjectProgressPill
-              indicator="Amount Income"
-              current={totalCurrentDeposited}
-              total={budget}
-              startBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Available Amount
-                  </span>{' '}
-                  <span className="o-previewProject__progressSection__pills__currentAmount">
-                    {formatCurrency(currency, totalCurrentDeposited)}
-                  </span>
-                </p>
-              }
-              endBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Total Amount
-                  </span>{' '}
-                  <span className="o-previewProject__progressSection__pills__targetAmount">
-                    {formatCurrency(currency, budget)}
-                  </span>
-                </p>
-              }
-              progressBarColor="#4C7FF7"
-              barColor="#C1DCE9"
-            />
-            <Divider
-              type="horizontal"
-              className="o-previewProject__progressSection__pills__divider"
-            />
-            <CoaProjectProgressPill
-              indicator="Amount Outcome"
-              current={totalCurrentSpent}
-              total={budget}
-              startBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Amount Spent
-                  </span>{' '}
-                  <span className="o-previewProject__progressSection__pills__currentAmount">
-                    {formatCurrency(currency, totalCurrentSpent)}
-                  </span>
-                </p>
-              }
-              endBarContent={
-                <p className="o-previewProject__progressSection__pills__normalText">
-                  <span className="o-previewProject__progressSection__pills__boldText">
-                    Goal Amount
-                  </span>{' '}
-                  <span className="o-previewProject__progressSection__pills__targetAmount">
-                    {formatCurrency(currency, budget)}
-                  </span>
-                </p>
-              }
-              barColor="#EAECEF"
-            />
           </div>
-        </div>
-        <div className="o-previewProject__milestonesSection">
-          <TitlePage
-            underlinePosition="none"
-            textTitle="Milestones"
-            className="o-previewProject__title"
-            textColor="#4C7FF7"
-          />
-          <div className="o-previewProject__milestonesSection__milestones">
-            {milestones.map((milestone, index) => (
-              <CoaMilestoneItem
-                projectId={project?.id}
-                withEvidences
-                withStatusTag
-                canAddEvidences={canAddEvidences}
-                toggleAreActivitiesOpened={toggleAreActivitiesOpened}
-                {...{
-                  currency,
-                  milestone
-                }}
-                {...{ milestoneNumber: index + 1 }}
+          <div className="o-previewProject__progressSection">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Project Progress"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <div className="o-previewProject__progressSection__pills">
+              <CoaProjectProgressPill
+                indicator="Milestones Progress"
+                current={approvedMilestonesQuantity}
+                total={totalMilestonesQuantity}
+                startBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    Project{' '}
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Started
+                    </span>
+                  </p>
+                }
+                endBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    Project{' '}
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Finished !
+                    </span>
+                  </p>
+                }
+                progressBarColor="#58C984"
+                barColor="#DEF4E6"
               />
-            ))}
+              <Divider
+                type="horizontal"
+                className="o-previewProject__progressSection__pills__divider"
+              />
+              <CoaProjectProgressPill
+                indicator="Amount Income"
+                current={totalCurrentDeposited}
+                total={budget}
+                startBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Available Amount
+                    </span>{' '}
+                    <span className="o-previewProject__progressSection__pills__currentAmount">
+                      {formatCurrency(currency, totalCurrentDeposited)}
+                    </span>
+                  </p>
+                }
+                endBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Total Amount
+                    </span>{' '}
+                    <span className="o-previewProject__progressSection__pills__targetAmount">
+                      {formatCurrency(currency, budget)}
+                    </span>
+                  </p>
+                }
+                progressBarColor="#4C7FF7"
+                barColor="#C1DCE9"
+              />
+              <Divider
+                type="horizontal"
+                className="o-previewProject__progressSection__pills__divider"
+              />
+              <CoaProjectProgressPill
+                indicator="Amount Outcome"
+                current={totalCurrentSpent}
+                total={budget}
+                startBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Amount Spent
+                    </span>{' '}
+                    <span className="o-previewProject__progressSection__pills__currentAmount">
+                      {formatCurrency(currency, totalCurrentSpent)}
+                    </span>
+                  </p>
+                }
+                endBarContent={
+                  <p className="o-previewProject__progressSection__pills__normalText">
+                    <span className="o-previewProject__progressSection__pills__boldText">
+                      Goal Amount
+                    </span>{' '}
+                    <span className="o-previewProject__progressSection__pills__targetAmount">
+                      {formatCurrency(currency, budget)}
+                    </span>
+                  </p>
+                }
+                barColor="#EAECEF"
+              />
+            </div>
+          </div>
+          <div className="o-previewProject__milestonesSection">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Milestones"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <div className="o-previewProject__milestonesSection__milestones">
+              {milestones.map((milestone, index) => (
+                <CoaMilestoneItem
+                  canAddEvidences={canAddEvidences}
+                  projectId={id}
+                  withEvidences
+                  withStatusTag
+                  toggleAreActivitiesOpened={toggleAreActivitiesOpened}
+                  {...{
+                    currency,
+                    milestone
+                  }}
+                  {...{ milestoneNumber: index + 1 }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
+};
+
+PreviewProject.propTypes = {
+  id: PropTypes.string,
+  preview: PropTypes.bool
+};
+
+PreviewProject.defaultProps = {
+  id: undefined,
+  preview: false
 };
 
 export default PreviewProject;

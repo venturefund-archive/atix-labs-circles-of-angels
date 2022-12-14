@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './coa-button.scss';
 import classNames from 'classnames';
 
-export const CoaButton = ({ children, disabled, className, type, ...rest }) => (
+export const CoaButton = ({ children, disabled, className, type, primaryColor, ...rest }) => (
   <Button
     disabled={disabled}
     type={type}
@@ -13,6 +13,7 @@ export const CoaButton = ({ children, disabled, className, type, ...rest }) => (
       '--disabled': disabled,
       [type]: Boolean(type)
     })}
+    style={{ '--primaryColor': primaryColor }}
     {...rest}
   >
     {children}
@@ -23,12 +24,14 @@ CoaButton.defaultProps = {
   children: '',
   disabled: false,
   className: '',
-  type: undefined
+  type: undefined,
+  primaryColor: undefined
 };
 
 CoaButton.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   disabled: PropTypes.bool,
   className: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  primaryColor: PropTypes.string
 };

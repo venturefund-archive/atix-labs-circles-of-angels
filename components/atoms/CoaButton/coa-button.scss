@@ -7,9 +7,9 @@
   align-items: center;
   &.ghost {
     * {
-      @include primary-text(0.875rem, $coa-blue-100, 500);
+      @include primary-text(0.875rem, var(--primaryColor, $coa-blue-100), 500);
     }
-    border: 1px solid $coa-blue-100;
+    border: 1px solid var(--primaryColor, $coa-blue-100);
     border-radius: 4px;
     display: flex;
     justify-content: center;
@@ -17,17 +17,17 @@
 
     &.--disabled {
       opacity: 0.2;
-      background: $coa-blue-100;
+      background: var(--primaryColor, $coa-blue-100);
       * {
         color: $white;
       }
       &:hover {
-        background: $coa-blue-100;
+        background: var(--primaryColor, $coa-blue-100);
       }
     }
   }
   &.primary {
-    background: $coa-blue-100;
+    background: var(--primaryColor, $coa-blue-100);
     * {
       color: $white;
     }
@@ -36,7 +36,7 @@
       opacity: 0.4;
 
       &:hover {
-        background: $coa-blue-100;
+        background: var(--primaryColor, $coa-blue-100);
       }
     }
   }
@@ -44,6 +44,17 @@
     background: $coa-grey-100;
     * {
       color: $white;
+    }
+
+    &.--disabled {
+      opacity: 0.4;
+      background: $coa-grey-100;
+      * {
+        color: $white;
+      }
+      &:hover {
+        background: $coa-grey-100;
+      }
     }
   }
 }

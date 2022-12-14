@@ -1,9 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import { Breadcrumb } from 'antd';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
-import TitlePage from '../../atoms/TitlePage/TitlePage';
-import { PROJECT_FORM_NAMES, projectStatuses } from '../../../constants/constants';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { PROJECT_FORM_NAMES } from 'constants/constants';
 import './_style.scss';
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
@@ -31,8 +33,14 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
 );
 
 const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) => {
+  const history = useHistory();
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
+  const areAllStepsCompleted =
+    completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] &&
+    completedSteps[PROJECT_FORM_NAMES.PROPOSAL] &&
+    completedSteps[PROJECT_FORM_NAMES.MILESTONES] &&
+    completedSteps[PROJECT_FORM_NAMES.DETAILS];
 
   return (
     <>
@@ -43,15 +51,30 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             <a href="/">Create Project</a>
           </Breadcrumb.Item>
         </Breadcrumb>
-        <TitlePage textTitle={projectName} />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <TitlePage textTitle={projectName} />
+          <CoaButton
+            type="primary"
+            disabled={!areAllStepsCompleted}
+            onClick={() =>
+              project?.status === PROJECT_STATUS_ENUM.DRAFT
+                ? history.push(`/${project?.id}?preview=true`)
+                : history.push(`/${project?.id}`)
+            }
+          >
+            {project?.status === PROJECT_STATUS_ENUM.DRAFT ? 'See preview project' : 'See project'}
+          </CoaButton>
+        </div>
 
         <div className="createProject__content__steps">
           <Items
             title="Basic Information"
             subtitle="Here you can assign or create users to different roles"
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
-            disabled={status === projectStatuses.CONSENSUS}
             completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+            disabled={
+              status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW
+            }
           />
 
           <Items
@@ -59,22 +82,31 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             subtitle="Here you can complete the project information"
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
-            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
+            disabled={
+              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+            }
           />
 
           <Items
             title="Project Users"
             subtitle="Here you can assign or create users to different roles"
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
-            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
+            disabled={
+              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+            }
           />
           <Items
             title="Project Milestones"
             subtitle="Here you can upload the required milestones for your project"
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
-            disabled={!completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
+            disabled={
+              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+            }
           />
         </div>
       </div>

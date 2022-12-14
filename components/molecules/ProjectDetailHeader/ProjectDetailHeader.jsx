@@ -5,20 +5,17 @@ import moment from 'moment';
 import CustomButton from '../../atoms/CustomButton/CustomButton';
 import DrawerBlockchain from '../../organisms/DrawerBlockchain/DrawerBlockchain';
 import GeneralItem from '../../atoms/GeneralItem/GeneralItem';
-import projectStatusMap from '../../../model/projectStatus';
-import {
-  publicProjectStatuses,
-  SHOW_BLOCKCHAIN_INFO_STATUS
-} from '../../../constants/constants';
+import { PROJECT_STATUS_MAP } from '../../../model/projectStatus';
+import { publicProjectStatuses, SHOW_BLOCKCHAIN_INFO_STATUS } from '../../../constants/constants';
 import LinkButton from '../../atoms/LinkButton/LinkButton';
 import { buildProjectBlockchainData } from '../../../helpers/blockchainData';
 import { formatTimeframeValue } from '../../../helpers/formatter';
 
 // TODO: show default if status not valid?
 const getTagStatus = (status, daysToGo) =>
-  Object.keys(projectStatusMap).includes(status) && (
-    <Tag color={projectStatusMap[status].color}>
-      {projectStatusMap[status].name} {daysToGo}
+  Object.keys(PROJECT_STATUS_MAP).includes(status) && (
+    <Tag color={PROJECT_STATUS_MAP[status].color}>
+      {PROJECT_STATUS_MAP[status].name} {daysToGo}
     </Tag>
   );
 
@@ -200,7 +197,7 @@ ProjectDetailHeader.propTypes = {
   goalAmount: PropTypes.number,
   fundedAmount: PropTypes.number,
   projectName: PropTypes.string,
-  status: PropTypes.oneOf(Object.keys(projectStatusMap)).isRequired,
+  status: PropTypes.oneOf(Object.keys(PROJECT_STATUS_MAP)).isRequired,
   allowFollow: PropTypes.bool,
   onFollowProject: PropTypes.func.isRequired,
   onUnfollowProject: PropTypes.func.isRequired,
