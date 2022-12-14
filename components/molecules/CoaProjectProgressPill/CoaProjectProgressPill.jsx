@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './coa-project-progress-pill.scss';
 
 export const CoaProjectProgressPill = ({
@@ -10,7 +11,7 @@ export const CoaProjectProgressPill = ({
   progressBarColor,
   barColor
 }) => {
-  const currentPercent = (current / total) * 100;
+  const currentPercent = (current / total) * 100 || 0;
   return (
     <div className="m-coaProjectProgressPill">
       <h3 className="m-coaProjectProgressPill__indicator">{indicator}</h3>
@@ -35,4 +36,24 @@ export const CoaProjectProgressPill = ({
       </div>
     </div>
   );
+};
+
+CoaProjectProgressPill.propTypes = {
+  indicator: PropTypes.string,
+  total: PropTypes.number,
+  current: PropTypes.number,
+  startBarContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  endBarContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  progressBarColor: PropTypes.string,
+  barColor: PropTypes.string
+};
+
+CoaProjectProgressPill.defaultProps = {
+  indicator: undefined,
+  total: 0,
+  current: 0,
+  startBarContent: undefined,
+  endBarContent: undefined,
+  progressBarColor: 'black',
+  barColor: 'black'
 };
