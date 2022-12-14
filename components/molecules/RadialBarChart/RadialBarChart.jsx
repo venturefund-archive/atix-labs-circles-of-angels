@@ -15,8 +15,8 @@ export const RadialBarChart = ({
   externalDonutSymbol,
   internalDonutSymbol
 }) => {
-  const externalDonutPercent = (currentExternalDonutValue / totalExternalDonutValue) * 100;
-  const internalDonutPercent = (currentInternalDonutValue / totalInternalDonutValue) * 100;
+  const externalDonutPercent = (currentExternalDonutValue / totalExternalDonutValue) * 100 || 0;
+  const internalDonutPercent = (currentInternalDonutValue / totalInternalDonutValue) * 100 || 0;
   return (
     <div className={`m-radialBarChart__container ${className}`}>
       <div className="m-radialBarChart__container__graph">
@@ -85,7 +85,7 @@ RadialBarChart.propTypes = {
   internalDonutLabel: PropTypes.string,
   externalDonutSymbol: PropTypes.string,
   internalDonutSymbol: PropTypes.string,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 RadialBarChart.defaultProps = {
@@ -99,5 +99,5 @@ RadialBarChart.defaultProps = {
   internalDonutLabel: 'Project Balance',
   externalDonutSymbol: '%',
   internalDonutSymbol: '$',
-  className: '',
+  className: ''
 };
