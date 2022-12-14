@@ -15,6 +15,7 @@ import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
 import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject } from '../../../api/projectApi';
@@ -167,7 +168,7 @@ const PreviewProject = ({ id, preview }) => {
         legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
         projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
       />
-      {(isAdmin || !preview) && (
+      {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons">
             <CoaButton

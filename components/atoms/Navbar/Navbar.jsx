@@ -6,7 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 import { UserContext } from 'components/utils/UserContext';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import './_style.scss';
 import NavbarProfile from 'components/molecules/NavbarProfile/NavbarProfile';
 import NavbarLogin from 'components/molecules/NavbarLogin/NavbarLogin';
@@ -14,38 +14,35 @@ import NavbarLogin from 'components/molecules/NavbarLogin/NavbarLogin';
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { user, removeUser } = useContext(UserContext);
-  const { location, push } = useHistory();
-  const projectId = location.pathname.split('/').pop();
+  const { push } = useHistory();
+  const { id: projectId } = useParams();
 
   return (
     <div className="navbar">
       <div className="mobile">
-        <div className="hamburger-icon"
-          onClick={() => setIsNavOpen((prev) => !prev)}
-        >
+        <div className="hamburger-icon" onClick={() => setIsNavOpen(prev => !prev)}>
           <div className={`icon-1 ${isNavOpen ? 'a' : ''}`}></div>
           <div className={`icon-2 ${isNavOpen ? 'c' : ''}`}></div>
           <div className={`icon-3 ${isNavOpen ? 'b' : ''}`}></div>
           <div className="clear"></div>
         </div>
         <div className="navbar__logo--mobile">
-          <img src='/static/images/coa.svg' alt='coa' />
+          <img src="/static/images/coa.svg" alt="coa" />
         </div>
-
       </div>
 
       <div className="desktop">
         <div className="navbar__logo--desktop">
-          <img src='/static/images/desktop-logo.svg' alt='desktopCOA' />
+          <img src="/static/images/desktop-logo.svg" alt="desktopCOA" />
         </div>
 
-        <div className='navbar__right'>
+        <div className="navbar__right">
           {!!user && (
-            <div className='navbar__right__icon'>
+            <div className="navbar__right__icon">
               <img src="/static/images/bell.svg" alt="bell" />
             </div>
           )}
-          <div className='navbar__right__items'>
+          <div className="navbar__right__items">
             {!!user && <NavbarProfile user={user} removeUser={removeUser} />}
             {!user && <NavbarLogin loginFn={() => push(`/${projectId}/login`)} />}
           </div>
