@@ -3,7 +3,7 @@
 
 .m-coaProjectMembersCard {
   box-shadow: 1px 1px 10px rgba(66, 70, 75, 0.25);
-
+  padding: 0.5rem;
   &__header {
     display: flex;
     gap: 1rem;
@@ -31,6 +31,10 @@
       overflow: hidden;
       white-space: nowrap;
     }
+  }
+  &__avatar {
+    background: var(--avatarColor, $coa-blue-100);
+    color: white !important
   }
 }
 
