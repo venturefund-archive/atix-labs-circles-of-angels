@@ -33,6 +33,14 @@
       align-items: center;
       column-gap: 0.4rem;
     }
+    &__right{
+      @include breakpoint(lg){
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
   &__divider {
     margin: 0 !important;
