@@ -22,6 +22,7 @@ import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
 import CreateEvidenceContainer from '../../../pages/create-evidence';
+import EvidencesContainer from '../../../pages/evidences';
 
 
 const {
@@ -87,6 +88,9 @@ export const routesConfig = [
     }
   },
   {
+    // Evidences get from the api using only the evidence id.
+    // your should compact this route into
+    // /evidences/:detailEvidenceId
     path: '/:projectId/activity/:activityId/evidences/:detailEvidenceId',
     component: EvidenceDetail,
     withHeader: false,
@@ -208,8 +212,15 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/:id/activity/:activityId/evidences/new',
+    path: '/:id/activity/:activityId/create-evidence',
     component: CreateEvidenceContainer,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
+  },
+  {
+    path: '/:id/activity/:activityId/evidence',
+    component: EvidencesContainer,
     authentication: { required: false },
     withHeader: false,
     withSideBar: false

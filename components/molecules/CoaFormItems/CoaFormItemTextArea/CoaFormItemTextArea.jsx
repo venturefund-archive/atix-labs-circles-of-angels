@@ -1,7 +1,9 @@
 import { Input } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { CoaFormItem } from '../CoaFormItem/CoaFormItem';
+import './coa-form-item-text-area.scss';
 
 export const CoaFormItemTextArea = ({
   form,
@@ -14,12 +16,22 @@ export const CoaFormItemTextArea = ({
   Note
 }) => {
   const { getFieldDecorator } = form;
+  const [charsLength, setCharsLength] = useState(fieldDecoratorOptions?.initialValue?.length || 0);
   return (
     <CoaFormItem {...{ formItemProps, withErrorFeedback, errorsToShow, name, form }}>
       {Note}
       {getFieldDecorator(name, {
         ...fieldDecoratorOptions
-      })(<Input.TextArea {...inputTextAreaProps} />)}
+      })(
+        <Input.TextArea
+          {...inputTextAreaProps}
+          className={classNames(inputTextAreaProps?.className, 'm-coaFormItemTextArea__textArea')}
+          onChange={e => setCharsLength(e.target.value?.length)}
+        />
+      )}
+      {inputTextAreaProps?.showCount && (
+        <span className="m-coaFormItemTextArea__counter">{`${charsLength}/${inputTextAreaProps?.maxLength}`}</span>
+      )}
     </CoaFormItem>
   );
 };

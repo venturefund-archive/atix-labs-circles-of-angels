@@ -91,3 +91,13 @@ export const decimalCount = num => {
 
 export const capitalizeFirstLetter = (string = '') =>
   string.charAt?.(0)?.toUpperCase() + string?.slice(1);
+
+export const getDateAndTime = (date) => {
+  if (!date) return '';
+  const newDate = new Date(date).toLocaleString();
+  const [day, time] = newDate.split(',');
+
+  const newTime = time.split('').splice(0, 5).join('');
+
+  return `${new Date(day).toDateString()}-${newTime}`;
+}

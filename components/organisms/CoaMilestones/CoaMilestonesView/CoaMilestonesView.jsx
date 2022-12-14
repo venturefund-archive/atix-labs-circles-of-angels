@@ -74,7 +74,8 @@ export const CoaMilestonesView = ({ project, Footer }) => {
     CoaConfirmDeleteModal({
       onOk: () => handleRemoveMilestone(milestoneId),
       title: 'Do you want to delete this milestone?',
-      subtitle: 'This action cannot be undone'
+      subtitle:
+        'If the milestone contains activities they will also be deleted. These actions cannot be undone'
     });
 
   const handleUpdateMilestone = async updatedMilestone => {

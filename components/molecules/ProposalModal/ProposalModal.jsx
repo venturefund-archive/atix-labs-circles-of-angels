@@ -272,7 +272,7 @@ const ProposalModal = ({
       />
       <Modal
         className="propModal"
-        title="Basic Modal"
+        title="Basic EvidenceModal"
         visible={visible}
         onOk={onNewProposal}
         onCancel={handleCancel}

@@ -1,0 +1,120 @@
+$status-new-color: #5caefa;
+$status-approved-color: #58c984;
+$status-rejected-color: #ff6666;
+
+@mixin flex-center() {
+	display: flex;
+	align-items: center;
+}
+
+.evidenceCard {
+	background: #ffffff;
+	box-shadow: 4px 4px 20px rgba(209, 225, 254, 0.5);
+	border-radius: 10px;
+	padding: 1.25rem 1rem;
+
+	.statusDay {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+
+		.date {
+			color: #9ca6bb;
+		}
+
+		.status {
+			@include flex-center();
+			padding: 0 0.75rem;
+			font-weight: 500;
+			font-size: 0.8rem;
+			border-radius: 30px;
+			height: 28px;
+			text-transform: capitalize;
+		}
+
+		.new {
+			background: #ecf6ff;
+			color: $status-new-color;
+			border: 1px solid $status-new-color;
+		}
+
+		.approved {
+			background: #f0fff6;
+			color: $status-approved-color;
+			border: 1px solid $status-approved-color;
+		}
+
+		.rejected {
+			background: #ffeeee;
+			color: $status-rejected-color;
+			border: 1px solid $status-rejected-color;
+		}
+	}
+
+	.title {
+		color: #4c7ff7;
+		margin: 1rem 0;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	.subtitle {
+		color: #26385b;
+		margin-bottom: 1rem;
+		font-size: 1rem;
+		font-weight: bold;
+	}
+
+	.description {
+		color: #525b6b;
+		line-height: 1.6;
+	}
+	.amountSpentDiv {
+		height: 2.75rem;
+		@include flex-center();
+
+		.amountSpent {
+			@include flex-center();
+			justify-content: space-between;
+			width: 100%;
+			color: #525b6b;
+
+			p:first-of-type {
+				@include flex-center();
+				gap: 0.5rem;
+				text-transform: capitalize;
+			}
+
+			p:last-of-type {
+				font-weight: bold;
+				font-size: 15px;
+			}
+		}
+	}
+}
+
+.button {
+	$button-border-color: 1px solid #4c7ff7;
+
+	.customButton {
+		font-size: 0.85rem;
+		cursor: pointer;
+		padding: 0.55rem 0.7rem;
+		border-radius: 4px;
+		box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
+	}
+
+	.primary {
+		background: #4c7ff7;
+		color: white;
+		border: $button-border-color;
+	}
+
+	.default {
+		background: white;
+		color: #4c7ff7;
+		border: $button-border-color;
+	}
+
+}

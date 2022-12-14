@@ -3,9 +3,13 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+  }
+
+  &__background {
     background-image: url('/static/images/coa-background-2.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: contain;
+    min-height: calc(100vh - 60px);
   }
 }

@@ -21,10 +21,7 @@ export const CoaProjectProgressPill = ({
         </div>
         <div className="m-coaProjectProgressPill__progress__barContainer">
           <div>{currentPercent}%</div>
-          <div
-            className="m-coaProjectProgressPill__bar"
-            style={{ '--barColor': barColor }}
-          >
+          <div className="m-coaProjectProgressPill__bar" style={{ '--barColor': barColor }}>
             <span
               className="m-coaProjectProgressPill__bar__fill"
               style={{

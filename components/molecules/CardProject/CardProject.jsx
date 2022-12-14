@@ -12,10 +12,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { Divider } from 'antd';
+import { PROJECT_STATUS_MAP } from 'model/projectStatus';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
-import projectStatusMap from '../../../model/projectStatus';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
 const CardProject = ({ onClick, project, countries }) => {
@@ -68,8 +68,8 @@ const CardProject = ({ onClick, project, countries }) => {
       <div className="m-cardProject__body">
         <div className="m-cardProject__body__titleContainer">
           <h1 className="m-cardProject__body__titleContainer__title">{projectName}</h1>
-          <CoaTag predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}>
-            {projectStatusMap[status]?.name}
+          <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
+            {PROJECT_STATUS_MAP[status]?.name}
           </CoaTag>
         </div>
         <div className="m-cardProject__body__description">

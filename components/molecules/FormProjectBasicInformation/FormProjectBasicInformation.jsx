@@ -22,7 +22,7 @@ import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 import { decimalCount, getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import _ from 'lodash';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
-import projectStatusMap from 'model/projectStatus';
+import { PROJECT_STATUS_MAP } from 'model/projectStatus';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
 import { CoaFormItemInput } from '../CoaFormItems/CoaFormItemInput/CoaFormItemInput';
@@ -167,10 +167,10 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                 </h4>
 
                 <CoaTag
-                  predefinedColor={projectStatusMap[status?.toLowerCase()]?.color}
+                  predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}
                   className="formProjectBasicInformation__left__preview__tag"
                 >
-                  {projectStatusMap?.[status]?.name}
+                  {PROJECT_STATUS_MAP?.[status]?.name}
                 </CoaTag>
               </div>
               <div className="formProjectBasicInformation__content__left__preview__info__description">
