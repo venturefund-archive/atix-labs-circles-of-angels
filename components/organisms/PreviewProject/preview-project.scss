@@ -3,7 +3,7 @@
 @import 'css/mixins/_fonts.scss';
 
 .o-previewProject {
-  &__previewInfoMessage{
+  &__previewInfoMessage {
     position: sticky;
     top: $header-height;
     width: 100%;
@@ -27,6 +27,7 @@
     width: 100%;
     display: flex;
     column-gap: 0.9375rem;
+    padding-block: 0.5rem;
     &__button {
       display: flex;
       column-gap: 0.625rem;
@@ -57,20 +58,20 @@
         @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
       }
       &__currentAmount {
-        @include breakpoint(md){
+        @include breakpoint(md) {
           display: block;
         }
       }
       &__targetAmount {
-        @include breakpoint(md){
+        @include breakpoint(md) {
           display: block;
           text-align: right;
         }
       }
       &__divider {
         margin: 0;
-        background-color: #9CA6B8;
-        @include respond(tablet){
+        background-color: #9ca6b8;
+        @include respond(tablet) {
           display: none;
         }
       }
