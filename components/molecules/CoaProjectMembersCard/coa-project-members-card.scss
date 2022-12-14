@@ -2,63 +2,35 @@
 @import 'css/mixins/_fonts.scss';
 
 .m-coaProjectMembersCard {
-  display: flex;
-  justify-content: space-between;
-  background: $coa-light-sky-blue-100;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
   box-shadow: 1px 1px 10px rgba(66, 70, 75, 0.25);
-  padding: 2.1875rem 3.125rem;
 
-  &__tooltip {
-    background: $coa-white-100;
+  &__header {
     display: flex;
-    flex-direction: column;
-    padding: 0.75rem 1rem;
-    color: $coa-medium-gray-100;
-    h5 {
-      @include primary-text(0.875rem, $coa-dark-gray-100, 700);
-    }
+    gap: 1rem;
   }
-
   &__title {
-    display: flex;
-    align-items: center;
-    column-gap: 0.9375rem;
-    h2 {
-      width: 6.5rem;
-      @include primary-text(1.5rem, $coa-blue-100, 500);
-    }
+    @include primary-text(1rem, $coa-dark-gray-100, 700);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
-
-  &__members {
+  &__subtitle{
+    @include primary-text(0.8rem, $coa-dark-gray-100, 400);
+  }
+  &__boldText {
+    font-weight: 700;
+  }
+  &__extraInfo {
+    color: $coa-grey-100 !important;
+  }
+  &__addressContainer {
     display: flex;
-    align-items: center;
-    column-gap: 6.25rem;
-
-    &__item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      row-gap: 1rem;
-    }
-
-    &__title {
-      display: flex;
-      align-items: center;
-      column-gap: 0.3906rem;
-      h3 {
-        @include primary-text(0.875rem, $coa-medium-gray-100, 500);
-      }
-    }
-
-    &__avatar {
-      height: 2rem;
-      display: flex;
-      align-items: center;
+    &__link {
+      flex: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 }
+

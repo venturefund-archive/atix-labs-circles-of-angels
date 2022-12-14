@@ -9,6 +9,7 @@ import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsI
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
 import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
@@ -21,6 +22,7 @@ import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
+
 
 const ACTIVITY_STATUS = {
   NEW: 'new',
@@ -105,9 +107,10 @@ const PreviewProject = ({ id, preview }) => {
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
-  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.[0];
-  const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.[0];
-  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users);
+  const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.map( usr => ({ ...usr, rol: 'Beneficiary' }))[0];
+  const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.map( usr => ({ ...usr, rol: 'Investor' }))[0];
+  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( usr => ({ ...usr, rol: 'Auditor' }));
+  const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
   const toggleAreActivitiesOpened = milestoneId => {
     const _milestones = [...milestones];
@@ -188,11 +191,21 @@ const PreviewProject = ({ id, preview }) => {
             />
           </div>
           <div className="o-previewProject__members">
-            {/* <CoaProjectMembersCard
-            beneficiary={beneficiaryUser}
-            investor={investorUser}
-            auditors={auditorsUsers}
-          /> */}
+            <TitlePage
+            underlinePosition="none"
+            textTitle="Project Members"
+            className="o-previewProject__title"
+            textColor="#4C7FF7"
+            />
+            <div className='o-previewProject__members__container'>
+              {
+              members.map( (member) => (
+                <CoaProjectMembersCard
+                  {...member}
+                />
+              ))
+            }
+            </div>
           </div>
           <div className="o-previewProject__progressSection">
             <TitlePage
