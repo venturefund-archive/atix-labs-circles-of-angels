@@ -134,7 +134,10 @@ const PreviewProject = ({ id, preview }) => {
 
   const userProject =
     user?.projects.find(({ projectId }) => parseInt(id, 10) === parseInt(projectId, 10)) || false;
-  const canAddEvidences = userProject && !userProject.roles.includes(ROLES_IDS.auditor);
+  const canAddEvidences = userProject && (
+    userProject.roles.includes(ROLES_IDS.beneficiary)
+    || userProject.roles.includes(ROLES_IDS.investor)
+  );
 
   return (
     <Layout hasBackgroundImage>
