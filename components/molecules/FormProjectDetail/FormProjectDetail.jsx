@@ -18,6 +18,7 @@ import { toBase64 } from 'components/utils/FileUtils';
 import _ from 'lodash';
 import { getErrorMessagesFields, getExtensionFromUrl } from 'helpers/utils';
 import './form-project-detail.module.scss';
+import { formatCurrency } from 'helpers/formatter';
 import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
@@ -322,7 +323,7 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
               <p className="formProjectDetail__content__form__row__note">
                 Here the sum recorded in the milestones and activities will be displayed
               </p>
-              <Input placeholder="0.00" disabled value={budget} />
+              <Input placeholder="0.00" disabled value={formatCurrency(currency, budget)} />
             </Form.Item>
           </div>
           <div className="formProjectDetail__content__form__row">

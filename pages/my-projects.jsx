@@ -15,7 +15,6 @@ import './_explore-projects.scss';
 import { isMobile } from 'react-device-detect';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
-import { projectStatuses, SUPPORTER } from '../constants/constants';
 import { createProject, getProjects } from '../api/projectApi';
 import ModalMyProjects from '../components/organisms/ModalMyProjects/ModalMyProjects';
 import { UserContext } from '../components/utils/UserContext';
@@ -29,7 +28,7 @@ const MyProjects = ({ user }) => {
   const context = useContext(UserContext);
   const { setSeenUserModal } = context || { setSeenUserModal: () => {} };
 
-  const goToProjectDetail = (project) => {
+  const goToProjectDetail = project => {
     const state = { projectId: project?.id };
     history.push(`/project/edit/${project.id}`, state);
   };

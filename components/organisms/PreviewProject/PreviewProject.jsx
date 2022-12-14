@@ -13,6 +13,7 @@ import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCar
 import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { scrollToTargetAdjusted } from 'components/utils';
 import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
@@ -169,10 +170,18 @@ const PreviewProject = ({ id, preview }) => {
       {(isAdmin || !preview) && (
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons">
-            <CoaButton shape="round" className="o-previewProject__buttons__button">
-              <ProjectDetailsIcon /> Project Details
+            <CoaButton
+              shape="round"
+              className="o-previewProject__buttons__button"
+              onClick={() => scrollToTargetAdjusted('project-progress', 70)}
+            >
+              <ProjectDetailsIcon /> Project Progress
             </CoaButton>
-            <CoaButton shape="round" className="o-previewProject__buttons__button">
+            <CoaButton
+              shape="round"
+              className="o-previewProject__buttons__button"
+              onClick={() => scrollToTargetAdjusted('milestones', 70)}
+            >
               <MilestonesIcon /> Milestones
             </CoaButton>
             <CoaButton shape="round" className="o-previewProject__buttons__button">
@@ -207,7 +216,7 @@ const PreviewProject = ({ id, preview }) => {
             }
             </div>
           </div>
-          <div className="o-previewProject__progressSection">
+          <div className="o-previewProject__progressSection" id="project-progress">
             <TitlePage
               underlinePosition="none"
               textTitle="Project Progress"
@@ -301,7 +310,7 @@ const PreviewProject = ({ id, preview }) => {
               />
             </div>
           </div>
-          <div className="o-previewProject__milestonesSection">
+          <div className="o-previewProject__milestonesSection" id="milestones">
             <TitlePage
               underlinePosition="none"
               textTitle="Milestones"
