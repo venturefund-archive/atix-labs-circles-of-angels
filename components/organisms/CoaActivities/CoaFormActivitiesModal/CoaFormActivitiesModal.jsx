@@ -3,12 +3,12 @@ import { Form, Input } from 'antd';
 import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { ERROR_MESSAGES } from 'constants/constants';
-import { CoaFormItemInput } from 'components/molecules/CoaFormItems/CoaFormItemInput/CoaFormItemInput';
 import { CoaFormItemSelect } from 'components/molecules/CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
-import { onlyAlphanumerics, ONLY_NUMBERS } from 'constants/Regex';
+import { onlyAlphanumerics } from 'constants/Regex';
 import './coa-form-activities-modal.scss';
 import PropTypes from 'prop-types';
 import { CoaFormItem } from 'components/molecules/CoaFormItems/CoaFormItem/CoaFormItem';
+import { CoaFormItemInputNumber } from 'components/molecules/CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
 
 export const CoaFormActivitiesModalContent = ({
   form,
@@ -97,21 +97,19 @@ export const CoaFormActivitiesModalContent = ({
       }}
     />
     <div className="coaFormActivitiesModal__budget">
-      <CoaFormItemInput
+      <CoaFormItemInputNumber
         name="budget"
         form={form}
         formItemProps={{
-          label: 'Budget'
+          label: 'Budget',
+          className: 'coaFormActivitiesModal__budget__formItem'
         }}
         fieldDecoratorOptions={{
           validateTrigger: 'onSubmit',
-          initialValue: initialData?.budget,
-          rules: [
-            {
-              pattern: ONLY_NUMBERS,
-              message: ERROR_MESSAGES.NUMBER
-            }
-          ]
+          initialValue: initialData?.budget
+        }}
+        inputNumberProps={{
+          step: '0.1'
         }}
       />
       <CoaFormItem
