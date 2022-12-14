@@ -38,7 +38,7 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
       className="o-coaFormModal__container"
     >
       <div className="o-coaFormModal__content">
-        <TitlePage textTitle={title} />
+        <TitlePage textTitle={title} className="o-coaFormModal__content__title" />
         {children}
       </div>
     </CoaBaseModal>
