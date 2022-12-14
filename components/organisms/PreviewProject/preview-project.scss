@@ -88,13 +88,13 @@
   &__members {
     &__container {
       display: grid;
-      grid-template-columns: 33.3% 33.3% 33.3%;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 1.5rem;
       @include breakpoint(lg){
-        grid-template-columns: 50% 50%;
+        grid-template-columns: 1fr 1fr;
       }
       @include breakpoint(md){
-        grid-template-columns: 100%;
+        grid-template-columns: 1fr;
       }
     }
   }

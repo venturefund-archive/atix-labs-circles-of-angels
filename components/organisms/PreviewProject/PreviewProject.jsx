@@ -111,7 +111,7 @@ const PreviewProject = ({ id, preview }) => {
       : 'No name';
   const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.map( usr => ({ ...usr, rol: 'Beneficiary' }))[0];
   const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.map( usr => ({ ...usr, rol: 'Investor' }))[0];
-  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( usr => ({ ...usr, rol: 'Auditor' }));
+const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( usr => ({ ...usr, rol: 'Auditor' }));
   const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
   const toggleAreActivitiesOpened = milestoneId => {
