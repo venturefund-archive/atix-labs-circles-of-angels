@@ -28,6 +28,7 @@ function ResetPassword() {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
   const [validToken, setValidToken] = useState(true);
+  const [first, setFirst] = useState(false);
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
 
@@ -46,12 +47,11 @@ function ResetPassword() {
     const data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { errors, first = true } = await resetPassword(data);
+      const { errors, first } = await resetPassword(data);
       if (!errors) {
-        if (first) {
-          setSuccessModalOpen(true)
-        }
+        setSuccessModalOpen(true);
         setSuccessfulUpdate(true);
+        setFirst(first);
       } else {
         showModalError('Error', errors);
       }
@@ -95,7 +95,8 @@ function ResetPassword() {
       {
         !validToken && <ModalInvalidToken />
       }
-      <ModalChangePasswordSuccess visible={successModalOpen} />
+
+      <ModalChangePasswordSuccess visible={successModalOpen} first={first} />
     </BackgroundLanding>
   );
 }

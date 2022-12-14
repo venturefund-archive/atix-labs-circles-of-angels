@@ -13,7 +13,7 @@ import { useHistory } from 'react-router';
 import LogoWrapper from 'components/atoms/LogoWrapper';
 import PropTypes from 'prop-types';
 
-function ModalChangePasswordSuccess({ visible }) {
+function ModalChangePasswordSuccess({ visible, first }) {
   const history = useHistory();
 
   const goToLogin = () => {
@@ -33,7 +33,7 @@ function ModalChangePasswordSuccess({ visible }) {
         </Button>
       )}
     >
-      <LogoWrapper textTitle="Thanks for you registration!" />
+      <LogoWrapper textTitle={first ? 'Thanks for you registration!' : 'Password reset successfully'} />
       <Typography.Paragraph className='ChangePasswordParagraph'>
         Use your new password to login
       </Typography.Paragraph>
