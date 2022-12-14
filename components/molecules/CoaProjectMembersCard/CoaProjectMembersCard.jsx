@@ -37,16 +37,18 @@ export const CoaProjectMembersCard = ({ id, firstName, lastName, email, rol, add
           <span className='m-coaProjectMembersCard__boldText'>Email: </span>
           {email}
         </div>
-        <div className="m-coaProjectMembersCard__addressContainer">
-          <span className='m-coaProjectMembersCard__boldText'>Address:&nbsp;</span>
-          <Link
+        {
+          address && <div className="m-coaProjectMembersCard__addressContainer">
+            <span className='m-coaProjectMembersCard__boldText'>Address:&nbsp;</span>
+            <Link
               to={{ pathname: `https://etherscan.io/address/${address}` }}
               target="_blank"
               className="m-coaProjectMembersCard__addressContainer__link"
-          >
-            {address}
-          </Link>
-        </div>
+            >
+              {address}
+            </Link>
+          </div>
+        }
       </div>
     </Panel>
   </Collapse>
