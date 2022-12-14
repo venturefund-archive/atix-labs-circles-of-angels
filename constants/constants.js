@@ -140,8 +140,8 @@ export const CURRENCIES = {
   ],
   crypto: [
     {
-      value: 'BTC',
-      label: 'BTC'
+      value: 'RBTC',
+      label: 'RBTC'
     },
     {
       value: 'ETH',
