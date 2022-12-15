@@ -144,6 +144,7 @@ const PreviewProject = ({ id, preview }) => {
         thumbnailPhoto={thumbnailPhoto}
         legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
         projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+        onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
       />
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
@@ -175,6 +176,7 @@ const PreviewProject = ({ id, preview }) => {
               balanceCurrentValue={totalCurrentSpent}
               balanceTotalValue={budget}
               currency={currency}
+              onClickSeeMilestones={() => scrollToTargetAdjusted('milestones', 70)}
             />
           </div>
           <div className="o-previewProject__members">
