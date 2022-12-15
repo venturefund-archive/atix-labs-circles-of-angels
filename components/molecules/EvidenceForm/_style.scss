@@ -161,6 +161,11 @@
             flex-basis: 75%;
           }
 
+          input:hover, input:focus {
+            border-color: #40a9ff;
+            border-right-width: 1px !important;
+          }
+
           .formCurrency {
             background: #eff0f4;
             border: 1px solid #e5e6ed;

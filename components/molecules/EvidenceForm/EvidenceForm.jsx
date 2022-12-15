@@ -8,8 +8,8 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useEffect, useState } from 'react';
-import { Form, Button, Upload, Icon, Input } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Form, Button, Upload, Icon, Input, message, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
@@ -18,14 +18,18 @@ import './_style.scss';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
-import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { createEvidence } from '../../../api/activityApi';
+import { UserContext } from '../../utils/UserContext';
+import { getProjectTransactions } from '../../../api/projectApi';
 
 const EvidenceFormContent = ({ form }) => {
+  const { Option } = Select;
+
   const { getFieldDecorator } = form;
   const { id } = useParams();
   const history = useHistory();
   const { project, loading } = useProject(id);
+  const { user } = useContext(UserContext);
 
   const pathParts = window.location.pathname.split('/');
 
@@ -36,6 +40,7 @@ const EvidenceFormContent = ({ form }) => {
     title: '',
     description: '',
     files: [],
+    transferTxHash: '',
   });
   const { type } = state;
 
@@ -44,14 +49,64 @@ const EvidenceFormContent = ({ form }) => {
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
+  const [userType, setUserType] = useState('');
+  const [transactions, setTransactions] = useState([]);
+  const [isIncome, setIsIncome] = useState(false);
 
   useEffect(() => {
     if (!loading) {
       setCurrencyType(project?.details?.currencyType.toLowerCase());
-      setCurrency(project.details.currency);
+      setCurrency(project?.details?.currency);
+      const { users } = project;
+
+      const beneficiaries = users.find((item) => item.role === '1')?.users;
+      const investors = users.find((item) => item.role === '2')?.users;
+
+      const isBeneficiary = beneficiaries.some((beneficiary) => beneficiary.id === user.id);
+      const isInvestor = investors.some((investor) => investor.id === user.id);
+      if (isBeneficiary) {
+        setUserType('beneficiary')
+      }
+
+      if (isInvestor) {
+        setUserType('investor')
+      }
     }
     // eslint-disable-next-line
   }, [loading]);
+
+  useEffect(() => {
+    if (currencyType === 'crypto') {
+      const getTransactions = async () => {
+        const transactionType = userType === 'investor' ? 'received' : 'sent';
+        const response = await getProjectTransactions(project.id, transactionType);
+        if (response.errors || !response.data) {
+          message.error('An error occurred while fetching the project transactions');
+          return;
+        }
+
+        const transactionHashes = response.data.transactions.map((hash) => ({
+          value: hash.txHash,
+          label: `${hash.timestamp}/${hash.value} ${hash.tokenSymbol}`
+        }))
+
+        setTransactions(transactionHashes)
+      }
+      if (userType.length > 0) {
+        getTransactions()
+      }
+    }
+
+    // eslint-disable-next-line
+  }, [userType, currencyType]);
+
+  useEffect(() => {
+    if (isAmountIncome(amount)) {
+      setIsIncome(true)
+    } else {
+      setIsIncome(false);
+    }
+  }, [amount])
 
 
   const onChangeAmount = (e) => setAmount(e.currentTarget.value);
@@ -74,6 +129,8 @@ const EvidenceFormContent = ({ form }) => {
     setState({ ...state, files: newFiles });
   };
 
+  const onCancel = () => history.push(`/${project.id}`);
+
 
   const uploadProps = {
     name: 'files',
@@ -90,18 +147,22 @@ const EvidenceFormContent = ({ form }) => {
     setButtonLoading(true);
     form.validateFields();
       const data = { ...state, amount };
-      // TODO: get transactionHash
-      if (currencyType === 'crypto') {
-        data.transferTxHash = 'addjddjdjdjk'
-      }
 
       const response = await createEvidence(activityId, data);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while creating evidence');
+        history.push(`/${project.id}`);
+      }
+
       if (response.status === 200) {
         history.push(`/${project.id}/activity/${activityId}/evidence`);
       }
 
       setButtonLoading(false);
   }
+
+  // mock
+  const onTransactionTypeChange = () => {}
 
   if (loading) return <Loading></Loading>;
 
@@ -224,12 +285,18 @@ const EvidenceFormContent = ({ form }) => {
                 </Form.Item>
               </div>
             </div>
-            <div className="evidenceForm__body__form__group">
+            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Transaction Type</p>
               <div className="transactionType">
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
-                    <input defaultChecked={!isAmountIncome(amount)} type="radio" name="transaction_type" value='outcome' id="" />
+                    <input
+                        onChange={onTransactionTypeChange}
+                        checked={!isIncome}
+                        type="radio"
+                        name="transaction_type"
+                        value='outcome'
+                    />
                     <div className="customRadio">
                       <div></div>
                     </div>
@@ -239,7 +306,13 @@ const EvidenceFormContent = ({ form }) => {
                 </div>
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
-                    <input defaultChecked={isAmountIncome(amount)} type="radio" name="transaction_type" value='income' id="" />
+                    <input
+                        onChange={onTransactionTypeChange}
+                        checked={isIncome}
+                        type="radio"
+                        name="transaction_type"
+                        value='income'
+                    />
                     <div className="customRadio">
                       <div></div>
                     </div>
@@ -248,8 +321,8 @@ const EvidenceFormContent = ({ form }) => {
                   <span>Income</span>
                 </div>
               </div>
-            </div>
-            {currencyType === 'fiat' && (<div className="evidenceForm__body__form__group">
+            </div>)}
+            {(currencyType === 'fiat') && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Amount Spent</p>
               <div className="formDivInput formDivAmount">
                 <input
@@ -264,20 +337,35 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="formCurrency">{currency}</div>
               </div>
             </div>)}
-            {currencyType === 'crypto' && (<div className="evidenceForm__body__form__group">
+            {(currencyType === 'crypto') && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
               <div className="formDivInput itemInput">
-                <CoaFormItemSelect
-                    form={form}
-                    errorsToShow={[]}
-                    name="transaction"
-                    fieldDecoratorOptions={{
-                      rules: [],
-                    }}
-                    selectProps={{
-                      placeholder: 'Select the transaction',
-                    }}
-                />
+                <Form.Item>
+                  {getFieldDecorator('transferTxHash', {
+                    rules: [
+                      {
+                        required: currencyType === 'crypto',
+                        message: 'Please choose the transaction hash',
+                      }
+                    ]
+                  })(
+                    <Select
+                        placeholder='Select the transaction'
+                        onChange={(value) => {
+                          setState({
+                            ...state,
+                            transferTxHash: value,
+                          })
+                        }}
+                    >
+                      {transactions.map(({ value, label }) => (
+                        <Option value={value} key={value}>
+                          {label}
+                        </Option>
+                        ))}
+                    </Select>
+                  )}
+                </Form.Item>
               </div>
             </div>)}
             {(currencyType === 'fiat' || type === 'impact') && (<div className="evidenceForm__body__form__group">
@@ -299,18 +387,18 @@ const EvidenceFormContent = ({ form }) => {
                         }
                       ]
                     })(
-                        <Upload {...uploadProps}>
-                          <Button className="uploadBtn">
-                            <Icon type="upload"/> Click to upload
-                          </Button>
-                        </Upload>
+                      <Upload {...uploadProps}>
+                        <Button className="uploadBtn">
+                          <Icon type="upload"/> Click to upload
+                        </Button>
+                      </Upload>
                     )}
                   </Form.Item>
                 </div>
               </div>
             </div>)}
             <div className="evidenceForm__body__form__group evidenceForm__body__form__btns">
-              <Button type='button'>Cancel</Button>
+              <Button type='button' onClick={() => onCancel()}>Cancel</Button>
               <Button loading={buttonLoading} htmlType='submit'>Add Evidence</Button>
             </div>
           </Form>

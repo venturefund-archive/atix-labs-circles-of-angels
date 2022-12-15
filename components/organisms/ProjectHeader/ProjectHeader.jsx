@@ -9,7 +9,7 @@ import { useProject } from '../../../hooks/useProject';
 
 const ProjectHeader = ({ children, id }) => {
     const { loading, project } = useProject(id)
-    if (loading) return <Loading />;
+    if (loading) return <Loading></Loading>;
 
     const { basicInformation, status, details, budget } = project;
     const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
