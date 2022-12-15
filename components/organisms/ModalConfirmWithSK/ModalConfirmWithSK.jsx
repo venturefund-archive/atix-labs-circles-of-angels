@@ -20,7 +20,7 @@ import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
+function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   const { getFieldDecorator, validateFields } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
@@ -79,7 +79,10 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
         </Button>
       ]}
     >
-      <LogoWrapper textTitle='Do you want to confirm the creation of the project?' />
+      <LogoWrapper textTitle={
+        title ?? 'Do you want to confirm the creation of the project?'
+      }
+      />
       <Typography style={{ textAlign: 'center' }}>
         To confirm the process enter your administrator password and secret key
       </Typography>
@@ -118,12 +121,14 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess }) {
 FormModalConfirmWithSK.defaultProps = {
   form: null,
   visible: false,
+  title: null,
   onCancel: () => undefined,
   onSuccess: () => undefined
 }
 
 FormModalConfirmWithSK.propTypes = {
   form: PropTypes.element,
+  title: PropTypes.string,
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
   onSuccess: PropTypes.func

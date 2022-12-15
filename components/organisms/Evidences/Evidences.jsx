@@ -1,163 +1,159 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import './_style.scss';
 import { message } from 'antd';
-import { useHistory } from 'react-router';
+import { UserContext } from 'components/utils/UserContext';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
-import EvidenceModal, { EvidenceModalReviewInfo, EvidenceModalSentSuccess } from '../../atoms/EvidenceModal/EvidenceModal';
-import { getActivityEvidences } from '../../../api/activityApi';
+import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
 import Loading from '../../molecules/Loading/Loading';
-import { getActivity } from '../../utils';
+import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
+import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
+import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvidencesReviewSuccess';
 
-const Evidences = ({ project }) => {
-    const history = useHistory();
-    const activityId = window.location.pathname.split('/')[3]
+const Evidences = () => {
+  const activityId = window.location.pathname.split('/')[3]
+  const progress = 'in progress';
 
-    const { activity: foundActivity, milestone: foundMilestone } = getActivity(project, activityId)
-    if (!foundActivity) {
-        history.push('/');
+  const [evidences, setEvidences] = useState([]);
+  const [milestone, setMilestone] = useState({});
+  const [activity, setActivity] = useState({});
+  const [secretKeyModalVisible, setSecretKeyModalVisible] = useState(false);
+  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
+  const [reviewSuccessVisible, setReviewSuccessVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
+  const isAuditor = user.id === activity.auditor;
+  console.log(user)
+
+  useEffect(() => {
+    const getEvidences = async (_activity) => {
+      setLoading(true);
+      const response = await getActivityEvidences(_activity);
+      console.log(response)
+      if (response.errors || !response.data) {
+        message.error('An error occurred while fetching the project');
+        return;
+      }
+
+      setEvidences(response.data.evidences);
+      setActivity(response.data.activity);
+      setMilestone(response.data.milestone);
+      setLoading(false);
     }
 
-    const [evidences, setEvidences] = useState([]);
-    const [reviewModal, setReviewModal] = useState(false);
-    const [sentSuccess, setSentSuccess] = useState(false);
-    const [buttonLoading, setButtonLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [activity] = useState(foundActivity);
-    const [isAvailableForReview, setIsAvailableForReview] = useState(false);
+    getEvidences(activityId);
 
+    // eslint-disable-next-line
+  }, [])
 
-    const openModal = () => setReviewModal(true);
-    const closeModal = () => {
-        setReviewModal(false);
-        setSentSuccess(false);
-    };
+  if (loading) return <Loading></Loading>;
 
-    const setReviewToSent = () => {
-        setButtonLoading(true);
-        setTimeout(() => {
-            setButtonLoading(false);
-            setSentSuccess(true);
-        }, 2000);
-    };
+  const goToNextModal = (current, next) => {
+    current(false);
+    next(true);
+  }
 
-    const goToCreateEvidence = () => history.push(
-        `/${project.id}/activity/${foundActivity.id}/create-evidence`
-    )
+  const sendToReview = async () => {
+    goToNextModal(setSecretKeyModalVisible, setLoadingModalVisible);
+    const result = await updateActivityStatus(activityId, 'to-review')
+    if (!result.errors) {
+      goToNextModal(setLoadingModalVisible, setReviewSuccessVisible);
+    } else {
+      setLoadingModalVisible(false)
+    }
+  }
 
-    useEffect(() => {
-        const getEvidences = async (id) => {
-            setLoading(true);
-            const response = await getActivityEvidences(id);
-            if (response.errors || !response.data) {
-                message.error('An error occurred while fetching the project');
-                history.push('/');
-                return;
-            }
-
-            setEvidences(response.data.evidences);
-            setLoading(false);
-            setIsAvailableForReview(response.data.evidences.some((evidence) => evidence.status === 'new'))
-        }
-
-        getEvidences(activityId);
-
-        // eslint-disable-next-line
-    }, []);
-
-    if (loading || !activity) return <Loading></Loading>;
-
-    return (
-      <>
-        <div className='container'>
-          <EvidenceNavigation/>
-          {reviewModal && (
-            <EvidenceModal closeModal={closeModal}>
-              {sentSuccess ? (
-                <EvidenceModalSentSuccess closeModal={closeModal} />
-                    ) : (
-                      <EvidenceModalReviewInfo
-                            closeModal={closeModal}
-                            loading={buttonLoading}
-                            setReviewToSent={setReviewToSent}
-                      />
-                    )}
-            </EvidenceModal>
-            )}
-          <div className="evidences">
-            <div className="evidencesHeader">
-              <span className="evidencesHeaderDesktop">
-                        Milestone {foundMilestone.id} / Activity {foundActivity.id} / Evidences
-              </span>
-              <span className="evidencesHeaderMobile">Evidences</span>
-            </div>
-            <div className="evidencesCardInfoMobile">
-              <p>ACTIVITY N°{activity.id}</p>
-              <p>{activity.title}</p>
-            </div>
-            <div className="evidencesCard">
-              <div className="cardInfo">
-                <p>
-                  <span>Activity - </span>
-                  <span>{activity.title}</span>
-                </p>
-                <div className="evidenceStatus">
-                  {activity.status !== ('approved' || 'to-review') && (
-                    <button type='button' onClick={() => goToCreateEvidence()}>
-                      <span>
-                        <img src="/static/images/plus-icon.svg" alt=""/>
-                      </span>
-                      <span>Add evidences</span>
-                    </button>)}
-                  <p
-                      className={`progressStatus ${activity.status}`}
-                  >
-                    {activity.status}
-                  </p>
-                </div>
-              </div>
-              <div className="evidenceCards">
-                {
-                    evidences.map((evidence) => (
-                      <EvidenceCard key={evidence.id} evidence={evidence} />
-                    ))
+  return (
+    <>
+      <div className='container'>
+        <EvidenceNavigation />
+        <div className="evidences">
+          <div className="evidencesHeader">
+            <span className="evidencesHeaderDesktop">
+              {milestone.title} / {activity.title} / Evidences
+            </span>
+            <span className="evidencesHeaderMobile">Evidences</span>
+          </div>
+          <div className="evidencesCardInfoMobile">
+            <p>ACTIVITY N°2</p>
+            <p>{activity.title}</p>
+          </div>
+          <div className="evidencesCard">
+            <div className="cardInfo">
+              <p>
+                <span>Activity2 - </span>
+                <span>{activity.title}</span>
+              </p>
+              <div className="evidenceStatus">
+                {!!user &&
+                  <button type='button'>
+                    <span>
+                      <img src="/static/images/plus-icon.svg" alt="" />
+                    </span>
+                    <span>Add evidences</span>
+                  </button>
                 }
-              </div>
-              <div className="reviewBtn">
-                <div className="reviewBtnDesktop">
-                  <button
-                      className={`btn revDeskBtn ${ isAvailableForReview ? 'active' : 'inactive' }`}
-                      disabled={isAvailableForReview}
-                      onClick={openModal}
-                      type='button'
-                  >
-                      Send for review
-                  </button>
-                </div>
-                <div className="reviewBtnMobile">
-                  <button
-                      type='button'
-                      className={`btn revMobBtn ${ isAvailableForReview ? 'active' : 'inactive' }`}
-                      disabled={isAvailableForReview}
-                      onClick={openModal}
-                  >
-                      Send activity to review
-                  </button>
-                </div>
+                <p
+                  className={`progressStatus ${progress === 'in progress' ? 'inProgress' : 'inReview'
+                    }`}
+                >
+                  {progress}
+                </p>
               </div>
             </div>
+            <div className="evidenceCards">
+              {
+                evidences.map((evidence) => (
+                  <EvidenceCard key={evidence.id} evidence={evidence} />
+                ))
+              }
+            </div>
+            {
+              isAuditor && (
+                <div className="reviewBtn">
+                  <div className="reviewBtnDesktop">
+                    <button
+                      className={`btn revDeskBtn ${progress === 'in progress' ? 'active' : 'inactive'
+                        }`}
+                      disabled={progress === 'in review'}
+                      onClick={() => setSecretKeyModalVisible(true)}
+                      type='button'
+                    >
+                      Send for review
+                    </button>
+                  </div>
+                  <div className="reviewBtnMobile">
+                    <button
+                      type='button'
+                      className={`btn revMobBtn ${progress === 'in progress' ? 'active' : 'inactive'
+                        }`}
+                      disabled={progress === 'in review'}
+                      onClick={() => setSecretKeyModalVisible(true)}
+                    >
+                      Send activity to review
+                    </button>
+                  </div>
+                </div>
+              )
+            }
           </div>
         </div>
-        <EvidenceFormFooter/>
-      </>
-    );
+      </div>
+      <ModalConfirmWithSK
+        visible={secretKeyModalVisible}
+        title='You are about to send an activity to be reviewed by an auditor'
+        onCancel={() => setSecretKeyModalVisible(false)}
+        onSuccess={sendToReview}
+      />
+      <ModalPublishLoading visible={loadingModalVisible} />
+      <ModalEvidencesReviewSuccess
+        visible={reviewSuccessVisible}
+        onCancel={() => setReviewSuccessVisible(false)}
+      />
+      <EvidenceFormFooter />
+    </>
+  );
 }
 
 export default Evidences;
-
-Evidences.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    project: PropTypes.object.isRequired,
-}
