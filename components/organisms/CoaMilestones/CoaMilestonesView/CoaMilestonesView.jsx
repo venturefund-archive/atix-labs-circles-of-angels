@@ -265,6 +265,7 @@ export const CoaMilestonesView = ({ project, Footer }) => {
         onCancel={handleCancelFormMilestoneModal}
         onSave={currentEditedMilestone ? handleUpdateMilestone : handleCreateMilestone}
         initialData={currentEditedMilestone}
+        destroyOnClose
       />
       <CoaFormActivitiesModal
         visible={isFormActivityModalOpen}
