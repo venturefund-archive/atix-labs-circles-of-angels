@@ -1,6 +1,6 @@
 $status-new-color: #5caefa;
 $status-approved-color: #58c984;
-$status-rejected-color: #ff6666;
+$status-rejected-color: #f66;
 
 .container {
   max-width: 1200px;
@@ -36,13 +36,13 @@ $inProgress-status: #ffaa29;
   .rejected {
     color: $status-rejected-color;
     border: 1px solid $status-rejected-color;
-    background: #FFEEEE;
+    background: #fee;
   }
 
   .approved {
     color: $status-approved-color;
     border: 1px solid $status-approved-color;
-    background: #F0FFF6;
+    background: #f0fff6;
   }
 
   .new {

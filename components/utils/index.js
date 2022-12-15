@@ -25,5 +25,12 @@ export const getActivity = (project, activityId) => {
       }
     }
   }
-  return { activity: foundActivity, milestone: foundMilestone };
+
+  const result = {
+    activity: foundActivity,
+    milestone: foundMilestone,
+  };
+
+
+  return result;
 }
