@@ -55,6 +55,8 @@
   }
   &__progressCard {
     width: 366px;
+    display: flex;
+    align-items: center;
     @include respond(mobile) {
       width: 100%;
     }
