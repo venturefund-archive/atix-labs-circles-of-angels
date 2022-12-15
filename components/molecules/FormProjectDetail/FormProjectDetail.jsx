@@ -313,7 +313,7 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
                     initialValue: additionalCurrencyInformation
                   }}
                   inputTextAreaProps={{
-                    placeholder: 'New Password',
+                    placeholder: 'Address',
                     maxLength: 50
                   }}
                 />
