@@ -62,7 +62,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
                 : history.push(`/${project?.id}`)
             }
           >
-            {project?.status === PROJECT_STATUS_ENUM.DRAFT ? 'See preview project' : 'See project'}
+            See preview project
           </CoaButton>
         </div>
 
