@@ -12,7 +12,11 @@ const CustomCollapseHeader = ({ firstName, lastName, rol }) => {
   const avatarColor = stringToHexColor(fullName);
   return (
     <div className='m-coaProjectMembersCard__header'>
-      <Avatar style={{ backgroundColor: avatarColor }} size="large">
+      <Avatar
+        style={{ '--avatarColor': avatarColor }}
+        className="m-coaProjectMembersCard__avatar"
+        size="large"
+      >
         {customAvatarName}
       </Avatar>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -24,32 +28,36 @@ const CustomCollapseHeader = ({ firstName, lastName, rol }) => {
 };
 
 export const CoaProjectMembersCard = ({ id, firstName, lastName, email, rol, address }) => (
-  <Collapse bordered={false} expandIconPosition='right' className='m-coaProjectMembersCard'>
-    <Panel
-      header={
-        <CustomCollapseHeader firstName={firstName} lastName={lastName} rol={rol}/>
-      }
-      key={id}
-      style={{ border: 0 }}
-    >
-      <div className='m-coaProjectMembersCard__extraInfo'>
-        <div>
-          <span className='m-coaProjectMembersCard__boldText'>Email: </span>
-          {email}
+  <div>
+    <Collapse bordered={false} expandIconPosition='right' className='m-coaProjectMembersCard'>
+      <Panel
+        header={
+          <CustomCollapseHeader firstName={firstName} lastName={lastName} rol={rol}/>
+        }
+        key={id}
+        style={{ border: 0 }}
+      >
+        <div className='m-coaProjectMembersCard__extraInfo'>
+          <div>
+            <span className='m-coaProjectMembersCard__boldText'>Email: </span>
+            {email}
+          </div>
+          {
+            address && <div className="m-coaProjectMembersCard__addressContainer">
+              <span className='m-coaProjectMembersCard__boldText'>Address:&nbsp;</span>
+              <Link
+                to={{ pathname: `https://etherscan.io/address/${address}` }}
+                target="_blank"
+                className="m-coaProjectMembersCard__addressContainer__link"
+              >
+                {address}
+              </Link>
+            </div>
+          }
         </div>
-        <div className="m-coaProjectMembersCard__addressContainer">
-          <span className='m-coaProjectMembersCard__boldText'>Address:&nbsp;</span>
-          <Link
-              to={{ pathname: `https://etherscan.io/address/${address}` }}
-              target="_blank"
-              className="m-coaProjectMembersCard__addressContainer__link"
-          >
-            {address}
-          </Link>
-        </div>
-      </div>
-    </Panel>
-  </Collapse>
+      </Panel>
+    </Collapse>
+  </div>
   );
 
 CoaProjectMembersCard.defaultProps = {

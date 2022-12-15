@@ -111,7 +111,7 @@ const PreviewProject = ({ id, preview }) => {
       : 'No name';
   const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.map( usr => ({ ...usr, rol: 'Beneficiary' }))[0];
   const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.map( usr => ({ ...usr, rol: 'Investor' }))[0];
-  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( usr => ({ ...usr, rol: 'Auditor' }));
+const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map( usr => ({ ...usr, rol: 'Auditor' }));
   const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
   const toggleAreActivitiesOpened = milestoneId => {
@@ -134,7 +134,10 @@ const PreviewProject = ({ id, preview }) => {
 
   const userProject =
     user?.projects.find(({ projectId }) => parseInt(id, 10) === parseInt(projectId, 10)) || false;
-  const canAddEvidences = userProject && !userProject.roles.includes(ROLES_IDS.auditor);
+  const canAddEvidences = userProject && (
+    userProject.roles.includes(ROLES_IDS.beneficiary)
+    || userProject.roles.includes(ROLES_IDS.investor)
+  );
 
   return (
     <Layout hasBackgroundImage>

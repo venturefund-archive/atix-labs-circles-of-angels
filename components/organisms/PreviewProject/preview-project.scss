@@ -1,4 +1,4 @@
-@import 'css/general_styling';
+@import 'css/_general_styling.scss';
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
 
@@ -88,11 +88,18 @@
   &__members {
     &__container {
       display: grid;
-      grid-template-columns: 50% 50%;
-      gap: 1rem;
-      @include breakpoint(md){
+      grid-template-columns: 32% 32% 32%;
+      column-gap: 2%;
+      row-gap: 1rem;
+
+      @include breakpoint(lg) {
+        grid-template-columns: 49% 49%;
+      }
+
+      @include breakpoint(md) {
         grid-template-columns: 100%;
       }
+
     }
   }
 
