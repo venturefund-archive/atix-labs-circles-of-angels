@@ -134,12 +134,12 @@ const createEvidence = async (activityId, data) => {
   fd.append('amount', data.amount);
 
   if (data.files.length > 0) {
-    data.files.forEach(({ file }) => {
-      fd.append('files', file);
+    data.files.forEach((file, index) => {
+      fd.append(`file-${index}`, file);
     })
   }
 
-  if (data.transferTxHash) {
+  if (data.transferTxHash.length > 0) {
     fd.append('transferTxHash', data.transferTxHash);
   }
 

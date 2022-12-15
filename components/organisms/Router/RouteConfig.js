@@ -214,7 +214,10 @@ export const routesConfig = [
   {
     path: '/:id/activity/:activityId/create-evidence',
     component: CreateEvidenceContainer,
-    authentication: { required: false },
+    authentication: {
+      required: true,
+      roles: [ENTREPRENEUR],
+    },
     withHeader: false,
     withSideBar: false
   },
