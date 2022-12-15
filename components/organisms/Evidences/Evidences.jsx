@@ -43,6 +43,10 @@ const Evidences = ({ project }) => {
         }, 2000);
     };
 
+    const goToCreateEvidence = () => history.push(
+        `/${project.id}/activity/${foundActivity.id}/create-evidence`
+    )
+
     useEffect(() => {
         const getEvidences = async (id) => {
             setLoading(true);
@@ -101,7 +105,7 @@ const Evidences = ({ project }) => {
                 </p>
                 <div className="evidenceStatus">
                   {activity.status !== ('approved' || 'to-review') && (
-                    <button type='button'>
+                    <button type='button' onClick={() => goToCreateEvidence()}>
                       <span>
                         <img src="/static/images/plus-icon.svg" alt=""/>
                       </span>

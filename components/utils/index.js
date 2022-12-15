@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 export const addElipsesToText = (text, number) => `${text.slice(0, number)}...`;
 
 export const scrollToTargetAdjusted = (id, headerOffset = 45) => {
@@ -12,11 +13,10 @@ export const scrollToTargetAdjusted = (id, headerOffset = 45) => {
 };
 
 export const getActivity = (project, activityId) => {
-  // eslint-disable-next-line no-restricted-syntax
   let foundActivity;
   let foundMilestone;
+
   for (const milestone of project.milestones) {
-    // eslint-disable-next-line no-restricted-syntax
     for (const activity of milestone.activities) {
       if (activity.id === Number(activityId)) {
         foundActivity = activity;
