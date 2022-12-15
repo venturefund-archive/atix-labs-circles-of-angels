@@ -322,16 +322,14 @@ const EvidenceFormContent = ({ form }) => {
                 </div>
               </div>
             </div>)}
-            {(currencyType === 'fiat') && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Amount Spent</p>
               <div className="formDivInput formDivAmount">
                 <input
-                    type="number"
-                    name="amount_spent"
+                    type='number'
+                    name='amount'
                     value={amount}
-                    id=""
-                    placeholder="Enter the amount spent"
-                    disabled={type === 'impact'}
+                    placeholder='Enter the amount spent'
                     onChange={onChangeAmount}
                 />
                 <div className="formCurrency">{currency}</div>
