@@ -91,10 +91,11 @@
       grid-template-columns: 32% 32% 32%;
       column-gap: 2%;
       row-gap: 1rem;
-      @include breakpoint('lg') {
+
+      @include breakpoint(lg) {
         grid-template-columns: 49% 49%;
       }
-      
+
       @include breakpoint(md) {
         grid-template-columns: 100%;
       }

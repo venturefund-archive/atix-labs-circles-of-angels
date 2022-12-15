@@ -37,6 +37,7 @@
       display: flex;
       align-items: center;
       column-gap: 0.4rem;
+
       @include breakpoint(lg) {
         width: 100%;
         justify-content: space-between;
@@ -94,12 +95,14 @@
         &__title {
           @include primary-text(0.875rem, $coa-medium-gray-100, 400);
           opacity: 0.7;
-          @include breakpoint('xs') {
+
+          @include breakpoint(xs) {
             font-size: 0.6rem;
           }
         }
         &__value {
           @include primary-text(1.125rem, $coa-medium-gray-100, 400);
+
           @include breakpoint(xs) {
             font-size: 0.775rem;
           }
