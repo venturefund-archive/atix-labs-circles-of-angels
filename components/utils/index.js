@@ -10,3 +10,20 @@ export const scrollToTargetAdjusted = (id, headerOffset = 45) => {
     behavior: 'smooth'
   });
 };
+
+export const getActivity = (project, activityId) => {
+  // eslint-disable-next-line no-restricted-syntax
+  let foundActivity;
+  let foundMilestone;
+  for (const milestone of project.milestones) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const activity of milestone.activities) {
+      if (activity.id === Number(activityId)) {
+        foundActivity = activity;
+        foundMilestone = milestone;
+        break;
+      }
+    }
+  }
+  return { activity: foundActivity, milestone: foundMilestone };
+}
