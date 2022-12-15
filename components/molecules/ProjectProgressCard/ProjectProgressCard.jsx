@@ -11,7 +11,8 @@ export const ProjectProgressCard = ({
   progressTotalValue,
   balanceCurrentValue,
   balanceTotalValue,
-  currency
+  currency,
+  onClickSeeMilestones
 }) => (
   <div className="m-projectProgressCard">
     <TitlePage
@@ -53,7 +54,11 @@ export const ProjectProgressCard = ({
         </div>
       </div>
     </div>
-    <CoaButton type="primary" className="m-projectProgressCard__milestoneButton">
+    <CoaButton
+      type="primary"
+      className="m-projectProgressCard__milestoneButton"
+      onClick={onClickSeeMilestones}
+    >
       See milestones
     </CoaButton>
   </div>
@@ -63,12 +68,16 @@ ProjectProgressCard.propTypes = {
   progressCurrentValue: PropTypes.number,
   progressTotalValue: PropTypes.number,
   balanceCurrentValue: PropTypes.number,
-  balanceTotalValue: PropTypes.number
+  balanceTotalValue: PropTypes.number,
+  onClickSeeMilestones: PropTypes.func,
+  currency: PropTypes.string
 };
 
 ProjectProgressCard.defaultProps = {
   progressCurrentValue: 0,
   progressTotalValue: 0,
   balanceCurrentValue: 0,
-  balanceTotalValue: 0
+  balanceTotalValue: 0,
+  onClickSeeMilestones: undefined,
+  currency: undefined
 };

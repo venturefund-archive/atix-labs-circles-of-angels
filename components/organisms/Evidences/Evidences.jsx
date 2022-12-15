@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './_style.scss';
 import { message } from 'antd';
+import { useHistory } from 'react-router';
 import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import EvidenceModal, { EvidenceModalReviewInfo, EvidenceModalSentSuccess } from '../../atoms/EvidenceModal/EvidenceModal';
 import { getActivityEvidences } from '../../../api/activityApi';
 import Loading from '../../molecules/Loading/Loading';
+import { getActivity } from '../../utils';
 
-const Evidences = () => {
+const Evidences = ({ project }) => {
+    const history = useHistory();
     const activityId = window.location.pathname.split('/')[3]
-    const progress = 'in progress';
+
+    const { activity: foundActivity, milestone: foundMilestone } = getActivity(project, activityId)
+    if (!foundActivity) {
+        history.push('/');
+    }
 
     const [evidences, setEvidences] = useState([]);
     const [reviewModal, setReviewModal] = useState(false);
     const [sentSuccess, setSentSuccess] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [activity] = useState(foundActivity);
+    const [isAvailableForReview, setIsAvailableForReview] = useState(false);
+
 
     const openModal = () => setReviewModal(true);
     const closeModal = () => {
@@ -32,25 +43,31 @@ const Evidences = () => {
         }, 2000);
     };
 
+    const goToCreateEvidence = () => history.push(
+        `/${project.id}/activity/${foundActivity.id}/create-evidence`
+    )
+
     useEffect(() => {
-        const getEvidences = async (activity) => {
+        const getEvidences = async (id) => {
             setLoading(true);
-            const response = await getActivityEvidences(activity);
+            const response = await getActivityEvidences(id);
             if (response.errors || !response.data) {
                 message.error('An error occurred while fetching the project');
+                history.push('/');
                 return;
             }
 
             setEvidences(response.data.evidences);
             setLoading(false);
+            setIsAvailableForReview(response.data.evidences.some((evidence) => evidence.status === 'new'))
         }
 
         getEvidences(activityId);
 
         // eslint-disable-next-line
-    }, [])
+    }, []);
 
-    if (loading) return <Loading></Loading>;
+    if (loading || !activity) return <Loading></Loading>;
 
     return (
       <>
@@ -72,33 +89,32 @@ const Evidences = () => {
           <div className="evidences">
             <div className="evidencesHeader">
               <span className="evidencesHeaderDesktop">
-                        Milestone 2 / Activity 1 / Evidences
+                        Milestone {foundMilestone.id} / Activity {foundActivity.id} / Evidences
               </span>
               <span className="evidencesHeaderMobile">Evidences</span>
             </div>
             <div className="evidencesCardInfoMobile">
-              <p>ACTIVITY N°2</p>
-              <p>Negotiate and finalize purchase orders</p>
+              <p>ACTIVITY N°{activity.id}</p>
+              <p>{activity.title}</p>
             </div>
             <div className="evidencesCard">
               <div className="cardInfo">
                 <p>
-                  <span>Activity2 - </span>
-                  <span>Negotiate and finalize purchase orders</span>
+                  <span>Activity - </span>
+                  <span>{activity.title}</span>
                 </p>
                 <div className="evidenceStatus">
-                  <button type='button'>
-                    <span>
-                      <img src="/static/images/plus-icon.svg" alt=""/>
-                    </span>
-                    <span>Add evidences</span>
-                  </button>
+                  {activity.status !== ('approved' || 'to-review') && (
+                    <button type='button' onClick={() => goToCreateEvidence()}>
+                      <span>
+                        <img src="/static/images/plus-icon.svg" alt=""/>
+                      </span>
+                      <span>Add evidences</span>
+                    </button>)}
                   <p
-                      className={`progressStatus ${
-                          progress === 'in progress' ? 'inProgress' : 'inReview'
-                      }`}
+                      className={`progressStatus ${activity.status}`}
                   >
-                    {progress}
+                    {activity.status}
                   </p>
                 </div>
               </div>
@@ -112,10 +128,8 @@ const Evidences = () => {
               <div className="reviewBtn">
                 <div className="reviewBtnDesktop">
                   <button
-                      className={`btn revDeskBtn ${
-                          progress === 'in progress' ? 'active' : 'inactive'
-                      }`}
-                      disabled={progress === 'in review'}
+                      className={`btn revDeskBtn ${ isAvailableForReview ? 'active' : 'inactive' }`}
+                      disabled={isAvailableForReview}
                       onClick={openModal}
                       type='button'
                   >
@@ -125,10 +139,8 @@ const Evidences = () => {
                 <div className="reviewBtnMobile">
                   <button
                       type='button'
-                      className={`btn revMobBtn ${
-                                    progress === 'in progress' ? 'active' : 'inactive'
-                      }`}
-                      disabled={progress === 'in review'}
+                      className={`btn revMobBtn ${ isAvailableForReview ? 'active' : 'inactive' }`}
+                      disabled={isAvailableForReview}
                       onClick={openModal}
                   >
                       Send activity to review
@@ -144,3 +156,8 @@ const Evidences = () => {
 }
 
 export default Evidences;
+
+Evidences.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    project: PropTypes.object.isRequired,
+}

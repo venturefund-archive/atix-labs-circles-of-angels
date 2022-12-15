@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { Input } from 'antd';
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { CoaFormItem } from '../CoaFormItem/CoaFormItem';
@@ -16,7 +16,11 @@ export const CoaFormItemTextArea = ({
   Note
 }) => {
   const { getFieldDecorator } = form;
-  const [charsLength, setCharsLength] = useState(fieldDecoratorOptions?.initialValue?.length || 0);
+  const initialValueLength = fieldDecoratorOptions?.initialValue?.length || 0;
+  const [charsLength, setCharsLength] = useState(0);
+  useEffect(() => {
+    setCharsLength(initialValueLength);
+  }, [initialValueLength]);
   return (
     <CoaFormItem {...{ formItemProps, withErrorFeedback, errorsToShow, name, form }}>
       {Note}

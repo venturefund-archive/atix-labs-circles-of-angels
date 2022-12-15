@@ -1,3 +1,7 @@
+$status-new-color: #5caefa;
+$status-approved-color: #58c984;
+$status-rejected-color: #f66;
+
 .container {
   max-width: 1200px;
   margin: 1rem auto 0;
@@ -17,16 +21,34 @@ $inReview-status: #bc66ff;
 $inProgress-status: #ffaa29;
 
 .evidences {
-  .inProgress {
+  .in-progress {
     color: $inProgress-status;
     border: 1px solid $inProgress-status;
     background: #fff5e5;
   }
 
-  .inReview {
+  .in-review {
     color: $inReview-status;
     border: 1px solid $inReview-status;
     background: #f6e3ff;
+  }
+
+  .rejected {
+    color: $status-rejected-color;
+    border: 1px solid $status-rejected-color;
+    background: #fee;
+  }
+
+  .approved {
+    color: $status-approved-color;
+    border: 1px solid $status-approved-color;
+    background: #f0fff6;
+  }
+
+  .new {
+    background: #ecf6ff;
+    color: $status-new-color;
+    border: 1px solid $status-new-color;
   }
 
   .active {

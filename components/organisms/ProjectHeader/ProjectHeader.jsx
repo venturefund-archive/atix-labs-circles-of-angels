@@ -7,10 +7,7 @@ import customConfig from '../../../custom-config';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 import { useProject } from '../../../hooks/useProject';
 
-const ProjectHeader = ({ children, id }) => {
-    const { loading, project } = useProject(id)
-    if (loading) return <Loading></Loading>;
-
+const ProjectHeader = ({ project, children }) => {
     const { basicInformation, status, details, budget } = project;
     const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
@@ -37,7 +34,7 @@ const ProjectHeader = ({ children, id }) => {
                 legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
                 projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
         />
-          {children}
+        {children}
       </Layout>
     );
 }
@@ -46,5 +43,6 @@ export default ProjectHeader;
 
 ProjectHeader.propTypes = {
     children: PropTypes.node.isRequired,
-    id: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    project: PropTypes.object.isRequired,
 };

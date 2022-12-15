@@ -24,7 +24,8 @@ export const ProjectInfoSection = ({
   progressTotalValue,
   balanceCurrentValue,
   balanceTotalValue,
-  currency
+  currency,
+  onClickSeeMilestones
 }) => (
   <div className="o-projectInfoSection">
     <div className="o-projectInfoSection__text">
@@ -33,6 +34,7 @@ export const ProjectInfoSection = ({
     </div>
     <div className="o-projectInfoSection__progressCard">
       <ProjectProgressCard
+        onClickSeeMilestones={onClickSeeMilestones}
         currency={currency}
         progressCurrentValue={progressCurrentValue}
         progressTotalValue={progressTotalValue}
@@ -50,7 +52,8 @@ ProjectInfoSection.propTypes = {
   progressTotalValue: PropTypes.number,
   balanceCurrentValue: PropTypes.number,
   balanceTotalValue: PropTypes.number,
-  currency: PropTypes.string
+  currency: PropTypes.string,
+  onClickSeeMilestones: PropTypes.func
 };
 
 ProjectInfoSection.defaultProps = {
@@ -62,7 +65,8 @@ ProjectInfoSection.defaultProps = {
   progressTotalValue: 0,
   balanceCurrentValue: 0,
   balanceTotalValue: 0,
-  currency: undefined
+  currency: undefined,
+  onClickSeeMilestones: undefined
 };
 
 HorizontalBlockText.propTypes = {

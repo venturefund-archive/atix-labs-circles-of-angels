@@ -16,7 +16,8 @@ const ProjectHeroSection = ({
   beneficiary,
   thumbnailPhoto,
   projectProposalUrl,
-  legalAgreementUrl
+  legalAgreementUrl,
+  onClickProgressButton
 }) => (
   <div
     className="hero"
@@ -34,7 +35,7 @@ const ProjectHeroSection = ({
 
     <div className="bottom">
       <div className="btn">
-        <button type="button" className="progress--btn">
+        <button type="button" className="progress--btn" onClick={onClickProgressButton}>
           <span>See the progress</span>
         </button>
       </div>
@@ -62,7 +63,10 @@ ProjectHeroSection.defaultProps = {
   timeframe: '2 Months',
   budget: '$ 48,000',
   beneficiary: 'Joe Demin',
-  thumbnailPhoto: ''
+  thumbnailPhoto: '',
+  projectProposalUrl: undefined,
+  legalAgreementUrl: undefined,
+  onClickProgressButton: undefined
 };
 
 ProjectHeroSection.propTypes = {
@@ -73,5 +77,8 @@ ProjectHeroSection.propTypes = {
   timeframe: PropTypes.string,
   budget: PropTypes.string,
   beneficiary: PropTypes.string,
-  thumbnailPhoto: PropTypes.string
+  thumbnailPhoto: PropTypes.string,
+  projectProposalUrl: PropTypes.string,
+  legalAgreementUrl: PropTypes.string,
+  onClickProgressButton: PropTypes.func
 };
