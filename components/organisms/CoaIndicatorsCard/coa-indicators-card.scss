@@ -23,7 +23,7 @@
     justify-content: space-between;
     align-items: center;
 
-    @include breakpoint(sm) {
+    @include breakpoint(sm) { /* stylelint-disable-line */
       padding-inline: 1rem;
     }
 
@@ -95,7 +95,7 @@
         &__title {
           @include primary-text(0.875rem, $coa-medium-gray-100, 400);
           opacity: 0.7;
-
+          /* stylelint-disable-next-line */
           @include breakpoint(xs) {
             font-size: 0.6rem;
           }
