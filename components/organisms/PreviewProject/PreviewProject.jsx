@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { message, Divider, Icon } from 'antd';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
@@ -148,6 +149,7 @@ const PreviewProject = ({ id, preview }) => {
         legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
         projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
         onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
+        blockchainHistoryUrl={`${id}/changelog`}
       />
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
@@ -166,9 +168,11 @@ const PreviewProject = ({ id, preview }) => {
             >
               <MilestonesIcon /> Milestones
             </CoaButton>
-            <CoaButton shape="round" className="o-previewProject__buttons__button">
-              <BlockchainIcon /> Blockchain History
-            </CoaButton>
+            <Link to={`${id}/changelog`}>
+              <CoaButton shape="round" className="o-previewProject__buttons__button">
+                <BlockchainIcon /> Changelog
+              </CoaButton>
+            </Link>
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection

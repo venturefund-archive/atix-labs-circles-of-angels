@@ -1,4 +1,5 @@
 import SecretKey from 'pages/secret-key';
+import ProjectChangeLog from 'pages/project-changelog';
 // import BackofficeProjects from '../../../pages/back-office-projects';
 import EvidenceDetail from 'pages/evidence-detail';
 import CreateProject from '../../../pages/create-project';
@@ -24,14 +25,7 @@ import Preview from '../../../pages/preview';
 import CreateEvidenceContainer from '../../../pages/create-evidence';
 import EvidencesContainer from '../../../pages/evidences';
 
-
-const {
-  COA_ADMIN,
-  ENTREPRENEUR,
-  PROJECT_SUPPORTER,
-  PROJECT_CURATOR,
-  BANK_OPERATOR
-} = Roles;
+const { COA_ADMIN, ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR } = Roles;
 
 export const routesConfig = [
   {
@@ -46,10 +40,10 @@ export const routesConfig = [
     component: Preview,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR, COA_ADMIN],
+      roles: [ENTREPRENEUR, COA_ADMIN]
     },
     withHeader: false,
-    withSideBar: false,
+    withSideBar: false
   },
   /*
   {
@@ -216,7 +210,7 @@ export const routesConfig = [
     component: CreateEvidenceContainer,
     authentication: {
       required: true,
-      roles: [ENTREPRENEUR],
+      roles: [ENTREPRENEUR]
     },
     withHeader: false,
     withSideBar: false
@@ -227,5 +221,12 @@ export const routesConfig = [
     authentication: { required: false },
     withHeader: false,
     withSideBar: false
+  },
+  {
+    path: '/:id/changelog',
+    component: ProjectChangeLog,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
   }
-]
+];

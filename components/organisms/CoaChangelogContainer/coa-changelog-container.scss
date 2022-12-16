@@ -1,0 +1,19 @@
+@import 'css/_variables.scss';
+
+.o-coaChangelogContainer {
+  background: $coa-light-sky-blue-100;
+  padding: 0.9688rem 1.375rem;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  box-shadow: 0 0 12px rgba(94, 94, 94, 0.25);
+
+  &__header {
+    padding: 0.9688rem 1.375rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
