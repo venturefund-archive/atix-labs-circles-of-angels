@@ -1,3 +1,5 @@
+@import 'css/_general_styling.scss';
+
 $status-new-color: #5caefa;
 $status-approved-color: #58c984;
 $status-rejected-color: #ff6666;
@@ -20,16 +22,20 @@ $status-rejected-color: #ff6666;
 		gap: 1rem;
 
 		.date {
+      font-size: 0.9375rem;
 			color: #9ca6bb;
+      @include breakpoint(lg) {
+        font-size: 0.75rem;
+      }
 		}
 
 		.status {
 			@include flex-center();
 			padding: 0 0.75rem;
 			font-weight: 500;
-			font-size: 0.8rem;
+			font-size: 0.625rem;
 			border-radius: 30px;
-			height: 28px;
+			height: 22px;
 			text-transform: capitalize;
 		}
 
