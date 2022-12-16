@@ -101,6 +101,18 @@ const downloadEvidence = async (activityId, evidenceId, fileType) => {
   }
 };
 
+const updateActivityStatus = async (activityId, status, reason = '') => {
+  try {
+    const response = api.put(`${baseURL}/${activityId}/status`, {
+      status,
+      reason
+    })
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+
 const completeActivity = async activityId => {
   try {
     const response = api.put(`${baseURL}/${activityId}/status`, {
@@ -157,4 +169,5 @@ export {
   createEvidence,
   getEvidence,
   updateEvidenceStatus,
+  updateActivityStatus,
 };
