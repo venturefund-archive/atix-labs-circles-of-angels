@@ -17,7 +17,8 @@ const ProjectHeroSection = ({
   thumbnailPhoto,
   projectProposalUrl,
   legalAgreementUrl,
-  onClickProgressButton
+  onClickProgressButton,
+  blockchainHistoryUrl
 }) => (
   <div
     className="hero"
@@ -26,7 +27,7 @@ const ProjectHeroSection = ({
     }}
   >
     <div className="content">
-      <ProjectStatus status={status} />
+      <ProjectStatus status={status} blockchainHistoryUrl={blockchainHistoryUrl} />
       <div className="text">
         <h3>{subtitle}</h3>
         <h1>{title}</h1>
@@ -66,7 +67,8 @@ ProjectHeroSection.defaultProps = {
   thumbnailPhoto: '',
   projectProposalUrl: undefined,
   legalAgreementUrl: undefined,
-  onClickProgressButton: undefined
+  onClickProgressButton: undefined,
+  blockchainHistoryUrl: undefined
 };
 
 ProjectHeroSection.propTypes = {
@@ -80,5 +82,6 @@ ProjectHeroSection.propTypes = {
   thumbnailPhoto: PropTypes.string,
   projectProposalUrl: PropTypes.string,
   legalAgreementUrl: PropTypes.string,
-  onClickProgressButton: PropTypes.func
+  onClickProgressButton: PropTypes.func,
+  blockchainHistoryUrl: PropTypes.string
 };

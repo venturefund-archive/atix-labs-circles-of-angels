@@ -1,0 +1,16 @@
+@import 'css/_variables.scss';
+
+.p-projectChangelog {
+  &__content {
+    padding-block: 1.6563rem;
+    max-width: 76.25rem;
+    min-width: 88%;
+  }
+  &__goBackButton {
+    padding: 0;
+    margin-bottom: 1.4063rem;
+    * {
+      color: $coa-grey-100;
+    }
+  }
+}
