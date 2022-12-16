@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Loading from '../../molecules/Loading/Loading';
 import Layout from '../../molecules/Layout/Layout';
-import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
+import ProjectHeroSectionSmall from '../../molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
 import customConfig from '../../../custom-config';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
-import { useProject } from '../../../hooks/useProject';
 
 const ProjectHeader = ({ project, children }) => {
     const { basicInformation, status, details, budget } = project;
@@ -22,7 +20,7 @@ const ProjectHeader = ({ project, children }) => {
 
     return (
       <Layout>
-        <ProjectHeroSection
+        <ProjectHeroSectionSmall
                 title={projectName}
                 status={status}
                 subtitle={customConfig.NAME}
