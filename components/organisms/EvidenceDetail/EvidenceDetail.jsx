@@ -11,10 +11,12 @@ import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
 
-export function Breadcrumb({ route }) {
+export function Breadcrumb({ milestone, activity, evidence }) {
   return (
     <div className='evidence-breadcrumb'>
-      <h2 className='evidence-breadcrumb__title'>{route.title}</h2>
+      <h2 className='evidence-breadcrumb__title'>
+        {milestone} / {activity} / Evidences / {evidence}
+      </h2>
     </div>
   )
 }
@@ -43,11 +45,15 @@ export default function EvidenceDetail({ evidence }) {
     <div className='evidence-detail'>
       <div className='evidence-detail__container'>
         <GoBack />
-        <Breadcrumb route={{ title: 'Evidence Details' }} />
+        <Breadcrumb
+          milestone={evidence?.milestone?.title}
+          evidence={evidence?.title}
+          activity={evidence?.activity?.title}
+        />
         <EvidenceDetailBox {...evidence} />
         <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
         {
-          evidence?.files && <AttachedFiles files={evidence?.files} />
+          evidence?.files?.length ? <AttachedFiles files={evidence?.files} /> : ''
         }
         {/* invert this after ending development */}
         {isAuditor && (
