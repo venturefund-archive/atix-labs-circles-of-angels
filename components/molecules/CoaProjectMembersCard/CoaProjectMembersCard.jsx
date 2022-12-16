@@ -13,7 +13,7 @@ const CustomCollapseHeader = ({ firstName, lastName, rol }) => {
   return (
     <div className='m-coaProjectMembersCard__header'>
       <Avatar
-        style={{ '--avatarColor': avatarColor }}
+        style={{ '--avatarColor': avatarColor, color: '#ffffff' }}
         className="m-coaProjectMembersCard__avatar"
         size="large"
       >
