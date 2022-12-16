@@ -19,20 +19,20 @@ const ProjectHeroSectionSmall = ({
   legalAgreementUrl,
 }) => (
   <div
-    className="hero"
+    className="heroSmall"
     style={{
       backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 6.87%, rgba(0, 0, 0, 0.800) 80.6%), url(${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto})`
     }}
   >
-    <div className="hero__container">
-      <div className="hero__content">
+    <div className="heroSmall__container">
+      <div className="heroSmall__content">
         <ProjectStatus status={status} />
-        <div className="hero__content__text">
+        <div className="heroSmall__content__text">
           <h3>{subtitle}</h3>
           <h1>{title}</h1>
         </div>
       </div>
-      <div className="hero__bottom">
+      <div className="heroSmall__bottom">
         <div className="backoffice">
           <ProjectHeroDetails
             country={country}
