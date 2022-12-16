@@ -1,4 +1,5 @@
 import SecretKey from 'pages/secret-key';
+import ProjectChangeLog from 'pages/project-changelog';
 // import BackofficeProjects from '../../../pages/back-office-projects';
 import EvidenceDetail from 'pages/evidence-detail';
 import CreateProject from '../../../pages/create-project';
@@ -23,7 +24,6 @@ import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
 import CreateEvidenceContainer from '../../../pages/create-evidence';
 import EvidencesContainer from '../../../pages/evidences';
-import ProjectChangeLog from 'pages/project-changelog';
 
 const { COA_ADMIN, ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR } = Roles;
 
