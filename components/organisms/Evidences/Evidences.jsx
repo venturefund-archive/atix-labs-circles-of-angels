@@ -20,7 +20,7 @@ const Evidences = () => {
   const [activity, setActivity] = useState({});
   const [secretKeyModalVisible, setSecretKeyModalVisible] = useState(false);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
-  const [reviewSuccessVisible, setReviewSuccessVisible] = useState(true);
+  const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const isAuditor = user?.id === activity.auditor;
@@ -30,7 +30,6 @@ const Evidences = () => {
     const getEvidences = async (_activity) => {
       setLoading(true);
       const response = await getActivityEvidences(_activity);
-      console.log(response)
       if (response.errors || !response.data) {
         message.error('An error occurred while fetching the project');
         return;
@@ -110,7 +109,7 @@ const Evidences = () => {
               }
             </div>
             {
-              isAuditor && (
+              (!!user && !isAuditor) && (
                 <div className="reviewBtn">
                   <div className="reviewBtnDesktop">
                     <button
@@ -140,8 +139,9 @@ const Evidences = () => {
           </div>
         </div>
       </div>
-      {user &
+      {!!user &&
         <>
+        <p>foooo</p>
           <ModalConfirmWithSK
             visible={secretKeyModalVisible}
             title='You are about to send an activity to be reviewed by an auditor'
