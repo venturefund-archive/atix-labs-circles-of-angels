@@ -23,7 +23,7 @@ const Evidences = () => {
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = user.id === activity.auditor;
+  const isAuditor = user?.id === activity.auditor;
   console.log(user)
 
   useEffect(() => {
@@ -140,18 +140,22 @@ const Evidences = () => {
           </div>
         </div>
       </div>
-      <ModalConfirmWithSK
-        visible={secretKeyModalVisible}
-        title='You are about to send an activity to be reviewed by an auditor'
-        onCancel={() => setSecretKeyModalVisible(false)}
-        onSuccess={sendToReview}
-      />
-      <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalEvidencesReviewSuccess
-        visible={reviewSuccessVisible}
-        onCancel={() => setReviewSuccessVisible(false)}
-      />
-      <EvidenceFormFooter />
+      {user &
+        <>
+          <ModalConfirmWithSK
+            visible={secretKeyModalVisible}
+            title='You are about to send an activity to be reviewed by an auditor'
+            onCancel={() => setSecretKeyModalVisible(false)}
+            onSuccess={sendToReview}
+          />
+          <ModalPublishLoading visible={loadingModalVisible} />
+          <ModalEvidencesReviewSuccess
+            visible={reviewSuccessVisible}
+            onCancel={() => setReviewSuccessVisible(false)}
+          />
+          <EvidenceFormFooter />
+        </>
+      }
     </>
   );
 }
