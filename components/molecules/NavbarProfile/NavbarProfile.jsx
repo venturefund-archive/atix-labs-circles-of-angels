@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router';
 
 const roles = {
   admin: 'Administrator',
@@ -14,9 +15,15 @@ const roles = {
 
 export default function NavbarProfile({ user, removeUser }) {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+  const { push, location } = useHistory()
 
   function toggleAvatarDropdown() {
     setIsAvatarOpen(open => !open)
+  }
+
+  const logout = () => {
+    removeUser();
+    push(`/${location.pathname.split('/')[1]}`)
   }
 
   return (
@@ -46,7 +53,7 @@ export default function NavbarProfile({ user, removeUser }) {
         }
         <div
           className={`navbar__dropdown ${isAvatarOpen ? '--visible' : '--hidden'}`}
-          onClick={removeUser}
+          onClick={logout}
           role='button'
         >
           <LogoutOutlined className='navbar__dropdown__icon' />
