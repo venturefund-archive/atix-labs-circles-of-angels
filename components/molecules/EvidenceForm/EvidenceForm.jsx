@@ -51,7 +51,7 @@ const EvidenceFormContent = ({ form }) => {
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
   const [userType, setUserType] = useState('');
   const [transactions, setTransactions] = useState([]);
-  const [isIncome, setIsIncome] = useState(false);
+  const [transaction, setTransaction] = useState('income');
 
   useEffect(() => {
     if (!loading) {
@@ -64,6 +64,11 @@ const EvidenceFormContent = ({ form }) => {
 
       const isBeneficiary = beneficiaries.some((beneficiary) => beneficiary.id === user.id);
       const isInvestor = investors.some((investor) => investor.id === user.id);
+      if (!isBeneficiary &&!isInvestor) {
+        message.error('User is not a beneficiary or founder of the project');
+        history.push(`/${project.id}`)
+      }
+
       if (isBeneficiary) {
         setUserType('beneficiary')
       }
@@ -100,18 +105,8 @@ const EvidenceFormContent = ({ form }) => {
     // eslint-disable-next-line
   }, [userType, currencyType]);
 
-  useEffect(() => {
-    if (isAmountIncome(amount)) {
-      setIsIncome(true)
-    } else {
-      setIsIncome(false);
-    }
-  }, [amount])
-
 
   const onChangeAmount = (e) => setAmount(e.currentTarget.value);
-
-  const isAmountIncome = (amt) => amt >= 0;
 
   const handleFileChange = async (value) => {
     if (value?.file?.status !== 'removed') {
@@ -146,7 +141,9 @@ const EvidenceFormContent = ({ form }) => {
     e.preventDefault();
     setButtonLoading(true);
     form.validateFields();
-      const data = { ...state, amount };
+      // outcome amount is designated with negative
+      const newAmount = transaction === 'outcome' ? -amount : amount;
+      const data = { ...state, amount: newAmount };
 
       const response = await createEvidence(activityId, data);
       if (response.errors || !response.data) {
@@ -160,9 +157,6 @@ const EvidenceFormContent = ({ form }) => {
 
       setButtonLoading(false);
   }
-
-  // mock
-  const onTransactionTypeChange = () => {}
 
   if (loading) return <Loading></Loading>;
 
@@ -291,10 +285,12 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                        onChange={onTransactionTypeChange}
-                        checked={!isIncome}
-                        type="radio"
-                        name="transaction_type"
+                        onChange={(e) => {
+                          setTransaction(e.target.value)
+                        }}
+                        checked={transaction === 'outcome'}
+                        type='radio'
+                        name='transactionType'
                         value='outcome'
                     />
                     <div className="customRadio">
@@ -307,10 +303,12 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                        onChange={onTransactionTypeChange}
-                        checked={isIncome}
+                        onChange={(e) => {
+                          setTransaction(e.target.value)
+                        }}
+                        checked={transaction === 'income'}
                         type="radio"
-                        name="transaction_type"
+                        name="transactionType"
                         value='income'
                     />
                     <div className="customRadio">
