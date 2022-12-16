@@ -55,5 +55,5 @@ CoaProjectProgressPill.defaultProps = {
   startBarContent: undefined,
   endBarContent: undefined,
   progressBarColor: 'black',
-  barColor: 'black'
+  barColor: 'white'
 };

@@ -224,7 +224,6 @@ const PreviewProject = ({ id, preview }) => {
                   </p>
                 }
                 progressBarColor="#58C984"
-                barColor="#DEF4E6"
               />
               <Divider
                 type="horizontal"
@@ -255,7 +254,6 @@ const PreviewProject = ({ id, preview }) => {
                   </p>
                 }
                 progressBarColor="#4C7FF7"
-                barColor="#C1DCE9"
               />
               <Divider
                 type="horizontal"
@@ -285,7 +283,7 @@ const PreviewProject = ({ id, preview }) => {
                     </span>
                   </p>
                 }
-                barColor="#EAECEF"
+                progressBarColor="#26385B"
               />
             </div>
           </div>
