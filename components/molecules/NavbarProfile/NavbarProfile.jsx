@@ -8,10 +8,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
+import { Avatar } from 'antd';
+import { stringToHexColor } from '../../../helpers/stringToHexColor';
 
-const roles = {
-  admin: 'Administrator',
-}
 
 export default function NavbarProfile({ user, removeUser }) {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
@@ -26,6 +25,17 @@ export default function NavbarProfile({ user, removeUser }) {
     push(`/${location.pathname.split('/')[1]}`)
   }
 
+  const getAvatarRole = () => {
+    const { isAdmin, role } = user;
+    if(isAdmin) return 'Administrator';
+    return role.charAt(0).toUpperCase() + role.slice(1);
+  }
+
+  const { firstName, lastName } = user;
+  const customAvatarName = firstName.charAt(0).toUpperCase()
+    + lastName.charAt(0).toUpperCase();
+  const avatarColor = stringToHexColor(`${firstName} ${lastName}`);
+
   return (
     <div className='navbar__right__profile'
       onClick={toggleAvatarDropdown}
@@ -33,12 +43,18 @@ export default function NavbarProfile({ user, removeUser }) {
       role='button'
     >
       <div className='navbar__user__avatar'>
-        <img src="/static/images/avatar.svg" alt="user" />
+        <Avatar
+        style={{ '--avatarColor': avatarColor }}
+        className="m-coaProjectMembersCard__avatar"
+        size="large"
+        >
+          {customAvatarName}
+        </Avatar>
       </div>
       <div className='navbar__user' >
         <div className='user__details'>
           <h2>{user.firstName} {user.lastName}</h2>
-          <span>{roles[user.role]}</span>
+          <span>{getAvatarRole()}</span>
         </div>
         <div className='dropdown'>
           <img
