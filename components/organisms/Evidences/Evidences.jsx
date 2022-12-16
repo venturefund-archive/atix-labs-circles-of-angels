@@ -20,7 +20,7 @@ const Evidences = () => {
   const [activity, setActivity] = useState({});
   const [secretKeyModalVisible, setSecretKeyModalVisible] = useState(false);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
-  const [reviewSuccessVisible, setReviewSuccessVisible] = useState(true);
+  const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const isAuditor = user?.id === activity.auditor;
