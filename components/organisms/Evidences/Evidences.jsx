@@ -95,7 +95,8 @@ const Evidences = () => {
                 {
                   enableAddEvidenceBtn &&
                   <AddEvidenceButton
-                    onClickAddEvidence={() => {
+                    onClickAddEvidence={(e) => {
+                      e.stopPropagation();
                       history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
                     }}
                     responsiveLayout={false}
