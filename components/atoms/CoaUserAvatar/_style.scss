@@ -1,0 +1,9 @@
+@import 'css/_variables.scss';
+
+.coaUserAvatar {
+  background: var(--avatarColor, $coa-blue-100);
+}
+
+.coaUserAvatar span {
+  color: white !important;
+}
