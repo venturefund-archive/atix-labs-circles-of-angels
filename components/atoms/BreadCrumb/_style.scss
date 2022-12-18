@@ -1,0 +1,10 @@
+@import 'css/_variables.scss';
+@import 'css/_general_styling.scss';
+
+.breadcrumb {
+  padding: 8px 0px;
+  &__title {
+    color: $coa-blue-100;
+    font-size: 14px;
+  }
+}

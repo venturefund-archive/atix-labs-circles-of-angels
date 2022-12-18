@@ -1,21 +1,16 @@
 @import 'css/_variables.scss';
 @import 'css/_general_styling.scss';
 
-.evidence-detail {
-  margin-top: 64px;
-  padding: 16px;
-  padding-top: 0px;
-}
+.evidenceDetail {
+  width: 1094px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 27px;
 
-.go-back {
-  display: none;
-  color: $coa-grey-100;
-  font-size: 16px;
-  line-height: 19px;
-  &__text {
-    margin-left: 8px;
-    color: $coa-grey-100;
-    font-weight: 500;
+  &__container {
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -156,15 +151,6 @@
     color: $coa-medium-gray-100;
   }
 }
-
-.evidence-breadcrumb {
-  padding: 8px 0px;
-  &__title {
-    color: $coa-blue-100;
-    font-size: 14px;
-  }
-}
-
 
 .evidence-comments {
   background: $coa-light-sky-blue-100;
