@@ -5,7 +5,7 @@ import ProjectHeroSectionSmall from '../../molecules/ProjectHeroSection-small/Pr
 import customConfig from '../../../custom-config';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
-const ProjectHeader = ({ project, children }) => {
+const ProjectHeader = ({ project, children, message }) => {
     const { basicInformation, status, details, budget } = project;
     const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
@@ -31,6 +31,7 @@ const ProjectHeader = ({ project, children }) => {
                 thumbnailPhoto={thumbnailPhoto}
                 legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
                 projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+                message={message}
         />
         {children}
       </Layout>
@@ -39,8 +40,13 @@ const ProjectHeader = ({ project, children }) => {
 
 export default ProjectHeader;
 
+ProjectHeader.defaultProps = {
+    message: undefined,
+}
+
 ProjectHeader.propTypes = {
     children: PropTypes.node.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     project: PropTypes.object.isRequired,
+    message: PropTypes.string,
 };

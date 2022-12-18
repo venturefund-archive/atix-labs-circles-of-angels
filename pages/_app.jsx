@@ -18,6 +18,7 @@ import Router from '../components/organisms/Router/Router';
 import withReactRouter from './with-react-router';
 import { StorageProvider } from '../components/utils/StorageContext';
 import { routesConfig } from '../components/organisms/Router/RouteConfig';
+import { EvidenceProvider } from '../components/utils/EvidenceContext';
 
 const MyApp = props => (
   <Container>
@@ -41,7 +42,9 @@ const MyApp = props => (
     >
       <UserProvider>
         <StorageProvider>
-          <Router {...props} routesConfig={routesConfig} />
+          <EvidenceProvider>
+            <Router {...props} routesConfig={routesConfig} />
+          </EvidenceProvider>
         </StorageProvider>
       </UserProvider>
     </GoogleReCaptchaProvider>
