@@ -216,7 +216,7 @@ export const routesConfig = [
     withSideBar: false
   },
   {
-    path: '/:id/activity/:activityId/evidence',
+    path: '/:id/activity/:activityId/evidences',
     component: EvidencesContainer,
     authentication: { required: false },
     withHeader: false,
