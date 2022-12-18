@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './_style.scss';
 import { message } from 'antd';
+import { useParams } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
-import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
@@ -12,7 +13,7 @@ import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvidencesReviewSuccess';
 
 const Evidences = () => {
-  const activityId = window.location.pathname.split('/')[3]
+  const { id: projectId, activityId } = useParams();
   const progress = 'in progress';
 
   const [evidences, setEvidences] = useState([]);
@@ -65,7 +66,7 @@ const Evidences = () => {
   return (
     <>
       <div className='container'>
-        <EvidenceNavigation />
+        <GoBackButton goBackTo={`/${projectId}`}/>
         <div className="evidences">
           <div className="evidencesHeader">
             <span className="evidencesHeaderDesktop">
