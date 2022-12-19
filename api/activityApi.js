@@ -36,7 +36,8 @@ export const getEvidences = taskId => doGet(`${baseURL}/${taskId}/claims`);
 export const getActivityEvidences = activityId => doGet(`${baseURL}/${activityId}/evidences`);
 
 const getEvidence = evidenceId => doGet(`/evidences/${evidenceId}`);
-const updateEvidenceStatus = (evidenceId, status, reason) => doPut(`/evidences/${evidenceId}`, { status, reason })
+const updateEvidenceStatus = (evidenceId, status, reason) =>
+  doPut(`/evidences/${evidenceId}`, { status, reason });
 
 export const getEvidenceBlockchainData = evidenceId =>
   doGet(`/evidences/${evidenceId}/blockchain-data`);
@@ -101,17 +102,18 @@ const downloadEvidence = async (activityId, evidenceId, fileType) => {
   }
 };
 
-const updateActivityStatus = async (activityId, status, reason = '') => {
+const updateActivityStatus = async (activityId, status, txId, reason = '') => {
   try {
     const response = api.put(`${baseURL}/${activityId}/status`, {
       status,
-      reason
-    })
-    return response
+      reason,
+      txId
+    });
+    return response;
   } catch (error) {
     return error;
   }
-}
+};
 
 const completeActivity = async activityId => {
   try {
@@ -148,7 +150,7 @@ const createEvidence = async (activityId, data) => {
   if (data.files.length > 0) {
     data.files.forEach((file, index) => {
       fd.append(`file-${index}`, file);
-    })
+    });
   }
 
   if (data.transferTxHash.length > 0) {
@@ -169,5 +171,5 @@ export {
   createEvidence,
   getEvidence,
   updateEvidenceStatus,
-  updateActivityStatus,
+  updateActivityStatus
 };
