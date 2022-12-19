@@ -26,6 +26,7 @@ import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
+import { canAddEvidences } from '../../../helpers/canAddEvidence';
 
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
@@ -109,13 +110,6 @@ const PreviewProject = ({ id, preview }) => {
     0
   );
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
-
-  const userProject =
-    user?.projects.find(({ projectId }) => parseInt(id, 10) === parseInt(projectId, 10)) || false;
-  const canAddEvidences =
-    userProject &&
-    (userProject.roles.includes(ROLES_IDS.beneficiary) ||
-      userProject.roles.includes(ROLES_IDS.investor));
 
   return (
     <Layout hasBackgroundImage>
@@ -301,7 +295,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
-                  canAddEvidences={canAddEvidences}
+                  canAddEvidences={ canAddEvidences(user, id) }
                   projectId={id}
                   withEvidences
                   withStatusTag

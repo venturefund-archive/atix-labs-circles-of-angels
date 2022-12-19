@@ -5,7 +5,8 @@ import { message } from 'antd';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
 import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
-import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
+import { useHistory, useParams } from 'react-router-dom';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
@@ -13,9 +14,12 @@ import Loading from '../../molecules/Loading/Loading';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
 import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvidencesReviewSuccess';
+import { canAddEvidences } from '../../../helpers/canAddEvidence';
+import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
 const Evidences = ({ project }) => {
-  const activityId = window.location.pathname.split('/')[3];
+  const history = useHistory();
+  const { id: projectId, activityId } = useParams();
 
   const [evidences, setEvidences] = useState([]);
   const [milestone, setMilestone] = useState({});
@@ -65,10 +69,12 @@ const Evidences = ({ project }) => {
     }
   };
 
+  const enableAddEvidenceBtn = canAddEvidences(user, projectId);
+
   return (
     <>
       <div className="container">
-        <EvidenceNavigation />
+        <GoBackButton goBackTo={`/${projectId}`} />
         <div className="evidences">
           <div className="evidencesHeader">
             <span className="evidencesHeaderDesktop">
@@ -85,13 +91,14 @@ const Evidences = ({ project }) => {
                 <span>{activity.title}</span>
               </p>
               <div className="evidenceStatus">
-                {!!user && (
-                  <button type="button">
-                    <span>
-                      <img src="/static/images/plus-icon.svg" alt="" />
-                    </span>
-                    <span>Add evidences</span>
-                  </button>
+                {enableAddEvidenceBtn && (
+                  <AddEvidenceButton
+                    onClickAddEvidence={e => {
+                      e.stopPropagation();
+                      history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
+                    }}
+                    responsiveLayout={false}
+                  />
                 )}
                 <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
                   {activityStatusMap?.[activityStatus]?.name}

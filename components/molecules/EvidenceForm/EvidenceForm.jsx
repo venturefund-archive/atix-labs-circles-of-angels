@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Form, Button, Upload, Icon, Input, message, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
-import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
@@ -21,19 +21,19 @@ import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
 import { UserContext } from '../../utils/UserContext';
 import { getProjectTransactions } from '../../../api/projectApi';
+import { EvidenceContext } from '../../utils/EvidenceContext';
+
+const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
 
 const EvidenceFormContent = ({ form }) => {
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
-  const { id } = useParams();
+  const { id, activityId } = useParams();
   const history = useHistory();
   const { project, loading } = useProject(id);
   const { user } = useContext(UserContext);
-
-  const pathParts = window.location.pathname.split('/');
-
-  const activityId = pathParts[3];
+  const { setMessage } = useContext(EvidenceContext);
 
   const [state, setState] = useState({
     type: 'impact',
@@ -45,7 +45,7 @@ const EvidenceFormContent = ({ form }) => {
   const { type } = state;
 
 
-  const [currencyType, setCurrencyType] = useState('Fiat');
+  const [currencyType, setCurrencyType] = useState(CURRENCY_TYPE_ENUM.FIAT);
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
@@ -81,7 +81,7 @@ const EvidenceFormContent = ({ form }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (currencyType === 'crypto') {
+    if (currencyType === CURRENCY_TYPE_ENUM.CRYPTO) {
       const getTransactions = async () => {
         const transactionType = userType === 'investor' ? 'received' : 'sent';
         const response = await getProjectTransactions(project.id, transactionType);
@@ -152,7 +152,8 @@ const EvidenceFormContent = ({ form }) => {
       }
 
       if (response.status === 200) {
-        history.push(`/${project.id}/activity/${activityId}/evidence`);
+        setMessage('The evidence has been created successfully.');
+        history.push(`/${project.id}/activity/${activityId}/evidences`);
       }
 
       setButtonLoading(false);
@@ -163,7 +164,7 @@ const EvidenceFormContent = ({ form }) => {
   return (
     <>
       <div className="evidenceForm">
-        <EvidenceNavigation />
+        <GoBackButton goBackTo={`/${id}/activity/${activityId}/evidences`} />
 
         <div className="evidenceForm__body">
           <p className="evidenceForm__body__title">
@@ -320,27 +321,14 @@ const EvidenceFormContent = ({ form }) => {
                 </div>
               </div>
             </div>)}
-            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Amount Spent</p>
-              <div className="formDivInput formDivAmount">
-                <input
-                    type='number'
-                    name='amount'
-                    value={amount}
-                    placeholder='Enter the amount spent'
-                    onChange={onChangeAmount}
-                />
-                <div className="formCurrency">{currency}</div>
-              </div>
-            </div>)}
-            {(currencyType === 'crypto') && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            {(currencyType === CURRENCY_TYPE_ENUM.CRYPTO) && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
               <div className="formDivInput itemInput">
                 <Form.Item>
                   {getFieldDecorator('transferTxHash', {
                     rules: [
                       {
-                        required: currencyType === 'crypto',
+                        required: currencyType === CURRENCY_TYPE_ENUM.CRYPTO,
                         message: 'Please choose the transaction hash',
                       }
                     ]
@@ -364,7 +352,20 @@ const EvidenceFormContent = ({ form }) => {
                 </Form.Item>
               </div>
             </div>)}
-            {(currencyType === 'fiat' || type === 'impact') && (<div className="evidenceForm__body__form__group">
+            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
+              <p className="formDivTitle formDivInfo">Amount Spent</p>
+              <div className="formDivInput formDivAmount">
+                <input
+                    type='number'
+                    name='amount'
+                    value={amount}
+                    placeholder='Enter the amount spent'
+                    onChange={onChangeAmount}
+                />
+                <div className="formCurrency">{currency}</div>
+              </div>
+            </div>)}
+            {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (<div className="evidenceForm__body__form__group">
               <div className="formDivInfo">
                 <p className="formDivTitle">Upload Evidence Documents</p>
                 <p className="formDIvInfo">Check that the evidence is legible</p>
@@ -378,7 +379,7 @@ const EvidenceFormContent = ({ form }) => {
                     {getFieldDecorator('files', {
                       rules: [
                         {
-                          required: type === 'impact' || currencyType === 'fiat',
+                          required: type === 'impact' || currencyType === CURRENCY_TYPE_ENUM.FIAT,
                           message: 'Please select the files',
                         }
                       ]

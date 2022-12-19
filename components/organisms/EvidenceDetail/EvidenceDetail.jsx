@@ -1,81 +1,90 @@
 import React, { useContext, useState } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { UserContext } from 'components/utils/UserContext';
 import { updateEvidenceStatus } from 'api/activityApi';
 import './_style.scss';
 import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComments';
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
-import GoBack from 'components/atoms/GoBack/GoBack';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import AmountSpent from 'components/molecules/AmountSpent/AmountSpent';
+import { useParams } from 'react-router-dom';
+import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
+import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
+import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
+import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
+import { isProjectAuditor } from '../../../helpers/isProjectAuditor';
 
-export function Breadcrumb({ route }) {
-  return (
-    <div className='evidence-breadcrumb'>
-      <h2 className='evidence-breadcrumb__title'>{route.title}</h2>
-    </div>
-  )
-}
+export default function EvidenceDetail({ evidence, fetchEvidence }) {
+  const { projectId, activityId } = useParams();
 
-export default function EvidenceDetail({ evidence }) {
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
-  const { user: { id } } = useContext(UserContext);
-  const isAuditor = id === evidence?.auditor?.id;
+  const { user } = useContext(UserContext);
+  const isAuditor = isProjectAuditor(user, projectId);
+  const isNewEvidence = evidence.status === 'new';
 
   const rejectEvidence = async (reason) => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
     if (!result.errors) {
       setRejectModalOpen(false);
+      await fetchEvidence(evidence.id);
     }
   }
 
   const approveEvidence = async () => {
-    const result = await updateEvidenceStatus(evidence.id, 'approved')
+    const result = await updateEvidenceStatus(evidence.id, 'approved', '');
     if (!result.errors) {
       setApproveModalOpen(false);
+      await fetchEvidence(evidence.id);
     }
   }
 
   return (
-    <div className='evidence-detail'>
-      <div className='evidence-detail__container'>
-        <GoBack />
-        <Breadcrumb route={{ title: 'Evidence Details' }} />
-        <EvidenceDetailBox {...evidence} />
-        <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
-        {
-          evidence?.files && <AttachedFiles files={evidence?.files} />
-        }
-        {/* invert this after ending development */}
-        {isAuditor && (
-          <div className='auditor-options'>
-            <button
-              type='button'
-              className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'
+    <div className='evidenceDetail'>
+      <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`}/>
+      <Breadcrumb route={`${evidence?.milestone?.title}/${evidence?.activity?.title}/${evidence?.title}`} />
+      <div className='evidenceDetail__container'>
+        <div className='evidenceDetail__container__left'>
+          <EvidenceDetailBox {...evidence} />
+          <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
+          {
+            evidence?.files && <AttachedFiles files={evidence?.files} />
+          }
+          { isAuditor && isNewEvidence &&
+          <>
+            <Divider className='evidenceDetail__container__divider'/>
+            <div className='evidenceDetail__container__left__auditorOptions'>
+              <CoaRejectButton
               onClick={() => setRejectModalOpen(true)}
-            >
-              <CloseOutlined className='auditor-options__icon' />
-              <span>Reject</span>
-            </button>
-            <button
-              type='button'
-              className='auditor-options__auditor-btn'
+              >
+              Reject
+              </CoaRejectButton>
+              <CoaApproveButton
+              disabled={false}
               onClick={() => setApproveModalOpen(true)}
-            >
-              <CheckOutlined className='auditor-options__icon' />
-              <span>Approve</span>
-            </button>
-          </div>
-        )}
+              >
+              Approve
+              </CoaApproveButton>
+            </div>
+          </>
+          }
+        </div>
+        <div className='evidenceDetail__container__right'>
+          <EvidenceComments {...evidence} />
+        </div>
       </div>
-      <div className='evidence-detail__container'>
-        <EvidenceComments {...evidence} />
-      </div>
-      <ModalApproveEvidence visible={approveModalOpen} setVisible={setApproveModalOpen} onSuccess={approveEvidence} />
-      <ModalRejectEvidence visible={rejectModalOpen} setVisible={setRejectModalOpen} onSuccess={reason => rejectEvidence(reason)} />
+      <ModalApproveEvidence
+        visible={approveModalOpen}
+        setVisible={setApproveModalOpen}
+        onSuccess={approveEvidence}
+      />
+      <ModalRejectEvidence
+        visible={rejectModalOpen}
+        setVisible={setRejectModalOpen}
+        onSuccess={reason => rejectEvidence(reason)}
+      />
     </div>
   )
 }

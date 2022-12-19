@@ -7,6 +7,7 @@ import { formatCurrency } from 'helpers/formatter';
 import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
 const { Panel } = Collapse;
 
@@ -83,16 +84,11 @@ const CardHeader = ({
       </CoaTextButton>
     )}
       {onAddEvidences && (
-      <CoaTextButton
-        onClick={onAddEvidences}
-        className={classNames( { 'o-coaIndicatorsCard__header__btn': responsiveLayout } )}
+      < AddEvidenceButton
+        onClickAddEvidence={onAddEvidences}
+        responsiveLayout
         disabled={['to-review', 'approved'].includes(status)}
-      >
-        <Icon type="plus" /> Add&nbsp;
-        <span className={classNames( { 'o-coaIndicatorsCard__header__evidenceText': responsiveLayout } )}>
-          evidences
-        </span>
-      </CoaTextButton>
+      />
     )}
       {withStatusTag && (
       <CoaTag predefinedColor={statusMap?.[status]?.color}>{statusMap?.[status]?.name}</CoaTag>
