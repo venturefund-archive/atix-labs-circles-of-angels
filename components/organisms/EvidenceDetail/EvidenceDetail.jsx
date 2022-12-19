@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { UserContext } from 'components/utils/UserContext';
 import { updateEvidenceStatus } from 'api/activityApi';
 import './_style.scss';
@@ -42,6 +41,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
     }
   }
 
+  console.log({ isNewEvidence, isAuditor });
   return (
     <div className='evidenceDetail'>
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`}/>

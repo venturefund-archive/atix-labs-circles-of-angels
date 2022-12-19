@@ -24,6 +24,7 @@ import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
 import CreateEvidenceContainer from '../../../pages/create-evidence';
 import EvidencesContainer from '../../../pages/evidences';
+import TermsAndConditions from '../../../pages/terms-and-conditions';
 
 const { COA_ADMIN, ENTREPRENEUR, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR } = Roles;
 
@@ -129,6 +130,13 @@ export const routesConfig = [
       required: true,
       roles: [COA_ADMIN]
     }
+  },
+  {
+    path: '/terms-and-conditions',
+    component: TermsAndConditions,
+    authentication: { required: false },
+    withHeader: false,
+    withSideBar: false
   },
   /*
   {

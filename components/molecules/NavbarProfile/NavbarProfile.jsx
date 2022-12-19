@@ -8,9 +8,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
-import { Avatar } from 'antd';
-import { stringToHexColor } from '../../../helpers/stringToHexColor';
-
+import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
 export default function NavbarProfile({ user, removeUser }) {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
@@ -32,9 +30,6 @@ export default function NavbarProfile({ user, removeUser }) {
   }
 
   const { firstName, lastName } = user;
-  const customAvatarName = firstName.charAt(0).toUpperCase()
-    + lastName.charAt(0).toUpperCase();
-  const avatarColor = stringToHexColor(`${firstName} ${lastName}`);
 
   return (
     <div className='navbar__right__profile'
@@ -43,13 +38,7 @@ export default function NavbarProfile({ user, removeUser }) {
       role='button'
     >
       <div className='navbar__user__avatar'>
-        <Avatar
-        style={{ '--avatarColor': avatarColor }}
-        className="m-coaProjectMembersCard__avatar"
-        size="large"
-        >
-          {customAvatarName}
-        </Avatar>
+        <CoaUserAvatar firstName={firstName} lastName={lastName} />
       </div>
       <div className='navbar__user' >
         <div className='user__details'>

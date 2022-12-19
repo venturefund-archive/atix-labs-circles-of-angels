@@ -17,6 +17,13 @@
     display: none;
   }
 
+  &__message {
+    position: sticky;
+    top: $header-height;
+    width: 100%;
+    z-index: 1;
+  }
+
   &__container {
     display: flex;
     flex-direction: column;
