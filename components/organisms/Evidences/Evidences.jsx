@@ -4,7 +4,7 @@ import './_style.scss';
 import { message } from 'antd';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
-import activityStatusMap from 'model/activityStatus';
+import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { isBeneficiaryOrInvestor, isProjectAuditor } from 'helpers/roles';
@@ -69,7 +69,7 @@ const Evidences = ({ project }) => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
     setSecretKeyModal(initialSecretKeyModal);
-    const result = await updateActivityStatus(activityId, 'to-review');
+    const result = await updateActivityStatus(activityId, 'to-review', 'transactionID-mocked');
     if (!result.errors) {
       setLoadingModalVisible(false);
       setReviewSuccessVisible(true);
@@ -149,7 +149,9 @@ const Evidences = ({ project }) => {
             {isBeneficiaryOrInvestor(user, projectId) && (
               <CoaButton
                 type="primary"
-                disabled={!areReviewedEvidences}
+                disabled={
+                  !areReviewedEvidences || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
+                }
                 onClick={() =>
                   setSecretKeyModal({
                     visible: true,
@@ -194,12 +196,6 @@ const Evidences = ({ project }) => {
       </div>
       {user && (
         <>
-          {/* <ModalConfirmWithSK
-            visible={secretKeyModalVisible}
-            title="You are about to send an activity to be reviewed by an auditor"
-            onCancel={() => setSecretKeyModalVisible(false)}
-            onSuccess={sendToReview}
-          /> */}
           <ModalConfirmWithSK
             visible={secretKeyModal.visible}
             title={secretKeyModal.title}
