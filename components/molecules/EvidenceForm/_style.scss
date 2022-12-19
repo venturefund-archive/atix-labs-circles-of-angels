@@ -175,6 +175,16 @@
             padding: 0.5rem;
             color: #728099;
           }
+
+          .formCurrencyValue {
+            background: #eff0f4;
+            border: 1px solid #e5e6ed;
+            border-radius: 4px;
+            color: #728099;
+          }
+          .formCurrencyValue:hover {
+            border: 1px solid #e5e6ed;
+          }
         }
 
         .uploadBtn {

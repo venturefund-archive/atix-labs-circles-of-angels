@@ -15,6 +15,7 @@ import { useHistory, useParams } from 'react-router';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
+import classNames from 'classnames';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
@@ -91,7 +92,8 @@ const EvidenceFormContent = ({ form }) => {
         }
 
         const transactionHashes = response.data.transactions.map((hash) => ({
-          value: hash.txHash,
+          txHash: hash.txHash,
+          value: hash.value,
           label: `${hash.timestamp}/${hash.value} ${hash.tokenSymbol}`
         }))
 
@@ -335,15 +337,16 @@ const EvidenceFormContent = ({ form }) => {
                   })(
                     <Select
                         placeholder='Select the transaction'
-                        onChange={(value) => {
+                        onChange={(txHash) => {
+                          setAmount(transactions.find(item => item.txHash ===txHash)?.value || 0);
                           setState({
                             ...state,
-                            transferTxHash: value,
-                          })
+                            transferTxHash: txHash,
+                          });
                         }}
                     >
-                      {transactions.map(({ value, label }) => (
-                        <Option value={value} key={value}>
+                      {transactions.map(({ txHash, label }) => (
+                        <Option value={txHash} key={txHash}>
                           {label}
                         </Option>
                         ))}
@@ -361,6 +364,8 @@ const EvidenceFormContent = ({ form }) => {
                     value={amount}
                     placeholder='Enter the amount spent'
                     onChange={onChangeAmount}
+                    disabled={currencyType === CURRENCY_TYPE_ENUM.CRYPTO}
+                    className={classNames({ 'formCurrencyValue': currencyType === CURRENCY_TYPE_ENUM.CRYPTO })}
                 />
                 <div className="formCurrency">{currency}</div>
               </div>
