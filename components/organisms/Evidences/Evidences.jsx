@@ -4,9 +4,13 @@ import './_style.scss';
 import { message } from 'antd';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
-import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
+import activityStatusMap from 'model/activityStatus';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import { useHistory, useParams } from 'react-router-dom';
+import { isBeneficiaryOrInvestor, isProjectAuditor } from 'helpers/roles';
+import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
+import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
@@ -17,19 +21,24 @@ import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvi
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
+const initialSecretKeyModal = {
+  visible: false,
+  title: '',
+  onSuccessAction: null
+};
+
 const Evidences = ({ project }) => {
   const history = useHistory();
   const { id: projectId, activityId } = useParams();
 
+  const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
   const [evidences, setEvidences] = useState([]);
   const [milestone, setMilestone] = useState({});
   const [activity, setActivity] = useState({});
-  const [secretKeyModalVisible, setSecretKeyModalVisible] = useState(false);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = user?.id === activity.auditor;
   const activityStatus = activity?.status;
 
   useEffect(() => {
@@ -54,20 +63,42 @@ const Evidences = ({ project }) => {
 
   if (loading) return <Loading></Loading>;
 
-  const goToNextModal = (current, next) => {
-    current(false);
-    next(true);
-  };
+  const isAuditor = isProjectAuditor(user, projectId);
 
   const sendToReview = async () => {
-    goToNextModal(setSecretKeyModalVisible, setLoadingModalVisible);
+    setSecretKeyModal(initialSecretKeyModal);
+    setLoadingModalVisible(true);
+    setSecretKeyModal(initialSecretKeyModal);
     const result = await updateActivityStatus(activityId, 'to-review');
     if (!result.errors) {
-      goToNextModal(setLoadingModalVisible, setReviewSuccessVisible);
+      setLoadingModalVisible(false);
+      setReviewSuccessVisible(true);
     } else {
       setLoadingModalVisible(false);
     }
   };
+
+  const sendActivityToReject = async () => {
+    setSecretKeyModal(initialSecretKeyModal);
+    setLoadingModalVisible(true);
+    const result = await updateActivityStatus(activityId, 'rejected');
+    setLoadingModalVisible(false);
+    if (!result.errors) return;
+    message.error('An error occurred while rejecting the activity');
+  };
+
+  const sendActivityToApprove = async () => {
+    setSecretKeyModal(initialSecretKeyModal);
+    setLoadingModalVisible(true);
+    const result = await updateActivityStatus(activityId, 'approved');
+    setLoadingModalVisible(false);
+    if (!result.errors) return;
+    message.error('An error occurred while approving the activity');
+  };
+
+  const areReviewedEvidences =
+    evidences.length > 0 &&
+    evidences.every(({ status }) => ['approved', 'rejected'].includes(status));
 
   const enableAddEvidenceBtn = canAddEvidences(user, projectId);
 
@@ -106,40 +137,56 @@ const Evidences = ({ project }) => {
               </div>
             </div>
             <div className="evidenceCards">
-              {evidences.map(evidence => (
+              {evidences.map((evidence, index) => (
                 <EvidenceCard
                   key={evidence.id}
+                  evidenceNumber={evidences.length - index}
                   evidence={evidence}
                   currency={project?.details?.currency}
                 />
               ))}
             </div>
+            {isBeneficiaryOrInvestor(user, projectId) && (
+              <CoaButton
+                type="primary"
+                disabled={!areReviewedEvidences}
+                onClick={() =>
+                  setSecretKeyModal({
+                    visible: true,
+                    title: 'You are about to send an activity to be reviewed by an auditor',
+                    onSuccessAction: sendToReview
+                  })
+                }
+              >
+                Send for review
+              </CoaButton>
+            )}
             {isAuditor && (
-              <div className="reviewBtn">
-                <div className="reviewBtnDesktop">
-                  <button
-                    className={`btn revDeskBtn ${
-                      activityStatus === ACTIVITY_STATUS_ENUM.IN_PROGRESS ? 'active' : 'inactive'
-                    }`}
-                    disabled={activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW}
-                    onClick={() => setSecretKeyModalVisible(true)}
-                    type="button"
-                  >
-                    Send for review
-                  </button>
-                </div>
-                <div className="reviewBtnMobile">
-                  <button
-                    type="button"
-                    className={`btn revMobBtn ${
-                      activityStatus === ACTIVITY_STATUS_ENUM.IN_PROGRESS ? 'active' : 'inactive'
-                    }`}
-                    disabled={activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW}
-                    onClick={() => setSecretKeyModalVisible(true)}
-                  >
-                    Send activity to review
-                  </button>
-                </div>
+              <div>
+                <CoaRejectButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to reject the activity?',
+                      onSuccessAction: sendActivityToReject
+                    })
+                  }
+                >
+                  Reject
+                </CoaRejectButton>
+                <CoaApproveButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to approve the activity?',
+                      onSuccessAction: sendActivityToApprove
+                    })
+                  }
+                >
+                  Approve
+                </CoaApproveButton>
               </div>
             )}
           </div>
@@ -147,11 +194,17 @@ const Evidences = ({ project }) => {
       </div>
       {user && (
         <>
-          <ModalConfirmWithSK
+          {/* <ModalConfirmWithSK
             visible={secretKeyModalVisible}
             title="You are about to send an activity to be reviewed by an auditor"
             onCancel={() => setSecretKeyModalVisible(false)}
             onSuccess={sendToReview}
+          /> */}
+          <ModalConfirmWithSK
+            visible={secretKeyModal.visible}
+            title={secretKeyModal.title}
+            onCancel={() => setSecretKeyModal(initialSecretKeyModal)}
+            onSuccess={secretKeyModal.onSuccessAction}
           />
           <ModalPublishLoading visible={loadingModalVisible} />
           <ModalEvidencesReviewSuccess

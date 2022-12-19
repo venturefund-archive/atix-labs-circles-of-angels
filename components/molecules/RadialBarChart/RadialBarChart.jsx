@@ -15,8 +15,12 @@ export const RadialBarChart = ({
   externalDonutSymbol,
   internalDonutSymbol
 }) => {
-  const externalDonutPercent = (currentExternalDonutValue / totalExternalDonutValue) * 100 || 0;
-  const internalDonutPercent = (currentInternalDonutValue / totalInternalDonutValue) * 100 || 0;
+  const externalDonutPercent = (
+    (currentExternalDonutValue / totalExternalDonutValue) * 100 || 0
+  ).toFixed(0);
+  const internalDonutPercent = (
+    (currentInternalDonutValue / totalInternalDonutValue) * 100 || 0
+  ).toFixed(0);
   return (
     <div className={`m-radialBarChart__container ${className}`}>
       <div className="m-radialBarChart__container__graph">

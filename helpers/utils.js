@@ -124,17 +124,16 @@ const nth = d => {
 export const getDateAndTime = date => {
   if (!date) return '';
   const newDate = new Date(date).toLocaleString();
+
   const [_date, time] = newDate.split(',');
 
   const localeDateParsed = new Date(_date);
-  const newTime = time
-    .split('')
-    .splice(0, 5)
-    .join('');
+
+  const [hours, minutes] = time.split(' ')[1].split(':');
 
   const month = localeDateParsed.getMonth();
   const day = localeDateParsed.getDay();
   const year = localeDateParsed.getFullYear();
 
-  return `${months[month]}, ${day}${nth(day)} ${year} -${newTime}`;
+  return `${months[month]}, ${day}${nth(day)} ${year} - ${hours}:${minutes}`;
 };
