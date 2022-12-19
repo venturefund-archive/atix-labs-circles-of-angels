@@ -69,7 +69,7 @@ $status-rejected-color: #ff6666;
 
   .title {
     @include primary-text(1rem, $coa-dark-gray-100, 600);
-    margin: 1rem 0;
+    margin-block: 1rem;
   }
 
   .subtitle {
