@@ -158,6 +158,7 @@
 }
 
 .evidence-breadcrumb {
+  display: none;
   padding: 8px 0px;
   &__title {
     color: $coa-blue-100;
@@ -238,6 +239,10 @@
       padding: 32px;
       max-width: 50%;
     }
+  }
+
+  .evidence-breadcrumb {
+    display: block;
   }
   .evidence-comments {
     max-width: 400px;
