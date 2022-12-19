@@ -23,6 +23,8 @@ import { UserContext } from '../../utils/UserContext';
 import { getProjectTransactions } from '../../../api/projectApi';
 import { EvidenceContext } from '../../utils/EvidenceContext';
 
+const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
+
 const EvidenceFormContent = ({ form }) => {
   const { Option } = Select;
 
@@ -47,7 +49,7 @@ const EvidenceFormContent = ({ form }) => {
   const { type } = state;
 
 
-  const [currencyType, setCurrencyType] = useState('Fiat');
+  const [currencyType, setCurrencyType] = useState(CURRENCY_TYPE_ENUM.FIAT);
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
@@ -83,7 +85,7 @@ const EvidenceFormContent = ({ form }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (currencyType === 'crypto') {
+    if (currencyType === CURRENCY_TYPE_ENUM.CRYPTO) {
       const getTransactions = async () => {
         const transactionType = userType === 'investor' ? 'received' : 'sent';
         const response = await getProjectTransactions(project.id, transactionType);
@@ -323,27 +325,14 @@ const EvidenceFormContent = ({ form }) => {
                 </div>
               </div>
             </div>)}
-            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Amount Spent</p>
-              <div className="formDivInput formDivAmount">
-                <input
-                    type='number'
-                    name='amount'
-                    value={amount}
-                    placeholder='Enter the amount spent'
-                    onChange={onChangeAmount}
-                />
-                <div className="formCurrency">{currency}</div>
-              </div>
-            </div>)}
-            {(currencyType === 'crypto') && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            {(currencyType === CURRENCY_TYPE_ENUM.CRYPTO) && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
               <div className="formDivInput itemInput">
                 <Form.Item>
                   {getFieldDecorator('transferTxHash', {
                     rules: [
                       {
-                        required: currencyType === 'crypto',
+                        required: currencyType === CURRENCY_TYPE_ENUM.CRYPTO,
                         message: 'Please choose the transaction hash',
                       }
                     ]
@@ -367,7 +356,20 @@ const EvidenceFormContent = ({ form }) => {
                 </Form.Item>
               </div>
             </div>)}
-            {(currencyType === 'fiat' || type === 'impact') && (<div className="evidenceForm__body__form__group">
+            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
+              <p className="formDivTitle formDivInfo">Amount Spent</p>
+              <div className="formDivInput formDivAmount">
+                <input
+                    type='number'
+                    name='amount'
+                    value={amount}
+                    placeholder='Enter the amount spent'
+                    onChange={onChangeAmount}
+                />
+                <div className="formCurrency">{currency}</div>
+              </div>
+            </div>)}
+            {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (<div className="evidenceForm__body__form__group">
               <div className="formDivInfo">
                 <p className="formDivTitle">Upload Evidence Documents</p>
                 <p className="formDIvInfo">Check that the evidence is legible</p>
@@ -381,7 +383,7 @@ const EvidenceFormContent = ({ form }) => {
                     {getFieldDecorator('files', {
                       rules: [
                         {
-                          required: type === 'impact' || currencyType === 'fiat',
+                          required: type === 'impact' || currencyType === CURRENCY_TYPE_ENUM.FIAT,
                           message: 'Please select the files',
                         }
                       ]
