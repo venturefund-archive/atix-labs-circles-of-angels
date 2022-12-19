@@ -21,6 +21,7 @@ import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
 import { UserContext } from '../../utils/UserContext';
 import { getProjectTransactions } from '../../../api/projectApi';
+import { EvidenceContext } from '../../utils/EvidenceContext';
 
 const EvidenceFormContent = ({ form }) => {
   const { Option } = Select;
@@ -30,6 +31,7 @@ const EvidenceFormContent = ({ form }) => {
   const history = useHistory();
   const { project, loading } = useProject(id);
   const { user } = useContext(UserContext);
+  const { setMessage } = useContext(EvidenceContext);
 
   const pathParts = window.location.pathname.split('/');
 
@@ -152,6 +154,7 @@ const EvidenceFormContent = ({ form }) => {
       }
 
       if (response.status === 200) {
+        setMessage('The evidence has been created successfully.');
         history.push(`/${project.id}/activity/${activityId}/evidence`);
       }
 
