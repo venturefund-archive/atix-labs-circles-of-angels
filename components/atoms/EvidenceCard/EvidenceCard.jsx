@@ -9,7 +9,7 @@ import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
 import { CoaTag } from '../CoaTag/CoaTag';
 
-const EvidenceCard = ({ evidence, currency }) => {
+const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
   const { title, status, createdAt, description, reason, income, outcome, id, type } = evidence;
   const amount = parseFloat(income) || parseFloat(outcome);
 
@@ -22,6 +22,7 @@ const EvidenceCard = ({ evidence, currency }) => {
           {EVIDENCE_STATUS_MAP[status]?.name}
         </CoaTag>
       </div>
+      <p className="evidenceNumber">Evidence N°{evidenceNumber}</p>
       <p className="title">{title}</p>
       <p className="subtitle">{reason}</p>
       <div className="description">{addElipsesToText(description, 150)}</div>

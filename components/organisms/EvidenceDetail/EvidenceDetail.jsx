@@ -8,13 +8,13 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import AmountSpent from 'components/molecules/AmountSpent/AmountSpent';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'antd';
+import { isProjectAuditor } from 'helpers/roles';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
 import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
 import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
-import { isProjectAuditor } from '../../../helpers/isProjectAuditor';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const { projectId, activityId } = useParams();
@@ -25,13 +25,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const isAuditor = isProjectAuditor(user, projectId);
   const isNewEvidence = evidence.status === 'new';
 
-  const rejectEvidence = async (reason) => {
+  const rejectEvidence = async reason => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
     if (!result.errors) {
       setRejectModalOpen(false);
       await fetchEvidence(evidence.id);
     }
-  }
+  };
 
   const approveEvidence = async () => {
     const result = await updateEvidenceStatus(evidence.id, 'approved', '');
@@ -39,39 +39,32 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
       setApproveModalOpen(false);
       await fetchEvidence(evidence.id);
     }
-  }
+  };
 
   return (
-    <div className='evidenceDetail'>
-      <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`}/>
-      <Breadcrumb route={`${evidence?.milestone?.title}/${evidence?.activity?.title}/${evidence?.title}`} />
-      <div className='evidenceDetail__container'>
-        <div className='evidenceDetail__container__left'>
+    <div className="evidenceDetail">
+      <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
+      <Breadcrumb
+        route={`${evidence?.milestone?.title}/${evidence?.activity?.title}/${evidence?.title}`}
+      />
+      <div className="evidenceDetail__container">
+        <div className="evidenceDetail__container__left">
           <EvidenceDetailBox {...evidence} />
           <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
-          {
-            evidence?.files && <AttachedFiles files={evidence?.files} />
-          }
-          { isAuditor && isNewEvidence &&
-          <>
-            <Divider className='evidenceDetail__container__divider'/>
-            <div className='evidenceDetail__container__left__auditorOptions'>
-              <CoaRejectButton
-              onClick={() => setRejectModalOpen(true)}
-              >
-              Reject
-              </CoaRejectButton>
-              <CoaApproveButton
-              disabled={false}
-              onClick={() => setApproveModalOpen(true)}
-              >
-              Approve
-              </CoaApproveButton>
-            </div>
-          </>
-          }
+          {evidence?.files && <AttachedFiles files={evidence?.files} />}
+          {isAuditor && isNewEvidence && (
+            <>
+              <Divider className="evidenceDetail__container__divider" />
+              <div className="evidenceDetail__container__left__auditorOptions">
+                <CoaRejectButton onClick={() => setRejectModalOpen(true)}>Reject</CoaRejectButton>
+                <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>
+                  Approve
+                </CoaApproveButton>
+              </div>
+            </>
+          )}
         </div>
-        <div className='evidenceDetail__container__right'>
+        <div className="evidenceDetail__container__right">
           <EvidenceComments {...evidence} />
         </div>
       </div>
@@ -86,5 +79,5 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
         onSuccess={reason => rejectEvidence(reason)}
       />
     </div>
-  )
+  );
 }
