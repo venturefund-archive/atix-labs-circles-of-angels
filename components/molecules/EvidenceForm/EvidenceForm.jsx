@@ -152,7 +152,7 @@ const EvidenceFormContent = ({ form }) => {
       }
 
       if (response.status === 200) {
-        history.push(`/${project.id}/activity/${activityId}/evidence`);
+        history.push(`/${project.id}/activity/${activityId}/evidences`);
       }
 
       setButtonLoading(false);
