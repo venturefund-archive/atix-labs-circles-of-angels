@@ -92,12 +92,49 @@ export const decimalCount = num => {
 export const capitalizeFirstLetter = (string = '') =>
   string.charAt?.(0)?.toUpperCase() + string?.slice(1);
 
-export const getDateAndTime = (date) => {
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+const nth = d => {
+  if (d > 3 && d < 21) return 'th';
+  switch (d % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+};
+
+export const getDateAndTime = date => {
   if (!date) return '';
   const newDate = new Date(date).toLocaleString();
-  const [day, time] = newDate.split(',');
+  const [_date, time] = newDate.split(',');
 
-  const newTime = time.split('').splice(0, 5).join('');
+  const localeDateParsed = new Date(_date);
+  const newTime = time
+    .split('')
+    .splice(0, 5)
+    .join('');
 
-  return `${new Date(day).toDateString()}-${newTime}`;
-}
+  const month = localeDateParsed.getMonth();
+  const day = localeDateParsed.getDay();
+  const year = localeDateParsed.getFullYear();
+
+  return `${months[month]}, ${day}${nth(day)} ${year} -${newTime}`;
+};
