@@ -78,19 +78,19 @@ const Evidences = ({ project }) => {
     }
   };
 
-  const sendActivityToReject = async () => {
+  const rejectActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
-    const result = await updateActivityStatus(activityId, 'rejected');
+    const result = await updateActivityStatus(activityId, 'rejected', 'transactionID-mocked');
     setLoadingModalVisible(false);
     if (!result.errors) return;
     message.error('An error occurred while rejecting the activity');
   };
 
-  const sendActivityToApprove = async () => {
+  const approveActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
-    const result = await updateActivityStatus(activityId, 'approved');
+    const result = await updateActivityStatus(activityId, 'approved', 'transactionID-mocked');
     setLoadingModalVisible(false);
     if (!result.errors) return;
     message.error('An error occurred while approving the activity');
@@ -171,7 +171,7 @@ const Evidences = ({ project }) => {
                     setSecretKeyModal({
                       visible: true,
                       title: 'Are you sure you want to reject the activity?',
-                      onSuccessAction: sendActivityToReject
+                      onSuccessAction: rejectActivity
                     })
                   }
                 >
@@ -183,7 +183,7 @@ const Evidences = ({ project }) => {
                     setSecretKeyModal({
                       visible: true,
                       title: 'Are you sure you want to approve the activity?',
-                      onSuccessAction: sendActivityToApprove
+                      onSuccessAction: approveActivity
                     })
                   }
                 >
