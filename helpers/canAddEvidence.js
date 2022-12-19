@@ -5,6 +5,6 @@ export const canAddEvidences = (user, projectId) => {
     (project) => parseInt(project.projectId, 10) === parseInt(projectId, 10)) || false;
 
   return user &&
-  (userProject.roles.includes(ROLES_IDS.beneficiary) ||
-    userProject.roles.includes(ROLES_IDS.investor));
+  (userProject?.roles?.includes(ROLES_IDS.beneficiary) ||
+    userProject?.roles?.includes(ROLES_IDS.investor));
 }
