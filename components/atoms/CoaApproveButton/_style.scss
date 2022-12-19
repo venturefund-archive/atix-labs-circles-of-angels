@@ -1,0 +1,11 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+
+.coaApproveButton {
+  width: 210px;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  background: $coa-green-200;
+  color: white;
+}

@@ -13,12 +13,12 @@ export default function EvidenceDetailPage() {
   const { detailEvidenceId, projectId } = useParams();
   const { loading, project } = useProject(projectId)
 
-  useEffect(() => {
-    const fetchEvidence = async (id) => {
-      const result = await getEvidence(id)
-      setEvidence(result.data)
-    }
+  const fetchEvidence = async (id) => {
+    const result = await getEvidence(id)
+    setEvidence(result.data)
+  }
 
+  useEffect(() => {
     fetchEvidence(detailEvidenceId);
   }, [detailEvidenceId, pathname]);
 
@@ -26,7 +26,7 @@ export default function EvidenceDetailPage() {
 
   return (
     <ProjectHeader project={project}>
-      {evidence && <EvidenceDetail evidence={evidence} />}
+      {evidence && <EvidenceDetail evidence={evidence} fetchEvidence={fetchEvidence}/>}
     </ProjectHeader>
   )
 }

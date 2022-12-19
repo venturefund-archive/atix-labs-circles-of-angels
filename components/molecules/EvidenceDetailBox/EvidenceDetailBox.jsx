@@ -60,6 +60,6 @@ EvidenceDetailBox.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   createdAt: PropTypes.string,
-  status: PropTypes.string, 
-  beneficiary: PropTypes.shape
+  status: PropTypes.string,
+  beneficiary: PropTypes.shape,
 }

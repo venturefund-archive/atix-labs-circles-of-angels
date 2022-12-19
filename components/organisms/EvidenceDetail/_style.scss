@@ -2,7 +2,6 @@
 @import 'css/_general_styling.scss';
 
 .evidenceDetail {
-  width: 1094px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,6 +10,27 @@
   &__container {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 100px;
+
+    @include breakpoint(lg){
+      width: 100%;
+      flex-direction: column;
+    }
+
+    &__divider {
+      background-color: #728099;
+      margin-block: 30px;
+      opacity: 0.6
+    }
+
+    &__left {
+      width: 60%;
+      &__auditorOptions {
+        display: flex;
+        justify-content: flex-end;
+        column-gap: 10px;
+      }
+    }
   }
 }
 
@@ -63,34 +83,6 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 19px;
-  }
-}
-
-.auditor-options {
-  margin-top: 24px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  &__auditor-btn {
-    width: 210px;
-    padding: 12px 0px;
-    border-radius: 4px;
-    background-color: $coa-green-200;
-    transition: 0.3s;
-    & span {
-      font-size: 14px;
-      font-weight: 500;
-      color: white;
-    } 
-    &--reject {
-      background-color: $coa-red-100;
-    }
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-  &__icon {
-    margin-right: 8px;
   }
 }
 

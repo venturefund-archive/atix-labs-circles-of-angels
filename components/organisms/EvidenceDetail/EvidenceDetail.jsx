@@ -8,30 +8,37 @@ import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDe
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import AmountSpent from 'components/molecules/AmountSpent/AmountSpent';
 import { useParams } from 'react-router-dom';
+import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
 import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
+import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
+import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
+import { isProjectAuditor } from '../../../helpers/isProjectAuditor';
 
-export default function EvidenceDetail({ evidence }) {
+export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const { projectId, activityId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
-  const { user: { id } } = useContext(UserContext);
-  const isAuditor = id === evidence?.auditor?.id;
+  const { user } = useContext(UserContext);
+  const isAuditor = isProjectAuditor(user, projectId);
+  const isNewEvidence = evidence.status === 'new';
 
   const rejectEvidence = async (reason) => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
     if (!result.errors) {
       setRejectModalOpen(false);
+      await fetchEvidence(evidence.id);
     }
   }
 
   const approveEvidence = async () => {
-    const result = await updateEvidenceStatus(evidence.id, 'approved')
+    const result = await updateEvidenceStatus(evidence.id, 'approved');
     if (!result.errors) {
       setApproveModalOpen(false);
+      await fetchEvidence(evidence.id);
     }
   }
 
@@ -46,27 +53,24 @@ export default function EvidenceDetail({ evidence }) {
           {
             evidence?.files && <AttachedFiles files={evidence?.files} />
           }
-          {/* invert this after ending development */}
-          {isAuditor && (
-            <div className='auditor-options'>
-              <button
-                type='button'
-                className='auditor-options__auditor-btn auditor-options__auditor-btn--reject'
-                onClick={() => setRejectModalOpen(true)}
+          { isAuditor && isNewEvidence &&
+          <>
+            <Divider className='evidenceDetail__container__divider'/>
+            <div className='evidenceDetail__container__left__auditorOptions'>
+              <CoaRejectButton
+              onClick={() => setRejectModalOpen(true)}
               >
-                <CloseOutlined className='auditor-options__icon' />
-                <span>Reject</span>
-              </button>
-              <button
-                type='button'
-                className='auditor-options__auditor-btn'
-                onClick={() => setApproveModalOpen(true)}
+              Reject
+              </CoaRejectButton>
+              <CoaApproveButton
+              disabled={false}
+              onClick={() => setApproveModalOpen(true)}
               >
-                <CheckOutlined className='auditor-options__icon' />
-                <span>Approve</span>
-              </button>
+              Approve
+              </CoaApproveButton>
             </div>
-          )}
+          </>
+          }
         </div>
         <div className='evidenceDetail__container__right'>
           <EvidenceComments {...evidence} />

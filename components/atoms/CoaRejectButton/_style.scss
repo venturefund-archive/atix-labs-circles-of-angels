@@ -1,0 +1,11 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+
+.coaRejectButton {
+  width: 210px;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  background: $coa-red-100;
+  color: white;
+}
