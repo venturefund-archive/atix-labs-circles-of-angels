@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import './_style.scss';
 import { message } from 'antd';
 import { UserContext } from 'components/utils/UserContext';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import { useHistory, useParams } from 'react-router-dom';
-import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
@@ -15,11 +15,10 @@ import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
 const Evidences = () => {
-  const activityId = window.location.pathname.split('/')[3]
   const progress = 'in progress';
 
   const history = useHistory();
-  const { id: projectId } = useParams();
+  const { id: projectId, activityId } = useParams();
 
   const [evidences, setEvidences] = useState([]);
   const [milestone, setMilestone] = useState({});
@@ -73,7 +72,7 @@ const Evidences = () => {
   return (
     <>
       <div className='container'>
-        <EvidenceNavigation />
+        <GoBackButton goBackTo={`/${projectId}`}/>
         <div className="evidences">
           <div className="evidencesHeader">
             <span className="evidencesHeaderDesktop">

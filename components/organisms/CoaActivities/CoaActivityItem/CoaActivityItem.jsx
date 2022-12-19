@@ -55,7 +55,7 @@ export const CoaActivityItem = ({
         withEvidences &&
         (e => {
           e.stopPropagation();
-          history.push(`/${projectId}/activity/${activity?.id}/evidence`);
+          history.push(`/${projectId}/activity/${activity?.id}/evidences`);
         })
       }
       onAddEvidences={

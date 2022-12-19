@@ -31,7 +31,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
           className='ant-btn ant-btn-primary CoaModal__primary'
           onClick={handleSubmit}
         >
-          Approve
+          Reject
         </Button>
       ]}
     >

@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Form, Button, Upload, Icon, Input, message, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
-import EvidenceNavigation from '../../atoms/EvidenceNavigation/EvidenceNavigation';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
 import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
@@ -29,15 +29,11 @@ const EvidenceFormContent = ({ form }) => {
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
-  const { id } = useParams();
+  const { id, activityId } = useParams();
   const history = useHistory();
   const { project, loading } = useProject(id);
   const { user } = useContext(UserContext);
   const { setMessage } = useContext(EvidenceContext);
-
-  const pathParts = window.location.pathname.split('/');
-
-  const activityId = pathParts[3];
 
   const [state, setState] = useState({
     type: 'impact',
@@ -157,7 +153,7 @@ const EvidenceFormContent = ({ form }) => {
 
       if (response.status === 200) {
         setMessage('The evidence has been created successfully.');
-        history.push(`/${project.id}/activity/${activityId}/evidence`);
+        history.push(`/${project.id}/activity/${activityId}/evidences`);
       }
 
       setButtonLoading(false);
@@ -168,7 +164,7 @@ const EvidenceFormContent = ({ form }) => {
   return (
     <>
       <div className="evidenceForm">
-        <EvidenceNavigation />
+        <GoBackButton goBackTo={`/${id}/activity/${activityId}/evidences`} />
 
         <div className="evidenceForm__body">
           <p className="evidenceForm__body__title">
