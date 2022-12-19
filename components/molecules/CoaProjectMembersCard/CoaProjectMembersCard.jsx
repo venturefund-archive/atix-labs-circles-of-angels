@@ -1,24 +1,16 @@
-import { Avatar, Collapse } from 'antd';
+import { Collapse } from 'antd';
 import React from 'react';
 import './coa-project-members-card.scss';
 import { Link } from 'react-router-dom';
-import { stringToHexColor } from '../../../helpers/stringToHexColor';
+import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
 const { Panel } = Collapse;
 
 const CustomCollapseHeader = ({ firstName, lastName, rol }) => {
-  const customAvatarName = firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
   const fullName = `${firstName} ${lastName}`;
-  const avatarColor = stringToHexColor(fullName);
   return (
     <div className='m-coaProjectMembersCard__header'>
-      <Avatar
-        style={{ '--avatarColor': avatarColor, color: '#ffffff' }}
-        className="m-coaProjectMembersCard__avatar"
-        size="large"
-      >
-        {customAvatarName}
-      </Avatar>
+      <CoaUserAvatar firstName={firstName} lastName={lastName}/>
       <div style={{ flex: 1, minWidth: 0 }}>
         <h5 className='m-coaProjectMembersCard__title'>{fullName}</h5>
         <h6 className='m-coaProjectMembersCard__subtitle'>{rol}</h6>
