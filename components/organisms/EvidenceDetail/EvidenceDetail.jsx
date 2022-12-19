@@ -34,14 +34,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   }
 
   const approveEvidence = async () => {
-    const result = await updateEvidenceStatus(evidence.id, 'approved');
+    const result = await updateEvidenceStatus(evidence.id, 'approved', '');
     if (!result.errors) {
       setApproveModalOpen(false);
       await fetchEvidence(evidence.id);
     }
   }
 
-  console.log({ isNewEvidence, isAuditor });
   return (
     <div className='evidenceDetail'>
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`}/>
