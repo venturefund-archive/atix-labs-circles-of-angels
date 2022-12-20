@@ -17,7 +17,6 @@ import { UserContext } from '../../utils/UserContext';
 import PrivateRoute from '../../utils/PrivateRoute';
 import DefaultRoute from '../../utils/DefaultRoute';
 
-import Footer from '../../molecules/Footer/Footer'
 
 const Router = ({ routesConfig }) => {
   const context = useContext(UserContext);
@@ -33,7 +32,6 @@ const Router = ({ routesConfig }) => {
         ))}
         <DefaultRoute />
       </Switch>
-      < Footer />
     </BrowserRouter>
   );
 };
