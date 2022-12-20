@@ -6,12 +6,14 @@ import classNames from 'classnames';
 import './layout.scss';
 
 import Navbar from 'components/atoms/Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 const Layout = ({ children, hasBackgroundImage }) => (
-  <>
+  <div className='layout'>
     <Navbar />
     <div className={classNames('layout__content', { layout__background: hasBackgroundImage })}>{children}</div>
-  </>
+    <Footer />
+  </div>
 );
 
 export default Layout;
