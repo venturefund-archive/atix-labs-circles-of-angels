@@ -18,7 +18,7 @@ import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const { income, outcome } = evidence;
-  const amount = income || outcome;
+    const amount = parseFloat(income) || parseFloat(outcome);
   const { projectId, activityId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -52,7 +52,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
       <div className="evidenceDetail__container">
         <div className="evidenceDetail__container__left">
           <EvidenceDetailBox {...evidence} />
-          <AmountSpent amount={amount} currency={evidence?.currency} />
+          <AmountSpent amount={String(amount)} currency={evidence?.currency} />
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
           {isAuditor && isNewEvidence && (
             <>
