@@ -19,3 +19,5 @@ export const checkIsProjectAuditor = (user, projectId) => {
 
   return user && userProject?.roles?.includes(ROLES_IDS.auditor);
 };
+
+export const checkIsActivityAuditor = (user, activity) => user?.id === activity?.auditor;

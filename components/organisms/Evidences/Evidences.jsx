@@ -7,7 +7,7 @@ import { UserContext } from 'components/utils/UserContext';
 import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { checkIsBeneficiaryOrInvestor, checkIsProjectAuditor } from 'helpers/roles';
+import { checkIsActivityAuditor, checkIsBeneficiaryOrInvestor } from 'helpers/roles';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
@@ -49,21 +49,20 @@ const Evidences = ({ project }) => {
   const { user } = useContext(UserContext);
   const activityStatus = activity?.status;
 
+  const getEvidences = async _activity => {
+    setLoading(true);
+    const response = await getActivityEvidences(_activity);
+    if (response.errors || !response.data) {
+      message.error('An error occurred while fetching the project');
+      return;
+    }
+
+    setEvidences(response.data.evidences);
+    setActivity(response.data.activity);
+    setMilestone(response.data.milestone);
+    setLoading(false);
+  };
   useEffect(() => {
-    const getEvidences = async _activity => {
-      setLoading(true);
-      const response = await getActivityEvidences(_activity);
-      if (response.errors || !response.data) {
-        message.error('An error occurred while fetching the project');
-        return;
-      }
-
-      setEvidences(response.data.evidences);
-      setActivity(response.data.activity);
-      setMilestone(response.data.milestone);
-      setLoading(false);
-    };
-
     getEvidences(activityId);
 
     // eslint-disable-next-line
@@ -71,7 +70,7 @@ const Evidences = ({ project }) => {
 
   if (loading) return <Loading></Loading>;
 
-  const isAuditor = checkIsProjectAuditor(user, projectId);
+  const isActivityAuditor = checkIsActivityAuditor(user, activity);
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, projectId);
 
   const sendToReview = async () => {
@@ -84,6 +83,7 @@ const Evidences = ({ project }) => {
       setReviewSuccessVisible(true);
     } else {
       setLoadingModalVisible(false);
+      getEvidences(activityId);
     }
   };
 
@@ -92,7 +92,7 @@ const Evidences = ({ project }) => {
     setLoadingModalVisible(true);
     const result = await updateActivityStatus(activityId, 'rejected', 'transactionID-mocked');
     setLoadingModalVisible(false);
-    if (!result.errors) return;
+    if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while rejecting the activity');
   };
 
@@ -101,7 +101,7 @@ const Evidences = ({ project }) => {
     setLoadingModalVisible(true);
     const result = await updateActivityStatus(activityId, 'approved', 'transactionID-mocked');
     setLoadingModalVisible(false);
-    if (!result.errors) return;
+    if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while approving the activity');
   };
 
@@ -165,7 +165,7 @@ const Evidences = ({ project }) => {
                 <CoaButton
                   type="primary"
                   disabled={
-                    !areReviewedEvidences || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
+                    evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
                   }
                   onClick={() =>
                     setSecretKeyModal({
@@ -179,7 +179,7 @@ const Evidences = ({ project }) => {
                 </CoaButton>
               </>
             )}
-            {isAuditor && (
+            {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
               <>
                 <Divider type="horizontal" />
                 <div>

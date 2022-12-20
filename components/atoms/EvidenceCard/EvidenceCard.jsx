@@ -59,5 +59,5 @@ EvidenceCard.defaultProps = {
 EvidenceCard.propTypes = {
   evidence: PropTypes.objectOf(PropTypes.any),
   currency: PropTypes.string,
-  evidenceNumber: PropTypes.oneOf(PropTypes.string, PropTypes.number)
+  evidenceNumber: PropTypes.oneOf([PropTypes.string, PropTypes.number])
 };
