@@ -10,6 +10,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { checkIsActivityAuditor, checkIsBeneficiaryOrInvestor } from 'helpers/roles';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
+import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
@@ -120,7 +121,7 @@ const Evidences = ({ project }) => {
         <div className="evidences">
           <div className="evidencesHeader">
             <span className="evidencesHeaderDesktop">
-              {milestone.title} / {activity.title} / Evidences
+              <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
             </span>
             <span className="evidencesHeaderMobile">Evidences</span>
           </div>

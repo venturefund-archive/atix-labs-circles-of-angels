@@ -55,7 +55,8 @@ const PreviewProject = ({ id, preview }) => {
 
     setProject(data);
 
-    setMilestones([...data?.milestones]);
+    const _milestones = data?.milestones || [];
+    setMilestones([..._milestones]);
 
     setLoading(prevState => !prevState);
   };
@@ -87,10 +88,11 @@ const PreviewProject = ({ id, preview }) => {
     ...usr,
     rol: 'Investor'
   }))[0];
-  const auditorsUsers = getUsersByRole(ROLES_IDS.auditor, users).map(usr => ({
-    ...usr,
-    rol: 'Auditor'
-  }));
+  const auditorsUsers =
+    getUsersByRole(ROLES_IDS.auditor, users)?.map(usr => ({
+      ...usr,
+      rol: 'Auditor'
+    })) || [];
   const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
   const toggleAreActivitiesOpened = milestoneId => {
@@ -295,7 +297,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
-                  canAddEvidences={ canAddEvidences(user, id) }
+                  canAddEvidences={canAddEvidences(user, id)}
                   projectId={id}
                   withEvidences
                   withStatusTag
