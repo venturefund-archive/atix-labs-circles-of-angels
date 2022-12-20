@@ -1,6 +1,6 @@
 const { ROLES_IDS } = require('components/organisms/AssignProjectUsers/constants');
 
-export const isBeneficiaryOrInvestor = (user, projectId) => {
+export const checkIsBeneficiaryOrInvestor = (user, projectId) => {
   const userProject =
     user?.projects.find(project => parseInt(project.projectId, 10) === parseInt(projectId, 10)) ||
     false;
@@ -12,10 +12,12 @@ export const isBeneficiaryOrInvestor = (user, projectId) => {
   );
 };
 
-export const isProjectAuditor = (user, projectId) => {
+export const checkIsProjectAuditor = (user, projectId) => {
   const userProject =
     user?.projects.find(project => parseInt(project.projectId, 10) === parseInt(projectId, 10)) ||
     false;
 
   return user && userProject?.roles?.includes(ROLES_IDS.auditor);
 };
+
+export const checkIsActivityAuditor = (user, activity) => user?.id === activity?.auditor;

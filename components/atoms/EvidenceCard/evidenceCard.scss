@@ -2,131 +2,71 @@
 @import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
 
-$status-new-color: #5caefa;
-$status-approved-color: #58c984;
-$status-rejected-color: #ff6666;
-
-@mixin flex-center() {
-  display: flex;
-  align-items: center;
-}
-
 .evidenceCard {
-  background: #ffffff;
+  min-width: 21.125rem;
+  background: $coa-white-100;
+  padding: 1.25rem 1.25rem 1.5625rem;
   box-shadow: 4px 4px 20px rgba(209, 225, 254, 0.5);
   border-radius: 10px;
-  padding: 1.25rem 1rem;
-
-  .statusDay {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  display: flex;
+  row-gap: 1.5625rem;
+  flex-direction: column;
+  &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-
-    .date {
-      font-size: 0.9375rem;
-      color: #9ca6bb;
-      @include breakpoint(lg) {
-        font-size: 0.75rem;
-      }
-    }
-
-    .status {
-      @include flex-center();
-      padding: 0 0.75rem;
-      font-weight: 500;
-      font-size: 0.625rem;
-      border-radius: 30px;
-      height: 22px;
-      text-transform: capitalize;
-    }
-
-    .new {
-      background: #ecf6ff;
-      color: $status-new-color;
-      border: 1px solid $status-new-color;
-    }
-
-    .approved {
-      background: #f0fff6;
-      color: $status-approved-color;
-      border: 1px solid $status-approved-color;
-    }
-
-    .rejected {
-      background: #ffeeee;
-      color: $status-rejected-color;
-      border: 1px solid $status-rejected-color;
-    }
   }
-
-  .evidenceNumber {
+  &__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.625rem;
+    flex-grow: 1;
+  }
+  &__footer {
+    text-align: end;
+  }
+  &__date {
+    @include primary-text(0.875rem, $coa-light-gray-100, 400);
+  }
+  &__orderNumber {
     @include primary-text(0.875rem, $coa-blue-100, 500);
-    text-transform: uppercase;
     letter-spacing: 0.0625rem;
-    margin: 1rem 0;
+    text-transform: uppercase;
   }
-
-  .title {
+  &__title {
     @include primary-text(1rem, $coa-dark-gray-100, 600);
-    margin-block: 1rem;
   }
-
-  .subtitle {
-    color: #26385b;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
+  &__subtitle {
+    @include primary-text(0.875rem, $coa-red-100, 400);
   }
-
-  .description {
-    color: #525b6b;
-    line-height: 1.6;
+  &__description {
+    @include primary-text(0.875rem, $coa-medium-gray-100, 400);
+    max-height: 4.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
   }
-  .amountSpentDiv {
-    height: 2.75rem;
-    @include flex-center();
-
-    .amountSpent {
-      @include flex-center();
-      justify-content: space-between;
-      width: 100%;
-      color: #525b6b;
-
-      p:first-of-type {
-        @include flex-center();
-        gap: 0.5rem;
+  &__amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__indicator {
+      display: flex;
+      align-items: center;
+      column-gap: 0.3906rem;
+      &__text {
+        @include primary-text(0.875rem, $coa-medium-gray-100, 400);
         text-transform: capitalize;
       }
-
-      p:last-of-type {
-        font-weight: bold;
-        font-size: 15px;
-      }
     }
-  }
-}
-
-.button {
-  $button-border-color: 1px solid #4c7ff7;
-
-  .customButton {
-    font-size: 0.85rem;
-    cursor: pointer;
-    padding: 0.55rem 0.7rem;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
-  }
-
-  .primary {
-    background: #4c7ff7;
-    color: white;
-    border: $button-border-color;
-  }
-
-  .default {
-    background: white;
-    color: #4c7ff7;
-    border: $button-border-color;
+    &__value {
+      @include primary-text(1rem, $coa-medium-gray-100, 500);
+    }
   }
 }

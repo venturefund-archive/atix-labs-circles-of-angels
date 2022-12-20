@@ -1,3 +1,6 @@
+@import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
+
 $status-new-color: #5caefa;
 $status-approved-color: #58c984;
 $status-rejected-color: #f66;
@@ -97,8 +100,19 @@ $inProgress-status: #ffaa29;
       justify-content: space-between;
       align-items: center;
 
+      &__title {
+        @include primary-text(1rem, $coa-medium-gray-100, 400);
+      }
+
+      &__auditor {
+        @include primary-text(0.875rem, $coa-light-gray-100, 400);
+      }
+
       > p {
         font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.3125rem;
 
         @media (max-width: 640px) {
           display: none;
@@ -142,10 +156,17 @@ $inProgress-status: #ffaa29;
 
     .evidenceCards {
       padding: 1.25rem;
-      border-bottom: 1px solid #9ca6bb;
       display: grid;
       grid-auto-rows: 1fr;
       gap: 1rem;
+
+      &__title {
+        @include primary-text(1rem, $coa-medium-gray-100, 400);
+      }
+
+      &__auditor {
+        @include primary-text(0.875rem, $coa-light-gray-100, 400);
+      }
 
       @media (min-width: 640px) {
         grid-template-columns: repeat(2, 1fr);
