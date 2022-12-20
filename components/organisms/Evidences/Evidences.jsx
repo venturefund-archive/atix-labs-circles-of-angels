@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Divider, message } from 'antd';
+import { uuid } from 'uuidv4';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
 import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
@@ -78,7 +79,7 @@ const Evidences = ({ project }) => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
     setSecretKeyModal(initialSecretKeyModal);
-    const result = await updateActivityStatus(activityId, 'to-review', 'transactionID-mocked');
+    const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
     if (!result.errors) {
       setLoadingModalVisible(false);
       setReviewSuccessVisible(true);
@@ -91,7 +92,7 @@ const Evidences = ({ project }) => {
   const rejectActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
-    const result = await updateActivityStatus(activityId, 'rejected', 'transactionID-mocked');
+    const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
     setLoadingModalVisible(false);
     if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while rejecting the activity');
@@ -100,7 +101,7 @@ const Evidences = ({ project }) => {
   const approveActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible(true);
-    const result = await updateActivityStatus(activityId, 'approved', 'transactionID-mocked');
+    const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
     setLoadingModalVisible(false);
     if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while approving the activity');
