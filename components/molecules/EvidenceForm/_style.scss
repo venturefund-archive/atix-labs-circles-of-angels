@@ -46,7 +46,6 @@
         font-size: 0.9rem;
         border-bottom: 1px solid #9ca6b8;
         padding: 1.5rem 0;
-        max-width: 400px;
         align-items: flex-start;
         gap: 1rem;
         justify-content: space-between;
@@ -55,7 +54,6 @@
 
         @media (min-width: 800px) {
           flex-direction: row;
-          max-width: 800px;
         }
 
         .evidenceType,
