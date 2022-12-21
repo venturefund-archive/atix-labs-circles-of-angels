@@ -8,7 +8,6 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'antd';
-import { checkIsProjectAuditor } from 'helpers/roles';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
@@ -22,7 +21,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = checkIsProjectAuditor(user, projectId);
+  const isAuditor = user.id === evidence?.auditor?.id;
   const isNewEvidence = evidence.status === 'new';
 
   const rejectEvidence = async reason => {
