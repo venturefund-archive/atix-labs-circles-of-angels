@@ -16,6 +16,8 @@ import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
+  const { income, outcome } = evidence;
+  const amount = parseFloat(income) || parseFloat(outcome);
   const { projectId, activityId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
