@@ -133,7 +133,10 @@ const Evidences = ({ project }) => {
                     history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
                   }}
                   responsiveLayout={false}
-                  disabled={activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW}
+                  disabled={
+                    activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                    activityStatus === ACTIVITY_STATUS_ENUM.APPROVED
+                  }
                 />
               )}
               <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
@@ -164,7 +167,10 @@ const Evidences = ({ project }) => {
                 <CoaButton
                   type="primary"
                   disabled={
-                    evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
+                    evidences?.length === 0 ||
+                    activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                    activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
+                    activityStatus === ACTIVITY_STATUS_ENUM.REJECTED
                   }
                   onClick={() =>
                     setSecretKeyModal({

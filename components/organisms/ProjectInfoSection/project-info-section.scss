@@ -55,7 +55,14 @@
     width: 366px;
     display: flex;
     align-items: center;
-    flex-grow: 1;
+
+    @include respond(mobile) {
+      flex-grow: 1;
+    }
+
+    @include respond(tablet) {
+      flex-grow: 0;
+    }
 
     @include respond(laptop) {
       width: 366px;
