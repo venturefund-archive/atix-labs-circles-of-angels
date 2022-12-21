@@ -22,7 +22,7 @@ import Login from '../../../pages/login';
 import ResetPassword from '../../../pages/reset-password';
 import ChangePasswordSuccess from '../../../pages/change-password-success';
 import Preview from '../../../pages/preview';
-import CreateEvidenceContainer from '../../../pages/create-evidence';
+import CreateEvidence from '../../../pages/create-evidence';
 import EvidencesContainer from '../../../pages/evidences';
 import TermsAndConditions from '../../../pages/terms-and-conditions';
 
@@ -216,7 +216,7 @@ export const routesConfig = [
   },
   {
     path: '/:id/activity/:activityId/create-evidence',
-    component: CreateEvidenceContainer,
+    component: CreateEvidence,
     authentication: {
       required: true,
       roles: [ENTREPRENEUR]

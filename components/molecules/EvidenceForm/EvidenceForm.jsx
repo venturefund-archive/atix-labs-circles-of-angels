@@ -16,7 +16,6 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
 import classNames from 'classnames';
-import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
@@ -164,75 +163,74 @@ const EvidenceFormContent = ({ form }) => {
   if (loading) return <Loading></Loading>;
 
   return (
-    <>
-      <div className="evidenceForm">
-        <GoBackButton goBackTo={`/${id}/activity/${activityId}/evidences`} />
+    <div className="evidenceForm">
+      <GoBackButton goBackTo={() => history.goBack()} />
 
-        <div className="evidenceForm__body">
-          <p className="evidenceForm__body__title">
-            <span>Add</span>
-            <span> new evidence</span>
-          </p>
-          <div className="evidenceForm__body__text">
-            <p className='evidenceForm__body__text_top'>
+      <div className="evidenceForm__body">
+        <p className="evidenceForm__body__title">
+          <span>Add</span>
+          <span> new evidence</span>
+        </p>
+        <div className="evidenceForm__body__text">
+          <p className='evidenceForm__body__text_top'>
               Select the type of evidence you want to upload and then complete the
               information required for the activity.
-            </p>
-            <p className='evidenceForm__body__text_bottom'>Activity 1: Pay 50% deposit to yarn company for cotton yarn</p>
-          </div>
+          </p>
+          <p className='evidenceForm__body__text_bottom'>Activity 1: Pay 50% deposit to yarn company for cotton yarn</p>
+        </div>
 
-          <Form className='evidenceForm__body__form' onSubmit={handleSubmit}>
-            <div className="evidenceForm__body__form__group">
-              <div className="formDivInfo">
-                <p className="formDivTitle">Evidence Type</p>
-                <p className="formDIvInfo">
-                  <span>Transfer:</span> related to expenses or deposits
-                </p>
-                <p className="formDIvInfo">
-                  <span>Impact:</span> related to the progress of the activity. You
+        <Form className='evidenceForm__body__form' onSubmit={handleSubmit}>
+          <div className="evidenceForm__body__form__group">
+            <div className="formDivInfo">
+              <p className="formDivTitle">Evidence Type</p>
+              <p className="formDIvInfo">
+                <span>Transfer:</span> related to expenses or deposits
+              </p>
+              <p className="formDIvInfo">
+                <span>Impact:</span> related to the progress of the activity. You
                   can upload photos, documents, etc
-                </p>
-              </div>
-              <div className="evidenceType">
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
+              </p>
+            </div>
+            <div className="evidenceType">
+              <div className="formDivBorder">
+                <div className="customRadioDiv">
+                  <input
                         type="radio"
                         name="evidenceType"
                         id=""
                         checked={type === 'transfer'}
                         value='transfer'
                         onChange={(e) => setState({ ...state, type: e.target.value })}
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
+                  />
+                  <div className="customRadio">
+                    <div></div>
                   </div>
-                  <span>Transfer</span>
                 </div>
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
+                <span>Transfer</span>
+              </div>
+              <div className="formDivBorder">
+                <div className="customRadioDiv">
+                  <input
                         type="radio"
                         name="evidenceType"
                         id=""
                         value='impact'
                         checked={type === 'impact'}
                         onChange={(e) => setState({ ...state, type: e.target.value })}
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
+                  />
+                  <div className="customRadio">
+                    <div></div>
                   </div>
-                  <span>Impact</span>
                 </div>
+                <span>Impact</span>
               </div>
             </div>
-            <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Evidence Title</p>
-              <div className="formDivInput itemInput">
-                <Form.Item>
-                  {getFieldDecorator('title', {
+          </div>
+          <div className="evidenceForm__body__form__group">
+            <p className="formDivTitle formDivInfo">Evidence Title</p>
+            <div className="formDivInput itemInput">
+              <Form.Item>
+                {getFieldDecorator('title', {
                     rules: [
                       {
                         required: true,
@@ -251,14 +249,14 @@ const EvidenceFormContent = ({ form }) => {
                           }}
                     />
                   )}
-                </Form.Item>
-              </div>
+              </Form.Item>
             </div>
-            <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Evidence Description</p>
-              <div className="formDivInput">
-                <Form.Item>
-                  {getFieldDecorator('description', {
+          </div>
+          <div className="evidenceForm__body__form__group">
+            <p className="formDivTitle formDivInfo">Evidence Description</p>
+            <div className="formDivInput">
+              <Form.Item>
+                {getFieldDecorator('description', {
                     rules: [
                       {
                         required: true,
@@ -279,15 +277,15 @@ const EvidenceFormContent = ({ form }) => {
                         }}
                     />
                   )}
-                </Form.Item>
-              </div>
+              </Form.Item>
             </div>
-            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Transaction Type</p>
-              <div className="transactionType">
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
+          </div>
+          {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            <p className="formDivTitle formDivInfo">Transaction Type</p>
+            <div className="transactionType">
+              <div className="formDivBorder">
+                <div className="customRadioDiv">
+                  <input
                         onChange={(e) => {
                           setTransaction(e.target.value)
                         }}
@@ -295,17 +293,17 @@ const EvidenceFormContent = ({ form }) => {
                         type='radio'
                         name='transactionType'
                         value='outcome'
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
+                  />
+                  <div className="customRadio">
+                    <div></div>
                   </div>
-
-                  <span>Outcome</span>
                 </div>
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
+
+                <span>Outcome</span>
+              </div>
+              <div className="formDivBorder">
+                <div className="customRadioDiv">
+                  <input
                         onChange={(e) => {
                           setTransaction(e.target.value)
                         }}
@@ -313,21 +311,21 @@ const EvidenceFormContent = ({ form }) => {
                         type="radio"
                         name="transactionType"
                         value='income'
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
+                  />
+                  <div className="customRadio">
+                    <div></div>
                   </div>
-
-                  <span>Income</span>
                 </div>
+
+                <span>Income</span>
               </div>
+            </div>
             </div>)}
-            {(currencyType === CURRENCY_TYPE_ENUM.CRYPTO) && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
-              <div className="formDivInput itemInput">
-                <Form.Item>
-                  {getFieldDecorator('transferTxHash', {
+          {(currencyType === CURRENCY_TYPE_ENUM.CRYPTO) && (type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
+            <div className="formDivInput itemInput">
+              <Form.Item>
+                {getFieldDecorator('transferTxHash', {
                     rules: [
                       {
                         required: currencyType === CURRENCY_TYPE_ENUM.CRYPTO,
@@ -352,13 +350,13 @@ const EvidenceFormContent = ({ form }) => {
                         ))}
                     </Select>
                   )}
-                </Form.Item>
-              </div>
+              </Form.Item>
+            </div>
             </div>)}
-            {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">Amount Spent</p>
-              <div className="formDivInput formDivAmount">
-                <input
+          {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
+            <p className="formDivTitle formDivInfo">Amount Spent</p>
+            <div className="formDivInput formDivAmount">
+              <input
                     type='number'
                     name='amount'
                     value={amount}
@@ -366,22 +364,22 @@ const EvidenceFormContent = ({ form }) => {
                     onChange={onChangeAmount}
                     disabled={currencyType === CURRENCY_TYPE_ENUM.CRYPTO}
                     className={classNames({ 'formCurrencyValue': currencyType === CURRENCY_TYPE_ENUM.CRYPTO })}
-                />
-                <div className="formCurrency">{currency}</div>
-              </div>
+              />
+              <div className="formCurrency">{currency}</div>
+            </div>
             </div>)}
-            {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (<div className="evidenceForm__body__form__group">
-              <div className="formDivInfo">
-                <p className="formDivTitle">Upload Evidence Documents</p>
-                <p className="formDIvInfo">Check that the evidence is legible</p>
-                <p className="formDIvInfo">
-                  <span>Formats:</span> PNG, JPG, PDF
-                </p>
-              </div>
-              <div className="formDivInput">
-                <div className="uploadBtnDiv">
-                  <Form.Item>
-                    {getFieldDecorator('files', {
+          {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (<div className="evidenceForm__body__form__group">
+            <div className="formDivInfo">
+              <p className="formDivTitle">Upload Evidence Documents</p>
+              <p className="formDIvInfo">Check that the evidence is legible</p>
+              <p className="formDIvInfo">
+                <span>Formats:</span> PNG, JPG, PDF
+              </p>
+            </div>
+            <div className="formDivInput">
+              <div className="uploadBtnDiv">
+                <Form.Item>
+                  {getFieldDecorator('files', {
                       rules: [
                         {
                           required: type === 'impact' || currencyType === CURRENCY_TYPE_ENUM.FIAT,
@@ -395,19 +393,17 @@ const EvidenceFormContent = ({ form }) => {
                         </Button>
                       </Upload>
                     )}
-                  </Form.Item>
-                </div>
+                </Form.Item>
               </div>
-            </div>)}
-            <div className="evidenceForm__body__form__group evidenceForm__body__form__btns">
-              <Button type='button' onClick={() => onCancel()}>Cancel</Button>
-              <Button loading={buttonLoading} htmlType='submit'>Add Evidence</Button>
             </div>
-          </Form>
-        </div>
+            </div>)}
+          <div className="evidenceForm__body__form__group evidenceForm__body__form__btns">
+            <Button type='button' onClick={() => onCancel()}>Cancel</Button>
+            <Button loading={buttonLoading} htmlType='submit'>Add Evidence</Button>
+          </div>
+        </Form>
       </div>
-      <EvidenceFormFooter />
-    </>
+    </div>
   );
 }
 
