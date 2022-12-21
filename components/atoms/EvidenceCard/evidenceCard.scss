@@ -3,7 +3,10 @@
 @import 'css/mixins/_fonts.scss';
 
 .evidenceCard {
-  min-width: 21.125rem;
+  min-height: 22.1875rem;
+  /* min-width: 21.125rem; */
+  /* flex-basis: 21.125rem; */
+  /* flex-grow: 1; */
   background: $coa-white-100;
   padding: 1.25rem 1.25rem 1.5625rem;
   box-shadow: 4px 4px 20px rgba(209, 225, 254, 0.5);
@@ -45,9 +48,9 @@
   }
   &__description {
     @include primary-text(0.875rem, $coa-medium-gray-100, 400);
-    max-height: 4.5rem;
+    max-height: 6.5125rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex-grow: 1;

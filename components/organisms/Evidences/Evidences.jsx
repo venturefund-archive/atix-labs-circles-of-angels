@@ -117,13 +117,98 @@ const Evidences = ({ project }) => {
 
   return (
     <>
-      <div className="container">
+      <div className="evidences">
         <GoBackButton goBackTo={`/${projectId}`} />
-        <div className="evidences">
+        <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
+        <div className="evidences__list">
+          <div className="evidences__list__header">
+            <div>
+              <p className="evidences__list__header__title">{activity.title}</p>
+              <p className="evidences__list__header__subtitle">Auditor: {auditorName}</p>
+            </div>
+            <div>
+              {enableAddEvidenceBtn && (
+                <AddEvidenceButton
+                  onClickAddEvidence={e => {
+                    e.stopPropagation();
+                    history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
+                  }}
+                  responsiveLayout={false}
+                  disabled={activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW}
+                />
+              )}
+              <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
+                {activityStatusMap?.[activityStatus]?.name}
+              </CoaTag>
+            </div>
+          </div>
+          <Divider type="horizontal" />
+          <div className="evidences__list__body">
+            {evidences.map((evidence, index) => (
+              <EvidenceCard
+                key={evidence.id}
+                evidenceNumber={evidences.length - index}
+                evidence={evidence}
+                currency={project?.details?.currency}
+              />
+            ))}
+          </div>
+
+          {isBeneficiaryOrInvestor && (
+            <>
+              <Divider type="horizontal" />
+              <CoaButton
+                type="primary"
+                disabled={
+                  evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
+                }
+                onClick={() =>
+                  setSecretKeyModal({
+                    visible: true,
+                    title: 'You are about to send an activity to be reviewed by an auditor',
+                    onSuccessAction: sendToReview
+                  })
+                }
+              >
+                Send for review
+              </CoaButton>
+            </>
+          )}
+          {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
+            <>
+              <Divider type="horizontal" />
+              <div>
+                <CoaRejectButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to reject the activity?',
+                      onSuccessAction: rejectActivity
+                    })
+                  }
+                >
+                  Reject
+                </CoaRejectButton>
+                <CoaApproveButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to approve the activity?',
+                      onSuccessAction: approveActivity
+                    })
+                  }
+                >
+                  Approve
+                </CoaApproveButton>
+              </div>
+            </>
+          )}
+        </div>
+        {/* <div className="evidences">
           <div className="evidencesHeader">
-            <span className="evidencesHeaderDesktop">
-              <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
-            </span>
+            <span className="evidencesHeaderDesktop"></span>
             <span className="evidencesHeaderMobile">Evidences</span>
           </div>
           <div className="evidencesCardInfoMobile">
@@ -213,7 +298,7 @@ const Evidences = ({ project }) => {
               </>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
       {user && (
         <>
@@ -230,7 +315,6 @@ const Evidences = ({ project }) => {
           />
         </>
       )}
-      <EvidenceFormFooter />
     </>
   );
 };

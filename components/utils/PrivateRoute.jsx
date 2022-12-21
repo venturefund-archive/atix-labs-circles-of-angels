@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 // import { useUserContext } from './UserContext';
 import MainLayout from '../organisms/MainLayout/MainLayout';
+import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 // import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
 
 function PrivateRoute(routeProps) {
@@ -15,7 +16,8 @@ function PrivateRoute(routeProps) {
     withSideBar,
     authenticated,
     role,
-    user
+    user,
+    withoutMainLayout
   } = routeProps;
   // const { getLoggedUser } = useUserContext();
   // const user = getLoggedUser();
@@ -41,14 +43,20 @@ function PrivateRoute(routeProps) {
       exact={exact}
       path={path}
       render={props => (
-        <MainLayout
-          user={user}
-          withHeader={withHeader}
-          withSideBar={withSideBar}
-          authenticated={authenticated}
-        >
-          <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
-        </MainLayout>
+        <>
+          {withoutMainLayout ? (
+            <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
+          ) : (
+            <MainLayout
+              user={user}
+              withHeader={withHeader}
+              withSideBar={withSideBar}
+              authenticated={authenticated}
+            >
+              <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
+            </MainLayout>
+          )}
+        </>
       )}
     />
   );

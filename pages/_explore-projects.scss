@@ -1,10 +1,15 @@
-@import "../css/general_styling.scss";
+@import '../css/general_styling.scss';
 
-.ExploreProject{
-  .ant-input-affix-wrapper .ant-input-prefix, .ant-input-affix-wrapper .ant-input-suffix,.ant-input-search-icon,.ant-select-arrow{
-    color:black;
+.ExploreProject {
+  width: 100%;
+  .ant-input-affix-wrapper .ant-input-prefix,
+  .ant-input-affix-wrapper .ant-input-suffix,
+  .ant-input-search-icon,
+  .ant-select-arrow {
+    color: black;
   }
-  .ant-input::placeholder,.ant-select-selection__placeholder{
+  .ant-input::placeholder,
+  .ant-select-selection__placeholder {
     color: $black;
   }
 }
@@ -16,7 +21,6 @@
   margin-top: 1em;
 }
 
-.title{
-    @include primary-text($h1, $secondary-color, 500);
+.title {
+  @include primary-text($h1, $secondary-color, 500);
 }
-

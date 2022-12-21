@@ -27,6 +27,7 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
+import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
@@ -114,7 +115,25 @@ const PreviewProject = ({ id, preview }) => {
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
   return (
-    <Layout hasBackgroundImage>
+    <LandingLayout
+      header={
+        <ProjectHeroSection
+          title={projectName}
+          status={status}
+          subtitle={customConfig.NAME}
+          country={location}
+          beneficiary={beneficiaryCompleteName}
+          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          budget={formatCurrency(currency, budget)}
+          thumbnailPhoto={thumbnailPhoto}
+          legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
+          projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
+          blockchainHistoryUrl={`${id}/changelog`}
+        />
+      }
+      thumbnailPhoto={thumbnailPhoto}
+    >
       {preview && isAdmin && (
         <CoaAlert
           className="o-previewProject__previewInfoMessage"
@@ -133,20 +152,7 @@ const PreviewProject = ({ id, preview }) => {
           }
         />
       )}
-      <ProjectHeroSection
-        title={projectName}
-        status={status}
-        subtitle={customConfig.NAME}
-        country={location}
-        beneficiary={beneficiaryCompleteName}
-        timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-        budget={formatCurrency(currency, budget)}
-        thumbnailPhoto={thumbnailPhoto}
-        legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
-        projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-        onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
-        blockchainHistoryUrl={`${id}/changelog`}
-      />
+
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons">
@@ -313,7 +319,7 @@ const PreviewProject = ({ id, preview }) => {
           </div>
         </div>
       )}
-    </Layout>
+    </LandingLayout>
   );
 };
 

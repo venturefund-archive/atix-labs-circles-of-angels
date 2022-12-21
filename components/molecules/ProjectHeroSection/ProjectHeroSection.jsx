@@ -20,12 +20,7 @@ const ProjectHeroSection = ({
   onClickProgressButton,
   blockchainHistoryUrl
 }) => (
-  <div
-    className="hero"
-    style={{
-      backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 6.87%, rgba(0, 0, 0, 0.800) 80.6%), url(${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto})`
-    }}
-  >
+  <div className="hero">
     <div className="content">
       <ProjectStatus status={status} blockchainHistoryUrl={blockchainHistoryUrl} />
       <div className="text">

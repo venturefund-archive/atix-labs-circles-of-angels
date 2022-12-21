@@ -19,7 +19,7 @@ const ProjectHeroSectionSmall = ({
   thumbnailPhoto,
   projectProposalUrl,
   legalAgreementUrl,
-  message,
+  message
 }) => {
   const [show, setShow] = useState(Boolean(message));
   const { clearMessage } = useContext(EvidenceContext);
@@ -36,20 +36,17 @@ const ProjectHeroSectionSmall = ({
 
   return (
     <>
-      {message && <CoaAlert
-            className='heroSmall__message'
-            message={message}
-            customColor='green'
-            closable
-            Icon={<img src="/static/images/check.svg" alt="icon"/>}
-            show={show}
-      />}
-      <div
-            className="heroSmall"
-            style={{
-              backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 6.87%, rgba(0, 0, 0, 0.800) 80.6%), url(${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto})`
-            }}
-      >
+      {message && (
+        <CoaAlert
+          className="heroSmall__message"
+          message={message}
+          customColor="green"
+          closable
+          Icon={<img src="/static/images/check.svg" alt="icon" />}
+          show={show}
+        />
+      )}
+      <div className="heroSmall">
         <div className="heroSmall__container">
           <div className="heroSmall__content">
             <ProjectStatus status={status} />
@@ -61,14 +58,14 @@ const ProjectHeroSectionSmall = ({
           <div className="heroSmall__bottom">
             <div className="backoffice">
               <ProjectHeroDetails
-                    country={country}
-                    timeframe={timeframe}
-                    budget={budget}
-                    beneficiary={beneficiary}
+                country={country}
+                timeframe={timeframe}
+                budget={budget}
+                beneficiary={beneficiary}
               />
               <ProjectHeroDownload
-                    projectProposalUrl={projectProposalUrl}
-                    legalAgreementUrl={legalAgreementUrl}
+                projectProposalUrl={projectProposalUrl}
+                legalAgreementUrl={legalAgreementUrl}
               />
             </div>
           </div>
@@ -76,7 +73,7 @@ const ProjectHeroSectionSmall = ({
       </div>
     </>
   );
-}
+};
 
 export default ProjectHeroSectionSmall;
 
@@ -89,7 +86,7 @@ ProjectHeroSectionSmall.defaultProps = {
   thumbnailPhoto: '',
   projectProposalUrl: undefined,
   legalAgreementUrl: undefined,
-  message: undefined,
+  message: undefined
 };
 
 ProjectHeroSectionSmall.propTypes = {
@@ -103,5 +100,5 @@ ProjectHeroSectionSmall.propTypes = {
   thumbnailPhoto: PropTypes.string,
   projectProposalUrl: PropTypes.string,
   legalAgreementUrl: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.string
 };
