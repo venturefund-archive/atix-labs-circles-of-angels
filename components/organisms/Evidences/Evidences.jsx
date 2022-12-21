@@ -15,7 +15,6 @@ import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
-import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
 import Loading from '../../molecules/Loading/Loading';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
@@ -154,30 +153,33 @@ const Evidences = ({ project }) => {
             ))}
           </div>
 
-          {isBeneficiaryOrInvestor && (
-            <>
-              <Divider type="horizontal" />
-              <CoaButton
-                type="primary"
-                disabled={
-                  evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
-                }
-                onClick={() =>
-                  setSecretKeyModal({
-                    visible: true,
-                    title: 'You are about to send an activity to be reviewed by an auditor',
-                    onSuccessAction: sendToReview
-                  })
-                }
-              >
-                Send for review
-              </CoaButton>
-            </>
+          {(isBeneficiaryOrInvestor ||
+            (isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW)) && (
+            <Divider type="horizontal" />
           )}
-          {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
-            <>
-              <Divider type="horizontal" />
-              <div>
+
+          <div className="evidences__list__footer">
+            {isBeneficiaryOrInvestor && (
+              <>
+                <CoaButton
+                  type="primary"
+                  disabled={
+                    evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
+                  }
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'You are about to send an activity to be reviewed by an auditor',
+                      onSuccessAction: sendToReview
+                    })
+                  }
+                >
+                  Send for review
+                </CoaButton>
+              </>
+            )}
+            {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
+              <>
                 <CoaRejectButton
                   disabled={!areReviewedEvidences}
                   onClick={() =>
@@ -202,103 +204,10 @@ const Evidences = ({ project }) => {
                 >
                   Approve
                 </CoaApproveButton>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
-        {/* <div className="evidences">
-          <div className="evidencesHeader">
-            <span className="evidencesHeaderDesktop"></span>
-            <span className="evidencesHeaderMobile">Evidences</span>
-          </div>
-          <div className="evidencesCardInfoMobile">
-            <p className="evidenceCards__title">{activity.title}</p>
-            <p className="evidenceCards__auditor">Auditor: {auditorName}</p>
-          </div>
-          <div className="evidencesCard">
-            <div className="cardInfo">
-              <p>
-                <span className="cardInfo__title">{activity.title}</span>
-                <span className="cardInfo__auditor">Auditor: {auditorName}</span>
-              </p>
-              <div className="evidenceStatus">
-                {enableAddEvidenceBtn && (
-                  <AddEvidenceButton
-                    onClickAddEvidence={e => {
-                      e.stopPropagation();
-                      history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
-                    }}
-                    responsiveLayout={false}
-                  />
-                )}
-                <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
-                  {activityStatusMap?.[activityStatus]?.name}
-                </CoaTag>
-              </div>
-            </div>
-            <div className="evidenceCards">
-              {evidences.map((evidence, index) => (
-                <EvidenceCard
-                  key={evidence.id}
-                  evidenceNumber={evidences.length - index}
-                  evidence={evidence}
-                  currency={project?.details?.currency}
-                />
-              ))}
-            </div>
-            {isBeneficiaryOrInvestor && (
-              <>
-                <Divider type="horizontal" />
-                <CoaButton
-                  type="primary"
-                  disabled={
-                    evidences?.length === 0 || activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW
-                  }
-                  onClick={() =>
-                    setSecretKeyModal({
-                      visible: true,
-                      title: 'You are about to send an activity to be reviewed by an auditor',
-                      onSuccessAction: sendToReview
-                    })
-                  }
-                >
-                  Send for review
-                </CoaButton>
-              </>
-            )}
-            {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
-              <>
-                <Divider type="horizontal" />
-                <div>
-                  <CoaRejectButton
-                    disabled={!areReviewedEvidences}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to reject the activity?',
-                        onSuccessAction: rejectActivity
-                      })
-                    }
-                  >
-                    Reject
-                  </CoaRejectButton>
-                  <CoaApproveButton
-                    disabled={!areReviewedEvidences}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to approve the activity?',
-                        onSuccessAction: approveActivity
-                      })
-                    }
-                  >
-                    Approve
-                  </CoaApproveButton>
-                </div>
-              </>
-            )}
-          </div>
-        </div> */}
       </div>
       {user && (
         <>
