@@ -8,9 +8,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
+import { ROLES__IDS_NAMES } from 'components/organisms/AssignProjectUsers/constants';
 import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
-export default function NavbarProfile({ user, removeUser }) {
+export default function NavbarProfile({ user, removeUser, projectId }) {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const { push, location } = useHistory()
 
@@ -24,9 +25,10 @@ export default function NavbarProfile({ user, removeUser }) {
   }
 
   const getAvatarRole = () => {
-    const { isAdmin, role } = user;
-    if(isAdmin) return 'Administrator';
-    return role.charAt(0).toUpperCase() + role.slice(1);
+    if(user.isAdmin) return 'Administrator';
+    const userProjectRole = user.projects
+      .find((project)=> project.projectId === parseInt(projectId, 10))?.roles[0] || -1;
+    return ROLES__IDS_NAMES[userProjectRole] || 'Unknown';
   }
 
   const { firstName, lastName } = user;
@@ -71,10 +73,12 @@ export default function NavbarProfile({ user, removeUser }) {
 
 NavbarProfile.defaultProps = {
   user: null,
+  projectId: -1,
   removeUser: () => undefined
 }
 
 NavbarProfile.propTypes = {
+  projectId: PropTypes.number,
   user: PropTypes.shape,
   removeUser: PropTypes.func
 }
