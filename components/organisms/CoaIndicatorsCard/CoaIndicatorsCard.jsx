@@ -91,7 +91,9 @@ const CardHeader = ({
           <AddEvidenceButton
             onClickAddEvidence={onAddEvidences}
             responsiveLayout
-            disabled={[ACTIVITY_STATUS_ENUM.TO_REVIEW].includes(status)}
+            disabled={[ACTIVITY_STATUS_ENUM.TO_REVIEW, ACTIVITY_STATUS_ENUM.APPROVED].includes(
+              status
+            )}
           />
         )}
         {withStatusTag && (
