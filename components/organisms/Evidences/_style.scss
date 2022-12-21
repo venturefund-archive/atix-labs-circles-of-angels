@@ -34,6 +34,16 @@
       grid-template-columns: repeat(auto-fill, minmax(21.25rem, 1fr));
       column-gap: 1.25rem;
       row-gap: 1.5625rem;
+
+      &.--empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      &__emptyText {
+        @include primary-text(1rem, $coa-blue-100, 600);
+      }
     }
     &__footer {
       display: flex;
