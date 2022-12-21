@@ -13,6 +13,9 @@
     -o-border-radius: 20px;
     min-height: 31.25rem;
     padding-block: 20px 30px;
+
+    display: flex;
+    flex-direction: column;
     &__header {
       display: flex;
       justify-content: space-between;
@@ -26,6 +29,7 @@
       }
     }
     &__body {
+      flex-grow: 1;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(21.25rem, 1fr));
       column-gap: 1.25rem;

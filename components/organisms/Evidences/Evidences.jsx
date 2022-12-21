@@ -82,9 +82,9 @@ const Evidences = ({ project }) => {
     if (!result.errors) {
       setLoadingModalVisible(false);
       setReviewSuccessVisible(true);
+      getEvidences(activityId);
     } else {
       setLoadingModalVisible(false);
-      getEvidences(activityId);
     }
   };
 

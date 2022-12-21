@@ -6,6 +6,7 @@ import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { formatCurrency } from 'helpers/formatter';
 import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
+import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
@@ -23,79 +24,83 @@ const CardHeader = ({
   status,
   statusMap,
   onViewEvidence,
-  onAddEvidences,
+  onAddEvidences
 }) => {
   const responsiveLayout = onViewEvidence || onAddEvidences;
-  return <div
-  className={
-    classNames('o-coaIndicatorsCard__header', { 'cardHeader': responsiveLayout } )
-  }
-  onClick={onClick}
-  tabIndex={0}
-  role="button"
-  onKeyDown={onClick}
-  >
-    <div className="o-coaIndicatorsCard__header__left">
-      <div className="o-coaIndicatorsCard__header__title">{title}</div>
-      {extra}
+  return (
+    <div
+      className={classNames('o-coaIndicatorsCard__header', { cardHeader: responsiveLayout })}
+      onClick={onClick}
+      tabIndex={0}
+      role="button"
+      onKeyDown={onClick}
+    >
+      <div className="o-coaIndicatorsCard__header__left">
+        <div className="o-coaIndicatorsCard__header__title">{title}</div>
+        {extra}
+      </div>
+      <div className={classNames({ 'o-coaIndicatorsCard__header__right': responsiveLayout })}>
+        {entity && onCreate && (
+          <CoaTextButton
+            onClick={e => {
+              e.stopPropagation();
+              onCreate();
+            }}
+          >
+            <Icon type="plus" /> {`Add ${entity}`}
+          </CoaTextButton>
+        )}
+        {onEdit && (
+          <CoaTextButton
+            onClick={e => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            variant="muted"
+          >
+            <Icon type="edit" /> Edit
+          </CoaTextButton>
+        )}
+        {onRemove && (
+          <CoaTextButton
+            onClick={e => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            variant="danger"
+          >
+            <Icon type="delete" /> Delete
+          </CoaTextButton>
+        )}
+        {onViewEvidence && (
+          <CoaTextButton
+            onClick={onViewEvidence}
+            className={classNames({ 'o-coaIndicatorsCard__header__btn': responsiveLayout })}
+          >
+            <Icon type="eye" /> View&nbsp;
+            <span
+              className={classNames({
+                'o-coaIndicatorsCard__header__evidenceText': responsiveLayout
+              })}
+            >
+              evidences
+            </span>
+          </CoaTextButton>
+        )}
+        {onAddEvidences && (
+          <AddEvidenceButton
+            onClickAddEvidence={onAddEvidences}
+            responsiveLayout
+            disabled={[ACTIVITY_STATUS_ENUM.TO_REVIEW].includes(status)}
+          />
+        )}
+        {withStatusTag && (
+          <CoaTag predefinedColor={statusMap?.[status]?.color}>{statusMap?.[status]?.name}</CoaTag>
+        )}
+      </div>
     </div>
-    <div className={classNames({ 'o-coaIndicatorsCard__header__right': responsiveLayout })}>
-      {entity && onCreate && (
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onCreate();
-        }}
-      >
-        <Icon type="plus" /> {`Add ${entity}`}
-      </CoaTextButton>
-    )}
-      {onEdit && (
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onEdit();
-        }}
-        variant="muted"
-      >
-        <Icon type="edit" /> Edit
-      </CoaTextButton>
-    )}
-      {onRemove && (
-      <CoaTextButton
-        onClick={e => {
-          e.stopPropagation();
-          onRemove();
-        }}
-        variant="danger"
-      >
-        <Icon type="delete" /> Delete
-      </CoaTextButton>
-    )}
-      {onViewEvidence && (
-      <CoaTextButton
-        onClick={onViewEvidence}
-        className={classNames( { 'o-coaIndicatorsCard__header__btn': responsiveLayout } )}
-      >
-        <Icon type="eye" /> View&nbsp;
-        <span className={classNames( { 'o-coaIndicatorsCard__header__evidenceText': responsiveLayout } )}>
-          evidences
-        </span>
-      </CoaTextButton>
-    )}
-      {onAddEvidences && (
-      < AddEvidenceButton
-        onClickAddEvidence={onAddEvidences}
-        responsiveLayout
-        disabled={['to-review', 'approved'].includes(status)}
-      />
-    )}
-      {withStatusTag && (
-      <CoaTag predefinedColor={statusMap?.[status]?.color}>{statusMap?.[status]?.name}</CoaTag>
-    )}
-    </div>
-  </div>;
-}
+  );
+};
 
 export const CoaIndicatorsCard = ({
   additionalBody,
