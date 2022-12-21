@@ -15,7 +15,6 @@ import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
-import EvidenceFormFooter from '../../atoms/EvidenceFormFooter/EvidenceFormFooter';
 import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
 import Loading from '../../molecules/Loading/Loading';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
@@ -83,9 +82,9 @@ const Evidences = ({ project }) => {
     if (!result.errors) {
       setLoadingModalVisible(false);
       setReviewSuccessVisible(true);
+      getEvidences(activityId);
     } else {
       setLoadingModalVisible(false);
-      getEvidences(activityId);
     }
   };
 
@@ -117,53 +116,51 @@ const Evidences = ({ project }) => {
 
   return (
     <>
-      <div className="container">
+      <div className="evidences">
         <GoBackButton goBackTo={`/${projectId}`} />
-        <div className="evidences">
-          <div className="evidencesHeader">
-            <span className="evidencesHeaderDesktop">
-              <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
-            </span>
-            <span className="evidencesHeaderMobile">Evidences</span>
-          </div>
-          <div className="evidencesCardInfoMobile">
-            <p className="evidenceCards__title">{activity.title}</p>
-            <p className="evidenceCards__auditor">Auditor: {auditorName}</p>
-          </div>
-          <div className="evidencesCard">
-            <div className="cardInfo">
-              <p>
-                <span className="cardInfo__title">{activity.title}</span>
-                <span className="cardInfo__auditor">Auditor: {auditorName}</span>
-              </p>
-              <div className="evidenceStatus">
-                {enableAddEvidenceBtn && (
-                  <AddEvidenceButton
-                    onClickAddEvidence={e => {
-                      e.stopPropagation();
-                      history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
-                    }}
-                    responsiveLayout={false}
-                  />
-                )}
-                <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
-                  {activityStatusMap?.[activityStatus]?.name}
-                </CoaTag>
-              </div>
+        <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
+        <div className="evidences__list">
+          <div className="evidences__list__header">
+            <div>
+              <p className="evidences__list__header__title">{activity.title}</p>
+              <p className="evidences__list__header__subtitle">Auditor: {auditorName}</p>
             </div>
-            <div className="evidenceCards">
-              {evidences.map((evidence, index) => (
-                <EvidenceCard
-                  key={evidence.id}
-                  evidenceNumber={evidences.length - index}
-                  evidence={evidence}
-                  currency={project?.details?.currency}
+            <div>
+              {enableAddEvidenceBtn && (
+                <AddEvidenceButton
+                  onClickAddEvidence={e => {
+                    e.stopPropagation();
+                    history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
+                  }}
+                  responsiveLayout={false}
+                  disabled={activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW}
                 />
-              ))}
+              )}
+              <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
+                {activityStatusMap?.[activityStatus]?.name}
+              </CoaTag>
             </div>
+          </div>
+          <Divider type="horizontal" />
+          <div className="evidences__list__body">
+            {evidences.map((evidence, index) => (
+              <EvidenceCard
+                key={evidence.id}
+                evidenceNumber={evidences.length - index}
+                evidence={evidence}
+                currency={project?.details?.currency}
+              />
+            ))}
+          </div>
+
+          {(isBeneficiaryOrInvestor ||
+            (isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW)) && (
+            <Divider type="horizontal" />
+          )}
+
+          <div className="evidences__list__footer">
             {isBeneficiaryOrInvestor && (
               <>
-                <Divider type="horizontal" />
                 <CoaButton
                   type="primary"
                   disabled={
@@ -183,33 +180,30 @@ const Evidences = ({ project }) => {
             )}
             {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
               <>
-                <Divider type="horizontal" />
-                <div>
-                  <CoaRejectButton
-                    disabled={!areReviewedEvidences}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to reject the activity?',
-                        onSuccessAction: rejectActivity
-                      })
-                    }
-                  >
-                    Reject
-                  </CoaRejectButton>
-                  <CoaApproveButton
-                    disabled={!areReviewedEvidences}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to approve the activity?',
-                        onSuccessAction: approveActivity
-                      })
-                    }
-                  >
-                    Approve
-                  </CoaApproveButton>
-                </div>
+                <CoaRejectButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to reject the activity?',
+                      onSuccessAction: rejectActivity
+                    })
+                  }
+                >
+                  Reject
+                </CoaRejectButton>
+                <CoaApproveButton
+                  disabled={!areReviewedEvidences}
+                  onClick={() =>
+                    setSecretKeyModal({
+                      visible: true,
+                      title: 'Are you sure you want to approve the activity?',
+                      onSuccessAction: approveActivity
+                    })
+                  }
+                >
+                  Approve
+                </CoaApproveButton>
               </>
             )}
           </div>
@@ -230,7 +224,6 @@ const Evidences = ({ project }) => {
           />
         </>
       )}
-      <EvidenceFormFooter />
     </>
   );
 };

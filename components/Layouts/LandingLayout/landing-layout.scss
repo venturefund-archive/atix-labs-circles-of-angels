@@ -1,0 +1,64 @@
+@import 'css/_general_styling.scss';
+
+.landingLayout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    background-repeat: no-repeat;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    &.--notShowInMobile {
+      @include respond(mobile) {
+        display: none;
+      }
+      @include respond(tablet) {
+        display: flex;
+      }
+    }
+    &__content {
+      min-height: 13.75rem;
+    }
+  }
+  &__body {
+    margin-block: 1.3125rem;
+    flex-grow: 1;
+    @include respond(mobile) {
+      margin-block: 1.5rem;
+    }
+    @include respond(tablet) {
+      margin-block: 2.25rem;
+    }
+    @include respond(laptop) {
+      margin-block: 2.5rem;
+    }
+  }
+  &__header,
+  &__body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  &__header__content,
+  &__body__content {
+    @include respond(mobile) {
+      width: 100%;
+      padding-inline: 1rem;
+    }
+    @include respond(tablet) {
+      width: 100%;
+      padding-inline: 4.1875rem;
+    }
+    @include respond(laptop) {
+      width: 100%;
+      padding-inline: 9.875rem;
+    }
+    @include respond(desktop) {
+      width: 86rem;
+      padding: 0;
+    }
+  }
+}

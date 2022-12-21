@@ -18,7 +18,7 @@ import { scrollToTargetAdjusted } from 'components/utils';
 import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
-import Layout from '../../molecules/Layout/Layout';
+import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
@@ -27,6 +27,7 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
+import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
@@ -114,7 +115,25 @@ const PreviewProject = ({ id, preview }) => {
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
   return (
-    <Layout hasBackgroundImage>
+    <LandingLayout
+      header={
+        <ProjectHeroSection
+          title={projectName}
+          status={status}
+          subtitle={customConfig.NAME}
+          country={location}
+          beneficiary={beneficiaryCompleteName}
+          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          budget={formatCurrency(currency, budget)}
+          thumbnailPhoto={thumbnailPhoto}
+          legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
+          projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
+          blockchainHistoryUrl={`${id}/changelog`}
+        />
+      }
+      thumbnailPhoto={thumbnailPhoto}
+    >
       {preview && isAdmin && (
         <CoaAlert
           className="o-previewProject__previewInfoMessage"
@@ -133,20 +152,7 @@ const PreviewProject = ({ id, preview }) => {
           }
         />
       )}
-      <ProjectHeroSection
-        title={projectName}
-        status={status}
-        subtitle={customConfig.NAME}
-        country={location}
-        beneficiary={beneficiaryCompleteName}
-        timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-        budget={formatCurrency(currency, budget)}
-        thumbnailPhoto={thumbnailPhoto}
-        legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
-        projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-        onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
-        blockchainHistoryUrl={`${id}/changelog`}
-      />
+
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons">
@@ -166,7 +172,7 @@ const PreviewProject = ({ id, preview }) => {
             </CoaButton>
             <Link to={`${id}/changelog`}>
               <CoaButton shape="round" className="o-previewProject__buttons__button">
-                <BlockchainIcon /> Changelog
+                <BlockchainIcon /> Blockchain Changelog
               </CoaButton>
             </Link>
           </div>
@@ -311,9 +317,18 @@ const PreviewProject = ({ id, preview }) => {
               ))}
             </div>
           </div>
+          <div className="o-previewProject__changelogSection">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Project Changelog"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <CoaChangelogContainer />
+          </div>
         </div>
       )}
-    </Layout>
+    </LandingLayout>
   );
 };
 

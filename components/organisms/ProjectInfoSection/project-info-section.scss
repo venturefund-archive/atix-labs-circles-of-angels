@@ -14,7 +14,6 @@
     }
   }
 
-
   @include breakpoint(lg) {
     flex-direction: column;
   }
@@ -32,7 +31,6 @@
 
   &__text {
     flex-grow: 1;
-    min-height: 100%;
     position: relative;
     padding-block: 1.875rem;
     display: flex;
@@ -57,9 +55,8 @@
     width: 366px;
     display: flex;
     align-items: center;
-    @include respond(mobile) {
-      width: 100%;
-    }
+    flex-grow: 1;
+
     @include respond(laptop) {
       width: 366px;
     }

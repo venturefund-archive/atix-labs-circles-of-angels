@@ -16,7 +16,7 @@
     }
   }
   &__content {
-    padding-inline: min(1rem);
+    /* padding-inline: min(1rem); */
     display: flex;
     flex-wrap: wrap;
     max-width: 1000px;
@@ -39,7 +39,6 @@
   }
   &__infoSection {
     width: 100%;
-    height: 100%;
   }
   &__members {
     width: 100%;
@@ -85,6 +84,9 @@
       row-gap: 2.1875rem;
     }
   }
+  &__changelogSection {
+    width: 100%;
+  }
   &__members {
     &__container {
       display: grid;
@@ -99,28 +101,23 @@
       @include breakpoint(md) {
         grid-template-columns: 100%;
       }
-
     }
   }
 
   @include respond(mobile) {
     &__content {
-      margin-block: 1.5rem;
       row-gap: 2.5rem;
       max-width: 100%;
     }
   }
   @include respond(tablet) {
     &__content {
-      margin-block: 2.25rem;
       row-gap: 2.9375rem;
-      padding-inline: min(5rem);
     }
   }
   @include respond(laptop) {
     &__content {
       row-gap: 3.125rem;
-      margin-block: 2.5rem;
     }
   }
 }

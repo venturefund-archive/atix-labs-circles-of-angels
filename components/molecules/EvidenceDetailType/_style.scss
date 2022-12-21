@@ -1,0 +1,31 @@
+@import 'css/_variables.scss';
+@import 'css/_general_styling.scss';
+
+.evidenceDetailType {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+  &__block {
+    display: flex;
+    justify-content: space-between;
+    &__label {
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      color: $coa-medium-gray-100;
+      &__icon {
+        font-size: 1.3125rem;
+        color: $coa-blue-100;
+        padding-right: 1rem;
+      }
+    }
+    &__labelValue {
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.5rem;
+      color: $coa-medium-gray-100;
+    }
+  }
+}

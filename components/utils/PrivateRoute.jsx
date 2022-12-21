@@ -15,7 +15,8 @@ function PrivateRoute(routeProps) {
     withSideBar,
     authenticated,
     role,
-    user
+    user,
+    withoutMainLayout
   } = routeProps;
   // const { getLoggedUser } = useUserContext();
   // const user = getLoggedUser();
@@ -41,14 +42,20 @@ function PrivateRoute(routeProps) {
       exact={exact}
       path={path}
       render={props => (
-        <MainLayout
-          user={user}
-          withHeader={withHeader}
-          withSideBar={withSideBar}
-          authenticated={authenticated}
-        >
-          <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
-        </MainLayout>
+        <>
+          {withoutMainLayout ? (
+            <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
+          ) : (
+            <MainLayout
+              user={user}
+              withHeader={withHeader}
+              withSideBar={withSideBar}
+              authenticated={authenticated}
+            >
+              <Component {...props} {...routeProps} user={user} authenticated={authenticated} />
+            </MainLayout>
+          )}
+        </>
       )}
     />
   );
