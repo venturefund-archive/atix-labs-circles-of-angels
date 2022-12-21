@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'antd';
 import './evidenceCard.scss';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
@@ -7,7 +8,6 @@ import { formatCurrency } from 'helpers/formatter';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
 import { CoaTag } from '../CoaTag/CoaTag';
-import { Icon } from 'antd';
 
 const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
   const { title, status, createdAt, description, income, outcome, id, type } = evidence;
