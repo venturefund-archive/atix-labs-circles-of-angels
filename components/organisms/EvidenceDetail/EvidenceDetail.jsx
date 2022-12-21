@@ -5,7 +5,7 @@ import './_style.scss';
 import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComments';
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
-import AmountSpent from 'components/molecules/AmountSpent/AmountSpent';
+import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'antd';
 import { checkIsProjectAuditor } from 'helpers/roles';
@@ -50,7 +50,12 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
       <div className="evidenceDetail__container">
         <div className="evidenceDetail__container__left">
           <EvidenceDetailBox {...evidence} />
-          <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
+          <EvidenceDetailType
+            evidenceType={evidence?.type}
+            income={evidence?.income}
+            outcome={evidence?.outcome}
+            currency={evidence?.currency}
+          />
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
           {isAuditor && isNewEvidence && (
             <>
