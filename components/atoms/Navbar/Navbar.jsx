@@ -43,7 +43,7 @@ const Navbar = () => {
             </div>
           )}
           <div className="navbar__right__items">
-            {!!user && <NavbarProfile user={user} removeUser={removeUser} />}
+            {!!user && <NavbarProfile user={user} removeUser={removeUser} projectId={projectId} />}
             {!user && <NavbarLogin loginFn={() => push(`/${projectId}/login`)} />}
           </div>
         </div>

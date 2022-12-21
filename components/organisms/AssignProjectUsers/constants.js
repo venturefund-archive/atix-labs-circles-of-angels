@@ -15,6 +15,12 @@ export const ROLES_IDS = {
   auditor: 3
 };
 
+export const ROLES__IDS_NAMES = {
+  1: 'Beneficiary',
+  2: 'Investor',
+  3: 'Auditor',
+};
+
 export const FEEDBACK_MESSAGE_TYPES = {
   SUCCESS: 'SUCCESS',
   INFO: 'INFO',
