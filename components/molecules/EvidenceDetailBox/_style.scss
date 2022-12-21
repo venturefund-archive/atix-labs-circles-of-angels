@@ -1,16 +1,13 @@
 @import 'css/_variables.scss';
 @import 'css/_general_styling.scss';
+@import 'css/mixins/_fonts.scss';
 
 .evidenceDetailBox {
-
   &__member {
     margin-block: 1rem;
     &__Label {
-      color: $coa-grey-100;
-      font-family: 'Rubik';
+      @include primary-text(1rem, $coa-grey-100, 400);
       font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
       line-height: 19px;
       padding-block: 0.4rem;
     }
