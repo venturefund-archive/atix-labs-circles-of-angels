@@ -28,6 +28,7 @@ import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestone
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
+import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
@@ -172,7 +173,7 @@ const PreviewProject = ({ id, preview }) => {
             </CoaButton>
             <Link to={`${id}/changelog`}>
               <CoaButton shape="round" className="o-previewProject__buttons__button">
-                <BlockchainIcon /> Changelog
+                <BlockchainIcon /> Blockchain Changelog
               </CoaButton>
             </Link>
           </div>
@@ -316,6 +317,15 @@ const PreviewProject = ({ id, preview }) => {
                 />
               ))}
             </div>
+          </div>
+          <div className="o-previewProject__changelogSection">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Project Changelog"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <CoaChangelogContainer />
           </div>
         </div>
       )}
