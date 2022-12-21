@@ -10,42 +10,52 @@ import Loading from '../components/molecules/Loading/Loading';
 
 
 const CreateEvidence = () => {
-    const { id } = useParams();
-    const { loading, project } = useProject(id)
+  const { id, activityId } = useParams();
+  const { loading, project } = useProject(id)
 
-    if (loading) return <Loading/>;
+  if (loading) return <Loading/>;
 
-    const { basicInformation, status, details, budget } = project;
-    const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
-      basicInformation || {};
-    const { currency, legalAgreementFile, projectProposalFile } = details || {};
-    const beneficiaryFirstName = beneficiary?.firstName;
-    const beneficiaryLastName = beneficiary?.lastName;
-    const beneficiaryCompleteName =
-      beneficiaryFirstName || beneficiaryLastName
-        ? `${beneficiaryFirstName} ${beneficiaryLastName}`
-        : 'No name';
-    return (
-      <LandingLayout
-      disappearHeaderInMobile
-      header={
-        <ProjectHeroSectionSmall
-          title={projectName}
-          status={status}
-          subtitle={customConfig.NAME}
-          country={location}
-          beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-          budget={formatCurrency(currency, budget)}
-          legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
-          projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-        />
-      }
-      thumbnailPhoto={thumbnailPhoto}
-      >
-        <EvidenceForm/>
-      </LandingLayout>
-    )
+  const { basicInformation, status, details, budget, milestones } = project;
+  const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
+    basicInformation || {};
+  const { currency, legalAgreementFile, projectProposalFile } = details || {};
+  const beneficiaryFirstName = beneficiary?.firstName;
+  const beneficiaryLastName = beneficiary?.lastName;
+  const beneficiaryCompleteName =
+    beneficiaryFirstName || beneficiaryLastName
+      ? `${beneficiaryFirstName} ${beneficiaryLastName}`
+      : 'No name';
+
+  const milestone = milestones
+    .find( ({ activities }) =>
+      activities.map((_activity)=>_activity.id)
+      .includes(parseInt(activityId, 10))
+    ) || {};
+  const activity = milestone?.activities
+    .find((_activity) => _activity.id ===parseInt(activityId, 10));
+  const breadCrumbPath = `${milestone?.title} / ${activity?.title} / create-evidence`;
+
+  return (
+    <LandingLayout
+    disappearHeaderInMobile
+    header={
+      <ProjectHeroSectionSmall
+        title={projectName}
+        status={status}
+        subtitle={customConfig.NAME}
+        country={location}
+        beneficiary={beneficiaryCompleteName}
+        timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+        budget={formatCurrency(currency, budget)}
+        legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
+        projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+      />
+    }
+    thumbnailPhoto={thumbnailPhoto}
+    >
+      <EvidenceForm breadCrumbPath={breadCrumbPath} />
+    </LandingLayout>
+  );
 }
 
 export default CreateEvidence;

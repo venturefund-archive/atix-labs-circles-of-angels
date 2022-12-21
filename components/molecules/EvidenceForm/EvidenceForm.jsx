@@ -16,6 +16,7 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
 import classNames from 'classnames';
+import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
@@ -23,9 +24,16 @@ import { UserContext } from '../../utils/UserContext';
 import { getProjectTransactions } from '../../../api/projectApi';
 import { EvidenceContext } from '../../utils/EvidenceContext';
 
-const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
 
-const EvidenceFormContent = ({ form }) => {
+const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
+const transactionQueryParam = {
+  income: 'received',
+  outcome: 'sent'
+}
+
+const EvidenceFormContent = (props) => {
+  const { form, breadCrumbPath } = props;
+
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
@@ -51,7 +59,26 @@ const EvidenceFormContent = ({ form }) => {
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
   const [userType, setUserType] = useState('');
   const [transactions, setTransactions] = useState([]);
-  const [transaction, setTransaction] = useState('income');
+  const [transactionType, setTransactionType] = useState('outcome');
+
+  const getTransactions = async (_transactionType) => {
+    const _transactionQueryParam = transactionQueryParam[_transactionType];
+    if(!_transactionQueryParam) return message.error('An error occurred while fetching the project transactions');
+
+    const response = await getProjectTransactions(project.id, _transactionQueryParam);
+    if (response.errors || !response.data) {
+      message.error('An error occurred while fetching the project transactions');
+      return;
+    }
+
+    const transactionHashes = response.data.transactions.map((hash) => ({
+      txHash: hash.txHash,
+      value: hash.value,
+      label: `${_transactionType}: ${hash.timestamp}/${hash.value} ${hash.tokenSymbol}`
+    }))
+
+    setTransactions(transactionHashes);
+  }
 
   useEffect(() => {
     if (!loading) {
@@ -82,29 +109,11 @@ const EvidenceFormContent = ({ form }) => {
 
   useEffect(() => {
     if (currencyType === CURRENCY_TYPE_ENUM.CRYPTO) {
-      const getTransactions = async () => {
-        const transactionType = userType === 'investor' ? 'received' : 'sent';
-        const response = await getProjectTransactions(project.id, transactionType);
-        if (response.errors || !response.data) {
-          message.error('An error occurred while fetching the project transactions');
-          return;
-        }
-
-        const transactionHashes = response.data.transactions.map((hash) => ({
-          txHash: hash.txHash,
-          value: hash.value,
-          label: `${hash.timestamp}/${hash.value} ${hash.tokenSymbol}`
-        }))
-
-        setTransactions(transactionHashes)
-      }
-      if (userType.length > 0) {
-        getTransactions()
-      }
+      getTransactions(transactionType);
     }
 
     // eslint-disable-next-line
-  }, [userType, currencyType]);
+  }, [currencyType]);
 
 
   const onChangeAmount = (e) => setAmount(e.currentTarget.value);
@@ -141,23 +150,33 @@ const EvidenceFormContent = ({ form }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
+
     form.validateFields();
-      // outcome amount is designated with negative
-      const newAmount = transaction === 'outcome' ? -amount : amount;
-      const data = { ...state, amount: newAmount };
+    const fieldErrors = form.getFieldsError();
+    const isThereAnyError = Object.values(fieldErrors).some(err=> !!err);
 
-      const response = await createEvidence(activityId, data);
-      if (response.errors || !response.data) {
-        message.error('An error occurred while creating evidence');
-        history.push(`/${project.id}`);
-      }
-
-      if (response.status === 200) {
-        setMessage('The evidence has been created successfully.');
-        history.push(`/${project.id}/activity/${activityId}/evidences`);
-      }
-
+    if(isThereAnyError) {
       setButtonLoading(false);
+      return;
+    };
+
+    // outcome amount is designated with negative
+    const newAmount = transactionType === 'outcome' ? -amount : amount;
+    const data = { ...state, amount: newAmount };
+
+    const response = await createEvidence(activityId, data);
+    if (response.errors || !response.data) {
+      console.log({ errl: response });
+      message.error('An error occurred while creating evidence');
+      history.push(`/${project.id}`);
+    }
+
+    if (response.status === 200) {
+      setMessage('The evidence has been created successfully.');
+      history.push(`/${project.id}/activity/${activityId}/evidences`);
+    }
+
+    setButtonLoading(false);
   }
 
   if (loading) return <Loading></Loading>;
@@ -165,7 +184,7 @@ const EvidenceFormContent = ({ form }) => {
   return (
     <div className="evidenceForm">
       <GoBackButton goBackTo={() => history.goBack()} />
-
+      <Breadcrumb route={breadCrumbPath} />
       <div className="evidenceForm__body">
         <p className="evidenceForm__body__title">
           <span>Add</span>
@@ -176,7 +195,6 @@ const EvidenceFormContent = ({ form }) => {
               Select the type of evidence you want to upload and then complete the
               information required for the activity.
           </p>
-          <p className='evidenceForm__body__text_bottom'>Activity 1: Pay 50% deposit to yarn company for cotton yarn</p>
         </div>
 
         <Form className='evidenceForm__body__form' onSubmit={handleSubmit}>
@@ -287,9 +305,11 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="customRadioDiv">
                   <input
                         onChange={(e) => {
-                          setTransaction(e.target.value)
+                          const inputValue = e.target.value;
+                          setTransactionType(inputValue);
+                          getTransactions(inputValue);
                         }}
-                        checked={transaction === 'outcome'}
+                        checked={transactionType === 'outcome'}
                         type='radio'
                         name='transactionType'
                         value='outcome'
@@ -305,9 +325,11 @@ const EvidenceFormContent = ({ form }) => {
                 <div className="customRadioDiv">
                   <input
                         onChange={(e) => {
-                          setTransaction(e.target.value)
+                          const inputValue = e.target.value;
+                          setTransactionType(inputValue);
+                          getTransactions(inputValue);
                         }}
-                        checked={transaction === 'income'}
+                        checked={transactionType === 'income'}
                         type="radio"
                         name="transactionType"
                         value='income'
@@ -409,10 +431,12 @@ const EvidenceFormContent = ({ form }) => {
 
 EvidenceFormContent.defaultProps = {
   form: () => undefined,
+  breadCrumbPath: '',
 };
 
 EvidenceFormContent.propTypes = {
   form: PropTypes.objectOf(PropTypes.any),
+  breadCrumbPath: PropTypes.string,
 }
 
 export const EvidenceForm = Form.create({
