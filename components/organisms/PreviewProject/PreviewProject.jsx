@@ -18,7 +18,7 @@ import { scrollToTargetAdjusted } from 'components/utils';
 import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
-import Layout from '../../molecules/Layout/Layout';
+import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
@@ -27,7 +27,6 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
-import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const PreviewProject = ({ id, preview }) => {

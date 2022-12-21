@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 // import { useUserContext } from './UserContext';
 import MainLayout from '../organisms/MainLayout/MainLayout';
-import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 // import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
 
 function PrivateRoute(routeProps) {
