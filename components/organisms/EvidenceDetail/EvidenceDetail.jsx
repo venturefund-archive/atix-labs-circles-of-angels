@@ -45,7 +45,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
     <div className="evidenceDetail">
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
       <Breadcrumb
-        route={`${evidence?.milestone?.title}/${evidence?.activity?.title}/${evidence?.title}`}
+        route={`${evidence?.milestone?.title} / ${evidence?.activity?.title} / ${evidence?.title}`}
       />
       <div className="evidenceDetail__container">
         <div className="evidenceDetail__container__left">
