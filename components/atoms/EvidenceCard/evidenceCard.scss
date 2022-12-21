@@ -55,7 +55,7 @@
     overflow: hidden;
     flex-grow: 1;
   }
-  &__amount {
+  &__indicatorContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,6 +70,7 @@
     }
     &__value {
       @include primary-text(1rem, $coa-medium-gray-100, 500);
+      text-transform: uppercase;
     }
   }
 }

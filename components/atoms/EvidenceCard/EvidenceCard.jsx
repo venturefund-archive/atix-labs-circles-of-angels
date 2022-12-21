@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'antd';
 import './evidenceCard.scss';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
@@ -25,15 +26,32 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
         <p className="evidenceCard__orderNumber">Evidence N°{evidenceNumber}</p>
         <p className="evidenceCard__title">{title}</p>
         <div className="evidenceCard__description">{description}</div>
+        <div className="evidenceCard__indicatorContainer">
+          <p className="evidenceCard__indicatorContainer__indicator">
+            <Icon
+              type="file-text"
+              theme="filled"
+              style={{ fontSize: '1.1rem', color: '#4C7FF7' }}
+            />
+            <span className="evidenceCard__indicatorContainer__indicator__text">Evidence Type</span>
+          </p>
+          <p className="evidenceCard__indicatorContainer__value">{type}</p>
+        </div>
         {type === EVIDENCE_TYPES_ENUM.TRANSFER && (
-          <div className="evidenceCard__amount">
-            <p className="evidenceCard__amount__indicator">
-              <img src="/static/images/dollar-icon.svg" alt="icon" />
-              <span className="evidenceCard__amount__indicator__text">
+          <div className="evidenceCard__indicatorContainer">
+            <p className="evidenceCard__indicatorContainer__indicator">
+              <Icon
+                type="dollar-circle"
+                theme="filled"
+                style={{ fontSize: '1.1rem', color: '#4C7FF7' }}
+              />
+              <span className="evidenceCard__indicatorContainer__indicator__text">
                 {parseFloat(income) ? 'Income' : 'Outcome'}
               </span>
             </p>
-            <p className="evidenceCard__amount__value">{formatCurrency(currency, amount)}</p>
+            <p className="evidenceCard__indicatorContainer__value">
+              {formatCurrency(currency, amount)}
+            </p>
           </div>
         )}
       </div>
