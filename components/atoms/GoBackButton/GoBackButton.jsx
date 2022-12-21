@@ -11,7 +11,8 @@ const GoBackButton = ({ goBackTo }) => {
         className='goBack__button'
         type='button'
         onClick={() => {
-          history.push(goBackTo)
+          if(typeof(goBackTo) === 'string' ) return history.push(goBackTo)
+          if(typeof(goBackTo) === 'function' ) return goBackTo()
         }}
       >
         <ArrowLeftOutlined />

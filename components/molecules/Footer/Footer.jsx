@@ -14,7 +14,6 @@ const Footer = () => (
     <div className='footer__right'>
       <Link
           to='/terms-and-conditions'
-          target="_blank"
           className='footer__right__termsConditions'
       >
           Terms & conditions

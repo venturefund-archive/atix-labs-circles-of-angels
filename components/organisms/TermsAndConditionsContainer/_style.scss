@@ -6,6 +6,12 @@
   padding-inline: 5rem;
   margin-block: 2.5rem;
 
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    margin-top: 1rem;
+  }
   &__title {
     font-size: 2.5rem;
     color: $coa-blue-100;
