@@ -5,10 +5,9 @@ import './_style.scss';
 import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComments';
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
-import AmountSpent from 'components/molecules/AmountSpent/AmountSpent';
+import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'antd';
-import { checkIsProjectAuditor } from 'helpers/roles';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
@@ -22,7 +21,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = checkIsProjectAuditor(user, projectId);
+  const isAuditor = user.id === evidence?.auditor?.id;
   const isNewEvidence = evidence.status === 'new';
 
   const rejectEvidence = async reason => {
@@ -45,12 +44,17 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
     <div className="evidenceDetail">
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
       <Breadcrumb
-        route={`${evidence?.milestone?.title}/${evidence?.activity?.title}/${evidence?.title}`}
+        route={`${evidence?.milestone?.title} / ${evidence?.activity?.title} / ${evidence?.title}`}
       />
       <div className="evidenceDetail__container">
         <div className="evidenceDetail__container__left">
           <EvidenceDetailBox {...evidence} />
-          <AmountSpent amount={evidence?.income} currency={evidence?.currency} />
+          <EvidenceDetailType
+            evidenceType={evidence?.type}
+            income={evidence?.income}
+            outcome={evidence?.outcome}
+            currency={evidence?.currency}
+          />
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
           {isAuditor && isNewEvidence && (
             <>

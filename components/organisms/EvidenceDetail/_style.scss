@@ -5,12 +5,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 27px;
-
+  
   &__container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 100px;
+    margin-top: 40px;
 
     @include breakpoint(lg){
       width: 100%;
@@ -39,9 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: solid 1px $coa-light-gray-100;
     padding: 8px 0px;
-    margin-bottom: 24px;
   }
   &__date {
     font-style: normal;
@@ -76,7 +74,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-    padding: 16px 0px;
+    padding-block: 0.5rem;
   }
   &__creator-name {
     color: $coa-grey-100;
@@ -108,39 +106,6 @@
   }
   &__file-download {
     text-decoration: underline;
-  }
-}
-
-.amount-spent {
-  border-top: solid 1px $coa-light-gray-100;
-  border-bottom: solid 1px $coa-light-gray-100;
-  padding: 16px 0px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &__left {
-    display: flex;
-    align-items: center;
-  }
-  &__symbol {
-    background: $coa-blue-100;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 8px;
-    height: 24px;
-    border-radius: 50px;
-    width: 24px;
-    margin-right: 8px;
-    p {
-      font-size: 14px;
-      color: white;
-    }
-  }
-  &__legend, &__amount {
-    font-size: 18px;
-    line-height: 24px;
-    color: $coa-medium-gray-100;
   }
 }
 
