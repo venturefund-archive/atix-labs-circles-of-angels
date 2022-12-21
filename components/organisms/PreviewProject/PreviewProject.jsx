@@ -106,7 +106,7 @@ const PreviewProject = ({ id, preview }) => {
   const totalMilestonesQuantity = milestones?.length;
   const approvedMilestonesQuantity = milestones?.filter(
     milestone => milestone?.status === MILESTONE_STATUS_ENUM.APPROVED
-  );
+  )?.length;
 
   const totalCurrentDeposited = milestones?.reduce(
     (prev, curr) => prev + parseFloat?.(curr?.deposited),

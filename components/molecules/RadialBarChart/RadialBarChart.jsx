@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './radial-bar-chart.scss';
+import { removeDecimals } from 'helpers/formatter';
 
 export const RadialBarChart = ({
   className,
@@ -15,12 +16,12 @@ export const RadialBarChart = ({
   externalDonutSymbol,
   internalDonutSymbol
 }) => {
-  const externalDonutPercent = (
+  const externalDonutPercent = removeDecimals(
     (currentExternalDonutValue / totalExternalDonutValue) * 100 || 0
-  ).toFixed(0);
-  const internalDonutPercent = (
+  );
+  const internalDonutPercent = removeDecimals(
     (currentInternalDonutValue / totalInternalDonutValue) * 100 || 0
-  ).toFixed(0);
+  );
   return (
     <div className={`m-radialBarChart__container ${className}`}>
       <div className="m-radialBarChart__container__graph">

@@ -23,3 +23,5 @@ export const formatCurrency = (currency, value) => {
     return `${currency} ${Number(value).toFixed(2)}`;
   }
 };
+
+export const removeDecimals = number => number?.toString().split('.')[0];
