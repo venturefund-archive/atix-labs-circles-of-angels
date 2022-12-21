@@ -16,6 +16,7 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 
 import './_style.scss';
 import classNames from 'classnames';
+import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
@@ -23,9 +24,12 @@ import { UserContext } from '../../utils/UserContext';
 import { getProjectTransactions } from '../../../api/projectApi';
 import { EvidenceContext } from '../../utils/EvidenceContext';
 
+
 const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
 
-const EvidenceFormContent = ({ form }) => {
+const EvidenceFormContent = (props) => {
+  const { form, breadCrumbPath } = props;
+
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
@@ -165,7 +169,7 @@ const EvidenceFormContent = ({ form }) => {
   return (
     <div className="evidenceForm">
       <GoBackButton goBackTo={() => history.goBack()} />
-
+      <Breadcrumb route={breadCrumbPath} />
       <div className="evidenceForm__body">
         <p className="evidenceForm__body__title">
           <span>Add</span>
@@ -176,7 +180,6 @@ const EvidenceFormContent = ({ form }) => {
               Select the type of evidence you want to upload and then complete the
               information required for the activity.
           </p>
-          <p className='evidenceForm__body__text_bottom'>Activity 1: Pay 50% deposit to yarn company for cotton yarn</p>
         </div>
 
         <Form className='evidenceForm__body__form' onSubmit={handleSubmit}>
@@ -409,10 +412,12 @@ const EvidenceFormContent = ({ form }) => {
 
 EvidenceFormContent.defaultProps = {
   form: () => undefined,
+  breadCrumbPath: '',
 };
 
 EvidenceFormContent.propTypes = {
   form: PropTypes.objectOf(PropTypes.any),
+  breadCrumbPath: PropTypes.string,
 }
 
 export const EvidenceForm = Form.create({
