@@ -45,7 +45,8 @@ export const CoaFormActivitiesModalContent = ({
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the activity title',
-        maxLength: 50
+        maxLength: 50,
+        showCount: true
       }}
     />
     <CoaFormItemTextArea
@@ -69,7 +70,8 @@ export const CoaFormActivitiesModalContent = ({
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the activity description',
-        maxLength: 500
+        maxLength: 500,
+        showCount: true
       }}
     />
     <CoaFormItemTextArea
@@ -93,7 +95,8 @@ export const CoaFormActivitiesModalContent = ({
       }}
       inputTextAreaProps={{
         placeholder: 'Enter the activity acceptance criteria',
-        maxLength: 500
+        maxLength: 500,
+        showCount: true
       }}
     />
     <div className="coaFormActivitiesModal__budget">
