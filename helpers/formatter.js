@@ -30,7 +30,7 @@ export const formatCurrency = (currency, value, isCurrencyLabelAtEnd = false) =>
       currency
     }).format(Number(value).toFixed(decimals));
   } catch (error) {
-    return `${currency} ${Number(value).toFixed(2)}`;
+    return `${currency} ${Number(value).toFixed(decimals)}`;
   }
 };
 
