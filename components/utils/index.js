@@ -12,25 +12,18 @@ export const scrollToTargetAdjusted = (id, headerOffset = 45) => {
   });
 };
 
-export const getActivity = (project, activityId) => {
-  let foundActivity;
-  let foundMilestone;
+export const sortArrayByDate = (arr, field) =>
+    arr.sort((a, b) => new Date(b[field]).getTime() - new Date(a[field]).getTime());
 
-  for (const milestone of project.milestones) {
-    for (const activity of milestone.activities) {
-      if (activity.id === Number(activityId)) {
-        foundActivity = activity;
-        foundMilestone = milestone;
-        break;
-      }
-    }
-  }
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
+}
 
-  const result = {
-    activity: foundActivity,
-    milestone: foundMilestone,
-  };
-
-
-  return result;
+export const formatDate = (date) => {
+  const newDate = new Date(date);
+  return [
+    padTo2Digits(newDate.getDate()),
+    padTo2Digits(newDate.getMonth() + 1),
+    newDate.getFullYear(),
+  ].join('-');
 }

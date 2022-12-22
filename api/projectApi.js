@@ -79,6 +79,17 @@ export const getProjectExperiences = async projectId =>
 
 export const deleteProject = async projectId => doDelete(`${projectsBaseURL}/${projectId}`);
 
+export const getChangelog = async (projectId, values) => {
+  const params = {};
+  if (values.milestoneId) params.milestoneId = values.milestoneId;
+  if (values.activityId) params.activityId = values.activityId;
+  if (values.revisionId) params.revisionId = values.revisionId;
+  if (values.evidenceId) params.evidenceId = values.evidenceId;
+  if (values.userId) params.userId = values.userId;
+
+  return doGet(`${projectsBaseURL}/${projectId}/changelog`, undefined, { params });
+}
+
 export const useGetProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects');
   return [data, isLoading, isError];
