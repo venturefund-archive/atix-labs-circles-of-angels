@@ -27,7 +27,9 @@ export const formatCurrency = (currency, value, isCurrencyLabelAtEnd = false) =>
   try {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 8,
     }).format(Number(value).toFixed(decimals));
   } catch (error) {
     return `${currency} ${Number(value).toFixed(decimals)}`;
