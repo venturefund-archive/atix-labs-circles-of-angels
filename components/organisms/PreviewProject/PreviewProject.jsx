@@ -324,7 +324,7 @@ const PreviewProject = ({ id, preview }) => {
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer />
+            <CoaChangelogContainer title="Project Changelog" />
           </div>
         </div>
       )}
