@@ -23,6 +23,7 @@ export const CoaActivityItem = ({
   const title = activity?.title;
   const budget = activity?.budget;
   const spent = activity?.spent || 0;
+  const deposited = activity?.deposited || 0;
   const status = activity?.status || '-';
   const remaining = budget - spent;
   const transferQuantity = activity?.evidences?.reduce(
@@ -46,6 +47,7 @@ export const CoaActivityItem = ({
       onRemove={onRemove}
       remaining={remaining}
       spent={spent}
+      deposited={deposited}
       isCollapsible
       withStatusTag={withStatusTag}
       status={status}
