@@ -58,7 +58,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             currency={evidence?.currency}
           />
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
-          {isAuditor && isNewEvidence && isToReviewActivity (
+          {isAuditor && isNewEvidence && isToReviewActivity && (
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
