@@ -16,7 +16,6 @@ const ProjectHeroSectionSmall = ({
   timeframe,
   budget,
   beneficiary,
-  thumbnailPhoto,
   projectProposalUrl,
   legalAgreementUrl,
   message
@@ -83,7 +82,6 @@ ProjectHeroSectionSmall.defaultProps = {
   timeframe: '2 Months',
   budget: '$ 48,000',
   beneficiary: 'Joe Demin',
-  thumbnailPhoto: '',
   projectProposalUrl: undefined,
   legalAgreementUrl: undefined,
   message: undefined
@@ -97,7 +95,6 @@ ProjectHeroSectionSmall.propTypes = {
   timeframe: PropTypes.string,
   budget: PropTypes.string,
   beneficiary: PropTypes.string,
-  thumbnailPhoto: PropTypes.string,
   projectProposalUrl: PropTypes.string,
   legalAgreementUrl: PropTypes.string,
   message: PropTypes.string

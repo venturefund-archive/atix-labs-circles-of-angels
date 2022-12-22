@@ -3,12 +3,6 @@
 @import 'css/mixins/_fonts.scss';
 
 .o-previewProject {
-  &__previewInfoMessage {
-    position: sticky;
-    top: $header-height;
-    width: 100%;
-    z-index: 1;
-  }
   &__title {
     margin-bottom: 2rem;
     h1 {
@@ -16,7 +10,6 @@
     }
   }
   &__content {
-    /* padding-inline: min(1rem); */
     display: flex;
     flex-wrap: wrap;
     max-width: 1000px;
