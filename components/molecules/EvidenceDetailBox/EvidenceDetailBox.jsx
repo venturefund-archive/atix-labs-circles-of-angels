@@ -6,13 +6,13 @@ import './_style.scss'
 import { Divider } from 'antd';
 
 export default function EvidenceDetailBox(props) {
-  const { title, description, createdAt, beneficiary, status, auditor } = props;
+  const { title, description, createdAt, beneficiary, status, activity } = props;
   const date = new Date(createdAt);
 
   const { firstName: fnBeneficiary , lastName: lnBeneficiary } = beneficiary || {};
   const beneficiaryName = fnBeneficiary || lnBeneficiary? `${fnBeneficiary} ${lnBeneficiary}`: 'No name';
 
-  const { firstName: fnAuditor , lastName: lnAuditor } = auditor || {};
+  const { firstName: fnAuditor , lastName: lnAuditor } = activity?.auditor || {};
   const auditorName = fnAuditor || lnAuditor? `${fnAuditor} ${lnAuditor}`: 'No name';
 
   return (

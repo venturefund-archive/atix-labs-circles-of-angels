@@ -40,6 +40,8 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
     }
   };
 
+  const isToReviewActivity = evidence.activityStatus === 'to-review';
+
   return (
     <div className="evidenceDetail">
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
@@ -56,7 +58,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             currency={evidence?.currency}
           />
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
-          {isAuditor && isNewEvidence && (
+          {isAuditor && isNewEvidence && isToReviewActivity && (
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
