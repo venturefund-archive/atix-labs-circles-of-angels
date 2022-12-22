@@ -274,6 +274,7 @@ export const CoaMilestonesView = ({ project, Footer }) => {
         currency={currency}
         auditors={auditorsProcessed}
         initialData={currentEditedActivity}
+        destroyOnClose
       />
     </>
   );
