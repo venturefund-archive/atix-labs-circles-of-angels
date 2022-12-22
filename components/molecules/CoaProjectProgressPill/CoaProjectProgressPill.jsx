@@ -11,7 +11,7 @@ export const CoaProjectProgressPill = ({
   progressBarColor,
   barColor
 }) => {
-  const currentPercent = ((current / total) * 100 || 0).toFixed(2);
+  const currentPercent = current <= total ? ((current / total) * 100 || 0).toFixed(2) : 100;
   return (
     <div className="m-coaProjectProgressPill">
       <h3 className="m-coaProjectProgressPill__indicator">{indicator}</h3>

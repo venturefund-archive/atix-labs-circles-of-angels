@@ -16,12 +16,14 @@ export const RadialBarChart = ({
   externalDonutSymbol,
   internalDonutSymbol
 }) => {
-  const externalDonutPercent = removeDecimals(
-    (currentExternalDonutValue / totalExternalDonutValue) * 100 || 0
-  );
-  const internalDonutPercent = removeDecimals(
-    (currentInternalDonutValue / totalInternalDonutValue) * 100 || 0
-  );
+  const externalDonutPercent =
+    currentExternalDonutValue <= totalExternalDonutValue
+      ? removeDecimals((currentExternalDonutValue / totalExternalDonutValue) * 100 || 0)
+      : 100;
+  const internalDonutPercent =
+    currentInternalDonutValue <= totalInternalDonutValue
+      ? removeDecimals((currentInternalDonutValue / totalInternalDonutValue) * 100 || 0)
+      : 100;
   return (
     <div className={`m-radialBarChart__container ${className}`}>
       <div className="m-radialBarChart__container__graph">
