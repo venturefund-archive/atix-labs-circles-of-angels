@@ -91,8 +91,7 @@ export const routesConfig = [
     withHeader: false,
     withSideBar: false,
     authentication: {
-      required: true,
-      roles: [ENTREPRENEUR, COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
+      required: false,
     }
   },
   {

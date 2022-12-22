@@ -6,7 +6,7 @@ import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComm
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -15,14 +15,19 @@ import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
 import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 
-export default function EvidenceDetail({ evidence, fetchEvidence }) {
-  const { projectId, activityId } = useParams();
 
+export default function EvidenceDetail({ evidence, fetchEvidence }) {
+  const { user } = useContext(UserContext);
+  const history = useHistory();
+  const { projectId, activityId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
-  const { user } = useContext(UserContext);
-  const isAuditor = user.id === evidence?.activity?.auditor?.id;
-  const isNewEvidence = evidence.status === 'new';
+
+  const evidenceStatus = evidence.status;
+  const isAuditor = user?.id === evidence?.activity?.auditor?.id;
+  const isNewEvidence = evidenceStatus === 'new';
+
+  if(!user && evidenceStatus !=='approved') history.goBack();
 
   const rejectEvidence = async reason => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
