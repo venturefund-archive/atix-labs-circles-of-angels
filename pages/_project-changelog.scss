@@ -2,13 +2,12 @@
 
 .p-projectChangelog {
   &__content {
-    padding-block: 1.6563rem;
-    max-width: 76.25rem;
-    min-width: 88%;
   }
   &__goBackButton {
     margin-bottom: 1.4063rem;
     padding: 0;
-    * { color: $coa-grey-100; }
+    * {
+      color: $coa-grey-100;
+    }
   }
 }
