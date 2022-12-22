@@ -17,7 +17,7 @@ import Loading from '../components/molecules/Loading/Loading';
 import { EvidenceContext } from '../components/utils/EvidenceContext';
 
 const EvidencesContainer = () => {
-  const { id: projectId, activityId } = useParams();
+  const { projectId, activityId } = useParams();
   const [evidences, setEvidences] = useState([]);
   const [milestone, setMilestone] = useState({});
   const [activity, setActivity] = useState({});

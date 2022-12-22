@@ -13,7 +13,7 @@ import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 
 export default function ProjectChangeLog() {
-  const { id: projectId } = useParams();
+  const { projectId } = useParams();
   const history = useHistory();
   const { loading, project } = useProject(projectId);
   if (loading) return <Loading />;
