@@ -1,8 +1,9 @@
 @import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
 
 .o-coaChangelogContainer {
   background: $coa-light-sky-blue-100;
-  padding: 0.9688rem 1.375rem;
+
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -10,11 +11,27 @@
   -o-border-radius: 20px;
   box-shadow: 0 0 12px rgba(94, 94, 94, 0.25);
   width: 100%;
+  min-height: 29.625rem;
+  display: flex;
+  flex-direction: column;
+  padding-block: 20px 30px;
 
   &__header {
-    padding: 0.9688rem 1.375rem;
+    padding-inline: 1.375rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  &__body {
+    flex-grow: 1;
+    &.--empty {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &__emptyText {
+    @include primary-text(1rem, $coa-blue-100, 600);
   }
 }

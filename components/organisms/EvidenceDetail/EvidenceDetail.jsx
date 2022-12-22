@@ -16,14 +16,12 @@ import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
-  const { income, outcome } = evidence;
-  const amount = parseFloat(income) || parseFloat(outcome);
   const { projectId, activityId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = user.id === evidence?.auditor?.id;
+  const isAuditor = user.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidence.status === 'new';
 
   const rejectEvidence = async reason => {
@@ -60,7 +58,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
           {evidence?.files && <AttachedFiles files={evidence?.files} />}
           {isAuditor && isNewEvidence && (
             <>
-              <Divider className="evidenceDetail__container__divider" />
+              <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
                 <CoaRejectButton onClick={() => setRejectModalOpen(true)}>Reject</CoaRejectButton>
                 <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>

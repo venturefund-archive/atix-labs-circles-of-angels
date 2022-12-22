@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Divider, message } from 'antd';
 import { uuid } from 'uuidv4';
+import classNames from 'classnames';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
 import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
-import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { checkIsActivityAuditor, checkIsBeneficiaryOrInvestor } from 'helpers/roles';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
-import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import Loading from 'components/molecules/Loading/Loading';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
-import { getActivityEvidences, updateActivityStatus } from '../../../api/activityApi';
-import Loading from '../../molecules/Loading/Loading';
+import { updateActivityStatus } from '../../../api/activityApi';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
 import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvidencesReviewSuccess';
@@ -36,40 +35,16 @@ const getAuditorName = (auditorId, project) => {
   return `${auditor?.firstName} ${auditor?.lastName}`;
 };
 
-const Evidences = ({ project }) => {
+const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvidences }) => {
   const history = useHistory();
-  const { projectId, activityId } = useParams();
-
+  const activityId = activity?.id;
+  const activityStatus = activity?.status;
+  const projectId = project?.id;
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
-  const [evidences, setEvidences] = useState([]);
-  const [milestone, setMilestone] = useState({});
-  const [activity, setActivity] = useState({});
+
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
-  const activityStatus = activity?.status;
-
-  const getEvidences = async _activity => {
-    setLoading(true);
-    const response = await getActivityEvidences(_activity);
-    if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
-      return;
-    }
-
-    setEvidences(response.data.evidences);
-    setActivity(response.data.activity);
-    setMilestone(response.data.milestone);
-    setLoading(false);
-  };
-  useEffect(() => {
-    getEvidences(activityId);
-
-    // eslint-disable-next-line
-  }, []);
-
-  if (loading) return <Loading></Loading>;
 
   const isActivityAuditor = checkIsActivityAuditor(user, activity);
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, projectId);
@@ -117,103 +92,118 @@ const Evidences = ({ project }) => {
   return (
     <>
       <div className="evidences">
-        <GoBackButton goBackTo={`/${projectId}`} />
-        <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
-        <div className="evidences__list">
-          <div className="evidences__list__header">
-            <div>
-              <p className="evidences__list__header__title">{activity.title}</p>
-              <p className="evidences__list__header__subtitle">Auditor: {auditorName}</p>
+        <Loading spinning={areEvidencesLoading}>
+          <div className="evidences__list">
+            <div className="evidences__list__header">
+              <div>
+                <p className="evidences__list__header__title">{activity.title}</p>
+                <p className="evidences__list__header__subtitle">Auditor: {auditorName}</p>
+              </div>
+              <div>
+                {enableAddEvidenceBtn && (
+                  <AddEvidenceButton
+                    onClickAddEvidence={e => {
+                      e.stopPropagation();
+                      history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
+                    }}
+                    responsiveLayout={false}
+                    disabled={
+                      activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED
+                    }
+                  />
+                )}
+                <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
+                  {activityStatusMap?.[activityStatus]?.name}
+                </CoaTag>
+              </div>
             </div>
-            <div>
-              {enableAddEvidenceBtn && (
-                <AddEvidenceButton
-                  onClickAddEvidence={e => {
-                    e.stopPropagation();
-                    history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
-                  }}
-                  responsiveLayout={false}
-                  disabled={
-                    activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
-                    activityStatus === ACTIVITY_STATUS_ENUM.APPROVED
-                  }
-                />
-              )}
-              <CoaTag predefinedColor={activityStatusMap?.[activityStatus]?.color}>
-                {activityStatusMap?.[activityStatus]?.name}
-              </CoaTag>
-            </div>
-          </div>
-          <Divider type="horizontal" />
-          <div className="evidences__list__body">
-            {evidences.map((evidence, index) => (
-              <EvidenceCard
-                key={evidence.id}
-                evidenceNumber={evidences.length - index}
-                evidence={evidence}
-                currency={project?.details?.currency}
-              />
-            ))}
-          </div>
-
-          {(isBeneficiaryOrInvestor ||
-            (isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW)) && (
             <Divider type="horizontal" />
-          )}
 
-          <div className="evidences__list__footer">
-            {isBeneficiaryOrInvestor && (
-              <>
-                <CoaButton
-                  type="primary"
-                  disabled={
-                    evidences?.length === 0 ||
-                    activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
-                    activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
-                    activityStatus === ACTIVITY_STATUS_ENUM.REJECTED
-                  }
-                  onClick={() =>
-                    setSecretKeyModal({
-                      visible: true,
-                      title: 'You are about to send an activity to be reviewed by an auditor',
-                      onSuccessAction: sendToReview
-                    })
-                  }
-                >
-                  Send for review
-                </CoaButton>
-              </>
+            {!areEvidencesLoading && (
+              <div
+                className={classNames('evidences__list__body', {
+                  '--empty': evidences.length === 0
+                })}
+              >
+                {evidences.map((evidence, index) => (
+                  <EvidenceCard
+                    key={evidence.id}
+                    evidenceNumber={evidences.length - index}
+                    evidence={evidence}
+                    currency={project?.details?.currency}
+                  />
+                ))}
+                {evidences?.length === 0 && (
+                  <>
+                    <img src="/static/images/file-icon.png" alt="empty-evidences-list" />
+                    <p className="evidences__list__body__emptyText">
+                      There are no evidences uploaded yet
+                    </p>
+                  </>
+                )}
+              </div>
             )}
-            {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
-              <>
-                <CoaRejectButton
-                  disabled={!areReviewedEvidences}
-                  onClick={() =>
-                    setSecretKeyModal({
-                      visible: true,
-                      title: 'Are you sure you want to reject the activity?',
-                      onSuccessAction: rejectActivity
-                    })
-                  }
-                >
-                  Reject
-                </CoaRejectButton>
-                <CoaApproveButton
-                  disabled={!areReviewedEvidences}
-                  onClick={() =>
-                    setSecretKeyModal({
-                      visible: true,
-                      title: 'Are you sure you want to approve the activity?',
-                      onSuccessAction: approveActivity
-                    })
-                  }
-                >
-                  Approve
-                </CoaApproveButton>
-              </>
+
+            {(isBeneficiaryOrInvestor ||
+              (isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW)) && (
+              <Divider type="horizontal" />
             )}
+
+            <div className="evidences__list__footer">
+              {isBeneficiaryOrInvestor && (
+                <>
+                  <CoaButton
+                    type="primary"
+                    disabled={
+                      evidences?.length === 0 ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED
+                    }
+                    onClick={() =>
+                      setSecretKeyModal({
+                        visible: true,
+                        title: 'You are about to send an activity to be reviewed by an auditor',
+                        onSuccessAction: sendToReview
+                      })
+                    }
+                  >
+                    Send for review
+                  </CoaButton>
+                </>
+              )}
+              {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
+                <>
+                  <CoaRejectButton
+                    disabled={!areReviewedEvidences}
+                    onClick={() =>
+                      setSecretKeyModal({
+                        visible: true,
+                        title: 'Are you sure you want to reject the activity?',
+                        onSuccessAction: rejectActivity
+                      })
+                    }
+                  >
+                    Reject
+                  </CoaRejectButton>
+                  <CoaApproveButton
+                    disabled={!areReviewedEvidences}
+                    onClick={() =>
+                      setSecretKeyModal({
+                        visible: true,
+                        title: 'Are you sure you want to approve the activity?',
+                        onSuccessAction: approveActivity
+                      })
+                    }
+                  >
+                    Approve
+                  </CoaApproveButton>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        </Loading>
       </div>
       {user && (
         <>

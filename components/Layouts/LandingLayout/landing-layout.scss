@@ -1,4 +1,5 @@
 @import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
 
 .landingLayout {
   width: 100%;
@@ -60,5 +61,11 @@
       width: 86rem;
       padding: 0;
     }
+  }
+  &__previewInfoMessage {
+    position: sticky;
+    top: $header-height;
+    width: 100%;
+    z-index: 1;
   }
 }

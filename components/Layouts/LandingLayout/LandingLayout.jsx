@@ -1,13 +1,41 @@
+import { Icon } from 'antd';
 import classNames from 'classnames';
+import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Navbar from 'components/atoms/Navbar/Navbar';
+import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import Footer from 'components/molecules/Footer/Footer';
 import React from 'react';
+import { useHistory } from 'react-router';
 import './landing-layout.scss';
 
-export const LandingLayout = ({ children, header, thumbnailPhoto, disappearHeaderInMobile }) => {
+export const LandingLayout = ({
+  children,
+  header,
+  thumbnailPhoto,
+  disappearHeaderInMobile,
+  showPreviewAlert,
+  projectId
+}) => {
+  const history = useHistory();
   return (
     <div className="landingLayout">
       <Navbar />
+      <CoaAlert
+        className="landingLayout__previewInfoMessage"
+        message="You are viewing the preview of your project"
+        customColor="blue"
+        closable={false}
+        show={showPreviewAlert}
+        closeContent={
+          <CoaButton
+            onClick={() => history.push(`/project/edit/${projectId}`)}
+            type="ghost"
+            primaryColor="white"
+          >
+            <Icon type="arrow-left" /> Back to edit
+          </CoaButton>
+        }
+      />
       <div
         className={classNames('landingLayout__header', {
           '--notShowInMobile': disappearHeaderInMobile
