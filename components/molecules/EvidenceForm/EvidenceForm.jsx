@@ -254,6 +254,10 @@ const EvidenceFormContent = (props) => {
                         required: true,
                         message: 'Please enter title',
                       },
+                      {
+                        max: 50,
+                        message: 'Title must be lower than 50 characters'
+                      }
                     ],
                   })(
                     <Input
