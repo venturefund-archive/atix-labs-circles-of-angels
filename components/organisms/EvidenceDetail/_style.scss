@@ -1,5 +1,6 @@
 @import 'css/_variables.scss';
 @import 'css/_general_styling.scss';
+@import 'css/mixins/_fonts.scss';
 
 .evidenceDetail {
   display: flex;
@@ -26,6 +27,16 @@
         display: flex;
         justify-content: flex-end;
         column-gap: 10px;
+      }
+    }
+    &__transaction {
+      &__title {
+        @include primary-text(1rem, $coa-dark-gray-100, 600);
+        margin-bottom: 20px;
+      }
+      &__hash {
+        text-decoration: underline;
+        @include primary-text(1rem, $coa-blue-100, 400);
       }
     }
   }
@@ -82,7 +93,6 @@
 }
 
 .attached-files {
-  padding:  16px 0;
   &__header {
     margin-bottom: 16px;
     font-size: 16px;
