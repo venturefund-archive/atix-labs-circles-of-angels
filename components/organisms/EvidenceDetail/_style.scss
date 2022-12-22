@@ -17,14 +17,11 @@
       flex-direction: column;
     }
 
-    &__divider {
-      background-color: #728099;
-      margin-block: 30px;
-      opacity: 0.6
-    }
-
     &__left {
       width: 60%;
+      @include breakpoint(lg){
+        width: 100%;
+      }
       &__auditorOptions {
         display: flex;
         justify-content: flex-end;
