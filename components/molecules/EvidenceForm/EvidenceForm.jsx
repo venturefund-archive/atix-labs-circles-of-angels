@@ -37,9 +37,9 @@ const EvidenceFormContent = (props) => {
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
-  const { id, activityId } = useParams();
+  const { projectId, activityId } = useParams();
   const history = useHistory();
-  const { project, loading } = useProject(id);
+  const { project, loading } = useProject(projectId);
   const { user } = useContext(UserContext);
   const { setMessage } = useContext(EvidenceContext);
 
@@ -166,7 +166,6 @@ const EvidenceFormContent = (props) => {
 
     const response = await createEvidence(activityId, data);
     if (response.errors || !response.data) {
-      console.log({ errl: response });
       message.error('An error occurred while creating evidence');
       history.push(`/${project.id}`);
     }

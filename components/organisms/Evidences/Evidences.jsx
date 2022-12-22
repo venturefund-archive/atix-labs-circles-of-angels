@@ -38,7 +38,7 @@ const getAuditorName = (auditorId, project) => {
 
 const Evidences = ({ project }) => {
   const history = useHistory();
-  const { id: projectId, activityId } = useParams();
+  const { projectId, activityId } = useParams();
 
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
   const [evidences, setEvidences] = useState([]);

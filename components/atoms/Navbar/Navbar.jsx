@@ -15,7 +15,7 @@ const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { user, removeUser } = useContext(UserContext);
   const { push } = useHistory();
-  const { id: projectId } = useParams();
+  const { projectId } = useParams();
 
   return (
     <div className="navbar">

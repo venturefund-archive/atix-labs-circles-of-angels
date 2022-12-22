@@ -14,8 +14,8 @@ import Loading from '../components/molecules/Loading/Loading';
 import { EvidenceContext } from '../components/utils/EvidenceContext';
 
 const EvidencesContainer = () => {
-  const { id } = useParams();
-  const { loading, project } = useProject(id);
+  const { projectId } = useParams();
+  const { loading, project } = useProject(projectId);
   const { message } = useContext(EvidenceContext);
   if (loading) return <Loading />;
 
