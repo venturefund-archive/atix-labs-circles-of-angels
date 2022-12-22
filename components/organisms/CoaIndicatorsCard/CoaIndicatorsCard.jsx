@@ -114,6 +114,7 @@ export const CoaIndicatorsCard = ({
   currency,
   budget,
   spent,
+  deposited,
   remaining,
   className,
   isCollapsible,
@@ -197,9 +198,15 @@ export const CoaIndicatorsCard = ({
                   </p>
                 </div>
                 <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Outcome</p>
                   <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
                     {formatCurrency(currency, spent)}
+                  </p>
+                </div>
+                <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Income</p>
+                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                    {formatCurrency(currency, deposited)}
                   </p>
                 </div>
                 <div className="o-coaIndicatorsCard__body__indicators__indicator">
