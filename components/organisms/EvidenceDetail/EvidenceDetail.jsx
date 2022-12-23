@@ -6,7 +6,7 @@ import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComm
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -29,6 +29,11 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
 
   if(!user && evidenceStatus !=='approved') history.goBack();
 
+  const isToReviewActivity = evidence.activityStatus === 'to-review';
+  const isImpactEvidence = evidence.type === 'impact';
+  const isTransferEvidence = evidence.type === 'transfer';
+  const { transferTxHash } = evidence;
+
   const rejectEvidence = async reason => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
     if (!result.errors) {
@@ -45,8 +50,6 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
     }
   };
 
-  const isToReviewActivity = evidence.activityStatus === 'to-review';
-
   return (
     <div className="evidenceDetail">
       <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
@@ -62,7 +65,25 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {evidence?.files && <AttachedFiles files={evidence?.files} />}
+          {isImpactEvidence && evidence?.files &&
+            <>
+              <Divider />
+              <AttachedFiles files={evidence?.files} />
+            </>
+          }
+          {isTransferEvidence &&
+            <>
+              <Divider />
+              <h5 className="evidenceDetail__container__transaction__title">Transaction</h5>
+              <Link
+                to={{ pathname: `https://etherscan.io/tx/${transferTxHash}` }}
+                target="_blank"
+                className="evidenceDetail__container__transaction__hash"
+              >
+                {transferTxHash}
+              </Link>
+            </>
+          }
           {isAuditor && isNewEvidence && isToReviewActivity && (
             <>
               <Divider />

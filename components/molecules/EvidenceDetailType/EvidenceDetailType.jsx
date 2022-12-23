@@ -41,7 +41,6 @@ export default function EvidenceDetailType(props) {
           </div>
         }
       </div>
-      <Divider />
     </div>
   )
 }

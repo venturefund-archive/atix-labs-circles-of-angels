@@ -29,6 +29,11 @@ const initialSecretKeyModal = {
   onSuccessAction: null
 };
 
+const initialLoadingModal = {
+  state: false,
+  title: ''
+};
+
 const getAuditorName = (auditorId, project) => {
   const auditors = getUsersByRole(ROLES_IDS.auditor, project?.users);
   const auditor = auditors?.find(_auditor => _auditor?.id === auditorId);
@@ -42,7 +47,7 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
   const projectId = project?.id;
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
 
-  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
+  const [loadingModalVisible, setLoadingModalVisible] = useState(initialLoadingModal);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -51,11 +56,11 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
 
   const sendToReview = async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible(true);
+    setLoadingModalVisible({ state: true, title: 'The activity is being sent' });
     setSecretKeyModal(initialSecretKeyModal);
     const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
     if (!result.errors) {
-      setLoadingModalVisible(false);
+      setLoadingModalVisible({ ...loadingModalVisible, state: false });
       setReviewSuccessVisible(true);
       getEvidences(activityId);
     } else {
@@ -65,18 +70,18 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
 
   const rejectActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible(true);
+    setLoadingModalVisible({ state: true, title: 'The activity is being rejected' });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
-    setLoadingModalVisible(false);
+    setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while rejecting the activity');
   };
 
   const approveActivity = async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible(true);
+    setLoadingModalVisible({ state: true, title: 'The activity is being approved' });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
-    setLoadingModalVisible(false);
+    setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) return getEvidences(activityId);
     message.error('An error occurred while approving the activity');
   };
@@ -213,7 +218,10 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
             onCancel={() => setSecretKeyModal(initialSecretKeyModal)}
             onSuccess={secretKeyModal.onSuccessAction}
           />
-          <ModalPublishLoading visible={loadingModalVisible} />
+          <ModalPublishLoading
+            visible={loadingModalVisible.state}
+            textTitle={loadingModalVisible.title}
+          />
           <ModalEvidencesReviewSuccess
             visible={reviewSuccessVisible}
             onCancel={() => setReviewSuccessVisible(false)}

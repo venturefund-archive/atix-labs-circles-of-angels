@@ -16,29 +16,25 @@ import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
 
-const ModalPublishLoading = ({ visible }) => (
-  <CoaModal
-    visible={visible}
-    maskClosable={false}
-    closable={false}
-    mask
-    footer={null}
-  >
-    <LogoWrapper textTitle='Publishing project' />
-    <div className='o-ModalWrapper'>
-      <div className='o-ModalWrapper__SpinWrapper'>
-        <Spin className='o-ModalWrapper__Spin' indicator={antIcon} />
+const ModalPublishLoading = ({ visible, textTitle }) => (
+  <CoaModal visible={visible} maskClosable={false} closable={false} mask footer={null}>
+    <LogoWrapper textTitle={textTitle} />
+    <div className="o-ModalWrapper">
+      <div className="o-ModalWrapper__SpinWrapper">
+        <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
       </div>
     </div>
   </CoaModal>
-)
+);
 
 ModalPublishLoading.defaultProps = {
-  visible: false
-}
+  visible: false,
+  textTitle: 'Publishing project'
+};
 
 ModalPublishLoading.propTypes = {
-  visible: PropTypes.bool
-}
+  visible: PropTypes.bool,
+  textTitle: PropTypes.string
+};
 
 export default ModalPublishLoading;
