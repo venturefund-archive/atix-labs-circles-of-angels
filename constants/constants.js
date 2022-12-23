@@ -173,6 +173,14 @@ export const TIMEFRAME_UNITS = [
   }
 ];
 
+export const CRYPTO_CURRENCY_PATH_SCANNER = {
+  'RBTC': (txHash) => `https://blockscout.com/rsk/mainnet/tx/${txHash}`,
+  'ETH': (txHash) => `https://blockscout.com/eth/mainnet/tx/${txHash}`,
+  'USDT': (txHash) => `https://blockscout.com/eth/mainnet/tx/${txHash}`,
+  'ETC': (txHash) => `https://blockscout.com/etc/mainnet/tx/${txHash}`,
+}
+
+
 export const ERROR_TYPES = {
   EMPTY: 'EMPTY',
   ALPHANUMERIC: 'ALPHANUMERIC',
