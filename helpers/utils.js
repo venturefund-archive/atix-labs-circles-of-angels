@@ -125,7 +125,7 @@ export const getDateAndTime = date => {
   if (!date) return '';
   const newDate = new Date(date).toLocaleString('en-us', { hour12: false });
 
-  const [_date, time] = newDate.split(',');
+  const [_date, time] = newDate?.split(',');
 
   const localeDateParsed = new Date(_date);
 
