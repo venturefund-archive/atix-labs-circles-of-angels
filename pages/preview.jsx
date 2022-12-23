@@ -4,8 +4,8 @@ import useQuery from 'hooks/useQuery';
 import PreviewProject from '../components/organisms/PreviewProject/PreviewProject';
 
 const Preview = () => {
-  const { id } = useParams();
+  const { projectId } = useParams();
   const { preview } = useQuery();
-  return <PreviewProject id={id} preview={Boolean(preview)} />;
+  return <PreviewProject id={projectId} preview={Boolean(preview)} />;
 };
 export default Preview;

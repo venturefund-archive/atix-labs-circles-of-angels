@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './coa-indicators-card.scss';
 import { Divider, Icon, Collapse } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
-import { formatCurrency } from 'helpers/formatter';
+import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
 import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
@@ -114,6 +114,7 @@ export const CoaIndicatorsCard = ({
   currency,
   budget,
   spent,
+  deposited,
   remaining,
   className,
   isCollapsible,
@@ -187,48 +188,18 @@ export const CoaIndicatorsCard = ({
       >
         <div className="o-coaIndicatorsCard__body">
           {(parseFloat(budget) > 0 || alwaysShowBudget) && (
-            <div className="o-coaIndicatorsCard__body__indicators">
-              <div className="o-coaIndicatorsCard__body__indicators__container">
-                <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, budget)}
-                  </p>
-                </div>
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Spent</p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, spent)}
-                  </p>
-                </div>
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
-                    Remaining
-                  </p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, remaining)}
-                  </p>
-                </div>
-              </div>
-              {withEvidences && (
-                <>
-                  <Divider type="vertical" style={{ height: '32px', margin: '0 1.31rem' }} />
-                  <div className="o-coaIndicatorsCard__body__indicators__container">
-                    <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
-                    <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                      <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
-                        Evidences
-                      </p>
-                      <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                        {transferQuantity} Transfer <Icon type="right" /> {impactQuantity} Impact
-                        <Icon type="right" />
-                      </p>
-                    </div>{' '}
-                  </div>
-                </>
-              )}
-            </div>
+            <CoaIndicators
+              {...{
+                currency,
+                budget,
+                spent,
+                deposited,
+                remaining,
+                transferQuantity,
+                impactQuantity,
+                withEvidences
+              }}
+            />
           )}
           {additionalBody}
         </div>

@@ -50,7 +50,7 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
               </span>
             </p>
             <p className="evidenceCard__indicatorContainer__value">
-              {formatCurrency(currency, amount)}
+              {formatCurrency(currency, amount, true)}
             </p>
           </div>
         )}
@@ -71,11 +71,11 @@ export default EvidenceCard;
 EvidenceCard.defaultProps = {
   evidence: undefined,
   currency: undefined,
-  evidenceNumber: undefined
+  evidenceNumber: undefined,
 };
 
 EvidenceCard.propTypes = {
   evidence: PropTypes.objectOf(PropTypes.any),
   currency: PropTypes.string,
-  evidenceNumber: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+  evidenceNumber: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
 };

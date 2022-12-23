@@ -132,7 +132,7 @@ export const getDateAndTime = date => {
   const [hours, minutes] = time.split(' ')[1].split(':');
 
   const month = localeDateParsed.getMonth();
-  const day = localeDateParsed.getDay();
+  const day = localeDateParsed.getDate();
   const year = localeDateParsed.getFullYear();
 
   return `${months[month]}, ${day}${nth(day)} ${year} - ${hours}:${minutes}`;

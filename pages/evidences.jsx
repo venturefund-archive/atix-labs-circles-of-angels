@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import './_evidences.scss';
 // eslint-disable-next-line import/no-named-as-default
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
+import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import customConfig from 'custom-config';
+import { getActivityEvidences } from 'api/activityApi';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 import { CoaChangelogContainer } from 'components/organisms/CoaChangelogContainer/CoaChangelogContainer';
 import Evidences from '../components/organisms/Evidences/Evidences';
@@ -14,10 +17,36 @@ import Loading from '../components/molecules/Loading/Loading';
 import { EvidenceContext } from '../components/utils/EvidenceContext';
 
 const EvidencesContainer = () => {
-  const { id } = useParams();
-  const { loading, project } = useProject(id);
+  const { projectId, activityId } = useParams();
+  const [evidences, setEvidences] = useState([]);
+  const [milestone, setMilestone] = useState({});
+  const [activity, setActivity] = useState({});
+  const [areEvidencesLoading, setIsEvidencesLoading] = useState(false);
+  const { loading: isProjectLoading, project } = useProject(projectId);
+
+  const getEvidences = async _activity => {
+    setIsEvidencesLoading(true);
+    const response = await getActivityEvidences(_activity);
+    if (response.errors || !response.data) {
+      message.error('An error occurred while fetching the project');
+      return;
+    }
+
+    setEvidences(response.data.evidences);
+    setActivity(response.data.activity);
+    setMilestone(response.data.milestone);
+    setIsEvidencesLoading(false);
+  };
+
+  useEffect(() => {
+    getEvidences(activityId);
+
+    // eslint-disable-next-line
+  }, []);
+
   const { message } = useContext(EvidenceContext);
-  if (loading) return <Loading />;
+
+  if (isProjectLoading) return <Loading />;
 
   const { basicInformation, status, details, budget } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
@@ -50,8 +79,21 @@ const EvidencesContainer = () => {
       thumbnailPhoto={thumbnailPhoto}
     >
       <div className="p-evidences__content">
-        <Evidences project={project} />
-        <CoaChangelogContainer />
+        <div>
+          <GoBackButton goBackTo={`/${projectId}`} />
+          <Breadcrumb route={`${milestone?.title} / ${activity?.title} / Evidences`} />
+        </div>
+        <Evidences
+          project={project}
+          activity={activity}
+          evidences={evidences}
+          areEvidencesLoading={areEvidencesLoading}
+          getEvidences={getEvidences}
+        />
+        <CoaChangelogContainer
+          title="Activity Changelog"
+          emptyText="No activities on the changelog yet"
+        />
       </div>
     </LandingLayout>
   );

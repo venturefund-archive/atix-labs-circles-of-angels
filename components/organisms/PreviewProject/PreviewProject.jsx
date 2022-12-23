@@ -116,6 +116,8 @@ const PreviewProject = ({ id, preview }) => {
 
   return (
     <LandingLayout
+      showPreviewAlert={preview && isAdmin}
+      projectId={project?.id}
       header={
         <ProjectHeroSection
           title={projectName}
@@ -134,25 +136,6 @@ const PreviewProject = ({ id, preview }) => {
       }
       thumbnailPhoto={thumbnailPhoto}
     >
-      {preview && isAdmin && (
-        <CoaAlert
-          className="o-previewProject__previewInfoMessage"
-          message="You are viewing the preview of your project"
-          customColor="blue"
-          closable={false}
-          show={preview}
-          closeContent={
-            <CoaButton
-              onClick={() => history.push(`/project/edit/${id}`)}
-              type="ghost"
-              primaryColor="white"
-            >
-              <Icon type="arrow-left" /> Back to edit
-            </CoaButton>
-          }
-        />
-      )}
-
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons">
@@ -324,7 +307,7 @@ const PreviewProject = ({ id, preview }) => {
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer projectId={id} />
+            <CoaChangelogContainer title="Project Changelog" projectId={id} />
           </div>
         </div>
       )}

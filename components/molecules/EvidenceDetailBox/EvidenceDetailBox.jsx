@@ -4,15 +4,16 @@ import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { EVIDENCE_STATUS_MAP } from 'model/evidence';
 import './_style.scss'
 import { Divider } from 'antd';
+import { getDateAndTime } from '../../../helpers/utils';
 
 export default function EvidenceDetailBox(props) {
-  const { title, description, createdAt, beneficiary, status, auditor } = props;
+  const { title, description, createdAt, beneficiary, status, activity } = props;
   const date = new Date(createdAt);
 
   const { firstName: fnBeneficiary , lastName: lnBeneficiary } = beneficiary || {};
   const beneficiaryName = fnBeneficiary || lnBeneficiary? `${fnBeneficiary} ${lnBeneficiary}`: 'No name';
 
-  const { firstName: fnAuditor , lastName: lnAuditor } = auditor || {};
+  const { firstName: fnAuditor , lastName: lnAuditor } = activity?.auditor || {};
   const auditorName = fnAuditor || lnAuditor? `${fnAuditor} ${lnAuditor}`: 'No name';
 
   return (
@@ -20,9 +21,7 @@ export default function EvidenceDetailBox(props) {
       {/* Evidence header */}
       <div className="evidence-container__header">
         <h3 className="evidence-container__date">
-          {`${date.toLocaleDateString('en-us', { month: 'long' })}, `}
-          {`${date.toLocaleDateString('en-us', { day: 'numeric' })} - `}
-          {date.toLocaleTimeString('en-us', { hour: '2-digit', minute: '2-digit' })}
+          {getDateAndTime(date)}
         </h3>
         {status && (
           <CoaTag predefinedColor={EVIDENCE_STATUS_MAP[status].color}>

@@ -4,7 +4,6 @@
 .breadcrumb {
   padding: 8px 0px;
   &__title {
-    color: $coa-blue-100;
-    font-size: 14px;
+    @include primary-text(1.5rem, $coa-blue-100, 500);
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Icon } from 'antd';
 import './_style.scss';
+import { formatCurrency } from '../../../helpers/formatter';
 
 export default function EvidenceDetailType(props) {
   const { evidenceType, currency, outcome, income } = props;
@@ -17,7 +18,7 @@ export default function EvidenceDetailType(props) {
         <div className='evidenceDetailType__block'>
           <h3 className='evidenceDetailType__block__label'>
             <Icon
-              type="dingtalk-circle"
+              type="file-text"
               theme="filled"
               className='evidenceDetailType__block__label__icon'
             />
@@ -36,11 +37,10 @@ export default function EvidenceDetailType(props) {
               />
               { incomeValue? 'Income:' : 'Outcome:' }
             </h3>
-            <h3 className='evidenceDetailType__block__labelValue'>{amount} {currency}</h3>
+            <h3 className='evidenceDetailType__block__labelValue'>{formatCurrency(currency, amount, true)}</h3>
           </div>
         }
       </div>
-      <Divider />
     </div>
   )
 }

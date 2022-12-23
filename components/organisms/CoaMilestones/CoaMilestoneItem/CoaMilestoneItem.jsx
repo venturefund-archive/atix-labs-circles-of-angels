@@ -29,6 +29,7 @@ export const CoaMilestoneItem = ({
   const title = milestone?.title;
   const budget = milestone?.budget;
   const spent = milestone?.spent || 0;
+  const deposited = milestone?.deposited || 0;
   const areActivitiesOpen = milestone?.areActivitiesOpen || false;
   const remaining = budget - spent;
   const allEvidences = milestone?.activities?.reduce(
@@ -56,6 +57,7 @@ export const CoaMilestoneItem = ({
       onCreate={onCreateActivity}
       remaining={remaining}
       spent={spent}
+      deposited={deposited}
       className="o-coaMilestoneItem__card"
       alwaysShowBudget
       withStatusTag={withStatusTag}

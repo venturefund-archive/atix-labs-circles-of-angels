@@ -6,7 +6,7 @@ import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComm
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -16,15 +16,17 @@ import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
-  const { income, outcome } = evidence;
-  const amount = parseFloat(income) || parseFloat(outcome);
   const { projectId, activityId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const isAuditor = user.id === evidence?.auditor?.id;
+  const isAuditor = user.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidence.status === 'new';
+  const isToReviewActivity = evidence.activityStatus === 'to-review';
+  const isImpactEvidence = evidence.type === 'impact';
+  const isTransferEvidence = evidence.type === 'transfer';
+  const { transferTxHash } = evidence;
 
   const rejectEvidence = async reason => {
     const result = await updateEvidenceStatus(evidence.id, 'rejected', reason);
@@ -57,10 +59,28 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {evidence?.files && <AttachedFiles files={evidence?.files} />}
-          {isAuditor && isNewEvidence && (
+          {isImpactEvidence && evidence?.files &&
             <>
-              <Divider className="evidenceDetail__container__divider" />
+              <Divider />
+              <AttachedFiles files={evidence?.files} />
+            </>
+          }
+          {isTransferEvidence &&
+            <>
+              <Divider />
+              <h5 className="evidenceDetail__container__transaction__title">Transaction</h5>
+              <Link
+                to={{ pathname: `https://etherscan.io/tx/${transferTxHash}` }}
+                target="_blank"
+                className="evidenceDetail__container__transaction__hash"
+              >
+                {transferTxHash}
+              </Link>
+            </>
+          }
+          {isAuditor && isNewEvidence && isToReviewActivity && (
+            <>
+              <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
                 <CoaRejectButton onClick={() => setRejectModalOpen(true)}>Reject</CoaRejectButton>
                 <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>

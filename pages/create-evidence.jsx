@@ -10,8 +10,8 @@ import Loading from '../components/molecules/Loading/Loading';
 
 
 const CreateEvidence = () => {
-  const { id, activityId } = useParams();
-  const { loading, project } = useProject(id)
+  const { projectId, activityId } = useParams();
+  const { loading, project } = useProject(projectId)
 
   if (loading) return <Loading/>;
 

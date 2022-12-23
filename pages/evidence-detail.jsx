@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import EvidenceDetail from 'components/organisms/EvidenceDetail/EvidenceDetail';
 import { useHistory, useParams } from 'react-router';
 import { getEvidence } from 'api/activityApi';
@@ -12,7 +12,7 @@ import Loading from '../components/molecules/Loading/Loading';
 export default function EvidenceDetailPage() {
   const [evidence, setEvidence] = useState({});
   const { location: { pathname } } = useHistory();
-  const { projectId, detailEvidenceId } = useParams();
+  const { projectId, activityId, detailEvidenceId } = useParams();
 
   // Info about project
   const { loading, project } = useProject(projectId);
@@ -24,15 +24,18 @@ export default function EvidenceDetailPage() {
   const { firstName, lastName } = beneficiary || {};
   const beneficiaryName = firstName || lastName ? `${firstName} ${lastName}`: 'No name';
 
+  const activityStatus = project?.milestones?.flatMap((milestones)=> milestones.activities)
+    ?.find(activity => activity.id === parseInt(activityId, 10))?.status;
 
-  const fetchEvidence = async (id) => {
-    const result = await getEvidence(id)
-    setEvidence(result.data)
-  }
+  const fetchEvidence = useCallback(async (id) => {
+    const result = await getEvidence(id);
+    const data = { ...result.data, activityStatus };
+    setEvidence(data)
+  }, [activityStatus]);
 
   useEffect(() => {
     fetchEvidence(detailEvidenceId);
-  }, [detailEvidenceId, pathname]);
+  }, [detailEvidenceId, fetchEvidence, pathname]);
 
   if (loading) return <Loading />;
 

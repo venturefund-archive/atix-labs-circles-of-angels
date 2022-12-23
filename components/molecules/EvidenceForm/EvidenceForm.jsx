@@ -37,9 +37,9 @@ const EvidenceFormContent = (props) => {
   const { Option } = Select;
 
   const { getFieldDecorator } = form;
-  const { id, activityId } = useParams();
+  const { projectId, activityId } = useParams();
   const history = useHistory();
-  const { project, loading } = useProject(id);
+  const { project, loading } = useProject(projectId);
   const { user } = useContext(UserContext);
   const { setMessage } = useContext(EvidenceContext);
 
@@ -166,7 +166,6 @@ const EvidenceFormContent = (props) => {
 
     const response = await createEvidence(activityId, data);
     if (response.errors || !response.data) {
-      console.log({ errl: response });
       message.error('An error occurred while creating evidence');
       history.push(`/${project.id}`);
     }
@@ -254,6 +253,10 @@ const EvidenceFormContent = (props) => {
                         required: true,
                         message: 'Please enter title',
                       },
+                      {
+                        max: 50,
+                        message: 'Title must be lower than 50 characters'
+                      }
                     ],
                   })(
                     <Input
@@ -376,7 +379,7 @@ const EvidenceFormContent = (props) => {
             </div>
             </div>)}
           {(type === 'transfer') && (<div className="evidenceForm__body__form__group">
-            <p className="formDivTitle formDivInfo">Amount Spent</p>
+            <p className="formDivTitle formDivInfo">Amount</p>
             <div className="formDivInput formDivAmount">
               <input
                     type='number'
