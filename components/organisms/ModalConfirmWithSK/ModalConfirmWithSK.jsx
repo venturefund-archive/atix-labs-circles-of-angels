@@ -6,11 +6,7 @@
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
-import React, {
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Typography, Form, Input } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
 import LogoWrapper from 'components/atoms/LogoWrapper';
@@ -24,6 +20,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   const { getFieldDecorator, validateFields } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const keySuffix = `${user.id}-${user.email}`;
 
@@ -39,32 +36,31 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   const validPin = async (_rule, value, callback) => {
     try {
       const key = `${value}-${keySuffix}`;
-      await decryptJsonWallet(wallet, key)
-      callback()
+      await decryptJsonWallet(wallet, key);
+      callback();
     } catch (e) {
-      callback(e)
+      callback(e);
     }
-  }
+  };
   const validPassword = async (_rule, value, callback) => {
     const { email } = user;
-    const res = await loginUser(email, value)
+    const res = await loginUser(email, value);
     if (res.errors) {
-      callback('Invalid password')
+      callback('Invalid password');
     }
-    callback()
-  }
+    callback();
+  };
 
   const submit = () => {
+    setIsLoading(true);
     const { getFieldValue } = form;
     validateFields(err => {
       if (!err) {
-        return onSuccess(
-          getFieldValue('secretKey').value,
-          getFieldValue('password').value
-        );
+        onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
+        return setIsLoading(false);
       }
-    })
-  }
+    });
+  };
 
   return (
     <CoaModal
@@ -74,20 +70,21 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
       mask
       maskClosable
       footer={[
-        <Button className='ant-btn ant-btn-primary CoaModal__Primary' onClick={submit}>
+        <Button
+          className="ant-btn ant-btn-primary CoaModal__Primary"
+          onClick={submit}
+          loading={isLoading}
+        >
           Continue
         </Button>
       ]}
     >
-      <LogoWrapper textTitle={
-        title ?? 'Do you want to confirm the creation of the project?'
-      }
-      />
+      <LogoWrapper textTitle={title ?? 'Do you want to confirm the creation of the project?'} />
       <Typography style={{ textAlign: 'center' }}>
         To confirm the process enter your administrator password and secret key
       </Typography>
       <Form>
-        <Form.Item label='Password'>
+        <Form.Item label="Password">
           {getFieldDecorator('password', {
             rules: [
               {
@@ -98,9 +95,9 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
                 validator: validPassword
               }
             ]
-          })(<Input.Password placeholder='Enter your password' />)}
+          })(<Input.Password placeholder="Enter your password" />)}
         </Form.Item>
-        <Form.Item label='Secret Key'>
+        <Form.Item label="Secret Key">
           {getFieldDecorator('secretKey', {
             rules: [
               {
@@ -111,11 +108,11 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
                 validator: validPin
               }
             ]
-          })(<Input.Password placeholder='Enter your password' name='pin' />)}
+          })(<Input.Password placeholder="Enter your password" name="pin" />)}
         </Form.Item>
       </Form>
     </CoaModal>
-  )
+  );
 }
 
 FormModalConfirmWithSK.defaultProps = {
@@ -124,7 +121,7 @@ FormModalConfirmWithSK.defaultProps = {
   title: null,
   onCancel: () => undefined,
   onSuccess: () => undefined
-}
+};
 
 FormModalConfirmWithSK.propTypes = {
   form: PropTypes.element,
@@ -132,6 +129,6 @@ FormModalConfirmWithSK.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
   onSuccess: PropTypes.func
-}
-const ModalConfirmWithSK = Form.create({ name: 'FormConfirmWithSK' })(FormModalConfirmWithSK)
-export default ModalConfirmWithSK
+};
+const ModalConfirmWithSK = Form.create({ name: 'FormConfirmWithSK' })(FormModalConfirmWithSK);
+export default ModalConfirmWithSK;
