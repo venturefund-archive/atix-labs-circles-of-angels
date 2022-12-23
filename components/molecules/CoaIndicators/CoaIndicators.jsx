@@ -44,8 +44,8 @@ export const CoaIndicators = ({
           <div className="indicators__indicator">
             <p className="indicators__indicator__title">Evidences</p>
             <p className="indicators__indicator__value">
-              {transferQuantity} Transfer <Icon type="right" /> {impactQuantity} Impact
-              <Icon type="right" />
+              {transferQuantity} Transfer <Divider type="vertical" />
+              {impactQuantity} Impact
             </p>
           </div>
         </div>

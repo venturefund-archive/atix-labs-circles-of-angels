@@ -14,6 +14,7 @@ import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Loading from 'components/molecules/Loading/Loading';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import { updateActivityStatus } from '../../../api/activityApi';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
@@ -89,6 +90,18 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
 
   const auditorName = getAuditorName(activity?.auditor, project);
 
+  const { budget, spent, deposited } = activity || {};
+  const currency = project?.details?.currency;
+  const remaining = parseFloat(budget) - parseFloat(spent);
+  const transferQuantity = evidences?.reduce(
+    (curr, next) => (next?.type === 'transfer' ? curr + 1 : curr),
+    0
+  );
+  const impactQuantity = evidences?.reduce(
+    (curr, next) => (next?.type === 'impact' ? curr + 1 : curr),
+    0
+  );
+
   return (
     <>
       <div className="evidences">
@@ -120,30 +133,58 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
             </div>
             <Divider type="horizontal" />
 
-            {!areEvidencesLoading && (
-              <div
-                className={classNames('evidences__list__body', {
-                  '--empty': evidences.length === 0
-                })}
-              >
-                {evidences.map((evidence, index) => (
-                  <EvidenceCard
-                    key={evidence.id}
-                    evidenceNumber={evidences.length - index}
-                    evidence={evidence}
-                    currency={project?.details?.currency}
-                  />
-                ))}
-                {evidences?.length === 0 && (
-                  <>
-                    <img src="/static/images/file-icon.png" alt="empty-evidences-list" />
-                    <p className="evidences__list__body__emptyText">
-                      There are no evidences uploaded yet
-                    </p>
-                  </>
-                )}
+            <div className="evidences__list__body">
+              <CoaIndicators
+                {...{
+                  currency,
+                  budget,
+                  spent,
+                  deposited,
+                  remaining,
+                  transferQuantity,
+                  impactQuantity
+                }}
+                withEvidences
+              />
+
+              <div className="evidences__list__body__info">
+                <div>
+                  <p className="evidences__indicatorTitle">Description</p>
+                  <p className="evidences__indicatorValue">{activity?.description}</p>
+                </div>
+                <div>
+                  <p className="evidences__indicatorTitle">Acceptance Criteria</p>
+                  <p className="evidences__indicatorValue">{activity?.acceptanceCriteria}</p>
+                </div>
               </div>
-            )}
+
+              {evidences?.length > 0 && <Divider type="horizontal" />}
+
+              {!areEvidencesLoading && (
+                <div
+                  className={classNames('evidences__list__body__evidencesContainer', {
+                    '--empty': evidences.length === 0
+                  })}
+                >
+                  {evidences.map((evidence, index) => (
+                    <EvidenceCard
+                      key={evidence.id}
+                      evidenceNumber={evidences.length - index}
+                      evidence={evidence}
+                      currency={project?.details?.currency}
+                    />
+                  ))}
+                  {evidences?.length === 0 && (
+                    <>
+                      <img src="/static/images/file-icon.png" alt="empty-evidences-list" />
+                      <p className="evidences__list__body__evidencesContainer__emptyText">
+                        There are no evidences uploaded yet
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {(isBeneficiaryOrInvestor ||
               (isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW)) && (
