@@ -6,7 +6,7 @@ import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComm
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -14,7 +14,7 @@ import AttachedFiles from '../AttachedFiles/AttachedFiles';
 import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
 import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
-
+import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const { user } = useContext(UserContext);
@@ -74,14 +74,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
           {isTransferEvidence &&
             <>
               <Divider />
-              <h5 className="evidenceDetail__container__transaction__title">Transaction</h5>
-              <Link
-                to={{ pathname: `https://etherscan.io/tx/${transferTxHash}` }}
-                target="_blank"
-                className="evidenceDetail__container__transaction__hash"
-              >
-                {transferTxHash}
-              </Link>
+              <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency}/>
             </>
           }
           {isAuditor && isNewEvidence && isToReviewActivity && (
