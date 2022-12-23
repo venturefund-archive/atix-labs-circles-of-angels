@@ -19,21 +19,25 @@ export const formatCurrency = (currency, value, isCurrencyLabelAtEnd = false) =>
 
   const isFiat = CURRENCIES.fiat.find((_currency) => _currency.value === currency?.toUpperCase());
   const decimals = isFiat? 2 : 8;
+  let finalFormat = '';
 
   if(isCurrencyLabelAtEnd) {
-    return `${Number(value).toFixed(decimals)} ${currency}`;
+    finalFormat = `${Number(value).toFixed(decimals)} ${currency}`;
+  } else {
+    try {
+      finalFormat = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 8,
+      }).format(Number(value).toFixed(decimals));
+    } catch (error) {
+      finalFormat = `${currency} ${Number(value).toFixed(decimals)}`;
+    }
   }
 
-  try {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 8,
-    }).format(Number(value).toFixed(decimals));
-  } catch (error) {
-    return `${currency} ${Number(value).toFixed(decimals)}`;
-  }
+  const [integerPart, decimalPart] = finalFormat.split('.');
+  return `${integerPart}.${isFiat? decimalPart.padEnd(2, '0') : decimalPart.padEnd(8, '0')}`;
 };
 
 export const removeDecimals = number => number?.toString().split('.')[0];

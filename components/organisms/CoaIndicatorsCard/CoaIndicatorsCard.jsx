@@ -191,31 +191,33 @@ export const CoaIndicatorsCard = ({
             <div className="o-coaIndicatorsCard__body__indicators">
               <div className="o-coaIndicatorsCard__body__indicators__container">
                 <Icon type="wallet" className="o-coaIndicatorsCard__iconIndicator" />
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, budget)}
-                  </p>
-                </div>
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Outcome</p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, spent)}
-                  </p>
-                </div>
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Income</p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, deposited)}
-                  </p>
-                </div>
-                <div className="o-coaIndicatorsCard__body__indicators__indicator">
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
-                    Remaining
-                  </p>
-                  <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
-                    {formatCurrency(currency, remaining)}
-                  </p>
+                <div className='o-coaIndicatorsCard__body__indicators__container__left'>
+                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Budget</p>
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                      {formatCurrency(currency, budget)}
+                    </p>
+                  </div>
+                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Outcome</p>
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                      {formatCurrency(currency, spent)}
+                    </p>
+                  </div>
+                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">Income</p>
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                      {formatCurrency(currency, deposited)}
+                    </p>
+                  </div>
+                  <div className="o-coaIndicatorsCard__body__indicators__indicator">
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__title">
+                      Remaining
+                    </p>
+                    <p className="o-coaIndicatorsCard__body__indicators__indicator__value">
+                      {formatCurrency(currency, remaining)}
+                    </p>
+                  </div>
                 </div>
               </div>
               {withEvidences && (
