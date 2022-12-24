@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './coa-changelog-container.scss';
 import { Divider, message } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { getChangelog } from '../../../api/projectApi';
-import { sortArrayByDate } from '../../utils';
+import customConfig from 'custom-config';
+import { formatDate, sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
 import CoaChangelogItem from '../../atoms/ChangelogItem/CoaChangelogItem';
 import jsPDF from 'jspdf';
-import customConfig from 'custom-config';
+import autoTable from 'jspdf-autotable';
+import changelogActions from 'constants/ChangelogActions';
 
 export const CoaChangelogContainer = ({
   title,
@@ -24,8 +26,8 @@ export const CoaChangelogContainer = ({
 }) => {
   const fetchChangelog = useRef();
   const [changeLogs, setChangeLogs] = useState([]);
+  const [processedChangeLogs, setProcessedChangeLogs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const pdfRef = useRef(null);
 
   fetchChangelog.current = async () => {
     setLoading(true);
@@ -45,11 +47,43 @@ export const CoaChangelogContainer = ({
     fetchChangelog.current();
   }, []);
 
+  useEffect(() => {
+    const _processedChangeLogs = changeLogs?.map(changelog => [
+      formatDate(changelog?.datetime),
+      changelogActions(changelog)?.[changelog?.action]?.title,
+      changelogActions(changelog)?.[changelog?.action]?.description,
+      changelog?.transaction,
+      changelog?.revision
+    ]);
+    setProcessedChangeLogs(_processedChangeLogs);
+  }, [changeLogs]);
+
   const generatePDF = () => {
-    const doc = jsPDF();
-    const content = pdfRef.current;
-    doc.html(content);
-    return doc.save(`${customConfig.NAME} - changelog.pdf`);
+    const doc = new jsPDF();
+
+    doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
+
+    doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
+
+    autoTable(doc, {
+      startY: 30,
+      margin: { horizontal: 10 },
+      head: [['Date', 'Title', 'Description', 'Transaction', 'Revision']],
+      body: processedChangeLogs,
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [241, 243, 255],
+        textColor: [82, 91, 107],
+        halign: 'center'
+      },
+      bodyStyles: {
+        fillColor: [241, 243, 255]
+      },
+      alternateRowStyles: { fillColor: [255, 255, 255] },
+      columnStyles: { 0: { halign: 'center' }, 4: { halign: 'center' } }
+    });
+
+    doc.save(`${customConfig.NAME} - changelog.pdf`);
   };
 
   return (
@@ -94,7 +128,8 @@ CoaChangelogContainer.defaultProps = {
   revisionId: undefined,
   evidenceId: undefined,
   userId: undefined,
-  emptyText: 'No entries in the changelog yet'
+  emptyText: 'No entries in the changelog yet',
+  withInfinityHeight: false
 };
 
 CoaChangelogContainer.propTypes = {
@@ -105,5 +140,6 @@ CoaChangelogContainer.propTypes = {
   revisionId: PropTypes.string,
   evidenceId: PropTypes.string,
   userId: PropTypes.string,
-  emptyText: PropTypes.string
+  emptyText: PropTypes.string,
+  withInfinityHeight: PropTypes.bool
 };
