@@ -93,6 +93,8 @@ const EvidencesContainer = () => {
         <CoaChangelogContainer
           title="Activity Changelog"
           emptyText="No activities on the changelog yet"
+          projectId={projectId}
+          activityId={activityId}
         />
       </div>
     </LandingLayout>

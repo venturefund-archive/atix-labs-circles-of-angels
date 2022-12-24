@@ -56,7 +56,7 @@ export default function ProjectChangeLog() {
           Go Back
         </CoaTextButton>
         <TitlePage textTitle="Changelog" textColor="#4C7FF7" />
-        <CoaChangelogContainer />
+        <CoaChangelogContainer title="Project Changelog" projectId={projectId} withInfinityHeight />
       </div>
     </LandingLayout>
   );

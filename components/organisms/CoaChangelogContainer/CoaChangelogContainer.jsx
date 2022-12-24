@@ -8,6 +8,8 @@ import { getChangelog } from '../../../api/projectApi';
 import { sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
 import CoaChangelogItem from '../../atoms/ChangelogItem/CoaChangelogItem';
+import jsPDF from 'jspdf';
+import customConfig from 'custom-config';
 
 export const CoaChangelogContainer = ({
   title,
@@ -17,11 +19,13 @@ export const CoaChangelogContainer = ({
   revisionId,
   evidenceId,
   userId,
-  emptyText
+  emptyText,
+  withInfinityHeight
 }) => {
   const fetchChangelog = useRef();
   const [changeLogs, setChangeLogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const pdfRef = useRef(null);
 
   fetchChangelog.current = async () => {
     setLoading(true);
@@ -41,31 +45,45 @@ export const CoaChangelogContainer = ({
     fetchChangelog.current();
   }, []);
 
-  return (
-    <div className="o-coaChangelogContainer">
-      <div className="o-coaChangelogContainer__header">
-        <h3>{title}</h3>
-        <CoaTextButton>Download</CoaTextButton>
-      </div>
-      <Divider type="horizontal" />
+  const generatePDF = () => {
+    const doc = jsPDF();
+    const content = pdfRef.current;
+    doc.html(content);
+    return doc.save(`${customConfig.NAME} - changelog.pdf`);
+  };
 
+  return (
+    <Loading spinning={loading}>
       <div
-        className={classNames('o-coaChangelogContainer__body', {
-          '--empty': changeLogs.length === 0
+        className={classNames('o-coaChangelogContainer', {
+          '--infinityHeight': withInfinityHeight
         })}
       >
-        {changeLogs.length === 0 && (
-          <>
-            <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
-            <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
-          </>
-        )}
-        {changeLogs.length > 0 &&
-          changeLogs.map(changelog => (
-            <CoaChangelogItem changelog={changelog} key={changelog.id} />
-          ))}
+        <div className="o-coaChangelogContainer__header">
+          <h3>{title}</h3>
+          <CoaTextButton onClick={generatePDF}>Download</CoaTextButton>
+        </div>
+        <Divider type="horizontal" />
+
+        <div
+          className={classNames('o-coaChangelogContainer__body', {
+            '--empty': changeLogs.length === 0
+          })}
+          id="test"
+        >
+          {changeLogs.length === 0 && (
+            <>
+              <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
+              <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
+            </>
+          )}
+          {changeLogs.length > 0 &&
+            changeLogs.map(changelog => (
+              <CoaChangelogItem changelog={changelog} key={changelog.id} />
+            ))}
+        </div>
       </div>
-    </div>
+    </Loading>
   );
 };
 
@@ -87,6 +105,5 @@ CoaChangelogContainer.propTypes = {
   revisionId: PropTypes.string,
   evidenceId: PropTypes.string,
   userId: PropTypes.string,
-  title: PropTypes.string,
   emptyText: PropTypes.string
 };

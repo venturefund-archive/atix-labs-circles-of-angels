@@ -125,11 +125,11 @@ export const getDateAndTime = date => {
   if (!date) return '';
   const newDate = new Date(date).toLocaleString('en-us', { hour12: false });
 
-  const [_date, time] = newDate.split(',');
+  const [_date, time] = newDate?.split(',');
 
   const localeDateParsed = new Date(_date);
 
-  const [hours, minutes] = time.split(' ')[1].split(':');
+  const [hours, minutes] = time?.split(' ')[1]?.split(':');
 
   const month = localeDateParsed.getMonth();
   const day = localeDateParsed.getDate();

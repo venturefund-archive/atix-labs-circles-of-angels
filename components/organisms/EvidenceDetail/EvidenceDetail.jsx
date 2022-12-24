@@ -14,9 +14,10 @@ import AttachedFiles from '../AttachedFiles/AttachedFiles';
 import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
 import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
+import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
-  const { projectId, activityId } = useParams();
+  const { projectId, activityId, detailEvidenceId } = useParams();
 
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
@@ -59,13 +60,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {isImpactEvidence && evidence?.files &&
+          {isImpactEvidence && evidence?.files && (
             <>
               <Divider />
               <AttachedFiles files={evidence?.files} />
             </>
-          }
-          {isTransferEvidence &&
+          )}
+          {isTransferEvidence && (
             <>
               <Divider />
               <h5 className="evidenceDetail__container__transaction__title">Transaction</h5>
@@ -77,7 +78,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
                 {transferTxHash}
               </Link>
             </>
-          }
+          )}
           {isAuditor && isNewEvidence && isToReviewActivity && (
             <>
               <Divider />
@@ -91,7 +92,12 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
           )}
         </div>
         <div className="evidenceDetail__container__right">
-          <EvidenceComments {...evidence} />
+          <CoaChangelogContainer
+            projectId={projectId}
+            activity={activityId}
+            evidenceId={detailEvidenceId}
+            title="Evidence Changelog"
+          />
         </div>
       </div>
       <ModalApproveEvidence

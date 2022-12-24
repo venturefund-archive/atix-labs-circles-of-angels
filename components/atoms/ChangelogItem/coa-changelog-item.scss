@@ -1,0 +1,40 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.coaChangelogItem {
+  background: $coa-white-100;
+  padding: 0.8125rem 1.3125rem;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__body {
+    @include primary-text(0.75rem, $coa-grey-100, 400);
+    margin-top: 1.3125rem;
+  }
+  &__footer {
+    margin-top: 0.9375rem;
+  }
+
+  &__date {
+    @include primary-text(0.875rem, $coa-grey-100, 400);
+  }
+
+  &__title {
+    @include primary-text(0.875rem, $coa-dark-gray-100, 400);
+    &.--bold {
+      font-weight: 600;
+    }
+  }
+
+  &__rev {
+    @include primary-text(0.625rem, $coa-grey-100, 400);
+  }
+}
