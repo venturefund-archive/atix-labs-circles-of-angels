@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
-  const { getFieldDecorator, validateFields } = form;
+  const { getFieldDecorator, validateFields, isFieldValidating } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -34,12 +34,13 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   }, []);
 
   const validPin = async (_rule, value, callback) => {
+    if (!value) callback();
     try {
       const key = `${value}-${keySuffix}`;
       await decryptJsonWallet(wallet, key);
       callback();
     } catch (e) {
-      callback(e);
+      callback('Invalid secret key');
     }
   };
   const validPassword = async (_rule, value, callback) => {
@@ -52,12 +53,12 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   };
 
   const submit = () => {
-    setIsLoading(true);
     const { getFieldValue } = form;
-    validateFields(err => {
+    validateFields(async err => {
       if (!err) {
-        onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
-        return setIsLoading(false);
+        setIsLoading(true);
+        await onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
+        setIsLoading(false);
       }
     });
   };
@@ -73,7 +74,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
         <Button
           className="ant-btn ant-btn-primary CoaModal__Primary"
           onClick={submit}
-          loading={isLoading}
+          loading={isLoading || isFieldValidating('password') || isFieldValidating('secretKey')}
         >
           Continue
         </Button>
@@ -94,7 +95,8 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
               {
                 validator: validPassword
               }
-            ]
+            ],
+            validateTrigger: 'onSubmit'
           })(<Input.Password placeholder="Enter your password" />)}
         </Form.Item>
         <Form.Item label="Secret Key">
@@ -107,7 +109,8 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
               {
                 validator: validPin
               }
-            ]
+            ],
+            validateTrigger: 'onSubmit'
           })(<Input.Password placeholder="Enter your password" name="pin" />)}
         </Form.Item>
       </Form>

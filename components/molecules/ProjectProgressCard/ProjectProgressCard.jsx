@@ -40,7 +40,7 @@ export const ProjectProgressCard = ({
         <div>
           <p className="m-projectProgressCard__title --progress">Total Progress</p>
           <p className="m-projectProgressCard__value --progress">
-            %{(progressCurrentValue / progressTotalValue) * 100}
+            %{((progressCurrentValue / progressTotalValue) * 100).toFixed(2)}
           </p>
         </div>
       </div>
