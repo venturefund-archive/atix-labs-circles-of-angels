@@ -261,7 +261,7 @@ const changelogActions = changelog => {
           uploaded{' '}
           <Link
             className="coaChangelogItem__title --highlighted"
-            to={`${projectId}/activity/${activityId}/evidences/${evidenceId}`}
+            to={`/${projectId}/activity/${activityId}/evidences/${evidenceId}`}
           >
             {evidenceTitle}
           </Link>{' '}
@@ -322,7 +322,7 @@ const changelogActions = changelog => {
           approved{' '}
           <Link
             className="coaChangelogItem__title --highlighted"
-            to={`${projectId}/activity/${activityId}/evidences/${evidenceId}`}
+            to={`/${projectId}/activity/${activityId}/evidences/${evidenceId}`}
           >
             {evidenceTitle}
           </Link>{' '}
