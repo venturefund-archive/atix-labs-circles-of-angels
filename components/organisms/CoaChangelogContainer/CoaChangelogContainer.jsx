@@ -51,8 +51,8 @@ export const CoaChangelogContainer = ({
   useEffect(() => {
     const _processedChangeLogs = changeLogs?.map(changelog => [
       formatDate(changelog?.datetime),
-      changelogActions(changelog)?.[changelog?.action]?.title,
-      changelogActions(changelog)?.[changelog?.action]?.description,
+      changelogActions(changelog)?.[changelog?.action]?.titleText,
+      changelogActions(changelog)?.[changelog?.action]?.descriptionText,
       changelog?.transaction,
       changelog?.revision
     ]);
