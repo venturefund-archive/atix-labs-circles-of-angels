@@ -116,6 +116,10 @@ const PreviewProject = ({ id, preview }) => {
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, id);
+  const isPublishedOrInProgressProject = [
+    PROJECT_STATUS_ENUM.PUBLISHED,
+    PROJECT_STATUS_ENUM.IN_PROGRESS
+  ].includes(status);
 
   return (
     <LandingLayout
@@ -163,7 +167,7 @@ const PreviewProject = ({ id, preview }) => {
                 </CoaButton>
               </Link>
             </div>
-            {isBeneficiaryOrInvestor && (
+            { isBeneficiaryOrInvestor && isPublishedOrInProgressProject &&
               <CoaButton
                 type="primary"
                 onClick={() => history.push(`/${id}`)}
