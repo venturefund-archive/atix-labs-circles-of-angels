@@ -41,3 +41,5 @@ export const formatCurrency = (currency, value, isCurrencyLabelAtEnd = false) =>
 };
 
 export const removeDecimals = number => number?.toString().split('.')[0];
+
+export const formatLeadWithZero = number => (number < 10 ? `0${number}`.slice(-2) : number);

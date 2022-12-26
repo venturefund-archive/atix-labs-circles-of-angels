@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { message, Divider, Icon } from 'antd';
+import { message, Divider } from 'antd';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
@@ -167,16 +167,15 @@ const PreviewProject = ({ id, preview }) => {
                 </CoaButton>
               </Link>
             </div>
-            { isBeneficiaryOrInvestor && isPublishedOrInProgressProject &&
+            {isBeneficiaryOrInvestor && isPublishedOrInProgressProject && (
               <CoaButton
                 type="primary"
-                onClick={() => history.push(`/${ id}`)
-                }
+                onClick={() => history.push(`/${id}`)}
                 className="o-previewProject__buttons__requestChanges"
               >
                 Request changes
               </CoaButton>
-            }
+            )}
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection
@@ -326,7 +325,7 @@ const PreviewProject = ({ id, preview }) => {
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer title="Project Changelog" />
+            <CoaChangelogContainer title="Project Changelog" projectId={id} currency={currency} />
           </div>
         </div>
       )}

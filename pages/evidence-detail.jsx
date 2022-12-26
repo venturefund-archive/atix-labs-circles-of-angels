@@ -19,20 +19,23 @@ export default function EvidenceDetailPage() {
   const { basicInformation, status, details, budget } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
-  const { currency, legalAgreementFile, projectProposalFile } =
-    details || {};
+  const { currency, legalAgreementFile, projectProposalFile } = details || {};
   const { firstName, lastName } = beneficiary || {};
-  const beneficiaryName = firstName || lastName ? `${firstName} ${lastName}`: 'No name';
+  const beneficiaryName = firstName || lastName ? `${firstName} ${lastName}` : 'No name';
 
-  const activityStatus = project?.milestones?.flatMap((milestones)=> milestones.activities)
+  const activityStatus = project?.milestones
+    ?.flatMap(milestones => milestones.activities)
     ?.find(activity => activity.id === parseInt(activityId, 10))?.status;
 
-  const fetchEvidence = useCallback(async (id) => {
-    const result = await getEvidence(id);
-    const data = { ...result.data, activityStatus };
-    setEvidence(data)
-    setLoadingEvidence(false);
-  }, [activityStatus]);
+  const fetchEvidence = useCallback(
+    async id => {
+      const result = await getEvidence(id);
+      const data = { ...result.data, activityStatus };
+      setEvidence(data);
+      setLoadingEvidence(false);
+    },
+    [activityStatus]
+  );
 
   useEffect(() => {
     fetchEvidence(detailEvidenceId);
@@ -58,7 +61,9 @@ export default function EvidenceDetailPage() {
         />
       }
     >
-      {evidence && <EvidenceDetail evidence={evidence} fetchEvidence={fetchEvidence}/>}
+      {evidence && (
+        <EvidenceDetail evidence={evidence} fetchEvidence={fetchEvidence} currency={currency} />
+      )}
     </LandingLayout>
-  )
+  );
 }

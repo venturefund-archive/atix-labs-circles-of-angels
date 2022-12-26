@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from 'components/utils/UserContext';
 import { updateEvidenceStatus } from 'api/activityApi';
 import './_style.scss';
-import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComments';
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
@@ -14,11 +13,12 @@ import AttachedFiles from '../AttachedFiles/AttachedFiles';
 import Breadcrumb from '../../atoms/BreadCrumb/BreadCrumb';
 import CoaRejectButton from '../../atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
+import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
-export default function EvidenceDetail({ evidence, fetchEvidence }) {
+export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const { user } = useContext(UserContext);
-  const { projectId, activityId } = useParams();
+  const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
 
@@ -26,7 +26,8 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidenceStatus === 'new';
 
-  if(!user && evidenceStatus !=='approved') return <Redirect to={`/${projectId}/activity/${activityId}/evidences`} />;
+  if (!user && evidenceStatus !== 'approved')
+    return <Redirect to={`/${projectId}/activity/${activityId}/evidences`} />;
 
   const isImpactEvidence = evidence.type === 'impact';
   const isTransferEvidence = evidence.type === 'transfer';
@@ -63,18 +64,19 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {isImpactEvidence && evidence?.files &&
+          {isImpactEvidence && evidence?.files && (
             <>
               <Divider />
               <AttachedFiles files={evidence?.files} />
             </>
-          }
-          {isTransferEvidence &&
+          )}
+          {isTransferEvidence && (
             <>
               <Divider />
-              <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency}/>
+              <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency} />
             </>
-          }
+          )}
+
           {isAuditor && isNewEvidence && (
             <>
               <Divider />
@@ -88,7 +90,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
           )}
         </div>
         <div className="evidenceDetail__container__right">
-          <EvidenceComments {...evidence} />
+          <CoaChangelogContainer
+            projectId={projectId}
+            activity={activityId}
+            evidenceId={detailEvidenceId}
+            title="Evidence Changelog"
+            currency={currency}
+          />
         </div>
       </div>
       <ModalApproveEvidence

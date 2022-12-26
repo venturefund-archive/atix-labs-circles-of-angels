@@ -129,7 +129,7 @@ export const getDateAndTime = date => {
 
   const localeDateParsed = new Date(_date);
 
-  const [hours, minutes] = time.split(' ')[1].split(':');
+  const [hours, minutes] = time?.split?.(' ')[1]?.split(':');
 
   const month = localeDateParsed.getMonth();
   const day = localeDateParsed.getDate();
