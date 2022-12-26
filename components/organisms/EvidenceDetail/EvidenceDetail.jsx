@@ -18,7 +18,6 @@ import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
 export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const { user } = useContext(UserContext);
-  const history = useHistory();
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
