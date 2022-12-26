@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatLeadWithZero } from 'helpers/formatter';
 import TransactionLink from 'components/molecules/TransactionLink/TransactionLink';
-import { formatDate } from '../../utils';
+import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
 
@@ -12,7 +12,7 @@ const CoaChangelogItem = ({ changelog, currency }) => {
     <div className="coaChangelogItem">
       <div className="coaChangelogItem__header">
         <p>
-          <span className="coaChangelogItem__date">{formatDate(datetime)}</span> -{' '}
+          <span className="coaChangelogItem__date">{getDateAndTime(datetime, 'minimal')}</span> -{' '}
           <span className="coaChangelogItem__title">
             {changelogActions(changelog)?.[action]?.title?.()}
           </span>

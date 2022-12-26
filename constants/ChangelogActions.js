@@ -1,8 +1,27 @@
 import React from 'react';
-import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
+import { Link } from 'react-router-dom';
+
+const BASIC_INFORMATION_ACTIONS = {
+  location: 'set a new location',
+  thumbnailPhotoFile: 'uploaded a new thumbnail photo',
+  timeframe: 'set a new timeframe',
+  timeframeUnit: 'set a new timeframe unit',
+  projectName: 'set a new project name',
+  dataComplete: 'completed all the fields'
+};
+
+const PROJECT_DETAILS_ACTIONS = {
+  legalAgreementFile: 'uploaded a new legal agreement file',
+  projectProposalFile: 'uploaded a new project proposal file',
+  currency: 'set a new currency',
+  problemAddressed: 'set a new about the project',
+  currencyType: 'set a new currency type',
+  additionalCurrencyInformation: 'set additional currency information',
+  mission: 'set a new mission and vision of the project'
+};
 
 const changelogActions = changelog => {
-  const role = changelog?.user?.isAdmin ? 'Admin' : ROLES_IDS?.[changelog?.user?.roles?.[0]];
+  const role = changelog?.user?.isAdmin ? 'Admin' : changelog?.user?.roles?.[0]?.description;
   const user = changelog?.user;
   const userName = `${user?.firstName} ${user?.lastName}`;
   const auditor = changelog?.activity?.auditor;
@@ -12,6 +31,10 @@ const changelogActions = changelog => {
   const milestoneTitle = changelog?.milestone?.title;
   const activityTitle = changelog?.activity?.title;
   const evidenceTitle = changelog?.evidence?.title;
+  const extraData = changelog?.extraData;
+  const projectId = changelog?.project?.id;
+  const activityId = changelog?.activity?.id;
+  const evidenceId = changelog?.evidence?.id;
 
   return {
     create_project: {
@@ -74,126 +97,155 @@ const changelogActions = changelog => {
       title: () => (
         <>
           <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          basic information
         </>
       ),
+      titleText: `${userName} edited the project basic information`,
       description: () => (
         <>
-          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          edited the project basic information
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -{' '}
+          {BASIC_INFORMATION_ACTIONS[(extraData?.fieldName)]}
         </>
-      )
+      ),
+      descriptionText: `${userName} - ${role} - ${
+        BASIC_INFORMATION_ACTIONS[(extraData?.fieldName)]
+      }`
     },
     edit_project_details: {
       actionText: 'edited project details',
       title: () => (
         <>
           <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          details
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} edited the project details`,
       description: () => (
         <>
-          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          edited the project details
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -{' '}
+          {PROJECT_DETAILS_ACTIONS[(extraData?.fieldName)]}
         </>
       ),
-      descriptionText: `${userName} - ${role} - edited the project details`
+      descriptionText: `${userName} - ${role} - ${PROJECT_DETAILS_ACTIONS[(extraData?.fieldName)]}`
     },
     add_user_project: {
       actionText: 'added a user to project',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> add an user to the
+          project
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} add an user to the project`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - added
-          an user to the project
+          to{' '}
+          <span className="coaChangelogItem__title --highlighted">
+            {extraData?.user?.firstName} {extraData?.user?.lastName}
+          </span>{' '}
+          as{' '}
+          <span className="coaChangelogItem__title --highlighted">
+            {extraData?.role?.description}
+          </span>{' '}
+          of the project
         </>
       ),
-      descriptionText: `${userName} - ${role} - added an user to the project`
+      descriptionText: `${userName} - ${role} - added to ${extraData?.user?.firstName} ${extraData?.user?.lastName} as ${extraData?.role?.description} of the project`
     },
     remove_user_project: {
       actionText: 'removed user from project',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> removed an user of the
+          project
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} removed an user of the project`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          removed an user of the project
+          removed {extraData?.user?.firstName} {extraData?.user?.lastName} as{' '}
+          {extraData?.role?.description} of the project
         </>
       ),
-      descriptionText: `${userName} - ${role} - removed an user of the project`
+      descriptionText: `${userName} - ${role} - removed ${extraData?.user?.firstName} ${extraData?.user?.lastName} as ${extraData?.role?.description} of the project`
     },
     add_milestone: {
       actionText: 'created a milestone',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> created a milestone
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} created a milestone`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          created a milestone
+          created the milestone{' '}
+          <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - created a milestone`
+      descriptionText: `${userName} - ${role} - created the milestone ${milestoneTitle}`
     },
     remove_milestone: {
       actionText: 'removed milestone',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> removed a milestone
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} removed a milestone`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          removed a milestone
+          removed the milestone{' '}
+          <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - removed a milestone`
+      descriptionText: `${userName} - ${role} - removed the milestone ${milestoneTitle}`
     },
     add_activity: {
       actionText: 'created an activity',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> add an activity
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} add an activity`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          created an activity
+          created the activity{' '}
+          <Link
+            to={`/${projectId}/activity/${activityId}/evidences`}
+            className="coaChangelogItem__title --highlighted"
+          >
+            {activityTitle}
+          </Link>{' '}
+          in the <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span>{' '}
+          Milestone
         </>
       ),
-      descriptionText: `${userName} - ${role} - created an activity`
+      descriptionText: `${userName} - ${role} - created the activity ${activityTitle} in the ${milestoneTitle} Milestone`
     },
     remove_activity: {
       actionText: 'removed activity',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
+          <span className="coaChangelogItem__title --bold">{userName}</span> removed an activity
         </>
       ),
-      titleText: `${userName} edited the project`,
+      titleText: `${userName} removed an activity`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          removed an activity
+          removed the activity{' '}
+          <span className="coaChangelogItem__title --highlighted">{activityTitle}</span> of the{' '}
+          <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span> Milestone
         </>
       ),
-      descriptionText: `${userName} - ${role} - removed an activity`
+      descriptionText: `${userName} - ${role} - removed the activity ${activityTitle} of the ${milestoneTitle} Milestone`
     },
     add_evidence: {
       actionText: 'uploaded a new evidence',
@@ -206,8 +258,20 @@ const changelogActions = changelog => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          uploaded <span className="coaChangelogItem__title --highlighted">{evidenceTitle}</span>{' '}
-          evidence to <span className="coaChangelogItem__title --highlighted">{activityTitle}</span>{' '}
+          uploaded{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`${projectId}/activity/${activityId}/evidences/${evidenceId}`}
+          >
+            {evidenceTitle}
+          </Link>{' '}
+          evidence to{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
           Activity of{' '}
           <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span> Milestone
         </>

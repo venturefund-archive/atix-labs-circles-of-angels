@@ -121,7 +121,7 @@ const nth = d => {
   }
 };
 
-export const getDateAndTime = date => {
+export const getDateAndTime = (date, format) => {
   if (!date) return '';
   const newDate = new Date(date).toLocaleString('en-us', { hour12: false });
 
@@ -135,5 +135,6 @@ export const getDateAndTime = date => {
   const day = localeDateParsed.getDate();
   const year = localeDateParsed.getFullYear();
 
+  if (format === 'minimal') return `${month}/${day}/${year} - ${hours}:${minutes}`;
   return `${months[month]}, ${day}${nth(day)} ${year} - ${hours}:${minutes}`;
 };

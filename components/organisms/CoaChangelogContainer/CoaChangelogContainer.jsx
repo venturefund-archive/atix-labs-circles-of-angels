@@ -7,9 +7,10 @@ import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
+import { getDateAndTime } from 'helpers/utils';
 import changelogActions from 'constants/ChangelogActions';
 import { getChangelog } from '../../../api/projectApi';
-import { formatDate, sortArrayByDate } from '../../utils';
+import { sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
 import CoaChangelogItem from '../../atoms/ChangelogItem/CoaChangelogItem';
 
@@ -50,7 +51,7 @@ export const CoaChangelogContainer = ({
 
   useEffect(() => {
     const _processedChangeLogs = changeLogs?.map(changelog => [
-      formatDate(changelog?.datetime),
+      getDateAndTime(changelog?.datetime, 'minimal'),
       changelogActions(changelog)?.[changelog?.action]?.titleText,
       changelogActions(changelog)?.[changelog?.action]?.descriptionText,
       changelog?.transaction,
