@@ -5,7 +5,7 @@ import './_style.scss';
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -27,9 +27,9 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidenceStatus === 'new';
 
-  if (!user && evidenceStatus !== 'approved') history.goBack();
+  if (!user && evidenceStatus !== 'approved')
+    return <Redirect to={`/${projectId}/activity/${activityId}/evidences`} />;
 
-  const isToReviewActivity = evidence.activityStatus === 'to-review';
   const isImpactEvidence = evidence.type === 'impact';
   const isTransferEvidence = evidence.type === 'transfer';
   const { transferTxHash } = evidence;
@@ -77,7 +77,8 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
               <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency} />
             </>
           )}
-          {isAuditor && isNewEvidence && isToReviewActivity && (
+
+          {isAuditor && isNewEvidence && (
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
