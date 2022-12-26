@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import EvidenceDetail from 'components/organisms/EvidenceDetail/EvidenceDetail';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { getEvidence } from 'api/activityApi';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
@@ -11,7 +11,7 @@ import Loading from '../components/molecules/Loading/Loading';
 
 export default function EvidenceDetailPage() {
   const [evidence, setEvidence] = useState({});
-  const { location: { pathname } } = useHistory();
+  const [loadingEvidence, setLoadingEvidence] = useState(true);
   const { projectId, activityId, detailEvidenceId } = useParams();
 
   // Info about project
@@ -31,13 +31,14 @@ export default function EvidenceDetailPage() {
     const result = await getEvidence(id);
     const data = { ...result.data, activityStatus };
     setEvidence(data)
+    setLoadingEvidence(false);
   }, [activityStatus]);
 
   useEffect(() => {
     fetchEvidence(detailEvidenceId);
-  }, [detailEvidenceId, fetchEvidence, pathname]);
+  }, [detailEvidenceId, fetchEvidence]);
 
-  if (loading) return <Loading />;
+  if (loading || loadingEvidence) return <Loading />;
 
   return (
     <LandingLayout

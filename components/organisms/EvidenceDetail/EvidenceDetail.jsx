@@ -6,7 +6,7 @@ import EvidenceComments from 'components/molecules/EvidenceComments/EvidenceComm
 import EvidenceDetailBox from 'components/molecules/EvidenceDetailBox/EvidenceDetailBox';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { Divider } from 'antd';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
@@ -18,7 +18,6 @@ import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
 export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const { user } = useContext(UserContext);
-  const history = useHistory();
   const { projectId, activityId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
@@ -27,9 +26,8 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidenceStatus === 'new';
 
-  if(!user && evidenceStatus !=='approved') history.goBack();
+  if(!user && evidenceStatus !=='approved') return <Redirect to={`/${projectId}/activity/${activityId}/evidences`} />;
 
-  const isToReviewActivity = evidence.activityStatus === 'to-review';
   const isImpactEvidence = evidence.type === 'impact';
   const isTransferEvidence = evidence.type === 'transfer';
   const { transferTxHash } = evidence;
@@ -77,7 +75,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
               <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency}/>
             </>
           }
-          {isAuditor && isNewEvidence && isToReviewActivity && (
+          {isAuditor && isNewEvidence && (
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
