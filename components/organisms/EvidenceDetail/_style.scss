@@ -30,16 +30,6 @@
         column-gap: 10px;
       }
     }
-    &__transaction {
-      &__title {
-        @include primary-text(1rem, $coa-dark-gray-100, 600);
-        margin-bottom: 20px;
-      }
-      &__hash {
-        text-decoration: underline;
-        @include primary-text(1rem, $coa-blue-100, 400);
-      }
-    }
   }
 }
 

@@ -1,0 +1,13 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.transactionLink {
+  &__title {
+    @include primary-text(1rem, $coa-dark-gray-100, 600);
+    margin-bottom: 20px;
+  }
+  &__link {
+    text-decoration: underline;
+    @include primary-text(1rem, $coa-blue-100, 400);
+  }
+}

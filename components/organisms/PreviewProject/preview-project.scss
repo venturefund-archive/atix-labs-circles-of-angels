@@ -15,9 +15,18 @@
     max-width: 1000px;
     column-gap: 2.1875rem;
   }
-  &__buttons {
+  &__buttons__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     overflow: auto;
     width: 100%;
+    @include breakpoint(xl){
+      display: block;
+    }
+  }
+  &__buttons {
+    overflow: auto;
     display: flex;
     column-gap: 0.9375rem;
     padding-block: 0.5rem;
@@ -28,6 +37,11 @@
       background: $coa-light-sky-blue-100;
       @include primary-text(1.25rem, $coa-dark-gray-100, 500);
       box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    }
+    &__requestChanges {
+      @include breakpoint(xl){
+        margin-top: 1rem;
+      }
     }
   }
   &__infoSection {

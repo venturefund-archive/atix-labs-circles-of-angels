@@ -27,6 +27,7 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
+import { checkIsBeneficiaryOrInvestor } from '../../../helpers/roles';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const PreviewProject = ({ id, preview }) => {
@@ -114,6 +115,8 @@ const PreviewProject = ({ id, preview }) => {
   );
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
+  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, id);
+
   return (
     <LandingLayout
       showPreviewAlert={preview && isAdmin}
@@ -138,26 +141,38 @@ const PreviewProject = ({ id, preview }) => {
     >
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
-          <div className="o-previewProject__buttons">
-            <CoaButton
-              shape="round"
-              className="o-previewProject__buttons__button"
-              onClick={() => scrollToTargetAdjusted('project-progress', 70)}
-            >
-              <ProjectDetailsIcon /> Project Progress
-            </CoaButton>
-            <CoaButton
-              shape="round"
-              className="o-previewProject__buttons__button"
-              onClick={() => scrollToTargetAdjusted('milestones', 70)}
-            >
-              <MilestonesIcon /> Milestones
-            </CoaButton>
-            <Link to={`${id}/changelog`}>
-              <CoaButton shape="round" className="o-previewProject__buttons__button">
-                <BlockchainIcon /> Blockchain Changelog
+          <div className="o-previewProject__buttons__container">
+            <div className="o-previewProject__buttons">
+              <CoaButton
+                shape="round"
+                className="o-previewProject__buttons__button"
+                onClick={() => scrollToTargetAdjusted('project-progress', 70)}
+              >
+                <ProjectDetailsIcon /> Project Progress
               </CoaButton>
-            </Link>
+              <CoaButton
+                shape="round"
+                className="o-previewProject__buttons__button"
+                onClick={() => scrollToTargetAdjusted('milestones', 70)}
+              >
+                <MilestonesIcon /> Milestones
+              </CoaButton>
+              <Link to={`${id}/changelog`}>
+                <CoaButton shape="round" className="o-previewProject__buttons__button">
+                  <BlockchainIcon /> Blockchain Changelog
+                </CoaButton>
+              </Link>
+            </div>
+            { isBeneficiaryOrInvestor &&
+              <CoaButton
+                type="primary"
+                onClick={() => history.push(`/${ id}`)
+                }
+                className="o-previewProject__buttons__requestChanges"
+              >
+                Request changes
+              </CoaButton>
+            }
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection

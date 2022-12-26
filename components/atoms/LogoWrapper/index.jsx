@@ -10,10 +10,10 @@ const LogoWrapper = ({ textTitle, image }) => {
   return (
     <div className="LogoWrapper">
       <img src={src} alt={`${customConfig.NAME} logo`} />
-      <TitlePage textTitle={textTitle} />
+      <TitlePage textTitle={textTitle} underlinePosition="none" />
     </div>
   );
-}
+};
 
 export default LogoWrapper;
 
