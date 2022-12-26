@@ -289,8 +289,20 @@ const changelogActions = changelog => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          rejected <span className="coaChangelogItem__title --highlighted">{evidenceTitle}</span>{' '}
-          evidence of <span className="coaChangelogItem__title --highlighted">{activityTitle}</span>{' '}
+          rejected{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences/${evidenceId}`}
+          >
+            {evidenceTitle}
+          </Link>{' '}
+          evidence of{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
           Activity and commented {changelog?.description}
         </>
       ),
@@ -307,8 +319,20 @@ const changelogActions = changelog => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          approved <span className="coaChangelogItem__title --highlighted">{evidenceTitle}</span>{' '}
-          evidence of <span className="coaChangelogItem__title --highlighted">{activityTitle}</span>{' '}
+          approved{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`${projectId}/activity/${activityId}/evidences/${evidenceId}`}
+          >
+            {evidenceTitle}
+          </Link>{' '}
+          evidence of{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
           Activity
         </>
       ),
@@ -326,7 +350,13 @@ const changelogActions = changelog => {
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           rejected the{' '}
-          <span className="coaChangelogItem__title --highlighted">{activityTitle}</span> Activity of{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
+          Activity of{' '}
           <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span> Milestone
         </>
       ),
@@ -344,7 +374,13 @@ const changelogActions = changelog => {
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           approved the{' '}
-          <span className="coaChangelogItem__title --highlighted">{activityTitle}</span> Activity of{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
+          Activity of{' '}
           <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span> Milestone
         </>
       ),
@@ -362,7 +398,13 @@ const changelogActions = changelog => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - sent
-          the <span className="coaChangelogItem__title --highlighted">{activityTitle}</span>{' '}
+          the{' '}
+          <Link
+            className="coaChangelogItem__title --highlighted"
+            to={`/${projectId}/activity/${activityId}/evidences`}
+          >
+            {activityTitle}
+          </Link>{' '}
           Activity of{' '}
           <span className="coaChangelogItem__title --highlighted">{milestoneTitle}</span> Milestone
           to be reviewed by{' '}
