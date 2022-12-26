@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './coa-changelog-container.scss';
 import { Divider, message } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
-import { getChangelog } from '../../../api/projectApi';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
+import changelogActions from 'constants/ChangelogActions';
+import { getChangelog } from '../../../api/projectApi';
 import { formatDate, sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
 import CoaChangelogItem from '../../atoms/ChangelogItem/CoaChangelogItem';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import changelogActions from 'constants/ChangelogActions';
 
 export const CoaChangelogContainer = ({
   title,
@@ -58,7 +58,7 @@ export const CoaChangelogContainer = ({
     setProcessedChangeLogs(_processedChangeLogs);
   }, [changeLogs]);
 
-  const generatePDF = () => {
+  function generatePDF() {
     const doc = new jsPDF();
 
     doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
@@ -84,7 +84,7 @@ export const CoaChangelogContainer = ({
     });
 
     doc.save(`${customConfig.NAME} - changelog.pdf`);
-  };
+  }
 
   return (
     <Loading spinning={loading}>
