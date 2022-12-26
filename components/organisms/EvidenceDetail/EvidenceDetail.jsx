@@ -16,7 +16,7 @@ import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
-export default function EvidenceDetail({ evidence, fetchEvidence }) {
+export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const { user } = useContext(UserContext);
   const history = useHistory();
   const { projectId, activityId, detailEvidenceId } = useParams();
@@ -95,6 +95,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence }) {
             activity={activityId}
             evidenceId={detailEvidenceId}
             title="Evidence Changelog"
+            currency={currency}
           />
         </div>
       </div>

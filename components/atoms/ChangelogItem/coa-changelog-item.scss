@@ -32,6 +32,10 @@
     &.--bold {
       font-weight: 600;
     }
+    &.--highlighted {
+      @include primary-text(0.75rem, $coa-blue-100, 400);
+      text-decoration: underline;
+    }
   }
 
   &__rev {

@@ -22,7 +22,8 @@ export const CoaChangelogContainer = ({
   evidenceId,
   userId,
   emptyText,
-  withInfinityHeight
+  withInfinityHeight,
+  currency
 }) => {
   const fetchChangelog = useRef();
   const [changeLogs, setChangeLogs] = useState([]);
@@ -113,7 +114,7 @@ export const CoaChangelogContainer = ({
           )}
           {changeLogs.length > 0 &&
             changeLogs.map(changelog => (
-              <CoaChangelogItem changelog={changelog} key={changelog.id} />
+              <CoaChangelogItem changelog={changelog} key={changelog.id} currency={currency} />
             ))}
         </div>
       </div>

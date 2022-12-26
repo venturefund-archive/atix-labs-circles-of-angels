@@ -95,6 +95,7 @@ const EvidencesContainer = () => {
           emptyText="No activities on the changelog yet"
           projectId={projectId}
           activityId={activityId}
+          currency={currency}
         />
       </div>
     </LandingLayout>

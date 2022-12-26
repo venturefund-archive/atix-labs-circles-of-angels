@@ -163,16 +163,15 @@ const PreviewProject = ({ id, preview }) => {
                 </CoaButton>
               </Link>
             </div>
-            { isBeneficiaryOrInvestor &&
+            {isBeneficiaryOrInvestor && (
               <CoaButton
                 type="primary"
-                onClick={() => history.push(`/${ id}`)
-                }
+                onClick={() => history.push(`/${id}`)}
                 className="o-previewProject__buttons__requestChanges"
               >
                 Request changes
               </CoaButton>
-            }
+            )}
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection
@@ -322,7 +321,7 @@ const PreviewProject = ({ id, preview }) => {
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer title="Project Changelog" projectId={id} />
+            <CoaChangelogContainer title="Project Changelog" projectId={id} currency={currency} />
           </div>
         </div>
       )}
