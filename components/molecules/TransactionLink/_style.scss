@@ -7,6 +7,10 @@
     margin-bottom: 20px;
   }
   &__link {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     text-decoration: underline;
     @include primary-text(1rem, $coa-blue-100, 400);
   }
