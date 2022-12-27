@@ -15,7 +15,6 @@ import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressP
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
-import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
@@ -161,7 +160,7 @@ const PreviewProject = ({ id, preview }) => {
               >
                 <MilestonesIcon /> Milestones
               </CoaButton>
-              <Link to={`${id}/changelog`}>
+              <Link to={`${id}/changelog`} className="o-previewProject__buttons__buttonContainer">
                 <CoaButton shape="round" className="o-previewProject__buttons__button">
                   <BlockchainIcon /> Blockchain Changelog
                 </CoaButton>
