@@ -41,7 +41,14 @@ const getAuditorName = (auditorId, project) => {
   return `${auditor?.firstName} ${auditor?.lastName}`;
 };
 
-const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvidences }) => {
+const Evidences = ({
+  project,
+  activity,
+  evidences,
+  areEvidencesLoading,
+  getEvidences,
+  getChangelog
+}) => {
   const history = useHistory();
   const activityId = activity?.id;
   const activityStatus = activity?.status;
@@ -64,6 +71,7 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
       setLoadingModalVisible({ ...loadingModalVisible, state: false });
       setReviewSuccessVisible(true);
       getEvidences(activityId);
+      getChangelog();
     } else {
       setLoadingModalVisible(false);
     }
@@ -74,7 +82,10 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
     setLoadingModalVisible({ state: true, title: 'The activity is being rejected' });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
-    if (!result.errors) return getEvidences(activityId);
+    if (!result.errors) {
+      getEvidences(activityId);
+      return getChangelog();
+    }
     message.error('An error occurred while rejecting the activity');
   };
 
@@ -83,7 +94,10 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
     setLoadingModalVisible({ state: true, title: 'The activity is being approved' });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
-    if (!result.errors) return getEvidences(activityId);
+    if (!result.errors) {
+      getEvidences(activityId);
+      return getChangelog();
+    }
     message.error('An error occurred while approving the activity');
   };
 

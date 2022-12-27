@@ -39,7 +39,8 @@ CoaChangelogItem.defaultProps = {
       firstName: 'Juan Pablo',
       lastName: 'Yoroi'
     }
-  }
+  },
+  currency: undefined
 };
 
 CoaChangelogItem.propTypes = {
@@ -74,5 +75,6 @@ CoaChangelogItem.propTypes = {
     description: PropTypes.string,
     action: PropTypes.string.isRequired,
     datetime: PropTypes.string.isRequired
-  })
+  }),
+  currency: PropTypes.string
 };

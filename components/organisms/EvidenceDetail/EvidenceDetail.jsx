@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { UserContext } from 'components/utils/UserContext';
 import { updateEvidenceStatus } from 'api/activityApi';
 import './_style.scss';
@@ -21,6 +21,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const ChangelogComponent = useRef();
 
   const evidenceStatus = evidence.status;
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
@@ -38,6 +39,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
     if (!result.errors) {
       setRejectModalOpen(false);
       await fetchEvidence(evidence.id);
+      updateChangelog();
     }
   };
 
@@ -46,8 +48,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
     if (!result.errors) {
       setApproveModalOpen(false);
       await fetchEvidence(evidence.id);
+      updateChangelog();
     }
   };
+
+  function updateChangelog() {
+    ChangelogComponent.current.fetchChangelog();
+  }
 
   return (
     <div className="evidenceDetail">
@@ -91,6 +98,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
         </div>
         <div className="evidenceDetail__container__right">
           <CoaChangelogContainer
+            ref={ChangelogComponent}
             projectId={projectId}
             activity={activityId}
             evidenceId={detailEvidenceId}
