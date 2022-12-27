@@ -6,6 +6,14 @@
     @include primary-text(1rem, $coa-dark-gray-100, 600);
     margin-bottom: 20px;
   }
+  &__linkContainer {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+    &__title {
+      @include primary-text(1rem, $coa-grey-100, 400);
+    }
+  }
   &__link {
     display: block;
     white-space: nowrap;
