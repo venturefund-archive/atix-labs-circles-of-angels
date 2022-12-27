@@ -5,6 +5,7 @@ import TransactionLink from 'components/molecules/TransactionLink/TransactionLin
 import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
+import { Divider } from 'antd';
 
 const CoaChangelogItem = ({ changelog, currency }) => {
   const { transaction, datetime, action, revision } = changelog;
@@ -19,6 +20,7 @@ const CoaChangelogItem = ({ changelog, currency }) => {
         </p>
         <span className="coaChangelogItem__rev">REV-{formatLeadWithZero(revision)}</span>
       </div>
+      <Divider type="horizontal" style={{ marginBlock: '0.6875rem' }} />
       <div className="coaChangelogItem__body">
         {changelogActions(changelog)?.[action]?.description?.()}
       </div>
