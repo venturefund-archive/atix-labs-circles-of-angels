@@ -3,6 +3,7 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import './project-info-section.scss';
 import PropTypes from 'prop-types';
 import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 const HorizontalBlockText = ({ title, content, orderNumber }) => (
   <div className="m-horizontalBlockText">
@@ -26,24 +27,28 @@ export const ProjectInfoSection = ({
   balanceTotalValue,
   currency,
   onClickSeeMilestones
-}) => (
-  <div className="o-projectInfoSection">
-    <div className="o-projectInfoSection__text">
-      <HorizontalBlockText title="About the Project" content={about} orderNumber="01" />
-      <HorizontalBlockText title="Mission and Vision" content={mission} orderNumber="02" />
+}) => {
+  const { texts } = React.useContext(DictionaryContext);
+
+  return (
+    <div className="o-projectInfoSection">
+      <div className="o-projectInfoSection__text">
+        <HorizontalBlockText title={texts?.landingInfoSection?.about || 'About the Project'} content={about} orderNumber="01" />
+        <HorizontalBlockText title={texts?.landingInfoSection?.missionVision || 'Mission and Vision'} content={mission} orderNumber="02" />
+      </div>
+      <div className="o-projectInfoSection__progressCard">
+        <ProjectProgressCard
+          onClickSeeMilestones={onClickSeeMilestones}
+          currency={currency}
+          progressCurrentValue={progressCurrentValue}
+          progressTotalValue={progressTotalValue}
+          balanceCurrentValue={balanceCurrentValue}
+          balanceTotalValue={balanceTotalValue}
+        />
+      </div>
     </div>
-    <div className="o-projectInfoSection__progressCard">
-      <ProjectProgressCard
-        onClickSeeMilestones={onClickSeeMilestones}
-        currency={currency}
-        progressCurrentValue={progressCurrentValue}
-        progressTotalValue={progressTotalValue}
-        balanceCurrentValue={balanceCurrentValue}
-        balanceTotalValue={balanceTotalValue}
-      />
-    </div>
-  </div>
-);
+  );
+}
 
 ProjectInfoSection.propTypes = {
   about: PropTypes.string,

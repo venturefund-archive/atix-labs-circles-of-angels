@@ -7,6 +7,7 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
 import { useParams, Redirect } from 'react-router-dom';
 import { Divider } from 'antd';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
@@ -21,6 +22,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const { texts } = React.useContext(DictionaryContext);
 
   const evidenceStatus = evidence.status;
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
@@ -81,9 +83,11 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
-                <CoaRejectButton onClick={() => setRejectModalOpen(true)}>Reject</CoaRejectButton>
+                <CoaRejectButton onClick={() => setRejectModalOpen(true)}>
+                  {texts?.general?.btnReject || 'Reject'}
+                </CoaRejectButton>
                 <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>
-                  Approve
+                  {texts?.general?.btnApprove || 'Approve'}
                 </CoaApproveButton>
               </div>
             </>
@@ -94,7 +98,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
             projectId={projectId}
             activity={activityId}
             evidenceId={detailEvidenceId}
-            title="Evidence Changelog"
+            title={ texts?.changelog?.evidence || 'Evidence Changelog'}
             currency={currency}
           />
         </div>

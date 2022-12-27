@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './coa-changelog-container.scss';
-import { Divider, message } from 'antd';
+import { Divider, message, Icon } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
 import changelogActions from 'constants/ChangelogActions';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { getChangelog } from '../../../api/projectApi';
 import { formatDate, sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
@@ -29,13 +30,15 @@ export const CoaChangelogContainer = ({
   const [changeLogs, setChangeLogs] = useState([]);
   const [processedChangeLogs, setProcessedChangeLogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { texts } = React.useContext(DictionaryContext);
 
   fetchChangelog.current = async () => {
     setLoading(true);
     const params = { milestoneId, activityId, revisionId, evidenceId, userId };
     const response = await getChangelog(projectId, params);
     if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the changelogs');
+      const textErrorMessage = texts?.changelog?.error || 'An error occurred while fetching the changelogs'
+      message.error(textErrorMessage);
       return;
     }
 
@@ -95,8 +98,11 @@ export const CoaChangelogContainer = ({
         })}
       >
         <div className="o-coaChangelogContainer__header">
-          <h3>{title}</h3>
-          <CoaTextButton onClick={generatePDF}>Download</CoaTextButton>
+          <h3>{texts?.changelog?.title || title}</h3>
+          <CoaTextButton onClick={generatePDF}>
+            <Icon type="download" />
+            {texts?.general?.btnDownload || 'Download'}
+          </CoaTextButton>
         </div>
         <Divider type="horizontal" />
 
@@ -109,7 +115,7 @@ export const CoaChangelogContainer = ({
           {changeLogs.length === 0 && (
             <>
               <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
-              <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
+              <p className="o-coaChangelogContainer__emptyText">{texts?.changelog?.empty || emptyText}</p>
             </>
           )}
           {changeLogs.length > 0 &&

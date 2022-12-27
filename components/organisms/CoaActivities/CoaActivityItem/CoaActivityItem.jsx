@@ -4,6 +4,7 @@ import './coa-activity-item.scss';
 import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
 import { useHistory } from 'react-router-dom';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 export const CoaActivityItem = ({
   activityNumber,
@@ -17,6 +18,7 @@ export const CoaActivityItem = ({
   projectId
 }) => {
   const history = useHistory();
+  const { texts } = React.useContext(DictionaryContext);
 
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
@@ -70,11 +72,11 @@ export const CoaActivityItem = ({
       additionalBody={
         <>
           <div>
-            <p className="o-coaActivityItem__indicatorTitle">Description</p>
+            <p className="o-coaActivityItem__indicatorTitle">{texts?.general?.description || 'Description'}</p>
             <p className="o-coaActivityItem__indicatorValue">{description}</p>
           </div>
           <div>
-            <p className="o-coaActivityItem__indicatorTitle">Acceptance Criteria</p>
+            <p className="o-coaActivityItem__indicatorTitle">{texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}</p>
             <p className="o-coaActivityItem__indicatorValue">{acceptanceCriteria}</p>
           </div>
         </>

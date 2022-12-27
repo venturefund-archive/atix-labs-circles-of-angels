@@ -9,9 +9,12 @@ import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { ROLES__IDS_NAMES } from 'components/organisms/AssignProjectUsers/constants';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
 export default function NavbarProfile({ user, removeUser, projectId }) {
+  const { texts } = React.useContext(DictionaryContext);
+
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const { push, location } = useHistory()
 
@@ -28,7 +31,8 @@ export default function NavbarProfile({ user, removeUser, projectId }) {
     if(user.isAdmin) return 'Administrator';
     const userProjectRole = user.projects
       .find((project)=> project.projectId === parseInt(projectId, 10))?.roles[0] || -1;
-    return ROLES__IDS_NAMES[userProjectRole] || 'Unknown';
+    const roleName = ROLES__IDS_NAMES[userProjectRole] || 'Unknown';
+    return (texts?.roles || {})[roleName.toLowerCase()] || roleName;
   }
 
   const { firstName, lastName } = user;

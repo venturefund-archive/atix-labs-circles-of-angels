@@ -4,6 +4,7 @@ import { message, Divider } from 'antd';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
 import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
@@ -15,7 +16,6 @@ import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressP
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
-import { CoaAlert } from 'components/molecules/CoaAlert/CoaAlert';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
@@ -33,6 +33,7 @@ import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogCont
 const PreviewProject = ({ id, preview }) => {
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const { texts } = useContext(DictionaryContext);
 
   const goBack = () => history.push('/');
 
@@ -81,19 +82,19 @@ const PreviewProject = ({ id, preview }) => {
   const beneficiaryCompleteName =
     beneficiaryFirstName || beneficiaryLastName
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
-      : 'No name';
+      : texts?.general?.noName || 'No name';
   const beneficiaryUser = getUsersByRole(ROLES_IDS.beneficiary, users)?.map(usr => ({
     ...usr,
-    rol: 'Beneficiary'
+    rol: texts?.roles?.beneficiary || 'Beneficiary'
   }))[0];
   const investorUser = getUsersByRole(ROLES_IDS.investor, users)?.map(usr => ({
     ...usr,
-    rol: 'Investor'
+    rol: texts?.roles?.investor || 'Investor'
   }))[0];
   const auditorsUsers =
     getUsersByRole(ROLES_IDS.auditor, users)?.map(usr => ({
       ...usr,
-      rol: 'Auditor'
+      rol: texts?.roles?.auditor || 'Auditor'
     })) || [];
   const members = [beneficiaryUser, investorUser, ...auditorsUsers];
 
@@ -152,18 +153,18 @@ const PreviewProject = ({ id, preview }) => {
                 className="o-previewProject__buttons__button"
                 onClick={() => scrollToTargetAdjusted('project-progress', 70)}
               >
-                <ProjectDetailsIcon /> Project Progress
+                <ProjectDetailsIcon /> {texts?.general?.projectProgress || 'Project Progress'}
               </CoaButton>
               <CoaButton
                 shape="round"
                 className="o-previewProject__buttons__button"
                 onClick={() => scrollToTargetAdjusted('milestones', 70)}
               >
-                <MilestonesIcon /> Milestones
+                <MilestonesIcon /> {texts?.landingSubheader?.btnMilestones || 'Milestones'}
               </CoaButton>
               <Link to={`${id}/changelog`}>
                 <CoaButton shape="round" className="o-previewProject__buttons__button">
-                  <BlockchainIcon /> Blockchain Changelog
+                  <BlockchainIcon /> {texts?.landingSubheader?.btnChangelog || 'Blockchain Changelog'}
                 </CoaButton>
               </Link>
             </div>
@@ -173,7 +174,7 @@ const PreviewProject = ({ id, preview }) => {
                 onClick={() => history.push(`/${id}`)}
                 className="o-previewProject__buttons__requestChanges"
               >
-                Request changes
+                {texts?.landingSubheader?.btnRequestChanges || 'Request changes'}
               </CoaButton>
             )}
           </div>
@@ -192,7 +193,7 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__members">
             <TitlePage
               underlinePosition="none"
-              textTitle="Project Members"
+              textTitle={texts?.landingProjectMembers?.title || 'Project Members'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
@@ -205,28 +206,28 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__progressSection" id="project-progress">
             <TitlePage
               underlinePosition="none"
-              textTitle="Project Progress"
+              textTitle={texts?.general?.projectProgress || 'Project Progress'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
             <div className="o-previewProject__progressSection__pills">
               <CoaProjectProgressPill
-                indicator="Milestones Progress"
+                indicator={texts?.landingProjectProgress?.milestone || 'Milestones Progress'}
                 current={approvedMilestonesQuantity}
                 total={totalMilestonesQuantity}
                 startBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
-                    Project{' '}
+                    {texts?.landingProjectProgress?.project|| 'Project'}{' '}
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Started
+                      {texts?.landingProjectProgress?.started || 'Started'}
                     </span>
                   </p>
                 }
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
-                    Project{' '}
+                    {texts?.landingProjectProgress?.project|| 'Project'}{' '}
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Finished !
+                      {texts?.landingProjectProgress?.finished || 'Finished!'}
                     </span>
                   </p>
                 }
@@ -237,13 +238,13 @@ const PreviewProject = ({ id, preview }) => {
                 className="o-previewProject__progressSection__pills__divider"
               />
               <CoaProjectProgressPill
-                indicator="Amount Income"
+                indicator={texts?.landingProjectProgress?.milestone || 'Amount Income'}
                 current={totalCurrentDeposited}
                 total={budget}
                 startBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Available Amount
+                      {texts?.landingProjectProgress?.available || 'Available Amount'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__currentAmount">
                       {formatCurrency(currency, totalCurrentDeposited)}
@@ -253,7 +254,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Total Amount
+                      {texts?.landingProjectProgress?.total || 'Total Amount'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
@@ -267,13 +268,13 @@ const PreviewProject = ({ id, preview }) => {
                 className="o-previewProject__progressSection__pills__divider"
               />
               <CoaProjectProgressPill
-                indicator="Amount Outcome"
+                indicator={texts?.landingProjectProgress?.outcome || 'Amount Outcome'}
                 current={totalCurrentSpent}
                 total={budget}
                 startBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Amount Spent
+                      {texts?.landingProjectProgress?.spent || 'Amount Spent'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__currentAmount">
                       {formatCurrency(currency, totalCurrentSpent)}
@@ -283,7 +284,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      Goal Amount
+                      {texts?.landingProjectProgress?.goal || 'Goal Amount'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
@@ -297,7 +298,7 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__milestonesSection" id="milestones">
             <TitlePage
               underlinePosition="none"
-              textTitle="Milestones"
+              textTitle={texts?.landingMilestones?.title || 'Milestones'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
@@ -321,11 +322,11 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
-              textTitle="Project Changelog"
+              textTitle={ texts?.changelog?.title || 'Project Changelog'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer title="Project Changelog" projectId={id} currency={currency} />
+            <CoaChangelogContainer title={ texts?.changelog?.title || 'Project Changelog'} projectId={id} currency={currency} />
           </div>
         </div>
       )}
