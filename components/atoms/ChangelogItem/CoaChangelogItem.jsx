@@ -1,11 +1,11 @@
 import React from 'react';
+import { Divider } from 'antd';
 import PropTypes from 'prop-types';
 import { formatLeadWithZero } from 'helpers/formatter';
 import TransactionLink from 'components/molecules/TransactionLink/TransactionLink';
 import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
-import { Divider } from 'antd';
 
 const CoaChangelogItem = ({ changelog, currency }) => {
   const { transaction, datetime, action, revision } = changelog;
