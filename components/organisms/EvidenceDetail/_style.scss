@@ -17,6 +17,7 @@
     @include breakpoint(lg) {
       width: 100%;
       flex-direction: column;
+      row-gap: 2rem;
     }
 
     &__left {
