@@ -23,10 +23,6 @@
     margin-top: 25px;
     padding: 1.31rem 24px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    justify-self: center;
-    align-self: center;
   }
 
   &__title {
@@ -37,11 +33,6 @@
     }
     &.--expenses {
       @include primary-text(0.75rem, $coa-dark-gray-100, 400);
-    }
-    @include respond(md) {
-      display: inline;
-      grid-column-start: 1;
-      grid-column-end: -1;
     }
   }
   &__title h1::after {
@@ -88,29 +79,5 @@
     display: flex;
     flex-direction: column;
     row-gap: 0.93rem;
-
-    @include breakpoint(md) {
-      justify-self: center;
-    }
-    @media (max-width: 450px) {
-      grid-column-start: 1;
-      grid-column-end: -1;
-    }
-  }
-
-  &__radialBarChart {
-    @media (max-width: 450px) {
-      justify-self: center;
-      grid-column-start: 1;
-      grid-column-end: -1;
-    }
-  }
-
-  &__milestoneButton {
-    @include breakpoint(md) {
-      grid-column-start: 1;
-      grid-column-end: 3;
-      justify-content: center;
-    }
   }
 }
