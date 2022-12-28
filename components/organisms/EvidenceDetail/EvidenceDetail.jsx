@@ -16,7 +16,7 @@ import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
-export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
+export default function EvidenceDetail({ evidence, fetchEvidence, currency, isProjectEditing }) {
   const { user } = useContext(UserContext);
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -81,8 +81,16 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
-                <CoaRejectButton onClick={() => setRejectModalOpen(true)}>Reject</CoaRejectButton>
-                <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>
+                <CoaRejectButton
+                  onClick={() => setRejectModalOpen(true)}
+                  disabled={isProjectEditing}
+                >
+                  Reject
+                </CoaRejectButton>
+                <CoaApproveButton
+                  onClick={() => setApproveModalOpen(true)}
+                  disabled={isProjectEditing}
+                >
                   Approve
                 </CoaApproveButton>
               </div>
