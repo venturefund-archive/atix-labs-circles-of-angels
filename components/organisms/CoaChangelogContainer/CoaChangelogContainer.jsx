@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import './coa-changelog-container.scss';
 import { Divider, message } from 'antd';
 import classNames from 'classnames';
@@ -7,120 +7,130 @@ import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
+import { getDateAndTime } from 'helpers/utils';
 import changelogActions from 'constants/ChangelogActions';
 import { getChangelog } from '../../../api/projectApi';
-import { formatDate, sortArrayByDate } from '../../utils';
+import { sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
 import CoaChangelogItem from '../../atoms/ChangelogItem/CoaChangelogItem';
 
-export const CoaChangelogContainer = ({
-  title,
-  projectId,
-  milestoneId,
-  activityId,
-  revisionId,
-  evidenceId,
-  userId,
-  emptyText,
-  withInfinityHeight,
-  currency
-}) => {
-  const fetchChangelog = useRef();
-  const [changeLogs, setChangeLogs] = useState([]);
-  const [processedChangeLogs, setProcessedChangeLogs] = useState([]);
-  const [loading, setLoading] = useState(false);
+export const CoaChangelogContainer = forwardRef(
+  (
+    {
+      title,
+      projectId,
+      milestoneId,
+      activityId,
+      revisionId,
+      evidenceId,
+      userId,
+      emptyText,
+      withInfinityHeight,
+      currency
+    },
+    ref
+  ) => {
+    const fetchChangelog = useRef();
+    const [changeLogs, setChangeLogs] = useState([]);
+    const [processedChangeLogs, setProcessedChangeLogs] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  fetchChangelog.current = async () => {
-    setLoading(true);
-    const params = { milestoneId, activityId, revisionId, evidenceId, userId };
-    const response = await getChangelog(projectId, params);
-    if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the changelogs');
-      return;
+    fetchChangelog.current = async () => {
+      setLoading(true);
+      const params = { milestoneId, activityId, revisionId, evidenceId, userId };
+      const response = await getChangelog(projectId, params);
+      if (response.errors || !response.data) {
+        message.error('An error occurred while fetching the changelogs');
+        return;
+      }
+
+      const sortedChangelogs = sortArrayByDate(response.data, 'datetime');
+      setChangeLogs(sortedChangelogs);
+      setLoading(prevState => !prevState);
+    };
+
+    useImperativeHandle(ref, () => ({
+      fetchChangelog: fetchChangelog.current
+    }));
+
+    useEffect(() => {
+      fetchChangelog.current();
+    }, []);
+
+    useEffect(() => {
+      const _processedChangeLogs = changeLogs?.map(changelog => [
+        getDateAndTime(changelog?.datetime, 'minimal'),
+        changelogActions(changelog)?.[changelog?.action]?.titleText,
+        changelogActions(changelog)?.[changelog?.action]?.descriptionText,
+        changelog?.transaction,
+        changelog?.revision
+      ]);
+      setProcessedChangeLogs(_processedChangeLogs);
+    }, [changeLogs]);
+
+    function generatePDF() {
+      const doc = new jsPDF();
+
+      doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
+
+      doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
+
+      autoTable(doc, {
+        startY: 30,
+        margin: { horizontal: 10 },
+        head: [['Date', 'Title', 'Description', 'Transaction', 'Revision']],
+        body: processedChangeLogs,
+        rowPageBreak: 'avoid',
+        headStyles: {
+          fillColor: [241, 243, 255],
+          textColor: [82, 91, 107],
+          halign: 'center'
+        },
+        bodyStyles: {
+          fillColor: [241, 243, 255]
+        },
+        alternateRowStyles: { fillColor: [255, 255, 255] },
+        columnStyles: { 0: { halign: 'center' }, 4: { halign: 'center' } }
+      });
+
+      doc.save(`${customConfig.NAME} - changelog.pdf`);
     }
 
-    const sortedChangelogs = sortArrayByDate(response.data, 'datetime');
-    setChangeLogs(sortedChangelogs);
-    setLoading(prevState => !prevState);
-  };
-
-  useEffect(() => {
-    fetchChangelog.current();
-  }, []);
-
-  useEffect(() => {
-    const _processedChangeLogs = changeLogs?.map(changelog => [
-      formatDate(changelog?.datetime),
-      changelogActions(changelog)?.[changelog?.action]?.titleText,
-      changelogActions(changelog)?.[changelog?.action]?.descriptionText,
-      changelog?.transaction,
-      changelog?.revision
-    ]);
-    setProcessedChangeLogs(_processedChangeLogs);
-  }, [changeLogs]);
-
-  function generatePDF() {
-    const doc = new jsPDF();
-
-    doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
-
-    doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
-
-    autoTable(doc, {
-      startY: 30,
-      margin: { horizontal: 10 },
-      head: [['Date', 'Title', 'Description', 'Transaction', 'Revision']],
-      body: processedChangeLogs,
-      rowPageBreak: 'avoid',
-      headStyles: {
-        fillColor: [241, 243, 255],
-        textColor: [82, 91, 107],
-        halign: 'center'
-      },
-      bodyStyles: {
-        fillColor: [241, 243, 255]
-      },
-      alternateRowStyles: { fillColor: [255, 255, 255] },
-      columnStyles: { 0: { halign: 'center' }, 4: { halign: 'center' } }
-    });
-
-    doc.save(`${customConfig.NAME} - changelog.pdf`);
-  }
-
-  return (
-    <Loading spinning={loading}>
-      <div
-        className={classNames('o-coaChangelogContainer', {
-          '--infinityHeight': withInfinityHeight
-        })}
-      >
-        <div className="o-coaChangelogContainer__header">
-          <h3>{title}</h3>
-          <CoaTextButton onClick={generatePDF}>Download</CoaTextButton>
-        </div>
-        <Divider type="horizontal" />
-
+    return (
+      <Loading spinning={loading}>
         <div
-          className={classNames('o-coaChangelogContainer__body', {
-            '--empty': changeLogs.length === 0
+          className={classNames('o-coaChangelogContainer', {
+            '--infinityHeight': withInfinityHeight
           })}
-          id="test"
         >
-          {changeLogs.length === 0 && (
-            <>
-              <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
-              <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
-            </>
-          )}
-          {changeLogs.length > 0 &&
-            changeLogs.map(changelog => (
-              <CoaChangelogItem changelog={changelog} key={changelog.id} currency={currency} />
-            ))}
+          <div className="o-coaChangelogContainer__header">
+            <h3>{title}</h3>
+            <CoaTextButton onClick={generatePDF}>Download</CoaTextButton>
+          </div>
+          <Divider type="horizontal" />
+
+          <div
+            className={classNames('o-coaChangelogContainer__body', {
+              '--empty': changeLogs.length === 0
+            })}
+            id="test"
+          >
+            {changeLogs.length === 0 && (
+              <>
+                <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
+                <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
+              </>
+            )}
+            {changeLogs.length > 0 &&
+              changeLogs.map(changelog => (
+                <CoaChangelogItem changelog={changelog} key={changelog.id} currency={currency} />
+              ))}
+          </div>
         </div>
-      </div>
-    </Loading>
-  );
-};
+      </Loading>
+    );
+  }
+);
 
 CoaChangelogContainer.defaultProps = {
   title: 'Project Changelog',
@@ -130,7 +140,8 @@ CoaChangelogContainer.defaultProps = {
   evidenceId: undefined,
   userId: undefined,
   emptyText: 'No entries in the changelog yet',
-  withInfinityHeight: false
+  withInfinityHeight: false,
+  currency: undefined
 };
 
 CoaChangelogContainer.propTypes = {
@@ -142,5 +153,6 @@ CoaChangelogContainer.propTypes = {
   evidenceId: PropTypes.string,
   userId: PropTypes.string,
   emptyText: PropTypes.string,
-  withInfinityHeight: PropTypes.bool
+  withInfinityHeight: PropTypes.bool,
+  currency: PropTypes.string
 };

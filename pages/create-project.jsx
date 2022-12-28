@@ -65,7 +65,8 @@ const CreateProjectContainer = () => {
   const { projectId } = useParams();
 
   const checkStepsStatus = async projectToCheck => {
-    const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
+    const { details = {}, basicInformation = {}, users = [], milestones = [] } =
+      projectToCheck || {};
 
     const { beneficiaries = [], investors = [], auditors = [] } = getProjectUsersPerRol(users);
 
