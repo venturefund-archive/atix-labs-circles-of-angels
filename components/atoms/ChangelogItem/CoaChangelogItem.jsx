@@ -1,8 +1,9 @@
 import React from 'react';
+import { Divider } from 'antd';
 import PropTypes from 'prop-types';
 import { formatLeadWithZero } from 'helpers/formatter';
 import TransactionLink from 'components/molecules/TransactionLink/TransactionLink';
-import { formatDate } from '../../utils';
+import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
 
@@ -12,13 +13,14 @@ const CoaChangelogItem = ({ changelog, currency }) => {
     <div className="coaChangelogItem">
       <div className="coaChangelogItem__header">
         <p>
-          <span className="coaChangelogItem__date">{formatDate(datetime)}</span> -{' '}
+          <span className="coaChangelogItem__date">{getDateAndTime(datetime, 'minimal')}</span> -{' '}
           <span className="coaChangelogItem__title">
             {changelogActions(changelog)?.[action]?.title?.()}
           </span>
         </p>
         <span className="coaChangelogItem__rev">REV-{formatLeadWithZero(revision)}</span>
       </div>
+      <Divider type="horizontal" style={{ marginBlock: '0.6875rem' }} />
       <div className="coaChangelogItem__body">
         {changelogActions(changelog)?.[action]?.description?.()}
       </div>
@@ -39,7 +41,8 @@ CoaChangelogItem.defaultProps = {
       firstName: 'Juan Pablo',
       lastName: 'Yoroi'
     }
-  }
+  },
+  currency: undefined
 };
 
 CoaChangelogItem.propTypes = {
@@ -74,5 +77,6 @@ CoaChangelogItem.propTypes = {
     description: PropTypes.string,
     action: PropTypes.string.isRequired,
     datetime: PropTypes.string.isRequired
-  })
+  }),
+  currency: PropTypes.string
 };

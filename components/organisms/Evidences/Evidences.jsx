@@ -42,7 +42,14 @@ const getAuditorName = (auditorId, project) => {
   return `${auditor?.firstName} ${auditor?.lastName}`;
 };
 
-const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvidences }) => {
+const Evidences = ({
+  project,
+  activity,
+  evidences,
+  areEvidencesLoading,
+  getEvidences,
+  getChangelog
+}) => {
   const history = useHistory();
   const activityId = activity?.id;
   const activityStatus = activity?.status;
@@ -66,6 +73,7 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
       setLoadingModalVisible({ ...loadingModalVisible, state: false });
       setReviewSuccessVisible(true);
       getEvidences(activityId);
+      getChangelog();
     } else {
       setLoadingModalVisible(false);
     }
@@ -76,7 +84,10 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
     setLoadingModalVisible({ state: true, title: 'The activity is being rejected' });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
-    if (!result.errors) return getEvidences(activityId);
+    if (!result.errors) {
+      getEvidences(activityId);
+      return getChangelog();
+    }
     message.error('An error occurred while rejecting the activity');
   };
 
@@ -85,7 +96,10 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
     setLoadingModalVisible({ state: true, title: 'The activity is being approved' });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
-    if (!result.errors) return getEvidences(activityId);
+    if (!result.errors) {
+      getEvidences(activityId);
+      return getChangelog();
+    }
     message.error('An error occurred while approving the activity');
   };
 
@@ -109,6 +123,8 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
     0
   );
 
+  const isProjectEditing = project?.editing;
+
   return (
     <>
       <div className="evidences">
@@ -128,8 +144,9 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
                     }}
                     responsiveLayout={false}
                     disabled={
-                      activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED
+                      (activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED)
+                      || isProjectEditing
                     }
                   />
                 )}
@@ -204,10 +221,11 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
                   <CoaButton
                     type="primary"
                     disabled={
-                      evidences?.length === 0 ||
+                      (evidences?.length === 0 ||
                       activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
                       activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED
+                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED)
+                      || isProjectEditing
                     }
                     onClick={() =>
                       setSecretKeyModal({
@@ -224,7 +242,7 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
               {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
                 <>
                   <CoaRejectButton
-                    disabled={!areReviewedEvidences}
+                    disabled={!areReviewedEvidences || isProjectEditing}
                     onClick={() =>
                       setSecretKeyModal({
                         visible: true,
@@ -236,7 +254,7 @@ const Evidences = ({ project, activity, evidences, areEvidencesLoading, getEvide
                     Reject
                   </CoaRejectButton>
                   <CoaApproveButton
-                    disabled={!areReviewedEvidences}
+                    disabled={!areReviewedEvidences || isProjectEditing}
                     onClick={() =>
                       setSecretKeyModal({
                         visible: true,

@@ -12,6 +12,7 @@ export const CoaActivityItem = ({
   activity,
   onRemove,
   onEdit,
+  isProjectEditing,
   withStatusTag,
   withEvidences,
   canAddEvidences,
@@ -40,6 +41,7 @@ export const CoaActivityItem = ({
   return (
     <CoaIndicatorsCard
       {...{ currency }}
+      isProjectEditing={isProjectEditing}
       withEvidences={withEvidences}
       statusMap={activityStatusMap}
       className="o-coaActivityItem__card"
@@ -90,7 +92,8 @@ CoaActivityItem.defaultProps = {
   currency: undefined,
   activity: undefined,
   onRemove: undefined,
-  onEdit: undefined
+  onEdit: undefined,
+  isProjectEditing: false,
 };
 
 CoaActivityItem.propTypes = {
@@ -98,5 +101,6 @@ CoaActivityItem.propTypes = {
   currency: PropTypes.string,
   activity: PropTypes.objectOf(PropTypes.any),
   onRemove: PropTypes.func,
-  onEdit: PropTypes.func
+  onEdit: PropTypes.func,
+  isProjectEditing: PropTypes.bool,
 };

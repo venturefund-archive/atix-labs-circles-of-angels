@@ -20,6 +20,7 @@ export const CoaMilestoneItem = ({
   onRemoveActivity,
   onEditActivity,
   toggleAreActivitiesOpened,
+  isProjectEditing,
   withStatusTag,
   withEvidences,
   canAddEvidences,
@@ -67,6 +68,7 @@ export const CoaMilestoneItem = ({
       transferQuantity={transferQuantity}
       impactQuantity={impactQuantity}
       withEvidences={withEvidences}
+      isProjectEditing={isProjectEditing}
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>
@@ -103,6 +105,7 @@ export const CoaMilestoneItem = ({
                       withStatusTag={withStatusTag}
                       onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}
                       onEdit={onEditActivity && (() => onEditActivity(activity))}
+                      isProjectEditing={isProjectEditing}
                       {...{ milestone, currency, activity }}
                       {...{ activityNumber: index + 1 }}
                     />
@@ -135,7 +138,8 @@ CoaMilestoneItem.defaultProps = {
   onCreateActivity: undefined,
   onRemoveActivity: undefined,
   onEditActivity: undefined,
-  toggleAreActivitiesOpened: undefined
+  toggleAreActivitiesOpened: undefined,
+  isProjectEditing: false
 };
 
 CoaMilestoneItem.propTypes = {
@@ -147,5 +151,6 @@ CoaMilestoneItem.propTypes = {
   onCreateActivity: PropTypes.func,
   onRemoveActivity: PropTypes.func,
   onEditActivity: PropTypes.func,
-  toggleAreActivitiesOpened: PropTypes.func
+  toggleAreActivitiesOpened: PropTypes.func,
+  isProjectEditing: PropTypes.bool
 };

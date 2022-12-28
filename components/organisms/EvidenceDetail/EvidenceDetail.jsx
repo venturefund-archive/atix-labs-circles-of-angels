@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { UserContext } from 'components/utils/UserContext';
 import { updateEvidenceStatus } from 'api/activityApi';
 import './_style.scss';
@@ -17,12 +17,13 @@ import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
-export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
+export default function EvidenceDetail({ evidence, fetchEvidence, currency, isProjectEditing }) {
   const { user } = useContext(UserContext);
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const { texts } = React.useContext(DictionaryContext);
+  const ChangelogComponent = useRef();
 
   const evidenceStatus = evidence.status;
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
@@ -40,6 +41,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
     if (!result.errors) {
       setRejectModalOpen(false);
       await fetchEvidence(evidence.id);
+      updateChangelog();
     }
   };
 
@@ -48,8 +50,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
     if (!result.errors) {
       setApproveModalOpen(false);
       await fetchEvidence(evidence.id);
+      updateChangelog();
     }
   };
+
+  function updateChangelog() {
+    ChangelogComponent.current.fetchChangelog();
+  }
 
   return (
     <div className="evidenceDetail">
@@ -83,10 +90,16 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
             <>
               <Divider />
               <div className="evidenceDetail__container__left__auditorOptions">
-                <CoaRejectButton onClick={() => setRejectModalOpen(true)}>
+                <CoaRejectButton
+                  onClick={() => setRejectModalOpen(true)}
+                  disabled={isProjectEditing}
+                >
                   {texts?.general?.btnReject || 'Reject'}
                 </CoaRejectButton>
-                <CoaApproveButton disabled={false} onClick={() => setApproveModalOpen(true)}>
+                <CoaApproveButton
+                  onClick={() => setApproveModalOpen(true)}
+                  disabled={isProjectEditing}
+                >
                   {texts?.general?.btnApprove || 'Approve'}
                 </CoaApproveButton>
               </div>
@@ -95,6 +108,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency }) {
         </div>
         <div className="evidenceDetail__container__right">
           <CoaChangelogContainer
+            ref={ChangelogComponent}
             projectId={projectId}
             activity={activityId}
             evidenceId={detailEvidenceId}

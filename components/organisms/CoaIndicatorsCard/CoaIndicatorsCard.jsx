@@ -21,6 +21,7 @@ const CardHeader = ({
   onRemove,
   onClick,
   extra,
+  isProjectEditing,
   withStatusTag,
   status,
   statusMap,
@@ -29,6 +30,7 @@ const CardHeader = ({
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   const responsiveLayout = onViewEvidence || onAddEvidences;
+
   return (
     <div
       className={classNames('o-coaIndicatorsCard__header', { cardHeader: responsiveLayout })}
@@ -93,9 +95,10 @@ const CardHeader = ({
           <AddEvidenceButton
             onClickAddEvidence={onAddEvidences}
             responsiveLayout
-            disabled={[ACTIVITY_STATUS_ENUM.TO_REVIEW, ACTIVITY_STATUS_ENUM.APPROVED].includes(
-              status
-            )}
+            disabled={
+              [ACTIVITY_STATUS_ENUM.TO_REVIEW, ACTIVITY_STATUS_ENUM.APPROVED].includes(status)
+              || isProjectEditing
+            }
           />
         )}
         {withStatusTag && (
@@ -121,6 +124,7 @@ export const CoaIndicatorsCard = ({
   className,
   isCollapsible,
   alwaysShowBudget,
+  isProjectEditing,
   withStatusTag,
   status,
   statusMap,
@@ -147,7 +151,8 @@ export const CoaIndicatorsCard = ({
               statusMap,
               withEvidences,
               onViewEvidence,
-              onAddEvidences
+              onAddEvidences,
+              isProjectEditing,
             }}
           />
           <Divider className="o-coaIndicatorsCard__divider" />
@@ -170,6 +175,7 @@ export const CoaIndicatorsCard = ({
                   withStatusTag={withStatusTag}
                   status={status}
                   statusMap={statusMap}
+                  isProjectEditing={isProjectEditing}
                   extra={
                     isCollapseOpen ? (
                       <Icon type="down" className="o-coaIndicatorsCard__header__icon" />
@@ -217,7 +223,8 @@ CardHeader.defaultProps = {
   onEdit: undefined,
   onRemove: undefined,
   onClick: undefined,
-  extra: undefined
+  extra: undefined,
+  isProjectEditing: false,
 };
 
 CardHeader.propTypes = {
@@ -227,7 +234,8 @@ CardHeader.propTypes = {
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
   onClick: PropTypes.func,
-  extra: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  extra: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  isProjectEditing: PropTypes.bool,
 };
 
 CoaIndicatorsCard.defaultProps = {
@@ -243,7 +251,8 @@ CoaIndicatorsCard.defaultProps = {
   remaining: undefined,
   className: undefined,
   isCollapsible: false,
-  alwaysShowBudget: false
+  alwaysShowBudget: false,
+  isProjectEditing: false,
 };
 
 CoaIndicatorsCard.propTypes = {
@@ -259,5 +268,6 @@ CoaIndicatorsCard.propTypes = {
   remaining: PropTypes.string,
   className: PropTypes.string,
   isCollapsible: PropTypes.bool,
-  alwaysShowBudget: PropTypes.bool
+  alwaysShowBudget: PropTypes.bool,
+  isProjectEditing: PropTypes.bool,
 };

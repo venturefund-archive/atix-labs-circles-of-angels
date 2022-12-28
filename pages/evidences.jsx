@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
 import './_evidences.scss';
@@ -18,6 +18,7 @@ import { EvidenceContext } from '../components/utils/EvidenceContext';
 
 const EvidencesContainer = () => {
   const { projectId, activityId } = useParams();
+  const ChangelogComponent = useRef();
   const [evidences, setEvidences] = useState([]);
   const [milestone, setMilestone] = useState({});
   const [activity, setActivity] = useState({});
@@ -59,6 +60,10 @@ const EvidencesContainer = () => {
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
 
+  function getChangelog() {
+    ChangelogComponent.current.fetchChangelog();
+  }
+
   return (
     <LandingLayout
       disappearHeaderInMobile
@@ -89,6 +94,7 @@ const EvidencesContainer = () => {
           evidences={evidences}
           areEvidencesLoading={areEvidencesLoading}
           getEvidences={getEvidences}
+          getChangelog={getChangelog}
         />
         <CoaChangelogContainer
           title="Activity Changelog"
@@ -96,6 +102,7 @@ const EvidencesContainer = () => {
           projectId={projectId}
           activityId={activityId}
           currency={currency}
+          ref={ChangelogComponent}
         />
       </div>
     </LandingLayout>

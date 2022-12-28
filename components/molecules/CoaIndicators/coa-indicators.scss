@@ -33,18 +33,27 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
+      @include breakpoint(xs) {
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
     }
   }
   &__indicator {
     display: flex;
     flex-direction: column;
     row-gap: 0.25rem;
+
+    @include breakpoint(xs) {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     &__title {
       @include primary-text(0.875rem, $coa-medium-gray-100, 400);
       opacity: 0.7;
-      @include breakpoint(xs) {
-        font-size: 0.6rem;
-      }
       @include breakpoint(md) {
         @include primary-text(0.75rem, $coa-medium-gray-100, 400);
       }
