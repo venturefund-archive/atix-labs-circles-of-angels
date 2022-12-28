@@ -14,13 +14,16 @@ const TransactionLink = (props) => {
   return (
     <>
       { showTitle && <h5 className="transactionLink__title">Transaction</h5> }
-      <Link
-        to={{ pathname: CRYPTO_CURRENCY_PATH_SCANNER[currency](txHash) }}
-        target="_blank"
-        className="transactionLink__link"
-      >
-        {txHash}
-      </Link>
+      <div className='transactionLink__linkContainer'>
+        <span className='transactionLink__linkContainer__title'>Hash:&nbsp;</span>
+        <Link
+          to={{ pathname: CRYPTO_CURRENCY_PATH_SCANNER[currency](txHash) }}
+          target="_blank"
+          className="transactionLink__link"
+        >
+          {txHash}
+        </Link>
+      </div>
     </>
   );
 }
