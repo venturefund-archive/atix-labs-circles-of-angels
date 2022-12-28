@@ -13,72 +13,68 @@ import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
 export default function NavbarProfile({ user, removeUser, projectId }) {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
-  const { push, location } = useHistory()
+  const { push, location } = useHistory();
 
   function toggleAvatarDropdown() {
-    setIsAvatarOpen(open => !open)
+    setIsAvatarOpen(open => !open);
   }
 
   const logout = () => {
     removeUser();
-    push(`/${location.pathname.split('/')[1]}`)
-  }
+    push(`/${location.pathname.split('/')[1]}`);
+  };
 
   const getAvatarRole = () => {
-    if(user.isAdmin) return 'Administrator';
-    const userProjectRole = user.projects
-      .find((project)=> project.projectId === parseInt(projectId, 10))?.roles[0] || -1;
+    if (user.isAdmin) return 'Administrator';
+    const userProjectRole =
+      user.projects.find(project => project.projectId === parseInt(projectId, 10))?.roles[0] || -1;
     return ROLES__IDS_NAMES[userProjectRole] || 'Unknown';
-  }
+  };
 
   const { firstName, lastName } = user;
 
   return (
-    <div className='navbar__right__profile'
+    <div
+      className="navbar__right__profile"
       onClick={toggleAvatarDropdown}
       onKeyPress={toggleAvatarDropdown}
-      role='button'
+      role="button"
     >
-      <div className='navbar__user__avatar'>
+      <div className="navbar__user__avatar">
         <CoaUserAvatar firstName={firstName} lastName={lastName} />
       </div>
-      <div className='navbar__user' >
-        <div className='user__details'>
-          <h2>{user.firstName} {user.lastName}</h2>
+      <div className="navbar__user">
+        <div className="user__details">
+          <h2>
+            {user.firstName} {user.lastName}
+          </h2>
           <span>{getAvatarRole()}</span>
         </div>
-        <div className='dropdown'>
-          <img
-            src="/static/images/arrow-down.svg"
-            alt="arrow-down"
-          />
+        <div className="dropdown">
+          <img src="/static/images/arrow-down.svg" alt="arrow-down" />
         </div>
-        {
-          isAvatarOpen && (
-            <div className='navbar__dropdown__mask'></div>
-          )
-        }
+        {isAvatarOpen && <div className="navbar__dropdown__mask"></div>}
         <div
           className={`navbar__dropdown ${isAvatarOpen ? '--visible' : '--hidden'}`}
           onClick={logout}
-          role='button'
+          role="button"
         >
-          <LogoutOutlined className='navbar__dropdown__icon' />
-          <p className='navbar__dropdown__logout'>Log Out</p>
+          <LogoutOutlined className="navbar__dropdown__icon" />
+          <p className="navbar__dropdown__logout">Log Out</p>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 NavbarProfile.defaultProps = {
   user: null,
   projectId: -1,
   removeUser: () => undefined
-}
+};
 
 NavbarProfile.propTypes = {
   projectId: PropTypes.number,
-  user: PropTypes.shape,
+  user: PropTypes.objectOf(PropTypes.any),
   removeUser: PropTypes.func
-}
+};
