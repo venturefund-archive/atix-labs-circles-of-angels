@@ -16,7 +16,7 @@ export default function EvidenceDetailPage() {
 
   // Info about project
   const { loading, project } = useProject(projectId);
-  const { basicInformation, status, details, budget } = project || {};
+  const { basicInformation, status, details, budget, editing } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -62,7 +62,12 @@ export default function EvidenceDetailPage() {
       }
     >
       {evidence && (
-        <EvidenceDetail evidence={evidence} fetchEvidence={fetchEvidence} currency={currency} />
+        <EvidenceDetail
+          evidence={evidence}
+          fetchEvidence={fetchEvidence}
+          currency={currency}
+          isProjectEditing={editing}
+        />
       )}
     </LandingLayout>
   );

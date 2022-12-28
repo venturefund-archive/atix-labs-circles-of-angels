@@ -121,6 +121,8 @@ const Evidences = ({
     0
   );
 
+  const isProjectEditing = project?.editing;
+
   return (
     <>
       <div className="evidences">
@@ -140,8 +142,9 @@ const Evidences = ({
                     }}
                     responsiveLayout={false}
                     disabled={
-                      activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED
+                      (activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED)
+                      || isProjectEditing
                     }
                   />
                 )}
@@ -216,10 +219,11 @@ const Evidences = ({
                   <CoaButton
                     type="primary"
                     disabled={
-                      evidences?.length === 0 ||
+                      (evidences?.length === 0 ||
                       activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
                       activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED
+                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED)
+                      || isProjectEditing
                     }
                     onClick={() =>
                       setSecretKeyModal({
@@ -236,7 +240,7 @@ const Evidences = ({
               {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
                 <>
                   <CoaRejectButton
-                    disabled={!areReviewedEvidences}
+                    disabled={!areReviewedEvidences || isProjectEditing}
                     onClick={() =>
                       setSecretKeyModal({
                         visible: true,
@@ -248,7 +252,7 @@ const Evidences = ({
                     Reject
                   </CoaRejectButton>
                   <CoaApproveButton
-                    disabled={!areReviewedEvidences}
+                    disabled={!areReviewedEvidences || isProjectEditing}
                     onClick={() =>
                       setSecretKeyModal({
                         visible: true,

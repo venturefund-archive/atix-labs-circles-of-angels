@@ -19,7 +19,7 @@ import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
-import { getProject } from '../../../api/projectApi';
+import { getProject, cloneProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
@@ -68,9 +68,7 @@ const PreviewProject = ({ id, preview }) => {
     // eslint-disable-next-line
   }, [id]);
 
-  if (loading) return <Loading />;
-
-  const { basicInformation, status, details, users, budget } = project;
+  const { basicInformation, status, details, users, budget, editing, cloneId } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
@@ -119,6 +117,23 @@ const PreviewProject = ({ id, preview }) => {
     PROJECT_STATUS_ENUM.PUBLISHED,
     PROJECT_STATUS_ENUM.IN_PROGRESS
   ].includes(status);
+
+  const handleRequestChanges = async(e) => {
+    e.preventDefault();
+    if(editing) {
+      return history.push(`/project/edit/${cloneId}`);
+    }
+    setLoading(true);
+    const response = await cloneProject(id);
+    setLoading(false);
+    if (response.error || !response.data) {
+      return message.error('An error occurred while fetching the project');
+    }
+    const _cloneId = await response.data.projectId;
+    return history.push(`/project/edit/${_cloneId}`);
+  }
+
+  if (loading) return <Loading />;
 
   return (
     <LandingLayout
@@ -169,7 +184,7 @@ const PreviewProject = ({ id, preview }) => {
             {isBeneficiaryOrInvestor && isPublishedOrInProgressProject && (
               <CoaButton
                 type="primary"
-                onClick={() => history.push(`/${id}`)}
+                onClick={handleRequestChanges}
                 className="o-previewProject__buttons__requestChanges"
               >
                 Request changes
@@ -303,6 +318,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  isProjectEditing={editing}
                   canAddEvidences={canAddEvidences(user, id)}
                   projectId={id}
                   withEvidences

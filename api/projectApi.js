@@ -307,6 +307,15 @@ const createProjectExperience = async (experience, photos) => {
   }
 };
 
+const cloneProject = async(projectId) => {
+  try {
+    const response = await api.post(`${projectsBaseURL}/${projectId}/clone`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   getActiveProjects,
   confirmProject,
@@ -321,5 +330,6 @@ export {
   downloadProposalTemplate,
   updateProject,
   createProjectExperience,
-  getProjectsPreview
+  getProjectsPreview,
+  cloneProject
 };
