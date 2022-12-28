@@ -2,6 +2,7 @@
 @import 'css/_general_styling.scss';
 
 .customTextButton {
+  padding: 0;
   * {
     @include primary-text(0.875rem, $coa-blue-100, 500, 1.8rem);
   }
