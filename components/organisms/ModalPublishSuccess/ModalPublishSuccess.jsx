@@ -7,48 +7,56 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Button, Typography } from 'antd';
-import LogoWrapper from 'components/atoms/LogoWrapper';
+import { Typography } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import PropTypes from 'prop-types';
-import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-const ModalPublishSuccess = ({ visible, onCancel }) => {
-  const { push, location: { pathname } } = useHistory();
-  const id = pathname.split('/').pop();
+const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
+  const { push } = useHistory();
   return (
-    <CoaModal
+    <CoaDialogModal
       visible={visible}
-      closable={false}
       onCancel={onCancel}
-      mask
-      maskClosable
-      footer={
-        <Button
-          className='ant-btn ant-btn-primary CoaModal__Primary'
-          onClick={() => push('/my-projects')}
-        >
-          Continue
-        </Button>}
+      title={
+        <TitlePage
+          centeredText
+          textTitle="The project has been published"
+          underlinePosition="none"
+          textColor="#4C7FF7"
+        />
+      }
+      withoutCancelButton
+      withLogo
+      okText="Continue"
+      buttonsPosition="center"
+      onSave={() => push('/my-projects')}
     >
-      <LogoWrapper textTitle='The project has been published' />
-
-      <Typography.Paragraph className='CoaModal__Paragraph--centered'>
+      <Typography.Paragraph className="CoaModal__Paragraph--centered">
         The project has been published successfully. you can see it from here.
       </Typography.Paragraph>
 
-      <Link className='textcenter' style={{ textAlign: 'center', display: 'block' }} to={`/${id}`}>Project Link</Link>
-    </CoaModal>
-  )
+      <Link
+        className="textcenter"
+        style={{ textAlign: 'center', display: 'block' }}
+        to={`/${projectId}`}
+      >
+        Project Link
+      </Link>
+    </CoaDialogModal>
+  );
 };
 
 ModalPublishSuccess.defaultProps = {
   visible: false,
-  onCancel: () => undefined
-}
+  onCancel: () => undefined,
+  projectId: undefined
+};
 ModalPublishSuccess.propTypes = {
   visible: PropTypes.bool,
-  onCancel: PropTypes.func
-}
+  onCancel: PropTypes.func,
+  projectId: PropTypes.string
+};
 export default ModalPublishSuccess;

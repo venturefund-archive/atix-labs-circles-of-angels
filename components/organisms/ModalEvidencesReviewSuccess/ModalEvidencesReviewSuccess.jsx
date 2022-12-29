@@ -1,36 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CoaModal from 'components/atoms/CoaModal/CoaModal';
-import LogoWrapper from 'components/atoms/LogoWrapper';
-import { Button, Typography } from 'antd';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-export default function ModalEvidencesReviewSuccess({
-  visible,
-  onCancel,
-}) {
+export default function ModalEvidencesReviewSuccess({ visible, onCancel }) {
   return (
-    <CoaModal
+    <CoaDialogModal
       visible={visible}
-      onCancel={onCancel}
-      footer={
-        <Button className='CoaModal__Primary' onClick={onCancel}>
-        Continue
-      </Button>}
-    >
-      <LogoWrapper textTitle='The activity was sent successfully!' />
-      <Typography.Paragraph className='CoaModal__Paragraph--centered'>
-        The evidences of the activity will be reviewed by an auditor.
-      </Typography.Paragraph>
-    </CoaModal>
-  )
+      onSave={onCancel}
+      title={
+        <TitlePage
+          centeredText
+          textTitle="The activity was sent successfully!"
+          underlinePosition="none"
+          textColor="#4C7FF7"
+        />
+      }
+      description="The evidences of the activity will be reviewed by an auditor."
+      withoutCancelButton
+      withLogo
+      buttonsPosition="center"
+      okText="Continue"
+    />
+  );
 }
 
 ModalEvidencesReviewSuccess.defaultProps = {
   visible: false,
-  onCancel: () => undefined,
-}
+  onCancel: () => undefined
+};
 
 ModalEvidencesReviewSuccess.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func
-}
+};

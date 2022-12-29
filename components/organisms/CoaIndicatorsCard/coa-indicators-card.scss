@@ -23,7 +23,8 @@
     justify-content: space-between;
     align-items: center;
 
-    @include breakpoint(sm) { /* stylelint-disable-line */
+    @include breakpoint(sm) {
+      /* stylelint-disable-line */
       padding-inline: 1rem;
     }
 
@@ -46,7 +47,8 @@
     &__right {
       display: flex;
       align-items: center;
-      @include breakpoint(lg){
+      column-gap: 1.25rem;
+      @include breakpoint(lg) {
         width: 100%;
         justify-content: space-between;
       }
@@ -59,7 +61,7 @@
     }
 
     &__btn {
-      @include breakpoint(lg){
+      @include breakpoint(lg) {
         padding: 0;
       }
     }
@@ -80,7 +82,7 @@
     &__indicators {
       display: flex;
       justify-content: flex-start;
-      @include breakpoint(xl){
+      @include breakpoint(xl) {
         flex-direction: column;
       }
       &__container {
@@ -136,7 +138,7 @@
 }
 
 .cardHeader {
-  @include breakpoint(lg){
+  @include breakpoint(lg) {
     flex-direction: column;
     align-items: flex-start;
     row-gap: 1rem;

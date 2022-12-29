@@ -1,5 +1,45 @@
+@import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
+
 .o-coaBaseModal {
   .ant-modal-content {
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 0;
+  }
+  &.--footerButtonsLeft {
+    .ant-modal-footer {
+      text-align: start;
+    }
+  }
+  &.--footerButtonsRight {
+    .ant-modal-footer {
+      text-align: end;
+    }
+  }
+  &.--footerButtonsCenter {
+    .ant-modal-footer {
+      text-align: center;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin-bottom: 1rem;
+    padding-inline: 1.2rem;
+
+    &__logo {
+      text-align: center;
+      img {
+        width: 3.5rem;
+      }
+    }
+  }
+  &__body {
+    &__description {
+      padding-inline: 1.2rem;
+      text-align: center;
+      @include primary-text(0.875rem, $coa-grey-100, 400);
+    }
   }
 }

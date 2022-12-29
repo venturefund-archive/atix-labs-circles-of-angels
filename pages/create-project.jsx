@@ -266,6 +266,7 @@ const CreateProjectContainer = () => {
       <ModalPublishSuccess
         visible={successModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
+        projectId={projectId}
       />
       <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
     </>

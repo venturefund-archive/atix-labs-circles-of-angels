@@ -1,0 +1,28 @@
+.o-coaDialogModal {
+  .ant-modal-body,
+  .ant-modal-footer {
+    padding-inline: 3rem;
+  }
+
+  &__footerContainer {
+    display: flex;
+    column-gap: 0.5rem;
+    margin-top: 1.3rem;
+    &.--right {
+      justify-content: flex-end;
+    }
+    &.--center {
+      justify-content: center;
+    }
+    &.--left {
+      justify-content: flex-start;
+    }
+  }
+  &__button {
+    padding-inline: 2.5rem;
+    line-height: normal;
+    &__text {
+      font-size: 0.875rem;
+    }
+  }
+}
