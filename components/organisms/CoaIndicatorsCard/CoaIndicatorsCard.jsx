@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
 const { Panel } = Collapse;
@@ -27,6 +28,7 @@ const CardHeader = ({
   onViewEvidence,
   onAddEvidences
 }) => {
+  const { texts } = React.useContext(DictionaryContext);
   const responsiveLayout = onViewEvidence || onAddEvidences;
 
   return (
@@ -60,7 +62,7 @@ const CardHeader = ({
             }}
             variant="muted"
           >
-            <Icon type="edit" /> Edit
+            <Icon type="edit" /> {texts?.general?.btnEdit || 'Edit'}
           </CoaTextButton>
         )}
         {onRemove && (
@@ -71,7 +73,7 @@ const CardHeader = ({
             }}
             variant="danger"
           >
-            <Icon type="delete" /> Delete
+            <Icon type="delete" /> {texts?.general?.btnDelete || 'Delete'}
           </CoaTextButton>
         )}
         {onViewEvidence && (
@@ -79,13 +81,13 @@ const CardHeader = ({
             onClick={onViewEvidence}
             className={classNames({ 'o-coaIndicatorsCard__header__btn': responsiveLayout })}
           >
-            <Icon type="eye" /> View&nbsp;
+            <Icon type="eye" /> {texts?.general?.btnView || 'View'}&nbsp;
             <span
               className={classNames({
                 'o-coaIndicatorsCard__header__evidenceText': responsiveLayout
               })}
             >
-              evidences
+              {texts?.coaIndicator?.evidences || 'evidences'}
             </span>
           </CoaTextButton>
         )}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import './coa-changelog-container.scss';
-import { Divider, message } from 'antd';
+import { Divider, message, Icon } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
@@ -9,6 +9,7 @@ import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
 import { getDateAndTime } from 'helpers/utils';
 import changelogActions from 'constants/ChangelogActions';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { getChangelog } from '../../../api/projectApi';
 import { sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
@@ -34,6 +35,7 @@ export const CoaChangelogContainer = forwardRef(
     const [changeLogs, setChangeLogs] = useState([]);
     const [processedChangeLogs, setProcessedChangeLogs] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { texts } = React.useContext(DictionaryContext);
 
     fetchChangelog.current = async () => {
       setLoading(true);
@@ -105,7 +107,10 @@ export const CoaChangelogContainer = forwardRef(
         >
           <div className="o-coaChangelogContainer__header">
             <h3>{title}</h3>
-            <CoaTextButton onClick={generatePDF}>Download</CoaTextButton>
+            <CoaTextButton onClick={generatePDF}>
+              <Icon type="download" />
+              {texts?.general?.btnDownload || 'Download'}
+            </CoaTextButton>
           </div>
           <Divider type="horizontal" />
 
@@ -118,7 +123,7 @@ export const CoaChangelogContainer = forwardRef(
             {changeLogs.length === 0 && (
               <>
                 <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
-                <p className="o-coaChangelogContainer__emptyText">{emptyText}</p>
+                <p className="o-coaChangelogContainer__emptyText">{texts?.changelog?.empty || emptyText}</p>
               </>
             )}
             {changeLogs.length > 0 &&

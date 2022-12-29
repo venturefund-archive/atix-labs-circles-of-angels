@@ -3,6 +3,7 @@ import { Divider, Icon } from 'antd';
 import { formatCurrency } from 'helpers/formatter';
 import './coa-indicators.scss';
 import PropTypes from 'prop-types';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 export const CoaIndicators = ({
   currency,
@@ -13,46 +14,49 @@ export const CoaIndicators = ({
   transferQuantity,
   impactQuantity,
   withEvidences
-}) => (
-  <div className="indicators">
-    <div className="indicators__container">
-      <Icon type="wallet" className="indicators__iconIndicator" />
-      <div className="indicators__container__left">
-        <div className="indicators__indicator">
-          <p className="indicators__indicator__title">Budget</p>
-          <p className="indicators__indicator__value">{formatCurrency(currency, budget)}</p>
-        </div>
-        <div className="indicators__indicator">
-          <p className="indicators__indicator__title">Outcome</p>
-          <p className="indicators__indicator__value">{formatCurrency(currency, spent)}</p>
-        </div>
-        <div className="indicators__indicator">
-          <p className="indicators__indicator__title">Income</p>
-          <p className="indicators__indicator__value">{formatCurrency(currency, deposited)}</p>
-        </div>
-        <div className="indicators__indicator">
-          <p className="indicators__indicator__title">Remaining</p>
-          <p className="indicators__indicator__value">{formatCurrency(currency, remaining)}</p>
-        </div>
-      </div>
-    </div>
-    {withEvidences && (
-      <>
-        <Divider type="vertical" style={{ height: '32px', margin: '0 1.31rem' }} />
-        <div className="indicators__container">
-          <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
+}) => {
+  const { texts } = React.useContext(DictionaryContext);
+  return (
+    <div className="indicators">
+      <div className="indicators__container">
+        <Icon type="wallet" className="indicators__iconIndicator" />
+        <div className="indicators__container__left">
           <div className="indicators__indicator">
-            <p className="indicators__indicator__title">Evidences</p>
-            <p className="indicators__indicator__value">
-              {transferQuantity} Transfer <Divider type="vertical" />
-              {impactQuantity} Impact
-            </p>
+            <p className="indicators__indicator__title">{texts?.coaIndicator?.budget || 'Budget'}</p>
+            <p className="indicators__indicator__value">{formatCurrency(currency, budget)}</p>
+          </div>
+          <div className="indicators__indicator">
+            <p className="indicators__indicator__title">{texts?.general?.outcome || 'Outcome'}</p>
+            <p className="indicators__indicator__value">{formatCurrency(currency, spent)}</p>
+          </div>
+          <div className="indicators__indicator">
+            <p className="indicators__indicator__title">{texts?.general?.income || 'Income'}</p>
+            <p className="indicators__indicator__value">{formatCurrency(currency, deposited)}</p>
+          </div>
+          <div className="indicators__indicator">
+            <p className="indicators__indicator__title">{texts?.coaIndicator?.remaining || 'Remaining'}</p>
+            <p className="indicators__indicator__value">{formatCurrency(currency, remaining)}</p>
           </div>
         </div>
-      </>
-    )}
-  </div>
-);
+      </div>
+      {withEvidences && (
+        <>
+          <Divider type="vertical" style={{ height: '32px', margin: '0 1.31rem' }} />
+          <div className="indicators__container">
+            <Icon type="file-text" className="o-coaIndicatorsCard__iconIndicator" />
+            <div className="indicators__indicator">
+              <p className="indicators__indicator__title">{texts?.coaIndicator?.evidences || 'Evidences'}</p>
+              <p className="indicators__indicator__value">
+                {transferQuantity} { texts?.general?.transfer || 'Transfer'} <Divider type="vertical" />
+                {impactQuantity} { texts?.general?.impact || 'Impact'}
+              </p>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 CoaIndicators.defaultProps = {
   currency: undefined,

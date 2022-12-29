@@ -2,15 +2,18 @@ import React from 'react';
 import { Form } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }) => {
+  const { texts } = React.useContext(DictionaryContext);
   return (
     <CoaDialogModal
       form={form}
       visible={visible}
       onCancel={() => setVisible(false)}
-      okText="Reject"
+      cancelText={texts?.general?.btnCancel || 'Cancel'}
+      okText={texts?.general?.btnReject || 'Reject'}
       onSave={({ comment }) => onSuccess(comment)}
       buttonsPosition="center"
       withLogo
@@ -22,20 +25,24 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
           textColor="#4C7FF7"
         />
       }
-      description="Please select the reason and leave a comment for the beneficiary or the founder."
+      description={
+        texts?.modalRejectEvidence?.leaveComment ||
+        'Please select the reason and leave a comment for the beneficiary or the founder.'
+      }
     >
       <Form>
         <CoaFormItemTextArea
           form={form}
           formItemProps={{
-            label: 'Leave a comment'
+            label: texts?.modalRejectEvidence?.textPlaceholder || 'Leave a comment'
           }}
           name="comment"
           fieldDecoratorOptions={{
             rules: [
               {
                 required: true,
-                message: 'Must write a reason for rejection'
+                message:
+                  texts?.modalRejectEvidence?.ruleComment || 'Must write a reason for rejection'
               }
             ]
           }}

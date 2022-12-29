@@ -15,6 +15,7 @@ import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Loading from 'components/molecules/Loading/Loading';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import { updateActivityStatus } from '../../../api/activityApi';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
@@ -54,6 +55,7 @@ const Evidences = ({
   const activityStatus = activity?.status;
   const projectId = project?.id;
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
+  const { texts } = React.useContext(DictionaryContext);
 
   const [loadingModalVisible, setLoadingModalVisible] = useState(initialLoadingModal);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
@@ -208,11 +210,11 @@ const Evidences = ({
 
               <div className="evidences__list__body__info">
                 <div>
-                  <p className="evidences__indicatorTitle">Description</p>
+                  <p className="evidences__indicatorTitle">{texts?.general?.description || 'Description'}</p>
                   <p className="evidences__indicatorValue">{activity?.description}</p>
                 </div>
                 <div>
-                  <p className="evidences__indicatorTitle">Acceptance Criteria</p>
+                  <p className="evidences__indicatorTitle">{texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}</p>
                   <p className="evidences__indicatorValue">{activity?.acceptanceCriteria}</p>
                 </div>
               </div>
@@ -237,7 +239,7 @@ const Evidences = ({
                     <>
                       <img src="/static/images/file-icon.png" alt="empty-evidences-list" />
                       <p className="evidences__list__body__evidencesContainer__emptyText">
-                        There are no evidences uploaded yet
+                        {texts?.evidences?.emptyEvidences || 'There are no evidences uploaded yet'}
                       </p>
                     </>
                   )}
@@ -264,7 +266,7 @@ const Evidences = ({
                     }
                     onClick={handleSendForReview}
                   >
-                    Send for review
+                    {texts?.evidences?.btnSendReview || 'Send for review'}
                   </CoaButton>
                 </>
               )}

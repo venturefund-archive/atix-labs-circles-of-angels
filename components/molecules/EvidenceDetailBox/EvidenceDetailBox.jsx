@@ -4,9 +4,12 @@ import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { EVIDENCE_STATUS_MAP } from 'model/evidence';
 import './_style.scss'
 import { Divider } from 'antd';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { getDateAndTime } from '../../../helpers/utils';
 
 export default function EvidenceDetailBox(props) {
+  const { texts } = React.useContext(DictionaryContext);
+
   const { title, description, createdAt, beneficiary, status, activity } = props;
   const date = new Date(createdAt);
 
@@ -31,21 +34,21 @@ export default function EvidenceDetailBox(props) {
       </div>
       <Divider style={{ marginTop: '0' }}></Divider>
       {/* Evidence indicator */}
-      <h3 className="evidence-container__indicator">EVIDENCE</h3>
+      <h3 className="evidence-container__indicator">{texts?.evidenceDetail?.title || 'EVIDENCE'}</h3>
       {/* Evidence title */}
       <h2 className="evidence-container__title">{title}</h2>
       <p className="evidence-container__description">{description}</p>
       <div className='evidenceDetailBox__member'>
         {/* Evidence creator */}
         <h3 className="evidenceDetailBox__member__Label">
-        Created by{' '}
+          {texts?.evidenceDetail?.createdBy || 'Created by'}{' '}
           <b className="evidenceDetailBox__member__LabelValue">
             {beneficiaryName}
           </b>
         </h3>
         {/* Auditor */}
         <h3 className="evidenceDetailBox__member__Label">
-        Auditor:{' '}
+          {texts?.evidenceDetail?.auditor || 'Auditor'}:{' '}
           <b className="evidenceDetailBox__member__LabelValue">
             {auditorName}
           </b>

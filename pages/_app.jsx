@@ -19,6 +19,7 @@ import withReactRouter from './with-react-router';
 import { StorageProvider } from '../components/utils/StorageContext';
 import { routesConfig } from '../components/organisms/Router/RouteConfig';
 import { EvidenceProvider } from '../components/utils/EvidenceContext';
+import { DictionaryContextProvider } from '../components/utils/DictionaryContext';
 
 const MyApp = props => (
   <Container>
@@ -42,9 +43,11 @@ const MyApp = props => (
     >
       <UserProvider>
         <StorageProvider>
-          <EvidenceProvider>
-            <Router {...props} routesConfig={routesConfig} />
-          </EvidenceProvider>
+          <DictionaryContextProvider>
+            <EvidenceProvider>
+              <Router {...props} routesConfig={routesConfig} />
+            </EvidenceProvider>
+          </DictionaryContextProvider>
         </StorageProvider>
       </UserProvider>
     </GoogleReCaptchaProvider>

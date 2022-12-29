@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { EVIDENCE_STATUS_MAP, EVIDENCE_TYPES_ENUM } from 'model/evidence';
 import { formatCurrency } from 'helpers/formatter';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
 import { CoaTag } from '../CoaTag/CoaTag';
 
 const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
+  const { texts } = React.useContext(DictionaryContext);
   const { title, status, createdAt, description, income, outcome, id, type } = evidence;
   const amount = parseFloat(income) || parseFloat(outcome);
 
@@ -33,7 +35,9 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
               theme="filled"
               style={{ fontSize: '1.1rem', color: '#4C7FF7' }}
             />
-            <span className="evidenceCard__indicatorContainer__indicator__text">Evidence Type</span>
+            <span className="evidenceCard__indicatorContainer__indicator__text">
+              {texts?.evidenceDetail?.evidenceType || 'Evidence Type'}
+            </span>
           </p>
           <p className="evidenceCard__indicatorContainer__value">{type}</p>
         </div>
@@ -46,7 +50,9 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
                 style={{ fontSize: '1.1rem', color: '#4C7FF7' }}
               />
               <span className="evidenceCard__indicatorContainer__indicator__text">
-                {parseFloat(income) ? 'Income' : 'Outcome'}
+                {parseFloat(income)
+                  ? texts?.general?.income || 'Income'
+                  : texts?.general?.outcome || 'Outcome'}
               </span>
             </p>
             <p className="evidenceCard__indicatorContainer__value">
@@ -57,7 +63,7 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
       </div>
       <div className="evidenceCard__footer">
         <EvidenceButton
-          text="View more details"
+          text={ texts?.evidenceCard?.viewMore || 'View more details'}
           variant="primary"
           onClick={() => push(`evidences/${id}`)}
           type="button"
