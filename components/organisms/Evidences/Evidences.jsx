@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { Divider, message } from 'antd';
@@ -26,7 +26,7 @@ import { ROLES_IDS } from '../AssignProjectUsers/constants';
 
 const initialSecretKeyModal = {
   visible: false,
-  title: '',
+  title: 'Secret Key',
   onSuccessAction: null
 };
 
@@ -62,7 +62,7 @@ const Evidences = ({
   const isActivityAuditor = checkIsActivityAuditor(user, activity);
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, projectId);
 
-  const sendToReview = async () => {
+  const sendToReview = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible({ state: true, title: 'The activity is being sent' });
     setSecretKeyModal(initialSecretKeyModal);
@@ -75,9 +75,9 @@ const Evidences = ({
     } else {
       setLoadingModalVisible(false);
     }
-  };
+  }, [activityId, getChangelog, getEvidences, loadingModalVisible]);
 
-  const rejectActivity = async () => {
+  const rejectActivity = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible({ state: true, title: 'The activity is being rejected' });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
@@ -87,9 +87,9 @@ const Evidences = ({
       return getChangelog();
     }
     message.error('An error occurred while rejecting the activity');
-  };
+  }, [getChangelog, activityId, getEvidences, loadingModalVisible]);
 
-  const approveActivity = async () => {
+  const approveActivity = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible({ state: true, title: 'The activity is being approved' });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
@@ -99,7 +99,7 @@ const Evidences = ({
       return getChangelog();
     }
     message.error('An error occurred while approving the activity');
-  };
+  }, [activityId, getChangelog, getEvidences, loadingModalVisible]);
 
   const areReviewedEvidences =
     evidences.length > 0 &&
@@ -123,6 +123,46 @@ const Evidences = ({
 
   const isProjectEditing = project?.editing;
 
+  const handleAddEvidence = useCallback(
+    e => {
+      e.stopPropagation();
+      history.push(`/${projectId}/activity/${activityId}/create-evidence`);
+    },
+    [activityId, history, projectId]
+  );
+
+  const handleSendForReview = useCallback(() => {
+    setSecretKeyModal({
+      visible: true,
+      title: 'You are about to send an activity to be reviewed by an auditor',
+      onSuccessAction: sendToReview
+    });
+  }, [sendToReview]);
+
+  const handleRejectActivity = useCallback(() => {
+    setSecretKeyModal({
+      visible: true,
+      title: 'Are you sure you want to reject the activity?',
+      onSuccessAction: rejectActivity
+    });
+  }, [rejectActivity]);
+
+  const handleApproveActivity = useCallback(() => {
+    setSecretKeyModal({
+      visible: true,
+      title: 'Are you sure you want to approve the activity?',
+      onSuccessAction: approveActivity
+    });
+  }, [approveActivity]);
+
+  const handleCancelConfirmSk = useCallback(() => {
+    setSecretKeyModal(initialSecretKeyModal);
+  }, []);
+
+  const handleCancelReviewSuccess = useCallback(() => {
+    setReviewSuccessVisible(false);
+  }, []);
+
   return (
     <>
       <div className="evidences">
@@ -136,15 +176,12 @@ const Evidences = ({
               <div>
                 {enableAddEvidenceBtn && (
                   <AddEvidenceButton
-                    onClickAddEvidence={e => {
-                      e.stopPropagation();
-                      history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
-                    }}
+                    onClickAddEvidence={handleAddEvidence}
                     responsiveLayout={false}
                     disabled={
-                      (activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED)
-                      || isProjectEditing
+                      activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
+                      activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
+                      isProjectEditing
                     }
                   />
                 )}
@@ -219,19 +256,13 @@ const Evidences = ({
                   <CoaButton
                     type="primary"
                     disabled={
-                      (evidences?.length === 0 ||
+                      evidences?.length === 0 ||
                       activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW ||
                       activityStatus === ACTIVITY_STATUS_ENUM.APPROVED ||
-                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED)
-                      || isProjectEditing
+                      activityStatus === ACTIVITY_STATUS_ENUM.REJECTED ||
+                      isProjectEditing
                     }
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'You are about to send an activity to be reviewed by an auditor',
-                        onSuccessAction: sendToReview
-                      })
-                    }
+                    onClick={handleSendForReview}
                   >
                     Send for review
                   </CoaButton>
@@ -241,25 +272,13 @@ const Evidences = ({
                 <>
                   <CoaRejectButton
                     disabled={!areReviewedEvidences || isProjectEditing}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to reject the activity?',
-                        onSuccessAction: rejectActivity
-                      })
-                    }
+                    onClick={handleRejectActivity}
                   >
                     Reject
                   </CoaRejectButton>
                   <CoaApproveButton
                     disabled={!areReviewedEvidences || isProjectEditing}
-                    onClick={() =>
-                      setSecretKeyModal({
-                        visible: true,
-                        title: 'Are you sure you want to approve the activity?',
-                        onSuccessAction: approveActivity
-                      })
-                    }
+                    onClick={handleApproveActivity}
                   >
                     Approve
                   </CoaApproveButton>
@@ -274,7 +293,7 @@ const Evidences = ({
           <ModalConfirmWithSK
             visible={secretKeyModal.visible}
             title={secretKeyModal.title}
-            onCancel={() => setSecretKeyModal(initialSecretKeyModal)}
+            onCancel={handleCancelConfirmSk}
             onSuccess={secretKeyModal.onSuccessAction}
           />
           <ModalPublishLoading
@@ -283,7 +302,7 @@ const Evidences = ({
           />
           <ModalEvidencesReviewSuccess
             visible={reviewSuccessVisible}
-            onCancel={() => setReviewSuccessVisible(false)}
+            onCancel={handleCancelReviewSuccess}
           />
         </>
       )}
@@ -292,11 +311,21 @@ const Evidences = ({
 };
 
 Evidences.defaultProps = {
-  project: undefined
+  project: undefined,
+  activity: undefined,
+  evidences: undefined,
+  areEvidencesLoading: undefined,
+  getEvidences: undefined,
+  getChangelog: undefined
 };
 
 Evidences.propTypes = {
-  project: PropTypes.objectOf(PropTypes.any)
+  project: PropTypes.objectOf(PropTypes.any),
+  activity: PropTypes.objectOf(PropTypes.any),
+  evidences: PropTypes.objectOf(PropTypes.any),
+  areEvidencesLoading: PropTypes.bool,
+  getEvidences: PropTypes.func,
+  getChangelog: PropTypes.func
 };
 
 export default Evidences;

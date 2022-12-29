@@ -10,21 +10,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import LogoWrapper from 'components/atoms/LogoWrapper';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import './_style.scss';
-import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { CoaBaseModal } from '../CoaModals/CoaBaseModal/CoaBaseModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
 
-const ModalPublishLoading = ({ visible, textTitle }) => (
-  <CoaModal visible={visible} maskClosable={false} closable={false} mask footer={null}>
-    <LogoWrapper textTitle={textTitle} />
+const ModalPublishLoading = ({ visible, textTitle, ...rest }) => (
+  <CoaBaseModal
+    visible={visible}
+    maskClosable={false}
+    closable={false}
+    mask
+    footer={null}
+    title={
+      <TitlePage
+        centeredText
+        textTitle={textTitle ?? 'Loading...'}
+        underlinePosition="none"
+        textColor="#4C7FF7"
+      />
+    }
+    withLogo
+    {...rest}
+  >
     <div className="o-ModalWrapper">
       <div className="o-ModalWrapper__SpinWrapper">
         <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
       </div>
     </div>
-  </CoaModal>
+  </CoaBaseModal>
 );
 
 ModalPublishLoading.defaultProps = {

@@ -4,10 +4,16 @@ import { Form } from 'antd';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
 import { ERROR_MESSAGES } from 'constants/constants';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialData, ...rest }) => (
   <CoaFormModal
-    title={initialData ? 'Edit milestone' : 'Create new milestone'}
+    title={
+      <TitlePage
+        textTitle={initialData ? 'Edit milestone' : 'Create new milestone'}
+        underlinePosition="left"
+      />
+    }
     {...{ form, onSave, onCancel }}
     {...rest}
   >

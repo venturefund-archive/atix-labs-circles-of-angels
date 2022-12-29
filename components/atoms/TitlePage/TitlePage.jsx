@@ -19,6 +19,7 @@ const TitlePage = ({
   textClassName,
   textColor,
   orderNumber,
+  centeredText,
   ...props
 }) => (
   <div
@@ -27,7 +28,10 @@ const TitlePage = ({
       {
         [`--${underlinePosition}`]: underlinePosition !== 'none'
       },
-      className
+      className,
+      {
+        '--centeredText': centeredText
+      }
     )}
     style={{ '--textColor': textColor, '--orderNumber': orderNumber }}
   >
@@ -44,12 +48,18 @@ export default TitlePage;
 TitlePage.defaultProps = {
   underlinePosition: 'left',
   className: '',
-  textClassName: undefined
+  textClassName: undefined,
+  textColor: undefined,
+  orderNumber: undefined,
+  centeredText: undefined
 };
 
 TitlePage.propTypes = {
   textTitle: PropTypes.string.isRequired,
   underlinePosition: PropTypes.oneOf(['left', 'center', 'right']),
   className: PropTypes.string,
-  textClassName: PropTypes.string
+  textClassName: PropTypes.string,
+  textColor: PropTypes.string,
+  orderNumber: PropTypes.string,
+  centeredText: PropTypes.string
 };

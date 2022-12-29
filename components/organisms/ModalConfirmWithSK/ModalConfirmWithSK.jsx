@@ -6,22 +6,22 @@
  *
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
-import React, { useState, useEffect, useContext } from 'react';
-import { Button, Typography, Form, Input } from 'antd';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { Typography, Form } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
-import LogoWrapper from 'components/atoms/LogoWrapper';
 import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 
-import PropTypes from 'prop-types';
-import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
+
+import { CoaFormItemPassword } from 'components/molecules/CoaFormItems/CoaFormItemPassword/CoaFormItemPassword';
+import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
 
 function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
-  const { getFieldDecorator, validateFields, isFieldValidating } = form;
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { getFieldValue } = form;
   const keySuffix = `${user.id}-${user.email}`;
 
   const setUserWallet = async () => {
@@ -52,41 +52,38 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
     callback();
   };
 
-  const submit = () => {
-    const { getFieldValue } = form;
-    validateFields(async err => {
-      if (!err) {
-        setIsLoading(true);
-        await onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
-        setIsLoading(false);
-      }
-    });
-  };
+  const handleSave = useCallback(() => {
+    onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
+  }, [getFieldValue, onSuccess]);
 
   return (
-    <CoaModal
+    <CoaFormModal
+      buttonsPosition="center"
       visible={visible}
-      closable={false}
       onCancel={onCancel}
-      mask
-      maskClosable
-      footer={[
-        <Button
-          className="ant-btn ant-btn-primary CoaModal__Primary"
-          onClick={submit}
-          loading={isLoading || isFieldValidating('password') || isFieldValidating('secretKey')}
-        >
-          Continue
-        </Button>
-      ]}
+      form={form}
+      onSave={handleSave}
+      title={
+        <TitlePage
+          centeredText
+          textTitle={title ?? 'Do you want to confirm the creation of the project?'}
+          underlinePosition="none"
+          textColor="#4C7FF7"
+        />
+      }
+      withLogo
     >
-      <LogoWrapper textTitle={title ?? 'Do you want to confirm the creation of the project?'} />
       <Typography style={{ textAlign: 'center' }}>
         To confirm the process enter your administrator password and secret key
       </Typography>
       <Form>
-        <Form.Item label="Password">
-          {getFieldDecorator('password', {
+        <CoaFormItemPassword
+          form={form}
+          name="password"
+          formItemProps={{
+            label: 'Password'
+          }}
+          fieldDecoratorOptions={{
             rules: [
               {
                 required: true,
@@ -97,10 +94,18 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
               }
             ],
             validateTrigger: 'onSubmit'
-          })(<Input.Password placeholder="Enter your password" />)}
-        </Form.Item>
-        <Form.Item label="Secret Key">
-          {getFieldDecorator('secretKey', {
+          }}
+          inputProps={{
+            placeholder: 'Enter your password'
+          }}
+        />
+        <CoaFormItemPassword
+          form={form}
+          name="secretKey"
+          formItemProps={{
+            label: 'Secret Key'
+          }}
+          fieldDecoratorOptions={{
             rules: [
               {
                 required: true,
@@ -111,10 +116,13 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
               }
             ],
             validateTrigger: 'onSubmit'
-          })(<Input.Password placeholder="Enter your password" name="pin" />)}
-        </Form.Item>
+          }}
+          inputProps={{
+            placeholder: 'Enter your pin'
+          }}
+        />
       </Form>
-    </CoaModal>
+    </CoaFormModal>
   );
 }
 

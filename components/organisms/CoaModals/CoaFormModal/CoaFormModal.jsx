@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './coa-form-modal.scss';
 
+import classNames from 'classnames';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
-import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaBaseModal } from '../CoaBaseModal/CoaBaseModal';
 
-export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest }) => {
+export const CoaFormModal = ({
+  children,
+  title,
+  onSave,
+  onCancel,
+  form,
+  logoImage,
+  withLogo,
+  buttonsPosition,
+  ...rest
+}) => {
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const handleSave = () => {
-    form.validateFields((err, values) => {
+    setIsSubmitLoading(true);
+    form.validateFields(async (err, values) => {
       if (!err) {
-        onSave(values);
+        await onSave(values);
+        setIsSubmitLoading(false);
         form.resetFields();
-        onCancel();
+        return onCancel();
       }
+      setIsSubmitLoading(false);
     });
   };
 
@@ -24,23 +38,32 @@ export const CoaFormModal = ({ children, title, onSave, onCancel, form, ...rest 
 
   return (
     <CoaBaseModal
-      {...rest}
+      className="o-coaFormModal"
       footer={
-        <div className="o-coaFormModal__footerContainer">
+        <div
+          className={classNames('o-coaFormModal__footerContainer', {
+            [`--${buttonsPosition}`]: buttonsPosition
+          })}
+        >
           <CoaButton type="ghost" onClick={handleCancel} className="o-coaFormModal__button">
             <span className="o-coaFormModal__button__text">Cancel</span>
           </CoaButton>
-          <CoaButton type="primary" onClick={handleSave} className="o-coaFormModal__button">
+          <CoaButton
+            type="primary"
+            onClick={handleSave}
+            className="o-coaFormModal__button"
+            loading={isSubmitLoading}
+          >
             <span className="o-coaFormModal__button__text">Save</span>
           </CoaButton>
         </div>
       }
-      className="o-coaFormModal__container"
+      onCancel={onCancel}
+      withLogo={withLogo}
+      title={title}
+      {...rest}
     >
-      <div className="o-coaFormModal__content">
-        <TitlePage textTitle={title} className="o-coaFormModal__content__title" />
-        {children}
-      </div>
+      {children}
     </CoaBaseModal>
   );
 };
@@ -50,7 +73,10 @@ CoaFormModal.defaultProps = {
   title: undefined,
   onSave: undefined,
   onCancel: undefined,
-  form: undefined
+  form: undefined,
+  buttonsPosition: 'right',
+  logoImage: undefined,
+  withLogo: undefined
 };
 
 CoaFormModal.propTypes = {
@@ -58,5 +84,8 @@ CoaFormModal.propTypes = {
   title: PropTypes.string,
   onSave: PropTypes.func,
   onCancel: PropTypes.func,
-  form: PropTypes.objectOf(PropTypes.any)
+  form: PropTypes.objectOf(PropTypes.any),
+  buttonsPosition: PropTypes.string,
+  logoImage: PropTypes.string,
+  withLogo: PropTypes.bool
 };

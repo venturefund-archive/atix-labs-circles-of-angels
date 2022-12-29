@@ -1,5 +1,33 @@
 .o-coaBaseModal {
   .ant-modal-content {
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 0;
+  }
+  &.--footerButtonsLeft {
+    .ant-modal-footer {
+      text-align: start;
+    }
+  }
+  &.--footerButtonsRight {
+    .ant-modal-footer {
+      text-align: end;
+    }
+  }
+  &.--footerButtonsCenter {
+    .ant-modal-footer {
+      text-align: center;
+    }
+  }
+  &__header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin-bottom: 1rem;
+
+    &__logo {
+      text-align: center;
+      img {
+        width: 3.5rem;
+      }
+    }
   }
 }

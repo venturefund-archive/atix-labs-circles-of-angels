@@ -2,10 +2,12 @@
 @import 'css/_variables.scss';
 
 .TitlePage {
+  &.--centeredText {
+    text-align: center;
+  }
   h1 {
     @include primary-text($titlepage, var(--textColor, $on-surface), 500);
     position: relative;
-    margin-bottom: 1em;
 
     &.--withOrderNumber {
       &::before {
@@ -21,6 +23,7 @@
   &.--right,
   &.--left {
     h1 {
+      margin-bottom: 1em;
       &::after {
         background: $primary-color;
         content: '';

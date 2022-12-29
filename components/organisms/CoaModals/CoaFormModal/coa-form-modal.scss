@@ -1,21 +1,28 @@
 .o-coaFormModal {
+  .ant-modal-body,
+  .ant-modal-footer {
+    padding-inline: 3rem;
+  }
+
   &__footerContainer {
     display: flex;
     column-gap: 0.5rem;
-    justify-content: flex-end;
-    margin-top: 2.6rem;
+    margin-top: 2rem;
+    &.--right {
+      justify-content: flex-end;
+    }
+    &.--center {
+      justify-content: center;
+    }
+    &.--left {
+      justify-content: flex-start;
+    }
   }
   &__button {
     padding-inline: 2.5rem;
     line-height: normal;
     &__text {
       font-size: 0.875rem;
-    }
-  }
-  &__content {
-    margin-bottom: 3rem;
-    &__title {
-      margin-bottom: 1.3rem;
     }
   }
 }

@@ -9,6 +9,7 @@ import './coa-form-activities-modal.scss';
 import PropTypes from 'prop-types';
 import { CoaFormItem } from 'components/molecules/CoaFormItems/CoaFormItem/CoaFormItem';
 import { CoaFormItemInputNumber } from 'components/molecules/CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 export const CoaFormActivitiesModalContent = ({
   form,
@@ -20,7 +21,12 @@ export const CoaFormActivitiesModalContent = ({
   ...rest
 }) => (
   <CoaFormModal
-    title={initialData ? 'Edit activity' : 'Create new activity'}
+    title={
+      <TitlePage
+        textTitle={initialData ? 'Edit activity' : 'Create new activity'}
+        underlinePosition="left"
+      />
+    }
     {...{ form, onSave, onCancel }}
     {...rest}
   >
