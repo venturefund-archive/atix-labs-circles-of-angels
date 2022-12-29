@@ -7,6 +7,7 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import EvidenceDetailType from 'components/molecules/EvidenceDetailType/EvidenceDetailType';
 import { useParams, Redirect } from 'react-router-dom';
 import { Divider } from 'antd';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import ModalRejectEvidence from '../ModalRejectEvidence/ModalRejectEvidence';
 import ModalApproveEvidence from '../ModalApproveEvidence/ModalApproveEvidence';
 import AttachedFiles from '../AttachedFiles/AttachedFiles';
@@ -21,6 +22,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency, isPr
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const { texts } = React.useContext(DictionaryContext);
   const ChangelogComponent = useRef();
 
   const evidenceStatus = evidence.status;
@@ -92,13 +94,13 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency, isPr
                   onClick={() => setRejectModalOpen(true)}
                   disabled={isProjectEditing}
                 >
-                  Reject
+                  {texts?.general?.btnReject || 'Reject'}
                 </CoaRejectButton>
                 <CoaApproveButton
                   onClick={() => setApproveModalOpen(true)}
                   disabled={isProjectEditing}
                 >
-                  Approve
+                  {texts?.general?.btnApprove || 'Approve'}
                 </CoaApproveButton>
               </div>
             </>
@@ -110,7 +112,7 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency, isPr
             projectId={projectId}
             activity={activityId}
             evidenceId={detailEvidenceId}
-            title="Evidence Changelog"
+            title={ texts?.changelog?.evidence || 'Evidence Changelog'}
             currency={currency}
           />
         </div>

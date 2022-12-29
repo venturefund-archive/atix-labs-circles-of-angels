@@ -3,14 +3,16 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './_style.scss';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 const TermsAndConditionsContainer = () => {
   const history = useHistory();
+  const { texts } = React.useContext(DictionaryContext);
   return (
     <div className='termAndConditionsContainer'>
       <GoBackButton goBackTo={() => history.goBack()} />
       <div className='termAndConditionsContainer__content'>
-        <h1 className='termAndConditionsContainer__title'>Terms & conditions</h1>
+        <h1 className='termAndConditionsContainer__title'>{texts?.general?.['terms&Conditions'] || 'Terms & conditions'}</h1>
         <p>
     What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
         </p>

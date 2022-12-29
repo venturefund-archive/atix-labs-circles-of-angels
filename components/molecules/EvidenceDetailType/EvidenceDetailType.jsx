@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Icon } from 'antd';
 import './_style.scss';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { formatCurrency } from '../../../helpers/formatter';
 
 export default function EvidenceDetailType(props) {
+  const { texts } = React.useContext(DictionaryContext);
   const { evidenceType, currency, outcome, income } = props;
   const isTransfer = evidenceType === 'transfer';
   const type = evidenceType? evidenceType.charAt(0).toUpperCase() + evidenceType.slice(1) : '';
@@ -22,9 +24,9 @@ export default function EvidenceDetailType(props) {
               theme="filled"
               className='evidenceDetailType__block__label__icon'
             />
-            Evidence type:
+            {texts?.evidenceDetail?.evidenceType|| 'Evidence type:'}
           </h3>
-          <h3 className='evidenceDetailType__block__labelValue'>{type}</h3>
+          <h3 className='evidenceDetailType__block__labelValue'>{texts?.general?.[(type || '').toLowerCase()] || type}</h3>
         </div>
         {
           isTransfer &&
@@ -35,7 +37,7 @@ export default function EvidenceDetailType(props) {
                 theme="filled"
                 className='evidenceDetailType__block__label__icon'
               />
-              { incomeValue? 'Income:' : 'Outcome:' }
+              { incomeValue? texts?.general?.income || 'Income:' : texts?.general?.outcome || 'Outcome:' }
             </h3>
             <h3 className='evidenceDetailType__block__labelValue'>{formatCurrency(currency, amount, true)}</h3>
           </div>

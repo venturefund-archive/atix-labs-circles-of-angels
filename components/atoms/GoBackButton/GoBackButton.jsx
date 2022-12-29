@@ -1,10 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import './_style.scss'
 
 const GoBackButton = ({ goBackTo }) => {
   const history = useHistory()
+  const { texts } = React.useContext(DictionaryContext);
+
   return (
     <div className='goBack'>
       <button
@@ -16,7 +19,7 @@ const GoBackButton = ({ goBackTo }) => {
         }}
       >
         <ArrowLeftOutlined />
-        <h3 className='goBack__button__text'>Go back</h3>
+        <h3 className='goBack__button__text'>{texts?.general?.btnGoBack || 'Go back'}</h3>
       </button>
     </div>
   )

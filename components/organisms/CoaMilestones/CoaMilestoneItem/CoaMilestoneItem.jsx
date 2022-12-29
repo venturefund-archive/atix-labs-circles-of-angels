@@ -6,6 +6,7 @@ import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
 import milestoneStatusMap from 'model/milestoneStatus';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 const { Panel } = Collapse;
 
@@ -25,6 +26,7 @@ export const CoaMilestoneItem = ({
   canAddEvidences,
   projectId
 }) => {
+  const { texts } = React.useContext(DictionaryContext);
   const description = milestone?.description;
   const status = milestone?.status;
   const title = milestone?.title;
@@ -87,7 +89,7 @@ export const CoaMilestoneItem = ({
                     onClick={() => toggleAreActivitiesOpened(milestone?.id)}
                     onKeyDown={() => toggleAreActivitiesOpened(milestone?.id)}
                   >
-                    View Activities
+                    { texts?.landingMilestones?.viewActivities || 'View Activities'}
                     {areActivitiesOpen ? <Icon type="down" /> : <Icon type="right" />}
                   </div>
                 }
@@ -118,7 +120,7 @@ export const CoaMilestoneItem = ({
               type="dashed"
               onClick={() => onCreateActivity(milestone)}
             >
-              <Icon type="plus" /> Add Activity
+              <Icon type="plus" /> {texts?.landingMilestones?.addActivities || 'Add Activity'}
             </CoaTextButton>
           )}
         </>

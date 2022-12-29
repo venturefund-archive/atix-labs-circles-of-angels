@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 import { Button, Form, Input, Typography } from 'antd';
 import LogoWrapper from 'components/atoms/LogoWrapper';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }) => {
+  const { texts } = React.useContext(DictionaryContext);
   const { getFieldDecorator } = form;
 
   const handleSubmit = async (e) => {
@@ -25,28 +27,28 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
           className='ant-btn ant-btn-secondary CoaModal__Secondary'
           onClick={() => setVisible(false)}
         >
-          Cancel
+          {texts?.general?.btnCancel || 'Cancel'}
         </Button>,
         <Button
           className='ant-btn ant-btn-primary CoaModal__primary'
           onClick={handleSubmit}
         >
-          Reject
+          {texts?.general?.btnReject || 'Reject'}
         </Button>
       ]}
     >
       <LogoWrapper textTitle='You are about to reject an evidence' />
       <Typography.Text className='CoaModal__Paragraph--centered'>
-        Please select the reason and leave a comment for the beneficiary or the founder.
+        {texts?.modalRejectEvidence?.leaveComment || 'Please select the reason and leave a comment for the beneficiary or the founder.'}
       </Typography.Text>
       <Form onSubmit={handleSubmit}>
-        <Form.Item label='Leave a comment'>
+        <Form.Item label={texts?.modalRejectEvidence?.textPlaceholder || 'Leave a comment'}>
           {
-            getFieldDecorator('comment', {
+            getFieldDecorator(texts?.modalRejectEvidence?.comment || 'comment', {
               rules: [
                 {
                   required: true,
-                  message: 'Must write a reason for rejection'
+                  message: texts?.modalRejectEvidence?.ruleComment || 'Must write a reason for rejection'
                 }
               ]
             })(

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import ProjectStatus from '../ProjectStatus/ProjectStatus';
 import ProjectHeroDetails from '../ProjectHeroDetails/ProjectHeroDetails';
 import ProjectHeroDownload from '../ProjectHeroDownload/ProjectHeroDownload';
-
 import './_style.scss';
 
 const ProjectHeroSection = ({
@@ -18,37 +18,41 @@ const ProjectHeroSection = ({
   legalAgreementUrl,
   onClickProgressButton,
   blockchainHistoryUrl
-}) => (
-  <div className="hero">
-    <div className="content">
-      <ProjectStatus status={status} blockchainHistoryUrl={blockchainHistoryUrl} />
-      <div className="text">
-        <h3>{subtitle}</h3>
-        <h1>{title}</h1>
-      </div>
-    </div>
+}) => {
+  const { texts } = React.useContext(DictionaryContext);
 
-    <div className="bottom">
-      <div className="btn">
-        <button type="button" className="progress--btn" onClick={onClickProgressButton}>
-          <span>See the progress</span>
-        </button>
+  return (
+    <div className="hero">
+      <div className="content">
+        <ProjectStatus status={status} blockchainHistoryUrl={blockchainHistoryUrl} />
+        <div className="text">
+          <h3>{subtitle}</h3>
+          <h1>{title}</h1>
+        </div>
       </div>
-      <div className="backoffice">
-        <ProjectHeroDetails
-          country={country}
-          timeframe={timeframe}
-          budget={budget}
-          beneficiary={beneficiary}
-        />
-        <ProjectHeroDownload
-          projectProposalUrl={projectProposalUrl}
-          legalAgreementUrl={legalAgreementUrl}
-        />
+
+      <div className="bottom">
+        <div className="btn">
+          <button type="button" className="progress--btn" onClick={onClickProgressButton}>
+            <span>{texts?.header?.progress || 'See the progress'}</span>
+          </button>
+        </div>
+        <div className="backoffice">
+          <ProjectHeroDetails
+            country={country}
+            timeframe={timeframe}
+            budget={budget}
+            beneficiary={beneficiary}
+          />
+          <ProjectHeroDownload
+            projectProposalUrl={projectProposalUrl}
+            legalAgreementUrl={legalAgreementUrl}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 export default ProjectHeroSection;
 
