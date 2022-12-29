@@ -12,12 +12,12 @@ import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import PropTypes from 'prop-types';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
   const { push } = useHistory();
   return (
-    <CoaFormModal
+    <CoaDialogModal
       visible={visible}
       onCancel={onCancel}
       title={
@@ -45,7 +45,7 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       >
         Project Link
       </Link>
-    </CoaFormModal>
+    </CoaDialogModal>
   );
 };
 

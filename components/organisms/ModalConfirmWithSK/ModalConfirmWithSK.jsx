@@ -16,7 +16,7 @@ import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 import { CoaFormItemPassword } from 'components/molecules/CoaFormItems/CoaFormItemPassword/CoaFormItemPassword';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   const { user } = useContext(UserContext);
@@ -57,7 +57,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
   }, [getFieldValue, onSuccess]);
 
   return (
-    <CoaFormModal
+    <CoaDialogModal
       buttonsPosition="center"
       visible={visible}
       onCancel={onCancel}
@@ -120,7 +120,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
           }}
         />
       </Form>
-    </CoaFormModal>
+    </CoaDialogModal>
   );
 }
 

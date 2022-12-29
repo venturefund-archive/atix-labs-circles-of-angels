@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
-import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from 'components/organisms/CoaModals/CoaDialogModal/CoaDialogModal';
 import { ERROR_MESSAGES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
 export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialData, ...rest }) => (
-  <CoaFormModal
+  <CoaDialogModal
     title={
       <TitlePage
         textTitle={initialData ? 'Edit milestone' : 'Create new milestone'}
@@ -59,7 +59,7 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
         showCount: true
       }}
     />
-  </CoaFormModal>
+  </CoaDialogModal>
 );
 
 export const CoaFormMilestoneModal = Form.create({ name: 'CoaFormMilestoneModal' })(

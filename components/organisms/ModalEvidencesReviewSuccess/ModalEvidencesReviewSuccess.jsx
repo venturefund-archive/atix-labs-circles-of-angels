@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 export default function ModalEvidencesReviewSuccess({ visible, onCancel }) {
   return (
-    <CoaFormModal
+    <CoaDialogModal
       visible={visible}
       onSave={onCancel}
       title={

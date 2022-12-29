@@ -10,10 +10,10 @@ import React from 'react';
 import { Typography } from 'antd';
 import PropTypes from 'prop-types';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => (
-  <CoaFormModal
+  <CoaDialogModal
     withLogo
     visible={visible}
     onCancel={onCancel}
@@ -29,7 +29,7 @@ const ModalConfirmProjectPublish = ({ visible, onSuccess, onCancel }) => (
     }
   >
     <Typography style={{ textAlign: 'center' }}>This action cannot be undone</Typography>
-  </CoaFormModal>
+  </CoaDialogModal>
 );
 
 ModalConfirmProjectPublish.defaultProps = {

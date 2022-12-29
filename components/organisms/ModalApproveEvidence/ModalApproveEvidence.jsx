@@ -1,10 +1,10 @@
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import React from 'react';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 export default function ModalApproveEvidence({ visible, setVisible, onSuccess }) {
   return (
-    <CoaFormModal
+    <CoaDialogModal
       visible={visible}
       onCancel={() => setVisible(false)}
       onSave={onSuccess}

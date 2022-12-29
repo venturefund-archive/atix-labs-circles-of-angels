@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './coa-form-modal.scss';
+import './coa-dialog-modal.scss';
 
 import classNames from 'classnames';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { CoaBaseModal } from '../CoaBaseModal/CoaBaseModal';
 
-export const CoaFormModal = ({
+export const CoaDialogModal = ({
   children,
   title,
   onSave,
@@ -48,25 +48,25 @@ export const CoaFormModal = ({
 
   return (
     <CoaBaseModal
-      className="o-coaFormModal"
+      className="o-coaDialogModal"
       footer={
         <div
-          className={classNames('o-coaFormModal__footerContainer', {
+          className={classNames('o-coaDialogModal__footerContainer', {
             [`--${buttonsPosition}`]: buttonsPosition
           })}
         >
           {!withoutCancelButton && (
-            <CoaButton type="ghost" onClick={handleCancel} className="o-coaFormModal__button">
-              <span className="o-coaFormModal__button__text">{cancelText}</span>
+            <CoaButton type="ghost" onClick={handleCancel} className="o-coaDialogModal__button">
+              <span className="o-coaDialogModal__button__text">{cancelText}</span>
             </CoaButton>
           )}
           <CoaButton
             type="primary"
             onClick={handleSave}
-            className="o-coaFormModal__button"
+            className="o-coaDialogModal__button"
             loading={isSubmitLoading}
           >
-            <span className="o-coaFormModal__button__text">{okText}</span>
+            <span className="o-coaDialogModal__button__text">{okText}</span>
           </CoaButton>
         </div>
       }
@@ -80,7 +80,7 @@ export const CoaFormModal = ({
   );
 };
 
-CoaFormModal.defaultProps = {
+CoaDialogModal.defaultProps = {
   children: undefined,
   title: undefined,
   onSave: undefined,
@@ -94,7 +94,7 @@ CoaFormModal.defaultProps = {
   withoutCancelButton: undefined
 };
 
-CoaFormModal.propTypes = {
+CoaDialogModal.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   title: PropTypes.string,
   onSave: PropTypes.func,

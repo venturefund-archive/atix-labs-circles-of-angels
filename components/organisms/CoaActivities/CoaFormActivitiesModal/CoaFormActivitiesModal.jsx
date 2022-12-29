@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { CoaFormModal } from 'components/organisms/CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from 'components/organisms/CoaModals/CoaDialogModal/CoaDialogModal';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { CoaFormItemSelect } from 'components/molecules/CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
@@ -20,7 +20,7 @@ export const CoaFormActivitiesModalContent = ({
   auditors,
   ...rest
 }) => (
-  <CoaFormModal
+  <CoaDialogModal
     title={
       <TitlePage
         textTitle={initialData ? 'Edit activity' : 'Create new activity'}
@@ -148,7 +148,7 @@ export const CoaFormActivitiesModalContent = ({
       }}
       options={auditors}
     />
-  </CoaFormModal>
+  </CoaDialogModal>
 );
 
 export const CoaFormActivitiesModal = Form.create({ name: 'CoaFormActivitiesModal' })(

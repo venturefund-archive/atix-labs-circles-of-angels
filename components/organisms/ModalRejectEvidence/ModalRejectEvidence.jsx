@@ -2,11 +2,11 @@ import React from 'react';
 import { Form } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
-import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }) => {
   return (
-    <CoaFormModal
+    <CoaDialogModal
       form={form}
       visible={visible}
       onCancel={() => setVisible(false)}
@@ -44,7 +44,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
           }}
         />
       </Form>
-    </CoaFormModal>
+    </CoaDialogModal>
   );
 };
 
