@@ -173,7 +173,7 @@ const Evidences = ({
                 <p className="evidences__list__header__title">{activity.title}</p>
                 <p className="evidences__list__header__subtitle">Auditor: {auditorName}</p>
               </div>
-              <div>
+              <div className="evidences__list__header__right">
                 {enableAddEvidenceBtn && (
                   <AddEvidenceButton
                     onClickAddEvidence={handleAddEvidence}

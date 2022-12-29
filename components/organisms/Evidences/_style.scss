@@ -28,6 +28,11 @@
       &__subtitle {
         @include primary-text(0.875rem, $coa-light-gray-100, 400);
       }
+      &__right {
+        display: flex;
+        column-gap: 1.25rem;
+        align-items: center;
+      }
     }
     &__body {
       &__evidencesContainer {
