@@ -303,10 +303,10 @@ const changelogActions = changelog => {
           >
             {activityTitle}
           </Link>{' '}
-          Activity and commented {changelog?.description}
+          Activity and commented {extraData?.reason}
         </>
       ),
-      descriptionText: `${userName} - ${role} - rejected ${evidenceTitle} evidence of ${activityTitle} Activity and commented ${changelog?.description}`
+      descriptionText: `${userName} - ${role} - rejected ${evidenceTitle} evidence of ${activityTitle} Activity and commented ${extraData?.reason}`
     },
     approve_evidence: {
       actionText: 'approved evidence',

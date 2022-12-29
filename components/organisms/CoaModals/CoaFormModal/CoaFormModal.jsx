@@ -15,11 +15,19 @@ export const CoaFormModal = ({
   logoImage,
   withLogo,
   buttonsPosition,
+  withoutCancelButton,
+  okText,
+  cancelText,
   ...rest
 }) => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSubmitLoading(true);
+    if (!form) {
+      await onSave?.();
+      return setIsSubmitLoading(false);
+    }
+
     form.validateFields(async (err, values) => {
       if (!err) {
         await onSave(values);
@@ -32,6 +40,8 @@ export const CoaFormModal = ({
   };
 
   const handleCancel = () => {
+    if (!form) return onCancel?.();
+
     form.resetFields();
     onCancel();
   };
@@ -45,16 +55,18 @@ export const CoaFormModal = ({
             [`--${buttonsPosition}`]: buttonsPosition
           })}
         >
-          <CoaButton type="ghost" onClick={handleCancel} className="o-coaFormModal__button">
-            <span className="o-coaFormModal__button__text">Cancel</span>
-          </CoaButton>
+          {!withoutCancelButton && (
+            <CoaButton type="ghost" onClick={handleCancel} className="o-coaFormModal__button">
+              <span className="o-coaFormModal__button__text">{cancelText}</span>
+            </CoaButton>
+          )}
           <CoaButton
             type="primary"
             onClick={handleSave}
             className="o-coaFormModal__button"
             loading={isSubmitLoading}
           >
-            <span className="o-coaFormModal__button__text">Save</span>
+            <span className="o-coaFormModal__button__text">{okText}</span>
           </CoaButton>
         </div>
       }
@@ -76,7 +88,10 @@ CoaFormModal.defaultProps = {
   form: undefined,
   buttonsPosition: 'right',
   logoImage: undefined,
-  withLogo: undefined
+  withLogo: undefined,
+  okText: 'Save',
+  cancelText: 'Cancel',
+  withoutCancelButton: undefined
 };
 
 CoaFormModal.propTypes = {
@@ -87,5 +102,8 @@ CoaFormModal.propTypes = {
   form: PropTypes.objectOf(PropTypes.any),
   buttonsPosition: PropTypes.string,
   logoImage: PropTypes.string,
-  withLogo: PropTypes.bool
+  withLogo: PropTypes.bool,
+  okText: PropTypes.string,
+  cancelText: PropTypes.string,
+  withoutCancelButton: PropTypes.bool
 };

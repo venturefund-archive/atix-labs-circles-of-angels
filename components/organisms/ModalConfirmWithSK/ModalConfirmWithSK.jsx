@@ -8,7 +8,7 @@
  */
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Form } from 'antd';
+import { Form } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
 import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
@@ -72,10 +72,8 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
         />
       }
       withLogo
+      description="To confirm the process enter your administrator password and secret key"
     >
-      <Typography style={{ textAlign: 'center' }}>
-        To confirm the process enter your administrator password and secret key
-      </Typography>
       <Form>
         <CoaFormItemPassword
           form={form}

@@ -19,6 +19,7 @@ export const CoaBaseModal = ({
   withLogo,
   logoImage,
   title,
+  description,
   ...rest
 }) => {
   const src = logoImage || customConfig.LOGO_PATH;
@@ -37,8 +38,10 @@ export const CoaBaseModal = ({
         </div>
         {title}
       </div>
-      <div className="o-coaBaseModal__body"></div>
-      {children}
+      <div className="o-coaBaseModal__body">
+        <p className="o-coaBaseModal__body__description">{description}</p>
+        {children}
+      </div>
     </Modal>
   );
 };
@@ -49,7 +52,8 @@ CoaBaseModal.defaultProps = {
   footerButtonPosition: 'right',
   withLogo: undefined,
   logoImage: undefined,
-  title: undefined
+  title: undefined,
+  description: undefined
 };
 
 CoaBaseModal.propTypes = {
@@ -58,5 +62,6 @@ CoaBaseModal.propTypes = {
   footerButtonPosition: PropTypes.string,
   withLogo: PropTypes.bool,
   logoImage: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  description: PropTypes.string
 };

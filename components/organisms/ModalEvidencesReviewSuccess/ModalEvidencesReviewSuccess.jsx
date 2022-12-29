@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LogoWrapper from 'components/atoms/LogoWrapper';
-import { Button, Typography } from 'antd';
-import { CoaBaseModal } from '../CoaModals/CoaBaseModal/CoaBaseModal';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { CoaFormModal } from '../CoaModals/CoaFormModal/CoaFormModal';
 
 export default function ModalEvidencesReviewSuccess({ visible, onCancel }) {
   return (
-    <CoaBaseModal
+    <CoaFormModal
       visible={visible}
-      onCancel={onCancel}
-      footerButtonPosition="center"
-      footer={
-        <Button className="CoaModal__Primary" onClick={onCancel}>
-          Continue
-        </Button>
+      onSave={onCancel}
+      title={
+        <TitlePage
+          centeredText
+          textTitle="The activity was sent successfully!"
+          underlinePosition="none"
+          textColor="#4C7FF7"
+        />
       }
-    >
-      <LogoWrapper textTitle="The activity was sent successfully!" />
-      <Typography.Paragraph className="CoaModal__Paragraph--centered">
-        The evidences of the activity will be reviewed by an auditor.
-      </Typography.Paragraph>
-    </CoaBaseModal>
+      description="The evidences of the activity will be reviewed by an auditor."
+      withoutCancelButton
+      withLogo
+      buttonsPosition="center"
+      okText="Continue"
+    />
   );
 }
 
