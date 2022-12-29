@@ -23,11 +23,10 @@ import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaForm
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
 
-const FormProjectDetailContent = ({ form, project, Footer }) => {
+const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }) => {
   const { setFieldsValue, getFieldsError } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
-
   const { budget } = project;
 
   const {
@@ -215,7 +214,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
                       currency: null,
                       additionalCurrencyInformation: ''
                     });
-                }
+                },
+                disabled: isACloneBeingEdited
               }}
               options={[{ label: 'FIAT', value: 'Fiat' }, { label: 'CRYPTO', value: 'Crypto' }]}
             />
@@ -235,7 +235,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
                 initialValue: currency
               }}
               selectProps={{
-                placeholder: 'Select currency'
+                placeholder: 'Select currency',
+                disabled: isACloneBeingEdited
               }}
               options={CURRENCIES[currentCurrencyType]}
             />
@@ -281,7 +282,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
                   }}
                   inputTextAreaProps={{
                     placeholder: '',
-                    maxLength: 50
+                    maxLength: 50,
+                    disabled: isACloneBeingEdited
                   }}
                 />
               )}
@@ -314,7 +316,8 @@ const FormProjectDetailContent = ({ form, project, Footer }) => {
                   }}
                   inputTextAreaProps={{
                     placeholder: 'Address',
-                    maxLength: 50
+                    maxLength: 50,
+                    disabled: isACloneBeingEdited
                   }}
                 />
               )}

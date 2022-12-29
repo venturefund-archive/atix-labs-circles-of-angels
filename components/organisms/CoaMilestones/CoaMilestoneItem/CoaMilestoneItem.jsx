@@ -7,6 +7,7 @@ import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaInd
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
 import milestoneStatusMap from 'model/milestoneStatus';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 
 const { Panel } = Collapse;
 
@@ -89,7 +90,7 @@ export const CoaMilestoneItem = ({
                     onClick={() => toggleAreActivitiesOpened(milestone?.id)}
                     onKeyDown={() => toggleAreActivitiesOpened(milestone?.id)}
                   >
-                    { texts?.landingMilestones?.viewActivities || 'View Activities'}
+                    {texts?.landingMilestones?.viewActivities || 'View Activities'}
                     {areActivitiesOpen ? <Icon type="down" /> : <Icon type="right" />}
                   </div>
                 }
@@ -103,8 +104,18 @@ export const CoaMilestoneItem = ({
                       canAddEvidences={canAddEvidences}
                       withEvidences={withEvidences}
                       withStatusTag={withStatusTag}
-                      onRemove={onRemoveActivity && (() => onRemoveActivity(activity?.id))}
-                      onEdit={onEditActivity && (() => onEditActivity(activity))}
+                      onRemove={
+                        [ACTIVITY_STATUS_ENUM.NEW].includes(activity?.status) &&
+                        onRemoveActivity &&
+                        (() => onRemoveActivity(activity?.id))
+                      }
+                      onEdit={
+                        [ACTIVITY_STATUS_ENUM.NEW, ACTIVITY_STATUS_ENUM.IN_PROGRESS].includes(
+                          activity?.status
+                        ) &&
+                        onEditActivity &&
+                        (() => onEditActivity(activity))
+                      }
                       isProjectEditing={isProjectEditing}
                       {...{ milestone, currency, activity }}
                       {...{ activityNumber: index + 1 }}

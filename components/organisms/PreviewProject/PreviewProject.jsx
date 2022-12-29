@@ -27,7 +27,7 @@ import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
-import { checkIsBeneficiaryOrInvestor } from '../../../helpers/roles';
+import { checkIsBeneficiaryOrInvestorByProject } from '../../../helpers/roles';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const PreviewProject = ({ id, preview }) => {
@@ -114,15 +114,15 @@ const PreviewProject = ({ id, preview }) => {
   );
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
-  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, id);
+  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject(user, project);
   const isPublishedOrInProgressProject = [
     PROJECT_STATUS_ENUM.PUBLISHED,
     PROJECT_STATUS_ENUM.IN_PROGRESS
   ].includes(status);
 
-  const handleRequestChanges = async(e) => {
+  const handleRequestChanges = async e => {
     e.preventDefault();
-    if(editing) {
+    if (editing) {
       return history.push(`/project/edit/${cloneId}`);
     }
     setLoading(true);
@@ -133,13 +133,18 @@ const PreviewProject = ({ id, preview }) => {
     }
     const _cloneId = await response.data.projectId;
     return history.push(`/project/edit/${_cloneId}`);
-  }
+  };
 
   if (loading) return <Loading />;
 
+  const isACloneBeingEdited = project?.editing || project?.revision !== 1;
+
   return (
     <LandingLayout
-      showPreviewAlert={preview && isAdmin}
+      project={project}
+      showPreviewAlert={
+        isACloneBeingEdited ? preview && isBeneficiaryOrInvestor : preview && isAdmin
+      }
       projectId={project?.id}
       header={
         <ProjectHeroSection
@@ -179,7 +184,8 @@ const PreviewProject = ({ id, preview }) => {
               </CoaButton>
               <Link to={`${id}/changelog`} className="o-previewProject__buttons__buttonContainer">
                 <CoaButton shape="round" className="o-previewProject__buttons__button">
-                  <BlockchainIcon /> {texts?.landingSubheader?.btnChangelog || 'Blockchain Changelog'}
+                  <BlockchainIcon />{' '}
+                  {texts?.landingSubheader?.btnChangelog || 'Blockchain Changelog'}
                 </CoaButton>
               </Link>
             </div>
@@ -232,7 +238,7 @@ const PreviewProject = ({ id, preview }) => {
                 total={totalMilestonesQuantity}
                 startBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project|| 'Project'}{' '}
+                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
                     <span className="o-previewProject__progressSection__pills__boldText">
                       {texts?.landingProjectProgress?.started || 'Started'}
                     </span>
@@ -240,7 +246,7 @@ const PreviewProject = ({ id, preview }) => {
                 }
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project|| 'Project'}{' '}
+                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
                     <span className="o-previewProject__progressSection__pills__boldText">
                       {texts?.landingProjectProgress?.finished || 'Finished!'}
                     </span>
@@ -338,11 +344,15 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
-              textTitle={ texts?.changelog?.title || 'Project Changelog'}
+              textTitle={texts?.changelog?.title || 'Project Changelog'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <CoaChangelogContainer title={ texts?.changelog?.title || 'Project Changelog'} projectId={id} currency={currency} />
+            <CoaChangelogContainer
+              title={texts?.changelog?.title || 'Project Changelog'}
+              projectId={id}
+              currency={currency}
+            />
           </div>
         </div>
       )}

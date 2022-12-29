@@ -17,10 +17,11 @@ import { CoaFormMilestoneModal } from 'components/organisms/CoaMilestones/CoaFor
 import { CoaFormActivitiesModal } from 'components/organisms/CoaActivities/CoaFormActivitiesModal/CoaFormActivitiesModal';
 import { updateActivity } from 'api/activityApi';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { CoaConfirmDeleteModal } from 'components/organisms/CoaModals/CoaFeedbackModals/CoaFeedbackModals';
 import { CoaMilestoneItem } from '../CoaMilestoneItem/CoaMilestoneItem';
 
-export const CoaMilestonesView = ({ project, Footer }) => {
+export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   const projectId = project?.id;
   const currency = project?.details?.currency || '';
   const auditors = getUsersByRole(ROLES_IDS.auditor, project?.users);
@@ -240,8 +241,15 @@ export const CoaMilestonesView = ({ project, Footer }) => {
           {milestones.map((milestone, index) => (
             <CoaMilestoneItem
               toggleAreActivitiesOpened={toggleAreActivitiesOpened}
-              onRemoveMilestone={() => handleOpenConfirmDeleteMilestoneModal(milestone?.id)}
-              onEditMilestone={() => handleOpenEditMilestone(milestone)}
+              onRemoveMilestone={
+                [MILESTONE_STATUS_ENUM.NEW].includes(milestone?.status) &&
+                (() => handleOpenConfirmDeleteMilestoneModal(milestone?.id))
+              }
+              onEditMilestone={
+                [MILESTONE_STATUS_ENUM.NEW, MILESTONE_STATUS_ENUM.IN_PROGRESS].includes(
+                  milestone?.status
+                ) && (() => handleOpenEditMilestone(milestone))
+              }
               onCreateActivity={() => {
                 setCurrentEditedMilestone(milestone);
                 setIsFormActivityModalOpen(true);
@@ -250,6 +258,7 @@ export const CoaMilestonesView = ({ project, Footer }) => {
               onRemoveActivity={activityId =>
                 handleOpenConfirmDeleteActivityModal({ milestone, activityId })
               }
+              withStatusTag={isACloneBeingEdited}
               {...{
                 currency,
                 milestone

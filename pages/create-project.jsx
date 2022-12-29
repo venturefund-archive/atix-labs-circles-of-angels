@@ -32,7 +32,7 @@ import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalP
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
 import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
-import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
+import { EDITOR_VARIANT, projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, publish, deleteProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
@@ -44,6 +44,29 @@ const wizards = {
   proposal: AssignProjectUsers,
   milestones: CoaMilestonesView
 };
+
+const COMPONENT_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
+  FIRST_EDITING: {
+    finishButtonDisabled:
+      ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(status) ||
+      (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)),
+    nextStepButtonDisabled: ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(
+      status
+    ),
+    prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(
+      status
+    ),
+    prevButtonText: isMainWizardActive ? 'Delete Project' : 'Back'
+  },
+  EDITING_CLONE: {
+    finishButtonDisabled:
+      ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status) ||
+      (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)),
+    nextStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
+    prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
+    prevButtonText: isMainWizardActive ? 'Delete Edition' : 'Back'
+  }
+});
 
 const CreateProjectContainer = () => {
   const history = useHistory();
@@ -63,6 +86,12 @@ const CreateProjectContainer = () => {
   });
 
   const { projectId } = useParams();
+
+  const isACloneBeingEdited = project?.editing || project?.revision !== 1;
+
+  const editorVariant = isACloneBeingEdited
+    ? EDITOR_VARIANT.EDITING_CLONE
+    : EDITOR_VARIANT.FIRST_EDITING;
 
   const checkStepsStatus = async projectToCheck => {
     const { details = {}, basicInformation = {}, users = [], milestones = [] } =
@@ -146,6 +175,7 @@ const CreateProjectContainer = () => {
   };
 
   const goToMyProjects = () => history.push('/my-projects');
+  const goToParentProject = () => history.push(`/${project?.parent}`);
 
   const fetchProject = async () => {
     const response = await getProject(projectId);
@@ -173,9 +203,6 @@ const CreateProjectContainer = () => {
 
   const getFinishButton = onSubmit => {
     if (status === projectStatuses.CONSENSUS) return;
-    const disabled =
-      (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)) ||
-      (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW);
 
     return (
       <CoaButton
@@ -183,7 +210,10 @@ const CreateProjectContainer = () => {
         onClick={() =>
           isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit)
         }
-        disabled={disabled}
+        disabled={
+          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+            ?.finishButtonDisabled
+        }
       >
         {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
       </CoaButton>
@@ -194,8 +224,11 @@ const CreateProjectContainer = () => {
     if (!isMainWizardActive) return;
     return (
       <CoaTextButton
-        disabled={status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW}
-        onClick={goToMyProjects}
+        disabled={
+          COMPONENT_LOGIC({ status, completedSteps, isMainWizardActive })?.[editorVariant]
+            ?.nextStepButtonDisabled
+        }
+        onClick={isACloneBeingEdited ? goToParentProject : goToMyProjects}
       >
         Save & Continue Later
       </CoaTextButton>
@@ -215,9 +248,15 @@ const CreateProjectContainer = () => {
         type="secondary"
         icon={isMainWizardActive ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
-        disabled={status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW}
+        disabled={
+          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+            ?.prevStepButtonDisabled
+        }
       >
-        {isMainWizardActive ? 'Delete Project' : 'Back'}
+        {
+          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+            ?.prevButtonText
+        }
       </CoaButton>
     );
   };
@@ -235,11 +274,10 @@ const CreateProjectContainer = () => {
           project={project}
           setCurrentWizard={setCurrentWizard}
           goToMyProjects={goToMyProjects}
+          editorVariant={editorVariant}
+          isACloneBeingEdited={isACloneBeingEdited}
           Footer={({ errors, onSubmit } = {}) => (
             <FooterButtons
-              disabledButtons={
-                status !== PROJECT_STATUS_ENUM.DRAFT || status !== PROJECT_STATUS_ENUM.IN_REVIEW
-              }
               errors={errors}
               className="p-createProject__footerButtons"
               finishButton={getFinishButton(onSubmit)}

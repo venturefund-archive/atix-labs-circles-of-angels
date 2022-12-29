@@ -8,7 +8,7 @@ import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { UserContext } from 'components/utils/UserContext';
 import activityStatusMap, { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { useHistory } from 'react-router-dom';
-import { checkIsActivityAuditor, checkIsBeneficiaryOrInvestor } from 'helpers/roles';
+import { checkIsActivityAuditor, checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
@@ -61,8 +61,8 @@ const Evidences = ({
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const { user } = useContext(UserContext);
 
-  const isActivityAuditor = checkIsActivityAuditor(user, activity);
-  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestor(user, projectId);
+  const isActivityAuditor = checkIsActivityAuditor({ user, activity });
+  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject(user, project);
 
   const sendToReview = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
@@ -210,11 +210,15 @@ const Evidences = ({
 
               <div className="evidences__list__body__info">
                 <div>
-                  <p className="evidences__indicatorTitle">{texts?.general?.description || 'Description'}</p>
+                  <p className="evidences__indicatorTitle">
+                    {texts?.general?.description || 'Description'}
+                  </p>
                   <p className="evidences__indicatorValue">{activity?.description}</p>
                 </div>
                 <div>
-                  <p className="evidences__indicatorTitle">{texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}</p>
+                  <p className="evidences__indicatorTitle">
+                    {texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}
+                  </p>
                   <p className="evidences__indicatorValue">{activity?.acceptanceCriteria}</p>
                 </div>
               </div>

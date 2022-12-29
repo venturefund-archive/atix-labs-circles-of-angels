@@ -12,7 +12,7 @@ import { ROLES__IDS_NAMES } from 'components/organisms/AssignProjectUsers/consta
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 
-export default function NavbarProfile({ user, removeUser, projectId }) {
+export default function NavbarProfile({ user, removeUser, projectId, role }) {
   const { texts } = React.useContext(DictionaryContext);
 
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
@@ -26,14 +26,6 @@ export default function NavbarProfile({ user, removeUser, projectId }) {
     removeUser();
     push(`/${location.pathname.split('/')[1]}`);
   };
-
-  const getAvatarRole = () => {
-    if(user.isAdmin) return 'Administrator';
-    const userProjectRole = user.projects
-      .find((project)=> project.projectId === parseInt(projectId, 10))?.roles[0] || -1;
-    const roleName = ROLES__IDS_NAMES[userProjectRole] || 'Unknown';
-    return (texts?.roles || {})[roleName.toLowerCase()] || roleName;
-  }
 
   const { firstName, lastName } = user;
 
@@ -52,7 +44,7 @@ export default function NavbarProfile({ user, removeUser, projectId }) {
           <h2>
             {user.firstName} {user.lastName}
           </h2>
-          <span>{getAvatarRole()}</span>
+          <span>{role}</span>
         </div>
         <div className="dropdown">
           <img src="/static/images/arrow-down.svg" alt="arrow-down" />
