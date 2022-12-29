@@ -33,7 +33,7 @@ import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalP
 import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, publish, deleteProject } from '../api/projectApi';
+import { getProject, publish, deleteProject, cancelReview } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -65,8 +65,7 @@ const CreateProjectContainer = () => {
   const { projectId } = useParams();
 
   const checkStepsStatus = async projectToCheck => {
-    const { details = {}, basicInformation = {}, users = [], milestones = [] } =
-      projectToCheck || {};
+    const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
 
     const { beneficiaries = [], investors = [], auditors = [] } = getProjectUsersPerRol(users);
 
@@ -137,6 +136,26 @@ const CreateProjectContainer = () => {
     }
   };
 
+  const askDeleteEditionConfirmation = () => {
+    if(!project || !project.id) return;
+    showModalConfirm(
+      'Warning!',
+      'Are you sure you want to delete this edition?',
+      deleteCurrentProjectEdition
+    );
+  }
+
+  const deleteCurrentProjectEdition = async() => {
+    if(!project || !project.id) return;
+    const response = await cancelReview(project.id);
+    if (response.error || !response.data) {
+      message.error(response.errors);
+      return;
+    }
+    message.success('Your project edition was successfully deleted!');
+    history.push(`/${project.parent}`);
+  }
+
   const publishProject = async () => {
     goToNextModal(setSecretKeyVisible, setLoadinModalVisible);
 
@@ -203,21 +222,34 @@ const CreateProjectContainer = () => {
   };
 
   const getPrevButton = () => {
+    const isProjectEditing = project?.editing || false;
+
     const onPrevOnClick = {
       [PROJECT_FORM_NAMES.DETAILS]: () => handleGoBack(),
-      [PROJECT_FORM_NAMES.MAIN]: () => askDeleteConfirmation(),
+      [PROJECT_FORM_NAMES.MAIN]: () => isProjectEditing
+        ? askDeleteEditionConfirmation()
+        : askDeleteConfirmation(),
       [PROJECT_FORM_NAMES.MILESTONES]: () => handleGoBack({ withUpdate: true }),
       [PROJECT_FORM_NAMES.PROPOSAL]: () => handleGoBack({ withUpdate: true }),
       [PROJECT_FORM_NAMES.THUMBNAILS]: () => handleGoBack()
     };
+
+    let buttonLabel = isMainWizardActive? 'Delete Project' : 'Back';
+    buttonLabel = isMainWizardActive && isProjectEditing
+      ? 'Delete Edition'
+      : isProjectEditing;
     return (
       <CoaButton
         type="secondary"
         icon={isMainWizardActive ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
-        disabled={status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW}
+        disabled={
+          status !== PROJECT_STATUS_ENUM.DRAFT
+          && status !== PROJECT_STATUS_ENUM.IN_REVIEW
+          && status !== PROJECT_STATUS_ENUM.OPEN_REVIEW
+        }
       >
-        {isMainWizardActive ? 'Delete Project' : 'Back'}
+        { buttonLabel }
       </CoaButton>
     );
   };
