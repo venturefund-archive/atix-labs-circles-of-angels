@@ -316,6 +316,15 @@ const cloneProject = async(projectId) => {
   }
 }
 
+const cancelReview = async (projectId) => {
+  try {
+    const response = await api.put(`${projectsBaseURL}/${projectId}/cancel-review`);
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   getActiveProjects,
   confirmProject,
@@ -331,5 +340,6 @@ export {
   updateProject,
   createProjectExperience,
   getProjectsPreview,
-  cloneProject
+  cloneProject,
+  cancelReview
 };
