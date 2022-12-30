@@ -45,7 +45,7 @@ const wizards = {
   milestones: CoaMilestonesView
 };
 
-const COMPONENT_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
+const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
   FIRST_EDITING: {
     finishButtonDisabled:
       ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(status) ||
@@ -211,7 +211,7 @@ const CreateProjectContainer = () => {
           isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit)
         }
         disabled={
-          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
             ?.finishButtonDisabled
         }
       >
@@ -225,7 +225,7 @@ const CreateProjectContainer = () => {
     return (
       <CoaTextButton
         disabled={
-          COMPONENT_LOGIC({ status, completedSteps, isMainWizardActive })?.[editorVariant]
+          EDITING_LOGIC({ status, completedSteps, isMainWizardActive })?.[editorVariant]
             ?.nextStepButtonDisabled
         }
         onClick={isACloneBeingEdited ? goToParentProject : goToMyProjects}
@@ -249,12 +249,12 @@ const CreateProjectContainer = () => {
         icon={isMainWizardActive ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
         disabled={
-          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
             ?.prevStepButtonDisabled
         }
       >
         {
-          COMPONENT_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
             ?.prevButtonText
         }
       </CoaButton>

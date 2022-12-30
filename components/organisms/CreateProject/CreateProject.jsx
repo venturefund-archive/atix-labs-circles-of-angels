@@ -10,7 +10,7 @@ import './_style.scss';
 import { UserContext } from 'components/utils/UserContext';
 import { checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
 
-const SECTIONS_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => ({
+const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => ({
   [EDITOR_VARIANT.FIRST_EDITING]: {
     basicInformationButtonDisabled:
       status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW,
@@ -107,7 +107,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             disabled={
-              SECTIONS_LOGIC({
+              EDITING_LOGIC({
                 status,
                 completedSteps,
                 isBeneficiaryOrInvestor
@@ -121,7 +121,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             disabled={
-              SECTIONS_LOGIC({
+              EDITING_LOGIC({
                 status,
                 completedSteps,
                 isBeneficiaryOrInvestor
@@ -135,7 +135,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
             completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             disabled={
-              SECTIONS_LOGIC({
+              EDITING_LOGIC({
                 status,
                 completedSteps,
                 isBeneficiaryOrInvestor
@@ -148,7 +148,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
             completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             disabled={
-              SECTIONS_LOGIC({
+              EDITING_LOGIC({
                 status,
                 completedSteps,
                 isBeneficiaryOrInvestor
