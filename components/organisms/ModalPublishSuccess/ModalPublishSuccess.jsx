@@ -7,15 +7,13 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Typography } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './_style.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import PropTypes from 'prop-types';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
-  const { push } = useHistory();
+const ModalPublishSuccess = ({ visible, onCancel, textTitle, description, onSave, children }) => {
   return (
     <CoaDialogModal
       visible={visible}
@@ -23,7 +21,7 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       title={
         <TitlePage
           centeredText
-          textTitle="The project has been published"
+          textTitle={textTitle}
           underlinePosition="none"
           textColor="#4C7FF7"
         />
@@ -32,19 +30,10 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       withLogo
       okText="Continue"
       buttonsPosition="center"
-      onSave={() => push('/my-projects')}
+      onSave={onSave}
+      description={description}
     >
-      <Typography.Paragraph className="CoaModal__Paragraph--centered">
-        The project has been published successfully. you can see it from here.
-      </Typography.Paragraph>
-
-      <Link
-        className="textcenter"
-        style={{ textAlign: 'center', display: 'block' }}
-        to={`/${projectId}`}
-      >
-        Project Link
-      </Link>
+      {children}
     </CoaDialogModal>
   );
 };
@@ -52,11 +41,15 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
 ModalPublishSuccess.defaultProps = {
   visible: false,
   onCancel: () => undefined,
-  projectId: undefined
+  projectId: undefined,
+  textTitle: 'The project has been published',
+  description: 'The project has been published successfully. you can see it from here.'
 };
 ModalPublishSuccess.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
-  projectId: PropTypes.string
+  projectId: PropTypes.string,
+  textTitle: PropTypes.string,
+  description: PropTypes.string
 };
 export default ModalPublishSuccess;

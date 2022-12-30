@@ -24,12 +24,7 @@ const ModalPublishLoading = ({ visible, textTitle, ...rest }) => (
     mask
     footer={null}
     title={
-      <TitlePage
-        centeredText
-        textTitle={textTitle ?? 'Loading...'}
-        underlinePosition="none"
-        textColor="#4C7FF7"
-      />
+      <TitlePage centeredText textTitle={textTitle} underlinePosition="none" textColor="#4C7FF7" />
     }
     withLogo
     {...rest}

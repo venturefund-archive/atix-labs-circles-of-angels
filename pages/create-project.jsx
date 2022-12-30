@@ -11,6 +11,7 @@
 import React, { useState, useEffect } from 'react';
 import { Icon, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import './_createproject.scss';
 import './_style.scss';
 import { AssignProjectUsers } from 'components/organisms/AssignProjectUsers/AssignProjectUsers';
@@ -76,7 +77,9 @@ const CreateProjectContainer = () => {
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [loadingSendToReviewModalVisible, setLoadingSendToReviewModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [successSendToReviewModalVisible, setSuccessSendToReviewModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
 
@@ -197,11 +200,14 @@ const CreateProjectContainer = () => {
   };
 
   const sendToReviewProject = async () => {
-    goToNextModal(setSecretKeyVisible, setLoadinModalVisible);
+    goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
     const { errors } = await sendToReview(project.id);
 
-    goToNextModal(setLoadinModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
+    goToNextModal(
+      setLoadingSendToReviewModalVisible,
+      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
+    );
   };
 
   const goToMyProjects = () => history.push('/my-projects');
@@ -344,10 +350,25 @@ const CreateProjectContainer = () => {
         cancelText="Cancel"
       />
       <ModalPublishLoading visible={loadingModalVisible} />
+      <ModalPublishLoading
+        visible={loadingSendToReviewModalVisible}
+        textTitle="Sending to review"
+      />
       <ModalPublishSuccess
         visible={successModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
-        projectId={projectId}
+        onSave={() => history.push('/my-projects')}
+      >
+        <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
+          Project Link
+        </Link>
+      </ModalPublishSuccess>
+      <ModalPublishSuccess
+        visible={successSendToReviewModalVisible}
+        onCancel={() => setSuccessModalVisible(false)}
+        textTitle="The project was sent successfully!"
+        description="The project will be reviewed by the administrator."
+        onSave={() => history.push(`/${project?.parent}`)}
       />
       <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
     </>
