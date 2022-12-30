@@ -1,26 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const BASIC_INFORMATION_ACTIONS = {
-  location: 'set a new location',
-  thumbnailPhotoFile: 'uploaded a new thumbnail photo',
-  timeframe: 'set a new timeframe',
-  timeframeUnit: 'set a new timeframe unit',
-  projectName: 'set a new project name',
-  dataComplete: 'completed all the fields'
-};
 
-const PROJECT_DETAILS_ACTIONS = {
-  legalAgreementFile: 'uploaded a new legal agreement file',
-  projectProposalFile: 'uploaded a new project proposal file',
-  currency: 'set a new currency',
-  problemAddressed: 'set a new about the project',
-  currencyType: 'set a new currency type',
-  additionalCurrencyInformation: 'set additional currency information',
-  mission: 'set a new mission and vision of the project'
-};
-
-const changelogActions = changelog => {
+const changelogActions = (changelog, texts) => {
   const role = changelog?.user?.isAdmin ? 'Admin' : changelog?.user?.roles?.[0]?.description;
   const user = changelog?.user;
   const userName = `${user?.firstName} ${user?.lastName}`;
@@ -36,15 +18,35 @@ const changelogActions = changelog => {
   const activityId = changelog?.activity?.id;
   const evidenceId = changelog?.evidence?.id;
 
+  const BASIC_INFORMATION_ACTIONS = {
+    location: texts?.changelogAction?.location || 'set a new location',
+    thumbnailPhotoFile: texts?.changelogAction?.thumbnailPhotoFile || 'uploaded a new thumbnail photo',
+    timeframe: texts?.changelogAction?.timeframe || 'set a new timeframe',
+    timeframeUnit: texts?.changelogAction?.timeframeUnit || 'set a new timeframe unit',
+    projectName: texts?.changelogAction?.projectName || 'set a new project name',
+    dataComplete: texts?.changelogAction?.dataComplete || 'completed all the fields'
+  };
+
+  const PROJECT_DETAILS_ACTIONS = {
+    legalAgreementFile: texts?.changelogAction?.legalAgreementFile || 'uploaded a new legal agreement file',
+    projectProposalFile: texts?.changelogAction?.projectProposalFile || 'uploaded a new project proposal file',
+    currency: texts?.changelogAction?.currency || 'set a new currency',
+    problemAddressed: texts?.changelogAction?.problemAddressed || 'set a new about the project',
+    currencyType: texts?.changelogAction?.currencyType || 'set a new currency type',
+    additionalCurrencyInformation: texts?.changelogAction?.additionalCurrencyInformation || 'set additional currency information',
+    mission: texts?.changelogAction?.mission || 'set a new mission and vision of the project'
+  };
+
+
   return {
     create_project: {
-      actionText: 'created a project',
+      actionText: texts?.changelogAction?.createdAProject || 'created a project',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> created a project
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.createdAProject || 'created a project'}
         </>
       ),
-      titleText: `${userName} created a project`,
+      titleText: `${userName} ${texts?.changelogAction?.createdAProject || 'created a project'}`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
