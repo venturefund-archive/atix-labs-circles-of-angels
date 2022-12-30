@@ -18,7 +18,16 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaFormItemPassword } from 'components/molecules/CoaFormItems/CoaFormItemPassword/CoaFormItemPassword';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
+function FormModalConfirmWithSK({
+  form,
+  visible,
+  onCancel,
+  onSuccess,
+  title,
+  description,
+  okText,
+  cancelText
+}) {
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
   const { getFieldValue } = form;
@@ -64,15 +73,12 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
       form={form}
       onSave={handleSave}
       title={
-        <TitlePage
-          centeredText
-          textTitle={title ?? 'Do you want to confirm the creation of the project?'}
-          underlinePosition="none"
-          textColor="#4C7FF7"
-        />
+        <TitlePage centeredText textTitle={title} underlinePosition="none" textColor="#4C7FF7" />
       }
       withLogo
-      description="To confirm the process enter your administrator password and secret key"
+      description={description}
+      okText={okText}
+      cancelText={cancelText}
     >
       <Form>
         <CoaFormItemPassword
@@ -127,9 +133,12 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
 FormModalConfirmWithSK.defaultProps = {
   form: null,
   visible: false,
-  title: null,
+  title: 'Do you want to confirm the creation of the project?',
   onCancel: () => undefined,
-  onSuccess: () => undefined
+  onSuccess: () => undefined,
+  description: 'To confirm the process enter your administrator password and secret key',
+  okText: 'Yes',
+  cancelText: 'No'
 };
 
 FormModalConfirmWithSK.propTypes = {
@@ -137,7 +146,10 @@ FormModalConfirmWithSK.propTypes = {
   title: PropTypes.string,
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  description: PropTypes.string,
+  okText: PropTypes.string,
+  cancelText: PropTypes.string
 };
 const ModalConfirmWithSK = Form.create({ name: 'FormConfirmWithSK' })(FormModalConfirmWithSK);
 export default ModalConfirmWithSK;

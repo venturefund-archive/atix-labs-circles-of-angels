@@ -61,11 +61,12 @@ export const useGetPublicProjects = () => {
 
 export const getProjectUsers = projectId => doGet(`${projectsBaseURL}/${projectId}/users`);
 
-export const getProjectTransactions = (projectId, type) => doGet(`${projectsBaseURL}/${projectId}/transactions?type=${type}`);
+export const getProjectTransactions = (projectId, type) =>
+  doGet(`${projectsBaseURL}/${projectId}/transactions?type=${type}`);
 
 export const getFeaturedProjects = async () => apiCall('get', `${projectsBaseURL}/featured`);
 
-export const sendToReview = projectId => doPut(`${projectsBaseURL}/${projectId}/to-review`);
+export const sendToReview = projectId => doPut(`${projectsBaseURL}/${projectId}/in-review`);
 
 export const publish = projectId => doPut(`${projectsBaseURL}/${projectId}/publish`);
 
@@ -88,7 +89,7 @@ export const getChangelog = async (projectId, values) => {
   if (values.userId) params.userId = values.userId;
 
   return doGet(`${projectsBaseURL}/${projectId}/changelog`, undefined, { params });
-}
+};
 
 export const useGetProjects = () => {
   const [{ data, isLoading, isError }] = useGet('/projects');
@@ -307,23 +308,23 @@ const createProjectExperience = async (experience, photos) => {
   }
 };
 
-const cloneProject = async(projectId) => {
+const cloneProject = async projectId => {
   try {
     const response = await api.post(`${projectsBaseURL}/${projectId}/clone`);
     return response;
   } catch (error) {
     return { error };
   }
-}
+};
 
-const cancelReview = async (projectId) => {
+const cancelReview = async projectId => {
   try {
     const response = await api.put(`${projectsBaseURL}/${projectId}/cancel-review`);
     return response;
   } catch (error) {
     return { error };
   }
-}
+};
 
 export {
   getActiveProjects,
