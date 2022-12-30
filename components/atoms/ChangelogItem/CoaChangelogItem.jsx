@@ -7,7 +7,7 @@ import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
 
-const CoaChangelogItem = ({ changelog, currency }) => {
+const CoaChangelogItem = ({ changelog, currency, texts }) => {
   const { transaction, datetime, action, revision } = changelog;
   return (
     <div className="coaChangelogItem">
@@ -15,14 +15,14 @@ const CoaChangelogItem = ({ changelog, currency }) => {
         <p>
           <span className="coaChangelogItem__date">{getDateAndTime(datetime, 'minimal')}</span> -{' '}
           <span className="coaChangelogItem__title">
-            {changelogActions(changelog)?.[action]?.title?.()}
+            {changelogActions(changelog, texts)?.[action]?.title?.()}
           </span>
         </p>
         <span className="coaChangelogItem__rev">REV-{formatLeadWithZero(revision)}</span>
       </div>
       <Divider type="horizontal" style={{ marginBlock: '0.6875rem' }} />
       <div className="coaChangelogItem__body">
-        {changelogActions(changelog)?.[action]?.description?.()}
+        {changelogActions(changelog, texts)?.[action]?.description?.()}
       </div>
       {transaction && (
         <div className="coaChangelogItem__footer">
@@ -42,7 +42,8 @@ CoaChangelogItem.defaultProps = {
       lastName: 'Yoroi'
     }
   },
-  currency: undefined
+  currency: undefined,
+  texts: { }
 };
 
 CoaChangelogItem.propTypes = {
@@ -78,5 +79,6 @@ CoaChangelogItem.propTypes = {
     action: PropTypes.string.isRequired,
     datetime: PropTypes.string.isRequired
   }),
-  currency: PropTypes.string
+  currency: PropTypes.string,
+  texts: PropTypes.shape({})
 };

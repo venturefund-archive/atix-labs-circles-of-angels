@@ -43,7 +43,7 @@ const CardHeader = ({
         <div className="o-coaIndicatorsCard__header__title">{title}</div>
         {extra}
       </div>
-      <div className={classNames({ 'o-coaIndicatorsCard__header__right': responsiveLayout })}>
+      <div className='o-coaIndicatorsCard__header__right'>
         {entity && onCreate && (
           <CoaTextButton
             onClick={e => {

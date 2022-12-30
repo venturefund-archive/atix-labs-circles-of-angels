@@ -7,13 +7,14 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './_style.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import PropTypes from 'prop-types';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 const ModalPublishSuccess = ({ visible, onCancel, textTitle, description, onSave, children }) => {
+  const { texts } = React.useContext(DictionaryContext);
   return (
     <CoaDialogModal
       visible={visible}
@@ -28,7 +29,7 @@ const ModalPublishSuccess = ({ visible, onCancel, textTitle, description, onSave
       }
       withoutCancelButton
       withLogo
-      okText="Continue"
+      okText={texts?.general?.btnContinue || 'Continue'}
       buttonsPosition="center"
       onSave={onSave}
       description={description}
@@ -41,15 +42,17 @@ const ModalPublishSuccess = ({ visible, onCancel, textTitle, description, onSave
 ModalPublishSuccess.defaultProps = {
   visible: false,
   onCancel: () => undefined,
-  projectId: undefined,
   textTitle: 'The project has been published',
-  description: 'The project has been published successfully. you can see it from here.'
+  description: 'The project has been published successfully. you can see it from here.',
+  onSave: undefined,
+  children: undefined
 };
 ModalPublishSuccess.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
-  projectId: PropTypes.string,
   textTitle: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  onSave: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 export default ModalPublishSuccess;

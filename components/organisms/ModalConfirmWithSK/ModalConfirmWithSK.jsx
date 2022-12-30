@@ -49,14 +49,14 @@ function FormModalConfirmWithSK({
       await decryptJsonWallet(wallet, key);
       callback();
     } catch (e) {
-      callback('Invalid secret key');
+      callback(texts?.modalConfirmWithSK?.invalidKey || 'Invalid secret key');
     }
   };
   const validPassword = async (_rule, value, callback) => {
     const { email } = user;
     const res = await loginUser(email, value);
     if (res.errors) {
-      callback('Invalid password');
+      callback(texts?.modalConfirmWithSK?.invalidPassword || 'Invalid password');
     }
     callback();
   };
@@ -91,7 +91,7 @@ function FormModalConfirmWithSK({
             rules: [
               {
                 required: true,
-                message: 'Please input your password'
+                message: texts?.modalConfirmWithSK?.rulePassword || 'Please input your password'
               },
               {
                 validator: validPassword
@@ -100,7 +100,7 @@ function FormModalConfirmWithSK({
             validateTrigger: 'onSubmit'
           }}
           inputProps={{
-            placeholder: 'Enter your password'
+            placeholder: texts?.modalConfirmWithSK?.enterPassword || 'Enter your password'
           }}
         />
         <CoaFormItemPassword
@@ -113,7 +113,7 @@ function FormModalConfirmWithSK({
             rules: [
               {
                 required: true,
-                message: 'Please input your secret key'
+                message: texts?.modalConfirmWithSK?.ruleSecretKey || 'Please input your secret key'
               },
               {
                 validator: validPin
@@ -122,7 +122,7 @@ function FormModalConfirmWithSK({
             validateTrigger: 'onSubmit'
           }}
           inputProps={{
-            placeholder: 'Enter your pin'
+            placeholder: texts?.modalConfirmWithSK?.enterPin || 'Enter your pin'
           }}
         />
       </Form>
