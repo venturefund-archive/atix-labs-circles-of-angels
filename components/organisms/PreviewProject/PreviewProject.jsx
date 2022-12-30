@@ -114,7 +114,7 @@ const PreviewProject = ({ id, preview }) => {
   );
   const totalCurrentSpent = milestones?.reduce((prev, curr) => prev + parseFloat?.(curr?.spent), 0);
 
-  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject(user, project);
+  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
   const isPublishedOrInProgressProject = [
     PROJECT_STATUS_ENUM.PUBLISHED,
     PROJECT_STATUS_ENUM.IN_PROGRESS

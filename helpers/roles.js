@@ -43,7 +43,7 @@ export const checkIsInvestorByProject = ({ user, project }) => {
 export const checkIsAuditorByProject = ({ user, project }) => {
   const userId = user?.id;
   const projectUsers = project?.users;
-  const auditors = projectUsers.find(
+  const auditors = projectUsers?.find(
     projectUser => parseInt(projectUser?.role, 10) === ROLES_IDS.auditor
   )?.users;
   return auditors?.some(auditor => auditor?.id === userId);
@@ -53,7 +53,7 @@ export const checkIsBeneficiaryOrInvestorByProject = ({ user, project }) =>
   checkIsBeneficiaryByProject({ user, project }) || checkIsInvestorByProject({ user, project });
 
 export const checkRoleByProject = ({ user, project }) => {
-  if (user.isAdmin) return { name: 'Administrator' };
+  if (user?.isAdmin) return { name: 'Administrator' };
   if (checkIsBeneficiaryByProject({ user, project }))
     return { id: ROLES_IDS.beneficiary, name: 'Beneficiary' };
   if (checkIsInvestorByProject({ user, project }))

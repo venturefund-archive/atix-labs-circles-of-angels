@@ -87,7 +87,7 @@ const CreateProjectContainer = () => {
 
   const { projectId } = useParams();
 
-  const isACloneBeingEdited = project?.editing || project?.revision !== 1;
+  const isACloneBeingEdited = project?.editing;
 
   const editorVariant = isACloneBeingEdited
     ? EDITOR_VARIANT.EDITING_CLONE

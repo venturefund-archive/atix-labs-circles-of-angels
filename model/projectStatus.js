@@ -14,8 +14,7 @@ export const PROJECT_STATUS_ENUM = {
   IN_REVIEW: 'in review',
   CANCELED: 'canceled',
   COMPLETED: 'completed',
-  PUBLISHED: 'published',
-  OPEN_REVIEW: 'open review'
+  PUBLISHED: 'published'
 };
 
 export const PROJECT_STATUS_MAP = {
