@@ -15,6 +15,7 @@ import { decryptJsonWallet } from 'helpers/blockchain/wallet';
 
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaFormItemPassword } from 'components/molecules/CoaFormItems/CoaFormItemPassword/CoaFormItemPassword';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
@@ -32,6 +33,7 @@ function FormModalConfirmWithSK({
   const [wallet, setWallet] = useState({});
   const { getFieldValue } = form;
   const keySuffix = `${user.id}-${user.email}`;
+  const { texts } = React.useContext(DictionaryContext);
 
   const setUserWallet = async () => {
     const { data } = await getWallet();
