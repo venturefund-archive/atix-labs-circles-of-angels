@@ -17,38 +17,30 @@ import { CoaBaseModal } from '../CoaModals/CoaBaseModal/CoaBaseModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
 
-const ModalPublishLoading = ({ visible, textTitle, ...rest }) => {
-  const { texts } = React.useContext(DictionaryContext);
-  return (
-    <CoaBaseModal
-      visible={visible}
-      maskClosable={false}
-      closable={false}
-      mask
-      footer={null}
-      title={
-        <TitlePage
-          centeredText
-          textTitle={textTitle ?? ( texts?.modalPublishLoading?.loading || 'Loading...' )}
-          underlinePosition="none"
-          textColor="#4C7FF7"
-        />
-      }
-      withLogo
-      {...rest}
-    >
-      <div className="o-ModalWrapper">
-        <div className="o-ModalWrapper__SpinWrapper">
-          <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
-        </div>
+const ModalPublishLoading = ({ visible, textTitle, ...rest }) => (
+  <CoaBaseModal
+    visible={visible}
+    maskClosable={false}
+    closable={false}
+    mask
+    footer={null}
+    title={
+      <TitlePage centeredText textTitle={textTitle} underlinePosition="none" textColor="#4C7FF7" />
+    }
+    withLogo
+    {...rest}
+  >
+    <div className="o-ModalWrapper">
+      <div className="o-ModalWrapper__SpinWrapper">
+        <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
       </div>
-    </CoaBaseModal>
-  );
-}
+    </div>
+  </CoaBaseModal>
+);
 
 ModalPublishLoading.defaultProps = {
   visible: false,
-  textTitle: undefined,
+  textTitle: undefined
 };
 
 ModalPublishLoading.propTypes = {

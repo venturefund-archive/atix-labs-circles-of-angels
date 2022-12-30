@@ -7,17 +7,14 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Typography } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import PropTypes from 'prop-types';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import PropTypes from 'prop-types';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
+const ModalPublishSuccess = ({ visible, onCancel, textTitle, description, onSave, children }) => {
   const { texts } = React.useContext(DictionaryContext);
-  const { push } = useHistory();
   return (
     <CoaDialogModal
       visible={visible}
@@ -25,7 +22,7 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       title={
         <TitlePage
           centeredText
-          textTitle={texts?.modalPublishSuccess?.title || 'The project has been published'}
+          textTitle={textTitle}
           underlinePosition="none"
           textColor="#4C7FF7"
         />
@@ -34,21 +31,10 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       withLogo
       okText={texts?.general?.btnContinue || 'Continue'}
       buttonsPosition="center"
-      onSave={() => push('/my-projects')}
+      onSave={onSave}
+      description={description}
     >
-      <Typography.Paragraph className="CoaModal__Paragraph--centered">
-        { texts?.modalPublishSuccess?.success
-          || 'The project has been published successfully. you can see it from here.'
-        }
-      </Typography.Paragraph>
-
-      <Link
-        className="textcenter"
-        style={{ textAlign: 'center', display: 'block' }}
-        to={`/${projectId}`}
-      >
-        { texts?.modalPublishSuccess?.link || 'Project Link' }
-      </Link>
+      {children}
     </CoaDialogModal>
   );
 };
@@ -56,11 +42,17 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
 ModalPublishSuccess.defaultProps = {
   visible: false,
   onCancel: () => undefined,
-  projectId: undefined
+  textTitle: 'The project has been published',
+  description: 'The project has been published successfully. you can see it from here.',
+  onSave: undefined,
+  children: undefined
 };
 ModalPublishSuccess.propTypes = {
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
-  projectId: PropTypes.string
+  textTitle: PropTypes.string,
+  description: PropTypes.string,
+  onSave: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 export default ModalPublishSuccess;

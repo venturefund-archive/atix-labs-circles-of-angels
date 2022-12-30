@@ -23,20 +23,25 @@ export const CoaDialogModal = ({
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const handleSave = async () => {
     setIsSubmitLoading(true);
-    if (!form) {
-      await onSave?.();
-      return setIsSubmitLoading(false);
-    }
 
-    form.validateFields(async (err, values) => {
-      if (!err) {
-        await onSave(values);
-        setIsSubmitLoading(false);
-        form.resetFields();
-        return onCancel();
+    try {
+      if (!form) {
+        await onSave?.();
+        return setIsSubmitLoading(false);
       }
+
+      form.validateFields(async (err, values) => {
+        if (!err) {
+          await onSave(values);
+          setIsSubmitLoading(false);
+          form.resetFields();
+          return onCancel();
+        }
+        setIsSubmitLoading(false);
+      });
+    } catch {
       setIsSubmitLoading(false);
-    });
+    }
   };
 
   const handleCancel = () => {

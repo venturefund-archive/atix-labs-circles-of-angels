@@ -11,6 +11,7 @@
 import React, { useState, useEffect } from 'react';
 import { Icon, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import './_createproject.scss';
 import './_style.scss';
 import { AssignProjectUsers } from 'components/organisms/AssignProjectUsers/AssignProjectUsers';
@@ -32,8 +33,8 @@ import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalP
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
 import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
-import { EDITOR_VARIANT, projectStatuses, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, publish, deleteProject, cancelReview } from '../api/projectApi';
+import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
+import { getProject, publish, deleteProject, cancelReview, sendToReview } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -56,7 +57,8 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
     prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(
       status
     ),
-    prevButtonText: isMainWizardActive ? 'Delete Project' : 'Back'
+    prevButtonText: isMainWizardActive ? 'Delete Project' : 'Back',
+    nextStepButtonText: isMainWizardActive ? 'Publish project' : 'Save and continue'
   },
   EDITING_CLONE: {
     finishButtonDisabled:
@@ -64,7 +66,8 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
       (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)),
     nextStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
     prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
-    prevButtonText: isMainWizardActive ? 'Delete Edition' : 'Back'
+    prevButtonText: isMainWizardActive ? 'Delete Edition' : 'Back',
+    nextStepButtonText: isMainWizardActive ? 'Send to review' : 'Save and continue'
   }
 });
 
@@ -74,8 +77,11 @@ const CreateProjectContainer = () => {
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
   const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [loadingSendToReviewModalVisible, setLoadingSendToReviewModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [successSendToReviewModalVisible, setSuccessSendToReviewModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
 
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
@@ -193,6 +199,17 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadinModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
+  const sendToReviewProject = async () => {
+    goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
+
+    const { errors } = await sendToReview(project.id);
+
+    goToNextModal(
+      setLoadingSendToReviewModalVisible,
+      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
+    );
+  };
+
   const goToMyProjects = () => history.push('/my-projects');
   const goToParentProject = () => history.push(`/${project?.parent}`);
 
@@ -221,20 +238,24 @@ const CreateProjectContainer = () => {
   const isMainWizardActive = currentWizard === PROJECT_FORM_NAMES.MAIN;
 
   const getFinishButton = onSubmit => {
-    if (status === projectStatuses.CONSENSUS) return;
+    const handleFinishEdit = isACloneBeingEdited
+      ? setConfirmSendToReviewVisible
+      : setConfirmPublishVisible;
 
     return (
       <CoaButton
         type="primary"
-        onClick={() =>
-          isMainWizardActive ? setConfirmPublishVisible(true) : successCallback(onSubmit)
-        }
+        onClick={() => (isMainWizardActive ? handleFinishEdit(true) : successCallback(onSubmit))}
         disabled={
           EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
             ?.finishButtonDisabled
         }
       >
-        {isMainWizardActive ? 'Publish project' : 'Save and continue'} <Icon type="arrow-right" />
+        {
+          EDITING_LOGIC?.({ completedSteps, isMainWizardActive, status })?.[editorVariant]
+            ?.nextStepButtonText
+        }
+        <Icon type="arrow-right" />
       </CoaButton>
     );
   };
@@ -286,7 +307,6 @@ const CreateProjectContainer = () => {
     nextModal(true);
   };
 
-  // TODO add loading when "isSubmitting"
   return (
     <>
       <div className="p-createProject__container">
@@ -320,11 +340,35 @@ const CreateProjectContainer = () => {
         onCancel={() => setSecretKeyVisible(false)}
         onSuccess={publishProject}
       />
+      <ModalConfirmWithSK
+        visible={confirmSendToReviewVisible}
+        onCancel={() => setSecretKeyVisible(false)}
+        onSuccess={sendToReviewProject}
+        title="You are about to send the project to be reviewed by the admin"
+        description="To confirm the process please enter your administrator password and secret key"
+        okText="Confirm"
+        cancelText="Cancel"
+      />
       <ModalPublishLoading visible={loadingModalVisible} />
+      <ModalPublishLoading
+        visible={loadingSendToReviewModalVisible}
+        textTitle="Sending to review"
+      />
       <ModalPublishSuccess
         visible={successModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
-        projectId={projectId}
+        onSave={() => history.push('/my-projects')}
+      >
+        <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
+          Project Link
+        </Link>
+      </ModalPublishSuccess>
+      <ModalPublishSuccess
+        visible={successSendToReviewModalVisible}
+        onCancel={() => setSuccessModalVisible(false)}
+        textTitle="The project was sent successfully!"
+        description="The project will be reviewed by the administrator."
+        onSave={() => history.push(`/${project?.parent}`)}
       />
       <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
     </>
