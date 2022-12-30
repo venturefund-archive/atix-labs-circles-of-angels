@@ -42,7 +42,7 @@ export const CoaChangelogContainer = forwardRef(
       const params = { milestoneId, activityId, revisionId, evidenceId, userId };
       const response = await getChangelog(projectId, params);
       if (response.errors || !response.data) {
-        message.error('An error occurred while fetching the changelogs');
+        message.error(texts?.changelog?.error || 'An error occurred while fetching the changelogs');
         return;
       }
 
@@ -62,12 +62,13 @@ export const CoaChangelogContainer = forwardRef(
     useEffect(() => {
       const _processedChangeLogs = changeLogs?.map(changelog => [
         getDateAndTime(changelog?.datetime, 'minimal'),
-        changelogActions(changelog)?.[changelog?.action]?.titleText,
-        changelogActions(changelog)?.[changelog?.action]?.descriptionText,
+        changelogActions(changelog, texts)?.[changelog?.action]?.titleText,
+        changelogActions(changelog, texts)?.[changelog?.action]?.descriptionText,
         changelog?.transaction,
         changelog?.revision
       ]);
       setProcessedChangeLogs(_processedChangeLogs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changeLogs]);
 
     function generatePDF() {
@@ -128,7 +129,12 @@ export const CoaChangelogContainer = forwardRef(
             )}
             {changeLogs.length > 0 &&
               changeLogs.map(changelog => (
-                <CoaChangelogItem changelog={changelog} key={changelog.id} currency={currency} />
+                <CoaChangelogItem
+                  changelog={changelog}
+                  key={changelog.id}
+                  currency={currency}
+                  texts={texts}
+                />
               ))}
           </div>
         </div>

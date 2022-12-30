@@ -20,7 +20,7 @@ export const FormModalRejectEvidence = ({ form, visible, setVisible, onSuccess }
       title={
         <TitlePage
           centeredText
-          textTitle="You are about to reject an evidence"
+          textTitle={texts?.modalRejectEvidence?.title || 'You are about to reject an evidence'}
           underlinePosition="none"
           textColor="#4C7FF7"
         />

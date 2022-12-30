@@ -12,6 +12,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import './_style.scss';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaBaseModal } from '../CoaModals/CoaBaseModal/CoaBaseModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
@@ -39,7 +40,7 @@ const ModalPublishLoading = ({ visible, textTitle, ...rest }) => (
 
 ModalPublishLoading.defaultProps = {
   visible: false,
-  textTitle: 'Publishing project'
+  textTitle: undefined
 };
 
 ModalPublishLoading.propTypes = {
