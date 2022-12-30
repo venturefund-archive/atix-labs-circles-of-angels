@@ -8,8 +8,8 @@ const languagesPath = {
 };
 
 export const fetchTexts = async() => {
-  const userLang = navigator.language || defaultLanguage;
-  const userLanguagePath = languagesPath[userLang] || languagesPath[defaultLanguage];
+  const userLang = defaultLanguage; // navigator.language in case to choose browser language
+  const userLanguagePath = languagesPath[userLang];
   const response = await api.get(`${userLanguagePath}`);
   return response.data;
 }
