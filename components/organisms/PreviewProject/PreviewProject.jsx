@@ -166,6 +166,12 @@ const PreviewProject = ({ id, preview }) => {
     >
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
+          { editing &&
+            <div className='o-previewProject__alertEditedProject'>
+              This project is being edited.
+              The project is not enable until the edition is finished
+            </div>
+          }
           <div className="o-previewProject__buttons__container">
             <div className="o-previewProject__buttons">
               <CoaButton

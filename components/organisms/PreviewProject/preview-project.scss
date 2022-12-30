@@ -24,6 +24,16 @@
       display: block;
     }
   }
+  &__alertEditedProject {
+    width: 100%;
+    color: white;
+    background-color: $coa-light-orange-200;
+    @include primary-text(1rem, $coa-orange-200, 600);
+    text-align: center;
+    border: 2px solid $coa-orange-200;
+    border-radius: 60px;
+    padding-block: .7188rem;
+  }
   &__buttons {
     overflow: auto;
     display: flex;
