@@ -12,39 +12,43 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import './_style.scss';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaBaseModal } from '../CoaModals/CoaBaseModal/CoaBaseModal';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '100px' }} />;
 
-const ModalPublishLoading = ({ visible, textTitle, ...rest }) => (
-  <CoaBaseModal
-    visible={visible}
-    maskClosable={false}
-    closable={false}
-    mask
-    footer={null}
-    title={
-      <TitlePage
-        centeredText
-        textTitle={textTitle ?? 'Loading...'}
-        underlinePosition="none"
-        textColor="#4C7FF7"
-      />
-    }
-    withLogo
-    {...rest}
-  >
-    <div className="o-ModalWrapper">
-      <div className="o-ModalWrapper__SpinWrapper">
-        <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
+const ModalPublishLoading = ({ visible, textTitle, ...rest }) => {
+  const { texts } = React.useContext(DictionaryContext);
+  return (
+    <CoaBaseModal
+      visible={visible}
+      maskClosable={false}
+      closable={false}
+      mask
+      footer={null}
+      title={
+        <TitlePage
+          centeredText
+          textTitle={textTitle ?? ( texts?.modalPublishLoading?.loading || 'Loading...' )}
+          underlinePosition="none"
+          textColor="#4C7FF7"
+        />
+      }
+      withLogo
+      {...rest}
+    >
+      <div className="o-ModalWrapper">
+        <div className="o-ModalWrapper__SpinWrapper">
+          <Spin className="o-ModalWrapper__Spin" indicator={antIcon} />
+        </div>
       </div>
-    </div>
-  </CoaBaseModal>
-);
+    </CoaBaseModal>
+  );
+}
 
 ModalPublishLoading.defaultProps = {
   visible: false,
-  textTitle: 'Publishing project'
+  textTitle: undefined,
 };
 
 ModalPublishLoading.propTypes = {

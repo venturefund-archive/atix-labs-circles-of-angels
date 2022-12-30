@@ -12,6 +12,8 @@ import { Form } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
 import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
+
 
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
@@ -19,6 +21,7 @@ import { CoaFormItemPassword } from 'components/molecules/CoaFormItems/CoaFormIt
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
+  const { texts } = React.useContext(DictionaryContext);
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
   const { getFieldValue } = form;
@@ -40,14 +43,14 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
       await decryptJsonWallet(wallet, key);
       callback();
     } catch (e) {
-      callback('Invalid secret key');
+      callback(texts?.modalConfirmWithSK?.invalidKey || 'Invalid secret key');
     }
   };
   const validPassword = async (_rule, value, callback) => {
     const { email } = user;
     const res = await loginUser(email, value);
     if (res.errors) {
-      callback('Invalid password');
+      callback(texts?.modalConfirmWithSK?.invalidPassword || 'Invalid password');
     }
     callback();
   };
@@ -66,13 +69,13 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
       title={
         <TitlePage
           centeredText
-          textTitle={title ?? 'Do you want to confirm the creation of the project?'}
+          textTitle={title ?? (texts?.modalConfirmWithSK?.confirm || 'Do you want to confirm the creation of the project?')}
           underlinePosition="none"
           textColor="#4C7FF7"
         />
       }
       withLogo
-      description="To confirm the process enter your administrator password and secret key"
+      description={texts?.modalConfirmWithSK?.confirmDescription || 'To confirm the process enter your administrator password and secret key'}
     >
       <Form>
         <CoaFormItemPassword
@@ -85,7 +88,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
             rules: [
               {
                 required: true,
-                message: 'Please input your password'
+                message: texts?.modalConfirmWithSK?.rulePassword || 'Please input your password'
               },
               {
                 validator: validPassword
@@ -94,7 +97,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
             validateTrigger: 'onSubmit'
           }}
           inputProps={{
-            placeholder: 'Enter your password'
+            placeholder: texts?.modalConfirmWithSK?.enterPassword || 'Enter your password'
           }}
         />
         <CoaFormItemPassword
@@ -107,7 +110,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
             rules: [
               {
                 required: true,
-                message: 'Please input your secret key'
+                message: texts?.modalConfirmWithSK?.ruleSecretKey || 'Please input your secret key'
               },
               {
                 validator: validPin
@@ -116,7 +119,7 @@ function FormModalConfirmWithSK({ form, visible, onCancel, onSuccess, title }) {
             validateTrigger: 'onSubmit'
           }}
           inputProps={{
-            placeholder: 'Enter your pin'
+            placeholder: texts?.modalConfirmWithSK?.enterPin || 'Enter your pin'
           }}
         />
       </Form>

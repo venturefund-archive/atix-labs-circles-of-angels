@@ -66,7 +66,7 @@ const Evidences = ({
 
   const sendToReview = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible({ state: true, title: 'The activity is being sent' });
+    setLoadingModalVisible({ state: true, title: texts?.modalPublishLoading?.sent || 'The activity is being sent' });
     setSecretKeyModal(initialSecretKeyModal);
     const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
     if (!result.errors) {
@@ -77,11 +77,12 @@ const Evidences = ({
     } else {
       setLoadingModalVisible(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activityId, getChangelog, getEvidences, loadingModalVisible]);
 
   const rejectActivity = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible({ state: true, title: 'The activity is being rejected' });
+    setLoadingModalVisible({ state: true, title: texts?.modalPublishLoading?.rejected || 'The activity is being rejected' });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) {
@@ -89,11 +90,12 @@ const Evidences = ({
       return getChangelog();
     }
     message.error('An error occurred while rejecting the activity');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getChangelog, activityId, getEvidences, loadingModalVisible]);
 
   const approveActivity = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible({ state: true, title: 'The activity is being approved' });
+    setLoadingModalVisible({ state: true, title: texts?.modalPublishLoading?.approved || 'The activity is being approved' });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
     setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) {
@@ -101,6 +103,7 @@ const Evidences = ({
       return getChangelog();
     }
     message.error('An error occurred while approving the activity');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activityId, getChangelog, getEvidences, loadingModalVisible]);
 
   const areReviewedEvidences =

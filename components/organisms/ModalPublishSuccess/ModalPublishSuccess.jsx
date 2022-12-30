@@ -12,9 +12,11 @@ import { Link, useHistory } from 'react-router-dom';
 import './_style.scss';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import PropTypes from 'prop-types';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
 const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
+  const { texts } = React.useContext(DictionaryContext);
   const { push } = useHistory();
   return (
     <CoaDialogModal
@@ -23,19 +25,21 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
       title={
         <TitlePage
           centeredText
-          textTitle="The project has been published"
+          textTitle={texts?.modalPublishSuccess?.title || 'The project has been published'}
           underlinePosition="none"
           textColor="#4C7FF7"
         />
       }
       withoutCancelButton
       withLogo
-      okText="Continue"
+      okText={texts?.general?.btnContinue || 'Continue'}
       buttonsPosition="center"
       onSave={() => push('/my-projects')}
     >
       <Typography.Paragraph className="CoaModal__Paragraph--centered">
-        The project has been published successfully. you can see it from here.
+        { texts?.modalPublishSuccess?.success
+          || 'The project has been published successfully. you can see it from here.'
+        }
       </Typography.Paragraph>
 
       <Link
@@ -43,7 +47,7 @@ const ModalPublishSuccess = ({ visible, onCancel, projectId }) => {
         style={{ textAlign: 'center', display: 'block' }}
         to={`/${projectId}`}
       >
-        Project Link
+        { texts?.modalPublishSuccess?.link || 'Project Link' }
       </Link>
     </CoaDialogModal>
   );
