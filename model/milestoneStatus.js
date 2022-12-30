@@ -5,7 +5,7 @@ const milestoneStatusMap = {
 };
 
 export const MILESTONE_STATUS_ENUM = {
-  NEW: 'new',
+  NEW: 'not started',
   APPROVED: 'approved',
   IN_PROGRESS: 'in progress'
 };

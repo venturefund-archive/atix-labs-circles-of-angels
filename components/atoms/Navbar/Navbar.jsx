@@ -12,13 +12,16 @@ import NavbarProfile from 'components/molecules/NavbarProfile/NavbarProfile';
 import NavbarLogin from 'components/molecules/NavbarLogin/NavbarLogin';
 import { Icon } from 'antd';
 import classNames from 'classnames';
+import { checkRoleByProject } from 'helpers/roles';
 import { CoaTextButton } from '../CoaTextButton/CoaTextButton';
 
-const Navbar = () => {
+const Navbar = ({ project }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { user, removeUser } = useContext(UserContext);
   const { push } = useHistory();
   const { projectId } = useParams();
+
+  const role = checkRoleByProject({ user, project });
 
   return (
     <>
@@ -43,7 +46,12 @@ const Navbar = () => {
             )}
             <div className="navbar__right__items">
               {!!user && (
-                <NavbarProfile user={user} removeUser={removeUser} projectId={projectId} />
+                <NavbarProfile
+                  user={user}
+                  removeUser={removeUser}
+                  projectId={projectId}
+                  role={role?.name}
+                />
               )}
               {!user && <NavbarLogin loginFn={() => push(`/${projectId}/login`)} />}
             </div>

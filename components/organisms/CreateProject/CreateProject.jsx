@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { Breadcrumb } from 'antd';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import PropTypes from 'prop-types';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
-import { PROJECT_FORM_NAMES } from 'constants/constants';
+import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from 'constants/constants';
 import './_style.scss';
+import { UserContext } from 'components/utils/UserContext';
+import { checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
+
+const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => ({
+  [EDITOR_VARIANT.FIRST_EDITING]: {
+    basicInformationButtonDisabled:
+      status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW,
+    projectDetailsButtonDisabled:
+      !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+      (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW),
+    projectUsersButtonDisabled:
+      !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+      (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW),
+    milestonesButtonDisabled:
+      !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+      (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+  },
+  [EDITOR_VARIANT.EDITING_CLONE]: {
+    basicInformationButtonDisabled:
+      !isBeneficiaryOrInvestor || status !== PROJECT_STATUS_ENUM.OPEN_REVIEW,
+    projectDetailsButtonDisabled:
+      !isBeneficiaryOrInvestor || status !== PROJECT_STATUS_ENUM.OPEN_REVIEW,
+    projectUsersButtonDisabled: true,
+    milestonesButtonDisabled: !isBeneficiaryOrInvestor || status !== PROJECT_STATUS_ENUM.OPEN_REVIEW
+  }
+});
 
 const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   <div className="createProject__content__steps__step">
@@ -32,7 +58,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   </div>
 );
 
-const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) => {
+const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, editorVariant }) => {
   const history = useHistory();
   const { status, basicInformation } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
@@ -41,6 +67,10 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
     completedSteps[PROJECT_FORM_NAMES.PROPOSAL] &&
     completedSteps[PROJECT_FORM_NAMES.MILESTONES] &&
     completedSteps[PROJECT_FORM_NAMES.DETAILS];
+  const { user } = useContext(UserContext);
+
+  const isBeneficiaryOrInvestor =
+    project?.users && checkIsBeneficiaryOrInvestorByProject({ user, project });
 
   return (
     <>
@@ -57,7 +87,11 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             type="primary"
             disabled={!areAllStepsCompleted}
             onClick={() =>
-              project?.status === PROJECT_STATUS_ENUM.DRAFT
+              [
+                PROJECT_STATUS_ENUM.DRAFT,
+                PROJECT_STATUS_ENUM.OPEN_REVIEW,
+                PROJECT_STATUS_ENUM.IN_REVIEW
+              ].includes(project?.status)
                 ? history.push(`/${project?.id}?preview=true`)
                 : history.push(`/${project?.id}`)
             }
@@ -73,7 +107,11 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             disabled={
-              status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW
+              EDITING_LOGIC({
+                status,
+                completedSteps,
+                isBeneficiaryOrInvestor
+              })?.[editorVariant]?.basicInformationButtonDisabled
             }
           />
 
@@ -83,8 +121,11 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             disabled={
-              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
-              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+              EDITING_LOGIC({
+                status,
+                completedSteps,
+                isBeneficiaryOrInvestor
+              })?.[editorVariant]?.projectDetailsButtonDisabled
             }
           />
 
@@ -94,8 +135,11 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
             completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             disabled={
-              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
-              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+              EDITING_LOGIC({
+                status,
+                completedSteps,
+                isBeneficiaryOrInvestor
+              })?.[editorVariant]?.projectUsersButtonDisabled
             }
           />
           <Items
@@ -104,8 +148,11 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer }) =>
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
             completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             disabled={
-              !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
-              (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
+              EDITING_LOGIC({
+                status,
+                completedSteps,
+                isBeneficiaryOrInvestor
+              })?.[editorVariant]?.milestonesButtonDisabled
             }
           />
         </div>

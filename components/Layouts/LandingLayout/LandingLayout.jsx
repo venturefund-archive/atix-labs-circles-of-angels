@@ -14,12 +14,14 @@ export const LandingLayout = ({
   thumbnailPhoto,
   disappearHeaderInMobile,
   showPreviewAlert,
-  projectId
+  projectId,
+  project
 }) => {
   const history = useHistory();
+
   return (
     <div className="landingLayout">
-      <Navbar />
+      <Navbar project={project} />
       <CoaAlert
         className="landingLayout__previewInfoMessage"
         message="You are viewing the preview of your project"
