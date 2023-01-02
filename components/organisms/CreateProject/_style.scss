@@ -1,5 +1,6 @@
 @import '../css/general_styling.scss';
 @import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
 
 .createProject {
   &__content {
@@ -47,6 +48,15 @@
         }
         &__button {
           padding-inline: 3.125rem;
+        }
+      }
+    }
+    &__changelog {
+      margin-top: 3.375rem;
+      &__title {
+        margin-bottom: 2rem;
+        h1 {
+          @include primary-text(2rem, $coa-dark-gray-100, 500);
         }
       }
     }

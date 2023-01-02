@@ -9,6 +9,7 @@ import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from 'constants/constants';
 import './_style.scss';
 import { UserContext } from 'components/utils/UserContext';
 import { checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
+import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => ({
   [EDITOR_VARIANT.FIRST_EDITING]: {
@@ -156,6 +157,21 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
             }
           />
         </div>
+        {
+          !!project.id &&
+          <div className='createProject__content__changelog'>
+            <TitlePage
+              textTitle="Changelog"
+              className="createProject__content__changelog__title"
+              textColor="#4C7FF7"
+            />
+            <CoaChangelogContainer
+              title="Project Changelog"
+              projectId={project?.parent || project?.id}
+              currency={project?.details?.currency}
+            />
+          </div>
+        }
       </div>
       {Footer()}
     </>
