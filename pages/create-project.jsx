@@ -8,7 +8,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Icon, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -33,6 +33,9 @@ import ModalPublishLoading from 'components/organisms/ModalPublishLoading/ModalP
 import ModalPublishSuccess from 'components/organisms/ModalPublishSuccess/ModalPublishSuccess';
 import ModalPublishError from 'components/organisms/ModalPublishError/ModalPublishError';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import { UserContext } from 'components/utils/UserContext';
+import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
+import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, publish, deleteProject, cancelReview, sendToReview } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
@@ -65,7 +68,7 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
       ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status) ||
       (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)),
     nextStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
-    prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
+    prevStepButtonDisabled: false,
     prevButtonText: isMainWizardActive ? 'Delete Edition' : 'Back',
     nextStepButtonText: isMainWizardActive ? 'Send to review' : 'Save and continue'
   }
@@ -73,6 +76,7 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
 
 const CreateProjectContainer = () => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
@@ -82,6 +86,8 @@ const CreateProjectContainer = () => {
   const [successSendToReviewModalVisible, setSuccessSendToReviewModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
+  const [confirmApprovalVisible, setApprovalVisible] = useState(false);
+  const [confirmRejectionVisible, setRejectionVisible] = useState(false);
 
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
@@ -94,6 +100,9 @@ const CreateProjectContainer = () => {
   const { projectId } = useParams();
 
   const isACloneBeingEdited = project?.editing;
+  const isACloneInReview = project?.inReview;
+  const { isAdmin } = user;
+  const isApprovalRejectionAvailable = isAdmin && isACloneInReview;
 
   const editorVariant = isACloneBeingEdited
     ? EDITOR_VARIANT.EDITING_CLONE
@@ -242,6 +251,14 @@ const CreateProjectContainer = () => {
       ? setConfirmSendToReviewVisible
       : setConfirmPublishVisible;
 
+    if(isApprovalRejectionAvailable) return (
+      <CoaApproveButton
+        onClick={() => {setApprovalVisible(true)}}
+      >
+        Approve
+      </CoaApproveButton>
+    );
+
     return (
       <CoaButton
         type="primary"
@@ -262,6 +279,16 @@ const CreateProjectContainer = () => {
 
   const getContinueLaterButton = () => {
     if (!isMainWizardActive) return;
+
+    if(isApprovalRejectionAvailable)
+      return (
+        <CoaRejectButton
+          onClick={() => {setRejectionVisible(true)}}
+        >
+        Reject
+        </CoaRejectButton>
+      );
+
     return (
       <CoaTextButton
         disabled={
@@ -278,16 +305,23 @@ const CreateProjectContainer = () => {
   const getPrevButton = () => {
     const onPrevOnClick = {
       [PROJECT_FORM_NAMES.DETAILS]: () => handleGoBack(),
-      [PROJECT_FORM_NAMES.MAIN]: () =>
-        isACloneBeingEdited ? askDeleteEditionConfirmation() : askDeleteConfirmation(),
+      [PROJECT_FORM_NAMES.MAIN]: () => {
+        if(isACloneInReview) return history.pop();
+        if(isACloneBeingEdited) return askDeleteEditionConfirmation();
+        return askDeleteConfirmation();
+      },
       [PROJECT_FORM_NAMES.MILESTONES]: () => handleGoBack({ withUpdate: true }),
       [PROJECT_FORM_NAMES.PROPOSAL]: () => handleGoBack({ withUpdate: true }),
       [PROJECT_FORM_NAMES.THUMBNAILS]: () => handleGoBack()
     };
+
+    const argumentsForText = isACloneInReview
+      ? { status, isMainWizardActive: false, completedSteps }
+      : { status, isMainWizardActive, completedSteps };
     return (
       <CoaButton
         type="secondary"
-        icon={isMainWizardActive ? 'delete' : 'arrow-left'}
+        icon={isMainWizardActive && !isACloneInReview? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
         disabled={
           EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
@@ -295,7 +329,7 @@ const CreateProjectContainer = () => {
         }
       >
         {
-          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC(argumentsForText)?.[editorVariant]
             ?.prevButtonText
         }
       </CoaButton>
@@ -348,6 +382,25 @@ const CreateProjectContainer = () => {
         description="To confirm the process please enter your administrator password and secret key"
         okText="Confirm"
         cancelText="Cancel"
+      />
+      <ModalConfirmWithSK
+        visible={confirmApprovalVisible}
+        onCancel={() => setApprovalVisible(false)}
+        onSuccess={() => {}}
+        title="Are you sure you want to approve this changes?"
+        description="To confirm the process please enter your administrator password and secret key"
+        okText="Approve"
+        cancelText="Cancel"
+      />
+      <ModalConfirmWithSK
+        visible={confirmRejectionVisible}
+        onCancel={() => setRejectionVisible(false)}
+        onSuccess={() => {}}
+        title="Are you sure you want to reject this changes?"
+        description="To confirm the process please enter your administrator password and secret key"
+        okText="Reject"
+        cancelText="Cancel"
+        leaveAComment
       />
       <ModalPublishLoading visible={loadingModalVisible} />
       <ModalPublishLoading

@@ -12,6 +12,7 @@ import { Form } from 'antd';
 import { getWallet, loginUser } from 'api/userApi';
 import { UserContext } from 'components/utils/UserContext';
 import { decryptJsonWallet } from 'helpers/blockchain/wallet';
+import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 
@@ -27,7 +28,8 @@ function FormModalConfirmWithSK({
   title,
   description,
   okText,
-  cancelText
+  cancelText,
+  leaveAComment,
 }) {
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
@@ -83,6 +85,29 @@ function FormModalConfirmWithSK({
       cancelText={cancelText}
     >
       <Form>
+        {
+          leaveAComment &&
+          <CoaFormItemTextArea
+            form={form}
+            formItemProps={{
+              label: 'Leave a comment'
+            }}
+            name="comment"
+            fieldDecoratorOptions={{
+              rules: [
+                {
+                  required: true,
+                  message:
+                    'Must write a reason for rejection'
+                }
+              ],
+              validateTrigger: 'onSubmit'
+            }}
+            inputTextAreaProps={{
+              rows: 4
+            }}
+          />
+        }
         <CoaFormItemPassword
           form={form}
           name="password"
@@ -135,6 +160,7 @@ function FormModalConfirmWithSK({
 FormModalConfirmWithSK.defaultProps = {
   form: null,
   visible: false,
+  leaveAComment: false,
   title: 'Do you want to confirm the creation of the project?',
   onCancel: () => undefined,
   onSuccess: () => undefined,
@@ -147,6 +173,7 @@ FormModalConfirmWithSK.propTypes = {
   form: PropTypes.element,
   title: PropTypes.string,
   visible: PropTypes.bool,
+  leaveAComment: PropTypes.bool,
   onCancel: PropTypes.func,
   onSuccess: PropTypes.func,
   description: PropTypes.string,
