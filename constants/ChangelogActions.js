@@ -1,6 +1,28 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 
+export const CHANGELOG_ACTIONS_ENUM = {
+  CREATE_PROJECT: 'create_project',
+  PUBLISH_PROJECT: 'publish_project',
+  SEND_PROJECT_TO_REVIEW: 'send_project_to_review',
+  EDIT_PROJECT_BASIC_INFO: 'edit_project_basic_information',
+  EDIT_PROJECT_DETAILS: 'edit_project_details',
+  ADD_USER_PROJECT: 'add_user_project',
+  REMOVE_USER_PROJECT: 'remove_user_project',
+  ADD_MILESTONE: 'add_milestone',
+  REMOVE_MILESTONE: 'remove_milestone',
+  ADD_ACTIVITY: 'add_activity',
+  REMOVE_ACTIVITY: 'remove_activity',
+  ADD_EVIDENCE: 'add_evidence',
+  REJECT_EVIDENCE: 'reject_evidence',
+  APPROVE_EVIDENCE: 'approve_evidence',
+  REJECT_ACTIVITY: 'reject_activity',
+  APPROVE_ACTIVITY: 'approve_activity',
+  ACTIVITY_TO_REVIEW: 'activity_to_review',
+  CANCEL_REVIEW: 'cancel_review',
+  APPROVE_REVIEW: 'approve_review'
+};
 
 const changelogActions = (changelog, texts) => {
   const role = changelog?.user?.isAdmin ? 'Admin' : changelog?.user?.roles?.[0]?.description;
@@ -17,10 +39,12 @@ const changelogActions = (changelog, texts) => {
   const projectId = changelog?.project?.id;
   const activityId = changelog?.activity?.id;
   const evidenceId = changelog?.evidence?.id;
+  const reasonComment = changelog?.reason ? ` and commented ${changelog?.reason}` : '';
 
   const BASIC_INFORMATION_ACTIONS = {
     location: texts?.changelogAction?.location || 'set a new location',
-    thumbnailPhotoFile: texts?.changelogAction?.thumbnailPhotoFile || 'uploaded a new thumbnail photo',
+    thumbnailPhotoFile:
+      texts?.changelogAction?.thumbnailPhotoFile || 'uploaded a new thumbnail photo',
     timeframe: texts?.changelogAction?.timeframe || 'set a new timeframe',
     timeframeUnit: texts?.changelogAction?.timeframeUnit || 'set a new timeframe unit',
     projectName: texts?.changelogAction?.projectName || 'set a new project name',
@@ -28,22 +52,26 @@ const changelogActions = (changelog, texts) => {
   };
 
   const PROJECT_DETAILS_ACTIONS = {
-    legalAgreementFile: texts?.changelogAction?.legalAgreementFile || 'uploaded a new legal agreement file',
-    projectProposalFile: texts?.changelogAction?.projectProposalFile || 'uploaded a new project proposal file',
+    legalAgreementFile:
+      texts?.changelogAction?.legalAgreementFile || 'uploaded a new legal agreement file',
+    projectProposalFile:
+      texts?.changelogAction?.projectProposalFile || 'uploaded a new project proposal file',
     currency: texts?.changelogAction?.currency || 'set a new currency',
     problemAddressed: texts?.changelogAction?.problemAddressed || 'set a new about the project',
     currencyType: texts?.changelogAction?.currencyType || 'set a new currency type',
-    additionalCurrencyInformation: texts?.changelogAction?.additionalCurrencyInformation || 'set additional currency information',
+    additionalCurrencyInformation:
+      texts?.changelogAction?.additionalCurrencyInformation ||
+      'set additional currency information',
     mission: texts?.changelogAction?.mission || 'set a new mission and vision of the project'
   };
-
 
   return {
     create_project: {
       actionText: texts?.changelogAction?.createdAProject || 'created a project',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.createdAProject || 'created a project'}
+          <span className="coaChangelogItem__title --bold">{userName}</span>{' '}
+          {texts?.changelogAction?.createdAProject || 'created a project'}
         </>
       ),
       titleText: `${userName} ${texts?.changelogAction?.createdAProject || 'created a project'}`,
@@ -61,7 +89,7 @@ const changelogActions = (changelog, texts) => {
       title: () => (
         <>
           <span className="coaChangelogItem__title --bold">{userName}</span>
-          {revision !== 1 ? 'published a new version of the project' : 'published the project'}
+          {revision !== 1 ? ' published a new version of the project' : ' published the project'}
         </>
       ),
       titleText: `${userName} ${
@@ -71,10 +99,11 @@ const changelogActions = (changelog, texts) => {
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           published <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
-          Project - Revision {revision}
+          Project - Revision{' '}
+          <span className="coaChangelogItem__title --highlighted">N° {revision}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - published ${projectName} Project - Revision ${revision}`
+      descriptionText: `${userName} - ${role} - published ${projectName} Project - Revision N° ${revision}`
     },
     send_project_to_review: {
       actionText: 'sent project to review',
@@ -305,10 +334,11 @@ const changelogActions = (changelog, texts) => {
           >
             {activityTitle}
           </Link>{' '}
-          Activity and commented {extraData?.reason}
+          Activity
+          {reasonComment}
         </>
       ),
-      descriptionText: `${userName} - ${role} - rejected ${evidenceTitle} evidence of ${activityTitle} Activity and commented ${extraData?.reason}`
+      descriptionText: `${userName} - ${role} - rejected ${evidenceTitle} evidence of ${activityTitle} Activity ${reasonComment}`
     },
     approve_evidence: {
       actionText: 'approved evidence',
@@ -414,6 +444,40 @@ const changelogActions = (changelog, texts) => {
         </>
       ),
       descriptionText: `${userName} - ${role} - sent the ${activityTitle} Activity of ${milestoneTitle} Milestone to be reviewed by ${auditorName} auditor`
+    },
+    cancel_review: {
+      title: () => (
+        <>
+          <span className="coaChangelogItem__title --bold">{userName}</span> canceled a revision
+        </>
+      ),
+      titleText: `${userName} canceled a revision`,
+      description: () => (
+        <>
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
+          canceled the revision{' '}
+          <span className="coaChangelogItem__title --highlighted">N° {revision}</span>
+          {reasonComment}
+        </>
+      ),
+      descriptionText: `${userName} - ${role} - canceled the revision N° ${revision}${reasonComment}`
+    },
+    approve_review: {
+      title: () => (
+        <>
+          <span className="coaChangelogItem__title --bold">{userName}</span> approved the revision{' '}
+          {revision}
+        </>
+      ),
+      titleText: `${userName} approved the revision ${revision}`,
+      description: () => (
+        <>
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
+          approved the revision{' '}
+          <span className="coaChangelogItem__title --highlighted">{revision}</span>
+        </>
+      ),
+      descriptionText: `${userName} - ${role} - approved the revision ${revision}`
     }
   };
 };
