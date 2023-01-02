@@ -17,6 +17,7 @@ import { CoaFormMilestoneModal } from 'components/organisms/CoaMilestones/CoaFor
 import { CoaFormActivitiesModal } from 'components/organisms/CoaActivities/CoaFormActivitiesModal/CoaFormActivitiesModal';
 import { updateActivity } from 'api/activityApi';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
+import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { CoaConfirmDeleteModal } from 'components/organisms/CoaModals/CoaFeedbackModals/CoaFeedbackModals';
 import { CoaMilestoneItem } from '../CoaMilestoneItem/CoaMilestoneItem';
@@ -55,7 +56,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         id: data?.milestoneId,
         activities: [],
         budget: '0',
-        areActivitiesOpen: false
+        areActivitiesOpen: false,
+        status: MILESTONE_STATUS_ENUM.NEW
       }
     ]);
     message.success('Milestone created!');
@@ -128,7 +130,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     activities.push({
       ...processedActivity,
       id: data?.activityId,
-      auditor: { id: processedActivity?.auditor }
+      auditor: { id: processedActivity?.auditor },
+      status: ACTIVITY_STATUS_ENUM.NEW
     });
 
     const totalBudget = activities.reduce(
