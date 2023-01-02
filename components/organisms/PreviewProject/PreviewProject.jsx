@@ -70,7 +70,7 @@ const PreviewProject = ({ id, preview }) => {
     // eslint-disable-next-line
   }, [id]);
 
-  const { basicInformation, status, details, users, budget, editing, cloneId } = project;
+  const { basicInformation, status, details, users, budget, editing, cloneId, inReview } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
@@ -148,6 +148,7 @@ const PreviewProject = ({ id, preview }) => {
       projectId={project?.id}
       header={
         <ProjectHeroSection
+          inReview={inReview}
           title={projectName}
           status={status}
           subtitle={customConfig.NAME}
@@ -166,12 +167,11 @@ const PreviewProject = ({ id, preview }) => {
     >
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
-          { editing &&
-            <div className='o-previewProject__alertEditedProject'>
-              This project is being edited.
-              The project is not enable until the edition is finished
+          {editing && (
+            <div className="o-previewProject__alertEditedProject">
+              This project is being edited. The project is not enable until the edition is finished
             </div>
-          }
+          )}
           <div className="o-previewProject__buttons__container">
             <div className="o-previewProject__buttons">
               <CoaButton

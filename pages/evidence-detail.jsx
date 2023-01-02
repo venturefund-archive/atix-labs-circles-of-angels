@@ -16,7 +16,7 @@ export default function EvidenceDetailPage() {
 
   // Info about project
   const { loading, project } = useProject(projectId);
-  const { basicInformation, status, details, budget, editing } = project || {};
+  const { basicInformation, status, details, budget, editing, inReview } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -49,6 +49,7 @@ export default function EvidenceDetailPage() {
       thumbnailPhoto={thumbnailPhoto}
       header={
         <ProjectHeroSectionSmall
+          inReview={inReview}
           title={projectName}
           status={status}
           subtitle={customConfig.NAME}

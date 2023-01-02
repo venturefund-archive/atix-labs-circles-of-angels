@@ -49,7 +49,7 @@ const EvidencesContainer = () => {
 
   if (isProjectLoading) return <Loading />;
 
-  const { basicInformation, status, details, budget } = project;
+  const { basicInformation, status, details, budget, inReview } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -69,6 +69,7 @@ const EvidencesContainer = () => {
       disappearHeaderInMobile
       header={
         <ProjectHeroSectionSmall
+          inReview={inReview}
           title={projectName}
           status={status}
           subtitle={customConfig.NAME}

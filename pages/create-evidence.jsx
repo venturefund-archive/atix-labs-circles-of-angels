@@ -8,14 +8,13 @@ import { EvidenceForm } from '../components/molecules/EvidenceForm/EvidenceForm'
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 
-
 const CreateEvidence = () => {
   const { projectId, activityId } = useParams();
-  const { loading, project } = useProject(projectId)
+  const { loading, project } = useProject(projectId);
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
 
-  const { basicInformation, status, details, budget, milestones } = project;
+  const { basicInformation, status, details, budget, milestones, inReview } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -26,36 +25,37 @@ const CreateEvidence = () => {
       ? `${beneficiaryFirstName} ${beneficiaryLastName}`
       : 'No name';
 
-  const milestone = milestones
-    .find( ({ activities }) =>
-      activities.map((_activity)=>_activity.id)
-      .includes(parseInt(activityId, 10))
+  const milestone =
+    milestones.find(({ activities }) =>
+      activities.map(_activity => _activity.id).includes(parseInt(activityId, 10))
     ) || {};
-  const activity = milestone?.activities
-    .find((_activity) => _activity.id ===parseInt(activityId, 10));
+  const activity = milestone?.activities.find(
+    _activity => _activity.id === parseInt(activityId, 10)
+  );
   const breadCrumbPath = `${milestone?.title} / ${activity?.title} / create-evidence`;
 
   return (
     <LandingLayout
-    disappearHeaderInMobile
-    header={
-      <ProjectHeroSectionSmall
-        title={projectName}
-        status={status}
-        subtitle={customConfig.NAME}
-        country={location}
-        beneficiary={beneficiaryCompleteName}
-        timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-        budget={formatCurrency(currency, budget)}
-        legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
-        projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-      />
-    }
-    thumbnailPhoto={thumbnailPhoto}
+      disappearHeaderInMobile
+      header={
+        <ProjectHeroSectionSmall
+          inReview={inReview}
+          title={projectName}
+          status={status}
+          subtitle={customConfig.NAME}
+          country={location}
+          beneficiary={beneficiaryCompleteName}
+          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          budget={formatCurrency(currency, budget)}
+          legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
+          projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+        />
+      }
+      thumbnailPhoto={thumbnailPhoto}
     >
       <EvidenceForm breadCrumbPath={breadCrumbPath} />
     </LandingLayout>
   );
-}
+};
 
 export default CreateEvidence;
