@@ -158,7 +158,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
           />
         </div>
         {
-          !!project.id &&
+          !!project.id && project?.editing &&
           <div className='createProject__content__changelog'>
             <TitlePage
               textTitle="Changelog"
@@ -169,6 +169,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
               title="Project Changelog"
               projectId={project?.parent || project?.id}
               currency={project?.details?.currency}
+              revisionId={project?.revision}
             />
           </div>
         }
