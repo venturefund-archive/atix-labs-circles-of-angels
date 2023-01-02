@@ -28,7 +28,8 @@ const CardProject = ({ onClick, project, countries }) => {
     status,
     beneficiary,
     currency,
-    timeframeUnit
+    timeframeUnit,
+    revision
   } = project;
   const locationsNames = () => {
     if (!location) return 'Not set';
@@ -67,7 +68,10 @@ const CardProject = ({ onClick, project, countries }) => {
       </div>
       <div className="m-cardProject__body">
         <div className="m-cardProject__body__titleContainer">
-          <h1 className="m-cardProject__body__titleContainer__title">{projectName}</h1>
+          <h1 className="m-cardProject__body__titleContainer__title">
+            {projectName}{' '}
+            <span className="m-cardProject__body__titleContainer__title__rev">Rev: {revision}</span>
+          </h1>
           <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
             {PROJECT_STATUS_MAP[status]?.name}
           </CoaTag>

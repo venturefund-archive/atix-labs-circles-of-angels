@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './_style.scss';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import ProjectStatus from '../ProjectStatus/ProjectStatus';
 import ProjectHeroDetails from '../ProjectHeroDetails/ProjectHeroDetails';
 import ProjectHeroDownload from '../ProjectHeroDownload/ProjectHeroDownload';
-import './_style.scss';
 
 const ProjectHeroSection = ({
   status,
@@ -17,14 +18,19 @@ const ProjectHeroSection = ({
   projectProposalUrl,
   legalAgreementUrl,
   onClickProgressButton,
-  blockchainHistoryUrl
+  blockchainHistoryUrl,
+  inReview,
+  revision
 }) => {
   const { texts } = React.useContext(DictionaryContext);
 
   return (
     <div className="hero">
       <div className="content">
-        <ProjectStatus status={status} blockchainHistoryUrl={blockchainHistoryUrl} />
+        <ProjectStatus
+          status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status}
+          blockchainHistoryUrl={blockchainHistoryUrl}
+        />
         <div className="text">
           <h3>{subtitle}</h3>
           <h1>{title}</h1>
@@ -43,6 +49,7 @@ const ProjectHeroSection = ({
             timeframe={timeframe}
             budget={budget}
             beneficiary={beneficiary}
+            revision={revision}
           />
           <ProjectHeroDownload
             projectProposalUrl={projectProposalUrl}
@@ -52,7 +59,7 @@ const ProjectHeroSection = ({
       </div>
     </div>
   );
-}
+};
 
 export default ProjectHeroSection;
 

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import './_style.scss';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import ProjectStatus from '../ProjectStatus/ProjectStatus';
 import ProjectHeroDetails from '../ProjectHeroDetails/ProjectHeroDetails';
 import ProjectHeroDownload from '../ProjectHeroDownload/ProjectHeroDownload';
 
-import './_style.scss';
 import { CoaAlert } from '../CoaAlert/CoaAlert';
 import { EvidenceContext } from '../../utils/EvidenceContext';
 
@@ -18,7 +19,9 @@ const ProjectHeroSectionSmall = ({
   beneficiary,
   projectProposalUrl,
   legalAgreementUrl,
-  message
+  message,
+  inReview,
+  revision
 }) => {
   const [show, setShow] = useState(Boolean(message));
   const { clearMessage } = useContext(EvidenceContext);
@@ -48,7 +51,7 @@ const ProjectHeroSectionSmall = ({
       <div className="heroSmall">
         <div className="heroSmall__container">
           <div className="heroSmall__content">
-            <ProjectStatus status={status} />
+            <ProjectStatus status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status} />
             <div className="heroSmall__content__text">
               <h3>{subtitle}</h3>
               <h1>{title}</h1>
@@ -61,6 +64,7 @@ const ProjectHeroSectionSmall = ({
                 timeframe={timeframe}
                 budget={budget}
                 beneficiary={beneficiary}
+                revision={revision}
               />
               <ProjectHeroDownload
                 projectProposalUrl={projectProposalUrl}

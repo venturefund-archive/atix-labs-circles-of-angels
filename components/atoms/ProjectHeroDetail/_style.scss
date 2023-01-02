@@ -1,19 +1,16 @@
 @import 'css/general_styling';
+@import 'css/_variables.scss';
 
 .a-projectHeroDetail {
   display: flex;
   flex-direction: row;
-  /* padding-right: 10px; */
   align-items: flex-start;
   gap: 10px;
 
-  /* &:not(:last-child) {
-    border-right: 1px solid #e5e6ed;
-    height: 50px;
-  } */
-
   &__icon {
     display: none;
+    font-size: 1.375rem;
+    color: $coa-white-100;
     @include respond(laptop) {
       display: flex;
     }
