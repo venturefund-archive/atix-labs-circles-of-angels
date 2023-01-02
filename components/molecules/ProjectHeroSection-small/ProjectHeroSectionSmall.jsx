@@ -20,7 +20,8 @@ const ProjectHeroSectionSmall = ({
   projectProposalUrl,
   legalAgreementUrl,
   message,
-  inReview
+  inReview,
+  revision
 }) => {
   const [show, setShow] = useState(Boolean(message));
   const { clearMessage } = useContext(EvidenceContext);
@@ -63,6 +64,7 @@ const ProjectHeroSectionSmall = ({
                 timeframe={timeframe}
                 budget={budget}
                 beneficiary={beneficiary}
+                revision={revision}
               />
               <ProjectHeroDownload
                 projectProposalUrl={projectProposalUrl}

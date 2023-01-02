@@ -18,7 +18,7 @@ export default function ProjectChangeLog() {
   const { loading, project } = useProject(projectId);
   if (loading) return <Loading />;
 
-  const { basicInformation, status, details, budget, inReview } = project;
+  const { basicInformation, status, details, budget, inReview, revision } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -34,6 +34,7 @@ export default function ProjectChangeLog() {
       disappearHeaderInMobile
       header={
         <ProjectHeroSectionSmall
+          revision={revision}
           inReview={inReview}
           title={projectName}
           status={status}

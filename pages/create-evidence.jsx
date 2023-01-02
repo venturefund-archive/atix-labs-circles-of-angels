@@ -14,7 +14,7 @@ const CreateEvidence = () => {
 
   if (loading) return <Loading />;
 
-  const { basicInformation, status, details, budget, milestones, inReview } = project;
+  const { basicInformation, status, details, budget, milestones, inReview, revision } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -39,6 +39,7 @@ const CreateEvidence = () => {
       disappearHeaderInMobile
       header={
         <ProjectHeroSectionSmall
+          revision={revision}
           inReview={inReview}
           title={projectName}
           status={status}

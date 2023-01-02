@@ -6,7 +6,7 @@ import customConfig from '../../../custom-config';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
 const ProjectHeader = ({ project, children, message }) => {
-  const { basicInformation, status, details, budget, inReview } = project;
+  const { basicInformation, status, details, budget, inReview, revision } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -20,6 +20,7 @@ const ProjectHeader = ({ project, children, message }) => {
   return (
     <Layout>
       <ProjectHeroSectionSmall
+        revision={revision}
         inReview={inReview}
         title={projectName}
         status={status}

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import './_style.scss';
 
-const ProjectHeroDetail = ({ icon, text, title }) => (
+const ProjectHeroDetail = ({ icon, text, title, customIcon }) => (
   <div className="a-projectHeroDetail">
     <div className="a-projectHeroDetail__icon">
-      <img width={22} height={22} src={icon} alt="icon" />
+      {customIcon ?? <img width={22} height={22} src={icon} alt="icon" />}
     </div>
     <div className="a-projectHeroDetail__text">
       <p>{text}</p>

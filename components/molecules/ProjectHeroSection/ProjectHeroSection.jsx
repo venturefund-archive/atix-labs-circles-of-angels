@@ -19,7 +19,8 @@ const ProjectHeroSection = ({
   legalAgreementUrl,
   onClickProgressButton,
   blockchainHistoryUrl,
-  inReview
+  inReview,
+  revision
 }) => {
   const { texts } = React.useContext(DictionaryContext);
 
@@ -48,6 +49,7 @@ const ProjectHeroSection = ({
             timeframe={timeframe}
             budget={budget}
             beneficiary={beneficiary}
+            revision={revision}
           />
           <ProjectHeroDownload
             projectProposalUrl={projectProposalUrl}
