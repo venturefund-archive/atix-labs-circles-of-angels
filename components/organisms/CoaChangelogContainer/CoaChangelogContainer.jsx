@@ -8,7 +8,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import customConfig from 'custom-config';
 import { getDateAndTime } from 'helpers/utils';
-import changelogActions from 'constants/ChangelogActions';
+import changelogActions, { CHANGELOG_ACTIONS_ENUM } from 'constants/ChangelogActions';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { getChangelog } from '../../../api/projectApi';
 import { sortArrayByDate } from '../../utils';
@@ -46,8 +46,10 @@ export const CoaChangelogContainer = forwardRef(
         return;
       }
 
-      const sortedChangelogs = sortArrayByDate(response.data, 'datetime');
-      setChangeLogs(sortedChangelogs);
+      const _processedChangelogs = sortArrayByDate(response.data, 'datetime').filter(changelog =>
+        Object.values(CHANGELOG_ACTIONS_ENUM).includes(changelog?.action)
+      );
+      setChangeLogs(_processedChangelogs);
       setLoading(prevState => !prevState);
     };
 
@@ -68,7 +70,7 @@ export const CoaChangelogContainer = forwardRef(
         changelog?.revision
       ]);
       setProcessedChangeLogs(_processedChangeLogs);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changeLogs]);
 
     function generatePDF() {
@@ -124,7 +126,9 @@ export const CoaChangelogContainer = forwardRef(
             {changeLogs.length === 0 && (
               <>
                 <img src="/static/images/window-icon.png" alt="empty-changelog-list" />
-                <p className="o-coaChangelogContainer__emptyText">{texts?.changelog?.empty || emptyText}</p>
+                <p className="o-coaChangelogContainer__emptyText">
+                  {texts?.changelog?.empty || emptyText}
+                </p>
               </>
             )}
             {changeLogs.length > 0 &&
