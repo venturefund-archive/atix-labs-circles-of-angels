@@ -63,7 +63,7 @@ const Evidences = ({
   const { user } = useContext(UserContext);
 
   const isActivityAuditor = checkIsActivityAuditor({ user, activity });
-  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject(user, project);
+  const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
 
   const sendToReview = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);
