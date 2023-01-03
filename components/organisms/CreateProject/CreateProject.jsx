@@ -102,7 +102,8 @@ const CreateProject = ({
                 PROJECT_STATUS_ENUM.OPEN_REVIEW,
                 PROJECT_STATUS_ENUM.IN_REVIEW
               ].includes(project?.status)
-                ? history.push(`/${project?.parent || project?.id}?preview=true`)
+              || project?.inReview
+                ? history.push(`/${project?.id}?preview=true`)
                 : history.push(`/${project?.parent || project?.id}`)
             }
           >

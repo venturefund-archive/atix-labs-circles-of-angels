@@ -330,7 +330,7 @@ const CreateProjectContainer = () => {
     const onPrevOnClick = {
       [PROJECT_FORM_NAMES.DETAILS]: () => handleGoBack(),
       [PROJECT_FORM_NAMES.MAIN]: () => {
-        if(isACloneInReview) return history.pop();
+        if(isACloneInReview) return history.goBack();
         if(isACloneBeingEdited) return askDeleteEditionConfirmation();
         return askDeleteConfirmation();
       },
