@@ -58,16 +58,25 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
   </div>
 );
 
-const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, editorVariant }) => {
+const CreateProject = ({
+  project,
+  setCurrentWizard,
+  completedSteps,
+  Footer,
+  editorVariant,
+  isACloneBeingEdited
+}) => {
   const history = useHistory();
-  const { status, basicInformation } = project || {};
+  const { status, basicInformation, inReview } = project || {};
   const projectName = basicInformation?.projectName || 'My project';
   const areAllStepsCompleted =
     completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] &&
     completedSteps[PROJECT_FORM_NAMES.PROPOSAL] &&
     completedSteps[PROJECT_FORM_NAMES.MILESTONES] &&
     completedSteps[PROJECT_FORM_NAMES.DETAILS];
+
   const { user } = useContext(UserContext);
+  const isAdmin = user?.isAdmin;
 
   const isBeneficiaryOrInvestor =
     project?.users && checkIsBeneficiaryOrInvestorByProject({ user, project });
@@ -85,7 +94,7 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
           <TitlePage textTitle={projectName} />
           <CoaButton
             type="primary"
-            disabled={!areAllStepsCompleted}
+            disabled={!areAllStepsCompleted || (isACloneBeingEdited && isAdmin && !inReview)}
             onClick={() =>
               [
                 PROJECT_STATUS_ENUM.DRAFT,
@@ -170,7 +179,9 @@ CreateProject.defaultProps = {
     proposal: false,
     milestones: false
   },
-  Footer: undefined
+  Footer: undefined,
+  editorVariant: undefined,
+  isACloneBeingEdited: undefined
 };
 
 CreateProject.propTypes = {
@@ -184,7 +195,9 @@ CreateProject.propTypes = {
     proposal: PropTypes.bool,
     milestones: PropTypes.bool
   }),
-  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+  Footer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  editorVariant: PropTypes.string,
+  isACloneBeingEdited: PropTypes.bool
 };
 
 Items.defaultProps = {
