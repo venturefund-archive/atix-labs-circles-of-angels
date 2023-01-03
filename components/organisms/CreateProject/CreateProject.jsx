@@ -95,7 +95,11 @@ const CreateProject = ({
           <TitlePage textTitle={projectName} />
           <CoaButton
             type="primary"
-            disabled={!areAllStepsCompleted || (isACloneBeingEdited && isAdmin && !inReview)}
+            disabled={
+              !areAllStepsCompleted ||
+              (isACloneBeingEdited && !isAdmin) ||
+              (isACloneBeingEdited && isAdmin && !inReview)
+            }
             onClick={() =>
               [
                 PROJECT_STATUS_ENUM.DRAFT,
@@ -166,9 +170,8 @@ const CreateProject = ({
             }
           />
         </div>
-        {
-          !!project.id && project?.editing &&
-          <div className='createProject__content__changelog'>
+        {!!project.id && project?.editing && (
+          <div className="createProject__content__changelog">
             <TitlePage
               textTitle="Changelog"
               className="createProject__content__changelog__title"
@@ -181,7 +184,7 @@ const CreateProject = ({
               revisionId={project?.revision}
             />
           </div>
-        }
+        )}
       </div>
       {Footer()}
     </>
