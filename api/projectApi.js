@@ -308,41 +308,13 @@ const createProjectExperience = async (experience, photos) => {
   }
 };
 
-const cloneProject = async projectId => {
-  try {
-    const response = await api.post(`${projectsBaseURL}/${projectId}/clone`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const cloneProject = async projectId => doPost(`${projectsBaseURL}/${projectId}/clone`);
 
-const cancelReview = async projectId => {
-  try {
-    const response = await api.put(`${projectsBaseURL}/${projectId}/cancel-review`);
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+const cancelReview = async projectId => doPut(`${projectsBaseURL}/${projectId}/cancel-review`);
 
-const approveCloneProject = async(projectId) => {
-  try {
-    const response = await api.put(`${projectsBaseURL}/${projectId}/review`, { approved: true });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-}
+const approveCloneProject = async(projectId) => doPut(`${projectsBaseURL}/${projectId}/review`, { approved: true })
 
-const rejectCloneProject = async(projectId) => {
-  try {
-    const response = await api.put(`${projectsBaseURL}/${projectId}/review`, { approved: false });
-    return response;
-  } catch (error) {
-    return { error };
-  }
-}
+const rejectCloneProject = async(projectId) => doPut(`${projectsBaseURL}/${projectId}/review`, { approved: false })
 
 export {
   getActiveProjects,

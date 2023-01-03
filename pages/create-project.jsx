@@ -473,7 +473,11 @@ const CreateProjectContainer = () => {
           setSuccessRejectCloneModalVisible(false);
         }}
       />
-      <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
+      <ModalPublishError
+        visible={errorModalVisible}
+        onCancel={() => history.push(`/${project?.parent || project?.id}`)}
+        onSave={() => history.push(`/${project?.parent || project?.id}`)}
+      />
     </>
   );
 };

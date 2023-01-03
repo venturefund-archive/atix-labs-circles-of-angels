@@ -129,7 +129,7 @@ const PreviewProject = ({ id, preview }) => {
     setLoading(true);
     const response = await cloneProject(project.parent || project.id);
     setLoading(false);
-    if (response.error || !response.data) {
+    if (response.errors) {
       return message.error('An error occurred while fetching the project');
     }
     const _cloneId = await response.data.projectId;
