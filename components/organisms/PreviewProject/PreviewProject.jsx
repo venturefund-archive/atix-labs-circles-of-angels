@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
-import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
+import { formatCurrency, formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
@@ -156,7 +156,7 @@ const PreviewProject = ({ id, preview }) => {
           country={location}
           beneficiary={beneficiaryCompleteName}
           timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-          budget={formatCurrency(currency, budget)}
+          budget={formatCurrencyAtTheBeginning(currency, budget)}
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}

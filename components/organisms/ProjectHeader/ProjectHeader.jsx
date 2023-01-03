@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Layout from '../../molecules/Layout/Layout';
 import ProjectHeroSectionSmall from '../../molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
 import customConfig from '../../../custom-config';
-import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
+import { formatCurrencyAtTheBeginning, formatTimeframeValue } from '../../../helpers/formatter';
 
 const ProjectHeader = ({ project, children, message }) => {
   const { basicInformation, status, details, budget, inReview, revision } = project;
@@ -28,7 +28,7 @@ const ProjectHeader = ({ project, children, message }) => {
         country={location}
         beneficiary={beneficiaryCompleteName}
         timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-        budget={formatCurrency(currency, budget)}
+        budget={formatCurrencyAtTheBeginning(currency, budget)}
         thumbnailPhoto={thumbnailPhoto}
         legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
         projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}

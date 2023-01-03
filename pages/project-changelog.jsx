@@ -10,7 +10,7 @@ import { Icon } from 'antd';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
 import customConfig from 'custom-config';
-import { formatCurrency, formatTimeframeValue } from 'helpers/formatter';
+import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 
 export default function ProjectChangeLog() {
   const { projectId } = useParams();
@@ -43,7 +43,7 @@ export default function ProjectChangeLog() {
           country={location}
           beneficiary={beneficiaryCompleteName}
           timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
-          budget={formatCurrency(currency, budget)}
+          budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
         />
