@@ -37,7 +37,7 @@ import { UserContext } from 'components/utils/UserContext';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, publish, deleteProject, cancelReview, sendToReview } from '../api/projectApi';
+import { getProject, publish, deleteProject, cancelReview, sendToReview, approveCloneProject, rejectCloneProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -80,10 +80,12 @@ const CreateProjectContainer = () => {
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
-  const [loadingModalVisible, setLoadinModalVisible] = useState(false);
+  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
   const [loadingSendToReviewModalVisible, setLoadingSendToReviewModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [successSendToReviewModalVisible, setSuccessSendToReviewModalVisible] = useState(false);
+  const [successApproveCloneModalVisible, setSuccessApproveCloneModalVisible] = useState(false);
+  const [successRejectCloneModalVisible, setSuccessRejectCloneModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
   const [confirmApprovalVisible, setApprovalVisible] = useState(false);
@@ -201,11 +203,11 @@ const CreateProjectContainer = () => {
   };
 
   const publishProject = async () => {
-    goToNextModal(setSecretKeyVisible, setLoadinModalVisible);
+    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
 
     const { errors } = await publish(project.id);
 
-    goToNextModal(setLoadinModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
+    goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
   const sendToReviewProject = async () => {
@@ -216,6 +218,28 @@ const CreateProjectContainer = () => {
     goToNextModal(
       setLoadingSendToReviewModalVisible,
       errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
+    );
+  };
+
+  const approveClonedProject = async () => {
+    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
+
+    const { errors } = await approveCloneProject(project.id);
+
+    goToNextModal(
+      setLoadingModalVisible,
+      errors ? setErrorModalVisible : setSuccessApproveCloneModalVisible
+    );
+  };
+
+  const rejectClonedProject = async () => {
+    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
+
+    const { errors } = await rejectCloneProject(project.id);
+
+    goToNextModal(
+      setLoadingModalVisible,
+      errors ? setErrorModalVisible : setSuccessRejectCloneModalVisible
     );
   };
 
@@ -235,7 +259,7 @@ const CreateProjectContainer = () => {
 
   useEffect(() => {
     fetchProject();
-  }, []);
+  }, [projectId]);
 
   const CurrentComponent = wizards[currentWizard];
   const props = {};
@@ -386,7 +410,7 @@ const CreateProjectContainer = () => {
       <ModalConfirmWithSK
         visible={confirmApprovalVisible}
         onCancel={() => setApprovalVisible(false)}
-        onSuccess={() => {}}
+        onSuccess={approveClonedProject}
         title="Are you sure you want to approve this changes?"
         description="To confirm the process please enter your administrator password and secret key"
         okText="Approve"
@@ -395,7 +419,7 @@ const CreateProjectContainer = () => {
       <ModalConfirmWithSK
         visible={confirmRejectionVisible}
         onCancel={() => setRejectionVisible(false)}
-        onSuccess={() => {}}
+        onSuccess={rejectClonedProject}
         title="Are you sure you want to reject this changes?"
         description="To confirm the process please enter your administrator password and secret key"
         okText="Reject"
@@ -422,6 +446,32 @@ const CreateProjectContainer = () => {
         textTitle="The project was sent successfully!"
         description="The project will be reviewed by the administrator."
         onSave={() => history.push(`/${project?.parent}`)}
+      />
+      <ModalPublishSuccess
+        visible={successApproveCloneModalVisible}
+        onCancel={() => {
+          history.push(`/project/edit/${project?.parent}`);
+          setSuccessApproveCloneModalVisible(false);
+        }}
+        textTitle="The project was published successfully!"
+        description="A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page"
+        onSave={() => {
+          history.push(`/project/edit/${project?.parent}`);
+          setSuccessApproveCloneModalVisible(false);
+        }}
+      />
+      <ModalPublishSuccess
+        visible={successRejectCloneModalVisible}
+        onCancel={() => {
+          history.push(`/project/edit/${project?.parent}`);
+          setSuccessRejectCloneModalVisible(false);
+        }}
+        textTitle="You have rejected the changes"
+        description="No changes have been applied to the project"
+        onSave={() =>{
+          history.push(`/project/edit/${project?.parent}`);
+          setSuccessRejectCloneModalVisible(false);
+        }}
       />
       <ModalPublishError visible={errorModalVisible} onCancel={() => setErrorModalVisible(false)} />
     </>

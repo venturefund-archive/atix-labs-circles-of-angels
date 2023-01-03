@@ -326,6 +326,24 @@ const cancelReview = async projectId => {
   }
 };
 
+const approveCloneProject = async(projectId) => {
+  try {
+    const response = await api.put(`${projectsBaseURL}/${projectId}/review`, { approved: true });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
+const rejectCloneProject = async(projectId) => {
+  try {
+    const response = await api.put(`${projectsBaseURL}/${projectId}/review`, { approved: false });
+    return response;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export {
   getActiveProjects,
   confirmProject,
@@ -342,5 +360,7 @@ export {
   createProjectExperience,
   getProjectsPreview,
   cloneProject,
-  cancelReview
+  cancelReview,
+  approveCloneProject,
+  rejectCloneProject
 };
