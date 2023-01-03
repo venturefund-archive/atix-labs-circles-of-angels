@@ -31,6 +31,7 @@ export default function ProjectChangeLog() {
 
   return (
     <LandingLayout
+      project={project}
       disappearHeaderInMobile
       header={
         <ProjectHeroSectionSmall

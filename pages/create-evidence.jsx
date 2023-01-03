@@ -36,6 +36,7 @@ const CreateEvidence = () => {
 
   return (
     <LandingLayout
+      project={project}
       disappearHeaderInMobile
       header={
         <ProjectHeroSectionSmall

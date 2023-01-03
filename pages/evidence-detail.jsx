@@ -45,6 +45,7 @@ export default function EvidenceDetailPage() {
 
   return (
     <LandingLayout
+      project={project}
       disappearHeaderInMobile
       thumbnailPhoto={thumbnailPhoto}
       header={
