@@ -93,8 +93,8 @@ const CreateProject = ({ project, setCurrentWizard, completedSteps, Footer, edit
                 PROJECT_STATUS_ENUM.OPEN_REVIEW,
                 PROJECT_STATUS_ENUM.IN_REVIEW
               ].includes(project?.status)
-                ? history.push(`/${project?.id}?preview=true`)
-                : history.push(`/${project?.id}`)
+                ? history.push(`/${project?.parent || project?.id}?preview=true`)
+                : history.push(`/${project?.parent || project?.id}`)
             }
           >
             See preview project

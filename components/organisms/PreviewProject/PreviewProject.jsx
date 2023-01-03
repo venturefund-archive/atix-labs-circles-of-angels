@@ -127,7 +127,7 @@ const PreviewProject = ({ id, preview }) => {
       return history.push(`/project/edit/${cloneId}`);
     }
     setLoading(true);
-    const response = await cloneProject(id);
+    const response = await cloneProject(project.parent || project.id);
     setLoading(false);
     if (response.error || !response.data) {
       return message.error('An error occurred while fetching the project');
