@@ -98,15 +98,14 @@ const CreateProject = ({
             disabled={
               !areAllStepsCompleted ||
               (isACloneBeingEdited && !isAdmin) ||
-              (isACloneBeingEdited && isAdmin && !inReview)
+              (project?.revision !== 1 && isAdmin && !inReview && isACloneBeingEdited)
             }
             onClick={() =>
               [
                 PROJECT_STATUS_ENUM.DRAFT,
                 PROJECT_STATUS_ENUM.OPEN_REVIEW,
                 PROJECT_STATUS_ENUM.IN_REVIEW
-              ].includes(project?.status)
-              || project?.inReview
+              ].includes(project?.status) || project?.inReview
                 ? history.push(`/${project?.id}?preview=true`)
                 : history.push(`/${project?.parent || project?.id}`)
             }
@@ -171,21 +170,22 @@ const CreateProject = ({
             }
           />
         </div>
-        {!!project.id && project?.editing && (
-          <div className="createProject__content__changelog">
-            <TitlePage
-              textTitle="Changelog"
-              className="createProject__content__changelog__title"
-              textColor="#4C7FF7"
-            />
-            <CoaChangelogContainer
-              title="Project Changelog"
-              projectId={project?.parent || project?.id}
-              currency={project?.details?.currency}
-              revisionId={project?.revision}
-            />
-          </div>
-        )}
+        {!!project.id &&
+          ((isAdmin && project?.inReview) || (isBeneficiaryOrInvestor && isACloneBeingEdited)) && (
+            <div className="createProject__content__changelog">
+              <TitlePage
+                textTitle="Changelog"
+                className="createProject__content__changelog__title"
+                textColor="#4C7FF7"
+              />
+              <CoaChangelogContainer
+                title="Project Changelog"
+                projectId={project?.parent || project?.id}
+                currency={project?.details?.currency}
+                revisionId={project?.revision}
+              />
+            </div>
+          )}
       </div>
       {Footer()}
     </>
