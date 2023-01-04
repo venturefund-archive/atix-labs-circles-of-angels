@@ -19,7 +19,7 @@ export default function EvidenceDetailPage() {
   const { basicInformation, status, details, budget, editing, inReview, revision } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
-  const { currency, legalAgreementFile, projectProposalFile } = details || {};
+  const { currency, currencyType, legalAgreementFile, projectProposalFile } = details || {};
   const { firstName, lastName } = beneficiary || {};
   const beneficiaryName = firstName || lastName ? `${firstName} ${lastName}` : 'No name';
 
@@ -69,6 +69,7 @@ export default function EvidenceDetailPage() {
           evidence={evidence}
           fetchEvidence={fetchEvidence}
           currency={currency}
+          currencyType={currencyType}
           isProjectEditing={editing}
         />
       )}
