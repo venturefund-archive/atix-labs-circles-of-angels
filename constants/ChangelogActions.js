@@ -39,7 +39,9 @@ const changelogActions = (changelog, texts) => {
   const projectId = changelog?.project?.id;
   const activityId = changelog?.activity?.id;
   const evidenceId = changelog?.evidence?.id;
-  const reasonComment = changelog?.reason ? ` and commented ${changelog?.reason}` : '';
+  const reasonComment = changelog?.extraData?.reason
+    ? ` and commented ${changelog?.extraData?.reason}`
+    : '';
 
   const BASIC_INFORMATION_ACTIONS = {
     location: texts?.changelogAction?.location || 'set a new location',

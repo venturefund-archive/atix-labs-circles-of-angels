@@ -22,15 +22,8 @@ export const createMilestone = (projectId, saveData) =>
 
 export const claimMilestone = milestoneId => doPost(`${baseURL}/${milestoneId}/claim`);
 
-export const createActivity = async (activity, milestoneId) => {
-  try {
-    const response = api.post(`${baseURL}/${milestoneId}/activities`, activity);
-
-    return response;
-  } catch (error) {
-    return { error };
-  }
-};
+export const createActivity = async (activity, milestoneId) =>
+  doPost(`${baseURL}/${milestoneId}/activities`, activity);
 
 export const transferredMilestone = (milestoneId, saveData) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };

@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
-import { formatCurrency, formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/formatter';
+import {
+  formatCurrency,
+  formatTimeframeValue,
+  formatCurrencyAtTheBeginning
+} from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
@@ -138,14 +142,10 @@ const PreviewProject = ({ id, preview }) => {
 
   if (loading) return <Loading />;
 
-  const isACloneBeingEdited = project?.editing || project?.revision !== 1;
-
   return (
     <LandingLayout
       project={project}
-      showPreviewAlert={
-        isACloneBeingEdited ? preview && isBeneficiaryOrInvestor : preview && isAdmin
-      }
+      showPreviewAlert={preview && isAdmin}
       projectId={project?.id}
       header={
         <ProjectHeroSection
@@ -358,7 +358,7 @@ const PreviewProject = ({ id, preview }) => {
             />
             <CoaChangelogContainer
               title={texts?.changelog?.title || 'Project Changelog'}
-              projectId={id}
+              projectId={project?.parent || id}
               currency={currency}
             />
           </div>
