@@ -17,7 +17,13 @@ import CoaApproveButton from '../../atoms/CoaApproveButton/CoaApproveButton';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 import TransactionLink from '../../molecules/TransactionLink/TransactionLink';
 
-export default function EvidenceDetail({ evidence, fetchEvidence, currency, isProjectEditing }) {
+export default function EvidenceDetail({
+  evidence,
+  fetchEvidence,
+  currency,
+  currencyType,
+  isProjectEditing
+}) {
   const { user } = useContext(UserContext);
   const { projectId, activityId, detailEvidenceId } = useParams();
   const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -28,11 +34,11 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency, isPr
   const evidenceStatus = evidence.status;
   const isAuditor = user?.id === evidence?.activity?.auditor?.id;
   const isNewEvidence = evidenceStatus === 'new';
+  const isCryptoProject = (currencyType || '').toLowerCase() === 'crypto';
 
   if (!user && evidenceStatus !== 'approved')
     return <Redirect to={`/${projectId}/activity/${activityId}/evidences`} />;
 
-  const isImpactEvidence = evidence.type === 'impact';
   const isTransferEvidence = evidence.type === 'transfer';
   const { transferTxHash } = evidence;
 
@@ -73,19 +79,17 @@ export default function EvidenceDetail({ evidence, fetchEvidence, currency, isPr
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {isImpactEvidence && evidence?.files && (
-            <>
-              <Divider />
-              <AttachedFiles files={evidence?.files} />
-            </>
-          )}
-          {isTransferEvidence && (
-            <>
+          {
+            isTransferEvidence && isCryptoProject
+            ?<>
               <Divider />
               <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency} />
             </>
-          )}
-
+            :<>
+              <Divider />
+              <AttachedFiles files={evidence?.files} />
+            </>
+          }
           {isAuditor && isNewEvidence && (
             <>
               <Divider />
