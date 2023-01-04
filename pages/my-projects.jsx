@@ -13,6 +13,7 @@ import { useHistory } from 'react-router';
 import './_style.scss';
 import './_explore-projects.scss';
 import { isMobile } from 'react-device-detect';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { createProject, getProjects } from '../api/projectApi';
@@ -30,7 +31,11 @@ const MyProjects = ({ user }) => {
 
   const goToProjectDetail = project => {
     const state = { projectId: project?.id };
-    history.push(`/project/edit/${project.id}`, state);
+    let projectId = project.parent || project.id;
+    if(project.status === PROJECT_STATUS_ENUM.IN_REVIEW){
+      projectId = project.id;
+    }
+    history.push(`/project/edit/${projectId}`, state);
   };
 
   const goToProjectProgress = () => {

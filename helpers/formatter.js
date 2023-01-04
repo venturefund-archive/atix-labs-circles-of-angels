@@ -13,6 +13,16 @@ export const getInitials = fullName => {
 export const formatTimeframeValue = (timeframe, timeframeUnit = '') =>
   `${parseFloat(timeframe)?.toFixed(1)} ${timeframeUnit}`;
 
+export const formatCurrencyAtTheBeginning = (currency, value) => {
+  if (!value && value !== 0) return (0).toFixed(2);
+  if (!currency) return Number(value).toFixed(2);
+
+  const isFiat = CURRENCIES.fiat.find((_currency) => _currency.value === currency?.toUpperCase());
+  const decimals = isFiat? 2 : 8;
+
+  return `${currency} ${Number(value).toFixed(decimals)}`;
+}
+
 export const formatCurrency = (currency, value, isCurrencyLabelAtEnd = false) => {
   if (!value && value !== 0) return (0).toFixed(2);
   if (!currency) return Number(value).toFixed(2);
