@@ -52,6 +52,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex-grow: 1;
+    word-break: break-word;
   }
   &__indicatorContainer {
     display: flex;
