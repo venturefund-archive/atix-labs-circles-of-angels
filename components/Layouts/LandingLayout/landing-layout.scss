@@ -12,12 +12,10 @@
     object-fit: cover;
     background-size: cover;
     background-position: center;
-    &.--notShowInMobile {
-      @include respond(mobile) {
+  &.--notShowInMobile {
+      display: flex;
+      @include breakpoint(xl) {
         display: none;
-      }
-      @include respond(tablet) {
-        display: flex;
       }
     }
     &__content {
