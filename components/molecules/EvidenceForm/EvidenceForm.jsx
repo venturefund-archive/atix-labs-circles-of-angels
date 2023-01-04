@@ -60,14 +60,17 @@ const EvidenceFormContent = (props) => {
   const [userType, setUserType] = useState('');
   const [transactions, setTransactions] = useState([]);
   const [transactionType, setTransactionType] = useState('outcome');
+  const [loadingTransactions, setLoadingTransactions] = useState(false);
 
   const getTransactions = async (_transactionType) => {
+    setLoadingTransactions(true);
     const _transactionQueryParam = transactionQueryParam[_transactionType];
     if(!_transactionQueryParam) return message.error('An error occurred while fetching the project transactions');
 
     const response = await getProjectTransactions(project.id, _transactionQueryParam);
     if (response.errors || !response.data) {
       message.error('An error occurred while fetching the project transactions');
+      setLoadingTransactions(false);
       return;
     }
 
@@ -78,6 +81,7 @@ const EvidenceFormContent = (props) => {
     }))
 
     setTransactions(transactionHashes);
+    setLoadingTransactions(false);
   }
 
   useEffect(() => {
@@ -360,6 +364,8 @@ const EvidenceFormContent = (props) => {
                   })(
                     <Select
                         placeholder='Select the transaction'
+                        disabled={loadingTransactions}
+                        loading={loadingTransactions}
                         onChange={(txHash) => {
                           setAmount(transactions.find(item => item.txHash ===txHash)?.value || 0);
                           setState({
