@@ -287,7 +287,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.total || 'Total Amount'}
+                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
@@ -317,7 +317,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.goal || 'Goal Amount'}
+                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
