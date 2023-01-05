@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
-import { formatCurrency, formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/formatter';
+import {
+  formatCurrency,
+  formatTimeframeValue,
+  formatCurrencyAtTheBeginning
+} from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
@@ -267,7 +271,7 @@ const PreviewProject = ({ id, preview }) => {
                 className="o-previewProject__progressSection__pills__divider"
               />
               <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.milestone || 'Amount Income'}
+                indicator={texts?.landingProjectProgress?.income || 'Amount Income'}
                 current={totalCurrentDeposited}
                 total={budget}
                 startBarContent={
@@ -352,7 +356,7 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
-              textTitle={texts?.changelog?.title || 'Project Changelog'}
+              textTitle={texts?.changelog?.title || 'Blockchain Changelog'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
