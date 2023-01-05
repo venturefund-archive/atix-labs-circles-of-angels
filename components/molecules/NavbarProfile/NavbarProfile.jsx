@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router';
-import { ROLES__IDS_NAMES } from 'components/organisms/AssignProjectUsers/constants';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaUserAvatar } from '../../atoms/CoaUserAvatar/CoaUserAvatar';
 

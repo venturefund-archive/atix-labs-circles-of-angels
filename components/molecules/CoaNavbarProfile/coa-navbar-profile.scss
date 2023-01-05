@@ -1,0 +1,45 @@
+@import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
+
+.coaNavbarProfile {
+  display: flex;
+  align-items: center;
+  column-gap: 0.875rem;
+  width: 18rem;
+  background: $light-gray-2;
+  padding-inline: 2.0625rem 3.75rem;
+
+  &__user {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between;
+    &__details {
+      h2 {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      width: 5.8rem;
+    }
+  }
+
+  &__userName {
+    @include primary-text(0.75rem, $original-black, 400);
+  }
+  &__userRole {
+    @include primary-text(0.75rem, $coa-grey-100, 300);
+  }
+}
+
+.customMenu {
+  &__item {
+    &__icon {
+      font-size: 1rem !important;
+      color: $coa-grey-100;
+    }
+    &__text {
+      @include primary-text(0.75rem, $coa-grey-100, 300);
+    }
+  }
+}
