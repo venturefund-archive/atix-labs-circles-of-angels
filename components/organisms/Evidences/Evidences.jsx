@@ -250,6 +250,7 @@ const Evidences = ({
                       evidenceNumber={evidences.length - index}
                       evidence={evidence}
                       currency={project?.details?.currency}
+                      isActivityAuditor={isActivityAuditor}
                     />
                   ))}
                   {evidences?.length === 0 && (

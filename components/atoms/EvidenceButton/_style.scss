@@ -1,4 +1,6 @@
-$button-border-color: 1px solid #4c7ff7;
+@import 'css/_variables.scss';
+
+$button-border-color: 1px solid $coa-blue-100;
 
 .customButton {
 	font-size: 0.85rem;
@@ -9,9 +11,15 @@ $button-border-color: 1px solid #4c7ff7;
 }
 
 .primary {
-	background: #4c7ff7;
+	background: $coa-blue-100;
 	color: white;
 	border: $button-border-color;
+}
+
+.alert {
+  background: $coa-orange-200;
+  color: white;
+  border: 1px solid $coa-orange-200;
 }
 
 .default {

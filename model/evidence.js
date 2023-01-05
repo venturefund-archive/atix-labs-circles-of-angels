@@ -1,3 +1,9 @@
+export const EVIDENCE_STATUS_ENUM = {
+  NEW: 'new',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+};
+
 export const EVIDENCE_TYPES_ENUM = {
   TRANSFER: 'transfer',
   IMPACT: 'impact'
