@@ -132,9 +132,12 @@ export const getDateAndTime = (date, format) => {
   const [hours, minutes] = time?.split?.(' ')[1]?.split(':');
 
   const month = localeDateParsed.getMonth() + 1;
+  const monthLeadWithZero = String(month).padStart(2, '0');
   const day = localeDateParsed.getDate();
+  const dayLeadWithZero = String(day).padStart(2, '0');
   const year = localeDateParsed.getFullYear();
 
-  if (format === 'minimal') return `${month}/${day}/${year} - ${hours}:${minutes}`;
+  if (format === 'minimal')
+    return `${dayLeadWithZero}/${monthLeadWithZero}/${year} - ${hours}:${minutes}`;
   return `${months[month]}, ${day}${nth(day)} ${year} - ${hours}:${minutes}`;
 };
