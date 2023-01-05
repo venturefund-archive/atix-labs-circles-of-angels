@@ -61,13 +61,6 @@ p {
   justify-content: inherit;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  @include breakpoint(sm) {
-    display: none;
-  }
-}
 ::-webkit-scrollbar-thumb {
   background: #bfc5ccad;
   border-radius: 10px;
