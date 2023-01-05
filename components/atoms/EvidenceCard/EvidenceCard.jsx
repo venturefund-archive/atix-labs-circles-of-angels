@@ -3,17 +3,19 @@ import { Icon } from 'antd';
 import './evidenceCard.scss';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-import { EVIDENCE_STATUS_MAP, EVIDENCE_TYPES_ENUM } from 'model/evidence';
+import { EVIDENCE_STATUS_MAP, EVIDENCE_TYPES_ENUM, EVIDENCE_STATUS_ENUM } from 'model/evidence';
 import { formatCurrency } from 'helpers/formatter';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
 import { CoaTag } from '../CoaTag/CoaTag';
 
-const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
+const EvidenceCard = ({ evidence, currency, evidenceNumber, isActivityAuditor }) => {
   const { texts } = React.useContext(DictionaryContext);
   const { title, status, createdAt, description, income, outcome, id, type } = evidence;
   const amount = parseFloat(income) || parseFloat(outcome);
+
+  const isAuditEvidenceAvailable = isActivityAuditor && status === EVIDENCE_STATUS_ENUM.NEW;
 
   const { push } = useHistory();
   return (
@@ -63,8 +65,11 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber }) => {
       </div>
       <div className="evidenceCard__footer">
         <EvidenceButton
-          text={ texts?.evidenceCard?.viewMore || 'View more details'}
-          variant="primary"
+          text={ isAuditEvidenceAvailable
+            ? texts?.evidenceCard?.audit || 'Audit evidence'
+            : texts?.evidenceCard?.viewMore || 'View more details'
+          }
+          variant={isAuditEvidenceAvailable ? 'alert' : 'primary'}
           onClick={() => push(`evidences/${id}`)}
           type="button"
         />
@@ -78,10 +83,12 @@ EvidenceCard.defaultProps = {
   evidence: undefined,
   currency: undefined,
   evidenceNumber: undefined,
+  isActivityAuditor: false,
 };
 
 EvidenceCard.propTypes = {
   evidence: PropTypes.objectOf(PropTypes.any),
   currency: PropTypes.string,
   evidenceNumber: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  isActivityAuditor: PropTypes.bool,
 };
