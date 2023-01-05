@@ -8,10 +8,10 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from 'components/utils/UserContext';
 import { useHistory, useParams } from 'react-router';
 import './_style.scss';
-import NavbarProfile from 'components/molecules/NavbarProfile/NavbarProfile';
 import NavbarLogin from 'components/molecules/NavbarLogin/NavbarLogin';
 import { Icon } from 'antd';
 import classNames from 'classnames';
+import { CoaNavbarProfile } from 'components/molecules/CoaNavbarProfile/CoaNavbarProfile';
 import { checkRoleByProject } from 'helpers/roles';
 import { CoaTextButton } from '../CoaTextButton/CoaTextButton';
 
@@ -46,7 +46,7 @@ const Navbar = ({ project }) => {
             )}
             <div className="navbar__right__items">
               {!!user && (
-                <NavbarProfile
+                <CoaNavbarProfile
                   user={user}
                   removeUser={removeUser}
                   projectId={projectId}

@@ -58,7 +58,7 @@ export default function ProjectChangeLog() {
           <Icon type="arrow-left" />
           Go Back
         </CoaTextButton>
-        <TitlePage textTitle="Changelog" textColor="#4C7FF7" />
+        <TitlePage textTitle="Blockchain Changelog" textColor="#4C7FF7" />
         <CoaChangelogContainer
           title="Project Changelog"
           projectId={projectId}

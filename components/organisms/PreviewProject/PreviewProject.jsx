@@ -283,7 +283,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.total || 'Total Amount'}
+                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
@@ -313,7 +313,7 @@ const PreviewProject = ({ id, preview }) => {
                 endBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.goal || 'Goal Amount'}
+                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
                     </span>{' '}
                     <span className="o-previewProject__progressSection__pills__targetAmount">
                       {formatCurrency(currency, budget)}
@@ -352,7 +352,7 @@ const PreviewProject = ({ id, preview }) => {
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
-              textTitle={texts?.changelog?.title || 'Project Changelog'}
+              textTitle={texts?.changelog?.title || 'Blockchain Changelog'}
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
