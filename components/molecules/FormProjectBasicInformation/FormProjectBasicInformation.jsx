@@ -12,7 +12,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
-import { onlyAlphanumerics } from 'constants/Regex';
 import { ERROR_TYPES, KB_FACTOR_CONVERTER, TIMEFRAME_UNITS } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { getCountries } from 'api/countriesApi';
@@ -238,16 +237,12 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                   required: true,
                   message: ERROR_TYPES.EMPTY,
                   whitespace: true
-                },
-                {
-                  pattern: onlyAlphanumerics,
-                  message: ERROR_TYPES.ALPHANUMERIC
                 }
               ],
               initialValue: projectName,
               validateTrigger: 'onSubmit'
             }}
-            errorsToShow={[ERROR_TYPES.ALPHANUMERIC]}
+            errorsToShow={[]}
             inputProps={{
               maxLength: 50,
               placeholder: 'Input Text Example',

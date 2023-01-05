@@ -188,7 +188,8 @@ export const ERROR_TYPES = {
   MORE_THAN_1_DECIMAL: 'MORE_THAN_1_DECIMAL',
   NO_ZERO: 'NO_ZERO',
   EMPTY_FILE: 'EMPTY_FILE',
-  INVALID_FILE: 'INVALID_FILE'
+  INVALID_FILE: 'INVALID_FILE',
+  INVALID_WALLET_ADDRESS: 'INVALID_WALLET_ADDRESS'
 };
 
 export const ERROR_MESSAGES = {
@@ -201,7 +202,8 @@ export const ERROR_MESSAGES = {
   EMPTY_FILE: '* You must upload the required file before continuing',
   INVALID_FILE: '* The file is invalid. Review the recommendations and try again',
   INVALID_EMAIL: 'The current value is not a valid email',
-  NUMBER: 'Input a number value for this field.'
+  NUMBER: 'Input a number value for this field.',
+  INVALID_WALLET_ADDRESS: 'Input a valid wallet address.'
 };
 
 export const KB_FACTOR_CONVERTER = 1000;
