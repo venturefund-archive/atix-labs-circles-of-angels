@@ -69,7 +69,7 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber, isActivityAuditor })
             ? texts?.evidenceCard?.audit || 'Audit evidence'
             : texts?.evidenceCard?.viewMore || 'View more details'
           }
-          variant={isAuditEvidenceAvailable ? 'alert' : 'primary'}
+          variant={isAuditEvidenceAvailable ? 'primary': 'secondary'}
           onClick={() => push(`evidences/${id}`)}
           type="button"
         />
