@@ -53,11 +53,11 @@
 
     .backoffice {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 20px;
-      @include respond(tablet) {
-        gap: 100px;
+      gap: 2.5rem;
+      @include breakpoint(md) {
+        flex-direction: row;
       }
     }
   }
