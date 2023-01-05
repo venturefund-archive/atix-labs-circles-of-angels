@@ -37,7 +37,7 @@ const ProjectHeroDetails = ({ country, timeframe, budget, beneficiary, revision 
       />
       <Divider type="vertical" className="m-projectHeroDetails__divider" />
       <ProjectHeroDetail
-        text="Revision"
+        text={texts?.header?.projectVersion || 'Project Version'}
         customIcon={<Icon type="info-circle" />}
         title={revision}
       />
