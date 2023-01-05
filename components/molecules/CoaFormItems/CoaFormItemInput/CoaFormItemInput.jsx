@@ -11,11 +11,13 @@ export const CoaFormItemInput = ({
   name,
   errorsToShow,
   fieldDecoratorOptions,
-  withErrorFeedback
+  withErrorFeedback,
+  Note
 }) => {
   const { getFieldDecorator } = form;
   return (
     <CoaFormItem {...{ formItemProps, withErrorFeedback, errorsToShow, name, form }}>
+      {Note}
       {getFieldDecorator(name, {
         ...fieldDecoratorOptions
       })(<Input {...inputProps} />)}
@@ -29,7 +31,8 @@ CoaFormItemInput.defaultProps = {
   inputProps: undefined,
   errorsToShow: undefined,
   fieldDecoratorOptions: undefined,
-  withErrorFeedback: false
+  withErrorFeedback: false,
+  Note: undefined
 };
 
 CoaFormItemInput.propTypes = {
@@ -39,5 +42,6 @@ CoaFormItemInput.propTypes = {
   name: PropTypes.string.isRequired,
   errorsToShow: PropTypes.arrayOf(PropTypes.string),
   fieldDecoratorOptions: PropTypes.objectOf(PropTypes.any),
-  withErrorFeedback: PropTypes.bool
+  withErrorFeedback: PropTypes.bool,
+  Note: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
