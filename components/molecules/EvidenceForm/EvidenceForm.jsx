@@ -57,12 +57,12 @@ const EvidenceFormContent = (props) => {
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
-  const [userType, setUserType] = useState('');
   const [transactions, setTransactions] = useState([]);
   const [transactionType, setTransactionType] = useState('outcome');
   const [loadingTransactions, setLoadingTransactions] = useState(false);
 
   const getTransactions = async (_transactionType) => {
+    form.resetFields(['transferTxHash']);
     setLoadingTransactions(true);
     const _transactionQueryParam = transactionQueryParam[_transactionType];
     if(!_transactionQueryParam) return message.error('An error occurred while fetching the project transactions');
@@ -98,14 +98,6 @@ const EvidenceFormContent = (props) => {
       if (!isBeneficiary &&!isInvestor) {
         message.error('User is not a beneficiary or founder of the project');
         history.push(`/${project.id}`)
-      }
-
-      if (isBeneficiary) {
-        setUserType('beneficiary')
-      }
-
-      if (isInvestor) {
-        setUserType('investor')
       }
     }
     // eslint-disable-next-line
@@ -311,6 +303,7 @@ const EvidenceFormContent = (props) => {
               <div className="formDivBorder">
                 <div className="customRadioDiv">
                   <input
+                        disabled={loadingTransactions}
                         onChange={(e) => {
                           const inputValue = e.target.value;
                           setTransactionType(inputValue);
@@ -331,6 +324,7 @@ const EvidenceFormContent = (props) => {
               <div className="formDivBorder">
                 <div className="customRadioDiv">
                   <input
+                        disabled={loadingTransactions}
                         onChange={(e) => {
                           const inputValue = e.target.value;
                           setTransactionType(inputValue);
@@ -430,7 +424,13 @@ const EvidenceFormContent = (props) => {
             </div>)}
           <div className="evidenceForm__body__form__group evidenceForm__body__form__btns">
             <Button type='button' onClick={() => onCancel()}>Cancel</Button>
-            <Button loading={buttonLoading} htmlType='submit'>Add Evidence</Button>
+            <Button
+              disabled={loading || loadingTransactions}
+              loading={buttonLoading}
+              htmlType='submit'
+            >
+              Add Evidence
+            </Button>
           </div>
         </Form>
       </div>

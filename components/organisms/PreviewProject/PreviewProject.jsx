@@ -267,7 +267,7 @@ const PreviewProject = ({ id, preview }) => {
                 className="o-previewProject__progressSection__pills__divider"
               />
               <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.milestone || 'Amount Income'}
+                indicator={texts?.landingProjectProgress?.income || 'Amount Income'}
                 current={totalCurrentDeposited}
                 total={budget}
                 startBarContent={
