@@ -51,34 +51,6 @@
     display: flex;
     flex-direction: column;
 
-    .progress--btn {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 29px;
-      gap: 10px;
-      width: 187px;
-      height: 36px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid #ffffff;
-      box-shadow: 0 1px 6px rgba(0, 1, 1, 0.17);
-      border-radius: 6px;
-      margin-bottom: 40px;
-
-      span {
-        font-family: 'Rubik', sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 16px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: #ffffff;
-      }
-    }
-
     .backoffice {
       display: flex;
       flex-direction: row;

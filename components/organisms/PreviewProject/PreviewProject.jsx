@@ -160,7 +160,6 @@ const PreviewProject = ({ id, preview }) => {
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-          onClickProgressButton={() => scrollToTargetAdjusted('project-progress', 70)}
           blockchainHistoryUrl={`${id}/changelog`}
           revision={revision}
         />
