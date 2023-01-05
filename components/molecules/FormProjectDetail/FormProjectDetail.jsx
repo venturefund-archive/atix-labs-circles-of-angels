@@ -10,7 +10,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Icon, Input } from 'antd';
-import { onlyAlphanumerics } from 'constants/Regex';
+import {
+  ETC_WALLET_ADDRESS,
+  ETH_WALLET_ADDRESS,
+  onlyAlphanumerics,
+  RBTC_WALLET_ADDRESS,
+  USDT_WALLET_ADDRESS
+} from 'constants/Regex';
 import { CURRENCIES, ERROR_TYPES, MB_FACTOR_CONVERTER } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { updateProjectDetail } from 'api/projectApi';
@@ -22,9 +28,10 @@ import { formatCurrency } from 'helpers/formatter';
 import { CoaFormItemTextArea } from '../CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
+import { CoaFormItemInput } from '../CoaFormItems/CoaFormItemInput/CoaFormItemInput';
 
 const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }) => {
-  const { setFieldsValue, getFieldsError } = form;
+  const { setFieldsValue, getFieldsError, getFieldValue } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
   const { budget } = project;
@@ -43,6 +50,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
     legalAgreementFile && `${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`;
   const projectProposalFileCompletePath =
     projectProposalFile && `${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`;
+
+  const currentCurrency = getFieldValue('currency');
 
   useEffect(() => {
     if (currencyType) {
@@ -86,6 +95,20 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
   const validateFileSize = (_rule, value, callback) => {
     if (value?.file.size === 'removed') return callback();
     if (value?.file.size / MB_FACTOR_CONVERTER > 20) return callback(ERROR_TYPES.INVALID_FILE);
+    return callback();
+  };
+
+  const validateWalletAddress = (_rule, value, callback) => {
+    const _currentCurrency = currentCurrency?.toLowerCase();
+    if (_currentCurrency === 'rbtc' && !RBTC_WALLET_ADDRESS.exec(value))
+      return callback(ERROR_TYPES.INVALID_WALLET_ADDRESS);
+    if (_currentCurrency === 'eth' && !ETH_WALLET_ADDRESS.exec(value))
+      return callback(ERROR_TYPES.INVALID_WALLET_ADDRESS);
+    if (_currentCurrency === 'usdt' && !USDT_WALLET_ADDRESS.exec(value))
+      return callback(ERROR_TYPES.INVALID_WALLET_ADDRESS);
+    if (_currentCurrency === 'etc' && !ETC_WALLET_ADDRESS.exec(value))
+      return callback(ERROR_TYPES.INVALID_WALLET_ADDRESS);
+
     return callback();
   };
 
@@ -288,9 +311,9 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                 />
               )}
               {currentCurrencyType === 'crypto' && (
-                <CoaFormItemTextArea
+                <CoaFormItemInput
                   form={form}
-                  errorsToShow={[]}
+                  errorsToShow={[ERROR_TYPES.INVALID_WALLET_ADDRESS]}
                   name="additionalCurrencyInformation"
                   formItemProps={{
                     label: 'Address'
@@ -310,9 +333,13 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                       {
                         pattern: onlyAlphanumerics,
                         message: 'Please input an alphanumeric value for this field.'
+                      },
+                      {
+                        validator: validateWalletAddress
                       }
                     ],
-                    initialValue: additionalCurrencyInformation
+                    initialValue: additionalCurrencyInformation,
+                    validateTrigger: 'onSubmit'
                   }}
                   inputTextAreaProps={{
                     placeholder: 'Address',
