@@ -37,7 +37,15 @@ import { UserContext } from 'components/utils/UserContext';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
-import { getProject, publish, deleteProject, cancelReview, sendToReview, approveCloneProject, rejectCloneProject } from '../api/projectApi';
+import {
+  getProject,
+  publish,
+  deleteProject,
+  cancelReview,
+  sendToReview,
+  approveCloneProject,
+  rejectCloneProject
+} from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
 
@@ -111,7 +119,8 @@ const CreateProjectContainer = () => {
     : EDITOR_VARIANT.FIRST_EDITING;
 
   const checkStepsStatus = async projectToCheck => {
-    const { details = {}, basicInformation = {}, users = [], milestones = [] } = projectToCheck;
+    const { details = {}, basicInformation = {}, users = [], milestones = [] } =
+      projectToCheck || {};
 
     const { beneficiaries = [], investors = [], auditors = [] } = getProjectUsersPerRol(users);
 
@@ -275,13 +284,16 @@ const CreateProjectContainer = () => {
       ? setConfirmSendToReviewVisible
       : setConfirmPublishVisible;
 
-    if(isApprovalRejectionAvailable) return (
-      <CoaApproveButton
-        onClick={() => {setApprovalVisible(true)}}
-      >
-        Approve
-      </CoaApproveButton>
-    );
+    if (isApprovalRejectionAvailable)
+      return (
+        <CoaApproveButton
+          onClick={() => {
+            setApprovalVisible(true);
+          }}
+        >
+          Approve
+        </CoaApproveButton>
+      );
 
     return (
       <CoaButton
@@ -304,12 +316,14 @@ const CreateProjectContainer = () => {
   const getContinueLaterButton = () => {
     if (!isMainWizardActive) return;
 
-    if(isApprovalRejectionAvailable)
+    if (isApprovalRejectionAvailable)
       return (
         <CoaRejectButton
-          onClick={() => {setRejectionVisible(true)}}
+          onClick={() => {
+            setRejectionVisible(true);
+          }}
         >
-        Reject
+          Reject
         </CoaRejectButton>
       );
 
@@ -330,8 +344,8 @@ const CreateProjectContainer = () => {
     const onPrevOnClick = {
       [PROJECT_FORM_NAMES.DETAILS]: () => handleGoBack(),
       [PROJECT_FORM_NAMES.MAIN]: () => {
-        if(isACloneInReview) return history.goBack();
-        if(isACloneBeingEdited) return askDeleteEditionConfirmation();
+        if (isACloneInReview) return history.goBack();
+        if (isACloneBeingEdited) return askDeleteEditionConfirmation();
         return askDeleteConfirmation();
       },
       [PROJECT_FORM_NAMES.MILESTONES]: () => handleGoBack({ withUpdate: true }),
@@ -345,17 +359,14 @@ const CreateProjectContainer = () => {
     return (
       <CoaButton
         type="secondary"
-        icon={isMainWizardActive && !isACloneInReview? 'delete' : 'arrow-left'}
+        icon={isMainWizardActive && !isACloneInReview ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
         disabled={
           EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
             ?.prevStepButtonDisabled
         }
       >
-        {
-          EDITING_LOGIC(argumentsForText)?.[editorVariant]
-            ?.prevButtonText
-        }
+        {EDITING_LOGIC(argumentsForText)?.[editorVariant]?.prevButtonText}
       </CoaButton>
     );
   };
@@ -468,7 +479,7 @@ const CreateProjectContainer = () => {
         }}
         textTitle="You have rejected the changes"
         description="No changes have been applied to the project"
-        onSave={() =>{
+        onSave={() => {
           history.push(`/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}

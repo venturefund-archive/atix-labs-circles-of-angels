@@ -150,6 +150,7 @@ const PreviewProject = ({ id, preview }) => {
       headerAnimation
       header={
         <ProjectHeroSection
+          preview={preview}
           inReview={inReview}
           title={projectName}
           status={status}
@@ -161,8 +162,9 @@ const PreviewProject = ({ id, preview }) => {
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-          blockchainHistoryUrl={`${id}/changelog`}
+          blockchainHistoryUrl={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
           revision={revision}
+          isAdmin={isAdmin}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
@@ -334,6 +336,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  preview={preview}
                   isProjectEditing={editing}
                   canAddEvidences={canAddEvidences(user, id)}
                   projectId={id}

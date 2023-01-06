@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './_project-changelog.scss';
 import { useHistory, useParams } from 'react-router';
 import { useProject } from 'hooks/useProject';
@@ -11,11 +11,17 @@ import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
+import useQuery from 'hooks/useQuery';
+import { UserContext } from 'components/utils/UserContext';
 
 export default function ProjectChangeLog() {
   const { projectId } = useParams();
   const history = useHistory();
   const { loading, project } = useProject(projectId);
+  const { preview } = useQuery();
+
+  const { user } = useContext(UserContext);
+  const isAdmin = user?.isAdmin;
   if (loading) return <Loading />;
 
   const { basicInformation, status, details, budget, inReview, revision } = project;
@@ -32,6 +38,7 @@ export default function ProjectChangeLog() {
   return (
     <LandingLayout
       project={project}
+      showPreviewAlert={preview && isAdmin}
       disappearHeaderInMobile
       header={
         <ProjectHeroSection
@@ -46,6 +53,8 @@ export default function ProjectChangeLog() {
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          preview={preview}
+          projectId={projectId}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
@@ -53,7 +62,7 @@ export default function ProjectChangeLog() {
       <div className="p-projectChangelog__content">
         <CoaTextButton
           className="p-projectChangelog__goBackButton"
-          onClick={() => history.push(`/${projectId}`)}
+          onClick={() => history.push(preview ? `/${projectId}?preview=true` : `/${projectId}`)}
         >
           <Icon type="arrow-left" />
           Go Back

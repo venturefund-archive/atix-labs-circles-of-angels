@@ -18,13 +18,15 @@ const ProjectHeroSection = ({
   legalAgreementUrl,
   blockchainHistoryUrl,
   inReview,
-  revision
+  revision,
+  isAdmin
 }) => (
   <div className="hero">
     <div className="content">
       <ProjectStatus
-          status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status}
-          blockchainHistoryUrl={blockchainHistoryUrl}
+        isAdmin={isAdmin}
+        status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status}
+        blockchainHistoryUrl={blockchainHistoryUrl}
       />
       <div className="text">
         <h3>{subtitle}</h3>
@@ -35,20 +37,22 @@ const ProjectHeroSection = ({
     <div className="bottom">
       <div className="backoffice">
         <ProjectHeroDetails
-            country={country}
-            timeframe={timeframe}
-            budget={budget}
-            beneficiary={beneficiary}
-            revision={revision}
+          country={country}
+          timeframe={timeframe}
+          budget={budget}
+          beneficiary={beneficiary}
+          revision={revision}
         />
-        <ProjectHeroDownload
+        {(status !== PROJECT_STATUS_ENUM.DRAFT || isAdmin) && (
+          <ProjectHeroDownload
             projectProposalUrl={projectProposalUrl}
             legalAgreementUrl={legalAgreementUrl}
-        />
+          />
+        )}
       </div>
     </div>
   </div>
-  );
+);
 
 export default ProjectHeroSection;
 

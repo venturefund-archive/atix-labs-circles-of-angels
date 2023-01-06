@@ -31,6 +31,9 @@
         column-gap: 10px;
       }
     }
+    &__right {
+      flex: 1;
+    }
   }
 }
 
@@ -66,7 +69,7 @@
     margin-top: 16px;
     font-size: 18px;
     color: $coa-medium-gray-100;
-    word-wrap: break-word; 
+    word-wrap: break-word;
   }
   &__created-by {
     color: $coa-grey-100;

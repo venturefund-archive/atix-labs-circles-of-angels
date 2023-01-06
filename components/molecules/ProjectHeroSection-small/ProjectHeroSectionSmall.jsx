@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './_style.scss';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import { UserContext } from 'components/utils/UserContext';
 import ProjectStatus from '../ProjectStatus/ProjectStatus';
 import ProjectHeroDetails from '../ProjectHeroDetails/ProjectHeroDetails';
 import ProjectHeroDownload from '../ProjectHeroDownload/ProjectHeroDownload';
@@ -21,10 +22,14 @@ const ProjectHeroSectionSmall = ({
   legalAgreementUrl,
   message,
   inReview,
-  revision
+  revision,
+  preview,
+  projectId
 }) => {
   const [show, setShow] = useState(Boolean(message));
   const { clearMessage } = useContext(EvidenceContext);
+  const { user } = useContext(UserContext);
+  const isAdmin = user?.isAdmin;
 
   useEffect(() => {
     if (message) {
@@ -51,7 +56,13 @@ const ProjectHeroSectionSmall = ({
       <div className="heroSmall">
         <div className="heroSmall__container">
           <div className="heroSmall__content">
-            <ProjectStatus status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status} />
+            <ProjectStatus
+              isAdmin={isAdmin}
+              status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status}
+              blockchainHistoryUrl={
+                preview ? `/${projectId}/changelog?preview=true` : `/${projectId}/changelog`
+              }
+            />
             <div className="heroSmall__content__text">
               <h3>{subtitle}</h3>
               <h1>{title}</h1>
