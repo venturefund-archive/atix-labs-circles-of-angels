@@ -211,27 +211,15 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async (_pin, _password, wallet, key) => {
+const sendToReviewProject = async () => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
-    const { errors, data } = await sendToReview(project.id);
-    if(errors) {
-      goToNextModal(setLoadingSendToReviewModalVisible, setErrorModalVisible);
-      return;
-    }
+    const { errors } = await sendToReview(project.id);
 
-    // TODO: sign message
-    console.log({ _pin, _password, wallet, key });
-    const messageToSign = data.toSign;
-    const signedMessage = await signMessage(wallet, messageToSign, key);
-
-    // TODO: send backend
-    signActivity();
-
-    // goToNextModal(
-    //   setLoadingSendToReviewModalVisible,
-    //   errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
-    // );
+    goToNextModal(
+      setLoadingSendToReviewModalVisible,
+      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
+    );
   };
 
   const approveClonedProject = async () => {
