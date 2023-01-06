@@ -18,13 +18,14 @@ import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
-import { updateActivityStatus } from '../../../api/activityApi';
+import { signActivity, updateActivityStatus } from '../../../api/activityApi';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
 import ModalPublishLoading from '../ModalPublishLoading/ModalPublishLoading';
 import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvidencesReviewSuccess';
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
+import { signMessage } from 'helpers/blockchain/wallet';
 
 const initialSecretKeyModal = {
   visible: false,
@@ -65,24 +66,31 @@ const Evidences = ({
   const isActivityAuditor = checkIsActivityAuditor({ user, activity });
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
 
-  const sendToReview = useCallback(async () => {
-    setSecretKeyModal(initialSecretKeyModal);
-    setLoadingModalVisible({
-      state: true,
-      title: texts?.modalPublishLoading?.sent || 'The activity is being sent'
-    });
-    setSecretKeyModal(initialSecretKeyModal);
-    const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
-    if (!result.errors) {
-      setLoadingModalVisible({ ...loadingModalVisible, state: false });
-      setReviewSuccessVisible(true);
-      getEvidences(activityId);
-      getChangelog();
-    } else {
-      setLoadingModalVisible(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activityId, getChangelog, getEvidences, loadingModalVisible]);
+  const sendToReview = useCallback(
+    async (_pin, _password_, wallet, key) => {
+      setSecretKeyModal(initialSecretKeyModal);
+      setLoadingModalVisible({
+        state: true,
+        title: texts?.modalPublishLoading?.sent || 'The activity is being sent'
+      });
+      setSecretKeyModal(initialSecretKeyModal);
+      const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
+      if (!result.errors) {
+        const messageToSign = result?.toSign;
+        const authorizationSignature = await signMessage(wallet, messageToSign, key);
+        await signActivity({ authorizationSignature, activityId });
+
+        setLoadingModalVisible({ ...loadingModalVisible, state: false });
+        setReviewSuccessVisible(true);
+        getEvidences(activityId);
+        getChangelog();
+      } else {
+        setLoadingModalVisible(false);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [activityId, getChangelog, getEvidences, loadingModalVisible]
+  );
 
   const rejectActivity = useCallback(async () => {
     setSecretKeyModal(initialSecretKeyModal);

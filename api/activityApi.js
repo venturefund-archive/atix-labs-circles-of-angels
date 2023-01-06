@@ -160,7 +160,8 @@ const createEvidence = async (activityId, data) => {
   return doPost(`${baseURL}/${activityId}/evidences`, fd, config);
 };
 
-const signActivity = (activityId) => doPost(`${baseURL}/${activityId}/signature`);
+const signActivity = ({ activityId, authorizationSignature }) =>
+  doPost(`${baseURL}/${activityId}/signature`, { authorizationSignature });
 
 export {
   updateActivity,
