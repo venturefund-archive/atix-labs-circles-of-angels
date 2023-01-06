@@ -49,7 +49,8 @@ const Evidences = ({
   evidences,
   areEvidencesLoading,
   getEvidences,
-  getChangelog
+  getChangelog,
+  preview
 }) => {
   const history = useHistory();
   const activityId = activity?.id;
@@ -251,6 +252,7 @@ const Evidences = ({
                       evidence={evidence}
                       currency={project?.details?.currency}
                       isActivityAuditor={isActivityAuditor}
+                      preview={preview}
                     />
                   ))}
                   {evidences?.length === 0 && (

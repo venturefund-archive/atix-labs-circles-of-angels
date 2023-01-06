@@ -25,7 +25,8 @@ export const CoaMilestoneItem = ({
   withStatusTag,
   withEvidences,
   canAddEvidences,
-  projectId
+  projectId,
+  preview
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   const description = milestone?.description;
@@ -100,6 +101,7 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
+                      preview={preview}
                       projectId={projectId}
                       canAddEvidences={canAddEvidences}
                       withEvidences={withEvidences}

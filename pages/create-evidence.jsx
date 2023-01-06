@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
 import customConfig from 'custom-config';
+import useQuery from 'hooks/useQuery';
+import { UserContext } from 'components/utils/UserContext';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import { EvidenceForm } from '../components/molecules/EvidenceForm/EvidenceForm';
 import { useProject } from '../hooks/useProject';
@@ -11,6 +13,11 @@ import Loading from '../components/molecules/Loading/Loading';
 const CreateEvidence = () => {
   const { projectId, activityId } = useParams();
   const { loading, project } = useProject(projectId);
+
+  const { preview } = useQuery();
+
+  const { user } = useContext(UserContext);
+  const isAdmin = user?.isAdmin;
 
   if (loading) return <Loading />;
 
@@ -38,6 +45,7 @@ const CreateEvidence = () => {
     <LandingLayout
       project={project}
       disappearHeaderInMobile
+      showPreviewAlert={preview && isAdmin}
       header={
         <ProjectHeroSectionSmall
           revision={revision}
@@ -51,6 +59,8 @@ const CreateEvidence = () => {
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          preview={preview}
+          projectId={projectId}
         />
       }
       thumbnailPhoto={thumbnailPhoto}

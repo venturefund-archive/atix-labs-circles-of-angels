@@ -22,7 +22,8 @@ export default function EvidenceDetail({
   fetchEvidence,
   currency,
   currencyType,
-  isProjectEditing
+  isProjectEditing,
+  preview
 }) {
   const { user } = useContext(UserContext);
   const { projectId, activityId, detailEvidenceId } = useParams();
@@ -66,7 +67,13 @@ export default function EvidenceDetail({
 
   return (
     <div className="evidenceDetail">
-      <GoBackButton goBackTo={`/${projectId}/activity/${activityId}/evidences`} />
+      <GoBackButton
+        goBackTo={
+          preview
+            ? `/${projectId}/activity/${activityId}/evidences?preview=true`
+            : `/${projectId}/activity/${activityId}/evidences`
+        }
+      />
       <Breadcrumb
         route={`${evidence?.milestone?.title} / ${evidence?.activity?.title} / ${evidence?.title}`}
       />
@@ -79,17 +86,17 @@ export default function EvidenceDetail({
             outcome={evidence?.outcome}
             currency={evidence?.currency}
           />
-          {
-            isTransferEvidence && isCryptoProject
-            ?<>
+          {isTransferEvidence && isCryptoProject ? (
+            <>
               <Divider />
               <TransactionLink showTitle txHash={transferTxHash} currency={evidence?.currency} />
             </>
-            :<>
+          ) : (
+            <>
               <Divider />
               <AttachedFiles files={evidence?.files} />
             </>
-          }
+          )}
           {isAuditor && isNewEvidence && (
             <>
               <Divider />
@@ -116,7 +123,7 @@ export default function EvidenceDetail({
             projectId={projectId}
             activity={activityId}
             evidenceId={detailEvidenceId}
-            title={ texts?.changelog?.evidence || 'Evidence Changelog'}
+            title={texts?.changelog?.evidence || 'Evidence Changelog'}
             currency={currency}
           />
         </div>

@@ -30,7 +30,7 @@ export const LandingLayout = ({
         show={showPreviewAlert}
         closeContent={
           <CoaButton
-            onClick={() => history.push(`/project/edit/${projectId}`)}
+            onClick={() => history.push(`/project/edit/${project?.id}`)}
             type="ghost"
             primaryColor="white"
           >
