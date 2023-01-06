@@ -162,6 +162,7 @@ const PreviewProject = ({ id, preview }) => {
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
           blockchainHistoryUrl={`${id}/changelog`}
           revision={revision}
+          isAdmin={isAdmin}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
