@@ -10,7 +10,7 @@ import EvidenceButton from '../EvidenceButton/EvidenceButton';
 import { getDateAndTime } from '../../../helpers/utils';
 import { CoaTag } from '../CoaTag/CoaTag';
 
-const EvidenceCard = ({ evidence, currency, evidenceNumber, isActivityAuditor }) => {
+const EvidenceCard = ({ evidence, currency, evidenceNumber, isActivityAuditor, preview }) => {
   const { texts } = React.useContext(DictionaryContext);
   const { title, status, createdAt, description, income, outcome, id, type } = evidence;
   const amount = parseFloat(income) || parseFloat(outcome);
@@ -65,12 +65,13 @@ const EvidenceCard = ({ evidence, currency, evidenceNumber, isActivityAuditor })
       </div>
       <div className="evidenceCard__footer">
         <EvidenceButton
-          text={ isAuditEvidenceAvailable
-            ? texts?.evidenceCard?.audit || 'Audit evidence'
-            : texts?.evidenceCard?.viewMore || 'View more details'
+          text={
+            isAuditEvidenceAvailable
+              ? texts?.evidenceCard?.audit || 'Audit evidence'
+              : texts?.evidenceCard?.viewMore || 'View more details'
           }
           variant={isAuditEvidenceAvailable ? 'alert' : 'primary'}
-          onClick={() => push(`evidences/${id}`)}
+          onClick={() => push(preview ? `evidences/${id}?preview=true` : `evidences/${id}`)}
           type="button"
         />
       </div>
@@ -83,12 +84,12 @@ EvidenceCard.defaultProps = {
   evidence: undefined,
   currency: undefined,
   evidenceNumber: undefined,
-  isActivityAuditor: false,
+  isActivityAuditor: false
 };
 
 EvidenceCard.propTypes = {
   evidence: PropTypes.objectOf(PropTypes.any),
   currency: PropTypes.string,
   evidenceNumber: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
-  isActivityAuditor: PropTypes.bool,
+  isActivityAuditor: PropTypes.bool
 };
