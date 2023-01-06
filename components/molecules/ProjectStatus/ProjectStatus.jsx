@@ -11,7 +11,7 @@ const ProjectStatus = ({ status, blockchainHistoryUrl, isAdmin }) => (
     <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
       {PROJECT_STATUS_MAP?.[status]?.name}
     </CoaTag>
-    {status !== PROJECT_STATUS_ENUM.DRAFT || (isAdmin && <BlockIcon url={blockchainHistoryUrl} />)}
+    {(status !== PROJECT_STATUS_ENUM.DRAFT || isAdmin) && <BlockIcon url={blockchainHistoryUrl} />}
   </div>
 );
 

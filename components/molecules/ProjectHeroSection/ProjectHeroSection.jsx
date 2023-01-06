@@ -43,13 +43,12 @@ const ProjectHeroSection = ({
           beneficiary={beneficiary}
           revision={revision}
         />
-        {status !== PROJECT_STATUS_ENUM.DRAFT ||
-          (isAdmin && (
-            <ProjectHeroDownload
-              projectProposalUrl={projectProposalUrl}
-              legalAgreementUrl={legalAgreementUrl}
-            />
-          ))}
+        {(status !== PROJECT_STATUS_ENUM.DRAFT || isAdmin) && (
+          <ProjectHeroDownload
+            projectProposalUrl={projectProposalUrl}
+            legalAgreementUrl={legalAgreementUrl}
+          />
+        )}
       </div>
     </div>
   </div>
