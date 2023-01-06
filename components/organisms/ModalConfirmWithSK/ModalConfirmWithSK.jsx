@@ -66,8 +66,13 @@ function FormModalConfirmWithSK({
   };
 
   const handleSave = useCallback(() => {
-    onSuccess(getFieldValue('secretKey').value, getFieldValue('password').value);
-  }, [getFieldValue, onSuccess]);
+    onSuccess(
+      getFieldValue('secretKey').value,
+      getFieldValue('password').value,
+      wallet,
+      `${getFieldValue('secretKey').value}-${user.id}-${user.email}`
+    );
+  }, [getFieldValue, onSuccess, user.email, user.id, wallet]);
 
   return (
     <CoaDialogModal

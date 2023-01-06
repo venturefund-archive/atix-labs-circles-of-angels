@@ -40,6 +40,7 @@ import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import { getProject, publish, deleteProject, cancelReview, sendToReview, approveCloneProject, rejectCloneProject } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
+import { signMessage } from '../helpers/blockchain/wallet';
 
 const wizards = {
   main: CreateProject,
@@ -210,15 +211,27 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async () => {
+  const sendToReviewProject = async (_pin, _password, wallet, key) => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
-    const { errors } = await sendToReview(project.id);
+    const { errors, data } = await sendToReview(project.id);
+    if(errors) {
+      goToNextModal(setLoadingSendToReviewModalVisible, setErrorModalVisible);
+      return;
+    }
 
-    goToNextModal(
-      setLoadingSendToReviewModalVisible,
-      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
-    );
+    // TODO: sign message
+    console.log({ _pin, _password, wallet, key });
+    const messageToSign = data.toSign;
+    const signedMessage = await signMessage(wallet, messageToSign, key);
+
+    // TODO: send backend
+    signActivity();
+
+    // goToNextModal(
+    //   setLoadingSendToReviewModalVisible,
+    //   errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
+    // );
   };
 
   const approveClonedProject = async () => {

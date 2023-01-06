@@ -160,6 +160,8 @@ const createEvidence = async (activityId, data) => {
   return doPost(`${baseURL}/${activityId}/evidences`, fd, config);
 };
 
+const signActivity = (activityId) => doPost(`${baseURL}/${activityId}/signature`);
+
 export {
   updateActivity,
   unassignOracleToActivity,
@@ -171,5 +173,6 @@ export {
   createEvidence,
   getEvidence,
   updateEvidenceStatus,
-  updateActivityStatus
+  updateActivityStatus,
+  signActivity
 };
