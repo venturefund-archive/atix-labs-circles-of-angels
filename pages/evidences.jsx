@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import './_evidences.scss';
 // eslint-disable-next-line import/no-named-as-default
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
-import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import customConfig from 'custom-config';
@@ -69,7 +69,7 @@ const EvidencesContainer = () => {
       project={project}
       disappearHeaderInMobile
       header={
-        <ProjectHeroSectionSmall
+        <ProjectHeroSection
           revision={revision}
           inReview={inReview}
           title={projectName}

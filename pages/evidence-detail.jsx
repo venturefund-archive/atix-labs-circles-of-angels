@@ -3,7 +3,7 @@ import EvidenceDetail from 'components/organisms/EvidenceDetail/EvidenceDetail';
 import { useParams } from 'react-router';
 import { getEvidence } from 'api/activityApi';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
-import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import { useProject } from '../hooks/useProject';
@@ -49,7 +49,7 @@ export default function EvidenceDetailPage() {
       disappearHeaderInMobile
       thumbnailPhoto={thumbnailPhoto}
       header={
-        <ProjectHeroSectionSmall
+        <ProjectHeroSection
           revision={revision}
           inReview={inReview}
           title={projectName}
