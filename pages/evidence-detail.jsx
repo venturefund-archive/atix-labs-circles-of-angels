@@ -3,7 +3,7 @@ import EvidenceDetail from 'components/organisms/EvidenceDetail/EvidenceDetail';
 import { useParams } from 'react-router';
 import { getEvidence } from 'api/activityApi';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
-import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
@@ -57,7 +57,7 @@ export default function EvidenceDetailPage() {
       thumbnailPhoto={thumbnailPhoto}
       showPreviewAlert={preview && isAdmin}
       header={
-        <ProjectHeroSectionSmall
+        <ProjectHeroSection
           revision={revision}
           inReview={inReview}
           title={projectName}

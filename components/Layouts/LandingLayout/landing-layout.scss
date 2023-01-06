@@ -8,10 +8,15 @@
   flex-direction: column;
 
   &__header {
+    height: var(--landingHeight, '720px');
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-repeat: no-repeat;
     object-fit: cover;
     background-size: cover;
     background-position: center;
+    // transition: all 1s;
   &.--notShowInMobile {
       display: flex;
       @include breakpoint(xl) {
@@ -19,7 +24,7 @@
       }
     }
     &__content {
-      min-height: 13.75rem;
+      height: 100%;
     }
   }
   &__body {
@@ -35,7 +40,6 @@
       margin-block: 2.5rem;
     }
   }
-  &__header,
   &__body {
     display: flex;
     align-items: center;
@@ -66,4 +70,18 @@
     width: 100%;
     z-index: 1;
   }
+}
+
+.scrolledLadingHeader {
+  @include respond(desktop) {
+    position: sticky;
+    top: 60px;
+    height: 220px;
+    line-height: 50px;
+    z-index: 1;
+  }
+}
+
+.scrolledLadingHeaderAnimate {
+  transition: all 1s;
 }

@@ -147,6 +147,7 @@ const PreviewProject = ({ id, preview }) => {
       project={project}
       showPreviewAlert={preview && isAdmin}
       projectId={project?.id}
+      headerAnimation
       header={
         <ProjectHeroSection
           preview={preview}

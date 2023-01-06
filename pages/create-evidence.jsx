@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useParams } from 'react-router';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
-import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import customConfig from 'custom-config';
 import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
@@ -47,7 +47,7 @@ const CreateEvidence = () => {
       disappearHeaderInMobile
       showPreviewAlert={preview && isAdmin}
       header={
-        <ProjectHeroSectionSmall
+        <ProjectHeroSection
           revision={revision}
           inReview={inReview}
           title={projectName}

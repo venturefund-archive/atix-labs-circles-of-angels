@@ -8,7 +8,7 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaChangelogContainer } from 'components/organisms/CoaChangelogContainer/CoaChangelogContainer';
 import { Icon } from 'antd';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
-import ProjectHeroSectionSmall from 'components/molecules/ProjectHeroSection-small/ProjectHeroSectionSmall';
+import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import useQuery from 'hooks/useQuery';
@@ -41,7 +41,7 @@ export default function ProjectChangeLog() {
       showPreviewAlert={preview && isAdmin}
       disappearHeaderInMobile
       header={
-        <ProjectHeroSectionSmall
+        <ProjectHeroSection
           revision={revision}
           inReview={inReview}
           title={projectName}
