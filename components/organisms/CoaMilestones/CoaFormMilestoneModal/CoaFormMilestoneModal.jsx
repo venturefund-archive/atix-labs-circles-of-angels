@@ -5,6 +5,7 @@ import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormIt
 import { CoaDialogModal } from 'components/organisms/CoaModals/CoaDialogModal/CoaDialogModal';
 import { ERROR_MESSAGES } from 'constants/constants';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { CoaFormItemInput } from 'components/molecules/CoaFormItems/CoaFormItemInput/CoaFormItemInput';
 
 export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialData, ...rest }) => (
   <CoaDialogModal
@@ -15,9 +16,10 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
       />
     }
     {...{ form, onSave, onCancel }}
+    width={800}
     {...rest}
   >
-    <CoaFormItemTextArea
+    <CoaFormItemInput
       form={form}
       name="title"
       formItemProps={{ label: 'Title' }}
@@ -32,7 +34,7 @@ export const CoaFormMilestoneModalContent = ({ form, onSave, onCancel, initialDa
         validateTrigger: 'onSubmit',
         initialValue: initialData?.title
       }}
-      inputTextAreaProps={{
+      inputProps={{
         placeholder: 'Enter the milestone title',
         maxLength: 50,
         showCount: true
