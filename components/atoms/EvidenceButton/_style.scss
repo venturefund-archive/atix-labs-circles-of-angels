@@ -16,10 +16,10 @@ $button-border-color: 1px solid $coa-blue-100;
 	border: $button-border-color;
 }
 
-.alert {
-  background: $coa-orange-200;
-  color: white;
-  border: 1px solid $coa-orange-200;
+.secondary {
+  background: white;
+  color: $coa-blue-100;
+  border: 1px solid $coa-blue-100;
 }
 
 .default {
