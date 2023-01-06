@@ -29,7 +29,7 @@ function FormModalConfirmWithSK({
   description,
   okText,
   cancelText,
-  leaveAComment,
+  leaveAComment
 }) {
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState({});
@@ -66,11 +66,12 @@ function FormModalConfirmWithSK({
   };
 
   const handleSave = useCallback(() => {
+    console.log(getFieldValue('password'), getFieldValue('secretKey'));
     onSuccess(
-      getFieldValue('secretKey').value,
-      getFieldValue('password').value,
+      getFieldValue('secretKey'),
+      getFieldValue('password'),
       wallet,
-      `${getFieldValue('secretKey').value}-${user.id}-${user.email}`
+      `${getFieldValue('secretKey')}-${user.id}-${user.email}`
     );
   }, [getFieldValue, onSuccess, user.email, user.id, wallet]);
 
@@ -90,8 +91,7 @@ function FormModalConfirmWithSK({
       cancelText={cancelText}
     >
       <Form>
-        {
-          leaveAComment &&
+        {leaveAComment && (
           <CoaFormItemTextArea
             form={form}
             formItemProps={{
@@ -102,8 +102,7 @@ function FormModalConfirmWithSK({
               rules: [
                 {
                   required: true,
-                  message:
-                    'Must write a reason for rejection'
+                  message: 'Must write a reason for rejection'
                 }
               ],
               validateTrigger: 'onSubmit'
@@ -112,7 +111,7 @@ function FormModalConfirmWithSK({
               rows: 4
             }}
           />
-        }
+        )}
         <CoaFormItemPassword
           form={form}
           name="password"

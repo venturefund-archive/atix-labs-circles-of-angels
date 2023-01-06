@@ -67,7 +67,7 @@ const Evidences = ({
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
 
   const sendToReview = useCallback(
-    async (_pin, _password_, wallet, key) => {
+    async (_pin, _password, wallet, key) => {
       setSecretKeyModal(initialSecretKeyModal);
       setLoadingModalVisible({
         state: true,
@@ -76,7 +76,7 @@ const Evidences = ({
       setSecretKeyModal(initialSecretKeyModal);
       const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
       if (!result.errors) {
-        const messageToSign = result?.toSign;
+        const messageToSign = JSON.stringify(result?.data?.toSign);
         const authorizationSignature = await signMessage(wallet, messageToSign, key);
         await signActivity({ authorizationSignature, activityId });
 
