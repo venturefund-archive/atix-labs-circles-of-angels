@@ -75,7 +75,7 @@
 .scrolledLadingHeader {
   @include respond(desktop) {
     position: sticky;
-    top: 60px;
+    top: var(--topLadingHeader, 60px);
     height: 220px;
     line-height: 50px;
     z-index: 1;
