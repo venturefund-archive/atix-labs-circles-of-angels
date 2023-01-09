@@ -48,6 +48,7 @@ import {
 } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
+import { signMessage } from '../helpers/blockchain/wallet';
 
 const wizards = {
   main: CreateProject,
@@ -219,7 +220,7 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async () => {
+const sendToReviewProject = async () => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
     const { errors } = await sendToReview(project.id);
