@@ -15,7 +15,7 @@ const CustomMenu = ({ handleLogout }) => (
 );
 
 export const CoaNavbarProfile = ({ user, role, removeUser }) => {
-  const { firstName } = user;
+  const { firstName, lastName } = user;
   const { push, location } = useHistory();
 
   const logout = () => {
@@ -25,7 +25,10 @@ export const CoaNavbarProfile = ({ user, role, removeUser }) => {
 
   return (
     <div className="coaNavbarProfile">
-      <CoaUserAvatar firstName={firstName} />
+      <CoaUserAvatar
+        firstName={firstName}
+        lastName={lastName}
+      />
       <div className="coaNavbarProfile__user">
         <div className="coaNavbarProfile__user__details">
           <h2 className="coaNavbarProfile__userName">{user.firstName}</h2>
