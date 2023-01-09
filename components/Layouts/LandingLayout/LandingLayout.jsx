@@ -16,6 +16,7 @@ export const LandingLayout = ({
   disappearHeaderInMobile,
   headerAnimation,
   showPreviewAlert,
+  showEditingAlert,
   project
 }) => {
   const history = useHistory();
@@ -78,7 +79,16 @@ export const LandingLayout = ({
         <div className="landingLayout__header__content">{header}</div>
       </div>
       <div className="landingLayout__body">
-        <div className="landingLayout__body__content">{children}</div>
+        <div className="landingLayout__body__content">
+          { showEditingAlert
+            ?
+              <div className="landingLayout__alertEditedProject">
+                {texts?.general?.alertEditing || 'This project is being edited. The project is not enable until the edition is finished'}
+              </div>
+            : null
+          }
+          {children}
+        </div>
       </div>
       <Footer />
     </div>

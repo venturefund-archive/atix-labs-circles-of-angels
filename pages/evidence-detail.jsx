@@ -8,6 +8,7 @@ import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 
@@ -56,6 +57,7 @@ export default function EvidenceDetailPage() {
       disappearHeaderInMobile
       thumbnailPhoto={thumbnailPhoto}
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       header={
         <ProjectHeroSection
           revision={revision}

@@ -13,6 +13,7 @@ import { getActivityEvidences } from 'api/activityApi';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import { CoaChangelogContainer } from 'components/organisms/CoaChangelogContainer/CoaChangelogContainer';
 import useQuery from 'hooks/useQuery';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import Evidences from '../components/organisms/Evidences/Evidences';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
@@ -55,7 +56,7 @@ const EvidencesContainer = () => {
 
   if (isProjectLoading) return <Loading />;
 
-  const { basicInformation, status, details, budget, inReview, revision } = project;
+  const { basicInformation, status, details, budget, inReview, revision, editing } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -75,6 +76,7 @@ const EvidencesContainer = () => {
       project={project}
       disappearHeaderInMobile
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       header={
         <ProjectHeroSection
           revision={revision}
