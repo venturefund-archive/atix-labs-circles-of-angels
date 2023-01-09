@@ -16,7 +16,8 @@ export const CoaActivityItem = ({
   withStatusTag,
   withEvidences,
   canAddEvidences,
-  projectId
+  projectId,
+  preview
 }) => {
   const history = useHistory();
   const { texts } = React.useContext(DictionaryContext);
@@ -61,7 +62,11 @@ export const CoaActivityItem = ({
         withEvidences &&
         (e => {
           e.stopPropagation();
-          history.push(`/${projectId}/activity/${activity?.id}/evidences`);
+          history.push(
+            preview
+              ? `/${projectId}/activity/${activity?.id}/evidences?preview=true`
+              : `/${projectId}/activity/${activity?.id}/evidences`
+          );
         })
       }
       onAddEvidences={
@@ -74,11 +79,15 @@ export const CoaActivityItem = ({
       additionalBody={
         <>
           <div>
-            <p className="o-coaActivityItem__indicatorTitle">{texts?.general?.description || 'Description'}</p>
+            <p className="o-coaActivityItem__indicatorTitle">
+              {texts?.general?.description || 'Description'}
+            </p>
             <p className="o-coaActivityItem__indicatorValue">{description}</p>
           </div>
           <div>
-            <p className="o-coaActivityItem__indicatorTitle">{texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}</p>
+            <p className="o-coaActivityItem__indicatorTitle">
+              {texts?.general?.acceptanceCriteria || 'Acceptance Criteria'}
+            </p>
             <p className="o-coaActivityItem__indicatorValue">{acceptanceCriteria}</p>
           </div>
         </>
@@ -93,7 +102,7 @@ CoaActivityItem.defaultProps = {
   activity: undefined,
   onRemove: undefined,
   onEdit: undefined,
-  isProjectEditing: false,
+  isProjectEditing: false
 };
 
 CoaActivityItem.propTypes = {
@@ -102,5 +111,5 @@ CoaActivityItem.propTypes = {
   activity: PropTypes.objectOf(PropTypes.any),
   onRemove: PropTypes.func,
   onEdit: PropTypes.func,
-  isProjectEditing: PropTypes.bool,
+  isProjectEditing: PropTypes.bool
 };

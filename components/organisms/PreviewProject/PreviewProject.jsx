@@ -146,9 +146,12 @@ const PreviewProject = ({ id, preview }) => {
     <LandingLayout
       project={project}
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       projectId={project?.id}
+      headerAnimation
       header={
         <ProjectHeroSection
+          preview={preview}
           inReview={inReview}
           title={projectName}
           status={status}
@@ -160,19 +163,15 @@ const PreviewProject = ({ id, preview }) => {
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
-          blockchainHistoryUrl={`${id}/changelog`}
+          blockchainHistoryUrl={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
           revision={revision}
+          isAdmin={isAdmin}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
     >
       {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
         <div className="o-previewProject__content">
-          {editing && (
-            <div className="o-previewProject__alertEditedProject">
-              This project is being edited. The project is not enable until the edition is finished
-            </div>
-          )}
           <div className="o-previewProject__buttons__container">
             <div className="o-previewProject__buttons">
               <CoaButton
@@ -189,7 +188,7 @@ const PreviewProject = ({ id, preview }) => {
               >
                 <MilestonesIcon /> {texts?.landingSubheader?.btnMilestones || 'Milestones'}
               </CoaButton>
-              <Link to={`${id}/changelog`} className="o-previewProject__buttons__buttonContainer">
+              <Link to={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`} className="o-previewProject__buttons__buttonContainer">
                 <CoaButton shape="round" className="o-previewProject__buttons__button">
                   <BlockchainIcon />{' '}
                   {texts?.landingSubheader?.btnChangelog || 'Blockchain Changelog'}
@@ -333,6 +332,7 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  preview={preview}
                   isProjectEditing={editing}
                   canAddEvidences={canAddEvidences(user, id)}
                   projectId={id}
