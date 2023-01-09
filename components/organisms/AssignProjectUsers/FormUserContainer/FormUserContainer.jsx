@@ -33,7 +33,7 @@ const CustomCollapse = ({
   const handleError = () => {
     if (userState !== USER_STATES.WITH_ERROR) setPrevUserState(userState);
     setUserState(USER_STATES.WITH_ERROR);
-    onError?.();
+    onError();
   };
 
   const handleCreateAndAssignUser = () => {
@@ -169,7 +169,7 @@ CustomCollapse.defaultProps = {
   form: undefined,
   initialData: undefined,
   projectId: undefined,
-  onError: undefined,
+  onError: () => {},
   setCanAddAdditionalAuditor: undefined,
   totalKeys: undefined,
   item: undefined,
