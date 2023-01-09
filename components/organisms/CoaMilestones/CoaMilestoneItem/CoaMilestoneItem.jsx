@@ -55,7 +55,7 @@ export const CoaMilestoneItem = ({
       {...{ currency }}
       statusMap={milestoneStatusMap}
       budget={budget}
-      title={`Milestone ${milestoneNumber} - ${title}`}
+      title={`${texts?.landingMilestones?.milestone || 'Milestone'} ${milestoneNumber} - ${title}`}
       entity="Activity"
       onEdit={onEditMilestone}
       onRemove={onRemoveMilestone}

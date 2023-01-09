@@ -63,7 +63,7 @@ export const LandingLayout = ({
             type="ghost"
             primaryColor="white"
           >
-            <Icon type="arrow-left" /> Back to edit
+            <Icon type="arrow-left" /> {texts?.general?.backToEdit || 'Back to edit'}
           </CoaButton>
         }
       />

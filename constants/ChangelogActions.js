@@ -80,60 +80,62 @@ const changelogActions = (changelog, texts) => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          created the project{' '}
+          {texts?.changelogAction?.createdTheProject || 'created the project'}{' '}
           <span className="coaChangelogItem__title --highlighted">{projectName}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - created the project ${projectName}`
+      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.createdTheProject || 'created the project'} ${projectName}`
     },
     publish_project: {
-      actionText: 'published the project',
+      actionText: `${texts?.changelogAction?.publishedTheProject || 'published the project'}`,
       title: () => (
         <>
           <span className="coaChangelogItem__title --bold">{userName}</span>
-          {revision !== 1 ? ' published a new version of the project' : ' published the project'}
+          {revision !== 1
+            ? ` ${texts?.changelogAction?.publishedNewVersion|| 'published a new version of the project'}`
+            : ` ${texts?.changelogAction?.publishedTheProject || 'published the project'}`}
         </>
       ),
       titleText: `${userName} ${
-        revision !== 1 ? 'published a new version of the project' : 'published the project'
+        revision !== 1
+          ? ` ${texts?.changelogAction?.publishedNewVersion|| 'published a new version of the project'}`
+          : ` ${texts?.changelogAction?.publishedTheProject || 'published the project'}`}
       }`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
-          published <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
-          Project - Revision{' '}
+          {texts?.changelogAction?.published || 'published'} <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
+          {texts?.changelogAction?.projectRevision || 'Project - Revision'}{' '}
           <span className="coaChangelogItem__title --highlighted">N° {revision}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - published ${projectName} Project - Revision N° ${revision}`
+      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.published || 'published'} ${projectName} ${texts?.changelogAction?.projectRevision || 'Project - Revision'} N° ${revision}`
     },
     send_project_to_review: {
-      actionText: 'sent project to review',
+      actionText: `${texts?.changelogAction?.sentProjectToReview || 'sent project to review'}`,
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> sent the project to
-          review
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.sentProjectToReview || 'sent the project to review'}
         </>
       ),
-      titleText: `${userName} sent the project to review`,
+      titleText: `${userName} ${texts?.changelogAction?.sentProjectToReview || 'sent the project to review'}`,
       description: () => (
         <>
-          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - sent
-          the project <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
-          to review
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - {texts?.changelogAction?.sentTheProject || 'sent the project'}
+          <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
+          {texts?.changelogAction?.toReview || 'to review'}
         </>
       ),
-      descriptionText: `${userName} - ${role} - sent the project ${projectName} to review`
+      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.sentTheProject || 'sent the project'} ${projectName} ${texts?.changelogAction?.toReview || 'to review'}`
     },
     edit_project_basic_information: {
-      actionText: 'edited project basic information',
+      actionText: `${texts?.changelogAction?.editedProjectBasicInfo || 'edited project basic information'}`,
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
-          basic information
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.editedTheProjectBasicInfo || 'edited the project basic information'}
         </>
       ),
-      titleText: `${userName} edited the project basic information`,
+      titleText: `${userName} ${texts?.changelogAction?.editedTheProjectBasicInfo || 'edited the project basic information'}`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -{' '}
@@ -145,14 +147,13 @@ const changelogActions = (changelog, texts) => {
       }`
     },
     edit_project_details: {
-      actionText: 'edited project details',
+      actionText: `${texts?.changelogAction?.editedProjectDetails || 'edited project details'}`,
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> edited the project
-          details
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.editedTheProjectDetails || 'edited the project details'}
         </>
       ),
-      titleText: `${userName} edited the project details`,
+      titleText: `${userName} ${texts?.changelogAction?.editedTheProjectDetails || 'edited the project details'}`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -{' '}
@@ -162,29 +163,27 @@ const changelogActions = (changelog, texts) => {
       descriptionText: `${userName} - ${role} - ${PROJECT_DETAILS_ACTIONS[(extraData?.fieldName)]}`
     },
     add_user_project: {
-      actionText: 'added a user to project',
+      actionText: `${texts?.changelogAction?.addedAUserToTheProject || 'added an user to the project'}`,
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> add an user to the
-          project
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.addAUserToTheProject || 'add an user to the project'}
         </>
       ),
-      titleText: `${userName} add an user to the project`,
+      titleText: `${userName} ${texts?.changelogAction?.addAUserToTheProject || 'add an user to the project'}`,
       description: () => (
         <>
-          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - added
-          to{' '}
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - {texts?.changelogAction?.addedTo || 'added to'}{' '}
           <span className="coaChangelogItem__title --highlighted">
             {extraData?.user?.firstName} {extraData?.user?.lastName}
           </span>{' '}
-          as{' '}
+          {texts?.changelogAction?.as || 'as'}{' '}
           <span className="coaChangelogItem__title --highlighted">
             {extraData?.role?.description}
           </span>{' '}
-          of the project
+          {texts?.changelogAction?.ofTheProject || 'of the project'}
         </>
       ),
-      descriptionText: `${userName} - ${role} - added to ${extraData?.user?.firstName} ${extraData?.user?.lastName} as ${extraData?.role?.description} of the project`
+      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.addedTo || 'added to'} ${extraData?.user?.firstName} ${extraData?.user?.lastName} ${texts?.changelogAction?.as || 'as'} ${extraData?.role?.description} ${texts?.changelogAction?.ofTheProject || 'of the project'}`
     },
     remove_user_project: {
       actionText: 'removed user from project',

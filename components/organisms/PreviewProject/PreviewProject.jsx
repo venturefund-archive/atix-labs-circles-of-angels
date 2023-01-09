@@ -53,7 +53,7 @@ const PreviewProject = ({ id, preview }) => {
   const fetchProject = async projectId => {
     const response = await getProject(projectId);
     if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
+      message.error(texts?.general?.errorFetchingProject || 'An error occurred while fetching the project');
       goBack();
       return;
     }
@@ -134,7 +134,7 @@ const PreviewProject = ({ id, preview }) => {
     const response = await cloneProject(project.parent || project.id);
     setLoading(false);
     if (response.errors) {
-      return message.error('An error occurred while fetching the project');
+      return message.error(texts?.general?.errorFetchingProject || 'An error occurred while fetching the project');
     }
     const _cloneId = await response.data.projectId;
     return history.push(`/project/edit/${_cloneId}`);
