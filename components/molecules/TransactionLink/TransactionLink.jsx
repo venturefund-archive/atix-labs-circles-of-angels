@@ -16,7 +16,8 @@ const TransactionLink = (props) => {
   </h5>;
 
   const isProduction = process.env.NODE_ENV === 'production';
-  const txPathInChangelog = isProduction
+  // TODO: temporal change
+  const txPathInChangelog = false
     ? `https://blockscout.com/rsk/mainnet/tx/${txHash}`
     : `https://explorer.testnet.rsk.co/tx/${txHash}`;
 
