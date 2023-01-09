@@ -60,6 +60,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
     const getAndSetCountriesAvailable = async () => {
       setCountriesAvailable({ loading: true });
       const _countries = await getCountries();
+      _countries.sort((a, b) => a.name.localeCompare(b.name));
       setCountriesAvailable({
         content: _countries,
         loading: false
@@ -281,7 +282,8 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                 setCurrentBasicInformation({
                   ...currentBasicInformation,
                   location: value
-                })
+                }),
+              showSearch: true
             }}
             options={countriesAvailable?.content?.map(country => ({
               label: country?.name,
