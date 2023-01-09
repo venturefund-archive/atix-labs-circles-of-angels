@@ -112,6 +112,7 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
             </div>
             {ROLES_IDS[key] !== ROLES_IDS.auditor && (
               <FormUserContainer
+                countries={countries}
                 expandIconPosition="right"
                 entity={key}
                 initialData={initialData[index]}
@@ -127,7 +128,8 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
                   handleAssignUser,
                   handleUnassignUser,
                   isFormSubmitted,
-                  removeCurrentUserFromProject
+                  removeCurrentUserFromProject,
+                  prevUserState
                 }) => (
                   <FormUserContent
                     setActiveKey={setActiveKey}
@@ -141,6 +143,8 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
                     initialData={initialData[index]}
                     isFormSubmitted={isFormSubmitted}
                     removeCurrentUserFromProject={removeCurrentUserFromProject}
+                    onError={onError}
+                    prevUserState={prevUserState}
                   />
                 )}
               </FormUserContainer>
@@ -152,6 +156,7 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
                 );
                 return (
                   <FormUserContainer
+                    countries={countries}
                     expandIconPosition="right"
                     entity={key}
                     initialData={_initialData}
@@ -172,7 +177,8 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
                       handleAssignUser,
                       handleUnassignUser,
                       isFormSubmitted,
-                      removeCurrentUserFromProject
+                      removeCurrentUserFromProject,
+                      prevUserState
                     }) => (
                       <FormUserContent
                         removeCurrentUserFromProject={removeCurrentUserFromProject}
@@ -186,6 +192,7 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
                         handleUnassignUser={handleUnassignUser}
                         initialData={_initialData}
                         isFormSubmitted={isFormSubmitted}
+                        prevUserState={prevUserState}
                       />
                     )}
                   </FormUserContainer>

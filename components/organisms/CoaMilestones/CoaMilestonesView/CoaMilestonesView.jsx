@@ -253,10 +253,13 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
                   milestone?.status
                 ) && (() => handleOpenEditMilestone(milestone))
               }
-              onCreateActivity={() => {
-                setCurrentEditedMilestone(milestone);
-                setIsFormActivityModalOpen(true);
-              }}
+              onCreateActivity={
+                milestone?.status !== MILESTONE_STATUS_ENUM.APPROVED &&
+                (() => {
+                  setCurrentEditedMilestone(milestone);
+                  setIsFormActivityModalOpen(true);
+                })
+              }
               onEditActivity={activity => handleOpenEditActivity({ milestone, activity })}
               onRemoveActivity={activityId =>
                 handleOpenConfirmDeleteActivityModal({ milestone, activityId })

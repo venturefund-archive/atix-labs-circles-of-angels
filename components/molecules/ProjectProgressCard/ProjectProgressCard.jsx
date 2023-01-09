@@ -13,11 +13,14 @@ export const ProjectProgressCard = ({
   balanceCurrentValue,
   balanceTotalValue,
   currency,
-  onClickSeeMilestones
+  onClickSeeMilestones,
+  progressCurrentPercentage
 }) => {
   const { texts } = React.useContext(DictionaryContext);
+  const currentPercentage =
+    progressCurrentPercentage || (progressCurrentValue / progressTotalValue) * 100;
 
-  return(
+  return (
     <div className="m-projectProgressCard">
       <TitlePage
         textTitle={texts?.general?.projectProgress || 'Project progress'}
@@ -30,6 +33,7 @@ export const ProjectProgressCard = ({
         externalDonutColor="#08ceaa"
         currentExternalDonutValue={progressCurrentValue}
         totalExternalDonutValue={progressTotalValue}
+        currentExternalDonutPercentage={progressCurrentPercentage}
         currentInternalDonutValue={balanceCurrentValue}
         totalInternalDonutValue={balanceTotalValue}
         internalDonutColor="#26385b"
@@ -42,16 +46,20 @@ export const ProjectProgressCard = ({
         <div className="m-projectProgressCard__info">
           <div className="m-projectProgressCard__icon --progress">%</div>
           <div>
-            <p className="m-projectProgressCard__title --progress">{texts?.landingInfoSection?.progressCardTotalProgress || 'Total Progress'}</p>
+            <p className="m-projectProgressCard__title --progress">
+              {texts?.landingInfoSection?.progressCardTotalProgress || 'Total Progress'}
+            </p>
             <p className="m-projectProgressCard__value --progress">
-              %{((progressCurrentValue / progressTotalValue) * 100).toFixed(2)}
+              %{currentPercentage.toFixed(2)}
             </p>
           </div>
         </div>
         <div className="m-projectProgressCard__info">
           <div className="m-projectProgressCard__icon --expenses">$</div>
           <div>
-            <p className="m-projectProgressCard__title --expenses">{texts?.landingInfoSection?.progressCardTotalExpenses || 'Total Expenses'}</p>
+            <p className="m-projectProgressCard__title --expenses">
+              {texts?.landingInfoSection?.progressCardTotalExpenses || 'Total Expenses'}
+            </p>
             <p className="m-projectProgressCard__value --expenses">
               {formatCurrency(currency, balanceCurrentValue)}
             </p>
@@ -67,7 +75,7 @@ export const ProjectProgressCard = ({
       </CoaButton>
     </div>
   );
-}
+};
 
 ProjectProgressCard.propTypes = {
   progressCurrentValue: PropTypes.number,

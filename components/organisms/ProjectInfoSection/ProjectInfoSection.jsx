@@ -26,15 +26,24 @@ export const ProjectInfoSection = ({
   balanceCurrentValue,
   balanceTotalValue,
   currency,
-  onClickSeeMilestones
+  onClickSeeMilestones,
+  progressCurrentPercentage
 }) => {
   const { texts } = React.useContext(DictionaryContext);
 
   return (
     <div className="o-projectInfoSection">
       <div className="o-projectInfoSection__text">
-        <HorizontalBlockText title={texts?.landingInfoSection?.about || 'About the Project'} content={about} orderNumber="01" />
-        <HorizontalBlockText title={texts?.landingInfoSection?.missionVision || 'Mission and Vision'} content={mission} orderNumber="02" />
+        <HorizontalBlockText
+          title={texts?.landingInfoSection?.about || 'About the Project'}
+          content={about}
+          orderNumber="01"
+        />
+        <HorizontalBlockText
+          title={texts?.landingInfoSection?.missionVision || 'Mission and Vision'}
+          content={mission}
+          orderNumber="02"
+        />
       </div>
       <div className="o-projectInfoSection__progressCard">
         <ProjectProgressCard
@@ -44,11 +53,12 @@ export const ProjectInfoSection = ({
           progressTotalValue={progressTotalValue}
           balanceCurrentValue={balanceCurrentValue}
           balanceTotalValue={balanceTotalValue}
+          progressCurrentPercentage={progressCurrentPercentage}
         />
       </div>
     </div>
   );
-}
+};
 
 ProjectInfoSection.propTypes = {
   about: PropTypes.string,
