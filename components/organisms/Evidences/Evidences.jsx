@@ -17,6 +17,7 @@ import { sortArrayByDate } from 'components/utils';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { signMessage } from 'helpers/blockchain/wallet';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
 import { signActivity, updateActivityStatus } from '../../../api/activityApi';
 import ModalConfirmWithSK from '../ModalConfirmWithSK/ModalConfirmWithSK';
@@ -25,7 +26,6 @@ import ModalEvidencesReviewSuccess from '../ModalEvidencesReviewSuccess/ModalEvi
 import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
-import { signMessage } from 'helpers/blockchain/wallet';
 
 const initialSecretKeyModal = {
   visible: false,
@@ -88,20 +88,24 @@ const Evidences = ({
       } else {
         setLoadingModalVisible(false);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [activityId, getChangelog, getEvidences, loadingModalVisible]
   );
 
-  const rejectActivity = useCallback(async () => {
+  const rejectActivity = useCallback(async (_pin, _password, wallet, key) => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible({
       state: true,
       title: texts?.modalPublishLoading?.rejected || 'The activity is being rejected'
     });
     const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
-    setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) {
+      const messageToSign = JSON.stringify(result?.data?.toSign);
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      await signActivity({ authorizationSignature, activityId });
+
+      setLoadingModalVisible({ ...loadingModalVisible, state: false });
       getEvidences(activityId);
       return getChangelog();
     }
@@ -109,15 +113,19 @@ const Evidences = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getChangelog, activityId, getEvidences, loadingModalVisible]);
 
-  const approveActivity = useCallback(async () => {
+  const approveActivity = useCallback(async (_pin, _password, wallet, key) => {
     setSecretKeyModal(initialSecretKeyModal);
     setLoadingModalVisible({
       state: true,
       title: texts?.modalPublishLoading?.approved || 'The activity is being approved'
     });
     const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
-    setLoadingModalVisible({ ...loadingModalVisible, state: false });
     if (!result.errors) {
+      const messageToSign = JSON.stringify(result?.data?.toSign);
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      await signActivity({ authorizationSignature, activityId });
+
+      setLoadingModalVisible({ ...loadingModalVisible, state: false });
       getEvidences(activityId);
       return getChangelog();
     }
