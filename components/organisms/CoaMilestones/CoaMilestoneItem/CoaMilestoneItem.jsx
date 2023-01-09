@@ -59,7 +59,7 @@ export const CoaMilestoneItem = ({
       entity="Activity"
       onEdit={onEditMilestone}
       onRemove={onRemoveMilestone}
-      onCreate={milestone?.status !== MILESTONE_STATUS_ENUM.APPROVED && (() => onCreateActivity())}
+      onCreate={onCreateActivity}
       remaining={remaining}
       spent={spent}
       deposited={deposited}
