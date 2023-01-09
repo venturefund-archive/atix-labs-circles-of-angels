@@ -13,6 +13,7 @@ import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 
 export default function ProjectChangeLog() {
   const { projectId } = useParams();
@@ -24,7 +25,7 @@ export default function ProjectChangeLog() {
   const isAdmin = user?.isAdmin;
   if (loading) return <Loading />;
 
-  const { basicInformation, status, details, budget, inReview, revision } = project;
+  const { basicInformation, status, details, budget, inReview, revision, editing } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -39,6 +40,7 @@ export default function ProjectChangeLog() {
     <LandingLayout
       project={project}
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       disappearHeaderInMobile
       header={
         <ProjectHeroSection
@@ -53,6 +55,7 @@ export default function ProjectChangeLog() {
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          blockchainHistoryUrl={preview ? `/${projectId}/changelog?preview=true` : `/${projectId}/changelog`}
           preview={preview}
           projectId={projectId}
         />

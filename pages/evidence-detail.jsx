@@ -8,6 +8,7 @@ import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 
@@ -56,6 +57,7 @@ export default function EvidenceDetailPage() {
       disappearHeaderInMobile
       thumbnailPhoto={thumbnailPhoto}
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       header={
         <ProjectHeroSection
           revision={revision}
@@ -69,6 +71,7 @@ export default function EvidenceDetailPage() {
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          blockchainHistoryUrl={preview ? `/${projectId}/changelog?preview=true` : `/${projectId}/changelog`}
           preview={preview}
           projectId={projectId}
         />

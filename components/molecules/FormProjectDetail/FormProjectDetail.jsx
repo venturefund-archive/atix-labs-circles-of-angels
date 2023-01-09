@@ -13,7 +13,6 @@ import { Form, Icon, Input } from 'antd';
 import {
   ETC_WALLET_ADDRESS,
   ETH_WALLET_ADDRESS,
-  onlyAlphanumerics,
   RBTC_WALLET_ADDRESS,
   USDT_WALLET_ADDRESS
 } from 'constants/Regex';
@@ -179,7 +178,10 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               inputTextAreaProps={{
                 placeholder: '',
                 maxLength: 500,
-                showCount: true
+                showCount: true,
+                autosize: {
+                  minRows: 8
+                }
               }}
             />
             <CoaFormItemTextArea
@@ -208,7 +210,10 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               inputTextAreaProps={{
                 placeholder: '',
                 maxLength: 500,
-                showCount: true
+                showCount: true,
+                autosize: {
+                  minRows: 8
+                }
               }}
             />
           </div>
@@ -295,10 +300,6 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                         required: true,
                         message: ERROR_TYPES.EMPTY,
                         whitespace: true
-                      },
-                      {
-                        pattern: onlyAlphanumerics,
-                        message: 'Please input an alphanumeric value for this field.'
                       }
                     ],
                     initialValue: additionalCurrencyInformation
@@ -329,10 +330,6 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                         required: true,
                         message: ERROR_TYPES.EMPTY,
                         whitespace: true
-                      },
-                      {
-                        pattern: onlyAlphanumerics,
-                        message: 'Please input an alphanumeric value for this field.'
                       },
                       {
                         validator: validateWalletAddress

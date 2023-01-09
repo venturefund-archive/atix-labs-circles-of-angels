@@ -70,12 +70,23 @@
     width: 100%;
     z-index: 1;
   }
+  &__alertEditedProject {
+    width: 100%;
+    color: white;
+    background-color: $coa-light-orange-200;
+    @include primary-text(1rem, $coa-orange-200, 600);
+    text-align: center;
+    border: 2px solid $coa-orange-200;
+    border-radius: 60px;
+    padding-block: .7188rem;
+    margin-bottom: 2.5rem;
+  }
 }
 
 .scrolledLadingHeader {
   @include respond(desktop) {
     position: sticky;
-    top: 60px;
+    top: var(--topLadingHeader, 60px);
     height: 220px;
     line-height: 50px;
     z-index: 1;

@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import './_evidences.scss';
 // eslint-disable-next-line import/no-named-as-default
+import { message as AntMessage } from 'antd';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import { UserContext } from 'components/utils/UserContext';
@@ -13,6 +14,7 @@ import { getActivityEvidences } from 'api/activityApi';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import { CoaChangelogContainer } from 'components/organisms/CoaChangelogContainer/CoaChangelogContainer';
 import useQuery from 'hooks/useQuery';
+import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import Evidences from '../components/organisms/Evidences/Evidences';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
@@ -35,7 +37,7 @@ const EvidencesContainer = () => {
     setIsEvidencesLoading(true);
     const response = await getActivityEvidences(_activity);
     if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
+      AntMessage.error('An error occurred while fetching the project');
       return;
     }
 
@@ -44,6 +46,7 @@ const EvidencesContainer = () => {
     setMilestone(response.data.milestone);
     setIsEvidencesLoading(false);
   };
+  const { message } = useContext(EvidenceContext);
 
   useEffect(() => {
     getEvidences(activityId);
@@ -51,11 +54,9 @@ const EvidencesContainer = () => {
     // eslint-disable-next-line
   }, []);
 
-  const { message } = useContext(EvidenceContext);
-
   if (isProjectLoading) return <Loading />;
 
-  const { basicInformation, status, details, budget, inReview, revision } = project;
+  const { basicInformation, status, details, budget, inReview, revision, editing } = project;
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, legalAgreementFile, projectProposalFile } = details || {};
@@ -75,6 +76,7 @@ const EvidencesContainer = () => {
       project={project}
       disappearHeaderInMobile
       showPreviewAlert={preview && isAdmin}
+      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
       header={
         <ProjectHeroSection
           revision={revision}
@@ -88,6 +90,7 @@ const EvidencesContainer = () => {
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
+          blockchainHistoryUrl={preview ? `/${projectId}/changelog?preview=true` : `/${projectId}/changelog`}
           message={message}
           preview={preview}
           projectId={projectId}

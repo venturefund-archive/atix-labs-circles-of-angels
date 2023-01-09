@@ -4,7 +4,6 @@ import { CoaDialogModal } from 'components/organisms/CoaModals/CoaDialogModal/Co
 import { CoaFormItemTextArea } from 'components/molecules/CoaFormItems/CoaFormItemTextArea/CoaFormItemTextArea';
 import { ERROR_MESSAGES } from 'constants/constants';
 import { CoaFormItemSelect } from 'components/molecules/CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
-import { onlyAlphanumerics } from 'constants/Regex';
 import './coa-form-activities-modal.scss';
 import PropTypes from 'prop-types';
 import { CoaFormItem } from 'components/molecules/CoaFormItems/CoaFormItem/CoaFormItem';
@@ -28,6 +27,7 @@ export const CoaFormActivitiesModalContent = ({
       />
     }
     {...{ form, onSave, onCancel }}
+    width={800}
     {...rest}
   >
     <CoaFormItemTextArea
@@ -40,10 +40,6 @@ export const CoaFormActivitiesModalContent = ({
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
-          },
-          {
-            pattern: onlyAlphanumerics,
-            message: ERROR_MESSAGES.ALPHANUMERIC
           }
         ],
         validateTrigger: 'onSubmit',
@@ -65,10 +61,6 @@ export const CoaFormActivitiesModalContent = ({
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
-          },
-          {
-            pattern: onlyAlphanumerics,
-            message: ERROR_MESSAGES.ALPHANUMERIC
           }
         ],
         validateTrigger: 'onSubmit',
@@ -90,10 +82,6 @@ export const CoaFormActivitiesModalContent = ({
             required: true,
             message: ERROR_MESSAGES.EMPTY,
             whitespace: true
-          },
-          {
-            pattern: onlyAlphanumerics,
-            message: ERROR_MESSAGES.ALPHANUMERIC
           }
         ],
         validateTrigger: 'onSubmit',
