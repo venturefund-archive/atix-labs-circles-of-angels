@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import './_evidences.scss';
 // eslint-disable-next-line import/no-named-as-default
+import { message as AntMessage } from 'antd';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from 'components/molecules/ProjectHeroSection/ProjectHeroSection';
 import { UserContext } from 'components/utils/UserContext';
@@ -36,7 +37,7 @@ const EvidencesContainer = () => {
     setIsEvidencesLoading(true);
     const response = await getActivityEvidences(_activity);
     if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
+      AntMessage.error('An error occurred while fetching the project');
       return;
     }
 
@@ -45,14 +46,13 @@ const EvidencesContainer = () => {
     setMilestone(response.data.milestone);
     setIsEvidencesLoading(false);
   };
+  const { message } = useContext(EvidenceContext);
 
   useEffect(() => {
     getEvidences(activityId);
 
     // eslint-disable-next-line
   }, []);
-
-  const { message } = useContext(EvidenceContext);
 
   if (isProjectLoading) return <Loading />;
 
