@@ -174,13 +174,12 @@ export const TIMEFRAME_UNITS = [
 ];
 
 const isProduction = process.env.NODE_ENV === 'production';
-const testnet = 'https://explorer.testnet.rsk.co/tx/';
 
 export const CRYPTO_CURRENCY_PATH_SCANNER = {
-  RBTC: txHash => isProduction? `https://blockscout.com/rsk/mainnet/tx/${txHash}`: `${testnet}${txHash}`,
-  ETH: txHash => isProduction? `https://blockscout.com/eth/mainnet/tx/${txHash}`: `${testnet}${txHash}`,
-  USDT: txHash => isProduction? `https://blockscout.com/eth/mainnet/tx/${txHash}`: `${testnet}${txHash}`,
-  ETC: txHash => isProduction? `https://blockscout.com/etc/mainnet/tx/${txHash}`: `${testnet}${txHash}`
+  RBTC: txHash => isProduction? `https://blockscout.com/rsk/mainnet/tx/${txHash}`: `https://explorer.testnet.rsk.co/tx/${txHash}`,
+  ETH: txHash => isProduction? `https://blockscout.com/eth/mainnet/tx/${txHash}`: `https://eth-goerli.blockscout.com/tx/${txHash}`,
+  USDT: txHash => isProduction? `https://blockscout.com/eth/mainnet/tx/${txHash}`: `https://eth-goerli.blockscout.com/tx/${txHash}`,
+  ETC: txHash => isProduction? `https://blockscout.com/etc/mainnet/tx/${txHash}`: `https://blockscout.com/etc/mordor/tx/${txHash}`
 };
 
 export const ERROR_TYPES = {
