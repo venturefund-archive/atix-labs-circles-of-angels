@@ -28,6 +28,7 @@ export const CoaFormActivitiesModalContent = ({
       />
     }
     {...{ form, onSave, onCancel }}
+    width={800}
     {...rest}
   >
     <CoaFormItemTextArea
