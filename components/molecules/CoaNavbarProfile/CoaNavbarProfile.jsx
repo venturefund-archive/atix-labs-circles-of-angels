@@ -35,7 +35,11 @@ export const CoaNavbarProfile = ({ user, role, removeUser }) => {
           <span className="coaNavbarProfile__userRole">{role}</span>
         </div>
 
-        <Dropdown overlay={<CustomMenu handleLogout={logout} />} trigger={['click']}>
+        <Dropdown
+          overlay={<CustomMenu handleLogout={logout} />}
+          trigger={['click']}
+          overlayClassName="coaNavbarProfile__dropdown"
+        >
           <Icon type="down" />
         </Dropdown>
       </div>

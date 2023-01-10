@@ -30,6 +30,10 @@
   &__userRole {
     @include primary-text(0.75rem, $coa-grey-100, 300);
   }
+
+  &__dropdown {
+    top: 3.75rem !important;
+  }
 }
 
 .customMenu {
