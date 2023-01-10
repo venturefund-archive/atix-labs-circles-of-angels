@@ -10,7 +10,7 @@ import './form-user-content.module.scss';
 
 const { Option } = Select;
 
-const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign }) => ({
+const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign, prevFunc, prevText }) => ({
   [USER_STATES.NO_EXIST]: {
     func: inviteAndAssign,
     text: 'Invite & Assign user'
@@ -38,6 +38,10 @@ const SUBMIT_BUTTON_DICT = ({ assign, unassign, inviteAndAssign }) => ({
   [USER_STATES.LOADING]: {
     func: () => {},
     text: 'Assign user'
+  },
+  [USER_STATES.WITH_ERROR]: {
+    text: prevText,
+    func: prevFunc
   }
 });
 
@@ -49,13 +53,18 @@ export const FormUserContent = ({
   handleAssignUser,
   handleUnassignUser,
   initialData,
-  isFormSubmitted
+  isFormSubmitted,
+  prevUserState
 }) => {
   const { getFieldDecorator, getFieldValue } = form;
   const country = getFieldValue('country');
   const firstName = getFieldValue('firstName');
   const lastName = getFieldValue('lastName');
   const email = getFieldValue('email');
+
+  const initialCountryName = countries?.content?.find(
+    _country => _country?.id === initialData?.country
+  )?.name;
 
   return (
     <div
@@ -121,7 +130,7 @@ export const FormUserContent = ({
       </Form.Item>
       <Form.Item className="formUserContent__container__formItem" label="Country/Region">
         {getFieldDecorator('country', {
-          initialValue: initialData?.country,
+          initialValue: initialCountryName,
           rules: [
             {
               required: true,
@@ -139,9 +148,10 @@ export const FormUserContent = ({
               userState === USER_STATES.PENDING_WITH_TEXT ||
               userState === USER_STATES.EXIST_WITH_TEXT
             }
+            showSearch
           >
             {countries?.content?.map(_country => (
-              <Option value={_country?.id} key={_country?.id}>
+              <Option value={_country?.name} key={_country?.id}>
                 {_country?.name}
               </Option>
             ))}
@@ -155,7 +165,12 @@ export const FormUserContent = ({
             SUBMIT_BUTTON_DICT({
               assign: handleAssignUser,
               inviteAndAssign: handleCreateAndAssignUser,
-              unassign: handleUnassignUser
+              unassign: handleUnassignUser,
+              prevFunc: SUBMIT_BUTTON_DICT({
+                assign: handleAssignUser,
+                inviteAndAssign: handleCreateAndAssignUser,
+                unassign: handleUnassignUser
+              })[prevUserState]?.func
             })[userState]?.func
           }
           htmlType="submit"
@@ -168,7 +183,12 @@ export const FormUserContent = ({
             SUBMIT_BUTTON_DICT({
               assign: handleAssignUser,
               inviteAndAssign: handleCreateAndAssignUser,
-              unassign: handleUnassignUser
+              unassign: handleUnassignUser,
+              prevText: SUBMIT_BUTTON_DICT({
+                assign: handleAssignUser,
+                inviteAndAssign: handleCreateAndAssignUser,
+                unassign: handleUnassignUser
+              })[prevUserState]?.text
             })[userState]?.text
           }
         </CoaButton>

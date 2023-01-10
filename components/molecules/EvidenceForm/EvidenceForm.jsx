@@ -17,6 +17,7 @@ import GoBackButton from 'components/atoms/GoBackButton/GoBackButton';
 import './_style.scss';
 import classNames from 'classnames';
 import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
+import { checkIsBeneficiaryByProject, checkIsInvestorByProject } from 'helpers/roles';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
@@ -25,6 +26,8 @@ import { getProjectTransactions } from '../../../api/projectApi';
 import { EvidenceContext } from '../../utils/EvidenceContext';
 
 const CURRENCY_TYPE_ENUM = { FIAT: 'fiat', CRYPTO: 'crypto' };
+const EVIDENCE_TYPE_ENUM = { IMPACT: 'impact', TRANSFER: 'transfer' };
+const EVIDENCE_TRANSACTION_TYPE_ENUM = { OUTCOME: 'outcome', INCOME: 'income' };
 const transactionQueryParam = {
   income: 'received',
   outcome: 'sent'
@@ -43,7 +46,7 @@ const EvidenceFormContent = props => {
   const { setMessage } = useContext(EvidenceContext);
 
   const [state, setState] = useState({
-    type: 'impact',
+    type: EVIDENCE_TYPE_ENUM.IMPACT,
     title: '',
     description: '',
     files: [],
@@ -54,10 +57,11 @@ const EvidenceFormContent = props => {
   const [currencyType, setCurrencyType] = useState(CURRENCY_TYPE_ENUM.FIAT);
   const [currency, setCurrency] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [amount, setAmount] = useState(type === 'impact' ? 0 : 1);
+  const [amount, setAmount] = useState(type === EVIDENCE_TYPE_ENUM.IMPACT ? 0 : 1);
   const [transactions, setTransactions] = useState([]);
-  const [transactionType, setTransactionType] = useState('outcome');
+  const [transactionType, setTransactionType] = useState(EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME);
   const [loadingTransactions, setLoadingTransactions] = useState(false);
+  const [projectRole, setProjectRole] = useState({ isInvestor: false, isBeneficiary: false });
 
   const getTransactions = async _transactionType => {
     form.resetFields(['transferTxHash']);
@@ -87,17 +91,19 @@ const EvidenceFormContent = props => {
     if (!loading) {
       setCurrencyType(project?.details?.currencyType.toLowerCase());
       setCurrency(project?.details?.currency);
-      const { users } = project;
 
-      const beneficiaries = users.find(item => item.role === '1')?.users;
-      const investors = users.find(item => item.role === '2')?.users;
+      const isBeneficiary = checkIsBeneficiaryByProject({ user, project });
+      const isInvestor = checkIsInvestorByProject({ user, project });
 
-      const isBeneficiary = beneficiaries.some(beneficiary => beneficiary.id === user.id);
-      const isInvestor = investors.some(investor => investor.id === user.id);
       if (!isBeneficiary && !isInvestor) {
         message.error('User is not a beneficiary or founder of the project');
         history.push(`/${project.id}`);
       }
+      setProjectRole({ isBeneficiary, isInvestor });
+      setTransactionType(isBeneficiary
+        ? EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
+        : EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME
+      );
     }
     // eslint-disable-next-line
   }, [loading]);
@@ -153,8 +159,18 @@ const EvidenceFormContent = props => {
       return;
     }
 
+    if(state.type === EVIDENCE_TYPE_ENUM.TRANSFER &&
+      (transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME && projectRole.isInvestor
+      || transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME && projectRole.isBeneficiary)
+    ) {
+      setButtonLoading(false);
+      return message.error('An error occurred because the user role is investor and it is trying to create an outcome evidence or the user role is beneficiary and it is trying to create an income evidence');
+    }
+
     // outcome amount is designated with negative
-    const newAmount = transactionType === 'outcome' ? -amount : amount;
+    const newAmount = transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
+      ? -amount
+      : amount;
     const data = { ...state, amount: newAmount };
 
     const response = await createEvidence(activityId, data);
@@ -172,6 +188,8 @@ const EvidenceFormContent = props => {
   };
 
   if (loading) return <Loading></Loading>;
+
+  const isFiatProject = currencyType === CURRENCY_TYPE_ENUM.FIAT;
 
   return (
     <div className="evidenceForm">
@@ -210,8 +228,8 @@ const EvidenceFormContent = props => {
                     type="radio"
                     name="evidenceType"
                     id=""
-                    checked={type === 'transfer'}
-                    value="transfer"
+                    checked={type === EVIDENCE_TYPE_ENUM.TRANSFER}
+                    value={EVIDENCE_TYPE_ENUM.TRANSFER}
                     onChange={e => setState({ ...state, type: e.target.value })}
                   />
                   <div className="customRadio">
@@ -226,8 +244,8 @@ const EvidenceFormContent = props => {
                     type="radio"
                     name="evidenceType"
                     id=""
-                    value="impact"
-                    checked={type === 'impact'}
+                    value={EVIDENCE_TYPE_ENUM.IMPACT}
+                    checked={type === EVIDENCE_TYPE_ENUM.IMPACT}
                     onChange={e => setState({ ...state, type: e.target.value })}
                   />
                   <div className="customRadio">
@@ -303,16 +321,17 @@ const EvidenceFormContent = props => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                      disabled={loadingTransactions}
+                      disabled={loadingTransactions || projectRole.isInvestor}
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
+                        if(isFiatProject) return;
                         getTransactions(inputValue);
                       }}
-                      checked={transactionType === 'outcome'}
+                      checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME}
                       type="radio"
                       name="transactionType"
-                      value="outcome"
+                      value={EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME}
                     />
                     <div className="customRadio">
                       <div></div>
@@ -324,16 +343,17 @@ const EvidenceFormContent = props => {
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
                     <input
-                      disabled={loadingTransactions}
+                      disabled={loadingTransactions || projectRole.isBeneficiary}
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
+                        if(isFiatProject) return;
                         getTransactions(inputValue);
                       }}
-                      checked={transactionType === 'income'}
+                      checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME}
                       type="radio"
                       name="transactionType"
-                      value="income"
+                      value={EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME}
                     />
                     <div className="customRadio">
                       <div></div>
@@ -345,7 +365,7 @@ const EvidenceFormContent = props => {
               </div>
             </div>
           )}
-          {currencyType === CURRENCY_TYPE_ENUM.CRYPTO && type === 'transfer' && (
+          {currencyType === CURRENCY_TYPE_ENUM.CRYPTO && type === EVIDENCE_TYPE_ENUM.TRANSFER && (
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Select the corresponding transaction</p>
               <div className="formDivInput itemInput">
@@ -381,7 +401,7 @@ const EvidenceFormContent = props => {
               </div>
             </div>
           )}
-          {type === 'transfer' && (
+          {type === EVIDENCE_TYPE_ENUM.TRANSFER && (
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">Amount</p>
               <div className="formDivInput formDivAmount">
@@ -400,7 +420,7 @@ const EvidenceFormContent = props => {
               </div>
             </div>
           )}
-          {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (
+          {(isFiatProject || type === EVIDENCE_TYPE_ENUM.IMPACT) && (
             <div className="evidenceForm__body__form__group">
               <div className="formDivInfo">
                 <p className="formDivTitle">Upload Evidence Documents</p>
@@ -415,7 +435,7 @@ const EvidenceFormContent = props => {
                     {getFieldDecorator('files', {
                       rules: [
                         {
-                          required: type === 'impact' || currencyType === CURRENCY_TYPE_ENUM.FIAT,
+                          required: type === EVIDENCE_TYPE_ENUM.IMPACT || isFiatProject,
                           message: 'Please select the files'
                         }
                       ]

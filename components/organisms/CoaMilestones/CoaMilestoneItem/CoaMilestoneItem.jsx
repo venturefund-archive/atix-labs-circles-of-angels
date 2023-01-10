@@ -5,7 +5,7 @@ import { Collapse, Icon } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
 import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
-import milestoneStatusMap from 'model/milestoneStatus';
+import milestoneStatusMap, { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 
@@ -127,7 +127,7 @@ export const CoaMilestoneItem = ({
               </Panel>
             </Collapse>
           )}
-          {onCreateActivity && (
+          {onCreateActivity && milestone?.status !== MILESTONE_STATUS_ENUM.APPROVED && (
             <CoaTextButton
               className="o-coaMilestoneItem__addActivityButton"
               type="dashed"

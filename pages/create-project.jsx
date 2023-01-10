@@ -219,7 +219,7 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async () => {
+const sendToReviewProject = async () => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
     const { errors } = await sendToReview(project.id);
@@ -411,7 +411,7 @@ const CreateProjectContainer = () => {
       />
       <ModalConfirmWithSK
         visible={confirmSendToReviewVisible}
-        onCancel={() => setSecretKeyVisible(false)}
+        onCancel={() => setConfirmSendToReviewVisible(false)}
         onSuccess={sendToReviewProject}
         title="You are about to send the project to be reviewed by the admin"
         description="To confirm the process please enter your administrator password and secret key"

@@ -1,3 +1,5 @@
+import { ROLES_IDS_NAMES } from 'components/organisms/AssignProjectUsers/constants';
+import { formatLeadWithZero } from 'helpers/formatter';
 import React from 'react';
 
 import { Link } from 'react-router-dom';
@@ -21,17 +23,20 @@ export const CHANGELOG_ACTIONS_ENUM = {
   APPROVE_ACTIVITY: 'approve_activity',
   ACTIVITY_TO_REVIEW: 'activity_to_review',
   CANCEL_REVIEW: 'cancel_review',
-  APPROVE_REVIEW: 'approve_review'
+  APPROVE_REVIEW: 'approve_review',
+  PROJECT_CLONE: 'project_clone'
 };
 
 const changelogActions = (changelog, texts) => {
-  const role = changelog?.user?.isAdmin ? 'Admin' : changelog?.user?.roles?.[0]?.description;
+  const role = changelog?.user?.isAdmin
+    ? 'Admin'
+    : ROLES_IDS_NAMES[(changelog?.user?.roles?.[0]?.id)];
   const user = changelog?.user;
   const userName = `${user?.firstName} ${user?.lastName}`;
   const auditor = changelog?.activity?.auditor;
   const auditorName = `${auditor?.firstName} ${auditor?.lastName}`;
   const projectName = changelog?.project?.projectName;
-  const revision = changelog?.revision;
+  const revision = formatLeadWithZero(changelog?.revision);
   const milestoneTitle = changelog?.milestone?.title;
   const activityTitle = changelog?.activity?.title;
   const evidenceTitle = changelog?.evidence?.title;
@@ -106,10 +111,10 @@ const changelogActions = (changelog, texts) => {
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           {texts?.changelogAction?.published || 'published'} <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
           {texts?.changelogAction?.projectRevision || 'Project - Revision'}{' '}
-          <span className="coaChangelogItem__title --highlighted">N° {revision}</span>
+          <span className="coaChangelogItem__title --highlighted">REV-{revision}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.published || 'published'} ${projectName} ${texts?.changelogAction?.projectRevision || 'Project - Revision'} N° ${revision}`
+      descriptionText: `${userName} - ${role} - ${texts?.changelogAction?.published || 'published'} ${projectName} ${texts?.changelogAction?.projectRevision || 'Project - Revision'} REV-${revision}`
     },
     send_project_to_review: {
       actionText: `${texts?.changelogAction?.sentProjectToReview || 'sent project to review'}`,
@@ -166,10 +171,10 @@ const changelogActions = (changelog, texts) => {
       actionText: `${texts?.changelogAction?.addedAUserToTheProject || 'added an user to the project'}`,
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.addAUserToTheProject || 'add an user to the project'}
+          <span className="coaChangelogItem__title --bold">{userName}</span> {texts?.changelogAction?.addAUserToTheProject || 'added an user to the project'}
         </>
       ),
-      titleText: `${userName} ${texts?.changelogAction?.addAUserToTheProject || 'add an user to the project'}`,
+      titleText: `${userName} ${texts?.changelogAction?.addedAUserToTheProject || 'added an user to the project'}`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} - {texts?.changelogAction?.addedTo || 'added to'}{' '}
@@ -241,10 +246,10 @@ const changelogActions = (changelog, texts) => {
       actionText: 'created an activity',
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> add an activity
+          <span className="coaChangelogItem__title --bold">{userName}</span> added an activity
         </>
       ),
-      titleText: `${userName} add an activity`,
+      titleText: `${userName} added an activity`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
@@ -457,28 +462,43 @@ const changelogActions = (changelog, texts) => {
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           canceled the revision{' '}
-          <span className="coaChangelogItem__title --highlighted">N° {revision}</span>
+          <span className="coaChangelogItem__title --highlighted">REV-{revision}</span>
           {reasonComment}
         </>
       ),
-      descriptionText: `${userName} - ${role} - canceled the revision N° ${revision}${reasonComment}`
+      descriptionText: `${userName} - ${role} - canceled the revision REV-${revision}${reasonComment}`
     },
     approve_review: {
       title: () => (
         <>
-          <span className="coaChangelogItem__title --bold">{userName}</span> approved the revision{' '}
-          {revision}
+          <span className="coaChangelogItem__title --bold">{userName}</span> approved a revision
         </>
       ),
-      titleText: `${userName} approved the revision ${revision}`,
+      titleText: `${userName} approved a revision`,
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
           approved the revision{' '}
-          <span className="coaChangelogItem__title --highlighted">{revision}</span>
+          <span className="coaChangelogItem__title --highlighted">REV-{revision}</span>
         </>
       ),
-      descriptionText: `${userName} - ${role} - approved the revision ${revision}`
+      descriptionText: `${userName} - ${role} - approved the revision REV-${revision}`
+    },
+    project_clone: {
+      title: () => (
+        <>
+          <span className="coaChangelogItem__title --bold">{userName}</span> created a new revision
+        </>
+      ),
+      titleText: `${userName} created a new revision`,
+      description: () => (
+        <>
+          <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -
+          created the revision{' '}
+          <span className="coaChangelogItem__title --highlighted">REV-{revision}</span>
+        </>
+      ),
+      descriptionText: `${userName} - ${role} - created the revision REV-${revision}`
     }
   };
 };

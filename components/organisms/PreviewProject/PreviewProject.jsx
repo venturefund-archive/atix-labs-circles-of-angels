@@ -22,6 +22,7 @@ import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
+import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { getProject, cloneProject } from '../../../api/projectApi';
@@ -109,9 +110,22 @@ const PreviewProject = ({ id, preview }) => {
   };
 
   const totalMilestonesQuantity = milestones?.length;
-  const approvedMilestonesQuantity = milestones?.filter(
+
+  const approvedMilestones = milestones?.filter(
     milestone => milestone?.status === MILESTONE_STATUS_ENUM.APPROVED
-  )?.length;
+  );
+  const totalActivitiesQuantity = milestones?.reduce(
+    (curr, next) => curr + next?.activities?.length,
+    0
+  );
+
+  const milestonesProgressPercentage = approvedMilestones?.reduce((curr, milestone) => {
+    const approvedActivitiesQuantity = milestone?.activities?.filter(
+      activities => activities?.status === ACTIVITY_STATUS_ENUM.APPROVED
+    ).length;
+    const weightedValues = (approvedActivitiesQuantity / totalActivitiesQuantity) * 100;
+    return curr + weightedValues;
+  }, 0);
 
   const totalCurrentDeposited = milestones?.reduce(
     (prev, curr) => prev + parseFloat?.(curr?.deposited),
@@ -209,7 +223,7 @@ const PreviewProject = ({ id, preview }) => {
             <ProjectInfoSection
               mission={mission}
               about={problemAddressed}
-              progressCurrentValue={approvedMilestonesQuantity}
+              progressCurrentPercentage={milestonesProgressPercentage}
               progressTotalValue={totalMilestonesQuantity}
               balanceCurrentValue={totalCurrentSpent}
               balanceTotalValue={budget}
@@ -240,8 +254,8 @@ const PreviewProject = ({ id, preview }) => {
             <div className="o-previewProject__progressSection__pills">
               <CoaProjectProgressPill
                 indicator={texts?.landingProjectProgress?.milestone || 'Milestones Progress'}
-                current={approvedMilestonesQuantity}
-                total={totalMilestonesQuantity}
+                currentPercentage={milestonesProgressPercentage}
+                total={totalActivitiesQuantity}
                 startBarContent={
                   <p className="o-previewProject__progressSection__pills__normalText">
                     {texts?.landingProjectProgress?.project || 'Project'}{' '}

@@ -30,6 +30,7 @@ export const CoaBaseModal = ({
         [FOOTER_BUTTONS_POSITION[footerButtonPosition]]: footerButtonPosition
       })}
       closable
+      centered
       {...rest}
     >
       <div className="o-coaBaseModal__header">

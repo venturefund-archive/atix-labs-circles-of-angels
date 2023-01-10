@@ -57,3 +57,10 @@ export const generateWalletFromPin = async (pin) => {
     iv
   };
 }
+
+export const signMessage = async(jsonWallet, message, password) => {
+  if (!message) throw new Error('Message is required');
+
+  const wallet = await decryptJsonWallet(jsonWallet, password);
+  return wallet.signMessage(message);
+}

@@ -20,15 +20,18 @@ const CustomCollapse = ({
   item,
   totalKeys,
   onRemove,
+  countries,
   ...rest
 }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [userState, setUserState] = useState(USER_STATES.UNKNOWN);
+  const [prevUserState, setPrevUserState] = useState(USER_STATES.UNKNOWN);
   const { validateFields, setFieldsValue, getFieldValue } = form;
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const userId = getFieldValue('id');
 
   const handleError = () => {
+    if (userState !== USER_STATES.WITH_ERROR) setPrevUserState(userState);
     setUserState(USER_STATES.WITH_ERROR);
     onError();
   };
@@ -38,8 +41,10 @@ const CustomCollapse = ({
       if (!err) {
         setIsFormSubmitted(true);
         const dataToSend = { ...values };
+        const countryId = countries?.content?.find(country => values?.country === country?.name)
+          ?.id;
 
-        const response = await createUser({ ...dataToSend, isAdmin: false });
+        const response = await createUser({ ...dataToSend, isAdmin: false, country: countryId });
         if (response.errors) return handleError();
 
         const addUserToProjectResponse = await addUserToProject({
@@ -145,7 +150,8 @@ const CustomCollapse = ({
             handleCreateAndAssignUser,
             handleAssignUser,
             isFormSubmitted,
-            handleUnassignUser
+            handleUnassignUser,
+            prevUserState
           })}
         </Panel>
       </Collapse>
@@ -163,7 +169,7 @@ CustomCollapse.defaultProps = {
   form: undefined,
   initialData: undefined,
   projectId: undefined,
-  onError: undefined,
+  onError: () => {},
   setCanAddAdditionalAuditor: undefined,
   totalKeys: undefined,
   item: undefined,

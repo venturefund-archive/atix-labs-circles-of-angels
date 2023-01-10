@@ -9,9 +9,12 @@ export const CoaProjectProgressPill = ({
   startBarContent,
   endBarContent,
   progressBarColor,
-  barColor
+  barColor,
+  currentPercentage
 }) => {
-  const currentPercent = current <= total ? ((current / total) * 100 || 0).toFixed(2) : 100;
+  const _currentPercentage =
+    currentPercentage || (current <= total ? (current / total) * 100 || 0 : 100);
+  const fixedPercentage = _currentPercentage?.toFixed(2);
   return (
     <div className="m-coaProjectProgressPill">
       <h3 className="m-coaProjectProgressPill__indicator">{indicator}</h3>
@@ -21,12 +24,12 @@ export const CoaProjectProgressPill = ({
           <div>{endBarContent}</div>
         </div>
         <div className="m-coaProjectProgressPill__progress__barContainer">
-          <div>{currentPercent}%</div>
+          <div>{fixedPercentage}%</div>
           <div className="m-coaProjectProgressPill__bar" style={{ '--barColor': barColor }}>
             <span
               className="m-coaProjectProgressPill__bar__fill"
               style={{
-                '--currentPercent': `${currentPercent}%`,
+                '--currentPercent': `${fixedPercentage}%`,
                 '--progressBarColor': progressBarColor
               }}
             ></span>
