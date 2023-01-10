@@ -80,7 +80,11 @@ const EvidenceFormContent = props => {
     const transactionHashes = response.data.transactions.map(hash => ({
       txHash: hash.txHash,
       value: hash.value,
-      label: `${_transactionType}: ${hash.timestamp}/${hash.value} ${hash.tokenSymbol}`
+      label: {
+        date: (hash.timestamp || '').split(' ')[0],
+        hour: `${(hash.timestamp || '').split(' ')[1]} ${(hash.timestamp || '').split(' ')[2]}`,
+        txValue: `${hash.value} ${hash.tokenSymbol}`
+      }
     }));
 
     setTransactions(transactionHashes);
@@ -379,6 +383,7 @@ const EvidenceFormContent = props => {
                     ]
                   })(
                     <Select
+                      className='evidenceForm__select'
                       placeholder="Select the transaction"
                       disabled={loadingTransactions}
                       loading={loadingTransactions}
@@ -392,7 +397,15 @@ const EvidenceFormContent = props => {
                     >
                       {transactions.map(({ txHash, label }) => (
                         <Option value={txHash} key={txHash}>
-                          {label}
+                          <div className='evidenceForm__select__option'>
+                            <div>
+                              <span className='evidenceForm__select__option__date'>{label.date}</span>
+                              <span className='evidenceForm__select__option__hour'>{label.hour}</span>
+                            </div>
+                            <div>
+                              <span className='evidenceForm__select__option__txValue'>{label.txValue}</span>
+                            </div>
+                          </div>
                         </Option>
                       ))}
                     </Select>

@@ -220,4 +220,25 @@
       }
     }
   }
+
+  &__select {
+    .ant-select-selection-selected-value {
+      float: none;
+    }
+    &__option {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      &__date {
+        @include primary-text(.875rem, $coa-blue-100, 400);
+        margin-right: .625rem;
+      }
+      &__hour {
+        @include primary-text(.875rem, $coa-grey-100, 400);
+      }
+      &__txValue {
+        @include primary-text(.875rem, $coa-dark-gray-100, 600);
+      }
+    }
+  }
 }
