@@ -18,7 +18,19 @@ import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
 const generatePDF = content => {
   const doc = jsPDF();
-  doc.text(`${content}`, 10, 10);
+  const imageUrl = customConfig.LARGE_LOGO_PATH_PNG;
+
+  doc.addImage(imageUrl, 'png', 70, 10, 80, 15);
+  doc.setFontSize(40);
+  doc.text(40, 60, 'This is your secret key');
+  doc.setFontSize(20);
+  doc.text(40, 90, 'The key is unique and you will need it to perform');
+  doc.text(60, 100, 'different actions within the platform.');
+  doc.text(40, 110, 'Always remember to keep it in a safe place.');
+
+  doc.setFontSize(50);
+  doc.text(80, 145, content);
+
   return doc;
 };
 
