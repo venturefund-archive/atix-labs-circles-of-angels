@@ -18,6 +18,7 @@ import './_style.scss';
 import classNames from 'classnames';
 import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { checkIsBeneficiaryByProject, checkIsInvestorByProject } from 'helpers/roles';
+import { formatCurrency } from 'helpers/formatter';
 import { useProject } from '../../../hooks/useProject';
 import Loading from '../Loading/Loading';
 import { createEvidence } from '../../../api/activityApi';
@@ -83,7 +84,7 @@ const EvidenceFormContent = props => {
       label: {
         date: (hash.timestamp || '').split(' ')[0],
         hour: `${(hash.timestamp || '').split(' ')[1]} ${(hash.timestamp || '').split(' ')[2]}`,
-        txValue: `${hash.value} ${hash.tokenSymbol}`
+        txValue: formatCurrency(hash.tokenSymbol, hash.value, true),
       }
     }));
 

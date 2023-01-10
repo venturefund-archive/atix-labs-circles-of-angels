@@ -232,12 +232,21 @@
       &__date {
         @include primary-text(.875rem, $coa-blue-100, 400);
         margin-right: .625rem;
+        @include breakpoint(sm) {
+          font-size: .75rem;
+        }
       }
       &__hour {
         @include primary-text(.875rem, $coa-grey-100, 400);
+        @include breakpoint(sm) {
+          font-size: .75rem;
+        }
       }
       &__txValue {
         @include primary-text(.875rem, $coa-dark-gray-100, 600);
+        @include breakpoint(sm) {
+          font-size: .75rem;
+        }
       }
     }
   }
