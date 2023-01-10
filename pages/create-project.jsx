@@ -48,7 +48,6 @@ import {
 } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
-import { signMessage } from '../helpers/blockchain/wallet';
 
 const wizards = {
   main: CreateProject,
