@@ -11,9 +11,7 @@ const TransactionLink = (props) => {
   const _cryptoCurrency = Object.values(CURRENCIES.crypto)
     .map(item => item.value)
     .find(curr => currency === curr);
-  if(!_cryptoCurrency) return <h5 className="transactionLink__title">
-    {texts?.transactionLink?.errorPart1 || 'Crypto currency'} ({currency}) {texts?.transactionLink?.errorPart2 || 'is not supported'}
-  </h5>;
+  if(!_cryptoCurrency) return null;
 
   const isProduction = process.env.NODE_ENV === 'production';
   // TODO: temporal change
