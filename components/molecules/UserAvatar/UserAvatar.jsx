@@ -8,22 +8,23 @@
  */
 
 import React from 'react';
-import { Avatar } from 'antd';
 import PropTypes from 'prop-types';
+import { CoaUserAvatar } from 'components/atoms/CoaUserAvatar/CoaUserAvatar';
 import UserLabel from '../../atoms/UserLabel/UserLabel';
 import SettingsMenu from '../../atoms/SettingsMenu/SettingsMenu';
-import { getInitials } from '../../../helpers/formatter';
 
 import './_style.scss';
 
 const UserAvatar = ({ user }) => {
-  const fullName = `${user.firstName} ${user.lastName}`;
+  const { firstName, lastName } = user;
+  const fullName = `${firstName} ${lastName}`;
   return (
     <div className="UserAvatar">
       <div className="UserData">
-        <Avatar style={{ color: '#0055FF', backgroundColor: 'rgba(0, 85, 255, 0.3)', height: '30px', width: '30px' }}>
-          {getInitials(fullName)}
-        </Avatar>
+        < CoaUserAvatar
+          firstName={firstName}
+          lastName={lastName}
+        />
         <UserLabel userName={fullName} userRole={user.role} />
       </div>
       <SettingsMenu />
