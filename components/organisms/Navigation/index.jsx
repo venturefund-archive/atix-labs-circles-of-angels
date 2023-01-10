@@ -51,7 +51,7 @@ const TopBarNavigation = ({
         style={{ fontSize: '16px', color: '#4C7FF7' }}
       />
       <picture>
-        <source srcSet={customConfig.LARGE_LOGO_PATH} media="(min-width: 768px)" />
+        <source srcSet={customConfig.LARGE_LOGO_PATH_SVG} media="(min-width: 768px)" />
         <img src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
       </picture>
     </Col>

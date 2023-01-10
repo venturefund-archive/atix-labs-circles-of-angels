@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer__left">
-        <img src={customConfig.LARGE_LOGO_PATH} alt="CoA" className="footer__left__logo" />
+        <img src={customConfig.LARGE_LOGO_PATH_SVG} alt="CoA" className="footer__left__logo" />
       </div>
       <div className="footer__right">
         <Link to="/terms-and-conditions" className="footer__right__termsConditions">

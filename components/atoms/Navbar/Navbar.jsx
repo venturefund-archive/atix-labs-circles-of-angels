@@ -30,13 +30,13 @@ const Navbar = ({ project }) => {
         <div className="mobile">
           <Icon type="menu" className="mobile__icon --blue" onClick={() => setIsNavOpen(true)} />
           <div className="navbar__logo--mobile">
-            <img src={customConfig.LARGE_LOGO_PATH} alt="coa" />
+            <img src={customConfig.LARGE_LOGO_PATH_SVG} alt="coa" />
           </div>
         </div>
 
         <div className="desktop">
           <div className="navbar__logo--desktop">
-            <img src={customConfig.LARGE_LOGO_PATH} alt="coa" />
+            <img src={customConfig.LARGE_LOGO_PATH_SVG} alt="coa" />
           </div>
 
           <div className="navbar__right">
