@@ -43,7 +43,7 @@ const generatePDF = content => {
   doc.setFont('Rubik', 'normal');
   doc.setFontSize(36);
   doc.setTextColor('#4C7FF7');
-  doc.text(content, 90, 80);
+  doc.text(87, 80, content?.toString());
 
   return doc;
 };
