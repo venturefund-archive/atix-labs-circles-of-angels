@@ -15,21 +15,35 @@ import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
 import customConfig from 'custom-config';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { RubikBold } from 'components/utils/Rubik-Bold';
+import { RubikRegular } from 'components/utils/Rubik-Regular';
 
 const generatePDF = content => {
   const doc = jsPDF();
   const imageUrl = customConfig.LARGE_LOGO_PATH_PNG;
 
-  doc.addImage(imageUrl, 'png', 70, 10, 80, 15);
-  doc.setFontSize(40);
-  doc.text(40, 60, 'This is your secret key');
-  doc.setFontSize(20);
-  doc.text(40, 90, 'The key is unique and you will need it to perform');
-  doc.text(60, 100, 'different actions within the platform.');
-  doc.text(40, 110, 'Always remember to keep it in a safe place.');
+  doc.addImage(imageUrl, 'png', 72, 10, 70, 10);
+  doc.addFileToVFS('Rubik-Bold.ttf', RubikBold);
+  doc.addFont('Rubik-Bold.ttf', 'Rubik', 'bold');
+  doc.addFileToVFS('Rubik-Regular.ttf', RubikRegular);
+  doc.addFont('Rubik-Regular.ttf', 'Rubik', 'normal');
+  doc.setFont('Rubik', 'bold').setFontSize(18);
+  doc.text(70, 40, 'This is your secret key').setTextColor('#26385B');
 
-  doc.setFontSize(50);
-  doc.text(80, 145, content);
+  doc
+    .setFont('Rubik', 'normal')
+    .setFontSize(12)
+    .setTextColor('#728099');
+  doc.text('The key is unique and you will need it to perform', 60, 50);
+  doc.text('different actions within the platform.', 70, 55);
+
+  doc.setFont('Rubik', 'bold');
+  doc.text('Always remember to keep it in a safe place.', 63, 60);
+
+  doc.setFont('Rubik', 'normal');
+  doc.setFontSize(36);
+  doc.setTextColor('#4C7FF7');
+  doc.text(content, 90, 80);
 
   return doc;
 };

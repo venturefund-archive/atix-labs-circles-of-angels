@@ -77,7 +77,7 @@ export const CoaChangelogContainer = forwardRef(
       const doc = new jsPDF();
       const imageUrl = customConfig.LARGE_LOGO_PATH_PNG;
 
-      doc.addImage(imageUrl, 'png', 75, 10);
+      doc.addImage(imageUrl, 'png', 70, 10, 70, 10);
 
       doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
 
