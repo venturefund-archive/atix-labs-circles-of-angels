@@ -95,7 +95,13 @@ export const CoaChangelogContainer = forwardRef(
           fillColor: [241, 243, 255]
         },
         alternateRowStyles: { fillColor: [255, 255, 255] },
-        columnStyles: { 0: { halign: 'center' }, 4: { halign: 'center' } }
+        columnStyles: {
+          0: { halign: 'center', cellWidth: 30 },
+          1: { cellWidth: 40 },
+          2: { minCellWidth: 40 },
+          3: { cellWidth: 30 },
+          4: { halign: 'center', cellWidth: 20 }
+        }
       });
 
       doc.save(`${customConfig.NAME} - changelog.pdf`);
