@@ -7,13 +7,21 @@ import { CRYPTO_CURRENCY_PATH_SCANNER, CURRENCIES } from '../../../constants/con
 
 const TransactionLink = (props) => {
   const { texts } = React.useContext(DictionaryContext);
-  const { txHash, currency, showTitle } = props;
+  const { txHash, currency, showTitle, isChangelogActive } = props;
   const _cryptoCurrency = Object.values(CURRENCIES.crypto)
     .map(item => item.value)
     .find(curr => currency === curr);
-  if(!_cryptoCurrency) return <h5 className="transactionLink__title">
-    {texts?.transactionLink?.errorPart1 || 'Crypto currency'} ({currency}) {texts?.transactionLink?.errorPart2 || 'is not supported'}
-  </h5>;
+  if(!_cryptoCurrency) return null;
+
+  const isProduction = process.env.NODE_ENV === 'production';
+  // TODO: temporal change
+  const txPathInChangelog = false
+    ? `https://blockscout.com/rsk/mainnet/tx/${txHash}`
+    : `https://explorer.testnet.rsk.co/tx/${txHash}`;
+
+  const txPath = isChangelogActive
+    ? txPathInChangelog
+    :CRYPTO_CURRENCY_PATH_SCANNER[currency](txHash);
 
   return (
     <>
@@ -21,7 +29,7 @@ const TransactionLink = (props) => {
       <div className='transactionLink__linkContainer'>
         <span className='transactionLink__linkContainer__title'>Hash:&nbsp;</span>
         <Link
-          to={{ pathname: CRYPTO_CURRENCY_PATH_SCANNER[currency](txHash) }}
+          to={{ pathname: txPath }}
           target="_blank"
           className="transactionLink__link"
         >

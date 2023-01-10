@@ -48,7 +48,6 @@ import {
 } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
-import { signMessage } from '../helpers/blockchain/wallet';
 
 const wizards = {
   main: CreateProject,
@@ -412,7 +411,7 @@ const sendToReviewProject = async () => {
       />
       <ModalConfirmWithSK
         visible={confirmSendToReviewVisible}
-        onCancel={() => setSecretKeyVisible(false)}
+        onCancel={() => setConfirmSendToReviewVisible(false)}
         onSuccess={sendToReviewProject}
         title="You are about to send the project to be reviewed by the admin"
         description="To confirm the process please enter your administrator password and secret key"
