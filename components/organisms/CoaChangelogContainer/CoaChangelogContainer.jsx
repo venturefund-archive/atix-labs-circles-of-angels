@@ -73,10 +73,11 @@ export const CoaChangelogContainer = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changeLogs]);
 
-    function generatePDF() {
+    async function generatePDF() {
       const doc = new jsPDF();
+      const imageUrl = customConfig.LARGE_LOGO_PATH_PNG;
 
-      doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
+      doc.addImage(imageUrl, 'png', 75, 10);
 
       doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
 
@@ -95,10 +96,10 @@ export const CoaChangelogContainer = forwardRef(
           fillColor: [241, 243, 255]
         },
         alternateRowStyles: { fillColor: [255, 255, 255] },
-        columnStyles: { 0: { halign: 'center' }, 4: { halign: 'center' } }
+        columnStyles: { 0: { halign: 'center' }, 3: { cellWidth: 50 }, 4: { halign: 'center' } }
       });
 
-      doc.save(`${customConfig.NAME} - changelog.pdf`);
+      doc.save(`${customConfig.ORGANIZATION_NAME} - changelog.pdf`);
     }
 
     return (

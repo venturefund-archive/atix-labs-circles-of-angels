@@ -11,6 +11,7 @@ import './_style.scss';
 import NavbarLogin from 'components/molecules/NavbarLogin/NavbarLogin';
 import { Icon } from 'antd';
 import classNames from 'classnames';
+import customConfig from 'custom-config';
 import { CoaNavbarProfile } from 'components/molecules/CoaNavbarProfile/CoaNavbarProfile';
 import { checkRoleByProject } from 'helpers/roles';
 import { CoaTextButton } from '../CoaTextButton/CoaTextButton';
@@ -29,13 +30,13 @@ const Navbar = ({ project }) => {
         <div className="mobile">
           <Icon type="menu" className="mobile__icon --blue" onClick={() => setIsNavOpen(true)} />
           <div className="navbar__logo--mobile">
-            <img src="/static/images/coa.svg" alt="coa" />
+            <img src={customConfig.LARGE_LOGO_PATH} alt="coa" />
           </div>
         </div>
 
         <div className="desktop">
           <div className="navbar__logo--desktop">
-            <img src="/static/images/desktop-logo.svg" alt="desktopCOA" />
+            <img src={customConfig.LARGE_LOGO_PATH} alt="coa" />
           </div>
 
           <div className="navbar__right">
@@ -69,7 +70,7 @@ const Navbar = ({ project }) => {
             type="menu-fold"
             className="mobile__icon --blue"
           />
-          <img src="/static/images/coa.svg" alt="coa" />
+          <img src={customConfig.LOGO_PATH} alt="coa" />
           <Icon type="close" onClick={() => setIsNavOpen(false)} className="mobile__icon --gray" />
         </div>
         <div className="mobile__menu__body">

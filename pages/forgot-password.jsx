@@ -45,11 +45,9 @@ function ForgotPassword() {
       setLoading(true);
       const mnemonic = await fetchMnemonic();
       if (!mnemonic) {
-        const {
-          mnemonic: newMnemonic,
-          address,
-          encryptedWallet
-        } = await createNewWallet(newPassword);
+        const { mnemonic: newMnemonic, address, encryptedWallet } = await createNewWallet(
+          newPassword
+        );
         data = {
           token,
           password: newPassword,
@@ -75,9 +73,7 @@ function ForgotPassword() {
       goToDashboard();
     } catch (error) {
       const title = 'Error!';
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
     }
     setLoading(false);
@@ -88,7 +84,7 @@ function ForgotPassword() {
       {!successfulUpdate && (
         <div>
           <Spin spinning={loading}>
-            <h1>{customConfig.NAME}</h1>
+            <h1>{customConfig.ORGANIZATION_NAME}</h1>
             <h2>CHANGE YOUR PASSWORD</h2>
             <DynamicFormForgotPassword onSubmit={updatePassword} />
           </Spin>
@@ -101,8 +97,8 @@ function ForgotPassword() {
     <div className="Login">
       <div className="LogoSide">
         <img
-          src={customConfig.SIDE_LOGO_PATH}
-          alt={`${customConfig.NAME} side logo`}
+          src={customConfig.LARGE_LOGO_PATH_PNG}
+          alt={`${customConfig.ORGANIZATION_NAME} side logo`}
         />
       </div>
       <div className="FormSide">{renderForm()}</div>

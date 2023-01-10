@@ -16,14 +16,14 @@ import jsPDF from 'jspdf';
 import customConfig from 'custom-config';
 import CoaModal from 'components/atoms/CoaModal/CoaModal';
 
-const generatePDF = (content) => {
+const generatePDF = content => {
   const doc = jsPDF();
   doc.text(`${content}`, 10, 10);
-  return doc
-}
+  return doc;
+};
 
 function FormModalSecretKey({ form, modalOpen, onSuccess }) {
-  const { getFieldDecorator, getFieldProps, validateFields } = form
+  const { getFieldDecorator, getFieldProps, validateFields } = form;
   const [pin, setPin] = useState();
   const [doc, setDoc] = useState();
 
@@ -33,27 +33,25 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
     } else {
       callback();
     }
-  }
+  };
 
   const submit = () => {
     validateFields(err => {
       if (!err) {
-        return onSuccess(
-          getFieldProps('pin').value
-        );
+        return onSuccess(getFieldProps('pin').value);
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     const _pin = Math.floor(100000 + Math.random() * 900000);
-    setPin(_pin)
-    setDoc(generatePDF(_pin))
+    setPin(_pin);
+    setDoc(generatePDF(_pin));
   }, []);
 
   const saveSecretKey = () => {
-    doc.save(`${customConfig.NAME} - secret key.pdf`);
-  }
+    doc.save(`${customConfig.ORGANIZATION_NAME} - secret key.pdf`);
+  };
 
   return (
     <CoaModal
@@ -61,26 +59,22 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
       mask={false}
       closable={false}
       maskClosable={false}
-      footer={(
-        <Button
-          className="ant-btn ant-btn-primary"
-          onClick={submit}
-        >
+      footer={
+        <Button className="ant-btn ant-btn-primary" onClick={submit}>
           Confirm
         </Button>
-      )}
+      }
     >
       <LogoWrapper textTitle="Set up your Secret Key" />
       <Typography.Paragraph>
-        Download secret key. This Key is unique and you will need
-        it to perform different actions within the platform.
-        Please keep it in a safe place.
+        Download secret key. This Key is unique and you will need it to perform different actions
+        within the platform. Please keep it in a safe place.
       </Typography.Paragraph>
       <CustomButton
-        buttonText='Download'
+        buttonText="Download"
         icon="download"
-        classNameIcon='iconDisplay'
-        theme='Secondary Left'
+        classNameIcon="iconDisplay"
+        theme="Secondary Left"
         onClick={saveSecretKey}
         style={{
           display: 'flex',
@@ -96,36 +90,34 @@ function FormModalSecretKey({ form, modalOpen, onSuccess }) {
 
       <Form>
         <Form.Item label="Secret Key">
-          {
-            getFieldDecorator('pin', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your secret key'
-                },
-                {
-                  validator: validPin,
-                }
-              ]
-            })(<Input.Password placeholder='Enter your secret key' />)
-          }
+          {getFieldDecorator('pin', {
+            rules: [
+              {
+                required: true,
+                message: 'Please input your secret key'
+              },
+              {
+                validator: validPin
+              }
+            ]
+          })(<Input.Password placeholder="Enter your secret key" />)}
         </Form.Item>
       </Form>
     </CoaModal>
   );
-};
+}
 
 FormModalSecretKey.defaultProps = {
   form: null,
   modalOpen: false,
-  onSuccess: () => undefined,
+  onSuccess: () => undefined
 };
 
 FormModalSecretKey.propTypes = {
   form: PropTypes.element,
   modalOpen: PropTypes.bool,
-  onSuccess: PropTypes.func,
+  onSuccess: PropTypes.func
 };
 
-const ModalSecretKey = Form.create({ name: 'SecretKeyForm' })(FormModalSecretKey)
+const ModalSecretKey = Form.create({ name: 'SecretKeyForm' })(FormModalSecretKey);
 export default ModalSecretKey;

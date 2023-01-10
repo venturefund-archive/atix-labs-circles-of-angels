@@ -9,25 +9,19 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className='footer__left'>
-        <img src={customConfig.LOGO_PATH} alt="CoA" className='footer__left__logo'/>
-        <span className='footer__left__coaText'>
-          {customConfig.NAME.toUpperCase()}
-        </span>
+      <div className="footer__left">
+        <img src={customConfig.LARGE_LOGO_PATH} alt="CoA" className="footer__left__logo" />
       </div>
-      <div className='footer__right'>
-        <Link
-            to='/terms-and-conditions'
-            className='footer__right__termsConditions'
-        >
+      <div className="footer__right">
+        <Link to="/terms-and-conditions" className="footer__right__termsConditions">
           {texts?.general?.['terms&Conditions'] || 'Terms & conditions'}
         </Link>
-        <span className='footer__right__copyright'>
-          &#169;{(new Date()).getFullYear()} {customConfig.NAME}
+        <span className="footer__right__copyright">
+          &#169;{new Date().getFullYear()} {customConfig.ORGANIZATION_NAME}
         </span>
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

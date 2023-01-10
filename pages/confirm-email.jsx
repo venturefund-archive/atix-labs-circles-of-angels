@@ -39,7 +39,7 @@ function ConfirmEmail() {
 
   const renderForm = () => (
     <Spin spinning={loading}>
-      <h1>{customConfig.NAME}</h1>
+      <h1>{customConfig.ORGANIZATION_NAME}</h1>
       <h2>
         {statusConfirm
           ? 'Your email address has been verified successfully'
@@ -53,8 +53,8 @@ function ConfirmEmail() {
     <div className="Login">
       <div className="LogoSide">
         <img
-          src={customConfig.SIDE_LOGO_PATH}
-          alt={`${customConfig.NAME} side logo`}
+          src={customConfig.LARGE_LOGO_PATH_PNG}
+          alt={`${customConfig.ORGANIZATION_NAME} side logo`}
         />
       </div>
       <div className="FormSide">{renderForm()}</div>
