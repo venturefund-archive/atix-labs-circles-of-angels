@@ -173,6 +173,8 @@ const EvidenceFormContent = props => {
 
   if (loading) return <Loading></Loading>;
 
+  const isFiatProject = currencyType === CURRENCY_TYPE_ENUM.FIAT;
+
   return (
     <div className="evidenceForm">
       <GoBackButton
@@ -307,6 +309,7 @@ const EvidenceFormContent = props => {
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
+                        if(isFiatProject) return;
                         getTransactions(inputValue);
                       }}
                       checked={transactionType === 'outcome'}
@@ -328,6 +331,7 @@ const EvidenceFormContent = props => {
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
+                        if(isFiatProject) return;
                         getTransactions(inputValue);
                       }}
                       checked={transactionType === 'income'}
@@ -400,7 +404,7 @@ const EvidenceFormContent = props => {
               </div>
             </div>
           )}
-          {(currencyType === CURRENCY_TYPE_ENUM.FIAT || type === 'impact') && (
+          {(isFiatProject || type === 'impact') && (
             <div className="evidenceForm__body__form__group">
               <div className="formDivInfo">
                 <p className="formDivTitle">Upload Evidence Documents</p>
@@ -415,7 +419,7 @@ const EvidenceFormContent = props => {
                     {getFieldDecorator('files', {
                       rules: [
                         {
-                          required: type === 'impact' || currencyType === CURRENCY_TYPE_ENUM.FIAT,
+                          required: type === 'impact' || isFiatProject,
                           message: 'Please select the files'
                         }
                       ]
