@@ -5,6 +5,7 @@
   &__content {
     padding-block: 0.8rem;
     padding-inline: 1.2rem;
+    flex-wrap: nowrap;
     &__message {
       @include primary-text(0.875rem, $white, 400);
     }

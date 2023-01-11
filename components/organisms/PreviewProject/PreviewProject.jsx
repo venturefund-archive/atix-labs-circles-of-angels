@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { message, Divider } from 'antd';
 import { useHistory } from 'react-router';
@@ -25,7 +25,7 @@ import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
-import { getProject, cloneProject } from '../../../api/projectApi';
+import { cloneProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
 import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
@@ -35,45 +35,19 @@ import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { checkIsBeneficiaryOrInvestorByProject } from '../../../helpers/roles';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
-const PreviewProject = ({ id, preview }) => {
+const PreviewProject = ({
+  id,
+  preview,
+  project,
+  loading,
+  milestones,
+  isAdmin,
+  setLoading,
+  setMilestones
+}) => {
   const history = useHistory();
   const { user } = useContext(UserContext);
   const { texts } = useContext(DictionaryContext);
-
-  const goBack = () => history.push('/');
-
-  const isAdmin = user?.isAdmin;
-
-  const [loading, setLoading] = useState(true);
-  const [project, setProject] = useState({
-    title: '',
-    status: ''
-  });
-  const [milestones, setMilestones] = useState([]);
-
-  const fetchProject = async projectId => {
-    const response = await getProject(projectId);
-    if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
-      goBack();
-      return;
-    }
-
-    const { data } = response;
-
-    setProject(data);
-
-    const _milestones = data?.milestones || [];
-    setMilestones([..._milestones]);
-
-    setLoading(prevState => !prevState);
-  };
-
-  useEffect(() => {
-    fetchProject(id);
-
-    // eslint-disable-next-line
-  }, [id]);
 
   const { basicInformation, status, details, users, budget, editing, cloneId, inReview, revision } =
     project || {};
@@ -160,12 +134,11 @@ const PreviewProject = ({ id, preview }) => {
     <LandingLayout
       project={project}
       showPreviewAlert={preview && isAdmin}
-      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
+      showEditingAlert={editing}
       projectId={project?.id}
       headerAnimation
       header={
         <ProjectHeroSection
-          preview={preview}
           inReview={inReview}
           title={projectName}
           status={status}
@@ -179,12 +152,11 @@ const PreviewProject = ({ id, preview }) => {
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
           blockchainHistoryUrl={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
           revision={revision}
-          isAdmin={isAdmin}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
     >
-      {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
+      {
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons__container">
             <div className="o-previewProject__buttons">
@@ -379,7 +351,7 @@ const PreviewProject = ({ id, preview }) => {
             />
           </div>
         </div>
-      )}
+      }
     </LandingLayout>
   );
 };
