@@ -4,9 +4,9 @@ import { useHistory, useParams } from 'react-router';
 import useQuery from 'hooks/useQuery';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { getProject } from 'api/projectApi';
+import { PreviewDraftProject } from 'components/organisms/PreviewDraftProject/PreviewDraftProject';
 import { UserContext } from 'components/utils/UserContext';
 import PreviewProject from '../components/organisms/PreviewProject/PreviewProject';
-import { PreviewDraftProject } from 'components/organisms/PreviewDraftProject/PreviewDraftProject';
 
 const Preview = () => {
   const { projectId } = useParams();
