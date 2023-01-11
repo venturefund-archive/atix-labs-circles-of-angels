@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './coa-milestones-view.scss';
 import { message } from 'antd';
@@ -20,9 +20,12 @@ import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { CoaConfirmDeleteModal } from 'components/organisms/CoaModals/CoaFeedbackModals/CoaFeedbackModals';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaMilestoneItem } from '../CoaMilestoneItem/CoaMilestoneItem';
 
 export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
+  const { texts } = useContext(DictionaryContext);
+
   const projectId = project?.id;
   const currency = project?.details?.currency || '';
   const auditors = getUsersByRole(ROLES_IDS.auditor, project?.users);
@@ -60,7 +63,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         status: MILESTONE_STATUS_ENUM.NEW
       }
     ]);
-    message.success('Milestone created!');
+    message.success(texts?.createProject?.milestoneCreated || 'Milestone created!');
   };
 
   const handleRemoveMilestone = async milestoneId => {
@@ -70,14 +73,15 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     }
     const _milestones = milestones.filter(milestone => milestone?.id !== milestoneId);
     setMilestones(_milestones);
-    message.success('Milestone removed!');
+    message.success(texts?.createProject?.milestoneRemoved || 'Milestone removed!');
   };
 
   const handleOpenConfirmDeleteMilestoneModal = milestoneId =>
     CoaConfirmDeleteModal({
       onOk: () => handleRemoveMilestone(milestoneId),
-      title: 'Do you want to delete this milestone?',
+      title: texts?.createProject?.deleteMilestoneQuestion || 'Do you want to delete this milestone?',
       subtitle:
+        texts?.createProject?.deleteMilestoneQuestionSubtitle ||
         'If the milestone contains activities they will also be deleted. These actions cannot be undone'
     });
 
@@ -96,7 +100,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     };
     setMilestones(_milestones);
     setCurrentEditedMilestone(undefined);
-    message.success('Milestone updated!');
+    message.success(texts?.createProject?.milestoneUpdated || 'Milestone updated!');
   };
 
   const handleOpenEditMilestone = milestone => {
@@ -143,7 +147,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     milestoneFound.areActivitiesOpen = true;
 
     setMilestones([..._milestones]);
-    message.success('Activity created!');
+    message.success(texts?.createProject?.activityCreated ||'Activity created!');
   };
 
   const handleRemoveActivity = async ({ activityId, milestone }) => {
@@ -167,14 +171,14 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     milestoneFound.budget = totalBudget;
 
     setMilestones(_milestones);
-    message.success('Activity Deleted!');
+    message.success(texts?.createProject?.activityDeleted || 'Activity deleted!');
   };
 
   const handleOpenConfirmDeleteActivityModal = ({ activityId, milestone }) =>
     CoaConfirmDeleteModal({
       onOk: () => handleRemoveActivity({ activityId, milestone }),
-      title: 'Do you want to delete this activity?',
-      subtitle: 'This action cannot be undone'
+      title: texts?.createProject?.deleteActivityQuestion || 'Do you want to delete this activity?',
+      subtitle: texts?.createProject?.deleteActivityQuestionSubtitle || 'This action cannot be undone'
     });
 
   const handleEditActivity = async updatedActivity => {
@@ -210,7 +214,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     setMilestones(_milestones);
     setCurrentEditedActivity(undefined);
     setCurrentEditedMilestone(undefined);
-    message.success('Activity updated');
+    message.success(texts?.createProject?.activityUpdated || 'Activity updated');
   };
 
   const handleCancelFormMilestoneModal = () => {
@@ -237,7 +241,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         <div className="o-coaMilestonesContainer__titleContainer">
           <TitlePage textTitle="Preview and edit milestones" />
           <CoaButton type="primary" onClick={() => setIsFormMilestoneModalOpen(true)}>
-            Add new Milestone
+            {texts?.createProject?.addNewMilestone || 'Add new Milestone'}
           </CoaButton>
         </div>
         <div className="o-coaMilestonesContainer__cards">

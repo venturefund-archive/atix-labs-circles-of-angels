@@ -9,6 +9,7 @@ import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from 'constants/constants';
 import './_style.scss';
 import { UserContext } from 'components/utils/UserContext';
 import { checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
 const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => ({
@@ -35,7 +36,7 @@ const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => (
   }
 });
 
-const Items = ({ title, subtitle, onClick, completed, disabled }) => (
+const Items = ({ title, subtitle, onClick, completed, disabled, texts }) => (
   <div className="createProject__content__steps__step">
     <div className="createProject__content__steps__step__left">
       <img
@@ -54,7 +55,7 @@ const Items = ({ title, subtitle, onClick, completed, disabled }) => (
       onClick={onClick}
       disabled={disabled}
     >
-      Edit
+      {texts?.general?.btnEdit || 'Edit'}
     </CoaButton>
   </div>
 );
@@ -68,8 +69,9 @@ const CreateProject = ({
   isACloneBeingEdited
 }) => {
   const history = useHistory();
+  const { texts } = useContext(DictionaryContext);
   const { status, basicInformation, inReview } = project || {};
-  const projectName = basicInformation?.projectName || 'My project';
+  const projectName = basicInformation?.projectName || (texts?.createProject?.myProject || 'My project');
   const areAllStepsCompleted =
     completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] &&
     completedSteps[PROJECT_FORM_NAMES.PROPOSAL] &&
@@ -88,7 +90,7 @@ const CreateProject = ({
         <Breadcrumb>
           <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/">Create Project</a>
+            <a href="/">{texts?.createProject?.title || 'Create Project'}</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -110,14 +112,14 @@ const CreateProject = ({
                 : history.push(`/${project?.parent || project?.id}`)
             }
           >
-            See preview project
+            {texts?.createProject?.seePreview || 'See preview project'}
           </CoaButton>
         </div>
 
         <div className="createProject__content__steps">
           <Items
-            title="Basic Information"
-            subtitle="Here you can assign or create users to different roles"
+            title={texts?.createProject?.basicInfo || 'Basic Information'}
+            subtitle={texts?.createProject?.createUsersLabel || 'Here you can assign or create users to different roles'}
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             disabled={
@@ -127,11 +129,12 @@ const CreateProject = ({
                 isBeneficiaryOrInvestor
               })?.[editorVariant]?.basicInformationButtonDisabled
             }
+            texts={texts}
           />
 
           <Items
-            title="Project Detail"
-            subtitle="Here you can complete the project information"
+            title={texts?.createProject?.projectDetail || 'Project Detail'}
+            subtitle={texts?.createProject?.completeInfo || 'Here you can complete the project information'}
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             disabled={
@@ -141,11 +144,12 @@ const CreateProject = ({
                 isBeneficiaryOrInvestor
               })?.[editorVariant]?.projectDetailsButtonDisabled
             }
+            texts={texts}
           />
 
           <Items
-            title="Project Users"
-            subtitle="Here you can assign or create users to different roles"
+            title={texts?.createProject?.projectUsers || 'Project Users'}
+            subtitle={texts?.createProject?.createUserRoles || 'Here you can assign or create users to different roles'}
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
             completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             disabled={
@@ -155,10 +159,11 @@ const CreateProject = ({
                 isBeneficiaryOrInvestor
               })?.[editorVariant]?.projectUsersButtonDisabled
             }
+            texts={texts}
           />
           <Items
-            title="Project Milestones"
-            subtitle="Here you can upload the required milestones for your project"
+            title={texts?.createProject?.projectMilestone || 'Project Milestones'}
+            subtitle={texts?.createProject?.uploadMilestone || 'Here you can upload the required milestones for your project'}
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
             completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             disabled={
@@ -168,18 +173,19 @@ const CreateProject = ({
                 isBeneficiaryOrInvestor
               })?.[editorVariant]?.milestonesButtonDisabled
             }
+            texts={texts}
           />
         </div>
         {!!project.id &&
           ((isAdmin && project?.inReview) || (isBeneficiaryOrInvestor && isACloneBeingEdited)) && (
             <div className="createProject__content__changelog">
               <TitlePage
-                textTitle="Changelog"
+                textTitle={texts?.createProject?.changelog || 'Changelog'}
                 className="createProject__content__changelog__title"
                 textColor="#4C7FF7"
               />
               <CoaChangelogContainer
-                title="Project Changelog"
+                title={texts?.createProject?.projectChangelog || 'Project Changelog'}
                 projectId={project?.parent || project?.id}
                 currency={project?.details?.currency}
                 revisionId={project?.revision}

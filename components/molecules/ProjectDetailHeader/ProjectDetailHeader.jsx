@@ -70,7 +70,7 @@ const ProjectDetailHeader = ({
     {
       key: 2,
       label: 'Timeframe',
-      value: formatTimeframeValue(timeframe),
+      value: formatTimeframeValue({ timeframe }),
       img: './static/images/calendar-icon.svg'
     },
     {

@@ -14,8 +14,10 @@ import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/form
 import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 
 export default function ProjectChangeLog() {
+  const { texts } = useContext(DictionaryContext);
   const { projectId } = useParams();
   const history = useHistory();
   const { loading, project } = useProject(projectId);
@@ -51,7 +53,7 @@ export default function ProjectChangeLog() {
           subtitle={customConfig.NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
@@ -68,11 +70,11 @@ export default function ProjectChangeLog() {
           onClick={() => history.push(preview ? `/${projectId}?preview=true` : `/${projectId}`)}
         >
           <Icon type="arrow-left" />
-          Go Back
+          {texts?.general?.btnGoBack || 'Go back'}
         </CoaTextButton>
-        <TitlePage textTitle="Blockchain Changelog" textColor="#4C7FF7" />
+        <TitlePage textTitle={texts?.general?.blockchainChangelog || 'Blockchain Changelog'} textColor="#4C7FF7" />
         <CoaChangelogContainer
-          title="Project Changelog"
+          title={texts?.changelog?.title || 'Project Changelog'}
           projectId={projectId}
           withInfinityHeight
           currency={currency}

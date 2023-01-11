@@ -10,8 +10,8 @@ export const getInitials = fullName => {
   return initials;
 };
 
-export const formatTimeframeValue = (timeframe, timeframeUnit = '') =>
-  `${parseFloat(timeframe)?.toFixed(1)} ${timeframeUnit}`;
+export const formatTimeframeValue = ({ timeframe, timeframeUnit = '', texts }) =>
+  `${parseFloat(timeframe)?.toFixed(1)} ${texts?.general?.[timeframeUnit] || timeframeUnit}`;
 
 export const formatCurrencyAtTheBeginning = (currency, value) => {
   if (!value && value !== 0) return (0).toFixed(2);

@@ -442,7 +442,7 @@ const EvidenceFormContent = props => {
                     })(
                       <Upload {...uploadProps}>
                         <Button className="uploadBtn">
-                          <Icon type="upload" /> {texts?.createEvidence?.uploadClick || 'Click to upload'}
+                          <Icon type="upload" /> {texts?.general?.uploadClick || 'Click to upload'}
                         </Button>
                       </Upload>
                     )}

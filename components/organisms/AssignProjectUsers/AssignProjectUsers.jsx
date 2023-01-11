@@ -7,7 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Icon } from 'antd';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
@@ -21,11 +21,14 @@ import {
   checkProjectHasAnyUserWithoutFirstLogin,
   getUsersByRole
 } from 'helpers/modules/projectUsers';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ROLES_IDS } from './constants';
 import { FormUserContainer } from './FormUserContainer/FormUserContainer';
 import { FormUserContent } from './FormUserContent/FormUserContent';
 
+
 export const AssignProjectUsers = ({ project, onError, Footer }) => {
+  const { texts } = useContext(DictionaryContext);
   const [countries, setCountries] = useState({});
   const [hasPendingUsers, setHasPendingUsers] = useState(false);
 
@@ -90,14 +93,14 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
       <CoaAlert
         className="assignProjectUsers__warningAlert"
         Icon={<Icon className="assignProjectUsers__warningAlert__icon" component={SentIcon} />}
-        highlightedText="You have pending users!"
-        message="The indicated users have not entered the platform for their first login yet. The project cannot be published until all users have registered."
+        highlightedText={ texts?.createProject?.pendingUsers || 'You have pending users!'}
+        message={texts?.createProject?.usersNotEnterInThePlatform || 'The indicated users have not entered the platform for their first login yet. The project cannot be published until all users have registered.'}
         customColor="yellow"
         closable
         show={hasPendingUsers}
       />
       <div className="assignProjectUsers__content">
-        <TitlePage textTitle="Assign project users" />
+        <TitlePage textTitle={texts?.createProject?.assignUsers || 'Assign project users'} />
         {Object.keys(ROLES_IDS).map((key, index) => (
           <div key={key} className="assignProjectUsers__content__itemsContainer">
             <div className="assignProjectUsers__content__itemsContainer__titleContainer">
@@ -106,7 +109,7 @@ export const AssignProjectUsers = ({ project, onError, Footer }) => {
               </h3>
               {ROLES_IDS[key] === ROLES_IDS.auditor && (
                 <CoaTextButton onClick={addAuditor} disabled={!canAddAdditionalAuditor}>
-                  <Icon type="plus" /> Add Auditor
+                  <Icon type="plus" /> {texts?.createProject?.addAuditor || 'Add Auditor'}
                 </CoaTextButton>
               )}
             </div>

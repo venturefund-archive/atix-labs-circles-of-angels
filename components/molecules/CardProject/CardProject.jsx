@@ -86,7 +86,7 @@ const CardProject = ({ onClick, project, countries }) => {
           <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
             subtitle="Timeframe"
-            title={formatTimeframeValue(timeframe, timeframeUnit)}
+            title={formatTimeframeValue({ timeframe, timeframeUnit })}
             iconInfoItem="clock-circle"
             className="m-cardProject__body__description__timeframe"
           />

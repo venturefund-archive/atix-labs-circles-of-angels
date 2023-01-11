@@ -172,7 +172,7 @@ const PreviewProject = ({ id, preview }) => {
           subtitle={customConfig.NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
