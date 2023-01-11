@@ -74,25 +74,20 @@ class TransferFunds extends React.Component {
           <div className="ProjectStepsContainer">
             <p className="LabelSteps">Funding Step</p>
             <h3 className="StepDescription">
-              Transfer your pledged funds, help the world become a better place
-              for everyone
+              Transfer your pledged funds, help the world become a better place for everyone
             </h3>
             <p className="LabelSteps">Project Name</p>
             <h1>Lorem Ipsum</h1>
             <div className="TransferContent">
-              <h2>{customConfig.NAME} Bank Account Information</h2>
+              <h2>{customConfig.ORGANIZATION_NAME} Bank Account Information</h2>
               <div className="TransferBankInfo">
                 <h3>Singapore Bank</h3>
                 <h4> Account #: 0012345678</h4>
                 <h4> Account owner: CirclesOfAngels</h4>
               </div>
               <FormTransfer
-                onTransferChange={evnt =>
-                  this.updateState(evnt, 'transferId', evnt.target.value)
-                }
-                onAmountChange={evnt =>
-                  this.updateState(evnt, 'amount', evnt.target.value)
-                }
+                onTransferChange={evnt => this.updateState(evnt, 'transferId', evnt.target.value)}
+                onAmountChange={evnt => this.updateState(evnt, 'amount', evnt.target.value)}
                 submitTransfer={this.submitTransfer}
               />
             </div>
