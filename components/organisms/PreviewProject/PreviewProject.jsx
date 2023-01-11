@@ -134,12 +134,11 @@ const PreviewProject = ({
     <LandingLayout
       project={project}
       showPreviewAlert={preview && isAdmin}
-      showEditingAlert={(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && editing}
+      showEditingAlert={editing}
       projectId={project?.id}
       headerAnimation
       header={
         <ProjectHeroSection
-          preview={preview}
           inReview={inReview}
           title={projectName}
           status={status}
@@ -153,12 +152,11 @@ const PreviewProject = ({
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
           blockchainHistoryUrl={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
           revision={revision}
-          isAdmin={isAdmin}
         />
       }
       thumbnailPhoto={thumbnailPhoto}
     >
-      {(isAdmin || status !== PROJECT_STATUS_ENUM.DRAFT) && (
+      {
         <div className="o-previewProject__content">
           <div className="o-previewProject__buttons__container">
             <div className="o-previewProject__buttons">
@@ -353,7 +351,7 @@ const PreviewProject = ({
             />
           </div>
         </div>
-      )}
+      }
     </LandingLayout>
   );
 };

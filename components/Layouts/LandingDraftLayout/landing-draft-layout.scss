@@ -1,0 +1,35 @@
+@import 'css/_general_styling.scss';
+
+.landingDraftLayout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  &__header {
+    flex: 1;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__content {
+      @include respond(mobile) {
+        width: 100%;
+        padding-inline: 1rem;
+      }
+      @include respond(tablet) {
+        width: 100%;
+        padding-inline: 4.1875rem;
+      }
+      @include respond(laptop) {
+        width: 100%;
+        padding-inline: 9.875rem;
+      }
+      @include respond(desktop) {
+        width: 86rem;
+        padding: 0;
+      }
+    }
+  }
+}

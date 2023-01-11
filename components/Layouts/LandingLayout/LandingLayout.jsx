@@ -67,22 +67,6 @@ export const LandingLayout = ({
           </CoaButton>
         }
       />
-      <CoaAlert
-        className="landingLayout__previewInfoMessage"
-        message={texts?.header?.preview || 'You are viewing the preview of your project'}
-        customColor="blue"
-        closable={false}
-        show={showPreviewAlert}
-        closeContent={
-          <CoaButton
-            onClick={() => history.push(`/project/edit/${project?.id}`)}
-            type="ghost"
-            primaryColor="white"
-          >
-            <Icon type="arrow-left" /> Back to edit
-          </CoaButton>
-        }
-      />
       <div
         className={classNames('landingLayout__header', {
           '--notShowInMobile': disappearHeaderInMobile
