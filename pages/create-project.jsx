@@ -35,6 +35,7 @@ import ModalPublishError from 'components/organisms/ModalPublishError/ModalPubli
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { UserContext } from 'components/utils/UserContext';
 import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import {
@@ -57,7 +58,7 @@ const wizards = {
   milestones: CoaMilestonesView
 };
 
-const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
+const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps, texts }) => ({
   FIRST_EDITING: {
     finishButtonDisabled:
       ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(status) ||
@@ -68,8 +69,8 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
     prevStepButtonDisabled: ![PROJECT_STATUS_ENUM.DRAFT, PROJECT_STATUS_ENUM.IN_REVIEW].includes(
       status
     ),
-    prevButtonText: isMainWizardActive ? 'Delete Project' : 'Back',
-    nextStepButtonText: isMainWizardActive ? 'Publish project' : 'Save and continue'
+    prevButtonText: isMainWizardActive ? `${texts?.createProject?.deleteProject || 'Delete Project'}` : `${texts?.general?.back || 'Back'}`,
+    nextStepButtonText: isMainWizardActive ? `${texts?.createProject?.publishProject || 'Publish project'}` : `${texts?.createProject?.saveAndContinue || 'Save and continue'}`
   },
   EDITING_CLONE: {
     finishButtonDisabled:
@@ -77,14 +78,15 @@ const EDITING_LOGIC = ({ status, isMainWizardActive, completedSteps }) => ({
       (isMainWizardActive && Object.values(completedSteps).some(completed => !completed)),
     nextStepButtonDisabled: ![PROJECT_STATUS_ENUM.OPEN_REVIEW].includes(status),
     prevStepButtonDisabled: false,
-    prevButtonText: isMainWizardActive ? 'Delete Edition' : 'Back',
-    nextStepButtonText: isMainWizardActive ? 'Send to review' : 'Save and continue'
+    prevButtonText: isMainWizardActive ? `${texts?.createProject?.deleteEdition || 'Delete Edition'}` : `${texts?.general?.back || 'Back'}`,
+    nextStepButtonText: isMainWizardActive ? `${texts?.createProject?.sendToReview || 'Send to review'}` : `${texts?.createProject?.saveAndContinue || 'Save and continue'}`
   }
 });
 
 const CreateProjectContainer = () => {
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const { texts } = useContext(DictionaryContext);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
   const [secretKeyVisible, setSecretKeyVisible] = useState(false);
@@ -159,7 +161,7 @@ const CreateProjectContainer = () => {
     try {
       await onSubmit?.();
       await handleGoBack({ withUpdate: true });
-      message.success('Saved successfully');
+      message.success(texts?.createProject?.saved || 'Saved successfully');
     } catch (error) {
       errorCallback(error);
     }
@@ -167,13 +169,13 @@ const CreateProjectContainer = () => {
 
   // TODO validate with UX team
   const errorCallback = errorMsg =>
-    message.error(errorMsg || 'An error ocurred while saving the information');
+    message.error(texts?.general?.errorSavingInfo || 'An error ocurred while saving the information');
 
   const askDeleteConfirmation = () => {
     if (project && project.id) {
       showModalConfirm(
-        'Warning!',
-        'Are you sure you want to delete your project?',
+        texts?.createProject?.warning || 'Warning!',
+        texts?.createProject?.deleteProjectConfirmation || 'Are you sure you want to delete your project?',
         deleteCurrentProject
       );
     }
@@ -186,7 +188,7 @@ const CreateProjectContainer = () => {
         message.error(response.errors);
         return;
       }
-      message.success('Your project was successfully deleted!');
+      message.success(texts?.createProject?.rightDeleted || 'Your project was successfully deleted!');
       goToMyProjects();
     }
   };
@@ -194,8 +196,8 @@ const CreateProjectContainer = () => {
   const askDeleteEditionConfirmation = () => {
     if (!project || !project.id) return;
     showModalConfirm(
-      'Warning!',
-      'Are you sure you want to delete this edition?',
+      texts?.createProject?.warning || 'Warning!',
+      texts?.createProject?.deleteConfirmation || 'Are you sure you want to delete this edition?',
       deleteCurrentProjectEdition
     );
   };
@@ -207,7 +209,7 @@ const CreateProjectContainer = () => {
       message.error(response.errors);
       return;
     }
-    message.success('Your project edition was successfully deleted!');
+    message.success(texts?.general?.projectDeleted || 'Your project edition was successfully deleted!');
     history.push(`/${project.parent}`);
   };
 
@@ -258,7 +260,7 @@ const sendToReviewProject = async () => {
   const fetchProject = async () => {
     const response = await getProject(projectId);
     if (response.errors || !response.data) {
-      message.error('An error occurred while fetching the project');
+      message.error(texts?.general?.errorFetchingProject || 'An error occurred while fetching the project');
       goToMyProjects();
     }
     const { data } = response;
@@ -291,7 +293,7 @@ const sendToReviewProject = async () => {
             setApprovalVisible(true);
           }}
         >
-          Approve
+          {texts?.general?.btnApprove || 'Approve'}
         </CoaApproveButton>
       );
 
@@ -300,12 +302,12 @@ const sendToReviewProject = async () => {
         type="primary"
         onClick={() => (isMainWizardActive ? handleFinishEdit(true) : successCallback(onSubmit))}
         disabled={
-          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC({ status, isMainWizardActive, completedSteps, texts })?.[editorVariant]
             ?.finishButtonDisabled
         }
       >
         {
-          EDITING_LOGIC?.({ completedSteps, isMainWizardActive, status })?.[editorVariant]
+          EDITING_LOGIC?.({ completedSteps, isMainWizardActive, status, texts })?.[editorVariant]
             ?.nextStepButtonText
         }
         <Icon type="arrow-right" />
@@ -323,19 +325,19 @@ const sendToReviewProject = async () => {
             setRejectionVisible(true);
           }}
         >
-          Reject
+          {texts?.general?.btnReject || 'Reject'}
         </CoaRejectButton>
       );
 
     return (
       <CoaTextButton
         disabled={
-          EDITING_LOGIC({ status, completedSteps, isMainWizardActive })?.[editorVariant]
+          EDITING_LOGIC({ status, completedSteps, isMainWizardActive, texts })?.[editorVariant]
             ?.nextStepButtonDisabled
         }
         onClick={isACloneBeingEdited ? goToParentProject : goToMyProjects}
       >
-        Save & Continue Later
+        {texts?.createProject?.saveAndContinueLater || 'Save & Continue Later'}
       </CoaTextButton>
     );
   };
@@ -354,15 +356,15 @@ const sendToReviewProject = async () => {
     };
 
     const argumentsForText = isACloneInReview
-      ? { status, isMainWizardActive: false, completedSteps }
-      : { status, isMainWizardActive, completedSteps };
+      ? { status, isMainWizardActive: false, completedSteps, texts }
+      : { status, isMainWizardActive, completedSteps, texts };
     return (
       <CoaButton
         type="secondary"
         icon={isMainWizardActive && !isACloneInReview ? 'delete' : 'arrow-left'}
         onClick={onPrevOnClick[currentWizard]}
         disabled={
-          EDITING_LOGIC({ status, isMainWizardActive, completedSteps })?.[editorVariant]
+          EDITING_LOGIC({ status, isMainWizardActive, completedSteps, texts })?.[editorVariant]
             ?.prevStepButtonDisabled
         }
       >
@@ -413,34 +415,34 @@ const sendToReviewProject = async () => {
         visible={confirmSendToReviewVisible}
         onCancel={() => setConfirmSendToReviewVisible(false)}
         onSuccess={sendToReviewProject}
-        title="You are about to send the project to be reviewed by the admin"
-        description="To confirm the process please enter your administrator password and secret key"
-        okText="Confirm"
-        cancelText="Cancel"
+        title={texts?.createProject?.ttSend || 'You are about to send the project to be reviewed by the admin'}
+        description={texts?.createProject?.dConfirmation || 'To confirm the process please enter your administrator password and secret key'}
+        okText={texts?.general?.confirm || 'Confirm'}
+        cancelText={texts?.general?.btnCancel || 'Cancel'}
       />
       <ModalConfirmWithSK
         visible={confirmApprovalVisible}
         onCancel={() => setApprovalVisible(false)}
         onSuccess={approveClonedProject}
-        title="Are you sure you want to approve this changes?"
-        description="To confirm the process please enter your administrator password and secret key"
-        okText="Approve"
-        cancelText="Cancel"
+        title={texts?.createProject?.ttApproveConfirmation || 'Are you sure you want to approve this changes?'}
+        description={texts?.createProject?.dConfirmation || 'To confirm the process please enter your administrator password and secret key'}
+        okText={texts?.general?.btnApprove || 'Approve'}
+        cancelText={texts?.general?.btnCancel || 'Cancel'}
       />
       <ModalConfirmWithSK
         visible={confirmRejectionVisible}
         onCancel={() => setRejectionVisible(false)}
         onSuccess={rejectClonedProject}
-        title="Are you sure you want to reject this changes?"
-        description="To confirm the process please enter your administrator password and secret key"
-        okText="Reject"
-        cancelText="Cancel"
+        title={texts?.createProject?.ttRejectConfirmation || 'Are you sure you want to reject this changes?'}
+        description={texts?.createProject?.dConfirmation || 'To confirm the process please enter your administrator password and secret key'}
+        okText={texts?.general?.btnReject || 'Reject'}
+        cancelText={texts?.general?.btnCancel || 'Cancel'}
         leaveAComment
       />
       <ModalPublishLoading visible={loadingModalVisible} />
       <ModalPublishLoading
         visible={loadingSendToReviewModalVisible}
-        textTitle="Sending to review"
+        textTitle={texts?.createProject?.sendingToReview || 'Sending to review'}
       />
       <ModalPublishSuccess
         visible={successModalVisible}
@@ -448,14 +450,14 @@ const sendToReviewProject = async () => {
         onSave={() => history.push('/my-projects')}
       >
         <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
-          Project Link
+          {texts?.createProject?.projectLink || 'Project Link'}
         </Link>
       </ModalPublishSuccess>
       <ModalPublishSuccess
         visible={successSendToReviewModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
-        textTitle="The project was sent successfully!"
-        description="The project will be reviewed by the administrator."
+        textTitle={texts?.createProject?.ttSent || 'The project was sent successfully!'}
+        description={texts?.createProject?.dSent || 'The project will be reviewed by the administrator.'}
         onSave={() => history.push(`/${project?.parent}`)}
       />
       <ModalPublishSuccess
@@ -464,8 +466,8 @@ const sendToReviewProject = async () => {
           history.push(`/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
         }}
-        textTitle="The project was published successfully!"
-        description="A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page"
+        textTitle={texts?.createProject?.ttPublished || 'The project was published successfully!'}
+        description={texts?.createProject?.dPublished || 'A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page'}
         onSave={() => {
           history.push(`/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
@@ -477,8 +479,8 @@ const sendToReviewProject = async () => {
           history.push(`/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}
-        textTitle="You have rejected the changes"
-        description="No changes have been applied to the project"
+        textTitle={texts?.createProject?.ttRejected || 'You have rejected the changes'}
+        description={texts?.createProject?.dRejected || 'No changes have been applied to the project'}
         onSave={() => {
           history.push(`/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
