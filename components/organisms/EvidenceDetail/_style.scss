@@ -101,7 +101,7 @@
     height: 31.25rem;
     position: relative;
     &__button {
-      position: absolute;
+      position: absolute !important;
       bottom: 1.5rem;
       right: 8px;
     }
