@@ -18,13 +18,11 @@ const ProjectHeroSection = ({
   legalAgreementUrl,
   blockchainHistoryUrl,
   inReview,
-  revision,
-  isAdmin
+  revision
 }) => (
   <div className="hero">
     <div className="content">
       <ProjectStatus
-        isAdmin={isAdmin}
         status={inReview ? PROJECT_STATUS_ENUM.IN_REVIEW : status}
         blockchainHistoryUrl={blockchainHistoryUrl}
       />
@@ -43,7 +41,7 @@ const ProjectHeroSection = ({
           beneficiary={beneficiary}
           revision={revision}
         />
-        {(status !== PROJECT_STATUS_ENUM.DRAFT || isAdmin) && (
+        {projectProposalUrl && legalAgreementUrl && (
           <ProjectHeroDownload
             projectProposalUrl={projectProposalUrl}
             legalAgreementUrl={legalAgreementUrl}

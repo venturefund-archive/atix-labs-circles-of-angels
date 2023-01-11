@@ -9,7 +9,7 @@ const LogoWrapper = ({ textTitle, image }) => {
 
   return (
     <div className="LogoWrapper">
-      <img src={src} alt={`${customConfig.NAME} logo`} />
+      <img src={src} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
       <TitlePage textTitle={textTitle} underlinePosition="none" />
     </div>
   );

@@ -36,26 +36,15 @@ import SignatoryItem from '../components/molecules/SignatoryItem/SignatoryItem';
 import { getUsers, signAgreement } from '../api/userProjectApi';
 import { getDestinationCOAAccount } from '../api/generalApi';
 import { getOracles } from '../api/userApi';
-import {
-  getTransferListOfProject,
-  sendTransferInformation
-} from '../api/transferApi';
+import { getTransferListOfProject, sendTransferInformation } from '../api/transferApi';
 import signStatusMap from '../model/signStatusMap';
 import SignStatus from '../constants/SignStatus';
 import transferStatusMap from '../model/transferStatus';
 import FormTransfer from '../components/molecules/FormTransfer/FormTransfer';
 import { withUser } from '../components/utils/UserContext';
 import TransferLabel from '../components/atoms/TransferLabel/TransferLabel';
-import {
-  showModalSuccess,
-  showModalError,
-  showModalConfirm
-} from '../components/utils/Modals';
-import {
-  deleteMilestone,
-  deleteActivity,
-  updateMilestone
-} from '../api/milestonesApi';
+import { showModalSuccess, showModalError, showModalConfirm } from '../components/utils/Modals';
+import { deleteMilestone, deleteActivity, updateMilestone } from '../api/milestonesApi';
 import {
   updateActivity,
   assignOracleToActivity,
@@ -131,9 +120,7 @@ class ConcensusMilestones extends Component {
     const onConfirm = response => {
       if (response.error) {
         const { error } = response;
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
+        const content = error.response ? error.response.data.error : error.message;
         showModalError('Error starting project', content);
       } else {
         showModalSuccess(
@@ -154,14 +141,10 @@ class ConcensusMilestones extends Component {
         }
       );
     else
-      showModalConfirm(
-        'Start project',
-        'Do you want to start this project?',
-        async () => {
-          const response = await startProject(projectId);
-          onConfirm(response);
-        }
-      );
+      showModalConfirm('Start project', 'Do you want to start this project?', async () => {
+        const response = await startProject(projectId);
+        onConfirm(response);
+      });
   };
 
   onAssignOracle = (userId, activityId) => {
@@ -184,9 +167,7 @@ class ConcensusMilestones extends Component {
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
         : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
     }
     const { milestones } = this.state;
@@ -208,9 +189,7 @@ class ConcensusMilestones extends Component {
         const title = error.response
           ? `${error.response.status} - ${error.response.statusText}`
           : error.message;
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
+        const content = error.response ? error.response.data.error : error.message;
         showModalError(title, content);
         return response;
       }
@@ -278,15 +257,12 @@ class ConcensusMilestones extends Component {
     if (response.error) {
       const { error } = response;
       if (error.response) {
-        error.response.data.error =
-          "This project doesn't have an Agreement uploaded";
+        error.response.data.error = "This project doesn't have an Agreement uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
         : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
       return response;
     }
@@ -298,10 +274,7 @@ class ConcensusMilestones extends Component {
     // TODO : this was locally modified on production.
     //        nobody knows who made it.
     try {
-      if (
-        status === FileUploadStatus.DONE ||
-        status === FileUploadStatus.UPLOADING
-      ) {
+      if (status === FileUploadStatus.DONE || status === FileUploadStatus.UPLOADING) {
         // TODO : unused variable.
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (status === FileUploadStatus.ERROR) {
@@ -314,10 +287,7 @@ class ConcensusMilestones extends Component {
 
   actualUserNeedsTransfer = () => {
     const { actualTransferState } = this.state;
-    return (
-      actualTransferState === null ||
-      actualTransferState === TransferStatus.CANCELLED
-    );
+    return actualTransferState === null || actualTransferState === TransferStatus.CANCELLED;
   };
 
   clickDownloadProposal = async () => {
@@ -326,15 +296,12 @@ class ConcensusMilestones extends Component {
     if (response.error) {
       const { error } = response;
       if (error.response) {
-        error.response.data.error =
-          "This project doesn't have a Proposal uploaded";
+        error.response.data.error = "This project doesn't have a Proposal uploaded";
       }
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
         : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
       return response;
     }
@@ -346,9 +313,7 @@ class ConcensusMilestones extends Component {
     const response = await signAgreement(userProject.id);
 
     if (!response.error) {
-      const signed = userProjects.find(
-        signatory => signatory.id === response.data[0].id
-      );
+      const signed = userProjects.find(signatory => signatory.id === response.data[0].id);
       signed.status = response.data[0].status;
       this.setState({ userProjects });
     } else {
@@ -356,9 +321,7 @@ class ConcensusMilestones extends Component {
       const title = error.response
         ? `${error.response.status} - ${error.response.statusText}`
         : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
       return response;
     }
@@ -377,9 +340,7 @@ class ConcensusMilestones extends Component {
       const response = await createActivity(activity, milestoneId);
       if (response.error) {
         const { error } = response;
-        const content = error.response
-          ? error.response.data.error
-          : error.message;
+        const content = error.response ? error.response.data.error : error.message;
         showModalError('Error creating Activiy', content);
         return false;
       }
@@ -431,18 +392,13 @@ class ConcensusMilestones extends Component {
     } = this.state;
     const { faqLink, goalAmount, projectName } = project;
     const { user, projectId } = this.props;
-    const isSocialEntrepreneur =
-      user && user.role && user.role.id === Roles.ENTREPRENEUR;
-    const isFunder =
-      user && user.role && user.role.id === Roles.PROJECT_SUPPORTER;
+    const isSocialEntrepreneur = user && user.role && user.role.id === Roles.ENTREPRENEUR;
+    const isFunder = user && user.role && user.role.id === Roles.PROJECT_SUPPORTER;
     const signedAgreement = Object.values(userProjects).some(
       userProject =>
-        userProject.user.id === user.id &&
-        isFunder &&
-        userProject.status === SignStatus.SIGNED
+        userProject.user.id === user.id && isFunder && userProject.status === SignStatus.SIGNED
     );
-    const Steps = props =>
-      !isFunder ? <StepsSe {...props} /> : <StepsIf {...props} />;
+    const Steps = props => (!isFunder ? <StepsSe {...props} /> : <StepsIf {...props} />);
 
     const step1 = (
       <div className="ContentStep">
@@ -451,9 +407,8 @@ class ConcensusMilestones extends Component {
           <div className="StepDescription">
             <p className="LabelSteps">Consensus Step</p>
             <h3>
-              Collaborate with the definition of milestones, share your
-              experiences, talk to project owner and other funders, download the
-              latest agreements
+              Collaborate with the definition of milestones, share your experiences, talk to project
+              owner and other funders, download the latest agreements
             </h3>
           </div>
           <div className="ProjectInfoHeader">
@@ -468,9 +423,7 @@ class ConcensusMilestones extends Component {
                   <CustomButton
                     buttonText="Start Project"
                     theme="Primary"
-                    disabled={
-                      project.startBlockchainStatus !== BlockchainStatus.PENDING
-                    }
+                    disabled={project.startBlockchainStatus !== BlockchainStatus.PENDING}
                     onClick={this.startProjectHandle}
                   />
                 )}
@@ -479,9 +432,7 @@ class ConcensusMilestones extends Component {
               <div className="vertical  Data">
                 <Linkify tag="a">{faqLink}</Linkify>
 
-                <span className="Overline">
-                  FAQ-Funders and SE&apos;s Questions & Answers Link
-                </span>
+                <span className="Overline">FAQ-Funders and SE&apos;s Questions & Answers Link</span>
               </div>
               <Divider type="vertical" />
               <div className="vertical  Data">
@@ -521,11 +472,7 @@ class ConcensusMilestones extends Component {
               {(isSocialEntrepreneur &&
                 (project.startBlockchainStatus === BlockchainStatus.PENDING &&
                   (actualAmount >= goalAmount ? (
-                    <Alert
-                      message="You have reached your goal!"
-                      type="success"
-                      showIcon
-                    />
+                    <Alert message="You have reached your goal!" type="success" showIcon />
                   ) : (
                     actualAmount > 0 && (
                       <Alert
@@ -535,21 +482,15 @@ class ConcensusMilestones extends Component {
                       />
                     )
                   )))) ||
-                (isSocialEntrepreneur &&
-                project.startBlockchainStatus === BlockchainStatus.SENT ? (
+                (isSocialEntrepreneur && project.startBlockchainStatus === BlockchainStatus.SENT ? (
                   <Alert
                     message="Waiting for Blockchain confirmation to start"
                     type="info"
                     showIcon
                   />
                 ) : (
-                  project.startBlockchainStatus ===
-                    BlockchainStatus.CONFIRMED && (
-                    <Alert
-                      message="Project already started"
-                      type="info"
-                      showIcon
-                    />
+                  project.startBlockchainStatus === BlockchainStatus.CONFIRMED && (
+                    <Alert message="Project already started" type="info" showIcon />
                   )
                 ))}
             </div>
@@ -568,11 +509,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps StepOne">
-          <CustomButton
-            theme="Primary"
-            buttonText="Continue"
-            onClick={this.nextStep}
-          />
+          <CustomButton theme="Primary" buttonText="Continue" onClick={this.nextStep} />
         </div>
       </div>
     );
@@ -583,9 +520,7 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Signatories Step</p>
-            <h3>
-              Sign your agreement and pledge to help this project come to true
-            </h3>
+            <h3>Sign your agreement and pledge to help this project come to true</h3>
           </div>
           <p className="LabelSteps">Project Name</p>
           <h1>{projectName}</h1>
@@ -593,8 +528,7 @@ class ConcensusMilestones extends Component {
             {userProjects.map(userProject => {
               if (!userProject.user) return;
               let userTransfer = transfers.filter(
-                transfer =>
-                  parseInt(transfer.sender, 10) === userProject.user.id
+                transfer => parseInt(transfer.sender, 10) === userProject.user.id
               )[0];
 
               if (!userTransfer || userTransfer == null) {
@@ -613,9 +547,7 @@ class ConcensusMilestones extends Component {
                   sgStatusShow={signStatusMap[userProject.status].show}
                   sgStatusIcon={signStatusMap[userProject.status].icon}
                   sgStatusName={signStatusMap[userProject.status].name}
-                  nameInitials={userProject.user.username
-                    .charAt(0)
-                    .toUpperCase()}
+                  nameInitials={userProject.user.username.charAt(0).toUpperCase()}
                   signStatus={userProject.status}
                   projectId={projectId}
                   handleOk={() => this.signAgreementOk(userProject)}
@@ -625,11 +557,7 @@ class ConcensusMilestones extends Component {
           </div>
         </div>
         <div className="ControlSteps">
-          <CustomButton
-            theme="Download"
-            buttonText="Previous"
-            onClick={this.previousStep}
-          />
+          <CustomButton theme="Download" buttonText="Previous" onClick={this.previousStep} />
 
           {!isSocialEntrepreneur ? (
             <CustomButton
@@ -651,37 +579,26 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Funding Step</p>
-            <h3>
-              Transfer your pledged funds, help the world become a better place
-              for everyone
-            </h3>
+            <h3>Transfer your pledged funds, help the world become a better place for everyone</h3>
           </div>
           <Label labelText="Project Name" />
           <h1>{projectName}</h1>
           <div className="TransferContent">
-            <h2>{customConfig.NAME} Bank Account Information</h2>
+            <h2>{customConfig.ORGANIZATION_NAME} Bank Account Information</h2>
             <div className="TransferBankInfo">
               <h3>{accountInfo.bank}</h3>
               <h4> Account #: {accountInfo.address}</h4>
               <h4> Account owner: {accountInfo.owner}</h4>
             </div>
             <FormTransfer
-              onTransferChange={evnt =>
-                this.updateState(evnt, 'transferId', evnt.target.value)
-              }
-              onAmountChange={evnt =>
-                this.updateState(evnt, 'amount', evnt.target.value)
-              }
+              onTransferChange={evnt => this.updateState(evnt, 'transferId', evnt.target.value)}
+              onAmountChange={evnt => this.updateState(evnt, 'amount', evnt.target.value)}
               submitTransfer={this.submitTransfer}
             />
           </div>
         </div>
         <div className="ControlSteps">
-          <CustomButton
-            theme="Download"
-            buttonText="Previous"
-            onClick={this.previousStep}
-          />
+          <CustomButton theme="Download" buttonText="Previous" onClick={this.previousStep} />
         </div>
       </div>
     );
@@ -692,10 +609,7 @@ class ConcensusMilestones extends Component {
         <div className="ProjectStepsContainer">
           <div className="StepDescription">
             <p className="LabelSteps">Funding Step</p>
-            <h3>
-              Transfer your pledged funds, help the world become a better place
-              for everyone
-            </h3>
+            <h3>Transfer your pledged funds, help the world become a better place for everyone</h3>
           </div>
           <Label labelText="Project Name" />
           <h1>{projectName}</h1>
@@ -705,31 +619,19 @@ class ConcensusMilestones extends Component {
               alt="Clock"
               width="40"
             /> */}
-            <LottieFiles
-              animationData={animationData}
-              height={140}
-              width={140}
-            />
+            <LottieFiles animationData={animationData} height={140} width={140} />
             <h1>Funds information received!</h1>
-            <h2>
-              We are checking the information, your current funds transfer
-              status is:
-            </h2>
-            {actualTransferState !== undefined &&
-              actualTransferState !== null && (
-                <TransferLabel
-                  text={transferStatusMap[actualTransferState].show}
-                  theme={transferStatusMap[actualTransferState].theme}
-                />
-              )}
+            <h2>We are checking the information, your current funds transfer status is:</h2>
+            {actualTransferState !== undefined && actualTransferState !== null && (
+              <TransferLabel
+                text={transferStatusMap[actualTransferState].show}
+                theme={transferStatusMap[actualTransferState].theme}
+              />
+            )}
           </div>
         </div>
         <div className="ControlSteps">
-          <CustomButton
-            theme="Download"
-            buttonText="Previous"
-            onClick={this.previousStep}
-          />
+          <CustomButton theme="Download" buttonText="Previous" onClick={this.previousStep} />
         </div>
       </div>
     );
@@ -756,9 +658,7 @@ class ConcensusMilestones extends Component {
     const oracles = await getOracles();
     const actualAmount = project.totalFunded;
     const milestones = await this.getMilestones(projectId);
-    const actualUserTransfer = transfers.find(
-      transfer => transfer.sender === user.id
-    );
+    const actualUserTransfer = transfers.find(transfer => transfer.sender === user.id);
     const accountInfo = await getDestinationCOAAccount();
 
     this.setState({

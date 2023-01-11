@@ -29,21 +29,21 @@ export const LandingLayout = ({
       const landingHero = document.querySelector('.hero');
       if (window.scrollY > 0 && landingHeaderHeight <= 720) {
         landingHeader.classList.add('scrolledLadingHeader', 'scrolledLadingHeaderAnimate');
-        landingHeader.style.setProperty('--topLadingHeader', `${showPreviewAlert? 120 : 60 }px`);
+        landingHeader.style.setProperty('--topLadingHeader', `${showPreviewAlert ? 120 : 60}px`);
         landingHero.classList.add('scrolledHero', 'scrolledLadingHeaderAnimate');
-      } else if(window.scrollY === 0 && landingHeaderHeight===220) {
+      } else if (window.scrollY === 0 && landingHeaderHeight === 220) {
         landingHeader.classList.remove('scrolledLadingHeader');
         landingHero.classList.remove('scrolledHero');
       }
-    }
-    if(headerAnimation) {
+    };
+    if (headerAnimation) {
       window.addEventListener('scroll', handleScroll);
     } else {
       const landingHero = document.querySelector('.hero');
       landingHero.classList.add('scrolledHero');
       const landingHeader = document.querySelector('.landingLayout__header');
       landingHeader.classList.add('scrolledLadingHeader');
-      landingHeader.style.setProperty('--topLadingHeader', `${showPreviewAlert? 120 : 60 }px`);
+      landingHeader.style.setProperty('--topLadingHeader', `${showPreviewAlert ? 120 : 60}px`);
     }
     return () => window.removeEventListener('scroll', handleScroll);
   }, [headerAnimation, showPreviewAlert]);
@@ -72,7 +72,7 @@ export const LandingLayout = ({
           '--notShowInMobile': disappearHeaderInMobile
         })}
         style={{
-          '--landingHeight': headerAnimation? '720px': '220px',
+          '--landingHeight': headerAnimation ? '720px' : '220px',
           backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 6.87%, rgba(0, 0, 0, 0.800) 80.6%), url(${process.env.NEXT_PUBLIC_URL_HOST}${thumbnailPhoto})`
         }}
       >
@@ -80,13 +80,12 @@ export const LandingLayout = ({
       </div>
       <div className="landingLayout__body">
         <div className="landingLayout__body__content">
-          { showEditingAlert
-            ?
-              <div className="landingLayout__alertEditedProject">
-                {texts?.general?.alertEditing || 'This project is being edited. The project is not enable until the edition is finished'}
-              </div>
-            : null
-          }
+          {showEditingAlert ? (
+            <div className="landingLayout__alertEditedProject">
+              {texts?.general?.alertEditing ||
+                'This project is being edited. The project is not enable until the edition is finished'}
+            </div>
+          ) : null}
           {children}
         </div>
       </div>

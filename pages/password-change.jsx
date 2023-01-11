@@ -15,11 +15,7 @@ import { showModalError, showModalSuccess } from '../components/utils/Modals';
 import './_login.scss';
 import DynamicFormPassword from '../components/organisms/FormLogin/FormPassword';
 import { changePassword, getWallet } from '../api/userApi';
-import {
-  encryptWallet,
-  decryptJsonWallet,
-  createNewWallet
-} from '../helpers/blockchain/wallet';
+import { encryptWallet, decryptJsonWallet, createNewWallet } from '../helpers/blockchain/wallet';
 
 function PasswordChange() {
   const history = useHistory();
@@ -42,11 +38,9 @@ function PasswordChange() {
     let data;
     const wallet = await fetchWallet();
     if (!wallet) {
-      const {
-        mnemonic: newMnemonic,
-        address,
-        encryptedWallet
-      } = await createNewWallet(newPassword);
+      const { mnemonic: newMnemonic, address, encryptedWallet } = await createNewWallet(
+        newPassword
+      );
       data = {
         currentPassword,
         newPassword,
@@ -81,7 +75,7 @@ function PasswordChange() {
       {!successfulUpdate && (
         <div>
           <Spin spinning={loading}>
-            <h1>{customConfig.NAME}</h1>
+            <h1>{customConfig.ORGANIZATION_NAME}</h1>
             <h2>CHANGE YOUR PASSWORD</h2>
             <DynamicFormPassword onSubmit={updatePassword} />
           </Spin>
@@ -94,8 +88,8 @@ function PasswordChange() {
     <div className="Login">
       <div className="LogoSide">
         <img
-          src={customConfig.SIDE_LOGO_PATH}
-          alt={`${customConfig.NAME} side logo`}
+          src={customConfig.LARGE_LOGO_PATH_PNG}
+          alt={`${customConfig.ORGANIZATION_NAME} side logo`}
         />
       </div>
       <div className="FormSide">{renderForm()}</div>
