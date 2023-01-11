@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import customConfig from 'custom-config';
 import { MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -17,16 +13,11 @@ import './_style.scss';
 const DrawerTitle = () => (
   <div className="DrawerTitle">
     <MenuUnfoldOutlined style={{ color: 'rgb(76, 127, 247)', fontSize: '16px' }} />
-    <img width="36px" src={customConfig.LOGO_PATH} alt={`${customConfig.NAME} logo`} />
+    <img width="36px" src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
   </div>
-)
+);
 
-
-const TopBarOptions = ({
-  onLoginClick,
-  handleLogout,
-  authenticated,
-}) => (
+const TopBarOptions = ({ onLoginClick, handleLogout, authenticated }) => (
   <div className="TopBarOptions">
     {!authenticated && (
       <CustomButton
@@ -45,12 +36,12 @@ const TopBarOptions = ({
       />
     )}
   </div>
-)
+);
 const TopBarNavigation = ({
   onMenuClick,
   setModalOpen,
-  handleLogout = () => { },
-  authenticated = false,
+  handleLogout = () => {},
+  authenticated = false
 }) => (
   <Row className="TopBar" type="flex" justify="space-between" align="middle">
     <Col className="gutter-row">
@@ -60,16 +51,13 @@ const TopBarNavigation = ({
         style={{ fontSize: '16px', color: '#4C7FF7' }}
       />
       <picture>
-        <source srcSet={customConfig.LARGE_LOGO_PATH} media="(min-width: 768px)" />
-        <img
-          src={customConfig.LOGO_PATH}
-          alt={`${customConfig.NAME} logo`}
-        />
+        <source srcSet={customConfig.LARGE_LOGO_PATH_SVG} media="(min-width: 768px)" />
+        <img src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
       </picture>
     </Col>
     <TopBarOptions
       onLoginClick={() => {
-        setModalOpen(true)
+        setModalOpen(true);
       }}
       handleLogout={handleLogout}
       authenticated={authenticated}
@@ -77,10 +65,7 @@ const TopBarNavigation = ({
   </Row>
 );
 
-function Navigation({
-  onLogin = false,
-  setModalOpen,
-}) {
+function Navigation({ onLogin = false, setModalOpen }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   // console.info('UserContext');
   const context = useContext(UserContext);
@@ -116,8 +101,8 @@ function Navigation({
           <Title
             level={3}
             onClick={() => {
-              setDrawerOpen(false)
-              setModalOpen(true)
+              setDrawerOpen(false);
+              setModalOpen(true);
             }}
             style={{
               cursor: 'pointer',
@@ -148,7 +133,7 @@ function Navigation({
         )}
       </Drawer>
     </>
-  )
+  );
 }
 
 export default Navigation;
@@ -158,26 +143,26 @@ TopBarNavigation.defaultProps = {
   setModalOpen: () => undefined,
   authenticated: false,
   handleLogout: () => undefined
-}
+};
 
 TopBarNavigation.propTypes = {
   onMenuClick: PropTypes.func,
   setModalOpen: PropTypes.func,
   authenticated: PropTypes.bool,
   handleLogout: PropTypes.func
-}
+};
 
 TopBarOptions.defaultProps = {
   onLoginClick: () => undefined,
   handleLogout: () => undefined,
   authenticated: false
-}
+};
 
 TopBarOptions.propTypes = {
   authenticated: PropTypes.bool,
   onLoginClick: PropTypes.func,
   handleLogout: PropTypes.func
-}
+};
 
 Navigation.defaultProps = {
   onLogin: false,

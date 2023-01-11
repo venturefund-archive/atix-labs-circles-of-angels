@@ -35,7 +35,7 @@ export const CoaBaseModal = ({
     >
       <div className="o-coaBaseModal__header">
         <div className="o-coaBaseModal__header__logo">
-          {withLogo && <img src={src} alt={`${customConfig.NAME} logo`} />}
+          {withLogo && <img src={src} alt={`${customConfig.ORGANIZATION_NAME} logo`} />}
         </div>
         {title}
       </div>

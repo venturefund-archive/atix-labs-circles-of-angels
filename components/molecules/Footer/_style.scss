@@ -2,7 +2,7 @@
 @import 'css/_variables.scss';
 
 .footer {
-  background-color: #DBE5FD;
+  background-color: #dbe5fd;
   padding-inline: 59px;
   opacity: 1;
   width: 100%;
@@ -11,14 +11,14 @@
   justify-content: space-between;
   align-items: center;
 
-  @include breakpoint(md){
+  @include breakpoint(md) {
     display: none;
   }
 
   &__left {
     &__logo {
-      height: 38.34px;
-      width: 38.234px;
+      height: 3.2188rem;
+
       margin-right: 15px;
     }
     &__coaText {
@@ -33,7 +33,7 @@
 
   &__right {
     font-size: 1rem;
-    &__termsConditions{
+    &__termsConditions {
       font-weight: 500;
       text-decoration: underline;
       margin-right: 50px;

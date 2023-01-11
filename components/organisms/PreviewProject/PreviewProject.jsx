@@ -169,7 +169,7 @@ const PreviewProject = ({ id, preview }) => {
           inReview={inReview}
           title={projectName}
           status={status}
-          subtitle={customConfig.NAME}
+          subtitle={customConfig.ORGANIZATION_NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
           timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
@@ -202,7 +202,10 @@ const PreviewProject = ({ id, preview }) => {
               >
                 <MilestonesIcon /> {texts?.landingSubheader?.btnMilestones || 'Milestones'}
               </CoaButton>
-              <Link to={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`} className="o-previewProject__buttons__buttonContainer">
+              <Link
+                to={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
+                className="o-previewProject__buttons__buttonContainer"
+              >
                 <CoaButton shape="round" className="o-previewProject__buttons__button">
                   <BlockchainIcon />{' '}
                   {texts?.landingSubheader?.btnChangelog || 'Blockchain Changelog'}

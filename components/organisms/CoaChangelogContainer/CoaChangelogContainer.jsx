@@ -10,6 +10,7 @@ import customConfig from 'custom-config';
 import { getDateAndTime } from 'helpers/utils';
 import changelogActions, { CHANGELOG_ACTIONS_ENUM } from 'constants/ChangelogActions';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { RubikMedium } from 'components/utils/Rubik-Medium';
 import { getChangelog } from '../../../api/projectApi';
 import { sortArrayByDate } from '../../utils';
 import Loading from '../../molecules/Loading/Loading';
@@ -73,15 +74,23 @@ export const CoaChangelogContainer = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changeLogs]);
 
-    function generatePDF() {
+    async function generatePDF() {
       const doc = new jsPDF();
+      const imageUrl = customConfig.LARGE_LOGO_PATH_PNG;
+      doc.addFileToVFS('Rubik-Regular.ttf', RubikMedium);
+      doc.addFont('Rubik-Regular.ttf', 'Rubik', 'medium');
 
-      doc.addImage('/static/images/aqua-logo.png', 'png', 90, 10);
+      doc.addImage(imageUrl, 'png', 10, 10, 70, 10);
 
-      doc.addImage('/static/images/changelog-title.png', 'png', 10, 20);
+      doc
+        .setFont('Rubik', 'medium')
+        .setFontSize(16)
+        .setTextColor('#4C7FF7');
+      doc.text('Blockchain Changelog', 10, 33);
+      /* doc.addImage('/static/images/changelog-title.png', 'png', 10, 20); */
 
       autoTable(doc, {
-        startY: 30,
+        startY: 40,
         margin: { horizontal: 10 },
         head: [['Date', 'Title', 'Description', 'Transaction', 'Revision']],
         body: processedChangeLogs,
@@ -104,7 +113,7 @@ export const CoaChangelogContainer = forwardRef(
         }
       });
 
-      doc.save(`${customConfig.NAME} - changelog.pdf`);
+      doc.save(`${customConfig.ORGANIZATION_NAME} - changelog.pdf`);
     }
 
     return (

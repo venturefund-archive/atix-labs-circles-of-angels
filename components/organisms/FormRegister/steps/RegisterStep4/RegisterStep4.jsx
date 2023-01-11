@@ -34,15 +34,12 @@ export default function RegisterStep4(props) {
     <div className="RegisterStep4">
       <div className="InfoStep">
         <div>
-          <img
-            src="./static/images/icon-users-small.svg"
-            alt="Circles of Angels"
-          />
+          <img src="./static/images/icon-users-small.svg" alt="Circles of Angels" />
           <h1>Congratulations</h1>
           <h2> Hello {data.role.value}!</h2>
           <p>
-            Continue discovering the {customConfig.NAME} platform while
-            administration confirm your account
+            Continue discovering the {customConfig.ORGANIZATION_NAME} platform while administration
+            confirm your account
           </p>
         </div>
       </div>
@@ -53,10 +50,7 @@ export default function RegisterStep4(props) {
               <img src="./static/images/password-lock.svg" alt="password" />
               <h2>Please keep your security key safe!</h2>
             </div>
-            <p>
-              This keywords will guarantee your access to your account at any
-              time
-            </p>
+            <p>This keywords will guarantee your access to your account at any time</p>
             <SecurityKey words={mnemonicWords()} />
             <Popover content="Copied" trigger="click">
               <CustomButton
@@ -67,11 +61,7 @@ export default function RegisterStep4(props) {
               />
             </Popover>
             <div className="buttonSection">
-              <CustomButton
-                theme="Primary"
-                buttonText="Finish!"
-                onClick={goToLanding}
-              />
+              <CustomButton theme="Primary" buttonText="Finish!" onClick={goToLanding} />
             </div>
           </Col>
         </Row>

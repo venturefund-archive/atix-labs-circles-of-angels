@@ -23,11 +23,9 @@ const SideBar = ({ role, hasDaos }) => {
 
   const goToRoute = route => history.push(route);
 
-  const getMenuItems = (userRole) => {
+  const getMenuItems = userRole => {
     const daosKey = 'dao-list';
-    let items = menuItems.filter(({ allowedRoles }) =>
-      allowedRoles.includes(userRole)
-    );
+    let items = menuItems.filter(({ allowedRoles }) => allowedRoles.includes(userRole));
     if (!hasDaos) {
       items = items.filter(({ key }) => key !== daosKey);
     }
@@ -37,13 +35,9 @@ const SideBar = ({ role, hasDaos }) => {
   return (
     <Sider width="60" breakpoint="sm" collapsedWidth="0">
       <div className="logo">
-        <img src={customConfig.LOGO_PATH} alt={`${customConfig.NAME} logo`} />
+        <img src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
       </div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        defaultSelectedKeys={[location.pathname.replace('/', '')]}
-      >
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname.replace('/', '')]}>
         {getMenuItems(role).map(({ key, route, content }) => (
           <Menu.Item key={key} onClick={() => goToRoute(route)}>
             {content}

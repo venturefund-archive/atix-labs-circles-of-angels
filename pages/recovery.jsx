@@ -27,15 +27,10 @@ class Recovery extends Component {
     if (response.error) {
       const { error } = response;
       const title = error.response ? 'Error!' : error.message;
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
     } else {
-      showModalSuccess(
-        'Success!',
-        'A mail has been sent to you. Please check your inbox!'
-      );
+      showModalSuccess('Success!', 'A mail has been sent to you. Please check your inbox!');
     }
     return response;
   };
@@ -45,12 +40,12 @@ class Recovery extends Component {
       <div className="Login">
         <div className="LogoSide">
           <img
-            src={customConfig.SIDE_LOGO_PATH}
-            alt={`${customConfig.NAME} side logo`}
+            src={customConfig.LARGE_LOGO_PATH_PNG}
+            alt={`${customConfig.ORGANIZATION_NAME} side logo`}
           />
         </div>
         <div className="FormSide">
-          <h1>{customConfig.NAME}</h1>
+          <h1>{customConfig.ORGANIZATION_NAME}</h1>
           <h2>PASS RECOVERY</h2>
           <DynamicFormRecovery onSubmit={this.sendVerificationCode} />
         </div>
