@@ -173,7 +173,8 @@ export const TIMEFRAME_UNITS = [
   }
 ];
 
-const isProduction = process.env.NODE_ENV === 'production';
+// TODO: temporal change
+const isProduction = false; // process.env.NODE_ENV === 'production';
 
 export const CRYPTO_CURRENCY_PATH_SCANNER = {
   RBTC: txHash => isProduction? `https://blockscout.com/rsk/mainnet/tx/${txHash}`: `https://explorer.testnet.rsk.co/tx/${txHash}`,
