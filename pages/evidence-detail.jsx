@@ -9,10 +9,12 @@ import { UserContext } from 'components/utils/UserContext';
 import customConfig from 'custom-config';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 
 export default function EvidenceDetailPage() {
+  const { texts } = useContext(DictionaryContext);
   const [evidence, setEvidence] = useState({});
   const [loadingEvidence, setLoadingEvidence] = useState(true);
   const { projectId, activityId, detailEvidenceId } = useParams();
@@ -67,7 +69,7 @@ export default function EvidenceDetailPage() {
           subtitle={customConfig.ORGANIZATION_NAME}
           country={location}
           beneficiary={beneficiaryName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}

@@ -6,11 +6,14 @@ import customConfig from 'custom-config';
 import useQuery from 'hooks/useQuery';
 import { UserContext } from 'components/utils/UserContext';
 import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/formatter';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { EvidenceForm } from '../components/molecules/EvidenceForm/EvidenceForm';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 
+
 const CreateEvidence = () => {
+  const { texts } = useContext(DictionaryContext);
   const { projectId, activityId } = useParams();
   const { loading, project } = useProject(projectId);
 
@@ -55,7 +58,7 @@ const CreateEvidence = () => {
           subtitle={customConfig.ORGANIZATION_NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}

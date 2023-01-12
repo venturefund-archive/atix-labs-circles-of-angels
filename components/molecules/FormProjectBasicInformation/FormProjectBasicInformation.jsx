@@ -8,7 +8,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Divider, Icon } from 'antd';
 import './form-project-basic-information.scss';
@@ -24,12 +24,14 @@ import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { PROJECT_STATUS_MAP } from 'model/projectStatus';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import { ROLES_IDS } from 'components/organisms/AssignProjectUsers/constants';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { CoaFormItemInput } from '../CoaFormItems/CoaFormItemInput/CoaFormItemInput';
 import { CoaFormItemUpload } from '../CoaFormItems/CoaFormItemUpload/CoaFormItemUpload';
 import { CoaFormItemSelect } from '../CoaFormItems/CoaFormItemSelect/CoaFormItemSelect';
 import { CoaFormItemInputNumber } from '../CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
 
 const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
+  const { texts } = useContext(DictionaryContext);
   const { getFieldsError } = form;
   const [countriesAvailable, setCountriesAvailable] = useState({});
   const [currentBasicInformation, setCurrentBasicInformation] = useState({
@@ -39,9 +41,9 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
       `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
   });
 
-  const projectName = currentBasicInformation?.projectName || 'Project Name';
+  const projectName = currentBasicInformation?.projectName || (texts?.createProject?.projectName || 'Project Name');
   const timeframe = currentBasicInformation?.timeframe;
-  const timeframeUnit = currentBasicInformation?.timeframeUnit || 'months';
+  const timeframeUnit = currentBasicInformation?.timeframeUnit || (texts?.general?.months || 'months');
   const location = currentBasicInformation?.location;
   const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
@@ -153,7 +155,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
           <TitlePage textTitle="Complete Basic Information" />
           <div className="formProjectBasicInformation__content__left__preview">
             <h3 className="formProjectBasicInformation__content__left__preview__title">
-              This is the resume
+              { texts?.createProject?.resume || 'This is the resume'}
             </h3>
             <img
               src={thumbnailPhoto || '/static/images/thumbnail-default.svg'}
@@ -163,7 +165,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             <div className="formProjectBasicInformation__content__left__preview__info">
               <div className="formProjectBasicInformation__content__left__preview__info__main">
                 <h4 className="formProjectBasicInformation__content__left__preview__info__main__title">
-                  {projectName || 'Project Name'}
+                  {projectName || (texts?.createProject?.projectName || 'Project Name')}
                 </h4>
 
                 <CoaTag
@@ -176,10 +178,10 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
               <div className="formProjectBasicInformation__content__left__preview__info__description">
                 <div>
                   <p className="formProjectBasicInformation__content__left__preview__info__description__value">
-                    {location || 'Country of impact'}
+                    {location || (texts?.header?.impact || 'Country of Impact')}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
-                    Country
+                    {texts?.general?.country || 'Country'}
                   </h5>
                 </div>
                 <Divider
@@ -188,10 +190,10 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                 />
                 <div>
                   <p className="formProjectBasicInformation__content__left__preview__info__description__value">
-                    {formatTimeframeValue(timeframe, timeframeUnit)}
+                    {formatTimeframeValue({ timeframe, timeframeUnit, texts })}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
-                    Time
+                    {texts?.general?.time || 'Time'}
                   </h5>
                 </div>
                 <Divider
@@ -203,7 +205,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                     {formatCurrency(currency, budget)}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
-                    Budget
+                    {texts?.header?.budget || 'Budget'}
                   </h5>
                 </div>
                 <Divider
@@ -215,7 +217,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                     {beneficiaryCompleteName}
                   </p>
                   <h5 className="formProjectBasicInformation__content__left__preview__info__description__title">
-                    Beneficiary name
+                    {texts?.header?.beneficiary || 'Beneficiary name'}
                   </h5>
                 </div>
               </div>
@@ -229,7 +231,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             name="projectName"
             form={form}
             formItemProps={{
-              label: 'Project Name',
+              label: texts?.createProject?.projectName || 'Project Name',
               className: 'formProjectBasicInformation__content__right__item'
             }}
             fieldDecoratorOptions={{
@@ -260,7 +262,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             form={form}
             name="location"
             formItemProps={{
-              label: 'Country of Impact',
+              label: texts?.createProject?.projectName || 'Country of Impact',
               className: 'formProjectBasicInformation__content__right__item'
             }}
             errorsToShow={[]}
@@ -276,7 +278,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
               validateTrigger: 'onSubmit'
             }}
             selectProps={{
-              placeholder: 'Select the country or region',
+              placeholder: texts?.createProject?.selectCountryRegion || 'Select the country or region',
               loading: countriesAvailable?.loading,
               onChange: value =>
                 setCurrentBasicInformation({
@@ -295,7 +297,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
               form={form}
               formItemProps={{
                 className: 'formProjectBasicInformation__content__right__item',
-                label: 'Timeframe'
+                label: texts?.header?.timeframe || 'Timeframe'
               }}
               errorsToShow={[ERROR_TYPES.MORE_THAN_1_DECIMAL, ERROR_TYPES.NO_ZERO]}
               name="timeframe"
@@ -342,14 +344,17 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                 validateTrigger: 'onSubmit'
               }}
               selectProps={{
-                placeholder: 'Type',
+                placeholder: texts?.general?.type || 'Type',
                 onChange: value =>
                   setCurrentBasicInformation({
                     ...currentBasicInformation,
                     timeframeUnit: value
                   })
               }}
-              options={TIMEFRAME_UNITS}
+              options={TIMEFRAME_UNITS.map((item) => ({
+                  label: texts?.general?.[item.value] || item.label,
+                  value: item.value,
+                }))}
             />
           </div>
 
@@ -357,13 +362,13 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             buttonContent={
               <div className="formProjectBasicInformation__content__right__uploadItemContainer__buttonContent">
                 <Icon type="upload" />
-                Click to upload
+                {texts?.general?.uploadClick || 'Click to upload'}
               </div>
             }
             contentContainerClassName="formProjectBasicInformation__content__right__uploadItemContainer"
             form={form}
             formItemProps={{
-              label: 'Thumbnail Image',
+              label: texts?.createProject?.thumbnailImage || 'Thumbnail Image',
               className: 'formProjectBasicInformation__content__right__item'
             }}
             fieldDecoratorOptions={{
@@ -389,9 +394,9 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             uploadProps={uploadProps}
             Note={
               <ul className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                <li>Recommended image Dimensions: 1400x720px. </li>
-                <li>Format: PNG or JPG.</li>
-                <li>Max size: 500kb.</li>
+                <li>{texts?.createProject?.recommendedDimension || 'Recommended image Dimensions'}: 1400x720px. </li>
+                <li>{texts?.general?.formats || 'Format'}: PNG {texts?.general?.or || 'or'} JPG.</li>
+                <li>{texts?.general?.maxSize || 'Max size'}: 500kb.</li>
               </ul>
             }
           />

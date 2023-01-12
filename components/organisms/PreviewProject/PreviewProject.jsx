@@ -122,7 +122,7 @@ const PreviewProject = ({
     const response = await cloneProject(project.parent || project.id);
     setLoading(false);
     if (response.errors) {
-      return message.error('An error occurred while fetching the project');
+      return message.error(texts?.general?.errorFetchingProject || 'An error occurred while fetching the project');
     }
     const _cloneId = await response.data.projectId;
     return history.push(`/project/edit/${_cloneId}`);
@@ -145,7 +145,7 @@ const PreviewProject = ({
           subtitle={customConfig.ORGANIZATION_NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           thumbnailPhoto={thumbnailPhoto}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}

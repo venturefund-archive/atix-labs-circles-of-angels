@@ -15,12 +15,14 @@ import { formatCurrencyAtTheBeginning, formatTimeframeValue } from 'helpers/form
 import { CoaChangelogContainer } from 'components/organisms/CoaChangelogContainer/CoaChangelogContainer';
 import useQuery from 'hooks/useQuery';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import { DictionaryContext } from 'components/utils/DictionaryContext';
 import Evidences from '../components/organisms/Evidences/Evidences';
 import { useProject } from '../hooks/useProject';
 import Loading from '../components/molecules/Loading/Loading';
 import { EvidenceContext } from '../components/utils/EvidenceContext';
 
 const EvidencesContainer = () => {
+  const { texts } = useContext(DictionaryContext);
   const { projectId, activityId } = useParams();
   const ChangelogComponent = useRef();
   const [evidences, setEvidences] = useState([]);
@@ -86,7 +88,7 @@ const EvidencesContainer = () => {
           subtitle={customConfig.ORGANIZATION_NAME}
           country={location}
           beneficiary={beneficiaryCompleteName}
-          timeframe={formatTimeframeValue(timeframe, timeframeUnit)}
+          timeframe={formatTimeframeValue({ timeframe, timeframeUnit, texts })}
           budget={formatCurrencyAtTheBeginning(currency, budget)}
           legalAgreementUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${legalAgreementFile}`}
           projectProposalUrl={`${process.env.NEXT_PUBLIC_URL_HOST}${projectProposalFile}`}
