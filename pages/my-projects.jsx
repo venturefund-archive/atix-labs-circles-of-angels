@@ -14,6 +14,7 @@ import './_style.scss';
 import './_explore-projects.scss';
 import { isMobile } from 'react-device-detect';
 import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
+import BackOfficeLayout from 'components/Layouts/BackOfficeLayout/BackOfficeLayout';
 import ProjectBrowser from '../components/organisms/ProjectBrowser/ProjectBrowser';
 import { userPropTypes } from '../helpers/proptypes';
 import { createProject, getProjects } from '../api/projectApi';
@@ -32,7 +33,7 @@ const MyProjects = ({ user }) => {
   const goToProjectDetail = project => {
     const state = { projectId: project?.id };
     let projectId = project.parent || project.id;
-    if(project.status === PROJECT_STATUS_ENUM.IN_REVIEW){
+    if (project.status === PROJECT_STATUS_ENUM.IN_REVIEW) {
       projectId = project.id;
     }
     history.push(`/project/edit/${projectId}`, state);
@@ -62,7 +63,7 @@ const MyProjects = ({ user }) => {
   }, []);
 
   return (
-    <>
+    <BackOfficeLayout user={user}>
       <ProjectBrowser
         title="My Projects"
         userRole={user && user.role}
@@ -72,7 +73,7 @@ const MyProjects = ({ user }) => {
         onNewProject={goToNewProject}
       />
       <ModalMyProjects isVisible={visible} onClick={onClick} />
-    </>
+    </BackOfficeLayout>
   );
 };
 
