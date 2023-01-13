@@ -41,9 +41,11 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
       `${process.env.NEXT_PUBLIC_URL_HOST}${project?.basicInformation?.thumbnailPhoto}`
   });
 
-  const projectName = currentBasicInformation?.projectName || (texts?.createProject?.projectName || 'Project Name');
+  const projectName =
+    currentBasicInformation?.projectName || (texts?.createProject?.projectName || 'Project Name');
   const timeframe = currentBasicInformation?.timeframe;
-  const timeframeUnit = currentBasicInformation?.timeframeUnit || (texts?.general?.months || 'months');
+  const timeframeUnit =
+    currentBasicInformation?.timeframeUnit || (texts?.general?.months || 'months');
   const location = currentBasicInformation?.location;
   const thumbnailPhoto = currentBasicInformation?.thumbnailPhoto;
 
@@ -155,7 +157,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
           <TitlePage textTitle="Complete Basic Information" />
           <div className="formProjectBasicInformation__content__left__preview">
             <h3 className="formProjectBasicInformation__content__left__preview__title">
-              { texts?.createProject?.resume || 'This is the resume'}
+              {texts?.createProject?.resume || 'This is the resume'}
             </h3>
             <img
               src={thumbnailPhoto || '/static/images/thumbnail-default.svg'}
@@ -262,7 +264,7 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             form={form}
             name="location"
             formItemProps={{
-              label: texts?.createProject?.projectName || 'Country of Impact',
+              label: texts?.header?.impact || 'Country of Impact',
               className: 'formProjectBasicInformation__content__right__item'
             }}
             errorsToShow={[]}
@@ -278,7 +280,8 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
               validateTrigger: 'onSubmit'
             }}
             selectProps={{
-              placeholder: texts?.createProject?.selectCountryRegion || 'Select the country or region',
+              placeholder:
+                texts?.createProject?.selectCountryRegion || 'Select the country or region',
               loading: countriesAvailable?.loading,
               onChange: value =>
                 setCurrentBasicInformation({
@@ -351,10 +354,10 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
                     timeframeUnit: value
                   })
               }}
-              options={TIMEFRAME_UNITS.map((item) => ({
-                  label: texts?.general?.[item.value] || item.label,
-                  value: item.value,
-                }))}
+              options={TIMEFRAME_UNITS.map(item => ({
+                label: texts?.general?.[item.value] || item.label,
+                value: item.value
+              }))}
             />
           </div>
 
@@ -394,8 +397,13 @@ const FormProjectBasicInformationContent = ({ form, project, Footer }) => {
             uploadProps={uploadProps}
             Note={
               <ul className="formProjectBasicInformation__content__right__uploadItemContainer__note">
-                <li>{texts?.createProject?.recommendedDimension || 'Recommended image Dimensions'}: 1400x720px. </li>
-                <li>{texts?.general?.formats || 'Format'}: PNG {texts?.general?.or || 'or'} JPG.</li>
+                <li>
+                  {texts?.createProject?.recommendedDimension || 'Recommended image Dimensions'}:
+                  1400x720px.{' '}
+                </li>
+                <li>
+                  {texts?.general?.formats || 'Format'}: PNG {texts?.general?.or || 'or'} JPG.
+                </li>
                 <li>{texts?.general?.maxSize || 'Max size'}: 500kb.</li>
               </ul>
             }

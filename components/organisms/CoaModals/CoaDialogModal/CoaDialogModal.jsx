@@ -35,6 +35,8 @@ export const CoaDialogModal = ({
           await onSave(values);
           setIsSubmitLoading(false);
           form.resetFields();
+          // NOTE: This behavior is for modals used in signing Messages
+          if (cancelText === 'Go Back') return;
           return onCancel();
         }
         setIsSubmitLoading(false);
