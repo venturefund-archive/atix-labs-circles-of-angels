@@ -1,7 +1,12 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
 .o-coaMilestonesContainer {
   padding-inline: 2.56rem;
   padding-block: 2.31rem;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
   &__titleContainer {
     display: flex;
     justify-content: space-between;
@@ -11,5 +16,30 @@
     flex-direction: column;
     row-gap: 1.5rem;
     margin-top: 1.875rem;
+  }
+  &__emptyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    &__empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 28.4375rem;
+      img {
+        width: 10.9375rem;
+        margin-bottom: 1.875rem;
+      }
+      &__title {
+        @include primary-text(1rem, $coa-blue-100, 600);
+        margin-bottom: 0.75rem;
+      }
+      &__description {
+        @include primary-text(0.875rem, $coa-medium-gray-100, 400);
+      }
+    }
   }
 }

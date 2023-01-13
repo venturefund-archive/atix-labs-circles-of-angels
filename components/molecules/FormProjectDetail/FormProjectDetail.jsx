@@ -164,7 +164,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               }}
               Note={
                 <p className="formProjectDetail__content__form__row__note">
-                  {texts?.createProject?.shareInfo || 'Share your information about the entrepreneurs and the project'}
+                  {texts?.createProject?.shareInfo ||
+                    'Share your information about the entrepreneurs and the project'}
                 </p>
               }
               fieldDecoratorOptions={{
@@ -195,7 +196,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               }}
               Note={
                 <p className="formProjectDetail__content__form__row__note">
-                  {texts?.createProject?.shareProjectMission || 'Share your Project Mission, the impact you have made so far and what your project is about'}
+                  {texts?.createProject?.shareProjectMission ||
+                    'Share your Project Mission, the impact you have made so far and what your project is about'}
                 </p>
               }
               fieldDecoratorOptions={{
@@ -252,7 +254,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               form={form}
               errorsToShow={[]}
               name="currency"
-              formItemProps={{ label: texts?.general?.currency ||'Currency' }}
+              formItemProps={{ label: texts?.general?.currency || 'Currency' }}
               fieldDecoratorOptions={{
                 rules: [
                   {
@@ -278,7 +280,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                     {texts?.createProject?.accountInfo || 'Account Information'}
                   </p>
                   <p className="formProjectDetail__content__form__row__note">
-                    {texts?.createProject?.firstSelect || 'First you must select the type of currency to complete this option'}
+                    {texts?.createProject?.firstSelect ||
+                      'First you must select the type of currency to complete this option'}
                   </p>
                 </>
               )}
@@ -292,7 +295,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                   }}
                   Note={
                     <p className="formProjectDetail__content__form__row__note">
-                      {texts?.createProject?.fillAccountInfo || 'Fill in your bank account information'}
+                      {texts?.createProject?.fillAccountInfo ||
+                        'Fill in your bank account information'}
                     </p>
                   }
                   fieldDecoratorOptions={{
@@ -307,7 +311,6 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                   }}
                   inputTextAreaProps={{
                     placeholder: '',
-                    maxLength: 50,
                     disabled: isACloneBeingEdited
                   }}
                 />
@@ -341,7 +344,6 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                   }}
                   inputTextAreaProps={{
                     placeholder: texts?.general?.address || 'Address',
-                    maxLength: 50,
                     disabled: isACloneBeingEdited
                   }}
                 />
@@ -349,7 +351,9 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
             </div>
             <Form.Item label="Budget">
               <p className="formProjectDetail__content__form__row__note">
-                {texts?.createProject?.sumRecorded || 'Here the sum recorded in the milestones and activities will be display'}ed
+                {texts?.createProject?.sumRecorded ||
+                  'Here the sum recorded in the milestones and activities will be display'}
+                ed
               </p>
               <Input placeholder="0.00" disabled value={formatCurrency(currency, budget)} />
             </Form.Item>
@@ -390,7 +394,13 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               onChange={value => handleFileChange(value, 'legalAgreementFile')}
               onRemove={() => handleFileRemove('legalAgreementFile')}
               uploadProps={uploadProps}
-              Note={<span>{texts?.createProject?.recommendedFiles || 'Recommended document files'}. {texts?.general?.format || 'Format'}: PDF, {texts?.general?.upTo || 'up to'} 20 MB.</span>}
+              Note={
+                <span>
+                  {texts?.createProject?.recommendedFiles || 'Recommended document files'}.{' '}
+                  {texts?.general?.format || 'Format'}: PDF, {texts?.general?.upTo || 'up to'} 20
+                  MB.
+                </span>
+              }
             />
 
             <CoaFormItemUpload
@@ -428,7 +438,13 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               onChange={value => handleFileChange(value, 'projectProposalFile')}
               onRemove={() => handleFileRemove('projectProposalFile')}
               uploadProps={uploadProps}
-              Note={<span>{texts?.createProject?.recommendedFiles || 'Recommended document files'}. {texts?.general?.format || 'Format'}: PDF, {texts?.general?.upTo || 'up to'} 20 MB.</span>}
+              Note={
+                <span>
+                  {texts?.createProject?.recommendedFiles || 'Recommended document files'}.{' '}
+                  {texts?.general?.format || 'Format'}: PDF, {texts?.general?.upTo || 'up to'} 20
+                  MB.
+                </span>
+              }
             />
           </div>
         </Form>
