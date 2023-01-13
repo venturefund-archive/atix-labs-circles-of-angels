@@ -56,6 +56,7 @@ const Evidences = ({
   const history = useHistory();
   const activityId = activity?.id;
   const activityStatus = activity?.status;
+  const activityStep = activity?.step;
   const projectId = project?.id;
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
   const { texts } = React.useContext(DictionaryContext);
@@ -76,17 +77,27 @@ const Evidences = ({
       });
       setSecretKeyModal(initialSecretKeyModal);
       const result = await updateActivityStatus(activityId, 'to-review', `${uuid()}-mocked`);
-      if (!result.errors) {
-        const messageToSign = JSON.stringify(result?.data?.toSign);
-        const authorizationSignature = await signMessage(wallet, messageToSign, key);
-        await signActivity({ authorizationSignature, activityId });
-
+      if (result.errors) {
+        message.error('An error occurred while sending to review the activity');
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
+        return;
+      }
+
+      const messageToSign = JSON.stringify(result?.data?.toSign);
+
+      try {
+        const authorizationSignature = await signMessage(wallet, messageToSign, key);
+        const response = await signActivity({ authorizationSignature, activityId });
+        if (response.errors) {
+          throw new Error(response.errors);
+        }
+      } catch (error) {
+        message.error('An error occurred while sending to review the activity');
+      } finally {
         setReviewSuccessVisible(true);
         getEvidences(activityId);
         getChangelog();
-      } else {
-        setLoadingModalVisible(false);
+        setLoadingModalVisible({ ...loadingModalVisible, state: false });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,16 +112,26 @@ const Evidences = ({
         title: texts?.modalPublishLoading?.rejected || 'The activity is being rejected'
       });
       const result = await updateActivityStatus(activityId, 'rejected', `${uuid()}-mocked`);
-      if (!result.errors) {
-        const messageToSign = JSON.stringify(result?.data?.toSign);
-        const authorizationSignature = await signMessage(wallet, messageToSign, key);
-        await signActivity({ authorizationSignature, activityId });
+      if (result.errors) {
+        message.error('An error occurred while rejecting the activity');
+        setLoadingModalVisible({ ...loadingModalVisible, state: false });
+        return;
+      }
 
+      const messageToSign = JSON.stringify(result?.data?.toSign);
+      try {
+        const authorizationSignature = await signMessage(wallet, messageToSign, key);
+        const response = await signActivity({ authorizationSignature, activityId });
+        if (response.errors) {
+          throw new Error(response.errors);
+        }
+      } catch (error) {
+        message.error('An error occurred while rejecting the activity');
+      } finally {
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
         getEvidences(activityId);
-        return getChangelog();
+        getChangelog();
       }
-      message.error('An error occurred while rejecting the activity');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [getChangelog, activityId, getEvidences, loadingModalVisible]
@@ -124,16 +145,26 @@ const Evidences = ({
         title: texts?.modalPublishLoading?.approved || 'The activity is being approved'
       });
       const result = await updateActivityStatus(activityId, 'approved', `${uuid()}-mocked`);
-      if (!result.errors) {
-        const messageToSign = JSON.stringify(result?.data?.toSign);
-        const authorizationSignature = await signMessage(wallet, messageToSign, key);
-        await signActivity({ authorizationSignature, activityId });
+      if (result.errors) {
+        message.error('An error occurred while approving the activity');
+        setLoadingModalVisible({ ...loadingModalVisible, state: false });
+        return;
+      }
 
+      const messageToSign = JSON.stringify(result?.data?.toSign);
+      try {
+        const authorizationSignature = await signMessage(wallet, messageToSign, key);
+        const response = await signActivity({ authorizationSignature, activityId });
+        if (response.errors) {
+          throw new Error(response.errors);
+        }
+      } catch (error) {
+        message.error('An error occurred while approving the activity');
+      } finally {
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
         getEvidences(activityId);
-        return getChangelog();
+        getChangelog();
       }
-      message.error('An error occurred while approving the activity');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activityId, getChangelog, getEvidences, loadingModalVisible]
