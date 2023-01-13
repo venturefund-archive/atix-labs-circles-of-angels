@@ -34,9 +34,9 @@ const SideBar = ({ role, hasDaos }) => {
 
   return (
     <Sider width="60" breakpoint="sm" collapsedWidth="0">
-      <div className="logo">
+      {/* <div className="logo">
         <img src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
-      </div>
+      </div> */}
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname.replace('/', '')]}>
         {getMenuItems(role).map(({ key, route, content }) => (
           <Menu.Item key={key} onClick={() => goToRoute(route)}>
