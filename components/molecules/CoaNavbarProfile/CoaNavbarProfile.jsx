@@ -14,13 +14,13 @@ const CustomMenu = ({ handleLogout }) => (
   </Menu>
 );
 
-export const CoaNavbarProfile = ({ user, role, removeUser }) => {
+export const CoaNavbarProfile = ({ user, role, removeUser, isProtectedRoute }) => {
   const { firstName, lastName } = user;
   const { push, location } = useHistory();
 
   const logout = () => {
     removeUser();
-    push(`/${location.pathname.split('/')[1]}`);
+    push(isProtectedRoute ? '/' : `/${location.pathname.split('/')[1]}`);
   };
 
   return (

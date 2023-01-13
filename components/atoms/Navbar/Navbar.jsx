@@ -16,7 +16,7 @@ import { CoaNavbarProfile } from 'components/molecules/CoaNavbarProfile/CoaNavba
 import { checkRoleByProject } from 'helpers/roles';
 import { CoaTextButton } from '../CoaTextButton/CoaTextButton';
 
-const Navbar = ({ project }) => {
+const Navbar = ({ project, isProtectedRoute }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { user, removeUser } = useContext(UserContext);
   const { push } = useHistory();
@@ -52,6 +52,7 @@ const Navbar = ({ project }) => {
                   removeUser={removeUser}
                   projectId={projectId}
                   role={role?.name}
+                  isProtectedRoute={isProtectedRoute}
                 />
               )}
               {!user && <NavbarLogin loginFn={() => push(`/${projectId}/login`)} />}

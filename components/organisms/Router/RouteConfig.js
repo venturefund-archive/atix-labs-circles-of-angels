@@ -91,7 +91,7 @@ export const routesConfig = [
     withHeader: false,
     withSideBar: false,
     authentication: {
-      required: false,
+      required: false
     }
   },
   {
@@ -210,8 +210,7 @@ export const routesConfig = [
     component: Preview,
     authentication: { required: false },
     withHeader: false,
-    withSideBar: false,
-    withoutMainLayout: true
+    withSideBar: false
   },
   {
     path: '/:projectId/activity/:activityId/create-evidence',
@@ -221,23 +220,20 @@ export const routesConfig = [
       roles: [ENTREPRENEUR]
     },
     withHeader: false,
-    withSideBar: false,
-    withoutMainLayout: true
+    withSideBar: false
   },
   {
     path: '/:projectId/activity/:activityId/evidences',
     component: EvidencesContainer,
     authentication: { required: false },
     withHeader: false,
-    withSideBar: false,
-    withoutMainLayout: true
+    withSideBar: false
   },
   {
     path: '/:projectId/changelog',
     component: ProjectChangeLog,
     authentication: { required: false },
     withHeader: false,
-    withSideBar: false,
-    withoutMainLayout: true
+    withSideBar: false
   }
 ];

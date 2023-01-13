@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Navbar from 'components/atoms/Navbar/Navbar';
 import { Layout } from 'antd';
-import SideBar from '../SideBar/SideBar';
-import './main-layout.scss';
+import Navbar from 'components/atoms/Navbar/Navbar';
+import SideBar from 'components/organisms/SideBar/SideBar';
+import './back-office-layout.scss';
 
-const MainLayout = ({ children, user, project }) => (
+const BackOfficeLayout = ({ children, user, project }) => (
   <Layout>
     <Navbar project={project} isProtectedRoute />
     <Layout className="mainContent">
@@ -15,13 +15,13 @@ const MainLayout = ({ children, user, project }) => (
   </Layout>
 );
 
-MainLayout.defaultProps = {
+BackOfficeLayout.defaultProps = {
   user: undefined
 };
 
-MainLayout.propTypes = {
+BackOfficeLayout.propTypes = {
   user: PropTypes.shape({}),
   children: PropTypes.element.isRequired
 };
 
-export default MainLayout;
+export default BackOfficeLayout;

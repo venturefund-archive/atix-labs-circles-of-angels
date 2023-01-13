@@ -31,7 +31,6 @@
   color: $primary-color;
 }
 .ant-layout-sider {
-  height: 100vh;
   background: $white;
   border-right: 1px solid $border;
   position: relative;
@@ -41,8 +40,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: $header-height;
-    border-top: 1px solid #e5e6ed;
     @include breakpoint(sm) {
       margin-top: 0;
       border-top: none;
