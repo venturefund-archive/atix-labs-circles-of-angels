@@ -79,7 +79,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   const handleOpenConfirmDeleteMilestoneModal = milestoneId =>
     CoaConfirmDeleteModal({
       onOk: () => handleRemoveMilestone(milestoneId),
-      title: texts?.createProject?.deleteMilestoneQuestion || 'Do you want to delete this milestone?',
+      title:
+        texts?.createProject?.deleteMilestoneQuestion || 'Do you want to delete this milestone?',
       subtitle:
         texts?.createProject?.deleteMilestoneQuestionSubtitle ||
         'If the milestone contains activities they will also be deleted. These actions cannot be undone'
@@ -147,7 +148,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     milestoneFound.areActivitiesOpen = true;
 
     setMilestones([..._milestones]);
-    message.success(texts?.createProject?.activityCreated ||'Activity created!');
+    message.success(texts?.createProject?.activityCreated || 'Activity created!');
   };
 
   const handleRemoveActivity = async ({ activityId, milestone }) => {
@@ -178,7 +179,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     CoaConfirmDeleteModal({
       onOk: () => handleRemoveActivity({ activityId, milestone }),
       title: texts?.createProject?.deleteActivityQuestion || 'Do you want to delete this activity?',
-      subtitle: texts?.createProject?.deleteActivityQuestionSubtitle || 'This action cannot be undone'
+      subtitle:
+        texts?.createProject?.deleteActivityQuestionSubtitle || 'This action cannot be undone'
     });
 
   const handleEditActivity = async updatedActivity => {
@@ -244,39 +246,55 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
             {texts?.createProject?.addNewMilestone || 'Add new Milestone'}
           </CoaButton>
         </div>
-        <div className="o-coaMilestonesContainer__cards">
-          {milestones.map((milestone, index) => (
-            <CoaMilestoneItem
-              toggleAreActivitiesOpened={toggleAreActivitiesOpened}
-              onRemoveMilestone={
-                [MILESTONE_STATUS_ENUM.NEW].includes(milestone?.status) &&
-                (() => handleOpenConfirmDeleteMilestoneModal(milestone?.id))
-              }
-              onEditMilestone={
-                [MILESTONE_STATUS_ENUM.NEW, MILESTONE_STATUS_ENUM.IN_PROGRESS].includes(
-                  milestone?.status
-                ) && (() => handleOpenEditMilestone(milestone))
-              }
-              onCreateActivity={
-                milestone?.status !== MILESTONE_STATUS_ENUM.APPROVED &&
-                (() => {
-                  setCurrentEditedMilestone(milestone);
-                  setIsFormActivityModalOpen(true);
-                })
-              }
-              onEditActivity={activity => handleOpenEditActivity({ milestone, activity })}
-              onRemoveActivity={activityId =>
-                handleOpenConfirmDeleteActivityModal({ milestone, activityId })
-              }
-              withStatusTag={isACloneBeingEdited}
-              {...{
-                currency,
-                milestone
-              }}
-              {...{ milestoneNumber: index + 1 }}
-            />
-          ))}
-        </div>
+        {milestones?.length === 0 && (
+          <div className="o-coaMilestonesContainer__emptyContainer">
+            <div className="o-coaMilestonesContainer__emptyContainer__empty">
+              <img src="/static/images/milestone-icon.png" alt="empty-milestones-list" />
+              <p className="o-coaMilestonesContainer__emptyContainer__empty__title">
+                There are no milestones added to the project yet
+              </p>
+              <p className="o-coaMilestonesContainer__emptyContainer__empty__description">
+                Once you have successfully created your milestones you will see them listed along
+                with their associated activities on this page.
+              </p>
+            </div>
+          </div>
+        )}
+        {milestones?.length > 0 && (
+          <div className="o-coaMilestonesContainer__cards">
+            {milestones.map((milestone, index) => (
+              <CoaMilestoneItem
+                toggleAreActivitiesOpened={toggleAreActivitiesOpened}
+                onRemoveMilestone={
+                  [MILESTONE_STATUS_ENUM.NEW].includes(milestone?.status) &&
+                  (() => handleOpenConfirmDeleteMilestoneModal(milestone?.id))
+                }
+                onEditMilestone={
+                  [MILESTONE_STATUS_ENUM.NEW, MILESTONE_STATUS_ENUM.IN_PROGRESS].includes(
+                    milestone?.status
+                  ) && (() => handleOpenEditMilestone(milestone))
+                }
+                onCreateActivity={
+                  milestone?.status !== MILESTONE_STATUS_ENUM.APPROVED &&
+                  (() => {
+                    setCurrentEditedMilestone(milestone);
+                    setIsFormActivityModalOpen(true);
+                  })
+                }
+                onEditActivity={activity => handleOpenEditActivity({ milestone, activity })}
+                onRemoveActivity={activityId =>
+                  handleOpenConfirmDeleteActivityModal({ milestone, activityId })
+                }
+                withStatusTag={isACloneBeingEdited}
+                {...{
+                  currency,
+                  milestone
+                }}
+                {...{ milestoneNumber: index + 1 }}
+              />
+            ))}
+          </div>
+        )}
       </div>
       {Footer()}
       <CoaFormMilestoneModal

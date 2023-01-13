@@ -25,22 +25,15 @@ export const CoaNavbarProfile = ({ user, role, removeUser }) => {
 
   return (
     <div className="coaNavbarProfile">
-      <CoaUserAvatar
-        firstName={firstName}
-        lastName={lastName}
-      />
+      <CoaUserAvatar firstName={firstName} lastName={lastName} />
       <div className="coaNavbarProfile__user">
         <div className="coaNavbarProfile__user__details">
           <h2 className="coaNavbarProfile__userName">{user.firstName}</h2>
           <span className="coaNavbarProfile__userRole">{role}</span>
         </div>
 
-        <Dropdown
-          overlay={<CustomMenu handleLogout={logout} />}
-          trigger={['click']}
-          overlayClassName="coaNavbarProfile__dropdown"
-        >
-          <Icon type="down" />
+        <Dropdown overlay={<CustomMenu handleLogout={logout} />} trigger={['click']}>
+          <Icon type="down" className="coaNavbarProfile__dropdownIcon" />
         </Dropdown>
       </div>
     </div>
