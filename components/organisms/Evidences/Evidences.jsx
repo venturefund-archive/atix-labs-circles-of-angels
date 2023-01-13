@@ -30,7 +30,8 @@ import { ROLES_IDS } from '../AssignProjectUsers/constants';
 const initialSecretKeyModal = {
   visible: false,
   title: 'Secret Key',
-  onSuccessAction: null
+  onSuccessAction: null,
+  leaveAComment: false
 };
 
 const initialLoadingModal = {
@@ -64,6 +65,7 @@ const Evidences = ({
   const [loadingModalVisible, setLoadingModalVisible] = useState(initialLoadingModal);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const { user } = useContext(UserContext);
+  const [showModalToSignMessage, setShowModalToSignMessage] = useState(activityStep === 1);
 
   const isActivityAuditor = checkIsActivityAuditor({ user, activity });
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
@@ -91,13 +93,13 @@ const Evidences = ({
         if (response.errors) {
           throw new Error(response.errors);
         }
-      } catch (error) {
-        message.error('An error occurred while sending to review the activity');
-      } finally {
         setReviewSuccessVisible(true);
         getEvidences(activityId);
         getChangelog();
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
+      } catch (error) {
+        message.error('An error occurred while sending to review the activity');
+        history.push(`/${projectId}`);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,12 +127,12 @@ const Evidences = ({
         if (response.errors) {
           throw new Error(response.errors);
         }
-      } catch (error) {
-        message.error('An error occurred while rejecting the activity');
-      } finally {
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
         getEvidences(activityId);
         getChangelog();
+      } catch (error) {
+        message.error('An error occurred while rejecting the activity');
+        history.push(`/${projectId}`);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -158,12 +160,12 @@ const Evidences = ({
         if (response.errors) {
           throw new Error(response.errors);
         }
-      } catch (error) {
-        message.error('An error occurred while approving the activity');
-      } finally {
         setLoadingModalVisible({ ...loadingModalVisible, state: false });
         getEvidences(activityId);
         getChangelog();
+      } catch (error) {
+        message.error('An error occurred while approving the activity');
+        history.push(`/${projectId}`);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -204,7 +206,8 @@ const Evidences = ({
     setSecretKeyModal({
       visible: true,
       title: 'You are about to send an activity to be reviewed by an auditor',
-      onSuccessAction: sendToReview
+      onSuccessAction: sendToReview,
+      leaveAComment: false
     });
   }, [sendToReview]);
 
@@ -212,7 +215,8 @@ const Evidences = ({
     setSecretKeyModal({
       visible: true,
       title: 'Are you sure you want to reject the activity?',
-      onSuccessAction: rejectActivity
+      onSuccessAction: rejectActivity,
+      leaveAComment: true
     });
   }, [rejectActivity]);
 
@@ -220,7 +224,8 @@ const Evidences = ({
     setSecretKeyModal({
       visible: true,
       title: 'Are you sure you want to approve the activity?',
-      onSuccessAction: approveActivity
+      onSuccessAction: approveActivity,
+      leaveAComment: false
     });
   }, [approveActivity]);
 
@@ -231,6 +236,38 @@ const Evidences = ({
   const handleCancelReviewSuccess = useCallback(() => {
     setReviewSuccessVisible(false);
   }, []);
+
+  const signActivityInStepOne = async (_pin, _password, wallet, key) => {
+    const _toSign = activity?.toSign;
+    if (_toSign) {
+      message.error('An error occurred while signing the activity');
+      return;
+    }
+
+    setShowModalToSignMessage(false);
+    setLoadingModalVisible({
+      state: true,
+      title: texts?.modalPublishLoading?.sent || 'The activity is being signed'
+    });
+    const messageToSign = JSON.stringify(_toSign);
+
+    try {
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      const response = await signActivity({ authorizationSignature, activityId });
+
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
+
+      setLoadingModalVisible({ ...loadingModalVisible, state: false });
+      // setReviewSuccessVisible(true);
+      getEvidences(activityId);
+      getChangelog();
+    } catch (error) {
+      message.error('An error occurred while signing the activity');
+      history.push(`/${projectId}`);
+    }
+  };
 
   return (
     <>
@@ -366,10 +403,20 @@ const Evidences = ({
       {user && (
         <>
           <ModalConfirmWithSK
+            visible={showModalToSignMessage}
+            title="You are about to sign the activity to finish the process"
+            description="To confirm the process enter your password and secret key"
+            okText="Sign"
+            onSuccess={signActivityInStepOne}
+            cancelText="Go Back"
+            onCancel={() => history.push(`/${projectId}`)}
+          />
+          <ModalConfirmWithSK
             visible={secretKeyModal.visible}
             title={secretKeyModal.title}
             onCancel={handleCancelConfirmSk}
             onSuccess={secretKeyModal.onSuccessAction}
+            leaveAComment={secretKeyModal.leaveAComment}
           />
           <ModalPublishLoading
             visible={loadingModalVisible.state}
