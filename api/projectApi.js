@@ -312,9 +312,14 @@ const cloneProject = async projectId => doPost(`${projectsBaseURL}/${projectId}/
 
 const cancelReview = async projectId => doPut(`${projectsBaseURL}/${projectId}/cancel-review`);
 
-const approveCloneProject = async(projectId) => doPut(`${projectsBaseURL}/${projectId}/review`, { approved: true })
+const approveCloneProject = async projectId =>
+  doPut(`${projectsBaseURL}/${projectId}/review`, { approved: true });
 
-const rejectCloneProject = async(projectId) => doPut(`${projectsBaseURL}/${projectId}/review`, { approved: false })
+const rejectCloneProject = async projectId =>
+  doPut(`${projectsBaseURL}/${projectId}/review`, { approved: false });
+
+const signProject = ({ projectId, authorizationSignature }) =>
+  doPost(`${projectsBaseURL}/${projectId}/signature`, { authorizationSignature });
 
 export {
   getActiveProjects,
@@ -334,5 +339,6 @@ export {
   cloneProject,
   cancelReview,
   approveCloneProject,
-  rejectCloneProject
+  rejectCloneProject,
+  signProject
 };
