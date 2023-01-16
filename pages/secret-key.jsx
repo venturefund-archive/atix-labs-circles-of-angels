@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useContext,
-} from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { setPin, setWallet } from 'api/userApi';
 import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLanding';
@@ -18,11 +15,11 @@ function SecretKey() {
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const { user } = useContext(UserContext);
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const savePin = async (pin) => {
+  const savePin = async pin => {
     setModalOpen(false);
-    setLoadingModalOpen(true)
+    setLoadingModalOpen(true);
     const success = await setPin();
 
     // Wallet generated only after pin validation
@@ -35,33 +32,23 @@ function SecretKey() {
       setModalOpen(false);
       setSuccessModalOpen(true);
     }
-    setLoadingModalOpen(false)
-  }
+    setLoadingModalOpen(false);
+  };
 
   const redirect = () => {
-    const id = history.location.pathname.split('/')[1]
-    let route = `/${id}`
+    const id = history.location.pathname.split('/')[1];
+    let route = `/${id}`;
     if (user.isAdmin) {
-      route = '/my-projects'
+      route = '/back-office/projects';
     }
-    history.push(route)
-  }
+    history.push(route);
+  };
 
   return (
     <BackgroundLanding>
-      <Navigation
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-      />
-      <ModalSecretKey
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        onSuccess={savePin}
-      />
-      <ModalSKSuccess
-        visible={successModalOpen}
-        onSuccess={redirect}
-      />
+      <Navigation modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <ModalSecretKey modalOpen={modalOpen} setModalOpen={setModalOpen} onSuccess={savePin} />
+      <ModalSKSuccess visible={successModalOpen} onSuccess={redirect} />
       <ModalSecretKeyLoading visible={loadingModalOpen} />
     </BackgroundLanding>
   );

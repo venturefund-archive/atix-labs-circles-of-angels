@@ -270,7 +270,7 @@ const CreateProjectContainer = () => {
     );
   };
 
-  const goToMyProjects = () => history.push('/my-projects');
+  const goToMyProjects = () => history.push('/back-office/projects');
   const goToParentProject = () => history.push(`/${project?.parent}`);
 
   const fetchProject = async () => {
@@ -483,7 +483,7 @@ const CreateProjectContainer = () => {
       <ModalPublishSuccess
         visible={successModalVisible}
         onCancel={() => setSuccessModalVisible(false)}
-        onSave={() => history.push('/my-projects')}
+        onSave={() => history.push('/back-office/projects')}
       >
         <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
           {texts?.createProject?.projectLink || 'Project Link'}

@@ -7,9 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, {
-  useContext,
-} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, BrowserRouter } from 'react-router-dom';
 import { UserContext } from '../../utils/UserContext';
@@ -17,18 +15,22 @@ import { UserContext } from '../../utils/UserContext';
 import PrivateRoute from '../../utils/PrivateRoute';
 import DefaultRoute from '../../utils/DefaultRoute';
 
-
 const Router = ({ routesConfig }) => {
   const context = useContext(UserContext);
   const { user } = context;
   const authenticated = !!user;
 
-
   return (
     <BrowserRouter>
       <Switch>
         {routesConfig.map(route => (
-          <PrivateRoute key={route.path} {...route} authenticated={authenticated} role={user ? user.role : ''} user={user} />
+          <PrivateRoute
+            key={route.path}
+            {...route}
+            authenticated={authenticated}
+            role={user ? user.role : ''}
+            user={user}
+          />
         ))}
         <DefaultRoute />
       </Switch>
@@ -42,16 +44,17 @@ Router.defaultProps = {
   routesConfig: []
 };
 
-
 Router.propTypes = {
-  routesConfig: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string,
-    component: PropTypes.elementType,
-    authentication: PropTypes.shape({
-      required: PropTypes.bool,
-      roles: PropTypes.arrayOf(PropTypes.string)
-    }),
-    withHeader: PropTypes.bool,
-    withSideBar: PropTypes.bool
-  }))
+  routesConfig: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      component: PropTypes.elementType,
+      authentication: PropTypes.shape({
+        required: PropTypes.bool,
+        roles: PropTypes.arrayOf(PropTypes.string)
+      }),
+      withHeader: PropTypes.bool,
+      withSideBar: PropTypes.bool
+    })
+  )
 };

@@ -7,11 +7,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, {
-  useEffect,
-  useState,
-  useContext,
-} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, message } from 'antd';
 import './_style.scss';
@@ -71,7 +67,7 @@ const ModalLogin = ({ setVisibility, visibility }) => {
       } else if (forcePasswordChange) {
         nextRoute = 'password-change';
       } else if (isAdmin) {
-        nextRoute = '/my-projects';
+        nextRoute = '/back-office/projects';
       }
 
       clearFields();

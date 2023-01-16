@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 // import { useUserContext } from './UserContext';
 // import { defaultRouteByRole } from '../../constants/DefaultRouteByRole';
 
@@ -18,12 +18,14 @@ function PrivateRoute(routeProps) {
   // const user = getLoggedUser();
   // const authenticated = !!user;
 
-  const { required, roles } = authentication;
+  const { pathname } = useLocation();
+
+  const { required, roles, everyLoggedUser } = authentication;
   if (required && !authenticated) {
     return <Redirect push from={path} to="/" />;
   }
 
-  if (required && authenticated && !roles.includes(role)) {
+  if (required && authenticated && !roles?.includes(role) && !everyLoggedUser) {
     return <div>{`This route required a role (${roles.join(',')}): ${role}`}</div>;
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
   }
@@ -31,6 +33,10 @@ function PrivateRoute(routeProps) {
   if (!required && authenticated) {
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
     // return <Redirect push from={path} to="/" />;
+  }
+
+  if (pathname === '/' && authenticated) {
+    return <Redirect push from={path} to="/my-projects" />;
   }
 
   return (
