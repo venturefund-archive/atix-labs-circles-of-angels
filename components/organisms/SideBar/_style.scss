@@ -4,8 +4,7 @@
 .SideBar {
   background-color: $white;
   box-shadow: $shadow;
-  margin-top: 70px;
-  width: 5vw;
+  flex: 1;
 }
 .logo {
   height: $header-height;

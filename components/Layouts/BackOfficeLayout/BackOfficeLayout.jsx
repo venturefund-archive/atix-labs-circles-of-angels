@@ -6,7 +6,7 @@ import SideBar from 'components/organisms/SideBar/SideBar';
 import './back-office-layout.scss';
 
 const BackOfficeLayout = ({ children, user, project }) => (
-  <Layout>
+  <Layout className="backOfficeLayout">
     <Navbar project={project} isProtectedRoute />
     <Layout className="mainContent">
       {user?.isAdmin && <SideBar hasDaos={user && user.hasDaos} role={user && user.role} />}
