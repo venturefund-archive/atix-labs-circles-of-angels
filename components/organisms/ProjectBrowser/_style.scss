@@ -21,7 +21,7 @@
     gap: 1rem;
     grid-auto-rows: 1fr;
     @include breakpoint(sm) {
-      grid-template-columns: 1fr;
+      grid-template-columns: 100%;
     }
   }
 }

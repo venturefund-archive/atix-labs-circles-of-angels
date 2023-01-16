@@ -12,8 +12,8 @@ export default function MyProjects() {
   const goToProject = project => history.push(`/${project?.id}`);
   useEffect(() => {
     const fetchMyProjects = async () => {
-      /* const myProjects = await getMyProjects();
-      setProjects(myProjects); */
+      /* const _myProjects = await getMyProjects();
+      setMyProjects(_myProjects); */
     };
 
     fetchMyProjects();
