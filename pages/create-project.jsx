@@ -501,7 +501,7 @@ const CreateProjectContainer = () => {
       <ModalPublishSuccess
         visible={successApproveCloneModalVisible}
         onCancel={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
         }}
         textTitle={texts?.createProject?.ttPublished || 'The project was published successfully!'}
@@ -510,14 +510,14 @@ const CreateProjectContainer = () => {
           'A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page'
         }
         onSave={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
         }}
       />
       <ModalPublishSuccess
         visible={successRejectCloneModalVisible}
         onCancel={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}
         textTitle={texts?.createProject?.ttRejected || 'You have rejected the changes'}
@@ -525,7 +525,7 @@ const CreateProjectContainer = () => {
           texts?.createProject?.dRejected || 'No changes have been applied to the project'
         }
         onSave={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}
       />
