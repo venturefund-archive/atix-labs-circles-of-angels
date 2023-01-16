@@ -71,11 +71,17 @@ const EvidenceFormContent = props => {
     setLoadingTransactions(true);
     const _transactionQueryParam = transactionQueryParam[_transactionType];
     if (!_transactionQueryParam)
-      return message.error(texts?.createEvidence?.errorFetchingTransactions || 'An error occurred while fetching the project transactions');
+      return message.error(
+        texts?.createEvidence?.errorFetchingTransactions ||
+          'An error occurred while fetching the project transactions'
+      );
 
     const response = await getProjectTransactions(project.id, _transactionQueryParam);
     if (response.errors || !response.data) {
-      message.error(texts?.createEvidence?.errorFetchingTransactions || 'An error occurred while fetching the project transactions');
+      message.error(
+        texts?.createEvidence?.errorFetchingTransactions ||
+          'An error occurred while fetching the project transactions'
+      );
       setLoadingTransactions(false);
       return;
     }
@@ -86,7 +92,7 @@ const EvidenceFormContent = props => {
       label: {
         date: (hash.timestamp || '').split(' ')[0],
         hour: `${(hash.timestamp || '').split(' ')[1]} ${(hash.timestamp || '').split(' ')[2]}`,
-        txValue: formatCurrency(hash.tokenSymbol, hash.value, true),
+        txValue: formatCurrency(hash.tokenSymbol, hash.value, true)
       }
     }));
 
@@ -103,13 +109,16 @@ const EvidenceFormContent = props => {
       const isInvestor = checkIsInvestorByProject({ user, project });
 
       if (!isBeneficiary && !isInvestor) {
-        message.error(texts?.createEvidence?.errorUser || 'User is not a beneficiary or founder of the project');
+        message.error(
+          texts?.createEvidence?.errorUser || 'User is not a beneficiary or founder of the project'
+        );
         history.push(`/${project.id}`);
       }
       setProjectRole({ isBeneficiary, isInvestor });
-      setTransactionType(isBeneficiary
-        ? EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
-        : EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME
+      setTransactionType(
+        isBeneficiary
+          ? EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
+          : EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME
       );
     }
     // eslint-disable-next-line
@@ -166,18 +175,20 @@ const EvidenceFormContent = props => {
       return;
     }
 
-    if(state.type === EVIDENCE_TYPE_ENUM.TRANSFER &&
-      (transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME && projectRole.isInvestor
-      || transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME && projectRole.isBeneficiary)
+    if (
+      state.type === EVIDENCE_TYPE_ENUM.TRANSFER &&
+      ((transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME && projectRole.isInvestor) ||
+        (transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME && projectRole.isBeneficiary))
     ) {
       setButtonLoading(false);
-      return message.error(texts?.createEvidence?.errorRole || 'An error occurred because the user role is investor and it is trying to create an outcome evidence or the user role is beneficiary and it is trying to create an income evidence');
+      return message.error(
+        texts?.createEvidence?.errorRole ||
+          'An error occurred because the user role is investor and it is trying to create an outcome evidence or the user role is beneficiary and it is trying to create an income evidence'
+      );
     }
 
     // outcome amount is designated with negative
-    const newAmount = transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
-      ? -amount
-      : amount;
+    const newAmount = transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME ? -amount : amount;
     const data = { ...state, amount: newAmount };
 
     const response = await createEvidence(activityId, data);
@@ -211,19 +222,25 @@ const EvidenceFormContent = props => {
         </p>
         <div className="evidenceForm__body__text">
           <p className="evidenceForm__body__text_top">
-            {texts?.createEvidence?.evidenceTypeLabel || 'Select the type of evidence you want to upload and then complete the information required for the activity.'}
+            {texts?.createEvidence?.evidenceTypeLabel ||
+              'Select the type of evidence you want to upload and then complete the information required for the activity.'}
           </p>
         </div>
 
         <Form className="evidenceForm__body__form" onSubmit={handleSubmit}>
           <div className="evidenceForm__body__form__group">
             <div className="formDivInfo">
-              <p className="formDivTitle">{texts?.createEvidence?.evidenceType || 'Evidence Type'}</p>
-              <p className="formDIvInfo">
-                <span>{texts?.general?.transfer || 'Transfer'}:</span> {texts?.createEvidence?.transferRelatedTo || 'related to expenses or deposits'}
+              <p className="formDivTitle">
+                {texts?.createEvidence?.evidenceType || 'Evidence Type'}
               </p>
               <p className="formDIvInfo">
-                <span>{texts?.general?.impact || 'Impact'}:</span> {texts?.createEvidence?.impactRelatedTo || 'related to the progress of the activity. You can upload photos, documents, etc'}
+                <span>{texts?.general?.transfer || 'Transfer'}:</span>{' '}
+                {texts?.createEvidence?.transferRelatedTo || 'related to expenses or deposits'}
+              </p>
+              <p className="formDIvInfo">
+                <span>{texts?.general?.impact || 'Impact'}:</span>{' '}
+                {texts?.createEvidence?.impactRelatedTo ||
+                  'related to the progress of the activity. You can upload photos, documents, etc'}
               </p>
             </div>
             <div className="evidenceType">
@@ -262,7 +279,9 @@ const EvidenceFormContent = props => {
             </div>
           </div>
           <div className="evidenceForm__body__form__group">
-            <p className="formDivTitle formDivInfo">{texts?.createEvidence?.evidenceTitle || 'Evidence Title'}</p>
+            <p className="formDivTitle formDivInfo">
+              {texts?.createEvidence?.evidenceTitle || 'Evidence Title'}
+            </p>
             <div className="formDivInput itemInput">
               <Form.Item>
                 {getFieldDecorator('title', {
@@ -273,7 +292,9 @@ const EvidenceFormContent = props => {
                     },
                     {
                       max: 50,
-                      message: texts?.createEvidence?.titleLowerThan || 'Title must be lower than 50 characters'
+                      message:
+                        texts?.createEvidence?.titleLowerThan ||
+                        'Title must be lower than 50 characters'
                     }
                   ]
                 })(
@@ -292,14 +313,17 @@ const EvidenceFormContent = props => {
             </div>
           </div>
           <div className="evidenceForm__body__form__group">
-            <p className="formDivTitle formDivInfo">{texts?.createEvidence?.description || 'Evidence Description'}</p>
+            <p className="formDivTitle formDivInfo">
+              {texts?.createEvidence?.description || 'Evidence Description'}
+            </p>
             <div className="formDivInput">
               <Form.Item>
                 {getFieldDecorator('description', {
                   rules: [
                     {
                       required: true,
-                      message: texts?.createEvidence?.pleaseEnterDescription || 'Please enter description'
+                      message:
+                        texts?.createEvidence?.pleaseEnterDescription || 'Please enter description'
                     }
                   ]
                 })(
@@ -321,7 +345,9 @@ const EvidenceFormContent = props => {
           </div>
           {type === 'transfer' && (
             <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">{texts?.createEvidence?.transactionType || 'Transaction Type'}</p>
+              <p className="formDivTitle formDivInfo">
+                {texts?.createEvidence?.transactionType || 'Transaction Type'}
+              </p>
               <div className="transactionType">
                 <div className="formDivBorder">
                   <div className="customRadioDiv">
@@ -330,7 +356,7 @@ const EvidenceFormContent = props => {
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
-                        if(isFiatProject) return;
+                        if (isFiatProject) return;
                         getTransactions(inputValue);
                       }}
                       checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME}
@@ -352,7 +378,7 @@ const EvidenceFormContent = props => {
                       onChange={e => {
                         const inputValue = e.target.value;
                         setTransactionType(inputValue);
-                        if(isFiatProject) return;
+                        if (isFiatProject) return;
                         getTransactions(inputValue);
                       }}
                       checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME}
@@ -372,19 +398,23 @@ const EvidenceFormContent = props => {
           )}
           {currencyType === CURRENCY_TYPE_ENUM.CRYPTO && type === EVIDENCE_TYPE_ENUM.TRANSFER && (
             <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">{texts?.createEvidence?.selectRightTx || 'Select the corresponding transaction'}</p>
+              <p className="formDivTitle formDivInfo">
+                {texts?.createEvidence?.selectRightTx || 'Select the corresponding transaction'}
+              </p>
               <div className="formDivInput itemInput">
                 <Form.Item>
                   {getFieldDecorator('transferTxHash', {
                     rules: [
                       {
                         required: currencyType === CURRENCY_TYPE_ENUM.CRYPTO,
-                        message: texts?.createEvidence?.pleaseChooseTxHash || 'Please choose the transaction hash'
+                        message:
+                          texts?.createEvidence?.pleaseChooseTxHash ||
+                          'Please choose the transaction hash'
                       }
                     ]
                   })(
                     <Select
-                      className='evidenceForm__select'
+                      className="evidenceForm__select"
                       placeholder={texts?.createEvidence?.selectTx || 'Select the transaction'}
                       disabled={loadingTransactions}
                       loading={loadingTransactions}
@@ -398,13 +428,19 @@ const EvidenceFormContent = props => {
                     >
                       {transactions.map(({ txHash, label }) => (
                         <Option value={txHash} key={txHash}>
-                          <div className='evidenceForm__select__option'>
+                          <div className="evidenceForm__select__option">
                             <div>
-                              <span className='evidenceForm__select__option__date'>{label.date}</span>
-                              <span className='evidenceForm__select__option__hour'>{label.hour}</span>
+                              <span className="evidenceForm__select__option__date">
+                                {label.date}
+                              </span>
+                              <span className="evidenceForm__select__option__hour">
+                                {label.hour}
+                              </span>
                             </div>
                             <div>
-                              <span className='evidenceForm__select__option__txValue'>{label.txValue}</span>
+                              <span className="evidenceForm__select__option__txValue">
+                                {label.txValue}
+                              </span>
                             </div>
                           </div>
                         </Option>
@@ -423,7 +459,7 @@ const EvidenceFormContent = props => {
                   type="number"
                   name="amount"
                   value={amount}
-                  placeholder={texts?.createEvidence?.amountSpent|| 'Enter the amount spent'}
+                  placeholder={texts?.createEvidence?.amountSpent || 'Enter the amount spent'}
                   onChange={onChangeAmount}
                   disabled={currencyType === CURRENCY_TYPE_ENUM.CRYPTO}
                   className={classNames({
@@ -437,8 +473,12 @@ const EvidenceFormContent = props => {
           {(isFiatProject || type === EVIDENCE_TYPE_ENUM.IMPACT) && (
             <div className="evidenceForm__body__form__group">
               <div className="formDivInfo">
-                <p className="formDivTitle">{texts?.createEvidence?.upload || 'Upload Evidence Documents'}</p>
-                <p className="formDIvInfo">{texts?.createEvidence?.checkLegible || 'Check that the evidence is legible'}</p>
+                <p className="formDivTitle">
+                  {texts?.createEvidence?.upload || 'Upload Evidence Documents'}
+                </p>
+                <p className="formDIvInfo">
+                  {texts?.createEvidence?.checkLegible || 'Check that the evidence is legible'}
+                </p>
                 <p className="formDIvInfo">
                   <span>{texts?.general?.formats || 'Formats'}:</span> PNG, JPG, PDF
                 </p>
@@ -450,11 +490,12 @@ const EvidenceFormContent = props => {
                       rules: [
                         {
                           required: type === EVIDENCE_TYPE_ENUM.IMPACT || isFiatProject,
-                          message: texts?.createEvidence?.pleaseSelectFiles || 'Please select the files'
+                          message:
+                            texts?.createEvidence?.pleaseSelectFiles || 'Please select the files'
                         }
                       ]
                     })(
-                      <Upload {...uploadProps}>
+                      <Upload {...uploadProps} className="evidenceForm__upload">
                         <Button className="uploadBtn">
                           <Icon type="upload" /> {texts?.general?.uploadClick || 'Click to upload'}
                         </Button>
