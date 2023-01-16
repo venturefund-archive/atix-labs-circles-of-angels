@@ -251,16 +251,20 @@ const CreateProjectContainer = () => {
     }
 
     const messageToSign = JSON.stringify(result?.data?.toSign);
-    const authorizationSignature = await signMessage(wallet, messageToSign, key);
-    const response = await signProject({ authorizationSignature, projectId });
-    if (response.errors) {
-      message.error('An error occurred while sending to review the project');
-      setLoadingSendToReviewModalVisible(false);
-      setErrorModalVisible(true);
-      return;
-    }
+    try {
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      const response = await signProject({ authorizationSignature, projectId });
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
 
-    setSuccessSendToReviewModalVisible(true);
+      setSuccessSendToReviewModalVisible(true);
+    } catch (error) {
+      message.error('An error occurred while sending to review the project');
+      setErrorModalVisible(true);
+    } finally {
+      setLoadingSendToReviewModalVisible(false);
+    }
   };
 
   const approveClonedProject = async () => {
