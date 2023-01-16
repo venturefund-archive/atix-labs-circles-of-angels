@@ -4,11 +4,9 @@ import Roles from '../../../constants/RolesMap';
 
 const menuItems = [
   {
-    route: '/my-projects',
-    key: 'my-projects',
-    content: (
-      <img src="/static/images/dashboard-icon-navbar.svg" alt="myprojects" />
-    ),
+    route: '/back-office/projects',
+    key: 'projects',
+    content: <img src="/static/images/dashboard-icon-navbar.svg" alt="projects" />,
     // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER, Roles.COA_ADMIN]
     allowedRoles: [Roles.COA_ADMIN]
   },
@@ -19,12 +17,12 @@ const menuItems = [
     allowedRoles: [Roles.COA_ADMIN]
   },
   // {
-    // route: '/explore-projects',
-    // key: 'explore-projects',
-    // content: (
-      // <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
-    // ),
-    // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
+  // route: '/explore-projects',
+  // key: 'explore-projects',
+  // content: (
+  // <img src="./static/images/projects-icon-navbar.svg" alt="projects" />
+  // ),
+  // allowedRoles: [Roles.ENTREPRENEUR, Roles.PROJECT_SUPPORTER]
   // },
   /*
   {

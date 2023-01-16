@@ -2,8 +2,9 @@ import SecretKey from 'pages/secret-key';
 import ProjectChangeLog from 'pages/project-changelog';
 // import BackofficeProjects from '../../../pages/back-office-projects';
 import EvidenceDetail from 'pages/evidence-detail';
+import MyProjects from 'pages/my-projects';
 import CreateProject from '../../../pages/create-project';
-import MyProjects from '../../../pages/my-projects';
+import Projects from '../../../pages/projects';
 // import FundAdministration from '../../../pages/fund-administration';
 import BackOfficeUsers from '../../../pages/back-office-users';
 import BackOfficeMilestones from '../../../pages/back-office-milestones';
@@ -123,11 +124,19 @@ export const routesConfig = [
   },
   */
   {
+    path: '/back-office/projects',
+    component: Projects,
+    authentication: {
+      required: true,
+      roles: [COA_ADMIN]
+    }
+  },
+  {
     path: '/my-projects',
     component: MyProjects,
     authentication: {
       required: true,
-      roles: [COA_ADMIN]
+      everyLoggedUser: true
     }
   },
   {

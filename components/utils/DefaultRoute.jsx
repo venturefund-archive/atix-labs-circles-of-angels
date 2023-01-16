@@ -1,6 +1,4 @@
-import React, {
-  useContext,
-} from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 // import { useUserContext } from './UserContext';
 import { UserContext } from './UserContext';
@@ -16,7 +14,11 @@ const DefaultRoute = () => {
   }
 
   if (authenticated && role === 'admin') {
-    return (<Redirect push to="/my-projects" />);
+    return <Redirect push to="/back-office/projects" />;
+  }
+
+  if (authenticated && role !== 'admin') {
+    return <Redirect push to="/my-projects" />;
   }
 
   /*
