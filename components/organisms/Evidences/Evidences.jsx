@@ -65,10 +65,22 @@ const Evidences = ({
   const [loadingModalVisible, setLoadingModalVisible] = useState(initialLoadingModal);
   const [reviewSuccessVisible, setReviewSuccessVisible] = useState(false);
   const { user } = useContext(UserContext);
-  const [showModalToSignMessage, setShowModalToSignMessage] = useState(activityStep === 1);
 
   const isActivityAuditor = checkIsActivityAuditor({ user, activity });
   const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project });
+
+  const mustSignBeneficiaryOrInvestor =
+    activityStep === 1 &&
+    isBeneficiaryOrInvestor &&
+    activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW;
+  const mustSignAuditor =
+    activityStep === 1 &&
+    isActivityAuditor &&
+    [ACTIVITY_STATUS_ENUM.APPROVED, ACTIVITY_STATUS_ENUM.REJECTED].includes(activityStatus);
+
+  const [showModalToSignMessage, setShowModalToSignMessage] = useState(
+    mustSignBeneficiaryOrInvestor || mustSignAuditor
+  );
 
   const sendToReview = useCallback(
     async (_pin, _password, wallet, key) => {
@@ -239,7 +251,7 @@ const Evidences = ({
 
   const signActivityInStepOne = async (_pin, _password, wallet, key) => {
     const _toSign = activity?.toSign;
-    if (_toSign) {
+    if (!_toSign) {
       message.error('An error occurred while signing the activity');
       return;
     }
@@ -383,13 +395,13 @@ const Evidences = ({
               {isActivityAuditor && activityStatus === ACTIVITY_STATUS_ENUM.TO_REVIEW && (
                 <>
                   <CoaRejectButton
-                    disabled={!areReviewedEvidences || isProjectEditing}
+                    disabled={!areReviewedEvidences || isProjectEditing || activityStep === 1}
                     onClick={handleRejectActivity}
                   >
                     Reject
                   </CoaRejectButton>
                   <CoaApproveButton
-                    disabled={!areReviewedEvidences || isProjectEditing}
+                    disabled={!areReviewedEvidences || isProjectEditing || activityStep === 1}
                     onClick={handleApproveActivity}
                   >
                     Approve
