@@ -138,6 +138,7 @@ const CustomCollapse = ({
               initialData={initialData}
               setIsFormSubmitted={setIsFormSubmitted}
               handleResendEmail={handleResendEmail}
+              countries={countries}
             />
           }
           key={1}
