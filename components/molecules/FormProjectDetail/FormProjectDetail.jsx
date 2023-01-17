@@ -237,7 +237,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                 initialValue: currencyType
               }}
               selectProps={{
-                placeholder: texts?.createProject?.selectCurrencyType || 'Select project type'
+                placeholder: texts?.createProject?.selectCurrencyType || 'Select project type',
+                disabled: isACloneBeingEdited
               }}
               options={[{ label: 'Grant', value: 'grant' }, { label: 'Loan', value: 'loan' }]}
             />
