@@ -116,16 +116,18 @@ const PreviewProject = ({
   const handleRequestChanges = async e => {
     e.preventDefault();
     if (editing) {
-      return history.push(`/project/edit/${cloneId}`);
+      return history.push(`/back-office/project/edit/${cloneId}`);
     }
     setLoading(true);
     const response = await cloneProject(project.parent || project.id);
     setLoading(false);
     if (response.errors) {
-      return message.error(texts?.general?.errorFetchingProject || 'An error occurred while fetching the project');
+      return message.error(
+        texts?.general?.errorFetchingProject || 'An error occurred while fetching the project'
+      );
     }
     const _cloneId = await response.data.projectId;
-    return history.push(`/project/edit/${_cloneId}`);
+    return history.push(`/back-office/project/edit/${_cloneId}`);
   };
 
   if (loading) return <Loading />;

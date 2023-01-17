@@ -38,6 +38,7 @@ import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import BackOfficeLayout from 'components/Layouts/BackOfficeLayout/BackOfficeLayout';
+import { signMessage } from 'helpers/blockchain/wallet';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import {
   getProject,
@@ -46,7 +47,8 @@ import {
   cancelReview,
   sendToReview,
   approveCloneProject,
-  rejectCloneProject
+  rejectCloneProject,
+  signProject
 } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
@@ -237,15 +239,32 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async () => {
+  const sendToReviewProject = async (_pin, _password, wallet, key) => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
-    const { errors } = await sendToReview(project.id);
+    const result = await sendToReview(project.id);
+    if (result.errors) {
+      message.error('An error occurred while sending to review the project');
+      setLoadingSendToReviewModalVisible(false);
+      setErrorModalVisible(true);
+      return;
+    }
 
-    goToNextModal(
-      setLoadingSendToReviewModalVisible,
-      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
-    );
+    const messageToSign = JSON.stringify(result?.data?.toSign);
+    try {
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      const response = await signProject({ authorizationSignature, projectId });
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
+
+      setSuccessSendToReviewModalVisible(true);
+    } catch (error) {
+      message.error('An error occurred while sending to review the project');
+      setErrorModalVisible(true);
+    } finally {
+      setLoadingSendToReviewModalVisible(false);
+    }
   };
 
   const approveClonedProject = async () => {
@@ -501,7 +520,7 @@ const CreateProjectContainer = () => {
       <ModalPublishSuccess
         visible={successApproveCloneModalVisible}
         onCancel={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
         }}
         textTitle={texts?.createProject?.ttPublished || 'The project was published successfully!'}
@@ -510,14 +529,14 @@ const CreateProjectContainer = () => {
           'A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page'
         }
         onSave={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessApproveCloneModalVisible(false);
         }}
       />
       <ModalPublishSuccess
         visible={successRejectCloneModalVisible}
         onCancel={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}
         textTitle={texts?.createProject?.ttRejected || 'You have rejected the changes'}
@@ -525,7 +544,7 @@ const CreateProjectContainer = () => {
           texts?.createProject?.dRejected || 'No changes have been applied to the project'
         }
         onSave={() => {
-          history.push(`/project/edit/${project?.parent}`);
+          history.push(`/back-office/project/edit/${project?.parent}`);
           setSuccessRejectCloneModalVisible(false);
         }}
       />

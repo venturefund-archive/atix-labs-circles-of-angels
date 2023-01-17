@@ -33,9 +33,7 @@ export const routesConfig = [
   {
     path: '/',
     component: Landing,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: { required: false }
   },
   {
     path: '/projects/:id/preview',
@@ -43,9 +41,7 @@ export const routesConfig = [
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, COA_ADMIN]
-    },
-    withHeader: false,
-    withSideBar: false
+    }
   },
   /*
   {
@@ -59,8 +55,6 @@ export const routesConfig = [
   {
     path: '/:projectId/secret-key',
     component: SecretKey,
-    withHeader: false,
-    withSideBar: false,
     authentication: {
       required: true,
       roles: [ENTREPRENEUR, COA_ADMIN, PROJECT_SUPPORTER, PROJECT_CURATOR, BANK_OPERATOR]
@@ -69,8 +63,6 @@ export const routesConfig = [
   {
     path: '/:projectId/reset-password',
     component: ResetPassword,
-    withHeader: false,
-    withSideBar: false,
     authentication: {
       required: false
     }
@@ -78,7 +70,6 @@ export const routesConfig = [
   {
     path: '/:projectId/change-password-success',
     component: ChangePasswordSuccess,
-    withSideBar: false,
     authentication: {
       required: false
     }
@@ -89,14 +80,12 @@ export const routesConfig = [
     // /evidences/:detailEvidenceId
     path: '/:projectId/activity/:activityId/evidences/:detailEvidenceId',
     component: EvidenceDetail,
-    withHeader: false,
-    withSideBar: false,
     authentication: {
       required: false
     }
   },
   {
-    path: '/project/edit/:projectId',
+    path: '/back-office/project/edit/:projectId',
     component: CreateProject,
     authentication: {
       required: true,
@@ -135,16 +124,13 @@ export const routesConfig = [
     path: '/my-projects',
     component: MyProjects,
     authentication: {
-      required: true,
-      everyLoggedUser: true
+      required: true
     }
   },
   {
     path: '/terms-and-conditions',
     component: TermsAndConditions,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: { required: false }
   },
   /*
   {
@@ -157,7 +143,7 @@ export const routesConfig = [
   },
   */
   {
-    path: '/back-office-users',
+    path: '/back-office/users',
     component: BackOfficeUsers,
     authentication: {
       required: true,
@@ -217,9 +203,7 @@ export const routesConfig = [
   {
     path: '/:projectId',
     component: Preview,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: { required: false }
   },
   {
     path: '/:projectId/activity/:activityId/create-evidence',
@@ -227,22 +211,16 @@ export const routesConfig = [
     authentication: {
       required: true,
       roles: [ENTREPRENEUR]
-    },
-    withHeader: false,
-    withSideBar: false
+    }
   },
   {
     path: '/:projectId/activity/:activityId/evidences',
     component: EvidencesContainer,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: { required: false }
   },
   {
     path: '/:projectId/changelog',
     component: ProjectChangeLog,
-    authentication: { required: false },
-    withHeader: false,
-    withSideBar: false
+    authentication: { required: false }
   }
 ];

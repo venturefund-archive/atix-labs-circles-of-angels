@@ -11,7 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router';
 import { Layout, Menu } from 'antd';
-import customConfig from 'custom-config';
 import menuItems from './MenuItems';
 import './_style.scss';
 
@@ -33,10 +32,7 @@ const SideBar = ({ role, hasDaos }) => {
   };
 
   return (
-    <Sider width="60" breakpoint="sm" collapsedWidth="0">
-      {/* <div className="logo">
-        <img src={customConfig.LOGO_PATH} alt={`${customConfig.ORGANIZATION_NAME} logo`} />
-      </div> */}
+    <Sider width="60" collapsedWidth="0" className="SideBar">
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname.replace('/', '')]}>
         {getMenuItems(role).map(({ key, route, content }) => (
           <Menu.Item key={key} onClick={() => goToRoute(route)}>

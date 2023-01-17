@@ -36,7 +36,7 @@ const MyProjects = ({ user }) => {
     if (project.status === PROJECT_STATUS_ENUM.IN_REVIEW) {
       projectId = project.id;
     }
-    history.push(`/project/edit/${projectId}`, state);
+    history.push(`/back-office/project/edit/${projectId}`, state);
   };
 
   const goToProjectProgress = () => {
@@ -45,7 +45,7 @@ const MyProjects = ({ user }) => {
 
   const goToNewProject = async () => {
     const { projectId } = await createProject();
-    history.push(`/project/edit/${projectId}`);
+    history.push(`/back-office/project/edit/${projectId}`);
   };
 
   const onClick = () => {
