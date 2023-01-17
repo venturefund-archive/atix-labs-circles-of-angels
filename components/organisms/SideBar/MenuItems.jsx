@@ -11,7 +11,7 @@ const menuItems = [
     allowedRoles: [Roles.COA_ADMIN]
   },
   {
-    route: '/back-office-users',
+    route: '/back-office/users',
     key: 'back-office-users',
     content: <Icon className="icon" type="team" />,
     allowedRoles: [Roles.COA_ADMIN]

@@ -96,7 +96,7 @@ export const routesConfig = [
     }
   },
   {
-    path: '/project/edit/:projectId',
+    path: '/back-office/project/edit/:projectId',
     component: CreateProject,
     authentication: {
       required: true,
@@ -157,7 +157,7 @@ export const routesConfig = [
   },
   */
   {
-    path: '/back-office-users',
+    path: '/back-office/users',
     component: BackOfficeUsers,
     authentication: {
       required: true,

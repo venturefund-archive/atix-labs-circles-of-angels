@@ -1,15 +1,25 @@
 @import 'css/_variables.scss';
 
+.backOfficeLayout {
+  height: 100vh;
+}
+
 .mainContent {
   display: flex;
   align-items: stretch;
   width: 100%;
   flex-direction: column;
   background: white;
+  flex: 1;
   &__header {
     height: $header-height;
   }
   &__content {
     flex: 1;
+    overflow-y: auto;
+
+    &.--withSidebar {
+      max-width: calc(100vw - 60px);
+    }
   }
 }
