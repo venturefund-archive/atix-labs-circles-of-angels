@@ -5,7 +5,7 @@ import { ERROR_MESSAGES } from 'constants/constants';
 import { capitalizeFirstLetter, checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FeedbackMessage } from 'components/atoms/FeedbackMessage/FeedbackMessage';
 import PropTypes from 'prop-types';
 import { VALID_EMAIL_REGEX } from 'constants/Regex';
@@ -25,20 +25,25 @@ export const CustomCollapseHeader = ({
   setUserState,
   form,
   initialData,
-  handleResendEmail
+  handleResendEmail,
+  countries
 }) => {
   const { setFieldsValue, getFieldDecorator } = form;
+
   const searchUser = async inputValue => {
     if (!checkValidEmail(inputValue)) return setUserState(USER_STATES.UNKNOWN);
 
     const users = (await getUsers({ email: inputValue }))?.data?.users;
     setActiveKey(1);
     if (users?.length > 0) {
+      const countryName = countries?.content?.find(country => country?.id === users[0]?.country)
+        ?.name;
+
       setFieldsValue({
         id: users[0]?.id,
         firstName: users[0]?.firstName,
         lastName: users[0]?.lastName,
-        country: users[0]?.country
+        country: countryName
       });
       if (!users[0]?.first) {
         setUserState(USER_STATES.EXIST_WITH_TEXT);
@@ -57,7 +62,9 @@ export const CustomCollapseHeader = ({
     }
   };
 
-  const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), []);
+  const searchUserDebounced = useCallback(_.debounce(value => searchUser(value), 2600), [
+    countries
+  ]);
 
   const onChange = event => {
     const {
