@@ -124,8 +124,7 @@ export const routesConfig = [
     path: '/my-projects',
     component: MyProjects,
     authentication: {
-      required: true,
-      onlyNotAdmin: true
+      required: true
     }
   },
   {

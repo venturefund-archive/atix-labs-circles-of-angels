@@ -20,23 +20,24 @@ function PrivateRoute(routeProps) {
 
   const { pathname } = useLocation();
 
-  const { required, roles, onlyNotAdmin } = authentication;
+  const { required, roles } = authentication;
   if (required && !authenticated) {
     return <Redirect push from={path} to="/" />;
   }
 
-  if (required && authenticated && !roles?.includes(role) && !onlyNotAdmin) {
-    return <div>{`This route required a role (${roles.join(',')}): ${role}`}</div>;
+  if (pathname === '/' && authenticated && !user?.isAdmin) {
+    return <Redirect push from={path} to="/my-projects" />;
+  }
+
+  if (required && authenticated && roles?.length > 0) {
+    if (!roles?.includes(role))
+      return <div>{`This route required a role (${roles.join(',')}): ${role}`}</div>;
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
   }
 
   if (!required && authenticated) {
     // return <Redirect push from={path} to={defaultRouteByRole[user.role]} />;
     // return <Redirect push from={path} to="/" />;
-  }
-
-  if (pathname === '/' && authenticated && onlyNotAdmin) {
-    return <Redirect push from={path} to="/my-projects" />;
   }
 
   return (
