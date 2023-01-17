@@ -38,6 +38,7 @@ import CoaRejectButton from 'components/atoms/CoaRejectButton/CoaRejectButton';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import BackOfficeLayout from 'components/Layouts/BackOfficeLayout/BackOfficeLayout';
+import { signMessage } from 'helpers/blockchain/wallet';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import {
   getProject,
@@ -46,7 +47,8 @@ import {
   cancelReview,
   sendToReview,
   approveCloneProject,
-  rejectCloneProject
+  rejectCloneProject,
+  signProject
 } from '../api/projectApi';
 import { showModalConfirm } from '../components/utils/Modals';
 import CreateProject from '../components/organisms/CreateProject/CreateProject';
@@ -237,15 +239,32 @@ const CreateProjectContainer = () => {
     goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
   };
 
-  const sendToReviewProject = async () => {
+  const sendToReviewProject = async (_pin, _password, wallet, key) => {
     goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
 
-    const { errors } = await sendToReview(project.id);
+    const result = await sendToReview(project.id);
+    if (result.errors) {
+      message.error('An error occurred while sending to review the project');
+      setLoadingSendToReviewModalVisible(false);
+      setErrorModalVisible(true);
+      return;
+    }
 
-    goToNextModal(
-      setLoadingSendToReviewModalVisible,
-      errors ? setErrorModalVisible : setSuccessSendToReviewModalVisible
-    );
+    const messageToSign = JSON.stringify(result?.data?.toSign);
+    try {
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      const response = await signProject({ authorizationSignature, projectId });
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
+
+      setSuccessSendToReviewModalVisible(true);
+    } catch (error) {
+      message.error('An error occurred while sending to review the project');
+      setErrorModalVisible(true);
+    } finally {
+      setLoadingSendToReviewModalVisible(false);
+    }
   };
 
   const approveClonedProject = async () => {
