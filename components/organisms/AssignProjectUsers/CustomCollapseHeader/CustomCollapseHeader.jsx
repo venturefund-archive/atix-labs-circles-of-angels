@@ -5,7 +5,7 @@ import { ERROR_MESSAGES } from 'constants/constants';
 import { capitalizeFirstLetter, checkValidEmail } from 'helpers/utils';
 import _ from 'lodash';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FeedbackMessage } from 'components/atoms/FeedbackMessage/FeedbackMessage';
 import PropTypes from 'prop-types';
 import { VALID_EMAIL_REGEX } from 'constants/Regex';
