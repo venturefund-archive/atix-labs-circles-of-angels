@@ -97,7 +97,7 @@ const Evidences = ({
         return;
       }
 
-      const messageToSign = JSON.stringify(result?.data?.toSign);
+      const messageToSign = result?.data?.toSign;
 
       try {
         const authorizationSignature = await signMessage(wallet, messageToSign, key);
@@ -132,7 +132,7 @@ const Evidences = ({
         return;
       }
 
-      const messageToSign = JSON.stringify(result?.data?.toSign);
+      const messageToSign = result?.data?.toSign;
       try {
         const authorizationSignature = await signMessage(wallet, messageToSign, key);
         const response = await signActivity({ authorizationSignature, activityId });
@@ -165,7 +165,7 @@ const Evidences = ({
         return;
       }
 
-      const messageToSign = JSON.stringify(result?.data?.toSign);
+      const messageToSign = result?.data?.toSign;
       try {
         const authorizationSignature = await signMessage(wallet, messageToSign, key);
         const response = await signActivity({ authorizationSignature, activityId });

@@ -250,7 +250,7 @@ const CreateProjectContainer = () => {
       return;
     }
 
-    const messageToSign = JSON.stringify(result?.data?.toSign);
+    const messageToSign = result?.data?.toSign;
     try {
       const authorizationSignature = await signMessage(wallet, messageToSign, key);
       const response = await signProject({ authorizationSignature, projectId });
