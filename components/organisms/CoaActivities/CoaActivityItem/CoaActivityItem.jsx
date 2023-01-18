@@ -5,6 +5,14 @@ import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
 import { useHistory } from 'react-router-dom';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { CoaActivityIndicators } from 'components/molecules/CoaActivityIndicators/CoaActivityIndicators';
+import classNames from 'classnames';
+
+const ACTIVITY_COLORS = {
+  funding: 'green',
+  spending: 'yellow',
+  payback: 'violet'
+};
 
 export const CoaActivityItem = ({
   activityNumber,
@@ -26,6 +34,7 @@ export const CoaActivityItem = ({
   const acceptanceCriteria = activity?.acceptanceCriteria;
   const title = activity?.title;
   const budget = activity?.budget;
+  const activityType = activity?.type;
   const spent = activity?.spent || 0;
   const deposited = activity?.deposited || 0;
   const status = activity?.status || '-';
@@ -45,9 +54,23 @@ export const CoaActivityItem = ({
       isProjectEditing={isProjectEditing}
       withEvidences={withEvidences}
       statusMap={activityStatusMap}
-      className="o-coaActivityItem__card"
+      className={classNames('o-coaActivityItem__card', {
+        [`--${ACTIVITY_COLORS[activityType]}`]: ACTIVITY_COLORS[activityType]
+      })}
+      color={ACTIVITY_COLORS[activityType]}
       budget={budget}
-      title={`${texts?.general?.activity || 'Activity'} ${activityNumber} - ${title}`}
+      title={
+        <>
+          <span
+            className={classNames('o-coaActivityItem__card__titleType', {
+              [`--${ACTIVITY_COLORS[activityType]}`]: ACTIVITY_COLORS[activityType]
+            })}
+          >
+            {activityType}{' '}
+          </span>
+          - {title}
+        </>
+      }
       onEdit={onEdit}
       onRemove={onRemove}
       remaining={remaining}
@@ -92,6 +115,7 @@ export const CoaActivityItem = ({
           </div>
         </>
       }
+      IndicatorsComponent={CoaActivityIndicators}
     />
   );
 };

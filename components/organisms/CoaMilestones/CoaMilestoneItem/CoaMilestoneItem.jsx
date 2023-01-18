@@ -8,6 +8,7 @@ import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityI
 import milestoneStatusMap, { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
+import { CoaMilestoneIndicators } from 'components/molecules/CoaMilestoneIndicators/CoaMilestoneIndicators';
 
 const { Panel } = Collapse;
 
@@ -138,6 +139,7 @@ export const CoaMilestoneItem = ({
           )}
         </>
       }
+      IndicatorsComponent={CoaMilestoneIndicators}
     />
   );
 };

@@ -1,10 +1,13 @@
-@import 'css/_variables.scss';
 @import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
 
-.o-coaActivityItem {
-  &__card {
-    background: $coa-white-100;
+.m-coaMilestoneIndicators {
+  display: flex;
+  column-gap: 2rem;
+
+  &__indicatorContainer {
     position: relative;
+    padding-left: 16px;
     &::before {
       display: block;
       height: 100%;
@@ -29,23 +32,17 @@
         background: linear-gradient(180deg, #ddb3ff 0%, $coa-violet-100 100%);
       }
     }
-    &__titleType {
-      text-transform: uppercase;
-      &.--green {
-        @include primary-text(1rem, $coa-green-100, 700);
-      }
-      &.--yellow {
-        @include primary-text(1rem, $coa-yellow-100, 700);
-      }
-      &.--violet {
-        @include primary-text(1rem, $coa-violet-100, 700);
-      }
+  }
+
+  &__indicators {
+    display: flex;
+    column-gap: 1.25rem;
+
+    &__title {
+      @include primary-text(0.75rem, $coa-medium-gray-100, 400);
     }
-  }
-  &__indicatorTitle {
-    @include primary-text(0.75rem, $coa-medium-gray-100, 700);
-  }
-  &__indicatorValue {
-    @include primary-text(0.75rem, $coa-medium-gray-100, 400);
+    &__value {
+      @include primary-text(1rem, $coa-medium-gray-100, 400);
+    }
   }
 }

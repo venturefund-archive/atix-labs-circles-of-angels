@@ -1,0 +1,61 @@
+@import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
+
+.m-coaMilestoneIndicators {
+  display: flex;
+  column-gap: 2rem;
+
+  &__indicatorContainer {
+    position: relative;
+    padding-left: 16px;
+    &::before {
+      display: block;
+      height: 100%;
+      width: 6px;
+      content: '';
+      position: absolute;
+
+      left: 0;
+    }
+
+    &.--green {
+      &::before {
+        background: linear-gradient(180deg, #ace4c1 0%, $coa-green-100 100%);
+      }
+    }
+    &.--orange {
+      &::before {
+        background: linear-gradient(180deg, #ffd494 0%, $coa-yellow-100 100%);
+      }
+    }
+    &.--violet {
+      &::before {
+        background: linear-gradient(180deg, #ddb3ff 0%, $coa-violet-100 100%);
+      }
+    }
+  }
+
+  &__title {
+    text-transform: uppercase;
+    &.--green {
+      @include primary-text(0.875rem, $coa-green-100, 700);
+    }
+    &.--orange {
+      @include primary-text(0.875rem, $coa-yellow-100, 700);
+    }
+    &.--violet {
+      @include primary-text(0.875rem, $coa-violet-100, 700);
+    }
+  }
+  &__indicators {
+    display: flex;
+    column-gap: 1.25rem;
+
+    &__title {
+      @include primary-text(0.75rem, $coa-medium-gray-100, 400);
+    }
+    &__value {
+      @include primary-text(1rem, $coa-medium-gray-100, 400);
+    }
+  }
+}
