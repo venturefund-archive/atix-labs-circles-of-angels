@@ -28,16 +28,18 @@ function ResetPassword() {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
   const [validToken, setValidToken] = useState(false);
+  const [showTokenExpirationModal, setShowTokenExpirationModal] = useState(false);
   const [first, setFirst] = useState(false);
   const query = window.location && queryString.parse(window.location.search);
   const { token } = query || {};
 
-  const checkTokenStatus = async (_token) => {
+  const checkTokenStatus = async _token => {
     const response = await getTokenStatus(_token);
     const valid = !response.expired && !response.errors;
     setValidToken(valid);
+    setShowTokenExpirationModal(!valid);
     setResetModalOpen(valid);
-  }
+  };
 
   useEffect(() => {
     checkTokenStatus(token);
@@ -47,7 +49,10 @@ function ResetPassword() {
     const data = { token, password: newPassword };
     setLoading(true);
     try {
-      const { errors, data: { first: _first } } = await resetPassword(data);
+      const {
+        errors,
+        data: { first: _first }
+      } = await resetPassword(data);
       if (!errors) {
         setSuccessModalOpen(true);
         setSuccessfulUpdate(true);
@@ -57,9 +62,7 @@ function ResetPassword() {
       }
     } catch (error) {
       const title = 'Error';
-      const content = error.response
-        ? error.response.data.error
-        : error.message;
+      const content = error.response ? error.response.data.error : error.message;
       showModalError(title, content);
     } finally {
       setLoading(false);
@@ -68,7 +71,7 @@ function ResetPassword() {
 
   const renderForm = () => (
     <div>
-      {(!successfulUpdate && validToken) && (
+      {!successfulUpdate && validToken && (
         <div>
           <Spin spinning={loading}>
             <DynamicFormChangePassword
@@ -84,17 +87,10 @@ function ResetPassword() {
 
   return (
     <BackgroundLanding>
-      <Navigation
-        setModalOpen={setModalOpen}
-      />
-      <ModalLogin
-        visibility={modalOpen}
-        setVisibility={setModalOpen}
-      />
+      <Navigation setModalOpen={setModalOpen} />
+      <ModalLogin visibility={modalOpen} setVisibility={setModalOpen} />
       <div>{renderForm()}</div>
-      {
-        !validToken && <ModalInvalidToken />
-      }
+      {showTokenExpirationModal && <ModalInvalidToken />}
 
       <ModalChangePasswordSuccess visible={successModalOpen} first={first} />
     </BackgroundLanding>
