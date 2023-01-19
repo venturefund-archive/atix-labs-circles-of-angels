@@ -44,7 +44,8 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
     currency,
     additionalCurrencyInformation,
     legalAgreementFile,
-    projectProposalFile
+    projectProposalFile,
+    projectType
   } = project?.details || {};
 
   const legalAgreementFileCompletePath =
@@ -234,7 +235,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                     whitespace: true
                   }
                 ],
-                initialValue: currencyType
+                initialValue: projectType
               }}
               selectProps={{
                 placeholder: texts?.createProject?.selectCurrencyType || 'Select project type',
