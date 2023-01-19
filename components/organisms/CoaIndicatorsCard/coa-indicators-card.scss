@@ -40,7 +40,6 @@
       column-gap: 0.4rem;
 
       @include breakpoint(lg) {
-        width: 100%;
         justify-content: space-between;
       }
     }
@@ -49,7 +48,6 @@
       align-items: center;
       column-gap: 1.25rem;
       @include breakpoint(lg) {
-        width: 100%;
         justify-content: space-between;
       }
     }
