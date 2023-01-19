@@ -1,9 +1,8 @@
-import { Wallet } from 'ethers';
+import { Wallet, utils } from 'ethers';
 
 export const encryptWallet = async (wallet, password) => {
   if (!password) throw new Error('a password is required to encrypt a wallet');
-  if (!wallet || !(wallet instanceof Wallet))
-    throw new Error('wallet is not valid');
+  if (!wallet || !(wallet instanceof Wallet)) throw new Error('wallet is not valid');
   return wallet.encrypt(password);
 };
 
@@ -28,7 +27,7 @@ export const createNewWallet = async password => {
   return {
     mnemonic,
     address,
-    wallet,
+    wallet
   };
 };
 
@@ -40,27 +39,29 @@ export const signTransaction = async (jsonWallet, transaction, password) => {
   return wallet.signTransaction(transaction);
 };
 
-export const generateWalletFromPin = async (pin) => {
+export const generateWalletFromPin = async pin => {
   if (!pin && pin.length >= 12) throw new Error('Pin must be length 12 or longer');
   const random = Wallet.createRandom();
-  const {
-    address,
-  } = random;
+  const { address } = random;
   // Until we find the real cause mnemonic is inconsistent between environment
-  const mnemonic = typeof random.mnemonic === 'object' ? random.mnemonic.phrase : random.mnemonic
+  const mnemonic = typeof random.mnemonic === 'object' ? random.mnemonic.phrase : random.mnemonic;
   const encrypted = await random.encrypt(pin);
-  const { Crypto: { cipherparams: { iv } } } = JSON.parse(encrypted)
+  const {
+    Crypto: {
+      cipherparams: { iv }
+    }
+  } = JSON.parse(encrypted);
   return {
     address,
     wallet: encrypted,
     mnemonic,
     iv
   };
-}
+};
 
-export const signMessage = async(jsonWallet, message, password) => {
+export const signMessage = async (jsonWallet, message, password) => {
   if (!message) throw new Error('Message is required');
 
   const wallet = await decryptJsonWallet(jsonWallet, password);
-  return wallet.signMessage(message);
-}
+  return wallet.signMessage(utils.arrayify(message));
+};
