@@ -35,7 +35,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
   const { setFieldsValue, getFieldsError, getFieldValue } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
-  const { budget } = project;
+  const { budget, type } = project;
 
   const {
     problemAddressed,
@@ -44,8 +44,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
     currency,
     additionalCurrencyInformation,
     legalAgreementFile,
-    projectProposalFile,
-    projectType
+    projectProposalFile
   } = project?.details || {};
 
   const legalAgreementFileCompletePath =
@@ -225,7 +224,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
             <CoaFormItemSelect
               form={form}
               errorsToShow={[]}
-              name="projectType"
+              name="type"
               formItemProps={{ label: 'Project Type' }}
               fieldDecoratorOptions={{
                 rules: [
@@ -235,7 +234,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
                     whitespace: true
                   }
                 ],
-                initialValue: projectType
+                initialValue: type
               }}
               selectProps={{
                 placeholder: texts?.createProject?.selectCurrencyType || 'Select project type',
