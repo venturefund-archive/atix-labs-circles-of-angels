@@ -3,12 +3,23 @@ import { Divider } from 'antd';
 import PropTypes from 'prop-types';
 import { formatLeadWithZero } from 'helpers/formatter';
 import TransactionLink from 'components/molecules/TransactionLink/TransactionLink';
+import { TransactionDetail } from 'components/molecules/TransactionDetail/TransactionDetail';
 import { getDateAndTime } from 'helpers/utils';
 import changelogActions from '../../../constants/ChangelogActions';
 import './coa-changelog-item.scss';
 
+const availableSeeTransactionDetails = [
+  'send_project_to_review',
+  'approve_review',
+  'cancel_review',
+  'activity_to_review',
+  'approve_activity',
+  'reject_activity'
+];
+
 const CoaChangelogItem = ({ changelog, currency, texts }) => {
   const { transaction, datetime, action, revision } = changelog;
+  const allowSeeDetails = transaction && availableSeeTransactionDetails.includes(action);
   return (
     <div className="coaChangelogItem">
       <div className="coaChangelogItem__header">
@@ -26,13 +37,10 @@ const CoaChangelogItem = ({ changelog, currency, texts }) => {
       </div>
       {transaction && (
         <div className="coaChangelogItem__footer">
-          <TransactionLink
-            isChangelogActive
-            txHash={transaction}
-            currency={currency}
-          />
+          <TransactionLink isChangelogActive txHash={transaction} currency={currency} />
         </div>
       )}
+      {allowSeeDetails && <TransactionDetail action={action} transactionHash={transaction} />}
     </div>
   );
 };
@@ -47,7 +55,7 @@ CoaChangelogItem.defaultProps = {
     }
   },
   currency: undefined,
-  texts: { }
+  texts: {}
 };
 
 CoaChangelogItem.propTypes = {

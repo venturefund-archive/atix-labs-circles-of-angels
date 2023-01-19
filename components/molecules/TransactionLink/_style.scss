@@ -9,9 +9,12 @@
   &__linkContainer {
     display: flex;
     align-items: center;
-    column-gap: .5rem;
+    column-gap: 0.5rem;
     &__title {
       @include primary-text(1rem, $coa-grey-100, 400);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
   &__link {
