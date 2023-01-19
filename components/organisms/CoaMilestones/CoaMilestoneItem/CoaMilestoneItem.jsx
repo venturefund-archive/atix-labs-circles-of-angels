@@ -3,12 +3,12 @@ import './coa-milestone-item.scss';
 import PropTypes from 'prop-types';
 import { Collapse, Icon } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
-import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
 import milestoneStatusMap, { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
-import { CoaMilestoneIndicators } from 'components/molecules/CoaMilestoneIndicators/CoaMilestoneIndicators';
+
+import { CoaMilestoneIndicatorsCard } from '../CoaMilestoneIndicatorsCard/CoaMilestoneIndicatorsCard';
 
 const { Panel } = Collapse;
 
@@ -54,7 +54,7 @@ export const CoaMilestoneItem = ({
   );
 
   return (
-    <CoaIndicatorsCard
+    <CoaMilestoneIndicatorsCard
       {...{ currency }}
       statusMap={milestoneStatusMap}
       budget={budget}
@@ -144,7 +144,6 @@ export const CoaMilestoneItem = ({
           )}
         </>
       }
-      IndicatorsComponent={CoaMilestoneIndicators}
     />
   );
 };

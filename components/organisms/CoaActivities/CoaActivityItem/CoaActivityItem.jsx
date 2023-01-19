@@ -1,12 +1,11 @@
 import React from 'react';
-import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import './coa-activity-item.scss';
 import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
 import { useHistory } from 'react-router-dom';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
-import { CoaActivityIndicators } from 'components/molecules/CoaActivityIndicators/CoaActivityIndicators';
 import classNames from 'classnames';
+import { CoaActivityIndicatorsCard } from '../CoaActivityIndicatorsCard/CoaActivityIndicatorsCard';
 
 const ACTIVITY_COLORS = {
   funding: 'green',
@@ -15,7 +14,6 @@ const ACTIVITY_COLORS = {
 };
 
 export const CoaActivityItem = ({
-  activityNumber,
   currency,
   activity,
   onRemove,
@@ -49,7 +47,7 @@ export const CoaActivityItem = ({
   );
 
   return (
-    <CoaIndicatorsCard
+    <CoaActivityIndicatorsCard
       {...{ currency }}
       isProjectEditing={isProjectEditing}
       withEvidences={withEvidences}
@@ -115,7 +113,6 @@ export const CoaActivityItem = ({
           </div>
         </>
       }
-      IndicatorsComponent={CoaActivityIndicators}
     />
   );
 };
