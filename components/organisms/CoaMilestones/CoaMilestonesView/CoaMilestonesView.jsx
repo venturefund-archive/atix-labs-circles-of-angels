@@ -48,10 +48,12 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   }, [initialMilestones]);
 
   const handleCreateMilestone = async newMilestone => {
-    const { data, errors, status } = await createMilestone(projectId, newMilestone);
+    /* const { data, errors, status } = await createMilestone(projectId, newMilestone);
     if (status !== 201) {
       return message.error(errors);
-    }
+    } */
+    const data = { milestoneId: new Date().getDate() };
+
     setMilestones([
       ...milestones,
       {
@@ -60,7 +62,19 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         activities: [],
         budget: '0',
         areActivitiesOpen: false,
-        status: MILESTONE_STATUS_ENUM.NEW
+        status: MILESTONE_STATUS_ENUM.NEW,
+        funding: {
+          budget: 0,
+          current: 0
+        },
+        spending: {
+          budget: 0,
+          current: 0
+        },
+        payback: {
+          budget: 0,
+          current: 0
+        }
       }
     ]);
     message.success(texts?.createProject?.milestoneCreated || 'Milestone created!');
@@ -118,12 +132,14 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   const handleCreateActivity = async newActivity => {
     const processedActivity = { ...newActivity, budget: newActivity?.budget || '0' };
 
-    const { errors, data, status } = await createActivity(
+    /* const { errors, data, status } = await createActivity(
       processedActivity,
       currentEditedMilestone?.id
     );
 
-    if (status !== 201) return message.error(errors);
+    if (status !== 201) return message.error(errors); */
+
+    const data = { activityId: new Date().getTime() };
 
     const _milestones = [...milestones];
     const milestoneToUpdateIndex = _milestones.findIndex(
@@ -139,11 +155,15 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       status: ACTIVITY_STATUS_ENUM.NEW
     });
 
-    const totalBudget = activities.reduce(
+    const activitiesByType = activities?.filter(
+      activity => activity?.type === processedActivity?.type
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+    milestoneFound[(processedActivity?.type)].budget = totalBudget;
 
     milestoneFound.areActivitiesOpen = true;
 
@@ -161,15 +181,23 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       _milestone => _milestone?.id === milestone?.id
     );
     const milestoneFound = _milestones[milestoneOwnerIndex];
+
+    const activityFound = milestoneFound?.activities?.find(activity => activity?.id === activityId);
+    const activityType = activityFound?.type;
+
     milestoneFound.activities = milestoneFound?.activities?.filter(
       activity => activity?.id !== activityId
     );
 
-    const totalBudget = milestoneFound?.activities.reduce(
+    const activitiesByType = milestoneFound?.activities?.filter(
+      activity => activity?.type === activityType
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+    milestoneFound[activityType].budget = totalBudget;
 
     setMilestones(_milestones);
     message.success(texts?.createProject?.activityDeleted || 'Activity deleted!');
@@ -184,9 +212,9 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     });
 
   const handleEditActivity = async updatedActivity => {
-    const { status, errors } = await updateActivity(currentEditedActivity?.id, updatedActivity);
+    /* const { status, errors } = await updateActivity(currentEditedActivity?.id, updatedActivity);
 
-    if (status !== 200) return message.error(errors);
+    if (status !== 200) return message.error(errors); */
 
     const _milestones = [...milestones];
     const milestoneOwnerIndex = _milestones.findIndex(
@@ -199,6 +227,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       activity => activity?.id === currentEditedActivity?.id
     );
 
+    const oldType = activities[activityToUpdateIndex]?.type;
+
     activities[activityToUpdateIndex] = {
       ...activities[activityToUpdateIndex],
       ...updatedActivity,
@@ -207,11 +237,26 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       }
     };
 
-    const totalBudget = activities.reduce(
+    const activitiesByType = activities?.filter(
+      activity => activity?.type === updatedActivity?.type
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+    milestoneFound[(updatedActivity?.type)].budget = totalBudget;
+
+    //recalculate the changed activity
+    if (updatedActivity?.type !== oldType) {
+      const _activitiesByType = activities?.filter(activity => activity?.type === oldType);
+
+      const _totalBudget = _activitiesByType.reduce(
+        (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
+        0
+      );
+      milestoneFound[oldType].budget = _totalBudget;
+    }
 
     setMilestones(_milestones);
     setCurrentEditedActivity(undefined);

@@ -135,7 +135,10 @@ export const CoaIndicatorsCard = ({
   onViewEvidence,
   onAddEvidences,
   IndicatorsComponent,
-  color
+  color,
+  spending,
+  payback,
+  funding
 }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
   return (
@@ -209,7 +212,10 @@ export const CoaIndicatorsCard = ({
                 transferQuantity,
                 impactQuantity,
                 withEvidences,
-                predefinedColor: color
+                predefinedColor: color,
+                funding,
+                spending,
+                payback
               }}
             />
           )}

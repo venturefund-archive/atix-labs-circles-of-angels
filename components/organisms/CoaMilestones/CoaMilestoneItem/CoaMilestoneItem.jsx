@@ -36,6 +36,8 @@ export const CoaMilestoneItem = ({
   const budget = milestone?.budget;
   const spent = milestone?.spent || 0;
   const deposited = milestone?.deposited || 0;
+  const { funding, spending, payback } = milestone || {};
+
   const areActivitiesOpen = milestone?.areActivitiesOpen || false;
   const remaining = budget - spent;
   const allEvidences = milestone?.activities?.reduce(
@@ -72,6 +74,9 @@ export const CoaMilestoneItem = ({
       impactQuantity={impactQuantity}
       withEvidences={withEvidences}
       isProjectEditing={isProjectEditing}
+      funding={funding}
+      spending={spending}
+      payback={payback}
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>

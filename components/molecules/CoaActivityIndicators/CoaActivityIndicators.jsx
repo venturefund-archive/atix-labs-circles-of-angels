@@ -4,12 +4,16 @@ import { DictionaryContext } from 'components/utils/DictionaryContext';
 import './coa-activity-indicators.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { formatCurrency } from 'helpers/formatter';
 
 export const CoaActivityIndicators = ({
   withEvidences,
   transferQuantity,
   impactQuantity,
-  predefinedColor
+  predefinedColor,
+  budget,
+  currency,
+  current
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   return (
@@ -23,11 +27,15 @@ export const CoaActivityIndicators = ({
         <div className="m-coaMilestoneIndicators__indicators">
           <div>
             <h4 className="m-coaMilestoneIndicators__indicators__title">Committed</h4>
-            <p className="m-coaMilestoneIndicators__indicators__value">$5.000</p>
+            <p className="m-coaMilestoneIndicators__indicators__value">
+              {formatCurrency(currency, budget)}
+            </p>
           </div>
           <div>
             <h4 className="m-coaMilestoneIndicators__indicators__title">Current</h4>
-            <p className="m-coaMilestoneIndicators__indicators__value">$0</p>
+            <p className="m-coaMilestoneIndicators__indicators__value">
+              {formatCurrency(currency, current)}
+            </p>
           </div>
         </div>
       </div>
