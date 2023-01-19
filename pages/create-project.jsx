@@ -39,6 +39,8 @@ import { DictionaryContext } from 'components/utils/DictionaryContext';
 import CoaApproveButton from 'components/atoms/CoaApproveButton/CoaApproveButton';
 import BackOfficeLayout from 'components/Layouts/BackOfficeLayout/BackOfficeLayout';
 import { signMessage } from 'helpers/blockchain/wallet';
+import { checkIsBeneficiaryOrInvestorByProject } from 'helpers/roles';
+import Loading from 'components/molecules/Loading/Loading';
 import { EDITOR_VARIANT, PROJECT_FORM_NAMES } from '../constants/constants';
 import {
   getProject,
@@ -111,6 +113,8 @@ const CreateProjectContainer = () => {
   const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
   const [confirmApprovalVisible, setApprovalVisible] = useState(false);
   const [confirmRejectionVisible, setRejectionVisible] = useState(false);
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
+  const [showModalToSignMessage, setShowModalToSignMessage] = useState(false);
 
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
@@ -293,6 +297,7 @@ const CreateProjectContainer = () => {
   const goToParentProject = () => history.push(`/${project?.parent}`);
 
   const fetchProject = async () => {
+    setIsLoadingPage(true);
     const response = await getProject(projectId);
     if (response.errors || !response.data) {
       message.error(
@@ -303,6 +308,12 @@ const CreateProjectContainer = () => {
     const { data } = response;
     setProject({ ...data });
     await checkStepsStatus(data);
+    setIsLoadingPage(false);
+
+    const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project: data });
+    const mustSignBeneficiaryOrInvestor =
+      data?.step === 1 && isBeneficiaryOrInvestor && data?.status === PROJECT_STATUS_ENUM.IN_REVIEW;
+    setShowModalToSignMessage(mustSignBeneficiaryOrInvestor);
   };
 
   useEffect(() => {
@@ -326,6 +337,7 @@ const CreateProjectContainer = () => {
     if (isApprovalRejectionAvailable)
       return (
         <CoaApproveButton
+          disabled={project?.step === 1}
           onClick={() => {
             setApprovalVisible(true);
           }}
@@ -358,6 +370,7 @@ const CreateProjectContainer = () => {
     if (isApprovalRejectionAvailable)
       return (
         <CoaRejectButton
+          disabled={project?.step === 1}
           onClick={() => {
             setRejectionVisible(true);
           }}
@@ -414,6 +427,29 @@ const CreateProjectContainer = () => {
     currentModal(false);
     nextModal(true);
   };
+
+  const signProjectInStepOne = async (_pin, _password, wallet, key) => {
+    const messageToSign = project?.toSign;
+    if (!messageToSign) {
+      message.error('An error occurred while signing the project. Signature is missing');
+      return;
+    }
+    setShowModalToSignMessage(false);
+    setLoadingSendToReviewModalVisible(true);
+    try {
+      const authorizationSignature = await signMessage(wallet, messageToSign, key);
+      const response = await signProject({ authorizationSignature, projectId });
+      if (response.errors) {
+        throw new Error(response.errors);
+      }
+      setLoadingSendToReviewModalVisible(false);
+    } catch (error) {
+      message.error('An error occurred while signing the activity');
+      history.push(`/${projectId}`);
+    }
+  };
+
+  if (isLoadingPage) return <Loading />;
 
   return (
     <BackOfficeLayout project={project} user={user}>
@@ -493,6 +529,15 @@ const CreateProjectContainer = () => {
         okText={texts?.general?.btnReject || 'Reject'}
         cancelText={texts?.general?.btnCancel || 'Cancel'}
         leaveAComment
+      />
+      <ModalConfirmWithSK
+        visible={showModalToSignMessage}
+        title="You are about to sign the project to finish the process"
+        description="To confirm the process enter your password and secret key"
+        okText="Sign"
+        onSuccess={signProjectInStepOne}
+        cancelText="Go Back"
+        onCancel={() => history.push(`/${projectId}`)}
       />
       <ModalPublishLoading visible={loadingModalVisible} />
       <ModalPublishLoading

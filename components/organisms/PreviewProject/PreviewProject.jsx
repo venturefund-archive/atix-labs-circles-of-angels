@@ -49,8 +49,18 @@ const PreviewProject = ({
   const { user } = useContext(UserContext);
   const { texts } = useContext(DictionaryContext);
 
-  const { basicInformation, status, details, users, budget, editing, cloneId, inReview, revision } =
-    project || {};
+  const {
+    basicInformation,
+    status,
+    details,
+    users,
+    budget,
+    editing,
+    cloneId,
+    inReview,
+    revision,
+    step: projectStep
+  } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
   const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
@@ -186,15 +196,17 @@ const PreviewProject = ({
                 </CoaButton>
               </Link>
             </div>
-            {isBeneficiaryOrInvestor && isPublishedOrInProgressProject && (
-              <CoaButton
-                type="primary"
-                onClick={handleRequestChanges}
-                className="o-previewProject__buttons__requestChanges"
-              >
-                {texts?.landingSubheader?.btnRequestChanges || 'Request changes'}
-              </CoaButton>
-            )}
+            {isBeneficiaryOrInvestor &&
+              (isPublishedOrInProgressProject ||
+                (status === PROJECT_STATUS_ENUM.IN_REVIEW && projectStep === 1)) && (
+                <CoaButton
+                  type="primary"
+                  onClick={handleRequestChanges}
+                  className="o-previewProject__buttons__requestChanges"
+                >
+                  {texts?.landingSubheader?.btnRequestChanges || 'Request changes'}
+                </CoaButton>
+              )}
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection
