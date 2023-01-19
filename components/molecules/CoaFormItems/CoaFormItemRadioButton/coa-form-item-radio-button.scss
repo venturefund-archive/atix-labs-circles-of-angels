@@ -1,0 +1,19 @@
+@import 'css/mixins/_fonts.scss';
+@import 'css/_variables.scss';
+
+.m-coaFormItem {
+  &__radioGroup {
+    &.--type1 {
+      display: flex;
+      column-gap: 15px;
+
+      .ant-radio-wrapper {
+        border: 1px solid #e5e6ed;
+        padding: 9.5px;
+        flex: 1;
+        border-radius: 4px;
+        @include primary-text(0.875rem, $coa-dark-gray-100, 500);
+      }
+    }
+  }
+}

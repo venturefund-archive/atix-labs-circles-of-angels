@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { CoaFormItem } from 'components/molecules/CoaFormItems/CoaFormItem/CoaFormItem';
 import { CoaFormItemInputNumber } from 'components/molecules/CoaFormItems/CoaFormItemInputNumber/CoaFormItemInputNumber';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
+import { CoaFormItemRadioButton } from 'components/molecules/CoaFormItems/CoaFormItemRadioButton/CoaFormItemRadioButton';
 
 export const CoaFormActivitiesModalContent = ({
   form,
@@ -71,6 +72,22 @@ export const CoaFormActivitiesModalContent = ({
         maxLength: 500,
         showCount: true
       }}
+    />
+    <CoaFormItemRadioButton
+      type="1"
+      form={form}
+      name="type"
+      fieldDecoratorOptions={{
+        rules: [{ required: true }],
+        validateTrigger: 'onSubmit',
+        initialValue: initialData?.type || 'funding'
+      }}
+      formItemProps={{ label: 'Activity Type' }}
+      options={[
+        { label: 'Funding', value: 'funding' },
+        { label: 'Spending', value: 'spending' },
+        { label: 'Payback', value: 'payback' }
+      ]}
     />
     <CoaFormItemTextArea
       form={form}
