@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
 import { Divider } from 'antd';
 import { PROJECT_STATUS_MAP } from 'model/projectStatus';
+import { PROJECT_TYPE_MAP } from 'model/projectType';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
 import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
@@ -29,8 +30,10 @@ const CardProject = ({ onClick, project, countries }) => {
     beneficiary,
     currency,
     timeframeUnit,
-    revision
+    revision,
+    type
   } = project;
+
   const locationsNames = () => {
     if (!location) return 'Not set';
     const countriesIds = countries.filter(
@@ -72,9 +75,18 @@ const CardProject = ({ onClick, project, countries }) => {
             <h1 className="m-cardProject__body__titleContainer__title">{projectName} </h1>
             <p className="m-cardProject__body__titleContainer__title__rev">Rev: {revision}</p>
           </div>
-          <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
-            {PROJECT_STATUS_MAP[status]?.name}
-          </CoaTag>
+          <div className="m-cardProject__body__tagsContainer">
+            {type && (
+              <CoaTag predefinedColor={PROJECT_TYPE_MAP[type?.toLowerCase()]?.color}>
+                {PROJECT_TYPE_MAP[type]?.name}
+              </CoaTag>
+            )}
+            {status && (
+              <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
+                {PROJECT_STATUS_MAP[status]?.name}
+              </CoaTag>
+            )}
+          </div>
         </div>
         <div className="m-cardProject__body__description">
           <InfoItem

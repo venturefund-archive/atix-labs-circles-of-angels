@@ -40,6 +40,10 @@
     display: flex;
     row-gap: 0.25rem;
     flex-direction: column;
+    &__tagsContainer {
+      display: flex;
+      column-gap: 0.25rem;
+    }
     &__titleContainer {
       display: flex;
       align-items: flex-start;
