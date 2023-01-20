@@ -24,6 +24,7 @@ import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
+import CashFlow from 'components/molecules/CashFlow/CashFlow';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { cloneProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
@@ -351,6 +352,15 @@ const PreviewProject = ({
               ))}
             </div>
           </div>
+          <section className="o-previewProject__cashFlowSection">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Cash Flow"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <CashFlow />
+          </section>
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
