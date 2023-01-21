@@ -1,0 +1,14 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+@import 'css/_general_styling.scss';
+
+.projectScope {
+  &__title {
+    @include primary-text(1.125rem, $coa-blue-100, 500);
+  }
+
+  &__subtitle {
+    @include primary-text(0.9375rem, $coa-dark-gray-100, 500);
+    margin-bottom: 0.7188rem;
+  }
+}
