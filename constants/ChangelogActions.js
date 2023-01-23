@@ -207,7 +207,7 @@ const changelogActions = (changelog, texts) => {
           </span>{' '}
           {texts?.changelogAction?.as || 'as'}{' '}
           <span className="coaChangelogItem__title --highlighted">
-            {extraData?.role?.description}
+            {ROLES_IDS_NAMES[(extraData?.role?.id)]}
           </span>{' '}
           {texts?.changelogAction?.ofTheProject || 'of the project'}
         </>
