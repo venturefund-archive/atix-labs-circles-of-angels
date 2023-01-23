@@ -1,22 +1,19 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { message, Divider } from 'antd';
+import { message } from 'antd';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
-import {
-  formatCurrency,
-  formatTimeframeValue,
-  formatCurrencyAtTheBeginning
-} from 'helpers/formatter';
+import { formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { ProjectScope } from 'components/molecules/ProjectScope/ProjectScope';
+import { ProjectStatement } from 'components/molecules/ProjectStatement/ProjectStatement';
 import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
-import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
@@ -110,6 +107,14 @@ const PreviewProject = ({
     const weightedValues = (approvedActivitiesQuantity / totalActivitiesQuantity) * 100;
     return curr + weightedValues;
   }, 0);
+
+  const activityProgressPercentage =
+    ((milestones
+      ?.flatMap(({ activities }) => activities)
+      ?.reduce((acc, act) => (act.status === ACTIVITY_STATUS_ENUM.APPROVED ? acc + 1 : acc), 0) ||
+      0) /
+      totalActivitiesQuantity) *
+    100;
 
   const totalCurrentDeposited = milestones?.reduce(
     (prev, curr) => prev + parseFloat?.(curr?.deposited),
@@ -240,88 +245,17 @@ const PreviewProject = ({
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <div className="o-previewProject__progressSection__pills">
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.milestone || 'Milestones Progress'}
-                currentPercentage={milestonesProgressPercentage}
-                total={totalActivitiesQuantity}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.started || 'Started'}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.finished || 'Finished!'}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#58C984"
+            <div className="o-previewProject__progressSection__cards">
+              <ProjectScope
+                milestonesProgressPercentage={milestonesProgressPercentage}
+                activityProgressPercentage={activityProgressPercentage}
               />
-              <Divider
-                type="horizontal"
-                className="o-previewProject__progressSection__pills__divider"
-              />
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.income || 'Amount Income'}
-                current={totalCurrentDeposited}
-                total={budget}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.available || 'Available Amount'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__currentAmount">
-                      {formatCurrency(currency, totalCurrentDeposited)}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__targetAmount">
-                      {formatCurrency(currency, budget)}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#4C7FF7"
-              />
-              <Divider
-                type="horizontal"
-                className="o-previewProject__progressSection__pills__divider"
-              />
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.outcome || 'Amount Outcome'}
-                current={totalCurrentSpent}
-                total={budget}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.spent || 'Amount Spent'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__currentAmount">
-                      {formatCurrency(currency, totalCurrentSpent)}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__targetAmount">
-                      {formatCurrency(currency, budget)}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#26385B"
+              <ProjectStatement
+                budget={budget}
+                funding={200}
+                spending={3300}
+                payback={600}
+                currency={currency}
               />
             </div>
           </div>
