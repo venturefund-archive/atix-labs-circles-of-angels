@@ -1,0 +1,16 @@
+@import 'css/_variables.scss';
+
+.coaCard {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.375rem 2.125rem;
+  background: $coa-light-sky-blue-100;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  row-gap: 1.5625rem;
+}

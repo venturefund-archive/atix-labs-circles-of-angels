@@ -1,0 +1,35 @@
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+@import 'css/_general_styling.scss';
+
+.progressBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 0.625rem;
+
+  &__text {
+    width: 2.5rem;
+    @include primary-text(0.75rem, $coa-dark-gray-100, 400);
+  }
+
+  &__bar {
+    background-color: var(--backgroundBarColor, white);
+    height: 0.6875rem;
+    border-radius: 17px;
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    -ms-border-radius: 17px;
+    -o-border-radius: 17px;
+    flex-grow: 1;
+    overflow: hidden;
+    &__fill {
+      display: block;
+      height: 100%;
+      background: var(--progressBarColor, $coa-dark-gray-100);
+      width: var(--currentPercentage, 0%);
+      transition: width 500ms ease-in-out;
+      border-radius: 17px;
+    }
+  }
+}
