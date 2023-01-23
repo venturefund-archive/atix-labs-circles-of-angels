@@ -24,7 +24,11 @@ export const CoaMilestoneIndicatorsCard = ({
   statusMap,
   spending,
   payback,
-  funding
+  funding,
+  withEvidences,
+  impactQuantity,
+  transferQuantity,
+  projectType
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   return (
@@ -86,7 +90,11 @@ export const CoaMilestoneIndicatorsCard = ({
               currency,
               funding,
               spending,
-              payback
+              payback,
+              withEvidences,
+              impactQuantity,
+              transferQuantity,
+              projectType
             }}
           />
         )}

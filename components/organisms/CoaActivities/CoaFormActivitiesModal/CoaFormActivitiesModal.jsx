@@ -11,6 +11,7 @@ import { CoaFormItemInputNumber } from 'components/molecules/CoaFormItems/CoaFor
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { CoaFormItemRadioButton } from 'components/molecules/CoaFormItems/CoaFormItemRadioButton/CoaFormItemRadioButton';
 import { ACTIVITY_TYPES_ENUM } from 'model/activityTypes';
+import { PROJECT_TYPE_ENUM } from 'model/projectType';
 
 export const CoaFormActivitiesModalContent = ({
   form,
@@ -19,6 +20,7 @@ export const CoaFormActivitiesModalContent = ({
   initialData,
   currency,
   auditors,
+  projectType,
   ...rest
 }) => {
   const { getFieldValue } = form;
@@ -95,11 +97,15 @@ export const CoaFormActivitiesModalContent = ({
           initialValue: initialData?.type || 'funding'
         }}
         formItemProps={{ label: 'Activity Type' }}
-        options={[
-          { label: 'Funding', value: 'funding' },
-          { label: 'Spending', value: 'spending' },
-          { label: 'Payback', value: 'payback' }
-        ]}
+        options={
+          projectType === PROJECT_TYPE_ENUM.LOAN
+            ? [
+                { label: 'Funding', value: 'funding' },
+                { label: 'Spending', value: 'spending' },
+                { label: 'Payback', value: 'payback' }
+              ]
+            : [{ label: 'Funding', value: 'funding' }, { label: 'Spending', value: 'spending' }]
+        }
       />
       <CoaFormItemTextArea
         form={form}

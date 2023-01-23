@@ -27,7 +27,8 @@ export const CoaMilestoneItem = ({
   withEvidences,
   canAddEvidences,
   projectId,
-  preview
+  preview,
+  projectType
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   const description = milestone?.description;
@@ -77,6 +78,7 @@ export const CoaMilestoneItem = ({
       funding={funding}
       spending={spending}
       payback={payback}
+      projectType={projectType}
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>

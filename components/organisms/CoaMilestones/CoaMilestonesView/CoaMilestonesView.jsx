@@ -48,11 +48,11 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   }, [initialMilestones]);
 
   const handleCreateMilestone = async newMilestone => {
-    /* const { data, errors, status } = await createMilestone(projectId, newMilestone);
+    const { data, errors, status } = await createMilestone(projectId, newMilestone);
     if (status !== 201) {
       return message.error(errors);
-    } */
-    const data = { milestoneId: new Date().getDate() };
+    }
+    /* const data = { milestoneId: new Date().getDate() }; */
 
     setMilestones([
       ...milestones,
@@ -132,14 +132,14 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   const handleCreateActivity = async newActivity => {
     const processedActivity = { ...newActivity, budget: newActivity?.budget || '0' };
 
-    /* const { errors, data, status } = await createActivity(
+    const { errors, data, status } = await createActivity(
       processedActivity,
       currentEditedMilestone?.id
     );
 
-    if (status !== 201) return message.error(errors); */
+    if (status !== 201) return message.error(errors);
 
-    const data = { activityId: new Date().getTime() };
+    /* const data = { activityId: new Date().getTime() }; */
 
     const _milestones = [...milestones];
     const milestoneToUpdateIndex = _milestones.findIndex(
@@ -309,6 +309,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
           <div className="o-coaMilestonesContainer__cards">
             {milestones.map((milestone, index) => (
               <CoaMilestoneItem
+                projectType={project?.type}
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}
                 onRemoveMilestone={
                   [MILESTONE_STATUS_ENUM.NEW].includes(milestone?.status) &&
@@ -357,6 +358,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         auditors={auditorsProcessed}
         initialData={currentEditedActivity}
         destroyOnClose
+        projectType={project?.type}
       />
     </>
   );

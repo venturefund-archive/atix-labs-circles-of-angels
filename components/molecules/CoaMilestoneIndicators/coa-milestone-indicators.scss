@@ -36,6 +36,25 @@
     }
   }
 
+  &__evidenceContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.25rem;
+
+    &__title {
+      @include primary-text(12px, $coa-medium-gray-100, 700);
+      text-transform: uppercase;
+    }
+    &__item {
+      @include primary-text(0.75rem, $coa-medium-gray-100, 400);
+      text-transform: uppercase;
+
+      &__value {
+        font-size: 1rem;
+      }
+    }
+  }
+
   &__title {
     text-transform: uppercase;
     &.--green {
