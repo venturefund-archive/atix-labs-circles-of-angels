@@ -2,7 +2,7 @@
 @import 'css/mixins/_fonts.scss';
 @import 'css/_general_styling.scss';
 
-.o-coaIndicatorsCard {
+.o-coaActivityIndicatorsCard {
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -48,6 +48,7 @@
       align-items: center;
       column-gap: 1.25rem;
       @include breakpoint(lg) {
+        width: 100%;
         justify-content: space-between;
       }
     }

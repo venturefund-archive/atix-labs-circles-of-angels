@@ -269,6 +269,7 @@ const PreviewProject = ({
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  projectType={project?.type}
                   preview={preview}
                   isProjectEditing={editing}
                   canAddEvidences={canAddEvidences(user, id)}

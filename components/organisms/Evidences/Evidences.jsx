@@ -15,7 +15,7 @@ import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import Loading from 'components/molecules/Loading/Loading';
 import { sortArrayByDate } from 'components/utils';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
-import { CoaIndicators } from 'components/molecules/CoaIndicators/CoaIndicators';
+import { CoaActivityIndicators } from 'components/molecules/CoaActivityIndicators/CoaActivityIndicators';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { signMessage } from 'helpers/blockchain/wallet';
 import EvidenceCard from '../../atoms/EvidenceCard/EvidenceCard';
@@ -192,9 +192,9 @@ const Evidences = ({
 
   const auditorName = getAuditorName(activity?.auditor, project);
 
-  const { budget, spent, deposited } = activity || {};
+  const { budget, current } = activity || {};
   const currency = project?.details?.currency;
-  const remaining = parseFloat(budget) - parseFloat(spent);
+  /* const remaining = parseFloat(budget) - parseFloat(spent); */
   const transferQuantity = evidences?.reduce(
     (curr, next) => (next?.type === 'transfer' ? curr + 1 : curr),
     0
@@ -311,13 +311,11 @@ const Evidences = ({
             <Divider type="horizontal" />
 
             <div className="evidences__list__body">
-              <CoaIndicators
+              <CoaActivityIndicators
                 {...{
                   currency,
                   budget,
-                  spent,
-                  deposited,
-                  remaining,
+                  current,
                   transferQuantity,
                   impactQuantity
                 }}

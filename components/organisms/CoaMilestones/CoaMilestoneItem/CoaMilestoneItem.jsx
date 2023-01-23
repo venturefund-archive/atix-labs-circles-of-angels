@@ -3,11 +3,12 @@ import './coa-milestone-item.scss';
 import PropTypes from 'prop-types';
 import { Collapse, Icon } from 'antd';
 import { CoaTextButton } from 'components/atoms/CoaTextButton/CoaTextButton';
-import { CoaIndicatorsCard } from 'components/organisms/CoaIndicatorsCard/CoaIndicatorsCard';
 import { CoaActivityItem } from 'components/organisms/CoaActivities/CoaActivityItem/CoaActivityItem';
 import milestoneStatusMap, { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
+
+import { CoaMilestoneIndicatorsCard } from '../CoaMilestoneIndicatorsCard/CoaMilestoneIndicatorsCard';
 
 const { Panel } = Collapse;
 
@@ -26,7 +27,8 @@ export const CoaMilestoneItem = ({
   withEvidences,
   canAddEvidences,
   projectId,
-  preview
+  preview,
+  projectType
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   const description = milestone?.description;
@@ -35,6 +37,8 @@ export const CoaMilestoneItem = ({
   const budget = milestone?.budget;
   const spent = milestone?.spent || 0;
   const deposited = milestone?.deposited || 0;
+  const { funding, spending, payback } = milestone || {};
+
   const areActivitiesOpen = milestone?.areActivitiesOpen || false;
   const remaining = budget - spent;
   const allEvidences = milestone?.activities?.reduce(
@@ -51,7 +55,7 @@ export const CoaMilestoneItem = ({
   );
 
   return (
-    <CoaIndicatorsCard
+    <CoaMilestoneIndicatorsCard
       {...{ currency }}
       statusMap={milestoneStatusMap}
       budget={budget}
@@ -71,6 +75,10 @@ export const CoaMilestoneItem = ({
       impactQuantity={impactQuantity}
       withEvidences={withEvidences}
       isProjectEditing={isProjectEditing}
+      funding={funding}
+      spending={spending}
+      payback={payback}
+      projectType={projectType}
       additionalBody={
         <>
           <p className="o-coaMilestoneItem__description">{description}</p>
