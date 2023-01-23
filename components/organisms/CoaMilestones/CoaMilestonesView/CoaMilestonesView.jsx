@@ -163,7 +163,9 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound[(processedActivity?.type)].budget = totalBudget;
+    if (milestoneFound[(processedActivity?.type)]) {
+      milestoneFound[(processedActivity?.type)].budget = totalBudget;
+    }
 
     milestoneFound.areActivitiesOpen = true;
 
@@ -197,7 +199,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound[activityType].budget = totalBudget;
+
+    if (milestoneFound[activityType]) milestoneFound[activityType].budget = totalBudget;
 
     setMilestones(_milestones);
     message.success(texts?.createProject?.activityDeleted || 'Activity deleted!');
@@ -212,9 +215,9 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     });
 
   const handleEditActivity = async updatedActivity => {
-    /* const { status, errors } = await updateActivity(currentEditedActivity?.id, updatedActivity);
+    const { status, errors } = await updateActivity(currentEditedActivity?.id, updatedActivity);
 
-    if (status !== 200) return message.error(errors); */
+    if (status !== 200) return message.error(errors);
 
     const _milestones = [...milestones];
     const milestoneOwnerIndex = _milestones.findIndex(
@@ -245,7 +248,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound[(updatedActivity?.type)].budget = totalBudget;
+    if (milestoneFound[oldType]) milestoneFound[(updatedActivity?.type)].budget = totalBudget;
 
     //recalculate the changed activity
     if (updatedActivity?.type !== oldType) {
@@ -255,7 +258,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
         0
       );
-      milestoneFound[oldType].budget = _totalBudget;
+      if (milestoneFound[oldType]) milestoneFound[oldType].budget = _totalBudget;
     }
 
     setMilestones(_milestones);
