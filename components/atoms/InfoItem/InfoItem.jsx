@@ -13,7 +13,7 @@ import { Tooltip } from 'antd';
 import './_style.scss';
 import classNames from 'classnames';
 
-const InfoItem = ({ subtitle, title, img, className }) => {
+const InfoItem = ({ subtitle, title, className }) => {
   const [overflowTooltip, setOverflowTooltip] = useState(false);
 
   const titleRef = useRef();
@@ -33,19 +33,18 @@ const InfoItem = ({ subtitle, title, img, className }) => {
     checkOverflow();
   });
 
-  const h2Title = () => <h2 ref={titleRef}>{title}</h2>;
+  const valueText = () => <p ref={titleRef}>{title}</p>;
 
   return (
     <div className={classNames('InfoItem', className)}>
+      <h3>{subtitle}</h3>
       {overflowTooltip ? (
         <Tooltip placement="bottom" title={title}>
-          {h2Title()}
+          {valueText()}
         </Tooltip>
       ) : (
-        h2Title()
+        valueText()
       )}
-      <p>{subtitle}</p>
-      {img}
     </div>
   );
 };
@@ -55,13 +54,11 @@ export default InfoItem;
 InfoItem.defaultProps = {
   subtitle: '',
   title: '',
-  img: '',
   className: ''
 };
 
 InfoItem.propTypes = {
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  img: PropTypes.node,
   className: PropTypes.string
 };

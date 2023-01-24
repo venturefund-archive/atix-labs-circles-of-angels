@@ -11,7 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
-import { Divider } from 'antd';
 import { PROJECT_STATUS_MAP } from 'model/projectStatus';
 import { PROJECT_TYPE_MAP } from 'model/projectType';
 import InfoItem from '../../atoms/InfoItem/InfoItem';
@@ -19,7 +18,7 @@ import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
-const CardProject = ({ onClick, project, countries }) => {
+const CardProject = ({ onClick, project, countries, withDescription }) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -60,70 +59,70 @@ const CardProject = ({ onClick, project, countries }) => {
       onKeyPress={onClick}
       tabIndex="0"
     >
-      <div className="m-cardProject__cover">
-        <img
-          src={
+      <div
+        className="m-cardProject__cover"
+        style={{
+          backgroundImage: `linear-gradient(0.65deg, rgba(0, 0, 0, 0.7) 0.02%, rgba(0, 0, 0, 0) 50.2%), url(${
             cardPhotoPath
               ? `${process.env.NEXT_PUBLIC_URL_HOST}${cardPhotoPath}`
               : '/static/images/empty-img.svg'
-          }
-        />
-      </div>
-      <div className="m-cardProject__body">
-        <div className="m-cardProject__body__titleContainer">
-          <div>
-            <h1 className="m-cardProject__body__titleContainer__title">{projectName} </h1>
-            <p className="m-cardProject__body__titleContainer__title__rev">Rev: {revision}</p>
-          </div>
-          <div className="m-cardProject__body__tagsContainer">
-            {type && (
-              <CoaTag predefinedColor={PROJECT_TYPE_MAP[type?.toLowerCase()]?.color}>
-                {PROJECT_TYPE_MAP[type]?.name}
-              </CoaTag>
-            )}
+          })`
+        }}
+      >
+        <div className="m-cardProject__cover__titleContainer">
+          <div className="m-cardProject__cover__tagsContainer">
             {status && (
               <CoaTag predefinedColor={PROJECT_STATUS_MAP[status?.toLowerCase()]?.color}>
                 {PROJECT_STATUS_MAP[status]?.name}
               </CoaTag>
             )}
           </div>
+          <h1 className="m-cardProject__cover__titleContainer__title">{projectName} </h1>
         </div>
-        <div className="m-cardProject__body__description">
+      </div>
+      {withDescription && (
+        <div className="m-cardProject__body">
           <InfoItem
-            subtitle="Country of Impact"
+            subtitle="Country"
             title={locationsNames()}
-            iconInfoItem="environment"
-            className="m-cardProject__body__description__country"
+            className="m-cardProject__body__country"
           />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
             subtitle="Timeframe"
             title={formatTimeframeValue({ timeframe, timeframeUnit })}
-            iconInfoItem="clock-circle"
-            className="m-cardProject__body__description__timeframe"
+            className="m-cardProject__body__timeframe"
           />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
+          <InfoItem
+            subtitle="Project Type"
+            title={PROJECT_TYPE_MAP[type]?.name}
+            className="m-cardProject__body__projectType"
+          />
+          <InfoItem
+            subtitle="Beneficiary"
+            title={beneficiaryCompleteName}
+            className="m-cardProject__body__beneficiary"
+          />
           <InfoItem
             subtitle="Budget"
             title={formatCurrency(currency, goalAmount)}
             iconInfoItem="dollar"
-            className="m-cardProject__body__description__budget"
+            className="m-cardProject__body__budget"
           />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
           <InfoItem
-            subtitle="Beneficiary name"
-            title={beneficiaryCompleteName}
-            className="m-cardProject__body__description__beneficiary"
+            subtitle="Project version"
+            title={revision}
+            className="m-cardProject__body__projectVersion"
           />
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
 CardProject.defaultProps = {
   onClick: () => null,
-  countries: []
+  countries: [],
+  withDescription: false
 };
 
 CardProject.propTypes = {
@@ -132,7 +131,8 @@ CardProject.propTypes = {
   countries: PropTypes.arrayOf({
     name: PropTypes.string,
     value: PropTypes.number
-  })
+  }),
+  withDescription: PropTypes.bool
 };
 
 export default CardProject;
