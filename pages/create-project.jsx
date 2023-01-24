@@ -410,7 +410,7 @@ const CreateProjectContainer = () => {
             okText: texts?.general?.confirm || 'Confirm',
             cancelText: texts?.general?.btnCancel || 'Cancel'
           })
-      : setConfirmPublishVisible;
+      : () => setConfirmPublishVisible(true);
 
     if (isApprovalRejectionAvailable)
       return (
@@ -593,7 +593,7 @@ const CreateProjectContainer = () => {
       />
       <ModalConfirmWithSK
         visible={modalConfirmWithSk?.isVisible}
-        onCancel={modalConfirmWithSk?.onCancel}
+        onCancel={() => setModalConfirmWithSk({ ...modalConfirmWithSk, isVisible: false })}
         onSuccess={modalConfirmWithSk?.onSuccess}
         title={modalConfirmWithSk?.title}
         description={modalConfirmWithSk?.description}
