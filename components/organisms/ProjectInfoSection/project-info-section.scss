@@ -17,6 +17,11 @@
   @include breakpoint(lg) {
     flex-direction: column;
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .o-projectInfoSection {
@@ -67,5 +72,33 @@
     @include respond(laptop) {
       width: 366px;
     }
+  }
+}
+
+.horizontalSmallBlockText {
+  display: flex;
+  justify-content: space-between;
+
+  column-gap: 1rem;
+
+  &__subContainer {
+    width: 180px;
+  }
+  &__icon {
+    margin-left: 9.75px;
+  }
+  &__subtitle {
+    @include primary-text(0.875rem, $coa-dark-gray-100, 400);
+  }
+  &__content {
+    width: 263px;
+    overflow: hidden;
+    text-align: end;
+    @include primary-text(0.875rem, $coa-dark-gray-100, 500);
+  }
+  &__contentWrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
