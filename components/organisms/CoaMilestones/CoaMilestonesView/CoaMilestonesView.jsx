@@ -52,6 +52,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     if (status !== 201) {
       return message.error(errors);
     }
+    /* const data = { milestoneId: new Date().getDate() }; */
+
     setMilestones([
       ...milestones,
       {
@@ -60,7 +62,19 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         activities: [],
         budget: '0',
         areActivitiesOpen: false,
-        status: MILESTONE_STATUS_ENUM.NEW
+        status: MILESTONE_STATUS_ENUM.NEW,
+        funding: {
+          budget: 0,
+          current: 0
+        },
+        spending: {
+          budget: 0,
+          current: 0
+        },
+        payback: {
+          budget: 0,
+          current: 0
+        }
       }
     ]);
     message.success(texts?.createProject?.milestoneCreated || 'Milestone created!');
@@ -125,6 +139,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
 
     if (status !== 201) return message.error(errors);
 
+    /* const data = { activityId: new Date().getTime() }; */
+
     const _milestones = [...milestones];
     const milestoneToUpdateIndex = _milestones.findIndex(
       milestone => milestone?.id === currentEditedMilestone?.id
@@ -139,11 +155,17 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       status: ACTIVITY_STATUS_ENUM.NEW
     });
 
-    const totalBudget = activities.reduce(
+    const activitiesByType = activities?.filter(
+      activity => activity?.type === processedActivity?.type
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+    if (milestoneFound[(processedActivity?.type)]) {
+      milestoneFound[(processedActivity?.type)].budget = totalBudget;
+    }
 
     milestoneFound.areActivitiesOpen = true;
 
@@ -161,15 +183,24 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       _milestone => _milestone?.id === milestone?.id
     );
     const milestoneFound = _milestones[milestoneOwnerIndex];
+
+    const activityFound = milestoneFound?.activities?.find(activity => activity?.id === activityId);
+    const activityType = activityFound?.type;
+
     milestoneFound.activities = milestoneFound?.activities?.filter(
       activity => activity?.id !== activityId
     );
 
-    const totalBudget = milestoneFound?.activities.reduce(
+    const activitiesByType = milestoneFound?.activities?.filter(
+      activity => activity?.type === activityType
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+
+    if (milestoneFound[activityType]) milestoneFound[activityType].budget = totalBudget;
 
     setMilestones(_milestones);
     message.success(texts?.createProject?.activityDeleted || 'Activity deleted!');
@@ -199,6 +230,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       activity => activity?.id === currentEditedActivity?.id
     );
 
+    const oldType = activities[activityToUpdateIndex]?.type;
+
     activities[activityToUpdateIndex] = {
       ...activities[activityToUpdateIndex],
       ...updatedActivity,
@@ -207,11 +240,26 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       }
     };
 
-    const totalBudget = activities.reduce(
+    const activitiesByType = activities?.filter(
+      activity => activity?.type === updatedActivity?.type
+    );
+
+    const totalBudget = activitiesByType.reduce(
       (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
       0
     );
-    milestoneFound.budget = totalBudget;
+    if (milestoneFound[oldType]) milestoneFound[(updatedActivity?.type)].budget = totalBudget;
+
+    //recalculate the changed activity
+    if (updatedActivity?.type !== oldType) {
+      const _activitiesByType = activities?.filter(activity => activity?.type === oldType);
+
+      const _totalBudget = _activitiesByType.reduce(
+        (curr, next) => parseFloat(curr) + parseFloat(next?.budget),
+        0
+      );
+      if (milestoneFound[oldType]) milestoneFound[oldType].budget = _totalBudget;
+    }
 
     setMilestones(_milestones);
     setCurrentEditedActivity(undefined);
@@ -264,6 +312,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
           <div className="o-coaMilestonesContainer__cards">
             {milestones.map((milestone, index) => (
               <CoaMilestoneItem
+                projectType={project?.type}
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}
                 onRemoveMilestone={
                   [MILESTONE_STATUS_ENUM.NEW].includes(milestone?.status) &&
@@ -312,6 +361,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
         auditors={auditorsProcessed}
         initialData={currentEditedActivity}
         destroyOnClose
+        projectType={project?.type}
       />
     </>
   );

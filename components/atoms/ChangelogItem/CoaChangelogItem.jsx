@@ -26,11 +26,7 @@ const CoaChangelogItem = ({ changelog, currency, texts }) => {
       </div>
       {transaction && (
         <div className="coaChangelogItem__footer">
-          <TransactionLink
-            isChangelogActive
-            txHash={transaction}
-            currency={currency}
-          />
+          <TransactionLink isChangelogActive txHash={transaction} currency={currency} />
         </div>
       )}
     </div>
@@ -47,7 +43,7 @@ CoaChangelogItem.defaultProps = {
     }
   },
   currency: undefined,
-  texts: { }
+  texts: {}
 };
 
 CoaChangelogItem.propTypes = {

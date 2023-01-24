@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { ConditionalWrapper } from 'components/atoms/ConditionalWrapper/ConditionalWrapper';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { CoaTag } from 'components/atoms/CoaTag/CoaTag';
+import { CoaMilestoneIndicators } from 'components/molecules/CoaMilestoneIndicators/CoaMilestoneIndicators';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { AddEvidenceButton } from '../../atoms/AddEvidenceButton/AddEvidenceButton';
 
@@ -43,7 +44,7 @@ const CardHeader = ({
         <div className="o-coaIndicatorsCard__header__title">{title}</div>
         {extra}
       </div>
-      <div className='o-coaIndicatorsCard__header__right'>
+      <div className="o-coaIndicatorsCard__header__right">
         {entity && onCreate && (
           <CoaTextButton
             onClick={e => {
@@ -96,8 +97,8 @@ const CardHeader = ({
             onClickAddEvidence={onAddEvidences}
             responsiveLayout
             disabled={
-              [ACTIVITY_STATUS_ENUM.TO_REVIEW, ACTIVITY_STATUS_ENUM.APPROVED].includes(status)
-              || isProjectEditing
+              [ACTIVITY_STATUS_ENUM.TO_REVIEW, ACTIVITY_STATUS_ENUM.APPROVED].includes(status) ||
+              isProjectEditing
             }
           />
         )}
@@ -132,7 +133,12 @@ export const CoaIndicatorsCard = ({
   impactQuantity,
   withEvidences,
   onViewEvidence,
-  onAddEvidences
+  onAddEvidences,
+  IndicatorsComponent,
+  color,
+  spending,
+  payback,
+  funding
 }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
   return (
@@ -152,7 +158,7 @@ export const CoaIndicatorsCard = ({
               withEvidences,
               onViewEvidence,
               onAddEvidences,
-              isProjectEditing,
+              isProjectEditing
             }}
           />
           <Divider className="o-coaIndicatorsCard__divider" />
@@ -195,8 +201,8 @@ export const CoaIndicatorsCard = ({
         )}
       >
         <div className="o-coaIndicatorsCard__body">
-          {(parseFloat(budget) > 0 || alwaysShowBudget) && (
-            <CoaIndicators
+          {(parseFloat(budget) > 0 || alwaysShowBudget) && IndicatorsComponent && (
+            <IndicatorsComponent
               {...{
                 currency,
                 budget,
@@ -205,7 +211,11 @@ export const CoaIndicatorsCard = ({
                 remaining,
                 transferQuantity,
                 impactQuantity,
-                withEvidences
+                withEvidences,
+                predefinedColor: color,
+                funding,
+                spending,
+                payback
               }}
             />
           )}
@@ -224,7 +234,7 @@ CardHeader.defaultProps = {
   onRemove: undefined,
   onClick: undefined,
   extra: undefined,
-  isProjectEditing: false,
+  isProjectEditing: false
 };
 
 CardHeader.propTypes = {
@@ -235,7 +245,7 @@ CardHeader.propTypes = {
   onRemove: PropTypes.func,
   onClick: PropTypes.func,
   extra: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  isProjectEditing: PropTypes.bool,
+  isProjectEditing: PropTypes.bool
 };
 
 CoaIndicatorsCard.defaultProps = {
@@ -252,7 +262,7 @@ CoaIndicatorsCard.defaultProps = {
   className: undefined,
   isCollapsible: false,
   alwaysShowBudget: false,
-  isProjectEditing: false,
+  isProjectEditing: false
 };
 
 CoaIndicatorsCard.propTypes = {
@@ -269,5 +279,5 @@ CoaIndicatorsCard.propTypes = {
   className: PropTypes.string,
   isCollapsible: PropTypes.bool,
   alwaysShowBudget: PropTypes.bool,
-  isProjectEditing: PropTypes.bool,
+  isProjectEditing: PropTypes.bool
 };

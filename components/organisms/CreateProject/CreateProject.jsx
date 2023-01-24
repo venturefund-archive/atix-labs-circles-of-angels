@@ -24,6 +24,7 @@ const EDITING_LOGIC = ({ status, completedSteps, isBeneficiaryOrInvestor }) => (
       (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW),
     milestonesButtonDisabled:
       !completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] ||
+      !completedSteps[PROJECT_FORM_NAMES.DETAILS] ||
       (status !== PROJECT_STATUS_ENUM.DRAFT && status !== PROJECT_STATUS_ENUM.IN_REVIEW)
   },
   [EDITOR_VARIANT.EDITING_CLONE]: {
@@ -71,7 +72,8 @@ const CreateProject = ({
   const history = useHistory();
   const { texts } = useContext(DictionaryContext);
   const { status, basicInformation, inReview } = project || {};
-  const projectName = basicInformation?.projectName || (texts?.createProject?.myProject || 'My project');
+  const projectName =
+    basicInformation?.projectName || (texts?.createProject?.myProject || 'My project');
   const areAllStepsCompleted =
     completedSteps[PROJECT_FORM_NAMES.THUMBNAILS] &&
     completedSteps[PROJECT_FORM_NAMES.PROPOSAL] &&
@@ -119,7 +121,10 @@ const CreateProject = ({
         <div className="createProject__content__steps">
           <Items
             title={texts?.createProject?.basicInfo || 'Basic Information'}
-            subtitle={texts?.createProject?.createUsersLabel || 'Here you can assign or create users to different roles'}
+            subtitle={
+              texts?.createProject?.createUsersLabel ||
+              'Here you can assign or create users to different roles'
+            }
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.THUMBNAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.THUMBNAILS]}
             disabled={
@@ -134,7 +139,9 @@ const CreateProject = ({
 
           <Items
             title={texts?.createProject?.projectDetail || 'Project Detail'}
-            subtitle={texts?.createProject?.completeInfo || 'Here you can complete the project information'}
+            subtitle={
+              texts?.createProject?.completeInfo || 'Here you can complete the project information'
+            }
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.DETAILS)}
             completed={completedSteps[PROJECT_FORM_NAMES.DETAILS]}
             disabled={
@@ -149,7 +156,10 @@ const CreateProject = ({
 
           <Items
             title={texts?.createProject?.projectUsers || 'Project Users'}
-            subtitle={texts?.createProject?.createUserRoles || 'Here you can assign or create users to different roles'}
+            subtitle={
+              texts?.createProject?.createUserRoles ||
+              'Here you can assign or create users to different roles'
+            }
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.PROPOSAL)}
             completed={completedSteps[PROJECT_FORM_NAMES.PROPOSAL]}
             disabled={
@@ -163,7 +173,10 @@ const CreateProject = ({
           />
           <Items
             title={texts?.createProject?.projectMilestone || 'Project Milestones'}
-            subtitle={texts?.createProject?.uploadMilestone || 'Here you can upload the required milestones for your project'}
+            subtitle={
+              texts?.createProject?.uploadMilestone ||
+              'Here you can upload the required milestones for your project'
+            }
             onClick={() => setCurrentWizard(PROJECT_FORM_NAMES.MILESTONES)}
             completed={completedSteps[PROJECT_FORM_NAMES.MILESTONES]}
             disabled={

@@ -102,19 +102,13 @@ const CreateProjectContainer = () => {
   const { texts } = useContext(DictionaryContext);
   const [currentWizard, setCurrentWizard] = useState(PROJECT_FORM_NAMES.MAIN);
   const [confirmPublishVisible, setConfirmPublishVisible] = useState(false);
-  const [secretKeyVisible, setSecretKeyVisible] = useState(false);
-  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
-  const [loadingSendToReviewModalVisible, setLoadingSendToReviewModalVisible] = useState(false);
-  const [successModalVisible, setSuccessModalVisible] = useState(false);
-  const [successSendToReviewModalVisible, setSuccessSendToReviewModalVisible] = useState(false);
-  const [successApproveCloneModalVisible, setSuccessApproveCloneModalVisible] = useState(false);
-  const [successRejectCloneModalVisible, setSuccessRejectCloneModalVisible] = useState(false);
-  const [errorModalVisible, setErrorModalVisible] = useState(false);
-  const [confirmSendToReviewVisible, setConfirmSendToReviewVisible] = useState(false);
-  const [confirmApprovalVisible, setApprovalVisible] = useState(false);
-  const [confirmRejectionVisible, setRejectionVisible] = useState(false);
+
+  const [loadingModal, setLoadingModal] = useState({ isVisible: false });
+  const [modalConfirmWithSk, setModalConfirmWithSk] = useState({ isVisible: false });
+  const [modalSuccess, setModalSuccess] = useState({ isVisible: false });
+
+  const [errorModal, setErrorModal] = useState({ isVisible: false });
   const [isLoadingPage, setIsLoadingPage] = useState(true);
-  const [showModalToSignMessage, setShowModalToSignMessage] = useState(false);
 
   const [project, setProject] = useState();
   const [completedSteps, setCompletedSteps] = useState({
@@ -174,6 +168,16 @@ const CreateProjectContainer = () => {
 
   const successCallback = async onSubmit => {
     try {
+      // are project funding budget equal to project spending budget?
+      /* if (isMainWizardActive) {
+        const fundingBudgetSum = project?.milestones?.reduce?.(() => (curr, next) =>
+          parseFloat(curr) + parseFloat(next?.funding?.budget)
+        );
+        const spendingBudgetSum = project?.milestones?.reduce?.(() => (curr, next) =>
+          parseFloat(curr) + parseFloat(next?.spending?.budget)
+        );
+        if (fundingBudgetSum !== spendingBudgetSum) return setErrorModal({ isVisible: true });
+      } */
       await onSubmit?.();
       await handleGoBack({ withUpdate: true });
       message.success(texts?.createProject?.saved || 'Saved successfully');
@@ -236,21 +240,38 @@ const CreateProjectContainer = () => {
   };
 
   const publishProject = async () => {
-    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
+    setModalConfirmWithSk({ isVisible: false });
+    setLoadingModal({ isVisible: true });
 
     const { errors } = await publish(project.id);
 
-    goToNextModal(setLoadingModalVisible, errors ? setErrorModalVisible : setSuccessModalVisible);
+    setLoadingModal({ isVisible: false });
+    if (errors) setErrorModal({ isVisible: true });
+    if (!errors)
+      setModalSuccess({
+        isVisible: true,
+        onCancel: () => setModalSuccess({ ...modalSuccess, isVisible: false }),
+        onSave: () => history.push('/back-office/projects'),
+        children: (
+          <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
+            {texts?.createProject?.projectLink || 'Project Link'}
+          </Link>
+        )
+      });
   };
 
   const sendToReviewProject = async (_pin, _password, wallet, key) => {
-    goToNextModal(setSecretKeyVisible, setLoadingSendToReviewModalVisible);
+    setModalConfirmWithSk({ isVisible: false });
+    setLoadingModal({
+      isVisible: true,
+      title: texts?.createProject?.sendingToReview || 'Sending to review'
+    });
 
     const result = await sendToReview(project.id);
     if (result.errors) {
       message.error('An error occurred while sending to review the project');
-      setLoadingSendToReviewModalVisible(false);
-      setErrorModalVisible(true);
+      setLoadingModal({ isVisible: false, ...loadingModal });
+      setErrorModal({ isVisible: true });
       return;
     }
 
@@ -262,35 +283,71 @@ const CreateProjectContainer = () => {
         throw new Error(response.errors);
       }
 
-      setSuccessSendToReviewModalVisible(true);
+      setModalSuccess({
+        isVisible: true,
+        onCancel: () => setModalSuccess({ ...modalSuccess, isVisible: false }),
+        onSave: () => history.push(`/${project?.parent}`),
+        title: texts?.createProject?.ttSent || 'The project was sent successfully!',
+        description:
+          texts?.createProject?.dSent || 'The project will be reviewed by the administrator.'
+      });
     } catch (error) {
       message.error('An error occurred while sending to review the project');
-      setErrorModalVisible(true);
+      setErrorModal({ isVisible: true });
     } finally {
-      setLoadingSendToReviewModalVisible(false);
+      setLoadingModal({ isVisible: false });
     }
   };
 
   const approveClonedProject = async () => {
-    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
+    setModalConfirmWithSk({ isVisible: false });
+    setLoadingModal({ isVisible: true });
 
     const { errors } = await approveCloneProject(project.id);
 
-    goToNextModal(
-      setLoadingModalVisible,
-      errors ? setErrorModalVisible : setSuccessApproveCloneModalVisible
-    );
+    setLoadingModal({ isVisible: false });
+    if (errors) setErrorModal({ isVisible: true });
+    if (!errors)
+      setModalSuccess({
+        isVisible: true,
+        onCancel: () => {
+          history.push(`/back-office/project/edit/${project?.parent}`);
+          setModalSuccess({ ...modalSuccess, isVisible: false });
+        },
+        onSave: () => {
+          history.push(`/back-office/project/edit/${project?.parent}`);
+          setModalSuccess({ ...modalSuccess, isVisible: false });
+        },
+        title: texts?.createProject?.ttPublished || 'The project was published successfully!',
+        description:
+          texts?.createProject?.dPublished ||
+          'A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page'
+      });
   };
 
   const rejectClonedProject = async () => {
-    goToNextModal(setSecretKeyVisible, setLoadingModalVisible);
+    setModalConfirmWithSk({ isVisible: false });
+    setLoadingModal({ isVisible: true });
 
     const { errors } = await rejectCloneProject(project.id);
 
-    goToNextModal(
-      setLoadingModalVisible,
-      errors ? setErrorModalVisible : setSuccessRejectCloneModalVisible
-    );
+    setLoadingModal({ isVisible: false });
+    if (errors) setErrorModal({ isVisible: true });
+    if (!errors)
+      setModalSuccess({
+        isVisible: true,
+        onCancel: () => {
+          history.push(`/back-office/project/edit/${project?.parent}`);
+          setModalSuccess({ ...modalSuccess, isVisible: false });
+        },
+        onSave: () => {
+          history.push(`/back-office/project/edit/${project?.parent}`);
+          setModalSuccess({ ...modalSuccess, isVisible: false });
+        },
+        title: texts?.createProject?.ttRejected || 'You have rejected the changes',
+        description:
+          texts?.createProject?.dRejected || 'No changes have been applied to the project'
+      });
   };
 
   const goToMyProjects = () => history.push('/back-office/projects');
@@ -313,7 +370,15 @@ const CreateProjectContainer = () => {
     const isBeneficiaryOrInvestor = checkIsBeneficiaryOrInvestorByProject({ user, project: data });
     const mustSignBeneficiaryOrInvestor =
       data?.step === 1 && isBeneficiaryOrInvestor && data?.status === PROJECT_STATUS_ENUM.IN_REVIEW;
-    setShowModalToSignMessage(mustSignBeneficiaryOrInvestor);
+    setModalConfirmWithSk({
+      isVisible: mustSignBeneficiaryOrInvestor,
+      title: 'You are about to sign the project to finish the process',
+      description: 'To confirm the process enter your password and secret key',
+      okText: 'Sign',
+      onSuccess: signProjectInStepOne,
+      cancelText: 'Go Back',
+      onCancel: () => history.push(`/${projectId}`)
+    });
   };
 
   useEffect(() => {
@@ -331,15 +396,44 @@ const CreateProjectContainer = () => {
 
   const getFinishButton = onSubmit => {
     const handleFinishEdit = isACloneBeingEdited
-      ? setConfirmSendToReviewVisible
-      : setConfirmPublishVisible;
+      ? () =>
+          setModalConfirmWithSk({
+            isVisible: true,
+            onCancel: () => setModalConfirmWithSk({ isVisible: false }),
+            onSuccess: sendToReviewProject,
+            title:
+              texts?.createProject?.ttSend ||
+              'You are about to send the project to be reviewed by the admin',
+            description:
+              texts?.createProject?.dConfirmation ||
+              'To confirm the process please enter your administrator password and secret key',
+            okText: texts?.general?.confirm || 'Confirm',
+            cancelText: texts?.general?.btnCancel || 'Cancel'
+          })
+      : () => setConfirmPublishVisible(true);
 
     if (isApprovalRejectionAvailable)
       return (
         <CoaApproveButton
           disabled={project?.step === 1}
           onClick={() => {
-            setApprovalVisible(true);
+            setModalConfirmWithSk({
+              isVisible: true,
+              onCancel: () =>
+                setModalConfirmWithSk({
+                  ...modalConfirmWithSk,
+                  isVisible: false
+                }),
+              onSuccess: approveClonedProject,
+              title:
+                texts?.createProject?.ttApproveConfirmation ||
+                'Are you sure you want to approve this changes?',
+              description:
+                texts?.createProject?.dConfirmation ||
+                'To confirm the process please enter your administrator password and secret key',
+              okText: texts?.general?.btnApprove || 'Approve',
+              cancelText: texts?.general?.btnCancel || 'Cancel'
+            });
           }}
         >
           {texts?.general?.btnApprove || 'Approve'}
@@ -349,7 +443,7 @@ const CreateProjectContainer = () => {
     return (
       <CoaButton
         type="primary"
-        onClick={() => (isMainWizardActive ? handleFinishEdit(true) : successCallback(onSubmit))}
+        onClick={() => (isMainWizardActive ? handleFinishEdit() : successCallback(onSubmit))}
         disabled={
           EDITING_LOGIC({ status, isMainWizardActive, completedSteps, texts })?.[editorVariant]
             ?.finishButtonDisabled
@@ -372,7 +466,20 @@ const CreateProjectContainer = () => {
         <CoaRejectButton
           disabled={project?.step === 1}
           onClick={() => {
-            setRejectionVisible(true);
+            setModalConfirmWithSk({
+              isVisible: true,
+              onCancel: setModalConfirmWithSk({ ...modalConfirmWithSk, isVisible: false }),
+              onSuccess: rejectClonedProject,
+              title:
+                texts?.createProject?.ttRejectConfirmation ||
+                'Are you sure you want to reject this changes?',
+              description:
+                texts?.createProject?.dConfirmation ||
+                'To confirm the process please enter your administrator password and secret key',
+              okText: texts?.general?.btnReject || 'Reject',
+              cancelText: texts?.general?.btnCancel || 'Cancel',
+              leaveAComment: true
+            });
           }}
         >
           {texts?.general?.btnReject || 'Reject'}
@@ -423,26 +530,24 @@ const CreateProjectContainer = () => {
     );
   };
 
-  const goToNextModal = (currentModal, nextModal) => {
-    currentModal(false);
-    nextModal(true);
-  };
-
   const signProjectInStepOne = async (_pin, _password, wallet, key) => {
     const messageToSign = project?.toSign;
     if (!messageToSign) {
       message.error('An error occurred while signing the project. Signature is missing');
       return;
     }
-    setShowModalToSignMessage(false);
-    setLoadingSendToReviewModalVisible(true);
+    setModalConfirmWithSk({ ...modalConfirmWithSk, isVisible: false });
+    setLoadingModal({
+      isVisible: true,
+      title: texts?.createProject?.sendingToReview || 'Sending to review'
+    });
     try {
       const authorizationSignature = await signMessage(wallet, messageToSign, key);
       const response = await signProject({ authorizationSignature, projectId });
       if (response.errors) {
         throw new Error(response.errors);
       }
-      setLoadingSendToReviewModalVisible(false);
+      setLoadingModal({ isVisible: false, ...loadingModal });
     } catch (error) {
       message.error('An error occurred while signing the activity');
       history.push(`/${projectId}`);
@@ -476,125 +581,39 @@ const CreateProjectContainer = () => {
       </div>
       <ModalConfirmProjectPublish
         visible={confirmPublishVisible}
-        onSuccess={() => goToNextModal(setConfirmPublishVisible, setSecretKeyVisible)}
+        onSuccess={() => {
+          setConfirmPublishVisible(false);
+          setModalConfirmWithSk({
+            isVisible: true,
+            onCancel: () => setModalConfirmWithSk({ isVisible: true }),
+            onSuccess: publishProject
+          });
+        }}
         onCancel={() => setConfirmPublishVisible(false)}
       />
       <ModalConfirmWithSK
-        visible={secretKeyVisible}
-        onCancel={() => setSecretKeyVisible(false)}
-        onSuccess={publishProject}
+        visible={modalConfirmWithSk?.isVisible}
+        onCancel={() => setModalConfirmWithSk({ ...modalConfirmWithSk, isVisible: false })}
+        onSuccess={modalConfirmWithSk?.onSuccess}
+        title={modalConfirmWithSk?.title}
+        description={modalConfirmWithSk?.description}
+        okText={modalConfirmWithSk?.okText}
+        cancelText={modalConfirmWithSk?.cancelText}
+        leaveAComment={modalConfirmWithSk?.leaveAComment}
       />
-      <ModalConfirmWithSK
-        visible={confirmSendToReviewVisible}
-        onCancel={() => setConfirmSendToReviewVisible(false)}
-        onSuccess={sendToReviewProject}
-        title={
-          texts?.createProject?.ttSend ||
-          'You are about to send the project to be reviewed by the admin'
-        }
-        description={
-          texts?.createProject?.dConfirmation ||
-          'To confirm the process please enter your administrator password and secret key'
-        }
-        okText={texts?.general?.confirm || 'Confirm'}
-        cancelText={texts?.general?.btnCancel || 'Cancel'}
-      />
-      <ModalConfirmWithSK
-        visible={confirmApprovalVisible}
-        onCancel={() => setApprovalVisible(false)}
-        onSuccess={approveClonedProject}
-        title={
-          texts?.createProject?.ttApproveConfirmation ||
-          'Are you sure you want to approve this changes?'
-        }
-        description={
-          texts?.createProject?.dConfirmation ||
-          'To confirm the process please enter your administrator password and secret key'
-        }
-        okText={texts?.general?.btnApprove || 'Approve'}
-        cancelText={texts?.general?.btnCancel || 'Cancel'}
-      />
-      <ModalConfirmWithSK
-        visible={confirmRejectionVisible}
-        onCancel={() => setRejectionVisible(false)}
-        onSuccess={rejectClonedProject}
-        title={
-          texts?.createProject?.ttRejectConfirmation ||
-          'Are you sure you want to reject this changes?'
-        }
-        description={
-          texts?.createProject?.dConfirmation ||
-          'To confirm the process please enter your administrator password and secret key'
-        }
-        okText={texts?.general?.btnReject || 'Reject'}
-        cancelText={texts?.general?.btnCancel || 'Cancel'}
-        leaveAComment
-      />
-      <ModalConfirmWithSK
-        visible={showModalToSignMessage}
-        title="You are about to sign the project to finish the process"
-        description="To confirm the process enter your password and secret key"
-        okText="Sign"
-        onSuccess={signProjectInStepOne}
-        cancelText="Go Back"
-        onCancel={() => history.push(`/${projectId}`)}
-      />
-      <ModalPublishLoading visible={loadingModalVisible} />
-      <ModalPublishLoading
-        visible={loadingSendToReviewModalVisible}
-        textTitle={texts?.createProject?.sendingToReview || 'Sending to review'}
-      />
+
+      <ModalPublishLoading visible={loadingModal?.isVisible} textTitle={loadingModal?.title} />
       <ModalPublishSuccess
-        visible={successModalVisible}
-        onCancel={() => setSuccessModalVisible(false)}
-        onSave={() => history.push('/back-office/projects')}
+        visible={modalSuccess?.isVisible}
+        onCancel={modalSuccess?.onCancel}
+        onSave={modalSuccess?.onSave}
+        textTitle={modalSuccess?.title}
+        description={modalSuccess?.description}
       >
-        <Link to={`/${projectId}`} style={{ display: 'block', textAlign: 'center' }}>
-          {texts?.createProject?.projectLink || 'Project Link'}
-        </Link>
+        {modalSuccess?.children}
       </ModalPublishSuccess>
-      <ModalPublishSuccess
-        visible={successSendToReviewModalVisible}
-        onCancel={() => setSuccessModalVisible(false)}
-        textTitle={texts?.createProject?.ttSent || 'The project was sent successfully!'}
-        description={
-          texts?.createProject?.dSent || 'The project will be reviewed by the administrator.'
-        }
-        onSave={() => history.push(`/${project?.parent}`)}
-      />
-      <ModalPublishSuccess
-        visible={successApproveCloneModalVisible}
-        onCancel={() => {
-          history.push(`/back-office/project/edit/${project?.parent}`);
-          setSuccessApproveCloneModalVisible(false);
-        }}
-        textTitle={texts?.createProject?.ttPublished || 'The project was published successfully!'}
-        description={
-          texts?.createProject?.dPublished ||
-          'A new version of the project was published. Now you will be able to see all the changes made on the project’s landing page'
-        }
-        onSave={() => {
-          history.push(`/back-office/project/edit/${project?.parent}`);
-          setSuccessApproveCloneModalVisible(false);
-        }}
-      />
-      <ModalPublishSuccess
-        visible={successRejectCloneModalVisible}
-        onCancel={() => {
-          history.push(`/back-office/project/edit/${project?.parent}`);
-          setSuccessRejectCloneModalVisible(false);
-        }}
-        textTitle={texts?.createProject?.ttRejected || 'You have rejected the changes'}
-        description={
-          texts?.createProject?.dRejected || 'No changes have been applied to the project'
-        }
-        onSave={() => {
-          history.push(`/back-office/project/edit/${project?.parent}`);
-          setSuccessRejectCloneModalVisible(false);
-        }}
-      />
       <ModalPublishError
-        visible={errorModalVisible}
+        visible={errorModal?.isVisible}
         onCancel={() => history.push(`/${project?.parent || project?.id}`)}
         onSave={() => history.push(`/${project?.parent || project?.id}`)}
       />
