@@ -71,7 +71,8 @@ const ProjectBrowser = ({
 };
 
 ProjectBrowser.defaultProps = {
-  onNewProject: undefined
+  onNewProject: undefined,
+  withDescription: false
 };
 
 ProjectBrowser.propTypes = {
@@ -80,7 +81,8 @@ ProjectBrowser.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.shape(projectCardPropType)).isRequired,
   onCardClick: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
-  onNewProject: PropTypes.func
+  onNewProject: PropTypes.func,
+  withDescription: PropTypes.bool
 };
 
 export default ProjectBrowser;
