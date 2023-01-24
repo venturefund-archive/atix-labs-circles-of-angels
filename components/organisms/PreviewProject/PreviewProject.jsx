@@ -56,12 +56,20 @@ const PreviewProject = ({
     cloneId,
     inReview,
     revision,
-    step: projectStep
+    step: projectStep,
+    type: projectType
   } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
-  const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
-    details || {};
+  const {
+    currency,
+    currencyType,
+    problemAddressed,
+    mission,
+    legalAgreementFile,
+    projectProposalFile,
+    additionalCurrencyInformation
+  } = details || {};
   const beneficiaryFirstName = beneficiary?.firstName;
   const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
@@ -223,6 +231,9 @@ const PreviewProject = ({
               balanceTotalValue={budget}
               currency={currency}
               onClickSeeMilestones={() => scrollToTargetAdjusted('milestones', 70)}
+              projectType={projectType}
+              accountInfo={additionalCurrencyInformation}
+              currencyType={currencyType}
             />
           </div>
           <div className="o-previewProject__members">
