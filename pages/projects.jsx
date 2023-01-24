@@ -71,6 +71,7 @@ const MyProjects = ({ user }) => {
         onCardClick={goToProjectDetail}
         onTagClick={goToProjectProgress}
         onNewProject={goToNewProject}
+        withDescription
       />
       <ModalMyProjects isVisible={visible} onClick={onClick} />
     </BackOfficeLayout>

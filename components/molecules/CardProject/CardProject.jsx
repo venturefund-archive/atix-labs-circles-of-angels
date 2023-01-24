@@ -19,7 +19,7 @@ import './_style.scss';
 import { projectCardPropType } from '../../../helpers/proptypes';
 import { formatCurrency, formatTimeframeValue } from '../../../helpers/formatter';
 
-const CardProject = ({ onClick, project, countries }) => {
+const CardProject = ({ onClick, project, countries, withDescription }) => {
   const {
     cardPhotoPath,
     goalAmount,
@@ -73,7 +73,9 @@ const CardProject = ({ onClick, project, countries }) => {
         <div className="m-cardProject__body__titleContainer">
           <div>
             <h1 className="m-cardProject__body__titleContainer__title">{projectName} </h1>
-            <p className="m-cardProject__body__titleContainer__title__rev">Rev: {revision}</p>
+            {revision && (
+              <p className="m-cardProject__body__titleContainer__title__rev">Rev: {revision}</p>
+            )}
           </div>
           <div className="m-cardProject__body__tagsContainer">
             {type && (
@@ -88,34 +90,36 @@ const CardProject = ({ onClick, project, countries }) => {
             )}
           </div>
         </div>
-        <div className="m-cardProject__body__description">
-          <InfoItem
-            subtitle="Country of Impact"
-            title={locationsNames()}
-            iconInfoItem="environment"
-            className="m-cardProject__body__description__country"
-          />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
-          <InfoItem
-            subtitle="Timeframe"
-            title={formatTimeframeValue({ timeframe, timeframeUnit })}
-            iconInfoItem="clock-circle"
-            className="m-cardProject__body__description__timeframe"
-          />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
-          <InfoItem
-            subtitle="Budget"
-            title={formatCurrency(currency, goalAmount)}
-            iconInfoItem="dollar"
-            className="m-cardProject__body__description__budget"
-          />
-          <Divider type="vertical" className="m-cardProject__body__divider" />
-          <InfoItem
-            subtitle="Beneficiary name"
-            title={beneficiaryCompleteName}
-            className="m-cardProject__body__description__beneficiary"
-          />
-        </div>
+        {withDescription && (
+          <div className="m-cardProject__body__description">
+            <InfoItem
+              subtitle="Country of Impact"
+              title={locationsNames()}
+              iconInfoItem="environment"
+              className="m-cardProject__body__description__country"
+            />
+            <Divider type="vertical" className="m-cardProject__body__divider" />
+            <InfoItem
+              subtitle="Timeframe"
+              title={formatTimeframeValue({ timeframe, timeframeUnit })}
+              iconInfoItem="clock-circle"
+              className="m-cardProject__body__description__timeframe"
+            />
+            <Divider type="vertical" className="m-cardProject__body__divider" />
+            <InfoItem
+              subtitle="Budget"
+              title={formatCurrency(currency, goalAmount)}
+              iconInfoItem="dollar"
+              className="m-cardProject__body__description__budget"
+            />
+            <Divider type="vertical" className="m-cardProject__body__divider" />
+            <InfoItem
+              subtitle="Beneficiary name"
+              title={beneficiaryCompleteName}
+              className="m-cardProject__body__description__beneficiary"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

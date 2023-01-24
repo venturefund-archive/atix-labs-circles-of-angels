@@ -2,29 +2,23 @@ import BackgroundLanding from 'components/atoms/BackgroundLanding/BackgroundLand
 import { SimpleLandingLayout } from 'components/Layouts/SimpleLandingLayout/SimpleLandingLayout';
 import ProjectBrowser from 'components/organisms/ProjectBrowser/ProjectBrowser';
 import { UserContext } from 'components/utils/UserContext';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useHistory } from 'react-router';
 
 export default function MyProjects() {
-  const [myProjects, setMyProjects] = useState([]);
   const { user } = useContext(UserContext);
   const history = useHistory();
-  const goToProject = project => history.push(`/${project?.id}`);
-  useEffect(() => {
-    const fetchMyProjects = async () => {
-      /* const _myProjects = await getMyProjects();
-      setMyProjects(_myProjects); */
-    };
+  const goToProject = project => history.push(`/${project?.projectId}`);
 
-    fetchMyProjects();
-  }, []);
+  const myProjects = useRef(user?.projects);
+
   return (
     <BackgroundLanding>
       <SimpleLandingLayout>
         <ProjectBrowser
           title="My Projects"
           userRole={user && user.role}
-          projects={myProjects}
+          projects={myProjects.current}
           onCardClick={goToProject}
         />
       </SimpleLandingLayout>
