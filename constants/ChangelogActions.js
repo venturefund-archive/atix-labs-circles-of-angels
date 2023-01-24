@@ -144,7 +144,7 @@ const changelogActions = (changelog, texts) => {
       description: () => (
         <>
           <span className="coaChangelogItem__title --highlighted">{userName}</span> - {role} -{' '}
-          {texts?.changelogAction?.sentTheProject || 'sent the project'}
+          {texts?.changelogAction?.sentTheProject || 'sent the project'}{' '}
           <span className="coaChangelogItem__title --highlighted">{projectName}</span>{' '}
           {texts?.changelogAction?.toReview || 'to review'}
         </>
