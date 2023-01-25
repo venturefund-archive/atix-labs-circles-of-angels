@@ -3,15 +3,11 @@ import { Link } from 'react-router-dom';
 import './_style.scss';
 import PropTypes from 'prop-types';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
-import { CRYPTO_CURRENCY_PATH_SCANNER, CURRENCIES } from '../../../constants/constants';
+import { CRYPTO_CURRENCY_PATH_SCANNER } from '../../../constants/constants';
 
 const TransactionLink = props => {
   const { texts } = React.useContext(DictionaryContext);
   const { txHash, currency, showTitle, isChangelogActive } = props;
-  const _cryptoCurrency = Object.values(CURRENCIES.crypto)
-    .map(item => item.value)
-    .find(curr => currency === curr);
-  if (!_cryptoCurrency) return null;
 
   const isProduction = process.env.NODE_ENV === 'production';
   // TODO: temporal change
@@ -29,7 +25,7 @@ const TransactionLink = props => {
         <h5 className="transactionLink__title">{texts?.general?.transaction || 'Transaction'}</h5>
       )}
       <div className="transactionLink__linkContainer">
-        <span className="transactionLink__linkContainer__title">Transaction Hash:&nbsp;</span>
+        <span className="transactionLink__linkContainer__title">Hash:&nbsp;</span>
         <Link to={{ pathname: txPath }} target="_blank" className="transactionLink__link">
           {txHash}
         </Link>

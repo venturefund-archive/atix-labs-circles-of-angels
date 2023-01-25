@@ -1,22 +1,20 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { message, Divider } from 'antd';
+import { message } from 'antd';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import customConfig from 'custom-config';
-import {
-  formatCurrency,
-  formatTimeframeValue,
-  formatCurrencyAtTheBeginning
-} from 'helpers/formatter';
+import { formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/formatter';
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
+import { CashFlowIcon } from 'components/atoms/CustomIcons/CashFlowIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
+import { ProjectScope } from 'components/molecules/ProjectScope/ProjectScope';
+import { ProjectStatement } from 'components/molecules/ProjectStatement/ProjectStatement';
 import { CoaProjectMembersCard } from 'components/molecules/CoaProjectMembersCard/CoaProjectMembersCard';
-import { CoaProjectProgressPill } from 'components/molecules/CoaProjectProgressPill/CoaProjectProgressPill';
 import { getUsersByRole } from 'helpers/modules/projectUsers';
 import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import { scrollToTargetAdjusted } from 'components/utils';
@@ -24,6 +22,7 @@ import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
+import CashFlow from 'components/molecules/CashFlow/CashFlow';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { cloneProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
@@ -49,12 +48,30 @@ const PreviewProject = ({
   const { user } = useContext(UserContext);
   const { texts } = useContext(DictionaryContext);
 
-  const { basicInformation, status, details, users, budget, editing, cloneId, inReview, revision } =
-    project || {};
+  const {
+    basicInformation,
+    status,
+    details,
+    users,
+    budget,
+    editing,
+    cloneId,
+    inReview,
+    revision,
+    step: projectStep,
+    type: projectType
+  } = project || {};
   const { projectName, location, beneficiary, timeframe, timeframeUnit, thumbnailPhoto } =
     basicInformation || {};
-  const { currency, problemAddressed, mission, legalAgreementFile, projectProposalFile } =
-    details || {};
+  const {
+    currency,
+    currencyType,
+    problemAddressed,
+    mission,
+    legalAgreementFile,
+    projectProposalFile,
+    additionalCurrencyInformation
+  } = details || {};
   const beneficiaryFirstName = beneficiary?.firstName;
   const beneficiaryLastName = beneficiary?.lastName;
   const beneficiaryCompleteName =
@@ -100,6 +117,14 @@ const PreviewProject = ({
     const weightedValues = (approvedActivitiesQuantity / totalActivitiesQuantity) * 100;
     return curr + weightedValues;
   }, 0);
+
+  const activityProgressPercentage =
+    ((milestones
+      ?.flatMap(({ activities }) => activities)
+      ?.reduce((acc, act) => (act.status === ACTIVITY_STATUS_ENUM.APPROVED ? acc + 1 : acc), 0) ||
+      0) /
+      totalActivitiesQuantity) *
+    100;
 
   const totalCurrentDeposited = milestones?.reduce(
     (prev, curr) => prev + parseFloat?.(curr?.deposited),
@@ -176,6 +201,13 @@ const PreviewProject = ({
               >
                 <MilestonesIcon /> {texts?.landingSubheader?.btnMilestones || 'Milestones'}
               </CoaButton>
+              <CoaButton
+                shape="round"
+                className="o-previewProject__buttons__button"
+                onClick={() => scrollToTargetAdjusted('Cashflow', 70)}
+              >
+                <CashFlowIcon /> {'Cashflow'}
+              </CoaButton>
               <Link
                 to={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
                 className="o-previewProject__buttons__buttonContainer"
@@ -186,15 +218,17 @@ const PreviewProject = ({
                 </CoaButton>
               </Link>
             </div>
-            {isBeneficiaryOrInvestor && isPublishedOrInProgressProject && (
-              <CoaButton
-                type="primary"
-                onClick={handleRequestChanges}
-                className="o-previewProject__buttons__requestChanges"
-              >
-                {texts?.landingSubheader?.btnRequestChanges || 'Request changes'}
-              </CoaButton>
-            )}
+            {isBeneficiaryOrInvestor &&
+              (isPublishedOrInProgressProject ||
+                (status === PROJECT_STATUS_ENUM.IN_REVIEW && projectStep === 1)) && (
+                <CoaButton
+                  type="primary"
+                  onClick={handleRequestChanges}
+                  className="o-previewProject__buttons__requestChanges"
+                >
+                  {texts?.landingSubheader?.btnRequestChanges || 'Request changes'}
+                </CoaButton>
+              )}
           </div>
           <div className="o-previewProject__infoSection">
             <ProjectInfoSection
@@ -206,6 +240,9 @@ const PreviewProject = ({
               balanceTotalValue={budget}
               currency={currency}
               onClickSeeMilestones={() => scrollToTargetAdjusted('milestones', 70)}
+              projectType={projectType}
+              accountInfo={additionalCurrencyInformation}
+              currencyType={currencyType}
             />
           </div>
           <div className="o-previewProject__members">
@@ -228,88 +265,17 @@ const PreviewProject = ({
               className="o-previewProject__title"
               textColor="#4C7FF7"
             />
-            <div className="o-previewProject__progressSection__pills">
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.milestone || 'Milestones Progress'}
-                currentPercentage={milestonesProgressPercentage}
-                total={totalActivitiesQuantity}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.started || 'Started'}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    {texts?.landingProjectProgress?.project || 'Project'}{' '}
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.finished || 'Finished!'}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#58C984"
+            <div className="o-previewProject__progressSection__cards">
+              <ProjectScope
+                milestonesProgressPercentage={milestonesProgressPercentage}
+                activityProgressPercentage={activityProgressPercentage}
               />
-              <Divider
-                type="horizontal"
-                className="o-previewProject__progressSection__pills__divider"
-              />
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.income || 'Amount Income'}
-                current={totalCurrentDeposited}
-                total={budget}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.available || 'Available Amount'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__currentAmount">
-                      {formatCurrency(currency, totalCurrentDeposited)}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__targetAmount">
-                      {formatCurrency(currency, budget)}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#4C7FF7"
-              />
-              <Divider
-                type="horizontal"
-                className="o-previewProject__progressSection__pills__divider"
-              />
-              <CoaProjectProgressPill
-                indicator={texts?.landingProjectProgress?.outcome || 'Amount Outcome'}
-                current={totalCurrentSpent}
-                total={budget}
-                startBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.spent || 'Amount Spent'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__currentAmount">
-                      {formatCurrency(currency, totalCurrentSpent)}
-                    </span>
-                  </p>
-                }
-                endBarContent={
-                  <p className="o-previewProject__progressSection__pills__normalText">
-                    <span className="o-previewProject__progressSection__pills__boldText">
-                      {texts?.landingProjectProgress?.totalBudget || 'Total Budget'}
-                    </span>{' '}
-                    <span className="o-previewProject__progressSection__pills__targetAmount">
-                      {formatCurrency(currency, budget)}
-                    </span>
-                  </p>
-                }
-                progressBarColor="#26385B"
+              <ProjectStatement
+                budget={budget}
+                funding={200}
+                spending={3300}
+                payback={600}
+                currency={currency}
               />
             </div>
           </div>
@@ -323,6 +289,7 @@ const PreviewProject = ({
             <div className="o-previewProject__milestonesSection__milestones">
               {milestones.map((milestone, index) => (
                 <CoaMilestoneItem
+                  projectType={project?.type}
                   preview={preview}
                   isProjectEditing={editing}
                   canAddEvidences={canAddEvidences(user, id)}
@@ -339,6 +306,15 @@ const PreviewProject = ({
               ))}
             </div>
           </div>
+          <section className="o-previewProject__cashFlowSection" id="Cashflow">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Cash Flow"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <CashFlow />
+          </section>
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"

@@ -83,33 +83,13 @@
   &__progressSection {
     width: 100%;
 
-    &__pills {
+    &__cards {
       display: flex;
-      flex-direction: column;
-      row-gap: 1.25rem;
-      &__normalText {
-        @include primary-text(0.9375rem, $coa-dark-gray-100, 400);
-      }
-      &__boldText {
-        @include primary-text(0.9375rem, $coa-dark-gray-100, 700);
-      }
-      &__currentAmount {
-        @include breakpoint(md) {
-          display: block;
-        }
-      }
-      &__targetAmount {
-        @include breakpoint(md) {
-          display: block;
-          text-align: right;
-        }
-      }
-      &__divider {
-        margin: 0;
-        background-color: #9ca6b8;
-        @include respond(tablet) {
-          display: none;
-        }
+      flex-direction: row;
+      gap: 1.5625rem;
+      justify-content: space-between;
+      @include breakpoint(md) {
+        flex-direction: column;
       }
     }
   }
@@ -122,6 +102,9 @@
     }
   }
   &__changelogSection {
+    width: 100%;
+  }
+  &__cashFlowSection {
     width: 100%;
   }
 

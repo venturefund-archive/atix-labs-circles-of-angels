@@ -10,7 +10,15 @@ import Roles from '../../../constants/RolesMap';
 import { getCountries } from '../../../api/userApi';
 import ModalMyProjects from '../ModalMyProjects/ModalMyProjects';
 
-const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, onNewProject }) => {
+const ProjectBrowser = ({
+  title,
+  userRole,
+  projects,
+  onTagClick,
+  onCardClick,
+  onNewProject,
+  withDescription
+}) => {
   const [countries, setCountries] = useState([]);
 
   const fetchCountries = async () => {
@@ -40,9 +48,7 @@ const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, on
         </Col>
       </Row>
       <div className="projectBrowser__cardsContainer">
-        {(userRole === Roles.ENTREPRENEUR || userRole === Roles.COA_ADMIN) && onNewProject && (
-          <CardNewProject onClick={onNewProject} />
-        )}
+        {userRole === Roles.COA_ADMIN && onNewProject && <CardNewProject onClick={onNewProject} />}
         {projects &&
           projects.length > 0 &&
           projects.map(
@@ -54,17 +60,19 @@ const ProjectBrowser = ({ title, userRole, projects, onTagClick, onCardClick, on
                   key={project.id}
                   onClick={() => onCardClick(project)}
                   countries={countries}
+                  withDescription={withDescription}
                 />
               )
           )}
       </div>
-      <ModalMyProjects/>
+      <ModalMyProjects />
     </div>
   );
 };
 
 ProjectBrowser.defaultProps = {
-  onNewProject: undefined
+  onNewProject: undefined,
+  withDescription: false
 };
 
 ProjectBrowser.propTypes = {
@@ -73,7 +81,8 @@ ProjectBrowser.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.shape(projectCardPropType)).isRequired,
   onCardClick: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
-  onNewProject: PropTypes.func
+  onNewProject: PropTypes.func,
+  withDescription: PropTypes.bool
 };
 
 export default ProjectBrowser;

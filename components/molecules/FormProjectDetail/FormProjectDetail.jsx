@@ -35,7 +35,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
   const { setFieldsValue, getFieldsError, getFieldValue } = form;
   const [currentCurrencyType, setCurrentCurrencyType] = useState();
   const [currentFiles, setCurrentFiles] = useState();
-  const { budget } = project;
+  const { budget, type } = project;
 
   const {
     problemAddressed,
@@ -224,6 +224,29 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
             <CoaFormItemSelect
               form={form}
               errorsToShow={[]}
+              name="type"
+              formItemProps={{ label: 'Project Type' }}
+              fieldDecoratorOptions={{
+                rules: [
+                  {
+                    required: true,
+                    message: ERROR_TYPES.EMPTY,
+                    whitespace: true
+                  }
+                ],
+                initialValue: type
+              }}
+              selectProps={{
+                placeholder: texts?.createProject?.selectCurrencyType || 'Select project type',
+                disabled: isACloneBeingEdited
+              }}
+              options={[{ label: 'Grant', value: 'grant' }, { label: 'Loan', value: 'loan' }]}
+            />
+          </div>
+          <div className="formProjectDetail__content__form__row">
+            <CoaFormItemSelect
+              form={form}
+              errorsToShow={[]}
               name="currencyType"
               formItemProps={{ label: texts?.createProject?.currencyType || 'Currency Type' }}
               fieldDecoratorOptions={{
@@ -272,6 +295,7 @@ const FormProjectDetailContent = ({ form, project, Footer, isACloneBeingEdited }
               options={CURRENCIES[currentCurrencyType]}
             />
           </div>
+
           <div className="formProjectDetail__content__form__row">
             <div>
               {!currentCurrencyType && (

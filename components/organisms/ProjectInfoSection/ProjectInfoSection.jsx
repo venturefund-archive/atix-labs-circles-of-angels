@@ -4,8 +4,43 @@ import './project-info-section.scss';
 import PropTypes from 'prop-types';
 import { ProjectProgressCard } from 'components/molecules/ProjectProgressCard/ProjectProgressCard';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { Divider } from 'antd';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
-const HorizontalBlockText = ({ title, content, orderNumber }) => (
+const HorizontalSmallBlockText = ({ subtitle, content, icon, currencyType, hasAddress }) => {
+  const isCryptoProjectWithAddress = (currencyType || '').toLowerCase() === 'crypto' && hasAddress;
+  return (
+    <div className="horizontalSmallBlockText">
+      <div className="horizontalSmallBlockText__subContainer">
+        <span className="horizontalSmallBlockText__icon">{icon}</span>{' '}
+        <span className="horizontalSmallBlockText__subtitle">{subtitle}</span>
+      </div>
+      <div
+        className={classNames('horizontalSmallBlockText__content', {
+          horizontalSmallBlockText__contentWrap: isCryptoProjectWithAddress
+        })}
+      >
+        {isCryptoProjectWithAddress ? (
+          <Link to={{ pathname: `https://etherscan.io/address/${content}` }} target="_blank">
+            {content}
+          </Link>
+        ) : (
+          content
+        )}
+      </div>
+    </div>
+  );
+};
+
+const HorizontalBlockText = ({
+  title,
+  content,
+  orderNumber,
+  projectType,
+  accountInfo,
+  currencyType
+}) => (
   <div className="m-horizontalBlockText">
     <TitlePage
       className="m-horizontalBlockText__title"
@@ -14,7 +49,34 @@ const HorizontalBlockText = ({ title, content, orderNumber }) => (
       underlineColor="#4C7FF7"
       orderNumber={orderNumber}
     />
-    <div className="m-horizontalBlockText__content">{content}</div>
+    <div className="m-horizontalBlockText__content">
+      {content}{' '}
+      {orderNumber === '01' && (
+        <>
+          <Divider />
+          <HorizontalSmallBlockText
+            subtitle="Project Type"
+            content={
+              ((projectType || '')[0] || '').toUpperCase() +
+              (projectType || '').slice(1).toLowerCase()
+            }
+            currencyType={currencyType}
+            icon={<img src="static/images/document.svg" alt="document" />}
+            className
+          />
+          <Divider />
+          <HorizontalSmallBlockText
+            subtitle="Account Information"
+            content={accountInfo}
+            currencyType={currencyType}
+            icon={<img src="static/images/bank.svg" alt="bank" />}
+            className
+            hasAddress
+          />
+          <Divider />
+        </>
+      )}
+    </div>
   </div>
 );
 
@@ -27,7 +89,10 @@ export const ProjectInfoSection = ({
   balanceTotalValue,
   currency,
   onClickSeeMilestones,
-  progressCurrentPercentage
+  progressCurrentPercentage,
+  projectType,
+  accountInfo,
+  currencyType
 }) => {
   const { texts } = React.useContext(DictionaryContext);
 
@@ -38,6 +103,9 @@ export const ProjectInfoSection = ({
           title={texts?.landingInfoSection?.about || 'About the Project'}
           content={about}
           orderNumber="01"
+          projectType={projectType}
+          accountInfo={accountInfo}
+          currencyType={currencyType}
         />
         <HorizontalBlockText
           title={texts?.landingInfoSection?.missionVision || 'Mission and Vision'}
@@ -68,7 +136,10 @@ ProjectInfoSection.propTypes = {
   balanceCurrentValue: PropTypes.number,
   balanceTotalValue: PropTypes.number,
   currency: PropTypes.string,
-  onClickSeeMilestones: PropTypes.func
+  onClickSeeMilestones: PropTypes.func,
+  projectType: PropTypes.string,
+  accountInfo: PropTypes.string,
+  currencyType: PropTypes.string
 };
 
 ProjectInfoSection.defaultProps = {
@@ -81,17 +152,42 @@ ProjectInfoSection.defaultProps = {
   balanceCurrentValue: 0,
   balanceTotalValue: 0,
   currency: undefined,
-  onClickSeeMilestones: undefined
+  onClickSeeMilestones: undefined,
+  projectType: '',
+  accountInfo: '',
+  currencyType: ''
 };
 
 HorizontalBlockText.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
-  orderNumber: PropTypes.number
+  orderNumber: PropTypes.number,
+  projectType: PropTypes.string,
+  accountInfo: PropTypes.string,
+  currencyType: PropTypes.string
 };
 
 HorizontalBlockText.defaultProps = {
   title: undefined,
   content: undefined,
-  orderNumber: undefined
+  orderNumber: undefined,
+  projectType: '',
+  accountInfo: '',
+  currencyType: ''
+};
+
+HorizontalSmallBlockText.propTypes = {
+  subtitle: PropTypes.string,
+  content: PropTypes.string,
+  icon: PropTypes.string,
+  currencyType: PropTypes.string,
+  hasAddress: PropTypes.string
+};
+
+HorizontalSmallBlockText.defaultProps = {
+  subtitle: '',
+  content: '',
+  icon: '',
+  currencyType: '',
+  hasAddress: ''
 };

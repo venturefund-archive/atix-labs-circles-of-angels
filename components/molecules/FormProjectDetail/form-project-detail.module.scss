@@ -46,6 +46,7 @@
 
         &__note {
           @include primary-text(0.87rem, $coa-grey-100, 400, 1rem);
+          height: 2rem;
         }
       }
     }
