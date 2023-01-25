@@ -118,9 +118,6 @@ export const CoaActivityIndicatorsCard = ({
   entity,
   currency,
   budget,
-  spent,
-  deposited,
-  remaining,
   className,
   alwaysShowBudget,
   isProjectEditing,
@@ -133,9 +130,7 @@ export const CoaActivityIndicatorsCard = ({
   onViewEvidence,
   onAddEvidences,
   color,
-  spending,
-  payback,
-  funding
+  current
 }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
   return (
@@ -174,16 +169,11 @@ export const CoaActivityIndicatorsCard = ({
                 {...{
                   currency,
                   budget,
-                  spent,
-                  deposited,
-                  remaining,
                   transferQuantity,
                   impactQuantity,
                   withEvidences,
                   predefinedColor: color,
-                  funding,
-                  spending,
-                  payback
+                  current
                 }}
               />
             )}

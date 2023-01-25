@@ -52,7 +52,6 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
     if (status !== 201) {
       return message.error(errors);
     }
-    /* const data = { milestoneId: new Date().getDate() }; */
 
     setMilestones([
       ...milestones,
@@ -130,7 +129,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
   };
 
   const handleCreateActivity = async newActivity => {
-    const processedActivity = { ...newActivity, budget: newActivity?.budget || '0' };
+    const processedActivity = { ...newActivity, budget: newActivity?.budget || 0 };
 
     const { errors, data, status } = await createActivity(
       processedActivity,
@@ -152,7 +151,8 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
       ...processedActivity,
       id: data?.activityId,
       auditor: { id: processedActivity?.auditor },
-      status: ACTIVITY_STATUS_ENUM.NEW
+      status: ACTIVITY_STATUS_ENUM.NEW,
+      current: 0
     });
 
     const activitiesByType = activities?.filter(
