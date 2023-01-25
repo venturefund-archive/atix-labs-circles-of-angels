@@ -104,6 +104,9 @@
   &__changelogSection {
     width: 100%;
   }
+  &__cashFlowSection {
+    width: 100%;
+  }
 
   @include respond(mobile) {
     &__content {

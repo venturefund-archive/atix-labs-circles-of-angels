@@ -1,0 +1,15 @@
+@import 'css/_general_styling.scss';
+@import 'css/_variables.scss';
+@import 'css/mixins/_fonts.scss';
+
+.cashFlow {
+  &__table {
+    thead tr th {
+      background-color: $coa-light-sky-blue-100 !important;
+      @include primary-text(0.875rem, $coa-blue-100, 400);
+    }
+    &__currentAmount {
+      @include primary-text(0.875rem, $coa-medium-gray-100, 600);
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { formatTimeframeValue, formatCurrencyAtTheBeginning } from 'helpers/form
 import { ProjectDetailsIcon } from 'components/atoms/CustomIcons/ProjectDetailsIcon';
 import { MilestonesIcon } from 'components/atoms/CustomIcons/MilestonesIcon';
 import { BlockchainIcon } from 'components/atoms/CustomIcons/BlockchainIcon';
+import { CashFlowIcon } from 'components/atoms/CustomIcons/CashFlowIcon';
 import { CoaButton } from 'components/atoms/CoaButton/CoaButton';
 import { ProjectScope } from 'components/molecules/ProjectScope/ProjectScope';
 import { ProjectStatement } from 'components/molecules/ProjectStatement/ProjectStatement';
@@ -21,6 +22,7 @@ import { PROJECT_STATUS_ENUM } from 'model/projectStatus';
 import { MILESTONE_STATUS_ENUM } from 'model/milestoneStatus';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 import { LandingLayout } from 'components/Layouts/LandingLayout/LandingLayout';
+import CashFlow from 'components/molecules/CashFlow/CashFlow';
 import ProjectHeroSection from '../../molecules/ProjectHeroSection/ProjectHeroSection';
 import { cloneProject } from '../../../api/projectApi';
 import Loading from '../../molecules/Loading/Loading';
@@ -199,6 +201,13 @@ const PreviewProject = ({
               >
                 <MilestonesIcon /> {texts?.landingSubheader?.btnMilestones || 'Milestones'}
               </CoaButton>
+              <CoaButton
+                shape="round"
+                className="o-previewProject__buttons__button"
+                onClick={() => scrollToTargetAdjusted('Cashflow', 70)}
+              >
+                <CashFlowIcon /> {'Cashflow'}
+              </CoaButton>
               <Link
                 to={preview ? `/${id}/changelog?preview=true` : `/${id}/changelog`}
                 className="o-previewProject__buttons__buttonContainer"
@@ -297,6 +306,15 @@ const PreviewProject = ({
               ))}
             </div>
           </div>
+          <section className="o-previewProject__cashFlowSection" id="Cashflow">
+            <TitlePage
+              underlinePosition="none"
+              textTitle="Cash Flow"
+              className="o-previewProject__title"
+              textColor="#4C7FF7"
+            />
+            <CashFlow />
+          </section>
           <div className="o-previewProject__changelogSection">
             <TitlePage
               underlinePosition="none"
