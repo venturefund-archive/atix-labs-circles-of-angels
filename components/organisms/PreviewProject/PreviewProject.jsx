@@ -28,7 +28,6 @@ import { ProjectInfoSection } from '../ProjectInfoSection/ProjectInfoSection';
 import './preview-project.scss';
 import { CoaMilestoneItem } from '../CoaMilestones/CoaMilestoneItem/CoaMilestoneItem';
 import { ROLES_IDS } from '../AssignProjectUsers/constants';
-import { canAddEvidences } from '../../../helpers/canAddEvidence';
 import { checkIsBeneficiaryOrInvestorByProject } from '../../../helpers/roles';
 import { CoaChangelogContainer } from '../CoaChangelogContainer/CoaChangelogContainer';
 
@@ -283,7 +282,6 @@ const PreviewProject = ({
                   projectType={project?.type}
                   preview={preview}
                   isProjectEditing={editing}
-                  canAddEvidences={canAddEvidences(user, id)}
                   projectId={id}
                   withEvidences
                   withStatusTag

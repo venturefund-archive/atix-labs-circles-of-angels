@@ -58,6 +58,7 @@ const Evidences = ({
   const activityId = activity?.id;
   const activityStatus = activity?.status;
   const activityStep = activity?.step;
+  const activityType = activity?.type;
   const projectId = project?.id;
   const [secretKeyModal, setSecretKeyModal] = useState(initialSecretKeyModal);
   const { texts } = React.useContext(DictionaryContext);
@@ -188,7 +189,7 @@ const Evidences = ({
     evidences.length > 0 &&
     evidences.every(({ status }) => ['approved', 'rejected'].includes(status));
 
-  const enableAddEvidenceBtn = canAddEvidences(user, projectId);
+  const enableAddEvidenceBtn = canAddEvidences({ user, projectId, activityType });
 
   const auditorName = getAuditorName(activity?.auditor, project);
 
