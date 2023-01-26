@@ -312,6 +312,7 @@ export const CoaMilestonesView = ({ project, Footer, isACloneBeingEdited }) => {
           <div className="o-coaMilestonesContainer__cards">
             {milestones.map((milestone, index) => (
               <CoaMilestoneItem
+                project={project}
                 projectType={project?.type}
                 toggleAreActivitiesOpened={toggleAreActivitiesOpened}
                 onRemoveMilestone={

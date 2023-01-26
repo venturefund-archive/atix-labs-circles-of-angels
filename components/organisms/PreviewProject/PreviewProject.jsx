@@ -283,6 +283,7 @@ const PreviewProject = ({
                   preview={preview}
                   isProjectEditing={editing}
                   projectId={id}
+                  project={project}
                   withEvidences
                   withStatusTag
                   toggleAreActivitiesOpened={toggleAreActivitiesOpened}

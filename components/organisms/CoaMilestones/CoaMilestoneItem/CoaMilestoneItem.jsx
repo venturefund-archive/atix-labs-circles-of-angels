@@ -9,7 +9,6 @@ import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { ACTIVITY_STATUS_ENUM } from 'model/activityStatus';
 
 import { UserContext } from 'components/utils/UserContext';
-import { canAddEvidences } from 'helpers/canAddEvidence';
 import { CoaMilestoneIndicatorsCard } from '../CoaMilestoneIndicatorsCard/CoaMilestoneIndicatorsCard';
 
 const { Panel } = Collapse;
@@ -29,7 +28,8 @@ export const CoaMilestoneItem = ({
   withEvidences,
   projectId,
   preview,
-  projectType
+  projectType,
+  project
 }) => {
   const { texts } = React.useContext(DictionaryContext);
   const { user } = React.useContext(UserContext);
@@ -111,11 +111,9 @@ export const CoaMilestoneItem = ({
                 <div className="o-coaMilestoneItem__cardsList">
                   {milestone?.activities.map((activity, index) => (
                     <CoaActivityItem
+                      project={project}
                       preview={preview}
                       projectId={projectId}
-                      canAddEvidences={() =>
-                        canAddEvidences({ user, projectId, activityType: activity?.type })
-                      }
                       withEvidences={withEvidences}
                       withStatusTag={withStatusTag}
                       onRemove={

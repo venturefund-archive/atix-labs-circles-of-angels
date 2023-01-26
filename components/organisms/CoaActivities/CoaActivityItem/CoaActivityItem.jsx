@@ -3,7 +3,9 @@ import './coa-activity-item.scss';
 import PropTypes from 'prop-types';
 import activityStatusMap from 'model/activityStatus';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from 'components/utils/UserContext';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
+import { canAddEvidences } from 'helpers/canAddEvidence';
 import classNames from 'classnames';
 import { CoaActivityIndicatorsCard } from '../CoaActivityIndicatorsCard/CoaActivityIndicatorsCard';
 
@@ -21,12 +23,15 @@ export const CoaActivityItem = ({
   isProjectEditing,
   withStatusTag,
   withEvidences,
-  canAddEvidences,
   projectId,
-  preview
+  preview,
+  project
 }) => {
   const history = useHistory();
   const { texts } = React.useContext(DictionaryContext);
+  const { user } = React.useContext(UserContext);
+
+  const _canAddEvidences = canAddEvidences({ user, project, activityType: activity?.type });
 
   const description = activity?.description;
   const acceptanceCriteria = activity?.acceptanceCriteria;
@@ -87,7 +92,7 @@ export const CoaActivityItem = ({
         })
       }
       onAddEvidences={
-        canAddEvidences &&
+        _canAddEvidences &&
         (e => {
           e.stopPropagation();
           history.push(`/${projectId}/activity/${activity?.id}/create-evidence`);
