@@ -70,7 +70,8 @@ const PreviewProject = ({
     mission,
     legalAgreementFile,
     projectProposalFile,
-    additionalCurrencyInformation
+    additionalCurrencyInformation,
+    status: statusDetails,
   } = details || {};
   const beneficiaryFirstName = beneficiary?.firstName;
   const beneficiaryLastName = beneficiary?.lastName;
@@ -271,10 +272,10 @@ const PreviewProject = ({
                 activityProgressPercentage={activityProgressPercentage}
               />
               <ProjectStatement
-                budget={budget}
-                funding={200}
-                spending={3300}
-                payback={600}
+                budget={statusDetails.budget}
+                funding={statusDetails.funding}
+                spending={statusDetails.spending}
+                payback={statusDetails.payback}
                 currency={currency}
               />
             </div>
