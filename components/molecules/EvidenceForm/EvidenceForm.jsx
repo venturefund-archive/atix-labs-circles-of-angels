@@ -8,7 +8,7 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { Form, Button, Upload, Icon, Input, message, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
@@ -18,6 +18,7 @@ import './_style.scss';
 import classNames from 'classnames';
 import Breadcrumb from 'components/atoms/BreadCrumb/BreadCrumb';
 import { checkIsBeneficiaryByProject, checkIsInvestorByProject } from 'helpers/roles';
+import { ACTIVITY_TYPES_ENUM } from 'model/activityTypes';
 import { DictionaryContext } from 'components/utils/DictionaryContext';
 import { formatCurrency } from 'helpers/formatter';
 import { useProject } from '../../../hooks/useProject';
@@ -62,43 +63,48 @@ const EvidenceFormContent = props => {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [amount, setAmount] = useState(type === EVIDENCE_TYPE_ENUM.IMPACT ? 0 : 1);
   const [transactions, setTransactions] = useState([]);
-  const [transactionType, setTransactionType] = useState(EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME);
+  const transactionType =
+    activityType === ACTIVITY_TYPES_ENUM.FUNDING
+      ? EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME
+      : EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME;
   const [loadingTransactions, setLoadingTransactions] = useState(false);
-  const [projectRole, setProjectRole] = useState({ isInvestor: false, isBeneficiary: false });
 
-  const getTransactions = async _transactionType => {
-    form.resetFields(['transferTxHash']);
-    setLoadingTransactions(true);
-    const _transactionQueryParam = transactionQueryParam[_transactionType];
-    if (!_transactionQueryParam)
-      return message.error(
-        texts?.createEvidence?.errorFetchingTransactions ||
-          'An error occurred while fetching the project transactions'
-      );
+  const getTransactions = useCallback(
+    async _transactionType => {
+      form.resetFields(['transferTxHash']);
+      setLoadingTransactions(true);
+      const _transactionQueryParam = transactionQueryParam[_transactionType];
+      if (!_transactionQueryParam)
+        return message.error(
+          texts?.createEvidence?.errorFetchingTransactions ||
+            'An error occurred while fetching the project transactions'
+        );
 
-    const response = await getProjectTransactions(project.id, _transactionQueryParam);
-    if (response.errors || !response.data) {
-      message.error(
-        texts?.createEvidence?.errorFetchingTransactions ||
-          'An error occurred while fetching the project transactions'
-      );
-      setLoadingTransactions(false);
-      return;
-    }
-
-    const transactionHashes = response.data.transactions.map(hash => ({
-      txHash: hash.txHash,
-      value: hash.value,
-      label: {
-        date: (hash.timestamp || '').split(' ')[0],
-        hour: `${(hash.timestamp || '').split(' ')[1]} ${(hash.timestamp || '').split(' ')[2]}`,
-        txValue: formatCurrency(hash.tokenSymbol, hash.value, true)
+      const response = await getProjectTransactions(project.id, _transactionQueryParam);
+      if (response.errors || !response.data) {
+        message.error(
+          texts?.createEvidence?.errorFetchingTransactions ||
+            'An error occurred while fetching the project transactions'
+        );
+        setLoadingTransactions(false);
+        return;
       }
-    }));
 
-    setTransactions(transactionHashes);
-    setLoadingTransactions(false);
-  };
+      const transactionHashes = response.data.transactions.map(hash => ({
+        txHash: hash.txHash,
+        value: hash.value,
+        label: {
+          date: (hash.timestamp || '').split(' ')[0],
+          hour: `${(hash.timestamp || '').split(' ')[1]} ${(hash.timestamp || '').split(' ')[2]}`,
+          txValue: formatCurrency(hash.tokenSymbol, hash.value, true)
+        }
+      }));
+
+      setTransactions(transactionHashes);
+      setLoadingTransactions(false);
+    },
+    [form, project.id, texts.createEvidence.errorFetchingTransactions]
+  );
 
   useEffect(() => {
     if (!loading) {
@@ -114,23 +120,14 @@ const EvidenceFormContent = props => {
         );
         history.push(`/${project.id}`);
       }
-      setProjectRole({ isBeneficiary, isInvestor });
-      setTransactionType(
-        isBeneficiary
-          ? EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME
-          : EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME
-      );
     }
-    // eslint-disable-next-line
   }, [loading]);
 
   useEffect(() => {
     if (currencyType === CURRENCY_TYPE_ENUM.CRYPTO) {
       getTransactions(transactionType);
     }
-
-    // eslint-disable-next-line
-  }, [currencyType]);
+  }, [currencyType, getTransactions, transactionType]);
 
   const onChangeAmount = e => setAmount(e.currentTarget.value);
 
@@ -175,18 +172,6 @@ const EvidenceFormContent = props => {
       return;
     }
 
-    if (
-      state.type === EVIDENCE_TYPE_ENUM.TRANSFER &&
-      ((transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME && projectRole.isInvestor) ||
-        (transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME && projectRole.isBeneficiary))
-    ) {
-      setButtonLoading(false);
-      return message.error(
-        texts?.createEvidence?.errorRole ||
-          'An error occurred because the user role is investor and it is trying to create an outcome evidence or the user role is beneficiary and it is trying to create an income evidence'
-      );
-    }
-
     // outcome amount is designated with negative
     const newAmount = transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME ? -amount : amount;
     const data = { ...state, amount: newAmount };
@@ -208,6 +193,9 @@ const EvidenceFormContent = props => {
   if (loading) return <Loading></Loading>;
 
   const isFiatProject = currencyType === CURRENCY_TYPE_ENUM.FIAT;
+
+  const activities = project?.milestones?.map(milestone => milestone?.activities);
+  const activityType = activities?.find(activity => activity?.id === activityId)?.type;
 
   return (
     <div className="evidenceForm">
@@ -269,6 +257,10 @@ const EvidenceFormContent = props => {
                     value={EVIDENCE_TYPE_ENUM.IMPACT}
                     checked={type === EVIDENCE_TYPE_ENUM.IMPACT}
                     onChange={e => setState({ ...state, type: e.target.value })}
+                    disabled={
+                      activityType === ACTIVITY_TYPES_ENUM.FUNDING ||
+                      activityType === ACTIVITY_TYPES_ENUM.PAYBACK
+                    }
                   />
                   <div className="customRadio">
                     <div></div>
@@ -343,59 +335,6 @@ const EvidenceFormContent = props => {
               </Form.Item>
             </div>
           </div>
-          {type === 'transfer' && (
-            <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">
-                {texts?.createEvidence?.transactionType || 'Transaction Type'}
-              </p>
-              <div className="transactionType">
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
-                      disabled={loadingTransactions || projectRole.isInvestor}
-                      onChange={e => {
-                        const inputValue = e.target.value;
-                        setTransactionType(inputValue);
-                        if (isFiatProject) return;
-                        getTransactions(inputValue);
-                      }}
-                      checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME}
-                      type="radio"
-                      name="transactionType"
-                      value={EVIDENCE_TRANSACTION_TYPE_ENUM.OUTCOME}
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
-                  </div>
-
-                  <span>{texts?.general?.outcome || 'Outcome'}</span>
-                </div>
-                <div className="formDivBorder">
-                  <div className="customRadioDiv">
-                    <input
-                      disabled={loadingTransactions || projectRole.isBeneficiary}
-                      onChange={e => {
-                        const inputValue = e.target.value;
-                        setTransactionType(inputValue);
-                        if (isFiatProject) return;
-                        getTransactions(inputValue);
-                      }}
-                      checked={transactionType === EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME}
-                      type="radio"
-                      name="transactionType"
-                      value={EVIDENCE_TRANSACTION_TYPE_ENUM.INCOME}
-                    />
-                    <div className="customRadio">
-                      <div></div>
-                    </div>
-                  </div>
-
-                  <span>{texts?.general?.income || 'Income'}</span>
-                </div>
-              </div>
-            </div>
-          )}
           {currencyType === CURRENCY_TYPE_ENUM.CRYPTO && type === EVIDENCE_TYPE_ENUM.TRANSFER && (
             <div className="evidenceForm__body__form__group">
               <p className="formDivTitle formDivInfo">
@@ -467,6 +406,42 @@ const EvidenceFormContent = props => {
                   })}
                 />
                 <div className="formCurrency">{currency}</div>
+              </div>
+            </div>
+          )}
+          {isFiatProject && (
+            <div className="evidenceForm__body__form__group">
+              <p className="formDivTitle formDivInfo">
+                {texts?.createEvidence?.destinationAccount || 'Evidence Destination Account'}
+              </p>
+              <div className="formDivInput">
+                <Form.Item>
+                  {getFieldDecorator('destinationAccount', {
+                    rules: [
+                      {
+                        required: true,
+                        message:
+                          texts?.createEvidence?.pleaseEnterDestinationAccount ||
+                          'Please enter destination account'
+                      }
+                    ]
+                  })(
+                    <Input.TextArea
+                      name="destinationAccount"
+                      rows={5}
+                      maxLength={500}
+                      placeholder={
+                        texts?.createEvidence?.enterDescription || 'Enter the destinationAccount'
+                      }
+                      onChange={e => {
+                        setState({
+                          ...state,
+                          destinationAccount: e.target.value
+                        });
+                      }}
+                    />
+                  )}
+                </Form.Item>
               </div>
             </div>
           )}
