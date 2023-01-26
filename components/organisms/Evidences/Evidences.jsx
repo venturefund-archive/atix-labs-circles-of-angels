@@ -189,7 +189,7 @@ const Evidences = ({
     evidences.length > 0 &&
     evidences.every(({ status }) => ['approved', 'rejected'].includes(status));
 
-  const enableAddEvidenceBtn = canAddEvidences({ user, projectId, activityType });
+  const enableAddEvidenceBtn = canAddEvidences({ user, project, activityType });
 
   const auditorName = getAuditorName(activity?.auditor, project);
 
