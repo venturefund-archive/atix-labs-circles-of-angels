@@ -7,43 +7,44 @@
  * Copyright (C) 2019 AtixLabs, S.R.L <https://www.atixlabs.com>
  */
 import React from 'react';
-import { Button, Typography } from 'antd';
-import LogoWrapper from 'components/atoms/LogoWrapper';
+import TitlePage from 'components/atoms/TitlePage/TitlePage';
 import PropTypes from 'prop-types';
-import CoaModal from 'components/atoms/CoaModal/CoaModal';
+import { CoaDialogModal } from '../CoaModals/CoaDialogModal/CoaDialogModal';
 
-const ModalPublishError = ({ visible, onCancel }) => (
-  <CoaModal
+const ModalPublishError = ({ visible, onCancel, description, onOk }) => (
+  <CoaDialogModal
+    buttonsPosition="center"
+    withLogo
+    title={
+      <TitlePage
+        centeredText
+        textTitle="An error ocurred"
+        underlinePosition="none"
+        textColor="#4C7FF7"
+      />
+    }
+    description={description}
     visible={visible}
     closable={false}
     onCancel={onCancel}
     mask
     maskClosable
-    footer={
-      <Button
-        className='ant-btn ant-btn-primary CoaModal__Primary'
-        onClick={onCancel}
-      >
-        Continue
-      </Button>}
-  >
-    <LogoWrapper textTitle='An error ocurred' />
-
-    <Typography.Paragraph className='CoaModal__Paragraph--centered'>
-      Try again later
-    </Typography.Paragraph>
-
-  </CoaModal>
+    withoutCancelButton
+    okText="Ok"
+    onSave={onOk}
+  />
 );
 
 ModalPublishError.defaultProps = {
   visible: false,
-  onCancel: () => undefined
-}
+  onCancel: () => undefined,
+  description: 'Try again later'
+};
 
 ModalPublishError.propTypes = {
   visible: PropTypes.bool,
-  onCancel: PropTypes.func
-}
+  onCancel: PropTypes.func,
+  description: PropTypes.string
+};
 
 export default ModalPublishError;

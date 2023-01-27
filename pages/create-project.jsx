@@ -168,16 +168,6 @@ const CreateProjectContainer = () => {
 
   const successCallback = async onSubmit => {
     try {
-      // are project funding budget equal to project spending budget?
-      /* if (isMainWizardActive) {
-        const fundingBudgetSum = project?.milestones?.reduce?.(() => (curr, next) =>
-          parseFloat(curr) + parseFloat(next?.funding?.budget)
-        );
-        const spendingBudgetSum = project?.milestones?.reduce?.(() => (curr, next) =>
-          parseFloat(curr) + parseFloat(next?.spending?.budget)
-        );
-        if (fundingBudgetSum !== spendingBudgetSum) return setErrorModal({ isVisible: true });
-      } */
       await onSubmit?.();
       await handleGoBack({ withUpdate: true });
       message.success(texts?.createProject?.saved || 'Saved successfully');
@@ -246,7 +236,11 @@ const CreateProjectContainer = () => {
     const { errors } = await publish(project.id);
 
     setLoadingModal({ isVisible: false });
-    if (errors) setErrorModal({ isVisible: true });
+    if (errors)
+      setErrorModal({
+        isVisible: true,
+        onOk: () => setErrorModal({ ...errorModal, isVisible: false })
+      });
     if (!errors)
       setModalSuccess({
         isVisible: true,
@@ -260,6 +254,28 @@ const CreateProjectContainer = () => {
       });
   };
 
+  const checkFundingAndSpendingComparison = () => {
+    const fundingBudgetSum = project?.milestones?.reduce?.(
+      (curr, next) => parseFloat(curr) + parseFloat(next?.funding?.budget),
+      0
+    );
+    const spendingBudgetSum = project?.milestones?.reduce?.(
+      (curr, next) => parseFloat(curr) + parseFloat(next?.spending?.budget),
+      0
+    );
+
+    if (fundingBudgetSum !== spendingBudgetSum)
+      setErrorModal({
+        isVisible: true,
+        onOk: () => setErrorModal({ ...errorModal, isVisible: false }),
+        description:
+          'You cannot publish the project because the sum of the funding activities budget is different from the sum of the spending activities budget'
+      });
+
+    const isFundingAndSpendingComparisonOk = fundingBudgetSum === spendingBudgetSum;
+    return isFundingAndSpendingComparisonOk;
+  };
+
   const sendToReviewProject = async (_pin, _password, wallet, key) => {
     setModalConfirmWithSk({ isVisible: false });
     setLoadingModal({
@@ -271,8 +287,10 @@ const CreateProjectContainer = () => {
     if (result.errors) {
       message.error('An error occurred while sending to review the project');
       setLoadingModal({ isVisible: false, ...loadingModal });
-      setErrorModal({ isVisible: true });
-      return;
+      return setErrorModal({
+        isVisible: true,
+        onOk: () => history.push(`/${project?.parent || project?.id}`)
+      });
     }
 
     const messageToSign = result?.data?.toSign;
@@ -293,7 +311,10 @@ const CreateProjectContainer = () => {
       });
     } catch (error) {
       message.error('An error occurred while sending to review the project');
-      setErrorModal({ isVisible: true });
+      setErrorModal({
+        isVisible: true,
+        onOk: () => history.push(`/${project?.parent || project?.id}`)
+      });
     } finally {
       setLoadingModal({ isVisible: false });
     }
@@ -306,7 +327,11 @@ const CreateProjectContainer = () => {
     const { errors } = await approveCloneProject(project.id);
 
     setLoadingModal({ isVisible: false });
-    if (errors) setErrorModal({ isVisible: true });
+    if (errors)
+      setErrorModal({
+        isVisible: true,
+        onOk: () => setErrorModal({ ...errorModal, isVisible: false })
+      });
     if (!errors)
       setModalSuccess({
         isVisible: true,
@@ -332,7 +357,11 @@ const CreateProjectContainer = () => {
     const { errors } = await rejectCloneProject(project.id);
 
     setLoadingModal({ isVisible: false });
-    if (errors) setErrorModal({ isVisible: true });
+    if (errors)
+      setErrorModal({
+        isVisible: true,
+        onOk: () => history.push(`/${project?.parent || project?.id}`)
+      });
     if (!errors)
       setModalSuccess({
         isVisible: true,
@@ -396,7 +425,10 @@ const CreateProjectContainer = () => {
 
   const getFinishButton = onSubmit => {
     const handleFinishEdit = isACloneBeingEdited
-      ? () =>
+      ? () => {
+          const isFundingAndSpendingComparisonOk = checkFundingAndSpendingComparison();
+          if (!isFundingAndSpendingComparisonOk) return;
+
           setModalConfirmWithSk({
             isVisible: true,
             onCancel: () => setModalConfirmWithSk({ isVisible: false }),
@@ -409,7 +441,8 @@ const CreateProjectContainer = () => {
               'To confirm the process please enter your administrator password and secret key',
             okText: texts?.general?.confirm || 'Confirm',
             cancelText: texts?.general?.btnCancel || 'Cancel'
-          })
+          });
+        }
       : () => setConfirmPublishVisible(true);
 
     if (isApprovalRejectionAvailable)
@@ -583,6 +616,10 @@ const CreateProjectContainer = () => {
         visible={confirmPublishVisible}
         onSuccess={() => {
           setConfirmPublishVisible(false);
+
+          const isFundingAndSpendingComparisonOk = checkFundingAndSpendingComparison();
+          if (!isFundingAndSpendingComparisonOk) return;
+
           setModalConfirmWithSk({
             isVisible: true,
             onCancel: () => setModalConfirmWithSk({ isVisible: true }),
@@ -614,8 +651,9 @@ const CreateProjectContainer = () => {
       </ModalPublishSuccess>
       <ModalPublishError
         visible={errorModal?.isVisible}
-        onCancel={() => history.push(`/${project?.parent || project?.id}`)}
-        onSave={() => history.push(`/${project?.parent || project?.id}`)}
+        onCancel={errorModal?.onCancel}
+        onOk={errorModal?.onOk}
+        description={errorModal?.description}
       />
     </BackOfficeLayout>
   );

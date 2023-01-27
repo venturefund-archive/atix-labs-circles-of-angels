@@ -66,7 +66,6 @@ function FormModalConfirmWithSK({
   };
 
   const handleSave = useCallback(() => {
-    console.log(getFieldValue('password'), getFieldValue('secretKey'));
     onSuccess(
       getFieldValue('secretKey'),
       getFieldValue('password'),

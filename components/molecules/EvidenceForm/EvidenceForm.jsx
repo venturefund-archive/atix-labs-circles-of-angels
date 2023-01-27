@@ -80,7 +80,7 @@ const EvidenceFormContent = props => {
             'An error occurred while fetching the project transactions'
         );
 
-      const response = await getProjectTransactions(project.id, _transactionQueryParam);
+      const response = await getProjectTransactions(projectId, _transactionQueryParam);
       if (response.errors || !response.data) {
         message.error(
           texts?.createEvidence?.errorFetchingTransactions ||
@@ -103,7 +103,7 @@ const EvidenceFormContent = props => {
       setTransactions(transactionHashes);
       setLoadingTransactions(false);
     },
-    [form, project.id, texts.createEvidence.errorFetchingTransactions]
+    [form, projectId, texts.createEvidence.errorFetchingTransactions]
   );
 
   useEffect(() => {
@@ -194,8 +194,10 @@ const EvidenceFormContent = props => {
 
   const isFiatProject = currencyType === CURRENCY_TYPE_ENUM.FIAT;
 
-  const activities = project?.milestones?.map(milestone => milestone?.activities);
-  const activityType = activities?.find(activity => activity?.id === activityId)?.type;
+  const activities = project?.milestones?.reduce((acc, curr) => [...acc, ...curr?.activities], []);
+  const activityType = activities?.find(
+    activity => activity?.id?.toString() === activityId?.toString()
+  )?.type;
 
   return (
     <div className="evidenceForm">
@@ -238,7 +240,7 @@ const EvidenceFormContent = props => {
                     type="radio"
                     name="evidenceType"
                     id=""
-                    checked={type === EVIDENCE_TYPE_ENUM.TRANSFER}
+                    checked
                     value={EVIDENCE_TYPE_ENUM.TRANSFER}
                     onChange={e => setState({ ...state, type: e.target.value })}
                   />
@@ -255,7 +257,6 @@ const EvidenceFormContent = props => {
                     name="evidenceType"
                     id=""
                     value={EVIDENCE_TYPE_ENUM.IMPACT}
-                    checked={type === EVIDENCE_TYPE_ENUM.IMPACT}
                     onChange={e => setState({ ...state, type: e.target.value })}
                     disabled={
                       activityType === ACTIVITY_TYPES_ENUM.FUNDING ||
