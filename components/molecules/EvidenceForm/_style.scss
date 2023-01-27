@@ -146,6 +146,13 @@
           @media (min-width: 800px) {
             max-width: 300px;
           }
+
+          ul {
+            padding: 0;
+            li {
+              list-style: none;
+            }
+          }
         }
 
         .formDivAmount {

@@ -412,18 +412,26 @@ const EvidenceFormContent = props => {
           )}
           {isFiatProject && (
             <div className="evidenceForm__body__form__group">
-              <p className="formDivTitle formDivInfo">
-                {texts?.createEvidence?.destinationAccount || 'Evidence Destination Account'}
-              </p>
+              <div className="formDivInfo">
+                <p className="formDivTitle">Destination Account</p>
+                <p className="formDIvInfo">
+                  Account Details:
+                  <ul>
+                    <li>Bank Information</li>
+                    <li>Account Number</li>
+                    <li>Routing Number</li>
+                    <li>ABA</li>
+                    <li>SWIFT</li>
+                  </ul>
+                </p>
+              </div>
               <div className="formDivInput">
                 <Form.Item>
                   {getFieldDecorator('destinationAccount', {
                     rules: [
                       {
                         required: true,
-                        message:
-                          texts?.createEvidence?.pleaseEnterDestinationAccount ||
-                          'Please enter destination account'
+                        message: 'Please enter destination account'
                       }
                     ]
                   })(
@@ -431,9 +439,7 @@ const EvidenceFormContent = props => {
                       name="destinationAccount"
                       rows={5}
                       maxLength={500}
-                      placeholder={
-                        texts?.createEvidence?.enterDescription || 'Enter the destinationAccount'
-                      }
+                      placeholder="Enter the destination Account"
                       onChange={e => {
                         setState({
                           ...state,
