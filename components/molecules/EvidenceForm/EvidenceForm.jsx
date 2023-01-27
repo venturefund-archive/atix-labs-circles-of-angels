@@ -50,7 +50,7 @@ const EvidenceFormContent = props => {
   const { setMessage } = useContext(EvidenceContext);
 
   const [state, setState] = useState({
-    type: EVIDENCE_TYPE_ENUM.IMPACT,
+    type: EVIDENCE_TYPE_ENUM.TRANSFER,
     title: '',
     description: '',
     files: [],
