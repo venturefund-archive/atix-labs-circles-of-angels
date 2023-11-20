@@ -256,7 +256,7 @@ const TableAdminTransfers = ({ projectId, getTransfers }) => {
 
   useEffect(() => {
     fetchTransfers();
-  }, []);
+  }, [projectId]);
 
   useEffect(() => {
     if (!transferSelected) return;
